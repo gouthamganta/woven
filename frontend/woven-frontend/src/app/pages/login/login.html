@@ -1,0 +1,44 @@
+<div class="intro">
+  <div class="intro-logo">W</div>
+  
+  <!-- Background balloons floating up (spelling O-V-E-N) -->
+  <div class="balloon balloon1">O</div>
+  <div class="balloon balloon2">V</div>
+  <div class="balloon balloon3">E</div>
+  <div class="balloon balloon4">N</div>
+  
+  <!-- Floating hearts -->
+  <div class="heart heart1">♥</div>
+  <div class="heart heart2">♥</div>
+  <div class="heart heart3">♥</div>
+  <div class="heart heart4">♥</div>
+  <div class="heart heart5">♥</div>
+  <div class="heart heart6">♥</div>
+</div>
+
+<!-- Main login page -->
+<div
+  class="login"
+  [ngStyle]="{ '--mx.px': mx, '--my.px': my }"
+  (mousemove)="onMove($event)"
+  (touchmove)="onTouchMove($event)"
+>
+  <div class="card">
+    <div class="brand">
+      <div class="word">Woven</div>
+      <div class="lockup">
+        <div class="tagStrong">Energy. Intention. Chemistry.</div>
+        <div class="tagSoft">Where every match has potential.</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="action">
+      <div class="kicker">SIGN IN</div>
+      <div class="googleWrap">
+        <div id="googleBtn"></div>
+      </div>
+      <div class="state" *ngIf="isLoading">Signing you in…</div>
+      <div class="state err" *ngIf="!isLoading && errorMsg">{{ errorMsg }}</div>
+    </div>
+  </div>
+</div>

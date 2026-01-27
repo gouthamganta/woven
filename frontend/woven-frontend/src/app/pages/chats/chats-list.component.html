@@ -1,0 +1,77 @@
+<div class="chats">
+  <div class="head">
+    <div>
+      <div class="kicker">CHATS</div>
+      <div class="title">Active balloons</div>
+      <div class="sub">Small window. Big signal. Choose where you spend it.</div>
+    </div>
+
+    <div class="right">
+      <button class="pill outline" (click)="load()">Refresh</button>
+    </div>
+  </div>
+
+  <div class="metaLine" *ngIf="!loading && !error && chats.length">
+    <div class="metaLeft">{{ countText }}</div>
+    <div class="metaRight">tap to open</div>
+  </div>
+
+  <div class="state" *ngIf="loading">Loading…</div>
+  <div class="state err" *ngIf="!loading && error">{{ error }}</div>
+
+  <div class="empty" *ngIf="!loading && !error && chats.length === 0">
+    <div class="emptyTitle">No balloons yet.</div>
+    <div class="emptySub">Align in Moments — balloons land here 🎈</div>
+  </div>
+
+  <div class="list" *ngIf="!loading && !error && chats.length > 0">
+    <button class="row" *ngFor="let c of chats" (click)="open(c)">
+      <div class="left">
+        <div class="photo" *ngIf="c.other?.profilePhoto; else initials">
+          <img [src]="c.other?.profilePhoto!" alt="profile" />
+        </div>
+
+        <ng-template #initials>
+          <div class="initials">{{ (c.other?.fullName || 'W').slice(0,1) }}</div>
+        </ng-template>
+
+        <div class="info">
+          <div class="nameLine">
+            <div class="name">{{ headline(c) }}</div>
+            <span class="tag">{{ (c.matchType || 'MATCH') }}</span>
+          </div>
+
+          <div class="mini">
+            {{ statusLine(c) }}
+          </div>
+
+          <div class="uspRow">
+            <div class="uspChip" [class.ready]="isFindLoveReady(c)">
+              <span class="uspIcon">{{ isFindLoveReady(c) ? '💗' : '🎈' }}</span>
+              <span class="uspText">{{ findLoveChip(c) }}</span>
+            </div>
+
+            <div class="uspChip" (click)="viewProfile(c, $event)">
+              <span class="uspIcon">👤</span>
+              <span class="uspText">Profile</span>
+            </div>
+
+            <!-- ✅ Pop should NEVER show once Find Love exists -->
+            <div class="uspChip danger" *ngIf="canPop(c)" (click)="pop(c, $event)">
+              <span class="uspIcon">💥</span>
+              <span class="uspText">{{ isBusy(c) ? '...' : 'Pop' }}</span>
+            </div>
+          </div>
+
+          <div class="preview" *ngIf="c.lastMessage?.body">
+            {{ c.lastMessage?.body }}
+          </div>
+        </div>
+      </div>
+
+      <div class="rightSide">
+        <span class="openPill">Open</span>
+      </div>
+    </button>
+  </div>
+</div>

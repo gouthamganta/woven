@@ -1,0 +1,37 @@
+{
+  "/games": {
+    "target": "http://localhost:5135",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/chats": {
+    "target": "http://localhost:5135",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/matches": {
+    "target": "http://localhost:5135",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/auth": {
+    "target": "http://localhost:5135",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/moments": {
+    "target": "http://localhost:5135",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/users": {
+    "target": "http://localhost:5135",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/onboarding": {
+    "target": "http://localhost:5135",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

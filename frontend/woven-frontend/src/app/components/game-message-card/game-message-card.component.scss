@@ -1,0 +1,132 @@
+.card {
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  max-width: 520px;
+  transition: all 0.3s ease;
+}
+
+// ✅ State-based styling
+.card.pending {
+  border-left: 3px solid #FFC107;
+}
+
+.card.active {
+  border-left: 3px solid #4CAF50;
+}
+
+.card.completed {
+  border-left: 3px solid #2196F3;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.06);
+  font-weight: 700;
+}
+
+.title {
+  font-weight: 700;
+  text-transform: capitalize;
+  flex: 1;
+}
+
+.meta {
+  font-size: 12px;
+  opacity: 0.7;
+  font-weight: 600;
+}
+
+.body {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn {
+  flex: 1;
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn.primary {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.btn.primary:hover {
+  background: #333;
+}
+
+.btn.ghost {
+  background: transparent;
+}
+
+.btn.ghost:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+// ✅ Waiting state
+.waiting {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 193, 7, 0.1);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.waitingText {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(0,0,0,0.7);
+  font-style: italic;
+}
+
+// ✅ Expired state
+.expired {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: rgba(158, 158, 158, 0.1);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.expiredText {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(0,0,0,0.5);
+  font-style: italic;
+}

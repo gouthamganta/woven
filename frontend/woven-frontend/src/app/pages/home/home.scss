@@ -1,0 +1,252 @@
+.home {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 78px;
+}
+
+.top {
+  position: fixed;
+  top: 20px;
+  left: 22px;
+  right: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  opacity: 0.92;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.brand {
+  letter-spacing: 0.32em;
+  font-weight: 820;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.meta {
+  font-size: 12px;
+  opacity: 0.65;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.watermark {
+  position: absolute;
+  right: -40px;
+  top: -30px;
+  font-size: 240px;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  color: rgba(0, 0, 0, 0.035);
+  transform: rotate(-8deg);
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.content {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 110px 16px 0; /* ✅ increased from 86px to make room for floating pill */
+  position: relative;
+  z-index: 2;
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  min-height: calc(100vh - 170px);
+  overflow: hidden;
+}
+
+/* ✅ Floating Pulse pill (sits above the card) */
+.pulsePill {
+  position: fixed;
+  top: 74px; /* below WOVEN header */
+  right: 22px;
+  z-index: 12;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 999px;
+  padding: 10px 12px;
+
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.10);
+  cursor: pointer;
+
+  max-width: min(420px, calc(100vw - 44px));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pulsePill:active {
+  transform: scale(0.985);
+}
+
+.dotMini {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  flex: 0 0 auto;
+}
+
+.pulsePill.missing .dotMini {
+  background: rgba(255, 170, 0, 0.95);
+}
+
+.pulseText {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  opacity: .75;
+}
+
+.pulseStatus {
+  font-size: 12px;
+  font-weight: 850;
+  opacity: .9;
+}
+
+.pulsePill.missing .pulseStatus {
+  color: rgba(170, 90, 0, 0.95);
+}
+
+.pulseCountdown {
+  font-size: 11px;
+  opacity: .65;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.pulseErr {
+  position: fixed;
+  top: 130px; /* ✅ below the floating pill */
+  left: 22px;
+  right: 22px;
+  max-width: 760px;
+  margin: 0 auto;
+  z-index: 11;
+  
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 0, 0, 0.06);
+  border: 1px solid rgba(255, 0, 0, 0.10);
+  font-size: 12px;
+  opacity: .8;
+}
+
+// ✅ NEW: Brand row with info button
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.infoBtn {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* bottom tabs */
+.tabs {
+  position: fixed;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 10;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  padding: 10px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.10);
+  backdrop-filter: blur(10px);
+
+  pointer-events: auto;
+}
+
+.tab {
+  border: none;
+  background: transparent;
+  padding: 10px 8px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  opacity: 0.62;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.tab.active {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.tab.active .dot {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.tab span {
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 520px) {
+  .watermark { font-size: 190px; right: -55px; top: -40px; }
+  .panel { border-radius: 18px; }
+  .pulseCountdown { max-width: 110px; }
+}

@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  # ================================
+  # PostgreSQL Database
+  # ================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: woven-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-woven}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-woven}
+      POSTGRES_DB: ${POSTGRES_DB:-woven}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U woven -d woven"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - woven-network
+
+  # ================================
+  # Backend API (.NET)
+  # ================================
+  backend:
+    build:
+      context: ./backend/WovenBackend
+      dockerfile: Dockerfile
+    container_name: woven-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=woven;Username=woven;Password=woven
+      - Jwt__Key=${JWT_KEY:-CHANGE_THIS_TO_A_LONG_RANDOM_SECRET_MIN_32_CHARS_PRODUCTION}
+      - Jwt__Issuer=WovenBackend
+      - Jwt__Audience=WovenFrontend
+      - Jwt__ExpiryMinutes=60
+      - GoogleAuth__ClientId=${GOOGLE_CLIENT_ID}
+      - OpenAI__ApiKey=${OPENAI_API_KEY}
+      - Cors__AllowedOrigins=http://localhost,http://localhost:80,https://your-domain.com
+    ports:
+      - "5135:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - woven-network
+
+  # ================================
+  # Frontend (Angular + nginx)
+  # ================================
+  frontend:
+    build:
+      context: ./frontend/woven-frontend
+      dockerfile: Dockerfile
+    container_name: woven-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - woven-network
+
+# ================================
+# Volumes
+# ================================
+volumes:
+  postgres_data:
+    driver: local
+
+# ================================
+# Networks
+# ================================
+networks:
+  woven-network:
+    driver: bridge

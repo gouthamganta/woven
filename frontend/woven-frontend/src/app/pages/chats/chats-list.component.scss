@@ -1,0 +1,292 @@
+.chats {
+  display: grid;
+  gap: 14px;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* ✅ story header */
+.kicker {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-top: 4px;
+}
+
+.sub {
+  font-size: 13px;
+  opacity: 0.68;
+  margin-top: 4px;
+  max-width: 52ch;
+}
+
+.right {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.pill {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.pill.outline {
+  background: transparent;
+}
+
+.metaLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  opacity: 0.68;
+  padding: 0 2px;
+}
+
+.metaLeft {
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.metaRight {
+  white-space: nowrap;
+}
+
+.state {
+  padding: 14px;
+  opacity: 0.7;
+}
+
+.state.err {
+  opacity: 1;
+}
+
+.empty {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  padding: 16px;
+  text-align: center;
+}
+
+.emptyTitle {
+  font-weight: 900;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.emptySub {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+}
+
+/* ✅ Instagram-ish row feel */
+.row {
+  width: 100%;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.row:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 60px rgba(0, 0, 0, 0.1);
+}
+
+.left {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.photo,
+.initials {
+  width: 62px;
+  height: 62px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.initials {
+  font-size: 22px;
+  font-weight: 900;
+  opacity: 0.85;
+}
+
+.info {
+  min-width: 0;
+  flex: 1;
+}
+
+.nameLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 950;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.tag {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-weight: 900;
+  font-size: 10px;
+  opacity: 0.9;
+  flex: 0 0 auto;
+}
+
+.mini {
+  margin-top: 4px;
+  font-size: 12px;
+  opacity: 0.65;
+  line-height: 1.3;
+}
+
+/* ✅ Make USP not flat */
+.uspRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.uspChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.03);
+  font-weight: 900;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.uspChip:hover {
+  transform: translateY(-1px);
+}
+
+.uspChip.ready {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.uspChip.danger {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.uspIcon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.uspText {
+  opacity: 0.9;
+}
+
+/* ✅ message preview */
+.preview {
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: 0.7;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.rightSide {
+  display: flex;
+  align-items: center;
+}
+
+.openPill {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.04);
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+/* toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 88px;
+  transform: translateX(-50%);
+  background: rgba(17, 17, 17, 0.92);
+  color: white;
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  z-index: 50;
+}
+
+@media (max-width: 520px) {
+  .row {
+    align-items: flex-start;
+  }
+}

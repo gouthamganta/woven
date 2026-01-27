@@ -1,0 +1,132 @@
+# ================================
+# .NET / C# Backend
+# ================================
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Rider
+.idea/
+
+## NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+**/[Pp]ackages/*
+
+## Build
+*.dll
+*.exe
+*.pdb
+*.mdf
+*.ldf
+
+## .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## ASP.NET
+ScaffoldingReadMe.txt
+
+## Entity Framework
+**/Migrations/*.Designer.cs
+
+# ================================
+# Node.js / Angular Frontend
+# ================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+## Angular
+dist/
+tmp/
+out-tsc/
+.angular/
+.sass-cache/
+
+## Testing
+coverage/
+.nyc_output/
+
+## Environment
+.env
+.env.local
+.env.*.local
+
+# ================================
+# IDEs and Editors
+# ================================
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+*.sublime-workspace
+*.sublime-project
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# ================================
+# OS Generated
+# ================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ================================
+# Secrets and Credentials
+# ================================
+*.pfx
+*.key
+*.pem
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+secrets.json
+credentials.json
+
+# ================================
+# Docker
+# ================================
+.docker/
+
+# ================================
+# Misc
+# ================================
+*.log
+*.tmp
+*.temp
+*.bak
+*.cache
+.claude/

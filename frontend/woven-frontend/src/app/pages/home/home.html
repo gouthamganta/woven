@@ -1,0 +1,70 @@
+<div class="home">
+  <div class="top">
+    <div class="brandRow">
+      <div class="brand">WOVEN</div>
+      <!-- ✅ Info button with small text -->
+      <button class="infoBtn" (click)="openHowItWorks()" title="How Woven works">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <span>Info</span>
+      </button>
+    </div>
+    <div class="meta">
+      <span *ngIf="isActive('/home/moments')">Vibe</span>
+      <span *ngIf="isActive('/home/chats')">Balloons</span>
+      <span *ngIf="isActive('/home/profile')">You</span>
+    </div>
+  </div>
+
+  <div class="watermark">W</div>
+
+  <!-- ✅ Pulse floating pill (NOT inside the card) -->
+  <button class="pulsePill" *ngIf="pulse" (click)="openPulse()" [class.missing]="!pulse.answered">
+    <span class="dotMini"></span>
+    <span class="pulseText">Pulse</span>
+    <span class="pulseStatus">{{ pulse.answered ? 'Saved' : 'Missing' }}</span>
+    <span class="pulseCountdown" *ngIf="countdownText">{{ countdownText }}</span>
+  </button>
+
+  <div class="pulseErr" *ngIf="pulseError">{{ pulseError }}</div>
+
+  <div class="content">
+    <div class="panel">
+      <!-- ✅ Your pages render here -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" [class.active]="isActive('/home/moments')" (click)="go('moments')">
+      <div class="dot"></div>
+      <span>Vibe</span>
+    </button>
+    <button class="tab" [class.active]="isActive('/home/chats')" (click)="go('chats')">
+      <div class="dot"></div>
+      <span>Balloons</span>
+    </button>
+    <button class="tab" [class.active]="isActive('/home/profile')" (click)="go('profile')">
+      <div class="dot"></div>
+      <span>You</span>
+    </button>
+  </div>
+
+  <!-- ✅ Pulse bottom sheet -->
+  <app-pulse-sheet
+    *ngIf="pulseSheetOpen"
+    [state]="pulse"
+    [readonly]="!canEditPulse()"
+    (closed)="closePulse()"
+    (saved)="submitPulse($event)"
+  ></app-pulse-sheet>
+
+  <!-- ✅ NEW: How It Works bottom sheet -->
+  <app-how-it-works-sheet
+    *ngIf="howItWorksOpen"
+    (closed)="closeHowItWorks()"
+  ></app-how-it-works-sheet>
+</div>

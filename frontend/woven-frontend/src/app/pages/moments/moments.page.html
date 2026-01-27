@@ -1,0 +1,146 @@
+<div class="moments">
+  <div class="head">
+    <div>
+      <div class="kicker">TODAY'S VIBE</div>
+      <div class="title" *ngIf="theme">{{ headline }}</div>
+      <div class="sub" *ngIf="data">{{ microLine }}</div>
+      <div class="theme-question" *ngIf="theme?.question">
+        <p>{{ theme!.question }}</p>
+      </div>
+    </div>
+
+    <div class="right">
+      <button class="pill" (click)="toggleCoach()">
+        {{ showCoach ? 'Hide' : 'What is this?' }}
+      </button>
+
+      <button class="pill outline" (click)="openPending()">
+        Saved <span class="badge" *ngIf="pendingCount > 0">{{ pendingCount }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="coach" *ngIf="showCoach">
+    <div class="coachTitle">Not swiping. Not judging.</div>
+    <div class="coachBody">
+      You’re choosing the <b>moment</b> between you — not a person.
+      <span class="muted">Light. Honest. Daily.</span>
+    </div>
+
+    <button class="learn" (click)="toggleLearnMore()">
+      {{ showLearnMore ? 'Close' : 'Rules' }}
+    </button>
+
+    <div class="learnBox" *ngIf="showLearnMore">
+      <div class="lmRow">
+        <div class="lmQ">What is this?</div>
+        <div class="lmA">A daily vibe check. Quick, human, and intentionally small.</div>
+      </div>
+
+      <div class="lmRow">
+        <div class="lmQ">What does “Saved” do?</div>
+        <div class="lmA">It lets you come back when your instinct is clearer.</div>
+      </div>
+
+      <div class="lmRow">
+        <div class="lmQ">What happens if we align?</div>
+        <div class="lmA">A balloon opens. Time is part of the charm.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="state" *ngIf="loading">Warming up…</div>
+  <div class="state err" *ngIf="!loading && error">{{ error }}</div>
+
+  <div class="empty" *ngIf="!loading && !error && (!data || data.cards.length === 0)">
+    <div class="emptyTitle">That’s it for today.</div>
+    <div class="emptySub">Come back tomorrow for a new vibe.</div>
+    <button class="pill outline" (click)="load()">Refresh</button>
+  </div>
+
+  <div class="deckWrap" *ngIf="!loading && !error && cards.length > 0">
+    <div class="deckMeta">
+      <div class="count">{{ index + 1 }} / {{ cards.length }}</div>
+      <div class="budget" *ngIf="data?.budget">{{ remainingText }}</div>
+    </div>
+
+    <div #deck class="deck" (scroll)="onDeckScroll()">
+      <div class="snap" *ngFor="let c of cards; let i = index">
+        <div class="heroCard">
+          <div class="heroStage">
+            <img class="heroImg" *ngIf="c.profilePhoto; else noHero" [src]="c.profilePhoto!" alt="profile" />
+            <ng-template #noHero>
+              <div class="heroFallback">{{ (c.fullName || 'W').slice(0,1) }}</div>
+            </ng-template>
+
+            <div class="heroTag">
+              <div class="heroName">{{ c.fullName }}</div>
+              <div class="heroSub" *ngIf="locationLine(c)">
+                {{ locationLine(c) }}
+              </div>
+            </div>
+
+            <!-- Rating bar (only shown when count >= 5) -->
+            <div class="rating-bar" *ngIf="c.rating?.show">
+              <div class="bar-container">
+                <div class="red-bars">
+                  <span class="bar" [class.filled]="getRatingBarFill('red', 4, c.rating!.average)"></span>
+                  <span class="bar" [class.filled]="getRatingBarFill('red', 3, c.rating!.average)"></span>
+                  <span class="bar" [class.filled]="getRatingBarFill('red', 2, c.rating!.average)"></span>
+                  <span class="bar" [class.filled]="getRatingBarFill('red', 1, c.rating!.average)"></span>
+                </div>
+                <div class="divider"></div>
+                <div class="green-bars">
+                  <span class="bar" [class.filled]="getRatingBarFill('green', 1, c.rating!.average)"></span>
+                  <span class="bar" [class.filled]="getRatingBarFill('green', 2, c.rating!.average)"></span>
+                  <span class="bar" [class.filled]="getRatingBarFill('green', 3, c.rating!.average)"></span>
+                  <span class="bar" [class.filled]="getRatingBarFill('green', 4, c.rating!.average)"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ✅ NEW: Explanation (does not block the hero image) -->
+          <div class="why" *ngIf="c.reason">
+            <div class="whyTop">
+              <div class="whyKicker">WHY THIS FEELS RIGHT</div>
+              <div class="whyTone" *ngIf="c.reason?.tone">{{ c.reason?.tone }}</div>
+            </div>
+
+            <div class="whyHeadline" *ngIf="c.reason?.headline">
+              {{ c.reason.headline }}
+            </div>
+
+            <ul class="whyBullets" *ngIf="c.reason?.bullets?.length">
+              <li *ngFor="let b of c.reason.bullets">{{ b }}</li>
+            </ul>
+          </div>
+
+          <div class="actionsBar" *ngIf="theme">
+            <button class="action" (click)="choose('LEFT')">
+              <div class="emo">{{ theme.left.emoji }}</div>
+              <div class="lab">{{ theme.left.label }}</div>
+              <div class="mini">this side</div>
+            </button>
+
+            <button class="action hold" (click)="choose('HOLD')">
+              <div class="emo">{{ theme.mid.emoji }}</div>
+              <div class="lab">Save</div>
+              <div class="mini">later</div>
+            </button>
+
+            <button class="action" (click)="choose('RIGHT')">
+              <div class="emo">{{ theme.right.emoji }}</div>
+              <div class="lab">{{ theme.right.label }}</div>
+              <div class="mini">this side</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hintLine">Browse first. Then spend.</div>
+  </div>
+
+  <div class="toast" *ngIf="toast">{{ toast }}</div>
+</div>

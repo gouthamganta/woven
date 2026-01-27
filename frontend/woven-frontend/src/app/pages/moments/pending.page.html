@@ -1,0 +1,103 @@
+<div class="pending">
+  <div class="head">
+    <div>
+      <div class="kicker">SAVED</div>
+
+      <div class="title" *ngIf="meta?.theme; else simpleTitle">
+        For later — {{ themeTitle }}
+      </div>
+
+      <ng-template #simpleTitle>
+        <div class="title">For later</div>
+      </ng-template>
+
+      <div class="sub">Browse calmly. Decide only when it feels clear.</div>
+    </div>
+
+    <div class="right">
+      <button class="pill outline" (click)="back()">Back</button>
+      <button class="pill" (click)="load()">Refresh</button>
+    </div>
+  </div>
+
+  <div class="metaLine" *ngIf="!loading && !error && cards.length > 0">
+    <div class="metaLeft">{{ countText }}</div>
+    <div class="metaRight" *ngIf="meta?.budget">{{ budgetLeftText }}</div>
+  </div>
+
+  <div class="state" *ngIf="loading">Loading saved…</div>
+  <div class="state err" *ngIf="!loading && error">{{ error }}</div>
+
+  <div class="empty" *ngIf="!loading && !error && cards.length === 0">
+    <div class="emptyTitle">Nothing saved right now.</div>
+    <div class="emptySub">Use “Save” in Vibe when you’re unsure.</div>
+    <button class="pill outline" (click)="back()">Go to Vibe</button>
+  </div>
+
+  <div class="deckWrap" *ngIf="!loading && !error && cards.length > 0">
+    <div #deck class="deck" (scroll)="onDeckScroll()">
+      <div class="snap" *ngFor="let card of cards">
+        <div class="heroCard">
+          <div class="heroStage">
+            <img
+              class="heroImg"
+              *ngIf="card.profilePhoto; else initials"
+              [src]="card.profilePhoto!"
+              alt="profile"
+            />
+
+            <ng-template #initials>
+              <div class="heroFallback">
+                {{ card.fullName ? card.fullName.slice(0, 1) : 'W' }}
+              </div>
+            </ng-template>
+
+            <div class="heroTag">
+              <div class="heroName">{{ card.fullName }}</div>
+
+              <div class="heroSub" *ngIf="cardMetaLine(card)">
+                {{ cardMetaLine(card) }}
+              </div>
+
+              <div class="heroMini" *ngIf="card.savedAt">
+                Saved {{ card.savedAt | date: 'short' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="actionsBar" *ngIf="meta?.theme; else fallback">
+            <button class="action" (click)="decide(card,'NO')">
+              <div class="emo">{{ meta?.theme?.left?.emoji }}</div>
+              <div class="lab">{{ meta?.theme?.left?.label }}</div>
+              <div class="mini">this side</div>
+            </button>
+
+            <button class="action rightPick" (click)="decide(card,'YES')">
+              <div class="emo">{{ meta?.theme?.right?.emoji }}</div>
+              <div class="lab">{{ meta?.theme?.right?.label }}</div>
+              <div class="mini">this side</div>
+            </button>
+          </div>
+
+          <ng-template #fallback>
+            <div class="actionsBar">
+              <button class="action" (click)="decide(card,'NO')">
+                <div class="lab">No</div>
+                <div class="mini">this side</div>
+              </button>
+
+              <button class="action rightPick" (click)="decide(card,'YES')">
+                <div class="lab">Yes</div>
+                <div class="mini">this side</div>
+              </button>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <div class="hintLine">One at a time. No rush.</div>
+  </div>
+
+  <div class="toast" *ngIf="toast">{{ toast }}</div>
+</div>

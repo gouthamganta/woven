@@ -1,0 +1,1133 @@
+.thread {
+  display: grid;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ========================================
+   🎈 BALLOON STAGE ANIMATIONS (SUBTLE)
+======================================== */
+
+.thread.balloonStage {
+  animation: balloonInflate 0.5s ease-out forwards;
+}
+
+@keyframes balloonInflate {
+  0% {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ✅ REMOVED: Floating balloon animation */
+
+/* ========================================
+   💥 POP ANIMATION (SMOOTH EXIT)
+======================================== */
+
+.thread.isPopping {
+  animation: popFade 0.4s ease-out forwards;
+}
+
+@keyframes popFade {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.thread.isPopping .msgs .row {
+  animation: messageDissolve 0.4s ease-out forwards;
+}
+
+@keyframes messageDissolve {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* ========================================
+   💗 FIND LOVE TRANSITION (GENTLE GLOW)
+======================================== */
+
+.thread.findLoveTransition {
+  animation: findLoveCelebrate 1.5s ease-out forwards;
+}
+
+@keyframes findLoveCelebrate {
+  0% {
+    background: transparent;
+  }
+  50% {
+    background: radial-gradient(circle at center, rgba(255, 192, 203, 0.08) 0%, transparent 70%);
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+.thread.findLoveStage {
+  background: linear-gradient(180deg, rgba(255, 250, 250, 0.2) 0%, transparent 100%);
+}
+
+.chip.ready {
+  animation: heartPulse 0.6s ease-out forwards;
+}
+
+@keyframes heartPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ========================================
+   🎊 CELEBRATION OVERLAY (SUBTLE)
+======================================== */
+
+.celebrationOverlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 192, 203, 0.12) 0%, transparent 60%);
+  animation: gentleGlow 1.5s ease-out forwards;
+  pointer-events: none;
+  z-index: 100;
+}
+
+@keyframes gentleGlow {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   🎉 CONFETTI (SOFT FALL)
+======================================== */
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 101;
+  overflow: hidden;
+}
+
+.confettiPiece {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #ff6b9d 0%, #ffa6c9 100%);
+  top: -10%;
+  animation: confettiSoftFall 2.5s ease-out forwards;
+  opacity: 0;
+  border-radius: 2px;
+}
+
+.confettiPiece:nth-child(1) { left: 10%; animation-delay: 0.1s; }
+.confettiPiece:nth-child(2) { left: 20%; animation-delay: 0.2s; background: #ffd700; }
+.confettiPiece:nth-child(3) { left: 30%; animation-delay: 0.15s; }
+.confettiPiece:nth-child(4) { left: 40%; animation-delay: 0.25s; background: #ff69b4; }
+.confettiPiece:nth-child(5) { left: 50%; animation-delay: 0.05s; }
+.confettiPiece:nth-child(6) { left: 60%; animation-delay: 0.3s; background: #ffa6c9; }
+.confettiPiece:nth-child(7) { left: 70%; animation-delay: 0.2s; }
+.confettiPiece:nth-child(8) { left: 80%; animation-delay: 0.1s; background: #ffd700; }
+.confettiPiece:nth-child(9) { left: 90%; animation-delay: 0.25s; }
+.confettiPiece:nth-child(10) { left: 15%; animation-delay: 0.35s; background: #ff69b4; }
+
+@keyframes confettiSoftFall {
+  0% {
+    opacity: 0.8;
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+
+/* ========================================
+   🚫 UNMATCH ANIMATION (GENTLE FADE)
+======================================== */
+
+.thread.isUnmatching .msgs .row {
+  animation: fadeToGray 0.4s ease-out forwards;
+}
+
+@keyframes fadeToGray {
+  0% {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+  100% {
+    filter: grayscale(1);
+    opacity: 0.2;
+  }
+}
+
+/* ========================================
+   🛑 BLOCK ANIMATION (SMOOTH DARKEN)
+======================================== */
+
+.thread.isBlocking {
+  animation: blockDarken 0.4s ease-out forwards;
+}
+
+@keyframes blockDarken {
+  0% {
+    filter: brightness(1);
+  }
+  100% {
+    filter: brightness(0.3);
+    opacity: 0.5;
+  }
+}
+
+.thread.isBlocking .msgs .row {
+  animation: fadeOut 0.4s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   📅 DATE IDEA UNLOCK (SMOOTH REVEAL)
+======================================== */
+
+.dateIdea {
+  margin: 10px 0 14px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 12px 12px 11px;
+  animation: dateIdeaReveal 0.5s ease-out forwards;
+}
+
+@keyframes dateIdeaReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dateIdea.unlocking {
+  animation: dateIdeaGlow 1.5s ease-out;
+}
+
+@keyframes dateIdeaGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(255, 192, 203, 0);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(255, 192, 203, 0.3);
+  }
+}
+
+/* ✅ REMOVED: Shake animation */
+/* ✅ REMOVED: Type-in effect (just fades in smoothly now) */
+
+.diTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.diKicker {
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.diBtn {
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: all 0.2s;
+}
+
+.diBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.diBody {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  opacity: 0.92;
+}
+
+.diMini {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* ========================================
+   HEADER
+======================================== */
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.iconBtn {
+  width: 40px;
+  height: 34px;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.82);
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.iconBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.iconBtn.ghost {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.headMid {
+  min-width: 0;
+  flex: 1;
+  text-align: center;
+}
+
+.name {
+  font-weight: 950;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mini {
+  margin-top: 3px;
+  font-size: 12px;
+  opacity: 0.65;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ========================================
+   STATES
+======================================== */
+
+.state {
+  padding: 14px;
+  opacity: 0.7;
+}
+.state.err {
+  opacity: 1;
+}
+
+/* ========================================
+   USP BAR
+======================================== */
+
+.uspBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.uspLeft {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.uspRight {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.03);
+  font-weight: 900;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s;
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.chip.ready {
+  background: rgba(255, 192, 203, 0.12);
+  border-color: rgba(255, 192, 203, 0.25);
+}
+
+.chip.subtle {
+  opacity: 0.7;
+}
+
+/* ✅ URGENT STATE (< 2 min) - SUBTLE PULSE */
+.chip.urgent {
+  animation: urgentPulse 2s ease-in-out infinite;
+}
+
+@keyframes urgentPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(255, 100, 100, 0);
+  }
+  50% {
+    box-shadow: 0 0 8px rgba(255, 100, 100, 0.2);
+  }
+}
+
+.ico {
+  font-size: 14px;
+  line-height: 1;
+}
+.txt {
+  opacity: 0.9;
+}
+
+.chipBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255, 255, 255, 0.78);
+  font-weight: 950;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chipBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.chipBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.chipBtn.danger {
+  background: rgba(255, 0, 0, 0.06);
+}
+
+.chipBtn.danger.urgent {
+  animation: popButtonPulse 2s ease-in-out infinite;
+}
+
+@keyframes popButtonPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(255, 0, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.25);
+  }
+}
+
+/* ========================================
+   MESSAGES
+======================================== */
+
+.msgs {
+  display: grid;
+  gap: 10px;
+  padding: 6px 2px 4px;
+  max-height: calc(100vh - 270px);
+  overflow: auto;
+  scroll-behavior: smooth;
+}
+
+.dayHint {
+  font-size: 12px;
+  opacity: 0.65;
+  padding: 6px 2px 2px;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  animation: messageArrive 0.3s ease-out backwards;
+}
+
+.row.mine {
+  justify-content: flex-end;
+}
+
+@keyframes messageArrive {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.init {
+  font-size: 12px;
+  font-weight: 950;
+  opacity: 0.85;
+}
+
+.bubble {
+  max-width: min(78%, 520px);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  padding: 10px 12px;
+  display: grid;
+  gap: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  transition: all 0.2s;
+}
+
+.bubble:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+}
+
+.row.mine .bubble {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.b {
+  font-size: 13px;
+  line-height: 1.35;
+  white-space: pre-wrap;
+}
+
+.t {
+  font-size: 11px;
+  opacity: 0.55;
+}
+
+/* ========================================
+   COMPOSER
+======================================== */
+
+.composer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding-top: 6px;
+  position: sticky;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.94);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 10px 0 2px;
+}
+
+.input {
+  flex: 1;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 16px;
+  padding: 11px 12px;
+  background: rgba(255, 255, 255, 0.92);
+  outline: none;
+  transition: all 0.2s;
+}
+
+.input:focus {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.send {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  padding: 11px 12px;
+  font-weight: 950;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.send:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.send:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ========================================
+   TOAST
+======================================== */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 88px;
+  transform: translateX(-50%);
+  background: rgba(17, 17, 17, 0.92);
+  color: white;
+  padding: 10px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  z-index: 50;
+  animation: toastSlideIn 0.2s ease-out;
+}
+
+@keyframes toastSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ========================================
+   MORE MENU
+======================================== */
+
+.moreWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.moreMenu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 170px;
+  padding: 8px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+  z-index: 60;
+  display: grid;
+  gap: 6px;
+  animation: menuSlideIn 0.2s ease-out;
+}
+
+@keyframes menuSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.moreItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.02);
+  font-weight: 950;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+}
+
+/* ✅ SYSTEM MESSAGE */
+.system {
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.7;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.04);
+  align-self: center;
+  margin: 4px auto;
+  max-width: 80%;
+}
+
+/* ========================================
+   🎮 GAME PICKER
+======================================== */
+
+.gamePicker {
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 12px 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  animation: slideDown 0.2s ease-out;
+  position: relative;
+  z-index: 10;
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gpTitle {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 12px;
+}
+
+.gameOption {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 10px;
+  text-align: left;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.18);
+    background: #fff;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.goIcon {
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.goContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.goName {
+  font-size: 15px;
+  font-weight: 900;
+  margin-bottom: 4px;
+  color: #111;
+}
+
+.goDesc {
+  font-size: 13px;
+  opacity: 0.65;
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+
+.goDuration {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ========================================
+   GAME ROW STYLING
+======================================== */
+
+.gameRow {
+  display: flex;
+  justify-content: center;
+  padding: 12px 16px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.system {
+  text-align: center;
+  padding: 12px 16px;
+  font-size: 13px;
+  opacity: 0.6;
+  font-style: italic;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* ✅ GAME MESSAGE ROW */
+.gameRow {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0;
+}
+
+.moreItem:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.moreItem.danger {
+  background: rgba(255, 0, 0, 0.05);
+}
+
+/* ========================================
+   TRIAL MODE STYLING
+======================================== */
+
+.thread.trialMode {
+  .head {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(251, 146, 60, 0.1));
+    border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+  }
+}
+
+.thread.trialMode .chip {
+  background: rgba(251, 191, 36, 0.12);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+/* ========================================
+   TRIAL TIMER BANNER (FANCY)
+======================================== */
+
+.trial-timer-banner {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin: 0 0 8px;
+  box-shadow: 0 8px 24px rgba(251, 191, 36, 0.35);
+  animation: timerBannerPulse 2s ease-in-out infinite;
+}
+
+@keyframes timerBannerPulse {
+  0%, 100% {
+    box-shadow: 0 8px 24px rgba(251, 191, 36, 0.35);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 12px 32px rgba(251, 191, 36, 0.5);
+    transform: scale(1.01);
+  }
+}
+
+.timer-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.timer-icon {
+  font-size: 28px;
+  line-height: 1;
+  animation: timerIconBounce 1s ease-in-out infinite;
+}
+
+@keyframes timerIconBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.timer-text {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timer-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.timer-countdown {
+  font-size: 32px;
+  font-weight: 900;
+  color: #000;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.timer-countdown.urgent {
+  color: #dc2626;
+  animation: urgentCountdown 0.5s ease-in-out infinite;
+}
+
+@keyframes urgentCountdown {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.timer-progress {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.timer-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.9) 100%);
+  border-radius: 3px;
+  transition: width 1s linear;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+/* ========================================
+   TRIAL ENDING STATE (< 30 seconds)
+======================================== */
+
+.thread.trialEnding {
+  .trial-timer-banner {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+    animation: urgentBannerPulse 0.8s ease-in-out infinite;
+  }
+
+  .timer-label {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .timer-countdown {
+    color: #fff;
+  }
+}
+
+@keyframes urgentBannerPulse {
+  0%, 100% {
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 12px 36px rgba(239, 68, 68, 0.6);
+    transform: scale(1.02);
+  }
+}
+
+/* ========================================
+   TRIAL DECISION PENDING (DANGER THEME)
+======================================== */
+
+.thread.trialDecisionPending {
+  .head {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.1));
+    border-bottom: 2px solid rgba(239, 68, 68, 0.3);
+    animation: dangerPulse 1.5s ease-in-out infinite;
+  }
+
+  .uspBar {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.2);
+  }
+
+  .msgs {
+    background: linear-gradient(180deg, rgba(239, 68, 68, 0.03) 0%, transparent 30%);
+  }
+}
+
+@keyframes dangerPulse {
+  0%, 100% {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.08));
+  }
+  50% {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.15));
+  }
+}
+
+/* ========================================
+   DECISION BANNER
+======================================== */
+
+.decision-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border: 2px solid #fca5a5;
+  border-radius: 16px;
+  margin: 0 0 8px;
+  animation: decisionBannerShake 4s ease-in-out infinite;
+}
+
+@keyframes decisionBannerShake {
+  0%, 92%, 100% { transform: translateX(0); }
+  94% { transform: translateX(-3px); }
+  96% { transform: translateX(3px); }
+  98% { transform: translateX(-2px); }
+}
+
+.decision-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.decision-icon {
+  font-size: 20px;
+  animation: decisionIconPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes decisionIconPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+.decision-text {
+  font-size: 13px;
+  font-weight: 800;
+  color: #b91c1c;
+}
+
+.decision-btn {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.decision-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+}
+
+.decision-btn:active {
+  transform: translateY(0);
+}

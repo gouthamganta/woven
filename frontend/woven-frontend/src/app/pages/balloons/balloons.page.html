@@ -1,0 +1,73 @@
+<div class="balloons">
+  <div class="head">
+    <div>
+      <div class="kicker">CHATS</div>
+      <div class="title">Active balloons</div>
+      <div class="sub">Tiny window. Real energy. Pick where you spend it.</div>
+    </div>
+
+    <div class="right">
+      <button class="pill outline" (click)="load()">Refresh</button>
+    </div>
+  </div>
+
+  <div class="metaLine" *ngIf="!loading && !error && matches.length">
+    <div class="metaLeft">{{ countText }}</div>
+    <div class="metaRight">tap to open</div>
+  </div>
+
+  <div class="state" *ngIf="loading">Loading…</div>
+  <div class="state err" *ngIf="!loading && error">{{ error }}</div>
+
+  <div class="empty" *ngIf="!loading && !error && matches.length === 0">
+    <div class="emptyTitle">No balloons yet.</div>
+    <div class="emptySub">Align in Vibe — balloons appear here.</div>
+  </div>
+
+  <div class="list" *ngIf="!loading && !error && matches.length > 0">
+    <button class="row" *ngFor="let m of matches" (click)="open(m)">
+      <div class="left">
+        <div class="photo" *ngIf="m.other?.profilePhoto; else initials">
+          <img [src]="m.other?.profilePhoto!" alt="profile" />
+        </div>
+
+        <ng-template #initials>
+          <div class="initials">{{ (m.other?.fullName || 'W').slice(0,1) }}</div>
+        </ng-template>
+
+        <div class="info">
+          <div class="nameLine">
+            <div class="name">{{ headline(m) }}</div>
+            <span class="tag">{{ (m.matchType || 'MATCH') }}</span>
+          </div>
+
+          <div class="mini">
+            {{ statusLine(m) }}
+          </div>
+
+          <div class="uspRow">
+            <div class="uspChip" [class.ready]="showFindLove(m)">
+              <span class="uspIcon">{{ showFindLove(m) ? '💗' : '🎈' }}</span>
+              <span class="uspText">{{ findLoveChip(m) }}</span>
+            </div>
+
+            <!-- ✅ profile -->
+            <div class="uspChip" (click)="viewProfile(m, $event)">
+              <span class="uspIcon">👤</span>
+              <span class="uspText">Profile</span>
+            </div>
+
+            <div class="uspChip danger" (click)="pop(m, $event)">
+              <span class="uspIcon">💥</span>
+              <span class="uspText">{{ isBusy(m) ? '...' : 'Pop' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rightSide">
+        <span class="openPill">Open</span>
+      </div>
+    </button>
+  </div>
+</div>

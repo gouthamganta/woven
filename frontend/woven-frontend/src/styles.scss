@@ -1,0 +1,264 @@
+/* ======================================================
+   WOVEN Global Styles — STABLE + WOW + SPRINKLES
+   - Hearts/stars graphics with scroll-reactive animation
+   - Global background visible on ALL pages
+   - PrimeNG-safe, no DOM changes needed
+   ====================================================== */
+
+/* Fonts: Inter for UI + elegant cursive for luxury touches */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+
+/* 1) Reset */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 2) Tokens */
+:root {
+  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+  --font-luxury: "Great Vibes", cursive; /* Elegant signature style */
+
+  --woven-text: #161616;
+  --woven-text-soft: rgba(22, 22, 22, 0.78);
+  --woven-text-muted: rgba(22, 22, 22, 0.55);
+
+  --accent: #ff3b88;
+  --accent-2: #ffb3cf;
+
+  /* Parallax + scroll vars (set by AppComponent) */
+  --wx: 0px;
+  --wy: 0px;
+  --scroll: 0; /* 0..1 scroll progress */
+
+  /* Base canvas */
+  --woven-base-1: #ffe8dc;
+  --woven-base-2: #fef1eb;
+  --woven-base-3: #faf8f6;
+
+  /* Aura tuning */
+  --aura-1: rgba(255, 85, 160, 0.14);
+  --aura-2: rgba(255, 198, 166, 0.16);
+  --aura-3: rgba(255, 255, 255, 0.10);
+}
+
+/* 3) Base typography */
+body {
+  font-family: var(--font-ui);
+  color: var(--woven-text);
+  font-size: 16px;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  text-rendering: optimizeLegibility;
+
+  /* CRITICAL: transparent so WOW layer shows through */
+  background: transparent !important;
+  min-height: 100%;
+}
+
+/* Always keep a base gradient visible on HTML */
+html {
+  min-height: 100%;
+  background: linear-gradient(165deg, var(--woven-base-1), var(--woven-base-2) 52%, var(--woven-base-3));
+  background-attachment: fixed;
+}
+
+/* Make sure app content paints above the overlays */
+app-root {
+  position: relative;
+  z-index: 1;
+}
+
+/* ======================================================
+   4) WOW LAYERS — GLOBAL (visible everywhere)
+   - Layer A: Aura glow (html::before)
+   - Layer B: Woven texture (html::after)
+   - Layer C: Glowing hearts/stars (body::before)
+   - Layer D: Luxury signature text (body::after)
+   ====================================================== */
+
+html::before,
+html::after,
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Layer A — Aura glow with drift */
+html::before {
+  transform: translate3d(var(--wx), var(--wy), 0);
+  will-change: transform;
+  transition: transform 80ms linear;
+
+  background:
+    radial-gradient(900px 650px at 18% 12%, var(--aura-2), transparent 62%),
+    radial-gradient(820px 620px at 86% 18%, var(--aura-1), transparent 60%),
+    radial-gradient(1100px 800px at 78% 88%, var(--aura-3), transparent 68%),
+    linear-gradient(140deg, transparent 0%, rgba(255, 59, 136, 0.03) 30%, transparent 55%);
+}
+
+/* Layer B — Woven texture */
+html::after {
+  opacity: 0.22;
+  mix-blend-mode: multiply;
+
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      rgba(0,0,0,0.035) 0px,
+      rgba(0,0,0,0.035) 1px,
+      transparent 1px,
+      transparent 10px
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0,0,0,0.025) 0px,
+      rgba(0,0,0,0.025) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+}
+
+/* Layer C — Glowing hearts + stars (BRIGHT & LUXURIOUS) */
+body::before {
+  /* Scroll-reactive opacity: MUCH more visible and glowing */
+  opacity: calc(0.35 + (var(--scroll) * 0.25));
+  
+  /* Multiple glowing hearts with different sizes + stars */
+  background-image:
+    /* Large glowing heart */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cdefs%3E%3Cfilter id='glow'%3E%3CfeGaussianBlur stdDeviation='3.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23glow)'%3E%3Cpath d='M70 95c-14-11-27-21-27-35 0-8 6-14 14-14 6 0 10 3 13 8 3-5 7-8 13-8 8 0 14 6 14 14 0 14-13 24-27 35z' fill='%23ff3b88' opacity='0.65'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Medium glowing heart */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cdefs%3E%3Cfilter id='glow2'%3E%3CfeGaussianBlur stdDeviation='2.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23glow2)'%3E%3Cpath d='M50 65c-10-8-18-14-18-24 0-5 4-9 9-9 4 0 7 2 9 5 2-3 5-5 9-5 5 0 9 4 9 9 0 10-8 16-18 24z' fill='%23ffb3cf' opacity='0.55'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Small hearts */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cdefs%3E%3Cfilter id='glow3'%3E%3CfeGaussianBlur stdDeviation='2' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23glow3)'%3E%3Cpath d='M40 52c-7-6-12-10-12-16 0-3 3-6 6-6 3 0 5 2 6 3 1-1 3-3 6-3 3 0 6 3 6 6 0 6-5 10-12 16z' fill='%23ff6ba8' opacity='0.50'/%3E%3Cpath d='M25 28c-4-3-7-6-7-10 0-2 2-4 4-4 2 0 3 1 3 2 1-1 2-2 3-2 2 0 4 2 4 4 0 4-3 6-7 10z' fill='%23ffc4dc' opacity='0.45'/%3E%3C/g%3E%3C/svg%3E"),
+    /* Glowing stars */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cdefs%3E%3Cfilter id='starglow'%3E%3CfeGaussianBlur stdDeviation='2.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23starglow)'%3E%3Cpath d='M90 52l5 15h16l-13 9 5 15-13-9-13 9 5-15-13-9h16z' fill='%23ffd4e5' opacity='0.55'/%3E%3C/g%3E%3Ccircle cx='45' cy='140' r='2.5' fill='%23ff3b88' opacity='0.60' filter='url(%23starglow)'/%3E%3Ccircle cx='135' cy='40' r='2' fill='%23ffb3cf' opacity='0.55' filter='url(%23starglow)'/%3E%3C/svg%3E");
+
+  background-repeat: repeat;
+  background-size: 160px 160px, 120px 120px, 90px 90px, 200px 200px;
+
+  /* Position reacts to scroll + drift */
+  background-position:
+    calc(0px + var(--wx)) calc(0px + var(--wy)),
+    calc(50px - var(--wx)) calc(70px - var(--wy)),
+    calc(25px + var(--wx) * 0.5) calc(40px + var(--wy) * 0.5),
+    calc(80px - var(--wx) * 0.7) calc(100px - var(--wy) * 0.7);
+
+  /* Gentle floating animation */
+  animation: wovenFloat 16s ease-in-out infinite;
+  
+  /* Add STRONG glow filter */
+  filter: drop-shadow(0 0 15px rgba(255, 59, 136, 0.25)) 
+          drop-shadow(0 0 8px rgba(255, 182, 207, 0.20));
+}
+
+@keyframes wovenFloat {
+  0%   { transform: translate3d(0, 0, 0); }
+  50%  { transform: translate3d(0, -12px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html::before { 
+    transition: none !important; 
+    transform: none !important; 
+  }
+  body::before { 
+    animation: none !important; 
+  }
+}
+
+/* If any page wrapper tries to set background, keep it transparent */
+.woven-stage {
+  background: transparent !important;
+}
+
+/* 5) Text defaults */
+p { color: var(--woven-text-soft); line-height: 1.7; }
+small, .mini, .diMini, .waitingText { color: var(--woven-text-muted); }
+
+/* 6) Buttons (ADAPTIVE)
+      Only style YOUR button classes. DO NOT touch .p-button. */
+:where(.btn, .chipBtn, .submitBtn, .retryBtn, .send, .diBtn, .moreItem) {
+  min-height: 46px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-weight: 650;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+
+  cursor: pointer;
+  user-select: none;
+
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: visible;
+
+  transition: transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              background 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              border-color 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+:where(.btn, .chipBtn, .submitBtn, .retryBtn, .send, .diBtn, .moreItem):hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.10);
+  border-color: rgba(255, 59, 136, 0.22);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+:where(.primary, .btn.primary, .submitBtn, .send) {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: none;
+  color: #fff;
+  box-shadow: 0 16px 40px rgba(255, 59, 136, 0.22);
+}
+
+/* Game options can wrap */
+.gameOption, .option {
+  white-space: normal;
+  text-align: left;
+  justify-content: flex-start;
+}
+
+/* 7) Inputs */
+input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(0, 0, 0, 0.10);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  color: var(--woven-text);
+  font-size: 0.98rem;
+  font-family: inherit;
+}
+
+/* 8) Responsive */
+@media (max-width: 768px) { body { font-size: 15px; } }
+@media (max-width: 480px) { body { font-size: 14px; } }

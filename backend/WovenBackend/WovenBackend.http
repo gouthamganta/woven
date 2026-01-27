@@ -1,0 +1,17 @@
+@WovenBackend_HostAddress = http://localhost:5135
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJnb3V0aGFtZ2FudGE5QGdtYWlsLmNvbSIsInVpZCI6IjEiLCJleHAiOjE3NjY5NzIxMTUsImlzcyI6IldvdmVuQmFja2VuZCIsImF1ZCI6IldvdmVuRnJvbnRlbmQifQ.mg1HAhikyHhozU2e7N8rSA3PpadO92_wF99OHi8GiLo
+
+### Moments - Get cards
+GET {{WovenBackend_HostAddress}}/moments
+Authorization: Bearer {{token}}
+Accept: application/json
+
+### Moments - Respond YES (change targetUserId to a real one)
+POST {{WovenBackend_HostAddress}}/moments/respond
+Authorization: Bearer {{eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJnb3V0aGFtZ2FudGE5QGdtYWlsLmNvbSIsInVpZCI6IjEiLCJleHAiOjE3NjY5OTI3OTAsImlzcyI6IldvdmVuQmFja2VuZCIsImF1ZCI6IldvdmVuRnJvbnRlbmQifQ.ZZc09wj5JJ6Gy6j1QlfxTKAAfYNEUERcdRczZk0Xb0E}}
+Content-Type: application/json
+
+{
+  "targetUserId": 2,
+  "choice": "YES"
+}

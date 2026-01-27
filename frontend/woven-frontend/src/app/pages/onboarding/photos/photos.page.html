@@ -1,0 +1,130 @@
+<woven-onboarding-shell
+  [title]="shellTitle"
+  [subtitle]="shellSubtitle"
+  [stepNumber]="stepNumberForShell"
+  [totalSteps]="totalSteps"
+  [stepLabel]="stepLabelForShell"
+>
+  <div class="topRow">
+    <button class="ghost" (click)="goBack()" [disabled]="saving">Back</button>
+
+    <div class="progress">{{ progressText }}</div>
+
+    <button class="why" type="button" (click)="toggleWhy()">
+      Why we ask
+    </button>
+  </div>
+
+  <div class="whyPopover" *ngIf="showWhy">
+    <div class="whyTitle">Because intention is always felt.</div>
+    <div class="whyText">
+      A little effort in your photos goes a long way. Show your vibe clearly, and the right conversations find you.
+      Keep it simple. Keep it you.
+    </div>
+  </div>
+
+  <div class="error" *ngIf="error">{{ error }}</div>
+
+  <!-- STEP VIEW -->
+  <ng-container *ngIf="!isSummary; else summaryView">
+    <div class="slot">
+      <div class="frame" *ngIf="!slotAt(stepIndex).dataUrl">
+        <div class="frameText">
+          <div class="frameTitle">Add a photo</div>
+          <div class="frameSub">
+            {{ stepIndex < 3 ? 'Required' : 'Optional (you can skip)' }}
+          </div>
+        </div>
+
+        <label class="primaryBtn" [class.disabled]="saving">
+          <input hidden type="file" accept="image/*" (change)="onFileChange($event)" [disabled]="saving" />
+          Choose photo
+        </label>
+      </div>
+
+      <div class="preview" *ngIf="slotAt(stepIndex).dataUrl">
+        <div class="imgWrap">
+          <img [src]="slotAt(stepIndex).dataUrl" alt="Selected photo" />
+        </div>
+
+        <div class="actions">
+          <label class="btn" [class.disabled]="saving">
+            <input hidden type="file" accept="image/*" (change)="onFileChange($event)" [disabled]="saving" />
+            Replace photo
+          </label>
+
+          <button class="btn danger" (click)="removeCurrent()" [disabled]="saving">Remove</button>
+        </div>
+
+        <div class="captionBlock">
+          <div class="captionLabel">Caption (optional)</div>
+          <input
+            type="text"
+            [(ngModel)]="slotAt(stepIndex).caption"
+            [maxlength]="captionMax"
+            [disabled]="saving"
+            placeholder="A tiny line that adds context…"
+          />
+          <div class="capCount">{{ (slotAt(stepIndex).caption || '').length }}/{{ captionMax }}</div>
+
+          <div class="captionHint">
+            Try: “Always down for a new spot” • “Finally checked this off the list” • “Caught in the wild”
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footerRow">
+      <button class="ghost" *ngIf="isOptionalStep" (click)="skipOptional()" [disabled]="saving">
+        Skip for now
+      </button>
+
+      <button class="primaryBtn" (click)="next()" [disabled]="!canProceed">
+        Next
+      </button>
+    </div>
+  </ng-container>
+
+  <!-- SUMMARY VIEW -->
+  <ng-template #summaryView>
+    <div class="summary">
+      <div class="summaryRow">
+        <div class="summaryTitle">Your set</div>
+        <div class="summarySub">Add at least 3 photos • You have {{ filledCount }}</div>
+      </div>
+
+      <div class="thumbGrid">
+        <button
+          class="thumb"
+          *ngFor="let s of slots; let i = index"
+          (click)="jumpTo(i)"
+          [disabled]="saving"
+          [class.empty]="!s.dataUrl"
+          title="Edit"
+        >
+          <ng-container *ngIf="s.dataUrl; else emptyThumb">
+            <img [src]="s.dataUrl!" alt="Photo thumbnail" />
+            <div class="thumbLabel">{{ i + 1 }}</div>
+          </ng-container>
+
+          <ng-template #emptyThumb>
+            <div class="plus">+</div>
+            <div class="thumbLabel">{{ i + 1 }}</div>
+          </ng-template>
+        </button>
+      </div>
+
+      <div class="summaryFooter">
+        <button class="ghost" (click)="jumpTo(0)" [disabled]="saving">Edit</button>
+
+        <button class="primaryBtn" (click)="saveAndContinue()" [disabled]="filledCount < 3 || saving">
+          {{ saving ? 'Saving…' : 'Continue' }}
+        </button>
+      </div>
+
+      <div class="miniNote">
+        You can update photos anytime later — this is just your starting set.
+      </div>
+    </div>
+  </ng-template>
+</woven-onboarding-shell>

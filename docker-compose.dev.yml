@@ -1,0 +1,42 @@
+version: '3.8'
+
+# ================================
+# Development Override
+# Use with: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+# ================================
+
+services:
+  postgres:
+    ports:
+      - "5433:5432"
+
+  backend:
+    build:
+      context: ./backend/WovenBackend
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=woven;Username=woven;Password=woven
+      - Jwt__Key=DEV_SECRET_KEY_CHANGE_IN_PRODUCTION_MIN_32_CHARS
+      - Jwt__Issuer=WovenBackend
+      - Jwt__Audience=WovenFrontend
+    volumes:
+      - ./backend/WovenBackend:/src:ro  # Mount source for debugging
+    ports:
+      - "5135:8080"
+
+  # pgAdmin for database management (dev only)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: woven-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@woven.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - woven-network

@@ -1,0 +1,236 @@
+<div class="thread"
+     [class.balloonStage]="isBalloonStage"
+     [class.findLoveStage]="isFindLoveStage"
+     [class.trialMode]="isInTrial"
+     [class.trialEnding]="isInTrial && trialSecondsLeft > 0 && trialSecondsLeft <= 30"
+     [class.trialDecisionPending]="data?.canMakeDecision"
+     [class.isPopping]="isPopping"
+     [class.isUnmatching]="isUnmatching"
+     [class.isBlocking]="isBlocking"
+     [class.findLoveTransition]="justTransitionedToFindLove">
+
+  <div class="head">
+    <button class="iconBtn" (click)="back()">←</button>
+
+    <div class="headMid">
+      <div class="name">{{ titleName() }}</div>
+      <div class="mini" *ngIf="!isInTrial || trialSecondsLeft <= 0">{{ statusText() }}</div>
+    </div>
+
+    <button class="iconBtn ghost" (click)="toggleGamePicker()">🎮</button>
+    <button class="iconBtn ghost" (click)="viewProfile()">👤</button>
+  </div>
+
+  <!-- Fancy Trial Timer Banner -->
+  <div class="trial-timer-banner" *ngIf="isInTrial && trialSecondsLeft > 0">
+    <div class="timer-content">
+      <div class="timer-icon">⏱️</div>
+      <div class="timer-text">
+        <span class="timer-label">Trial Period</span>
+        <span class="timer-countdown" [class.urgent]="trialSecondsLeft <= 30">
+          {{ formatTrialTime(trialSecondsLeft) }}
+        </span>
+      </div>
+    </div>
+    <div class="timer-progress">
+      <div class="timer-progress-bar" [style.width.%]="getTrialProgress()"></div>
+    </div>
+  </div>
+
+  <!-- Decision Pending Banner -->
+  <div class="decision-banner" *ngIf="data?.canMakeDecision && !showTrialDecision">
+    <div class="decision-content">
+      <span class="decision-icon">⚠️</span>
+      <span class="decision-text">Trial ended - make your decision</span>
+    </div>
+    <button class="decision-btn" (click)="showTrialDecision = true">Decide Now</button>
+  </div>
+
+  <!-- ✅ GAME PICKER -->
+  <div class="gamePicker" *ngIf="showGamePicker">
+    <div class="gpTitle">Choose a game</div>
+    
+    <button class="gameOption" (click)="createGame('KNOW_ME')">
+      <div class="goIcon">🎯</div>
+      <div class="goContent">
+        <div class="goName">Know Me</div>
+        <div class="goDesc">Guess what they picked</div>
+        <div class="goDuration">2 min</div>
+      </div>
+    </button>
+
+    <button class="gameOption" (click)="createGame('RED_GREEN_FLAG')">
+      <div class="goIcon">🚦</div>
+      <div class="goContent">
+        <div class="goName">Red / Green Flag</div>
+        <div class="goDesc">React to scenarios and learn each other fast</div>
+        <div class="goDuration">2 min</div>
+      </div>
+    </button>
+  </div>
+
+  <div class="state" *ngIf="loading">Loading…</div>
+  <div class="state err" *ngIf="!loading && error">{{ error }}</div>
+
+  <div class="uspBar" *ngIf="!loading && !error && data">
+    <div class="uspLeft">
+      <div class="chip" 
+           [class.ready]="isFindLoveReady()"
+           [class.urgent]="isCountdownUrgent()">
+        <span class="ico">{{ isFindLoveReady() ? '💗' : '🎈' }}</span>
+        <span class="txt">
+          {{
+            isFindLoveReady()
+              ? 'Find Love'
+              : (data.findLoveAt ? ('Balloon · ' + countdownSafe(data.findLoveAt)) : 'Balloon')
+          }}
+        </span>
+      </div>
+
+      <div class="chip subtle" *ngIf="data.expiresAt">
+        <span class="ico">⏳</span>
+        <span class="txt">Balloon expires</span>
+      </div>
+    </div>
+
+    <div class="uspRight">
+      <button class="chipBtn danger" 
+              [class.urgent]="isCountdownUrgent()"
+              *ngIf="!isFindLoveReady() && !isInTrial" 
+              (click)="popBalloon()">
+        <span class="ico">💥</span><span class="txt">Pop</span>
+      </button>
+
+      <div class="moreWrap" *ngIf="isFindLoveReady()">
+        <button class="chipBtn" (click)="toggleMore($event)">
+          <span class="ico">⋯</span><span class="txt">More</span>
+        </button>
+
+        <div class="moreMenu" *ngIf="showMore" (click)="$event.stopPropagation()">
+          <button class="moreItem" (click)="unmatch()">
+            <span class="ico">🚫</span><span class="txt">Unmatch</span>
+          </button>
+          <button class="moreItem danger" (click)="block()">
+            <span class="ico">🛑</span><span class="txt">Block</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="msgs" *ngIf="!loading && !error && data">
+    <div class="dayHint">Keep it light. The best chats feel effortless.</div>
+
+    <!-- ✅ Date idea block -->
+    <div class="dateIdea" 
+         [class.unlocking]="dateIdeaJustUnlocked"
+         *ngIf="shouldShowDateIdeaBox()">
+      <div class="diTop">
+        <div class="diKicker">DATE IDEA</div>
+        <button class="diBtn" (click)="refreshSilent()">Refresh</button>
+      </div>
+
+      <!-- Before 10 min: teaser -->
+      <div class="diBody" *ngIf="!shouldRevealDateIdea()">
+        Unlocking in {{ dateIdeaCountdown() }}
+      </div>
+      <div class="diMini" *ngIf="!shouldRevealDateIdea()">Let it land before it shows up.</div>
+
+      <!-- After 10 min: reveal -->
+      <div class="diBody" *ngIf="shouldRevealDateIdea()">
+        {{ (data.dateIdea && data.dateIdea.trim()) ? data.dateIdea : 'Still preparing your idea…' }}
+      </div>
+      <div class="diMini" *ngIf="shouldRevealDateIdea()">
+        If it feels right, make it real.
+      </div>
+    </div>
+
+    <!-- ✅ UPDATED MESSAGE LOOP -->
+    <ng-container *ngFor="let m of data.messages; let i = index">
+      <!-- SYSTEM MESSAGE -->
+      <div class="system" *ngIf="isSystem(m)">
+        {{ m.body }}
+      </div>
+
+      <!-- ✅ GAME MESSAGE - Added play event handler -->
+      <div class="gameRow" *ngIf="isGame(m)">
+        <app-game-message-card
+          [meUserId]="data.meUserId || 0"
+          [message]="m"
+          (accept)="onAcceptGame($event)"
+          (reject)="onRejectGame($event)"
+          (openResult)="onOpenGame($event)"
+          (play)="openGamePlayer($event)"
+        />
+      </div>
+
+      <!-- NORMAL CHAT MESSAGE -->
+      <div class="row" 
+           *ngIf="!isSystem(m) && !isGame(m)"
+           [class.mine]="isMine(m.senderUserId)"
+           [class.theirs]="!isMine(m.senderUserId)"
+           [style.animation-delay.ms]="i * 50">
+        <div class="avatar" *ngIf="!isMine(m.senderUserId)">
+          <img *ngIf="data.other?.profilePhoto; else init" [src]="data.other?.profilePhoto!" alt="p" />
+          <ng-template #init>
+            <div class="init">{{ (data.other?.fullName || 'W').slice(0,1) }}</div>
+          </ng-template>
+        </div>
+
+        <div class="bubble">
+          <div class="b">{{ m.body }}</div>
+          <div class="t">{{ m.createdAt | date:'shortTime' }}</div>
+        </div>
+      </div>
+    </ng-container>
+
+    <div id="msgsEnd"></div>
+  </div>
+
+  <div class="composer" *ngIf="!loading && !error && data">
+    <input
+      class="input"
+      [(ngModel)]="body"
+      placeholder="Say something…"
+      (keydown.enter)="send()"
+    />
+    <button class="send" (click)="send()" [disabled]="sending || !(body || '').trim()">
+      {{ sending ? '…' : 'Send' }}
+    </button>
+  </div>
+
+  <div class="toast" *ngIf="toast">{{ toast }}</div>
+
+  <!-- ✅ Celebration overlays -->
+  <div class="celebrationOverlay" *ngIf="justTransitionedToFindLove"></div>
+  <div class="confetti" *ngIf="justTransitionedToFindLove">
+    <div class="confettiPiece" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"></div>
+  </div>
+</div>
+
+<!-- INLINE GAME PLAYER - Opens as modal overlay -->
+<app-inline-game-player
+  *ngIf="showGamePlayer && currentGameSessionId"
+  [sessionId]="currentGameSessionId"
+  [gameType]="currentGameType"
+  (close)="closeGamePlayer()"
+  (completed)="onGameCompleted()"
+></app-inline-game-player>
+
+<!-- TRIAL DECISION MODAL -->
+<app-trial-decision
+  *ngIf="showTrialDecision && data"
+  [otherName]="data.other?.fullName || 'your match'"
+  [isUserA]="!!data.isUserA"
+  [threadId]="data.threadId"
+  (decided)="onTrialDecision($event)"
+  (closed)="showTrialDecision = false"
+></app-trial-decision>
+
+<!-- UNMATCH RATING MODAL -->
+<app-unmatch-rating
+  *ngIf="showUnmatchRating && data"
+  [otherName]="data.other?.fullName || 'your match'"
+  (confirmed)="confirmUnmatch($event)"
+  (cancelled)="cancelUnmatch()"
+></app-unmatch-rating>

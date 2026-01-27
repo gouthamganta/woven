@@ -1,0 +1,89 @@
+<div class="mp">
+
+  <div class="head">
+    <button class="pill outline" (click)="back()">Back</button>
+
+    <div class="center">
+      <div class="kicker">Profile</div>
+      <div class="title">{{ publicName }}<span *ngIf="publicAge">, {{ publicAge }}</span></div>
+      <div class="sub" *ngIf="accessHint">{{ accessHint }}</div>
+    </div>
+
+    <button class="pill" (click)="load()">Refresh</button>
+  </div>
+
+  <div class="state" *ngIf="loading">Loading…</div>
+  <div class="state err" *ngIf="!loading && error">{{ error }}</div>
+
+  <ng-container *ngIf="!loading && !error && data">
+
+    <div class="publicFrame">
+      <div class="feed">
+
+        <ng-container *ngIf="publicPhotos.length > 0; else noPhotos">
+          <section class="feedItem" *ngFor="let p of publicPhotos; let idx = index">
+
+            <div class="photoStage">
+              <img class="heroImg" [src]="p.url" [alt]="'Profile photo ' + (idx+1)" />
+
+              <button class="capBtn" (click)="toggleCaption(idx, p.caption); $event.stopPropagation()">
+                Caption
+              </button>
+
+              <div class="capPop" *ngIf="captionOpenIndex === idx">
+                {{ captionText || 'No caption added.' }}
+              </div>
+
+              <div class="heroTag" *ngIf="idx === 0">
+                <div class="name">
+                  {{ publicName }}<span *ngIf="publicAge">, {{ publicAge }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+
+              <ng-container *ngIf="idx === 0">
+                <div class="cardTitle">Basics</div>
+
+                <div class="chipsRow" *ngIf="basicsChips.length">
+                  <div class="chip" *ngFor="let c of basicsChips">{{ c }}</div>
+                </div>
+
+                <div class="cardBody" *ngIf="publicIntentOpennessLine">{{ publicIntentOpennessLine }}</div>
+              </ng-container>
+
+              <ng-container *ngIf="idx === 1 && publicOptional.length">
+                <div class="cardTitle">Small things</div>
+                <div class="chipsRow">
+                  <div class="chip" *ngFor="let f of publicOptional">
+                    <b>{{ prettyKey(f.key) }}</b>&nbsp;{{ f.value }}
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="idx === 2 && publicBio">
+                <div class="cardTitle">Bio</div>
+                <div class="cardBody">{{ publicBio }}</div>
+              </ng-container>
+
+              <ng-container *ngIf="idx > 2">
+                <div class="cardBody" style="opacity:.55;">&nbsp;</div>
+              </ng-container>
+
+            </div>
+
+          </section>
+        </ng-container>
+
+        <ng-template #noPhotos>
+          <div class="noPhotos">No photos to show yet.</div>
+        </ng-template>
+
+      </div>
+    </div>
+
+  </ng-container>
+
+  <div class="toast" *ngIf="toast">{{ toast }}</div>
+</div>

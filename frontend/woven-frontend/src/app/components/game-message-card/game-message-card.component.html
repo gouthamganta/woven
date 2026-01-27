@@ -1,0 +1,42 @@
+<div class="card" [class.pending]="isPending" [class.active]="isActive" [class.completed]="isCompleted">
+  <div class="top">
+    <div class="badge">GAME</div>
+    <div class="title">{{ title }}</div>
+    <div class="meta">
+      <span *ngIf="isPending && !isExpired">Pending</span>
+      <span *ngIf="isPending && isExpired">Expired</span>
+      <span *ngIf="isActive">Active</span>
+      <span *ngIf="isCompleted">Completed</span>
+    </div>
+  </div>
+
+  <div class="body">
+    {{ message.body }}
+  </div>
+
+  <!-- ✅ Accept/Reject buttons - ONLY for receiver -->
+  <div class="actions" *ngIf="shouldShowAcceptReject">
+    <button class="btn primary" (click)="onAccept()">Accept</button>
+    <button class="btn ghost" (click)="onReject()">Decline</button>
+  </div>
+
+  <!-- ✅ Waiting message - ONLY for sender while pending -->
+  <div class="waiting" *ngIf="shouldShowWaiting">
+    <span class="waitingText">Waiting for them to respond...</span>
+  </div>
+
+  <!-- ✅ Play button - for BOTH users when active -->
+  <div class="actions" *ngIf="shouldShowPlay">
+    <button class="btn primary" (click)="onPlay()">▶ Play Game</button>
+  </div>
+
+  <!-- ✅ View Results button - when completed -->
+  <div class="actions" *ngIf="shouldShowResults">
+    <button class="btn ghost" (click)="onOpenResult()">👁 View Results</button>
+  </div>
+
+  <!-- ✅ Expired message -->
+  <div class="expired" *ngIf="isExpired">
+    <span class="expiredText">This game invitation expired</span>
+  </div>
+</div>

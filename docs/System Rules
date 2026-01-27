@@ -1,0 +1,114 @@
+1) Daily Interaction Budget (UTC)
+
+Purpose: enforce 5 total interactions/day and max 2 from Pending.
+
+State (per user/day)
+
+total_used (0..5)
+
+pending_used (0..2)
+
+Transitions (events)
+
+use_moment_interaction → increments total_used
+
+use_pending_interaction → increments total_used and pending_used
+
+utc_midnight_reset → new row for next UTC date (or lazy-create)
+
+Invariants (MUST NEVER BREAK)
+
+0 ≤ total_used ≤ 5
+
+0 ≤ pending_used ≤ 2
+
+pending_used ≤ total_used
+
+Budget is keyed by UTC date, not local time
+
+2) Pending State Machine
+
+Pending is not a match. It’s a queue entry that consumes the same daily currency later.
+
+States (for a pending record)
+
+PENDING (exists)
+
+CONSUMED (converted into a balloon match)
+
+REMOVED (dropped by user / cleanup)
+
+You can implement CONSUMED/REMOVED either:
+
+as a status column, or
+
+by deleting the row and writing an audit event (later).
+
+For Sprint 1, simplest clean approach:
+
+Delete when consumed/removed (no status column yet)
+
+Add status later if you want analytics.
+
+Transitions
+
+add_to_pending(user → target) → creates row
+
+convert_pending_to_moment → deletes row + creates match
+
+remove_pending → deletes row
+
+Invariants
+
+A user can have at most one pending row per target at a time
+
+Pending does not block resurfacing
+
+Pending conversion consumes the daily budget under pending_used
+
+3) Balloon Match State Machine (the heart)
+
+This is the “moment” object.
+
+States
+
+ACTIVE
+
+CLOSED
+
+Close Reasons
+
+POP (user action OR after “Find Love” stage decisions later)
+
+EXPIRE (36h elapsed)
+
+Match Types
+
+PURE (both chose same)
+
+EDGE (different choices; system assigns edge owner)
+
+Transitions
+
+create_active_match → ACTIVE (with expires_at = created_at + 36h)
+
+close_pop → CLOSED(POP)
+
+close_expire → CLOSED(EXPIRE) (via job)
+
+Invariants
+
+expires_at = created_at + 36h always
+
+CLOSED is immutable (no reopen)
+
+EXPIRE happens only after expires_at <= now
+
+POP can happen anytime while ACTIVE (once eligible)
+
+expired/popped ≠ blocked (resurfacing allowed unless in blocks)
+
+If match_type = EDGE then edge_owner_id MUST be set
+
+If match_type = PURE then edge_owner_id MUST be null
+
