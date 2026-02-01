@@ -23,54 +23,175 @@ type Intent = 'dating' | 'relationship' | 'marriage' | 'casual' | 'not_sure';
       stepLabel="Profile"
     >
       <style>
-        .stack{ display:grid; gap:14px; }
-        .label{ font-size:12px; opacity:.7; margin-bottom:6px; display:block; }
-        .chips{ display:flex; flex-wrap:wrap; gap:10px; }
-        .chip{
-          padding:10px 12px;
-          border-radius:999px;
-          border:1px solid rgba(0,0,0,.14);
-          background: rgba(255,255,255,.75);
-          cursor:pointer;
-          font-size:13px;
+        /* ===== Layout ===== */
+        .stack {
+          display: grid;
+          gap: 24px;
         }
-        .chip.active{
-          background:#111;
-          color:#fff;
-          border-color:#111;
-        }
-        .helper{ font-size:12px; opacity:.65; line-height:1.4; margin-top:6px; }
-        .textarea{
-          width:100%;
-          min-height: 90px;
-          resize: vertical;
-          padding: 12px;
-          border-radius: 14px;
-          border: 1px solid rgba(0,0,0,.18);
-          outline: none;
-          background: rgba(255,255,255,.85);
-        }
-        .textarea:focus{ border-color:#111; box-shadow:0 0 0 3px rgba(0,0,0,.08); }
-        .row{
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-          gap:12px;
-          flex-wrap:wrap;
-        }
-        .btn{
-          width:100%;
-          padding:12px 14px;
-          border-radius: 14px;
-          border:0;
-          background:#111;
-          color:#fff;
-          cursor:pointer;
+
+        /* ===== Labels ===== */
+        .label {
+          font-size: 12px;
           font-weight: 600;
+          color: #0f0f0f;
+          opacity: 0.65;
+          margin-bottom: 10px;
+          display: block;
+          letter-spacing: 0.01em;
         }
-        .btn:disabled{ opacity:.6; cursor:not-allowed; }
-        .error{ color:#b00020; font-size:13px; margin-top:6px; }
-        .mini{ font-size:12px; opacity:.65; }
+
+        /* ===== Chips ===== */
+        .chips {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+
+        .chip {
+          padding: 12px 18px;
+          min-height: 44px;
+          border-radius: 100px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          background: rgba(255, 255, 255, 0.8);
+          cursor: pointer;
+          font-size: 13px;
+          font-weight: 600;
+          color: #0f0f0f;
+          transition: all 0.2s ease;
+        }
+
+        .chip:hover:not(.active) {
+          border-color: rgba(0, 0, 0, 0.2);
+          background: rgba(255, 255, 255, 1);
+        }
+
+        .chip.active {
+          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+          color: #fff;
+          border-color: transparent;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .chip:focus-visible {
+          outline: 2px solid #0f0f0f;
+          outline-offset: 2px;
+        }
+
+        /* ===== Helper Text ===== */
+        .helper {
+          font-size: 12px;
+          font-weight: 450;
+          color: #0f0f0f;
+          opacity: 0.55;
+          line-height: 1.45;
+          margin-top: 10px;
+        }
+
+        /* ===== Textarea ===== */
+        .textarea {
+          width: 100%;
+          min-height: 100px;
+          resize: vertical;
+          padding: 14px;
+          border-radius: 14px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          outline: none;
+          background: rgba(255, 255, 255, 0.9);
+          font-size: 14px;
+          font-weight: 500;
+          color: #0f0f0f;
+          line-height: 1.5;
+          transition: all 0.2s ease;
+          font-family: inherit;
+        }
+
+        .textarea::placeholder {
+          color: #0f0f0f;
+          opacity: 0.4;
+        }
+
+        .textarea:focus {
+          border-color: #0f0f0f;
+          box-shadow: 0 0 0 3px rgba(15, 15, 15, 0.06);
+        }
+
+        /* ===== Row ===== */
+        .row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-top: 8px;
+        }
+
+        /* ===== Mini Text ===== */
+        .mini {
+          font-size: 11px;
+          font-weight: 600;
+          color: #0f0f0f;
+          opacity: 0.45;
+        }
+
+        /* ===== Primary Button ===== */
+        .btn {
+          width: 100%;
+          padding: 14px 18px;
+          border-radius: 14px;
+          border: 0;
+          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+          color: #fff;
+          cursor: pointer;
+          font-weight: 650;
+          font-size: 15px;
+          letter-spacing: -0.01em;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .btn:hover:not(:disabled) {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+        }
+
+        .btn:active:not(:disabled) {
+          transform: translateY(0);
+        }
+
+        .btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .btn:focus-visible {
+          outline: 2px solid #0f0f0f;
+          outline-offset: 2px;
+        }
+
+        /* ===== Error ===== */
+        .error {
+          padding: 12px 14px;
+          border-radius: 12px;
+          background: rgba(176, 0, 32, 0.06);
+          border: 1px solid rgba(176, 0, 32, 0.12);
+          color: #b00020;
+          font-size: 13px;
+          font-weight: 500;
+          line-height: 1.4;
+        }
+
+        /* ===== Mobile ===== */
+        @media (max-width: 480px) {
+          .chips {
+            gap: 8px;
+          }
+
+          .chip {
+            padding: 12px 16px;
+            min-height: 44px;
+            font-size: 13px;
+          }
+        }
       </style>
 
       <div class="stack">

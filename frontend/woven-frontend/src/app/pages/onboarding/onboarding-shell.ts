@@ -41,155 +41,234 @@ import { CommonModule } from '@angular/common';
     </div>
   `,
   styles: [`
-    .bg{
-      min-height:100vh;
-      color:#111;
-      font-family: inherit;
+    /* ===== Base ===== */
+    .bg {
+      min-height: 100vh;
+      color: #0f0f0f;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
       position: relative;
-      /* CRITICAL FIX: remove overflow:hidden so WOW layer shows */
       overflow: visible;
-      /* Keep background transparent to let WOW layer show through */
       background: transparent;
     }
 
-    .top{
+    /* ===== Top Bar ===== */
+    .top {
       position: fixed;
-      top: 20px;
-      left: 22px;
-      right: 22px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      pointer-events:none;
-      opacity:.92;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
       z-index: 5;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 100%);
     }
 
-    .brand{
-      letter-spacing:.22em;
-      font-weight:750;
-      font-size:12px;
-      text-transform: uppercase;
-    }
-
-    .meta{
-      font-size:12px;
-      opacity:.65;
-    }
-
-    .watermark{
-      position:absolute;
-      right:-40px;
-      top: -30px;
-      font-size: 240px;
+    .brand {
+      letter-spacing: 0.25em;
       font-weight: 800;
-      letter-spacing: -0.06em;
-      color: rgba(0,0,0,0.035);
-      transform: rotate(-8deg);
-      user-select:none;
-      pointer-events:none;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #0f0f0f;
+      opacity: 0.85;
+    }
+
+    .meta {
+      font-size: 11px;
+      font-weight: 600;
+      color: #0f0f0f;
+      opacity: 0.5;
+      letter-spacing: 0.02em;
+    }
+
+    /* ===== Watermark ===== */
+    .watermark {
+      position: absolute;
+      right: -50px;
+      top: -40px;
+      font-size: 280px;
+      font-weight: 900;
+      letter-spacing: -0.08em;
+      color: rgba(0, 0, 0, 0.025);
+      transform: rotate(-12deg);
+      user-select: none;
+      pointer-events: none;
       z-index: 0;
     }
 
-    .wrap{
-      max-width: 620px;
+    /* ===== Content Wrapper ===== */
+    .wrap {
+      max-width: 560px;
       margin: 0 auto;
-      padding: 92px 18px 44px;
+      padding: 100px 20px 60px;
       position: relative;
       z-index: 2;
     }
 
-    .card{
+    /* ===== Card ===== */
+    .card {
       position: relative;
-      background: rgba(255,255,255,0.94);
-      border: 1px solid rgba(0,0,0,.08);
-      border-radius: 20px;
-      padding: 22px;
-      box-shadow: 0 16px 40px rgba(0,0,0,.08);
-      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.04),
+        0 4px 12px rgba(0, 0, 0, 0.04),
+        0 16px 48px rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
 
-    .cardBrand{
+    .cardBrand {
       position: absolute;
-      top: 14px;
-      right: 16px;
-      font-size: 9px;
-      letter-spacing: .28em;
+      top: 16px;
+      right: 20px;
+      font-size: 8px;
+      letter-spacing: 0.3em;
       font-weight: 800;
-      opacity: .22;
+      opacity: 0.15;
       pointer-events: none;
       user-select: none;
+      text-transform: uppercase;
     }
 
-    .progressRow{
-      display:grid;
-      gap:10px;
-      margin-bottom: 16px;
+    /* ===== Progress ===== */
+    .progressRow {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
-    .progressText{
-      font-size:12px;
-      opacity:.65;
+    .progressText {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #0f0f0f;
+      opacity: 0.45;
     }
 
-    .bar{
-      height: 7px;
-      background: rgba(0,0,0,.08);
-      border-radius: 999px;
-      overflow:hidden;
+    .bar {
+      height: 6px;
+      background: rgba(0, 0, 0, 0.06);
+      border-radius: 100px;
+      overflow: hidden;
     }
 
-    .fill{
-      height:100%;
-      background:#111;
-      border-radius:999px;
-      transition: width .25s ease;
+    .fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0f0f0f 0%, #2a2a2a 100%);
+      border-radius: 100px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .title{
-      margin:0 0 6px;
-      font-size: 26px;
-      letter-spacing:-0.02em;
+    /* ===== Typography ===== */
+    .title {
+      margin: 0 0 8px;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
       line-height: 1.15;
+      color: #0f0f0f;
     }
 
-    .sub{
-      margin:0 0 18px;
+    .sub {
+      margin: 0 0 24px;
       font-size: 14px;
-      opacity:.74;
-      line-height:1.45;
-      max-width: 54ch;
+      font-weight: 450;
+      line-height: 1.55;
+      color: #0f0f0f;
+      opacity: 0.6;
+      max-width: 48ch;
     }
 
-    .footer{
-      margin-top: 18px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(0,0,0,.07);
-      display:flex;
-      justify-content:space-between;
-      font-size:12px;
-      opacity:.62;
-      align-items:center;
+    /* ===== Footer ===== */
+    .footer {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .tiny{
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      border: 1px solid rgba(0,0,0,.12);
-      font-weight: 750;
-      letter-spacing: .08em;
+    .hint {
+      font-size: 11px;
+      font-weight: 500;
+      color: #0f0f0f;
+      opacity: 0.4;
+      letter-spacing: 0.01em;
     }
 
-    @media (max-width: 520px){
-      .watermark{ font-size: 190px; right:-55px; top:-40px; }
-      .card{ padding: 18px; border-radius: 18px; }
-      .title{ font-size: 22px; }
-      .wrap{ padding-top: 84px; }
-      .cardBrand{ font-size: 8px; }
+    .tiny {
+      width: 24px;
+      height: 24px;
+      border-radius: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: #0f0f0f;
+      opacity: 0.5;
+      transition: all 0.2s ease;
+    }
+
+    .tiny:hover {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 520px) {
+      .watermark {
+        font-size: 200px;
+        right: -60px;
+        top: -50px;
+      }
+
+      .card {
+        padding: 22px;
+        border-radius: 20px;
+      }
+
+      .title {
+        font-size: 24px;
+      }
+
+      .wrap {
+        padding: 90px 16px 48px;
+      }
+
+      .top {
+        padding: 14px 18px;
+      }
+
+      .cardBrand {
+        font-size: 7px;
+        top: 14px;
+        right: 16px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .card {
+        padding: 18px;
+        border-radius: 18px;
+      }
+
+      .title {
+        font-size: 22px;
+      }
+
+      .sub {
+        font-size: 13px;
+      }
     }
   `]
 })

@@ -20,25 +20,66 @@ import { OnboardingShellComponent } from './onboarding-shell';
       stepLabel="Onboarding"
     >
       <style>
+        .startContent {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
         .btn {
           width: 100%;
-          padding: 12px 14px;
+          padding: 14px 18px;
           border-radius: 14px;
           border: 0;
-          background: #111;
+          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
           color: #fff;
           cursor: pointer;
-          font-weight: 600;
+          font-weight: 650;
+          font-size: 15px;
+          letter-spacing: -0.01em;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
         }
-        .btn:disabled { opacity: .6; cursor: not-allowed; }
-        .error { margin-top: 12px; color: #b00020; font-size: 13px; }
+
+        .btn:hover:not(:disabled) {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+        }
+
+        .btn:active:not(:disabled) {
+          transform: translateY(0);
+        }
+
+        .btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .btn:focus-visible {
+          outline: 2px solid #0f0f0f;
+          outline-offset: 2px;
+        }
+
+        .error {
+          margin-top: 4px;
+          padding: 12px 14px;
+          border-radius: 12px;
+          background: rgba(176, 0, 32, 0.06);
+          border: 1px solid rgba(176, 0, 32, 0.12);
+          color: #b00020;
+          font-size: 13px;
+          font-weight: 500;
+          line-height: 1.4;
+        }
       </style>
 
-      <button class="btn" type="button" (click)="continue()" [disabled]="loading">
-        {{ loading ? 'Continuing…' : 'Continue' }}
-      </button>
+      <div class="startContent">
+        <button class="btn" type="button" (click)="continue()" [disabled]="loading">
+          {{ loading ? 'Continuing...' : 'Continue' }}
+        </button>
 
-      <div *ngIf="error" class="error">{{ error }}</div>
+        <div *ngIf="error" class="error">{{ error }}</div>
+      </div>
     </woven-onboarding-shell>
   `
 })

@@ -35,75 +35,247 @@ type CityOption = {
       stepLabel="Profile"
     >
       <style>
-        .stack { display:grid; gap:14px; }
-        .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-        .label { display:block; font-size:12px; opacity:.7; margin-bottom:6px; }
+        /* ===== Layout ===== */
+        .stack {
+          display: grid;
+          gap: 20px;
+        }
 
+        .grid2 {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 14px;
+        }
+
+        /* ===== Labels ===== */
+        .label {
+          display: block;
+          font-size: 12px;
+          font-weight: 600;
+          color: #0f0f0f;
+          opacity: 0.65;
+          margin-bottom: 8px;
+          letter-spacing: 0.01em;
+        }
+
+        /* ===== Inputs ===== */
         .input, select {
-          width:100%;
-          padding:10px 12px;
-          border:1px solid rgba(0,0,0,.18);
-          border-radius:14px;
-          outline:none;
-          background: rgba(255,255,255,.85);
+          width: 100%;
+          padding: 12px 14px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 12px;
+          outline: none;
+          background: rgba(255, 255, 255, 0.9);
+          font-size: 14px;
+          font-weight: 500;
+          color: #0f0f0f;
+          transition: all 0.2s ease;
         }
+
+        .input::placeholder {
+          color: #0f0f0f;
+          opacity: 0.4;
+        }
+
         .input:focus, select:focus {
-          border-color:#111;
-          box-shadow: 0 0 0 3px rgba(0,0,0,.08);
+          border-color: #0f0f0f;
+          box-shadow: 0 0 0 3px rgba(15, 15, 15, 0.06);
         }
 
-        .checks { display:flex; gap:14px; flex-wrap:wrap; }
+        select {
+          cursor: pointer;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 12px center;
+          padding-right: 36px;
+        }
+
+        /* ===== Checkboxes ===== */
+        .checks {
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
         .check {
-          display:flex;
-          align-items:center;
-          gap:8px;
-          padding:8px 10px;
-          border-radius:999px;
-          border:1px solid rgba(0,0,0,.12);
-          background: rgba(255,255,255,.6);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 16px;
+          min-height: 44px;
+          border-radius: 100px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          background: rgba(255, 255, 255, 0.8);
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 13px;
+          font-weight: 550;
         }
 
+        .check:hover {
+          border-color: rgba(0, 0, 0, 0.2);
+          background: rgba(255, 255, 255, 1);
+        }
+
+        .check input[type="checkbox"] {
+          width: 16px;
+          height: 16px;
+          accent-color: #0f0f0f;
+          cursor: pointer;
+        }
+
+        /* ===== Range Indicators ===== */
         .rangeRow {
-          display:flex;
-          justify-content:space-between;
-          font-size:11px;
-          opacity:.6;
-          margin-top:6px;
+          display: flex;
+          justify-content: space-between;
+          font-size: 11px;
+          font-weight: 600;
+          color: #0f0f0f;
+          opacity: 0.45;
+          margin-top: 8px;
         }
 
+        /* ===== Segment Buttons ===== */
         .segment {
-          display:flex;
-          gap:10px;
-          flex-wrap:wrap;
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
         }
+
         .segbtn {
-          padding:10px 12px;
-          border-radius:999px;
-          border:1px solid rgba(0,0,0,.12);
-          background: rgba(255,255,255,.6);
-          cursor:pointer;
-          font-weight:600;
-          font-size:13px;
+          padding: 12px 18px;
+          min-height: 44px;
+          border-radius: 100px;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          background: rgba(255, 255, 255, 0.8);
+          cursor: pointer;
+          font-weight: 600;
+          font-size: 13px;
+          color: #0f0f0f;
+          transition: all 0.2s ease;
         }
+
+        .segbtn:hover:not(.active) {
+          border-color: rgba(0, 0, 0, 0.2);
+          background: rgba(255, 255, 255, 1);
+        }
+
         .segbtn.active {
-          background:#111;
-          color:#fff;
-          border-color:#111;
+          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+          color: #fff;
+          border-color: transparent;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
+        .segbtn:focus-visible {
+          outline: 2px solid #0f0f0f;
+          outline-offset: 2px;
+        }
+
+        /* ===== Range Slider ===== */
+        input[type="range"] {
+          width: 100%;
+          height: 6px;
+          border-radius: 100px;
+          background: rgba(0, 0, 0, 0.08);
+          outline: none;
+          -webkit-appearance: none;
+          appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #0f0f0f;
+          cursor: pointer;
+          border: 3px solid #fff;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          transition: transform 0.15s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+          transform: scale(1.1);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #0f0f0f;
+          cursor: pointer;
+          border: 3px solid #fff;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== Primary Button ===== */
         .btn {
-          width:100%;
-          padding:12px 14px;
-          border-radius:14px;
-          border:0;
-          background:#111;
-          color:#fff;
-          cursor:pointer;
-          font-weight:600;
+          width: 100%;
+          padding: 14px 18px;
+          border-radius: 14px;
+          border: 0;
+          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+          color: #fff;
+          cursor: pointer;
+          font-weight: 650;
+          font-size: 15px;
+          letter-spacing: -0.01em;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+          margin-top: 8px;
         }
-        .btn:disabled { opacity:.6; cursor:not-allowed; }
 
-        .error { color:#b00020; font-size:13px; margin-top:6px; }
+        .btn:hover:not(:disabled) {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+        }
+
+        .btn:active:not(:disabled) {
+          transform: translateY(0);
+        }
+
+        .btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .btn:focus-visible {
+          outline: 2px solid #0f0f0f;
+          outline-offset: 2px;
+        }
+
+        /* ===== Error ===== */
+        .error {
+          padding: 12px 14px;
+          border-radius: 12px;
+          background: rgba(176, 0, 32, 0.06);
+          border: 1px solid rgba(176, 0, 32, 0.12);
+          color: #b00020;
+          font-size: 13px;
+          font-weight: 500;
+          line-height: 1.4;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 480px) {
+          .grid2 {
+            grid-template-columns: 1fr;
+            gap: 16px;
+          }
+
+          .segment {
+            gap: 8px;
+          }
+
+          .segbtn {
+            padding: 12px 16px;
+            min-height: 44px;
+            font-size: 13px;
+          }
+        }
       </style>
 
       <div class="stack">
@@ -193,13 +365,12 @@ type CityOption = {
             Distance: <b>{{ model.distanceMiles }}</b> miles
           </label>
 
-          <!-- ✅ backend enforces 15..100 -->
+          <!-- backend enforces 15..100 -->
           <input
             type="range"
             min="15"
             max="100"
             [(ngModel)]="model.distanceMiles"
-            style="width:100%;"
           />
 
           <div class="rangeRow">
