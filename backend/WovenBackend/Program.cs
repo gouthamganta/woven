@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -20,28 +21,30 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 });
 
 // ----------------------------------------------------
-// CORS (environment-aware)
+// CORS (configuration-driven, no environment branching)
 // ----------------------------------------------------
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("DefaultCorsPolicy", policy =>
     {
-        if (builder.Environment.IsDevelopment())
+        // 1. Try binding as string[] (works with JSON arrays + indexed env vars)
+        var origins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+
+        // 2. Fallback: read as comma-separated string (works with single env var)
+        if (origins == null || origins.Length == 0)
         {
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        }
-        else
-        {
-            var allowedOrigins = builder.Configuration["Cors:AllowedOrigins"]?
+            origins = builder.Configuration["Cors:AllowedOrigins"]?
                 .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                 ?? Array.Empty<string>();
-            policy.WithOrigins(allowedOrigins)
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  .AllowCredentials();
         }
+
+        // 3. Filter out wildcards — never allow "*" with credentials
+        origins = origins.Where(o => o != "*").ToArray();
+
+        policy.WithOrigins(origins)
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -49,7 +52,16 @@ builder.Services.AddCors(options =>
 // DATABASE
 // ----------------------------------------------------
 builder.Services.AddDbContext<WovenDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        npgsqlOptions =>
+        {
+            npgsqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorCodesToAdd: null);
+            npgsqlOptions.CommandTimeout(30);
+        }));
 
 // ----------------------------------------------------
 // SWAGGER
@@ -228,15 +240,54 @@ builder.Services.AddScoped<WovenBackend.Services.Games.IGameOutcomeService,
 var app = builder.Build();
 
 // ----------------------------------------------------
+// STARTUP LOGGING
+// ----------------------------------------------------
+var logger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Startup");
+logger.LogInformation("Environment: {Env}", app.Environment.EnvironmentName);
+logger.LogInformation("ASPNETCORE_URLS: {Urls}", Environment.GetEnvironmentVariable("ASPNETCORE_URLS") ?? "(not set)");
+logger.LogInformation("DB connection configured: {HasDb}", !string.IsNullOrEmpty(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// ----------------------------------------------------
+// AUTO-MIGRATE DATABASE
+// ----------------------------------------------------
+// Applies any pending EF Core migrations on startup.
+// Safe: uses __EFMigrationsHistory table to skip already-applied migrations.
+// Required for Container Apps where the DB is on a private VNet
+// and cannot be reached from local dev machines.
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+    try
+    {
+        logger.LogInformation("Applying pending database migrations...");
+        db.Database.Migrate();
+        logger.LogInformation("Database migrations applied successfully.");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Failed to apply database migrations. The app will start but some features may not work.");
+    }
+}
+
+// ----------------------------------------------------
 // MIDDLEWARE
 // ----------------------------------------------------
-app.UseCors("AllowAll");
+
+// Azure Container Apps terminates TLS at the ingress and forwards HTTP.
+// ForwardedHeaders ensures the app sees the original scheme/IP from X-Forwarded-* headers.
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+app.UseCors("DefaultCorsPolicy");
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseDeveloperExceptionPage();
+    app.UseHttpsRedirection();
 }
 else
 {
@@ -249,31 +300,40 @@ else
             await context.Response.WriteAsJsonAsync(new { error = "An unexpected error occurred" });
         });
     });
+    // HTTPS redirect NOT used in production — Container Apps handles TLS termination at ingress
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 // ----------------------------------------------------
-// HEALTH
+// HEALTH ENDPOINTS
 // ----------------------------------------------------
-app.MapGet("/health", async (WovenDbContext db) =>
+// /health/live  — Liveness: "is the process alive?" No external deps. Must always return 200.
+//                 Used by Azure Container Apps liveness_probe. If this fails, the container is killed.
+// /health/ready — Readiness: "can I serve traffic?" Checks DB connectivity.
+//                 Used by Azure Container Apps readiness_probe. If this fails, traffic is routed away.
+// /health       — Lightweight check for backwards compatibility and general monitoring.
+
+app.MapGet("/health/live", () => Results.Ok(new { status = "alive" }));
+
+app.MapGet("/health/ready", async (WovenDbContext db) =>
 {
     try
     {
         await db.Database.CanConnectAsync();
-        return Results.Ok(new { status = "ok", database = "connected" });
+        return Results.Ok(new { status = "ready", database = "connected" });
     }
-    catch
+    catch (Exception ex)
     {
         return Results.Json(
-            new { status = "degraded", database = "unavailable" },
+            new { status = "not_ready", database = "unavailable", error = ex.Message },
             statusCode: 503
         );
     }
 });
+
+app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 
 // ----------------------------------------------------
 // ENDPOINTS

@@ -43,9 +43,9 @@ services:
       - Jwt__Issuer=WovenBackend
       - Jwt__Audience=WovenFrontend
       - Jwt__ExpiryMinutes=60
-      - GoogleAuth__ClientId=${GOOGLE_CLIENT_ID}
+      - GoogleAuth__ClientId=211033152902-umjjk9n5mqd02s97skerf9sn383m0v00.apps.googleusercontent.com
       - OpenAI__ApiKey=${OPENAI_API_KEY}
-      - Cors__AllowedOrigins=http://localhost,http://localhost:80,https://your-domain.com
+      - Cors__AllowedOrigins=http://localhost,http://localhost:80,https://prepared-lucia-marc-schools.trycloudflare.com
     ports:
       - "5135:8080"
     healthcheck:

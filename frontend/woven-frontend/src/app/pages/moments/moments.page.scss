@@ -29,11 +29,18 @@
 .pill{
   border:1px solid rgba(0,0,0,.12);
   background:rgba(255,255,255,.85);
-  padding:8px 10px;
+  padding:12px 16px;
+  min-height: 44px;
   border-radius:999px;
-  font-size:12px;
+  font-size:13px;
   font-weight:800;
   cursor:pointer;
+  transition: all 0.2s ease;
+}
+
+.pill:hover {
+  background: rgba(255,255,255,1);
+  border-color: rgba(0,0,0,.18);
 }
 
 .pill.outline{ background:transparent; }
@@ -228,16 +235,29 @@
   border:1px solid rgba(0,0,0,0.10);
   background: rgba(255,255,255,0.90);
   border-radius: 16px;
-  padding: 10px 10px 9px;
+  padding: 14px 12px;
+  min-height: 80px;
   cursor:pointer;
   text-align:center;
+  transition: all 0.2s ease;
+}
+
+.action:hover {
+  background: rgba(255,255,255,1);
+  border-color: rgba(0,0,0,0.15);
+  transform: translateY(-1px);
+}
+
+.action:active {
+  transform: translateY(0);
 }
 
 .action.hold{ background: rgba(0,0,0,0.04); }
+.action.hold:hover { background: rgba(0,0,0,0.06); }
 
-.emo{ font-size:20px; line-height:1; }
-.lab{ margin-top:6px; font-weight: 950; font-size:13px; }
-.mini{ margin-top:3px; font-size:11px; opacity:.6; }
+.emo{ font-size:22px; line-height:1; }
+.lab{ margin-top:6px; font-weight: 950; font-size:14px; }
+.mini{ margin-top:4px; font-size:12px; opacity:.55; font-weight: 500; }
 
 .hintLine{
   text-align:center;
@@ -261,17 +281,20 @@
 }
 
 .theme-question {
-  margin-top: 8px;
-  padding: 10px 12px;
-  background: rgba(0,0,0,0.03);
-  border-radius: 10px;
+  margin-top: 10px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.02) 100%);
+  border-radius: 14px;
   border: 1px solid rgba(0,0,0,0.06);
 
   p {
     margin: 0;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 600;
     font-style: italic;
-    opacity: 0.8;
+    color: #0f0f0f;
+    opacity: 0.85;
+    line-height: 1.4;
   }
 }
 
@@ -281,8 +304,8 @@
   right: 14px;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(8px);
-  border-radius: 8px;
-  padding: 6px 10px;
+  border-radius: 10px;
+  padding: 8px 12px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 
   .bar-container {
@@ -298,17 +321,17 @@
 
   .divider {
     width: 1px;
-    height: 12px;
+    height: 14px;
     background: rgba(255, 255, 255, 0.4);
-    margin: 0 4px;
+    margin: 0 5px;
   }
 
   .bar {
     display: block;
-    width: 6px;
-    height: 14px;
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.25);
+    width: 7px;
+    height: 16px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.2);
     transition: background 0.2s ease;
   }
 
@@ -321,14 +344,61 @@
   }
 }
 
+// New user rating placeholder
+.rating-new {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  .new-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .new-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #a78bfa;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
 // Mobile responsiveness
 @media (max-width: 480px) {
   .title {
     font-size: 20px;
   }
 
+  .head {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
   .actionsBar {
     gap: 8px;
+    padding: 12px;
   }
 
   .heroStage {
@@ -336,15 +406,25 @@
   }
 
   .action {
-    padding: 8px 6px;
+    padding: 12px 8px;
+    min-height: 70px;
   }
 
   .emo {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .lab {
-    font-size: 12px;
+    font-size: 13px;
+  }
+
+  .mini {
+    font-size: 11px;
+  }
+
+  .pill {
+    padding: 10px 14px;
+    min-height: 44px;
   }
 }
 
@@ -359,19 +439,20 @@
 
   .actionsBar {
     gap: 6px;
-    padding: 12px;
+    padding: 10px;
   }
 
   .action {
-    padding: 8px 4px;
+    padding: 10px 6px;
+    min-height: 66px;
   }
 
   .emo {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .lab {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .mini {

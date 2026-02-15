@@ -21,30 +21,30 @@
   </div>
 
   <div class="coach" *ngIf="showCoach">
-    <div class="coachTitle">Not swiping. Not judging.</div>
+    <div class="coachTitle">Imagine you're meeting them.</div>
     <div class="coachBody">
-      You’re choosing the <b>moment</b> between you — not a person.
-      <span class="muted">Light. Honest. Daily.</span>
+      If you had one date with this person — <b>what kind would it be?</b>
+      <span class="muted">No pressure. Just instinct.</span>
     </div>
 
     <button class="learn" (click)="toggleLearnMore()">
-      {{ showLearnMore ? 'Close' : 'Rules' }}
+      {{ showLearnMore ? 'Close' : 'How it works' }}
     </button>
 
     <div class="learnBox" *ngIf="showLearnMore">
       <div class="lmRow">
-        <div class="lmQ">What is this?</div>
-        <div class="lmA">A daily vibe check. Quick, human, and intentionally small.</div>
+        <div class="lmQ">What am I choosing?</div>
+        <div class="lmA">The vibe of a hypothetical first date. Would you grab brunch or dinner with them?</div>
       </div>
 
       <div class="lmRow">
-        <div class="lmQ">What does “Saved” do?</div>
-        <div class="lmA">It lets you come back when your instinct is clearer.</div>
+        <div class="lmQ">What if I can't decide?</div>
+        <div class="lmA">Hit "Hold" — they'll be saved for when your gut knows.</div>
       </div>
 
       <div class="lmRow">
-        <div class="lmQ">What happens if we align?</div>
-        <div class="lmA">A balloon opens. Time is part of the charm.</div>
+        <div class="lmQ">What happens if we match?</div>
+        <div class="lmA">A timed balloon chat opens. The clock adds intention.</div>
       </div>
     </div>
   </div>
@@ -80,7 +80,7 @@
               </div>
             </div>
 
-            <!-- Rating bar (only shown when count >= 5) -->
+            <!-- Rating bar (shown when count >= 5, otherwise show "New" placeholder) -->
             <div class="rating-bar" *ngIf="c.rating?.show">
               <div class="bar-container">
                 <div class="red-bars">
@@ -96,6 +96,13 @@
                   <span class="bar" [class.filled]="getRatingBarFill('green', 3, c.rating!.average)"></span>
                   <span class="bar" [class.filled]="getRatingBarFill('green', 4, c.rating!.average)"></span>
                 </div>
+              </div>
+            </div>
+            <!-- New user placeholder when no rating yet -->
+            <div class="rating-new" *ngIf="!c.rating?.show">
+              <div class="new-label">
+                <span class="new-dot"></span>
+                <span>New</span>
               </div>
             </div>
           </div>
@@ -120,19 +127,19 @@
             <button class="action" (click)="choose('LEFT')">
               <div class="emo">{{ theme.left.emoji }}</div>
               <div class="lab">{{ theme.left.label }}</div>
-              <div class="mini">this side</div>
+              <div class="mini">date</div>
             </button>
 
             <button class="action hold" (click)="choose('HOLD')">
               <div class="emo">{{ theme.mid.emoji }}</div>
-              <div class="lab">Save</div>
-              <div class="mini">later</div>
+              <div class="lab">Hold</div>
+              <div class="mini">can't decide</div>
             </button>
 
             <button class="action" (click)="choose('RIGHT')">
               <div class="emo">{{ theme.right.emoji }}</div>
               <div class="lab">{{ theme.right.label }}</div>
-              <div class="mini">this side</div>
+              <div class="mini">date</div>
             </button>
           </div>
         </div>

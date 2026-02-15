@@ -36,8 +36,10 @@ import { Router } from '@angular/router';
     .panel{ background:rgba(255,255,255,0.92); border:1px solid rgba(0,0,0,.08); border-radius:20px; box-shadow:0 16px 40px rgba(0,0,0,.08); padding:18px; }
     .title{ margin:0 0 6px; font-size:20px; letter-spacing:-0.01em; }
     .sub{ margin:0 0 14px; font-size:13px; opacity:.7; }
-    .btn{ width:100%; border:none; border-radius:14px; padding:12px 12px; font-weight:650; background:#111; color:#fff; margin-top:10px; }
+    .btn{ width:100%; border:none; border-radius:14px; padding:14px 16px; min-height:44px; font-weight:650; font-size:15px; background:linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 100%); color:#fff; margin-top:10px; cursor:pointer; transition:all 0.2s ease; }
+    .btn:hover{ transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,0,0,.18); }
     .btn.ghost{ background:rgba(0,0,0,0.06); color:#111; }
+    .btn.ghost:hover{ background:rgba(0,0,0,0.1); transform:translateY(-1px); }
   `]
 })
 export class ProfilePageComponent {

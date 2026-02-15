@@ -42,15 +42,26 @@
 .pill {
   border: 1px solid rgba(0, 0, 0, 0.12);
   background: rgba(255, 255, 255, 0.82);
-  padding: 8px 10px;
+  padding: 12px 16px;
+  min-height: 44px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 850;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(0, 0, 0, 0.18);
 }
 
 .pill.outline {
   background: transparent;
+}
+
+.pill.outline:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .metaLine {
@@ -209,19 +220,22 @@
 .uspChip {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 8px 10px;
+  gap: 8px;
+  padding: 10px 14px;
+  min-height: 44px;
   border-radius: 999px;
   border: 1px solid rgba(0, 0, 0, 0.12);
   background: rgba(0, 0, 0, 0.03);
   font-weight: 900;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   user-select: none;
+  transition: all 0.2s ease;
 }
 
 .uspChip:hover {
   transform: translateY(-1px);
+  border-color: rgba(0, 0, 0, 0.18);
 }
 
 .uspChip.ready {
@@ -264,10 +278,17 @@
 .openPill {
   border: 1px solid rgba(0, 0, 0, 0.12);
   background: rgba(0, 0, 0, 0.04);
-  padding: 7px 12px;
+  padding: 10px 16px;
+  min-height: 44px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 900;
+  transition: all 0.2s ease;
+}
+
+.openPill:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.18);
 }
 
 /* toast */

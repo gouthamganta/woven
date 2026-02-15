@@ -277,9 +277,10 @@
 .diBtn {
   border: 1px solid rgba(0, 0, 0, 0.10);
   background: rgba(255, 255, 255, 0.9);
-  padding: 6px 10px;
+  padding: 10px 14px;
+  min-height: 44px;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 900;
   cursor: pointer;
   opacity: 0.85;
@@ -289,6 +290,7 @@
 .diBtn:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  opacity: 1;
 }
 
 .diBody {
@@ -318,14 +320,17 @@
 }
 
 .iconBtn {
-  width: 40px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   border-radius: 14px;
   border: 1px solid rgba(0, 0, 0, 0.12);
   background: rgba(255, 255, 255, 0.82);
   font-weight: 900;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .iconBtn:hover {
@@ -406,13 +411,14 @@
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 8px 10px;
+  gap: 8px;
+  padding: 10px 14px;
+  min-height: 44px;
   border-radius: 999px;
   border: 1px solid rgba(0, 0, 0, 0.12);
   background: rgba(0, 0, 0, 0.03);
   font-weight: 900;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   user-select: none;
   transition: all 0.2s;
@@ -457,13 +463,14 @@
 .chipBtn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 8px 10px;
+  gap: 8px;
+  padding: 10px 14px;
+  min-height: 44px;
   border-radius: 999px;
   border: 1px solid rgba(0, 0, 0, 0.12);
   background: rgba(255, 255, 255, 0.78);
   font-weight: 950;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -613,9 +620,11 @@
   flex: 1;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 16px;
-  padding: 11px 12px;
+  padding: 12px 14px;
+  min-height: 44px;
   background: rgba(255, 255, 255, 0.92);
   outline: none;
+  font-size: 14px;
   transition: all 0.2s;
 }
 
@@ -628,8 +637,10 @@
   border: 1px solid rgba(0, 0, 0, 0.12);
   background: rgba(0, 0, 0, 0.06);
   border-radius: 16px;
-  padding: 11px 12px;
+  padding: 12px 16px;
+  min-height: 44px;
   font-weight: 950;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -714,14 +725,15 @@
 .moreItem {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
-  padding: 10px 10px;
+  padding: 12px 14px;
+  min-height: 44px;
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.08);
   background: rgba(0, 0, 0, 0.02);
   font-weight: 950;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   text-align: left;
   transition: all 0.2s;
@@ -1111,12 +1123,13 @@
 }
 
 .decision-btn {
-  padding: 10px 16px;
+  padding: 12px 18px;
+  min-height: 44px;
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: #fff;
   border: none;
   border-radius: 12px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 900;
   cursor: pointer;
   transition: all 0.2s ease;

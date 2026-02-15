@@ -21,7 +21,10 @@ RUN npm run build -- --configuration=production
 # Stage 2: Serve with nginx
 FROM nginx:alpine AS runtime
 
-# Copy custom nginx config
+# Copy nginx template (envsubst replaces ${BACKEND_URL} at startup)
+COPY nginx.conf.template /etc/nginx/nginx.conf.template
+
+# Keep the original nginx.conf for Docker Compose (no envsubst needed)
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy built app from build stage
@@ -34,12 +37,12 @@ RUN adduser -D -g '' nginxuser && \
     touch /var/run/nginx.pid && \
     chown -R nginxuser:nginxuser /var/run/nginx.pid
 
-# Expose port
 EXPOSE 80
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --quiet --tries=1 --spider http://localhost:80/ || exit 1
+# Default BACKEND_URL for Docker Compose. Container Apps overrides this.
+ENV BACKEND_URL=http://backend:8080
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# At startup: if BACKEND_URL is not the default (i.e. overridden by Container Apps),
+# run envsubst on the template to produce the final nginx.conf.
+# Only substitute BACKEND_URL (not nginx's own $ variables like $host, $uri).
+CMD ["/bin/sh", "-c", "envsubst '$BACKEND_URL' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"]

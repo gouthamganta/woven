@@ -1,0 +1,139 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - "infra/**"
+      - "docs/**"
+      - "*.md"
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  id-token: write # OIDC
+  contents: read
+
+env:
+  ACR_NAME: wovenprodacr
+  ACR_LOGIN_SERVER: wovenprodacr.azurecr.io
+  RESOURCE_GROUP: woven-prod-rg
+  BACKEND_APP: woven-prod-backend
+  FRONTEND_APP: woven-prod-frontend
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  # ── Gate: CI must pass first ──────────────────────────
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  # ── Build images and push to ACR ──────────────────────
+  build:
+    name: Build & push images
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build backend image (ACR cloud build)
+        run: |
+          az acr build \
+            --registry $ACR_NAME \
+            --image woven-backend:$IMAGE_TAG \
+            --file backend/WovenBackend/Dockerfile \
+            backend/WovenBackend \
+            --no-logs
+
+      - name: Build frontend image (ACR cloud build)
+        run: |
+          az acr build \
+            --registry $ACR_NAME \
+            --image woven-frontend:$IMAGE_TAG \
+            --file frontend/woven-frontend/Dockerfile \
+            frontend/woven-frontend \
+            --no-logs
+
+  # ── Deploy to Container Apps ──────────────────────────
+  deploy:
+    name: Deploy to Azure Container Apps
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # Inject OpenAI key as Container App secret (never in Terraform state or image)
+      - name: Set OpenAI API key secret
+        run: |
+          az containerapp secret set \
+            --name $BACKEND_APP \
+            --resource-group $RESOURCE_GROUP \
+            --secrets openai-api-key="${{ secrets.OPENAI_API_KEY }}"
+
+      - name: Deploy backend
+        run: |
+          az containerapp update \
+            --name $BACKEND_APP \
+            --resource-group $RESOURCE_GROUP \
+            --image $ACR_LOGIN_SERVER/woven-backend:$IMAGE_TAG \
+            --set-env-vars "OpenAI__ApiKey=secretref:openai-api-key"
+
+      - name: Deploy frontend
+        run: |
+          az containerapp update \
+            --name $FRONTEND_APP \
+            --resource-group $RESOURCE_GROUP \
+            --image $ACR_LOGIN_SERVER/woven-frontend:$IMAGE_TAG
+
+      # ── Smoke checks ──────────────────────────────────
+      # Backend ingress is internal-only (not publicly reachable).
+      # Use Azure CLI to check revision health state instead of curl.
+      - name: Smoke check — backend revision health
+        run: |
+          for i in $(seq 1 30); do
+            HEALTH=$(az containerapp revision list \
+              --name $BACKEND_APP \
+              --resource-group $RESOURCE_GROUP \
+              --query "[?properties.active].properties.healthState" -o tsv 2>/dev/null || echo "Unknown")
+            if [ "$HEALTH" = "Healthy" ]; then
+              echo "Backend revision is Healthy (attempt $i)"
+              exit 0
+            fi
+            echo "Attempt $i: healthState=$HEALTH, retrying in 10s..."
+            sleep 10
+          done
+          echo "Backend health check failed after 30 attempts"
+          exit 1
+
+      - name: Smoke check — frontend
+        run: |
+          FRONTEND_FQDN=$(az containerapp show \
+            --name $FRONTEND_APP \
+            --resource-group $RESOURCE_GROUP \
+            --query "properties.configuration.ingress.fqdn" -o tsv)
+          FRONTEND_URL="https://$FRONTEND_FQDN"
+          for i in $(seq 1 15); do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$FRONTEND_URL/" || true)
+            if [ "$STATUS" = "200" ]; then
+              echo "Frontend OK (attempt $i)"
+              exit 0
+            fi
+            echo "Attempt $i: status=$STATUS, retrying in 10s..."
+            sleep 10
+          done
+          echo "Frontend smoke check failed after 15 attempts"
+          exit 1

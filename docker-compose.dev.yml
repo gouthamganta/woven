@@ -20,6 +20,7 @@ services:
       - Jwt__Key=DEV_SECRET_KEY_CHANGE_IN_PRODUCTION_MIN_32_CHARS
       - Jwt__Issuer=WovenBackend
       - Jwt__Audience=WovenFrontend
+      - Cors__AllowedOrigins=http://localhost:4200,http://localhost:4000,http://localhost
     volumes:
       - ./backend/WovenBackend:/src:ro  # Mount source for debugging
     ports:

@@ -48,7 +48,7 @@ artifacts/
 ScaffoldingReadMe.txt
 
 ## Entity Framework
-**/Migrations/*.Designer.cs
+## NOTE: Do NOT ignore Migrations/*.Designer.cs — they are required for EF Core migrations to work.
 
 # ================================
 # Node.js / Angular Frontend
@@ -117,6 +117,24 @@ secrets.json
 credentials.json
 
 # ================================
+# Terraform
+# ================================
+.terraform/
+*.tfplan
+tfplan
+*.tfstate
+*.tfstate.backup
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+plan_output.txt
+
+# ================================
 # Docker
 # ================================
 .docker/
@@ -129,4 +147,6 @@ credentials.json
 *.temp
 *.bak
 *.cache
+*.sql
+backups/
 .claude/

@@ -79,7 +79,7 @@ export class MomentsPageComponent implements OnInit {
   }
 
   get microLine(): string {
-    return 'Pick the energy. Spend it wisely.';
+    return 'One hypothetical date. What would it be?';
   }
 
   // ✅ used by template

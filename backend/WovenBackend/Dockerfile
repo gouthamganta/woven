@@ -29,16 +29,12 @@ RUN chown -R appuser:appuser /app
 # Switch to non-root user
 USER appuser
 
-# Expose port
+# Azure Container Apps uses its own liveness/readiness/startup probes.
+# Docker HEALTHCHECK is not used in Container Apps and the aspnet image lacks curl.
 EXPOSE 8080
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8080/health || exit 1
-
-# Set environment variables
+# Explicit port binding — must match Container Apps ingress target_port and probe ports.
 ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
 
-# Start the app
 ENTRYPOINT ["dotnet", "WovenBackend.dll"]

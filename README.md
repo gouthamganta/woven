@@ -13,6 +13,7 @@ A modern matchmaking and social interaction platform with AI-powered games, dyna
 - [Production Deployment](#production-deployment)
 - [API Documentation](#api-documentation)
 - [Configuration](#configuration)
+- [CI/CD](#cicd)
 - [Contributing](#contributing)
 
 ---
@@ -419,6 +420,74 @@ export const environment = {
 | `GoogleAuth__ClientId` | Yes | Google OAuth client ID |
 | `OpenAI__ApiKey` | No | OpenAI API key for AI features |
 | `Cors__AllowedOrigins` | Yes | Comma-separated allowed origins |
+
+---
+
+## CI/CD
+
+Three GitHub Actions workflows automate testing, deployment, and infrastructure management.
+
+### Workflows
+
+| Workflow | File | Trigger | Purpose |
+|----------|------|---------|---------|
+| **CI** | `ci.yml` | PR + push to main | Build & test backend (.NET) and frontend (Angular) |
+| **Deploy** | `deploy.yml` | Push to main | Build images, push to ACR, update Container Apps, smoke check |
+| **Terraform** | `terraform.yml` | `infra/**` changes on PR/push; manual dispatch | Plan on PR, apply only via manual approval |
+
+### Required GitHub Secrets
+
+| Secret | Description |
+|--------|-------------|
+| `AZURE_CLIENT_ID` | Service principal app ID (OIDC federated credential) |
+| `AZURE_TENANT_ID` | Azure AD tenant ID |
+| `AZURE_SUBSCRIPTION_ID` | Azure subscription ID |
+| `OPENAI_API_KEY` | OpenAI API key (injected as Container App secret at deploy time) |
+
+### Required GitHub Environment
+
+Create a **`production`** environment in GitHub repo settings with **required reviewers** enabled. This gates:
+- Container App deployments (deploy workflow)
+- Terraform apply (manual dispatch only)
+
+### How it works
+
+1. **On PR**: CI runs backend + frontend builds/tests. Terraform plans `infra/` changes and comments the plan on the PR.
+2. **On merge to main**: CI runs first, then Deploy builds images tagged with the commit SHA, pushes to ACR via `az acr build`, updates both Container Apps, and runs smoke checks against `/health/live`, `/health/ready`, and the frontend root.
+3. **Terraform apply**: Triggered manually via `workflow_dispatch` with `action: apply`. Requires production environment approval.
+4. **OpenAI key**: Stored only in GitHub Secrets. During deploy, injected into the backend Container App as a secret (`openai-api-key`) and referenced via `OpenAI__ApiKey=secretref:openai-api-key`. Never in Terraform state or Docker images.
+
+### Azure OIDC Setup
+
+Create a service principal with federated credentials for GitHub Actions:
+
+```bash
+# Create SP and note the appId
+az ad sp create-for-rbac --name "woven-github-cicd" --role Contributor \
+  --scopes /subscriptions/<SUB_ID>/resourceGroups/woven-prod-rg
+
+# Add federated credential for main branch
+az ad app federated-credential create --id <APP_OBJECT_ID> --parameters '{
+  "name": "github-main",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "subject": "repo:<OWNER>/Woven:ref:refs/heads/main",
+  "audiences": ["api://AzureADTokenExchange"]
+}'
+
+# Add federated credential for PRs
+az ad app federated-credential create --id <APP_OBJECT_ID> --parameters '{
+  "name": "github-pr",
+  "issuer": "https://token.actions.githubusercontent.com",
+  "subject": "repo:<OWNER>/Woven:pull_request",
+  "audiences": ["api://AzureADTokenExchange"]
+}'
+```
+
+Assign additional role for ACR push:
+```bash
+az role assignment create --assignee <APP_ID> --role AcrPush \
+  --scope /subscriptions/<SUB_ID>/resourceGroups/woven-prod-rg/providers/Microsoft.ContainerRegistry/registries/wovenprodacr
+```
 
 ---
 
