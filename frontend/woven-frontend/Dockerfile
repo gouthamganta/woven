@@ -21,12 +21,8 @@ RUN npm run build -- --configuration=production
 # Stage 2: Serve with nginx
 FROM nginx:alpine AS runtime
 
-# Copy nginx template (envsubst replaces ${BACKEND_URL} at startup)
+# Copy nginx template
 COPY nginx.conf.template /etc/nginx/nginx.conf.template
-
-# Copy startup script
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
 
 # Copy built app from build stage
 COPY --from=build /app/dist/woven-frontend/browser /usr/share/nginx/html
@@ -43,5 +39,6 @@ EXPOSE 80
 # Default BACKEND_URL for Docker Compose. Container Apps overrides this.
 ENV BACKEND_URL=http://backend:8080
 
-# At startup: run the entrypoint script to generate nginx.conf and start nginx
-CMD ["/docker-entrypoint.sh"]
+# At startup: generate nginx.conf from template and start nginx
+# Using sh -c so environment variables are available
+CMD ["/bin/sh", "-c", "sed 's|\\${BACKEND_URL}|'\"${BACKEND_URL}\"'|g' /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"]
