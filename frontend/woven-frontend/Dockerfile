@@ -24,9 +24,6 @@ FROM nginx:alpine AS runtime
 # Copy nginx template (envsubst replaces ${BACKEND_URL} at startup)
 COPY nginx.conf.template /etc/nginx/nginx.conf.template
 
-# Keep the original nginx.conf for Docker Compose (no envsubst needed)
-COPY nginx.conf /etc/nginx/nginx.conf
-
 # Copy built app from build stage
 COPY --from=build /app/dist/woven-frontend/browser /usr/share/nginx/html
 
