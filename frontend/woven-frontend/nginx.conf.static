@@ -96,12 +96,6 @@ http {
             add_header Content-Type text/plain;
         }
 
-        # TEST: Verify backend connectivity
-        location = /backend-test {
-            proxy_pass http://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/health/ready;
-            proxy_http_version 1.1;
-        }
-
         # Exact match for /auth/google (highest priority)
         location = /auth/google {
             proxy_pass http://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/auth/google;
