@@ -24,6 +24,10 @@ FROM nginx:alpine AS runtime
 # Copy nginx template (envsubst replaces ${BACKEND_URL} at startup)
 COPY nginx.conf.template /etc/nginx/nginx.conf.template
 
+# Copy startup script
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 # Copy built app from build stage
 COPY --from=build /app/dist/woven-frontend/browser /usr/share/nginx/html
 
@@ -39,7 +43,5 @@ EXPOSE 80
 # Default BACKEND_URL for Docker Compose. Container Apps overrides this.
 ENV BACKEND_URL=http://backend:8080
 
-# At startup: if BACKEND_URL is not the default (i.e. overridden by Container Apps),
-# run envsubst on the template to produce the final nginx.conf.
-# Only substitute BACKEND_URL (not nginx's own $ variables like $host, $uri).
-CMD ["/bin/sh", "-c", "envsubst '$BACKEND_URL' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"]
+# At startup: run the entrypoint script to generate nginx.conf and start nginx
+CMD ["/docker-entrypoint.sh"]
