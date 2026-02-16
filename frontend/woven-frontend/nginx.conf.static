@@ -90,7 +90,7 @@ http {
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
-        location /auth/ {
+        location ^~ /auth/ {
             proxy_pass http://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/auth/;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
