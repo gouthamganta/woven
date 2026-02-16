@@ -90,6 +90,12 @@ http {
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
+        # TEST: Verify nginx config is loaded
+        location = /nginx-test {
+            return 200 'NGINX CONFIG LOADED SUCCESSFULLY';
+            add_header Content-Type text/plain;
+        }
+
         # Exact match for /auth/google (highest priority)
         location = /auth/google {
             proxy_pass http://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/auth/google;
