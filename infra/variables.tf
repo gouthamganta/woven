@@ -146,6 +146,12 @@ variable "frontend_image_tag" {
   default     = "latest"
 }
 
+variable "custom_domain" {
+  description = "Custom domain for the frontend (e.g. www.wooven.me). Added to backend CORS."
+  type        = string
+  default     = ""
+}
+
 variable "log_retention_days" {
   description = "Log Analytics workspace retention in days"
   type        = number

@@ -22,6 +22,8 @@ acr_sku = "Basic"
 
 container_apps_internal_only = false
 
+custom_domain = "www.wooven.me"
+
 log_retention_days = 30
 
 allowed_ip_ranges = []

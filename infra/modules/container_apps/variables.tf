@@ -73,6 +73,12 @@ variable "frontend_image_tag" {
   default     = "latest"
 }
 
+variable "custom_domain" {
+  description = "Custom domain for the frontend (e.g. www.wooven.me). Added to CORS allowed origins."
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   description = "Tags to apply to resources"
   type        = map(string)

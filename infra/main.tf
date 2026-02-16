@@ -122,5 +122,6 @@ module "container_apps" {
   app_insights_connection_string = module.monitoring.app_insights_connection_string
   backend_image_tag              = var.backend_image_tag
   frontend_image_tag             = var.frontend_image_tag
+  custom_domain                  = var.custom_domain
   tags                           = local.common_tags
 }
