@@ -248,9 +248,10 @@ resource "azurerm_container_app" "frontend" {
 
       # BACKEND_URL is used by envsubst in the nginx.conf.template at container startup.
       # It replaces the Docker Compose default (http://backend:8080) with the Container Apps internal FQDN.
+      # Note: Internal Container Apps communication uses HTTP, not HTTPS
       env {
         name  = "BACKEND_URL"
-        value = "https://${azurerm_container_app.backend.ingress[0].fqdn}"
+        value = "http://${azurerm_container_app.backend.ingress[0].fqdn}"
       }
 
       # Frontend is nginx serving static files — starts fast, no external deps.
