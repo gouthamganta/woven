@@ -41,4 +41,4 @@ ENV BACKEND_URL=http://backend:8080
 
 # At startup: generate nginx.conf from template and start nginx
 # Using sh -c so environment variables are available
-CMD ["/bin/sh", "-c", "sed 's|\\${BACKEND_URL}|'\"${BACKEND_URL}\"'|g' /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"]
+CMD ["/bin/sh", "-c", "sed 's|${BACKEND_URL}|'\"${BACKEND_URL}\"'|g' /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"]
