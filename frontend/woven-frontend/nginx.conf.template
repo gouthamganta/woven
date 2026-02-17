@@ -44,6 +44,9 @@ http {
         listen 80;
         server_name _;
 
+        # DNS resolver for Container Apps internal DNS
+        resolver 168.63.129.16 valid=30s;
+
         # --------------------
         # Angular app root
         # --------------------
