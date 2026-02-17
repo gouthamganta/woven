@@ -86,9 +86,9 @@ output "frontend_url" {
   value       = "https://${module.container_apps.frontend_fqdn}"
 }
 
-output "backend_internal_url" {
-  description = "Backend internal URL (accessible within Container Apps Environment)"
-  value       = "https://${module.container_apps.backend_fqdn}"
+output "backend_url" {
+  description = "Backend external URL (accessible publicly since external_enabled = true)"
+  value       = module.container_apps.backend_url
 }
 
 output "backend_container_app_id" {

@@ -24,8 +24,13 @@ output "backend_container_app_id" {
 }
 
 output "backend_fqdn" {
-  description = "Backend Container App internal FQDN"
+  description = "Backend Container App FQDN (external since external_enabled = true)"
   value       = azurerm_container_app.backend.ingress[0].fqdn
+}
+
+output "backend_url" {
+  description = "Backend Container App external URL (https://)"
+  value       = "https://${azurerm_container_app.backend.ingress[0].fqdn}"
 }
 
 output "frontend_container_app_id" {
