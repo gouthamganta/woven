@@ -78,6 +78,7 @@ http {
         location = /signin-google {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/signin-google;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -88,6 +89,7 @@ http {
         location /api/ {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/api/;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -105,6 +107,8 @@ http {
         location = /auth/google {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/auth/google;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -115,6 +119,7 @@ http {
         location ^~ /auth/ {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/auth/;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -125,6 +130,7 @@ http {
         location /onboarding/ {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/onboarding/;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -135,6 +141,7 @@ http {
         location /moments {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/moments;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -145,6 +152,7 @@ http {
         location /chats/ {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/chats/;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -155,6 +163,7 @@ http {
         location /chats {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/chats;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -165,6 +174,7 @@ http {
         location /games/ {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/games/;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -175,6 +185,7 @@ http {
         location /matches/ {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/matches/;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -185,6 +196,7 @@ http {
         location /matches {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/matches;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -195,6 +207,7 @@ http {
         location /intake/ {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/intake/;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -205,6 +218,7 @@ http {
         location /debug/ {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/debug/;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -215,6 +229,7 @@ http {
         location /dev/ {
             proxy_pass https://woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io/dev/;
             proxy_ssl_verify off;
+            proxy_ssl_server_name on;            proxy_ssl_name woven-prod-backend.internal.victoriousstone-7adf719a.centralindia.azurecontainerapps.io;
             proxy_http_version 1.1;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
