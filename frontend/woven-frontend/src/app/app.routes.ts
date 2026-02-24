@@ -62,4 +62,7 @@ export const routes: Routes = [
   { path: 'onboarding/start', component: StartOnboardingComponent },
 
   { path: 'test', component: TestApiComponent },
+
+  // Catch-all route - must be LAST
+  { path: '**', redirectTo: '/login' },
 ];

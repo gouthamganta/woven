@@ -1,4 +1,4 @@
-import { Component, signal, OnInit, OnDestroy, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, signal, OnInit, OnDestroy, HostListener, Inject, PLATFORM_ID, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -6,7 +6,8 @@ import { isPlatformBrowser } from '@angular/common';
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App implements OnInit, OnDestroy {
   protected readonly title = signal('woven-frontend');
@@ -14,6 +15,7 @@ export class App implements OnInit, OnDestroy {
   private rafId: number | null = null;
   private lastScrollY = 0;
   private isBrowser = false;
+  private scrollThrottled = false;
 
   constructor(@Inject(PLATFORM_ID) platformId: object) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -33,10 +35,14 @@ export class App implements OnInit, OnDestroy {
 
   @HostListener('window:scroll')
   onScroll() {
-    if (!this.isBrowser) return;
+    if (!this.isBrowser || this.scrollThrottled) return;
 
+    this.scrollThrottled = true;
     this.lastScrollY = window.scrollY || 0;
     this.scheduleUpdate();
+
+    // Throttle to ~30fps instead of every scroll event
+    setTimeout(() => { this.scrollThrottled = false; }, 33);
   }
 
   private scheduleUpdate() {
