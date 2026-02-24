@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, Component, Inject, NgZone, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -25,7 +25,8 @@ declare global {
     ButtonModule
   ],
   templateUrl: './login.html',
-  styleUrls: ['./login.scss']
+  styleUrls: ['./login.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements AfterViewInit {
   isLoading = false;
@@ -40,6 +41,7 @@ export class LoginComponent implements AfterViewInit {
     private http: HttpClient,
     private router: Router,
     private zone: NgZone,
+    private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) platformId: object
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -64,12 +66,8 @@ export class LoginComponent implements AfterViewInit {
       });
 
       const host = document.getElementById('googleBtn');
-      if (!host) {
-        console.error('❌ googleBtn element not found');
-        return;
-      }
+      if (!host) return;
 
-      console.log('✅ Rendering Google button');
       window.google.accounts.id.renderButton(host, {
         theme: 'outline',
         size: 'large',
@@ -115,21 +113,17 @@ export class LoginComponent implements AfterViewInit {
       )
       .subscribe({
         next: (res) => {
-          console.log('✅ /auth/google response:', res);
-
           localStorage.setItem('accessToken', res.accessToken);
           localStorage.setItem('user', JSON.stringify(res.user));
 
-          console.log('✅ accessToken saved:', localStorage.getItem('accessToken'));
-          console.log('✅ user saved:', localStorage.getItem('user'));
-
           this.isLoading = false;
+          this.cdr.markForCheck();
           this.zone.run(() => this.router.navigateByUrl('/app'));
         },
-        error: (err: any) => {
-          console.error('❌ /auth/google failed:', err);
+        error: () => {
           this.isLoading = false;
           this.errorMsg = 'Login failed. Please try again.';
+          this.cdr.markForCheck();
         }
       });
   }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
   selector: 'app-settings',
   standalone: true,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="page">
       <div class="top">
@@ -60,7 +61,10 @@ export class SettingsPageComponent {
   constructor(private router: Router) {}
   back(){ this.router.navigateByUrl('/home/profile'); }
   logout(){
-    // stub for now
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
+    }
     this.router.navigateByUrl('/login');
   }
 }

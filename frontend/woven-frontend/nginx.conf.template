@@ -71,14 +71,22 @@ http {
 
         # --------------------
         # Backend API proxy
-        # BACKEND_URL is replaced at container startup via envsubst.
-        # Docker Compose: http://backend:8080
-        # Container Apps: https://<backend-internal-fqdn>
+        # BACKEND_URL and BACKEND_HOST are replaced at container startup via envsubst.
+        # Docker Compose: BACKEND_URL=http://backend:8080, BACKEND_HOST=backend:8080
+        # Container Apps: BACKEND_URL=https://<fqdn>, BACKEND_HOST=<fqdn>
+        #
+        # Azure Container Apps routes by Host header, so we MUST send the backend
+        # FQDN as Host (not $host which is the frontend domain). We also need
+        # proxy_ssl_verify off + proxy_ssl_server_name on for internal HTTPS.
         # --------------------
+
         location = /signin-google {
             proxy_pass ${BACKEND_URL}/signin-google;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
             proxy_http_version 1.1;
-            proxy_set_header Host $host;
+            proxy_set_header Host ${BACKEND_HOST};
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -86,8 +94,23 @@ http {
 
         location /api/ {
             proxy_pass ${BACKEND_URL}/api/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
             proxy_http_version 1.1;
-            proxy_set_header Host $host;
+            proxy_set_header Host ${BACKEND_HOST};
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location = /auth/google {
+            proxy_pass ${BACKEND_URL}/auth/google;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
+            proxy_http_version 1.1;
+            proxy_set_header Host ${BACKEND_HOST};
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -95,8 +118,11 @@ http {
 
         location ^~ /auth/ {
             proxy_pass ${BACKEND_URL}/auth/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
             proxy_http_version 1.1;
-            proxy_set_header Host $host;
+            proxy_set_header Host ${BACKEND_HOST};
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -104,8 +130,11 @@ http {
 
         location /onboarding/ {
             proxy_pass ${BACKEND_URL}/onboarding/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
             proxy_http_version 1.1;
-            proxy_set_header Host $host;
+            proxy_set_header Host ${BACKEND_HOST};
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -113,8 +142,11 @@ http {
 
         location /moments {
             proxy_pass ${BACKEND_URL}/moments;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
             proxy_http_version 1.1;
-            proxy_set_header Host $host;
+            proxy_set_header Host ${BACKEND_HOST};
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -122,8 +154,11 @@ http {
 
         location /chats/ {
             proxy_pass ${BACKEND_URL}/chats/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
             proxy_http_version 1.1;
-            proxy_set_header Host $host;
+            proxy_set_header Host ${BACKEND_HOST};
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -131,8 +166,11 @@ http {
 
         location /chats {
             proxy_pass ${BACKEND_URL}/chats;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
             proxy_http_version 1.1;
-            proxy_set_header Host $host;
+            proxy_set_header Host ${BACKEND_HOST};
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -140,8 +178,11 @@ http {
 
         location /games/ {
             proxy_pass ${BACKEND_URL}/games/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
             proxy_http_version 1.1;
-            proxy_set_header Host $host;
+            proxy_set_header Host ${BACKEND_HOST};
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -149,8 +190,11 @@ http {
 
         location /matches/ {
             proxy_pass ${BACKEND_URL}/matches/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
             proxy_http_version 1.1;
-            proxy_set_header Host $host;
+            proxy_set_header Host ${BACKEND_HOST};
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -158,8 +202,11 @@ http {
 
         location /matches {
             proxy_pass ${BACKEND_URL}/matches;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
             proxy_http_version 1.1;
-            proxy_set_header Host $host;
+            proxy_set_header Host ${BACKEND_HOST};
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -167,26 +214,11 @@ http {
 
         location /intake/ {
             proxy_pass ${BACKEND_URL}/intake/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
             proxy_http_version 1.1;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        location /debug/ {
-            proxy_pass ${BACKEND_URL}/debug/;
-            proxy_http_version 1.1;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        location /dev/ {
-            proxy_pass ${BACKEND_URL}/dev/;
-            proxy_http_version 1.1;
-            proxy_set_header Host $host;
+            proxy_set_header Host ${BACKEND_HOST};
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
@@ -209,7 +241,7 @@ http {
         }
 
         # --------------------
-        # Angular SPA routing (must be LAST-ish)
+        # Angular SPA routing (must be LAST)
         # --------------------
         location / {
             try_files $uri $uri/ /index.csr.html;

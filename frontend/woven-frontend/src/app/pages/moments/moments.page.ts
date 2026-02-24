@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewChild,
   ChangeDetectorRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -23,6 +24,7 @@ type MomentUiChoice = 'LEFT' | 'HOLD' | 'RIGHT';
   imports: [CommonModule],
   templateUrl: './moments.page.html',
   styleUrls: ['./moments.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MomentsPageComponent implements OnInit {
   loading = true;

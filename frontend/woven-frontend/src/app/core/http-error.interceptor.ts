@@ -10,8 +10,10 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       // 401 - token expired, redirect to login
       if (error.status === 401) {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('user');
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('user');
+        }
         router.navigateByUrl('/login');
       }
 

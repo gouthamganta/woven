@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login';
-import { TestApiComponent } from './test-api/test-api.component';
 
 import { OnboardingGateComponent } from './onboarding/onboarding-gate.component';
 import { authGuard } from './core/auth/auth.guard';
@@ -59,8 +58,6 @@ export const routes: Routes = [
   { path: 'onboarding/details', canActivate: [authGuard], component: DetailsOnboardingComponent },
   { path: 'onboarding/review', canActivate: [authGuard], component: ReviewOnboardingComponent },
   { path: 'onboarding/start', canActivate: [authGuard], component: StartOnboardingComponent },
-
-  { path: 'test', component: TestApiComponent },
 
   // Catch-all route - must be LAST
   { path: '**', redirectTo: '/login' },

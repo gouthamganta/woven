@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -11,6 +11,7 @@ import { ChatService } from '../../services/chat.service';
   imports: [CommonModule, DatePipe],
   templateUrl: './pending.page.html',
   styleUrls: ['./pending.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PendingMomentsPageComponent implements OnInit {
   loading = true;
@@ -155,6 +156,7 @@ export class PendingMomentsPageComponent implements OnInit {
   private showToast(msg: string) {
     this.toast = msg;
     this.cdr.detectChanges();
+    if (typeof window === 'undefined') return;
     window.setTimeout(() => {
       this.toast = '';
       this.cdr.detectChanges();
