@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GamesService, GameRoundResponse } from '../../services/games.service';
 
@@ -113,6 +113,7 @@ type GameOption =
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
     * {
       box-sizing: border-box;
@@ -586,7 +587,7 @@ export class InlineGamePlayerComponent implements OnInit, OnDestroy {
 
   private pollInterval: any;
 
-  constructor(private games: GamesService) {}
+  constructor(private games: GamesService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.loadRound();
@@ -607,6 +608,7 @@ export class InlineGamePlayerComponent implements OnInit, OnDestroy {
       next: (data: GameRoundResponse) => {
         this.round = data;
         this.loading = false;
+        this.cdr.markForCheck();
 
         if (data.hasAnswered) {
           this.startPolling();
@@ -616,6 +618,7 @@ export class InlineGamePlayerComponent implements OnInit, OnDestroy {
         console.error('❌ Load round error:', err);
         this.error = 'Could not load round';
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -677,8 +680,8 @@ export class InlineGamePlayerComponent implements OnInit, OnDestroy {
 
     submitCall.subscribe({
       next: (result: any) => {
-        console.log('✅ Submit result:', result);
         this.loading = false;
+        this.cdr.markForCheck();
 
         if (result.status === 'WAITING_FOR_TARGET') {
           this.startPolling();
@@ -691,10 +694,10 @@ export class InlineGamePlayerComponent implements OnInit, OnDestroy {
           }, 1000);
         }
       },
-      error: (err: any) => {
-        console.error('❌ Submit error:', err);
+      error: () => {
         this.error = 'Could not submit answers';
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }

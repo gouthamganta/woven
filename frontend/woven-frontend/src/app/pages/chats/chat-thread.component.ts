@@ -5,6 +5,7 @@ import {
   OnDestroy,
   HostListener,
   ChangeDetectorRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
@@ -32,6 +33,7 @@ import { UnmatchRatingComponent } from '../../components/unmatch-rating/unmatch-
   ],
   templateUrl: './chat-thread.component.html',
   styleUrls: ['./chat-thread.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy {
   loading = true;
@@ -445,48 +447,33 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
     return false;
   }
 
-  onAcceptGame(sessionId: string) {
-    console.log('🎮 Accepting game:', sessionId);
-    this.games.acceptSession(sessionId).subscribe({
-      next: () => {
-        this.showToast('Game accepted!');
-        setTimeout(() => {
-          console.log('🔄 Refreshing chat to get updated game status...');
-          this.refreshSilent();
-        }, 500);
-      },
-      error: (err) => {
-        console.error('❌ Accept game error:', err);
-        this.showToast('Cannot accept game');
-      },
-    });
+  async onAcceptGame(sessionId: string) {
+    try {
+      await firstValueFrom(this.games.acceptSession(sessionId));
+      this.showToast('Game accepted!');
+      setTimeout(() => this.refreshSilent(), 500);
+    } catch {
+      this.showToast('Cannot accept game');
+    }
   }
 
-  onRejectGame(sessionId: string) {
-    console.log('🎮 Rejecting game:', sessionId);
-    this.games.rejectSession(sessionId).subscribe({
-      next: () => {
-        this.showToast('Game declined');
-        this.refreshSilent();
-      },
-      error: (err) => {
-        console.error('❌ Reject game error:', err);
-        this.showToast('Cannot reject game');
-      },
-    });
+  async onRejectGame(sessionId: string) {
+    try {
+      await firstValueFrom(this.games.rejectSession(sessionId));
+      this.showToast('Game declined');
+      this.refreshSilent();
+    } catch {
+      this.showToast('Cannot reject game');
+    }
   }
 
-  onOpenGame(sessionId: string) {
-    console.log('🎮 Opening game result:', sessionId);
-    this.games.getResult(sessionId).subscribe({
-      next: (r: FinalResultResponse) => {
-        alert(`${r.gameType}\nYou: ${r.yourScore} | Them: ${r.theirScore}\n\n${r.aiInsight}`);
-      },
-      error: (err) => {
-        console.error('❌ Get result error:', err);
-        this.showToast('Result not available yet');
-      },
-    });
+  async onOpenGame(sessionId: string) {
+    try {
+      const r = await firstValueFrom(this.games.getResult(sessionId));
+      alert(`${r.gameType}\nYou: ${r.yourScore} | Them: ${r.theirScore}\n\n${r.aiInsight}`);
+    } catch {
+      this.showToast('Result not available yet');
+    }
   }
 
   async send() {

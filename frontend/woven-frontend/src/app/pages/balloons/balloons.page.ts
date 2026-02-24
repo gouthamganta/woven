@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -11,8 +11,9 @@ import { ChatService } from '../../services/chat.service';
   imports: [CommonModule],
   templateUrl: './balloons.page.html',
   styleUrls: ['./balloons.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BalloonsPageComponent implements OnInit {
+export class BalloonsPageComponent implements OnInit, OnDestroy {
   loading = true;
   error = '';
   matches: MatchListItem[] = [];
@@ -24,12 +25,13 @@ export class BalloonsPageComponent implements OnInit {
   constructor(
     private matchesApi: MatchesService,
     private chat: ChatService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
     await this.load();
-    this.t = window.setInterval(() => (this.now = Date.now()), 1000);
+    this.t = window.setInterval(() => { this.now = Date.now(); this.cdr.markForCheck(); }, 1000);
   }
 
   ngOnDestroy() {
@@ -46,6 +48,7 @@ export class BalloonsPageComponent implements OnInit {
       this.error = 'Could not load balloons.';
     } finally {
       this.loading = false;
+      this.cdr.markForCheck();
     }
   }
 
@@ -103,6 +106,7 @@ export class BalloonsPageComponent implements OnInit {
       this.error = 'Could not pop balloon.';
     } finally {
       this.busyId = null;
+      this.cdr.markForCheck();
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -11,6 +11,7 @@ import { MatchesService } from '../../services/matches.service';
   imports: [CommonModule],
   templateUrl: './chats-list.component.html',
   styleUrls: ['./chats-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatsListComponent implements OnInit, OnDestroy {
   loading = true;
@@ -24,7 +25,8 @@ export class ChatsListComponent implements OnInit, OnDestroy {
   constructor(
     private chatApi: ChatService,
     private matchesApi: MatchesService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
@@ -32,7 +34,7 @@ export class ChatsListComponent implements OnInit, OnDestroy {
 
     // ✅ SSR-safe
     if (typeof window !== 'undefined') {
-      this.timer = window.setInterval(() => (this.now = Date.now()), 1000);
+      this.timer = window.setInterval(() => { this.now = Date.now(); this.cdr.markForCheck(); }, 1000);
     }
   }
 
@@ -50,6 +52,7 @@ export class ChatsListComponent implements OnInit, OnDestroy {
       this.error = 'Could not load balloons.';
     } finally {
       this.loading = false;
+      this.cdr.markForCheck();
     }
   }
 
@@ -124,6 +127,7 @@ export class ChatsListComponent implements OnInit, OnDestroy {
       this.error = 'Could not pop balloon.';
     } finally {
       this.busyId = null;
+      this.cdr.markForCheck();
     }
   }
 

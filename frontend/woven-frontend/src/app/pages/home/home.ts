@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -13,6 +13,7 @@ import { HowItWorksSheetComponent } from './how-it-works-sheet.component';
   imports: [CommonModule, RouterOutlet, PulseSheetComponent, HowItWorksSheetComponent],
   templateUrl: './home.html',
   styleUrls: ['./home.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
   pulse: PulseState | null = null;
