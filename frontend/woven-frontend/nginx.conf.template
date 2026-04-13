@@ -129,6 +129,14 @@ http {
         }
 
         location /onboarding/ {
+            # Browser page navigations send Accept: text/html → serve Angular SPA shell.
+            # Angular HttpClient API calls send Accept: application/json, text/plain, */*
+            # (no text/html) → proxy to backend.
+            # This distinguishes page loads from API calls even when they share the same URL
+            # (e.g. GET /onboarding/review is both a page and a backend data endpoint).
+            if ($http_accept ~* "text/html") {
+                rewrite .* /index.csr.html break;
+            }
             proxy_pass ${BACKEND_URL}/onboarding/;
             proxy_ssl_verify off;
             proxy_ssl_server_name on;
