@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Woven — Documentation</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { 
+    background: #0d1117; 
+    color: #c9d1d9; 
+    font-family: 'Segoe UI', system-ui, sans-serif; 
+    padding: 40px 20px;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+  h1 { 
+    font-size: 32px; 
+    font-weight: 700; 
+    color: #f0f6fc; 
+    margin-bottom: 12px;
+  }
+  .subtitle { 
+    font-size: 16px; 
+    color: #8b949e; 
+    margin-bottom: 40px;
+  }
+  .docs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 32px;
+  }
+  .doc-card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 24px;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .doc-card:hover {
+    background: #0d1117;
+    border-color: #58a6ff;
+    transform: translateY(-2px);
+  }
+  .doc-card h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #f0f6fc;
+    margin-bottom: 8px;
+  }
+  .doc-card p {
+    font-size: 14px;
+    color: #8b949e;
+    line-height: 1.6;
+  }
+  .doc-card .arrow {
+    display: inline-block;
+    margin-top: 12px;
+    color: #58a6ff;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Woven Documentation</h1>
+  <p class="subtitle">Comprehensive guides and architectural references for the Woven platform</p>
+  
+  <div class="docs-grid">
+    <a href="maps/architecture-map.html" class="doc-card">
+      <h2>Architecture Map</h2>
+      <p>Interactive visualization of the Woven system architecture, including frontend, backend, data stores, and external integrations. Click any component for detailed information.</p>
+      <span class="arrow">View Map →</span>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>
