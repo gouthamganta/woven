@@ -1,0 +1,7 @@
+# GitHub Pages configuration
+# Include dot files and folders
+include:
+  - .nojekyll
+
+# Build settings
+markdown: kramdown
