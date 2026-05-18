@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Woven — Product Map</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f1117; color: #e2e8f0; font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; }
+
+  #header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(15,17,23,0.95); backdrop-filter: blur(8px);
+    border-bottom: 1px solid #2d3748; padding: 12px 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  #header h1 { font-size: 18px; font-weight: 600; color: #e2e8f0; }
+  #header span { font-size: 12px; color: #718096; }
+  #legend { margin-left: auto; display: flex; gap: 16px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #a0aec0; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  #svg-container { width: 100vw; height: 100vh; padding-top: 52px; }
+  svg { width: 100%; height: 100%; cursor: grab; }
+  svg:active { cursor: grabbing; }
+
+  .node circle {
+    stroke-width: 2px;
+    transition: r 0.2s, opacity 0.2s;
+    cursor: pointer;
+  }
+  .node text {
+    font-size: 11px;
+    fill: #e2e8f0;
+    pointer-events: none;
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+  .node:hover circle { opacity: 0.85; }
+  .node.root circle { stroke-width: 3px; }
+
+  .link {
+    fill: none;
+    stroke-opacity: 0.35;
+    stroke-width: 1.5px;
+    transition: stroke-opacity 0.2s;
+  }
+
+  #tooltip {
+    position: fixed; background: rgba(26,32,44,0.97); border: 1px solid #4a5568;
+    border-radius: 8px; padding: 12px 16px; pointer-events: none;
+    font-size: 12px; line-height: 1.6; max-width: 280px;
+    display: none; z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  #tooltip h3 { font-size: 14px; margin-bottom: 6px; color: #fff; }
+  #tooltip .tag { display: inline-block; background: #2d3748; border-radius: 4px;
+    padding: 1px 6px; font-size: 10px; margin: 2px 2px 0 0; color: #a0aec0; }
+
+  #controls {
+    position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .ctrl-btn {
+    width: 36px; height: 36px; background: #2d3748; border: 1px solid #4a5568;
+    border-radius: 6px; color: #e2e8f0; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .ctrl-btn:hover { background: #4a5568; }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>Woven · Product Map</h1>
+  <span>Force-directed mind map — drag to pan, scroll to zoom, click nodes to explore</span>
+  <div id="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>Core</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0ea5e9"></div>Matching</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Social</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Games</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Safety</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#6366f1"></div>AI</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#64748b"></div>System</div>
+  </div>
+</div>
+
+<div id="svg-container"><svg id="main-svg"></svg></div>
+
+<div id="tooltip">
+  <h3 id="tt-title"></h3>
+  <div id="tt-desc"></div>
+  <div id="tt-tags" style="margin-top:8px"></div>
+</div>
+
+<div id="controls">
+  <button class="ctrl-btn" id="zoom-in" title="Zoom in">+</button>
+  <button class="ctrl-btn" id="zoom-out" title="Zoom out">−</button>
+  <button class="ctrl-btn" id="reset" title="Reset view">⌂</button>
+</div>
+
+<script>
+const nodes = [
+  // Root
+  { id: 'woven', label: 'Woven', group: 'core', r: 32, desc: 'Intentional matchmaking platform. Daily deck of 5 candidates. Heart-led or head-led choices create meaningful connections.', tags: ['Angular 21', 'ASP.NET 10', 'PostgreSQL'] },
+
+  // Core pillars
+  { id: 'moments', label: 'Moments', group: 'matching', r: 24, desc: 'Daily deck of 5 candidate cards. Users choose Magical (◈) or Logical (◇) for each. Budget: 5 choices/day.', tags: ['5 cards/day', 'Budget system', 'PURE/EDGE'] },
+  { id: 'balloons', label: 'Balloons', group: 'matching', r: 24, desc: 'Created when two users both make a choice on the same Moment. 7-day TTL. Either user can pop to start trial.', tags: ['7-day TTL', 'POP/EXPIRE', 'Trial trigger'] },
+  { id: 'chat', label: 'Chat', group: 'social', r: 24, desc: 'Messaging between matched users. Trial-gated. Unlimited after connection. Find Love unlocks 5 min after both message.', tags: ['Trial-gated', 'SignalR', 'Find Love'] },
+  { id: 'games', label: 'Games', group: 'games', r: 22, desc: 'AI-powered mini-games for connected users. Know Me and Red/Green Flag. Break the ice with structure.', tags: ['Know Me', 'Red/Green Flag', 'AI agent'] },
+  { id: 'commons', label: 'Commons', group: 'social', r: 20, desc: 'Shared social feed. Browse tiles (100 energy/day). Orbit users (50/day). Seasonal community layer.', tags: ['Tiles', 'Orbit', '100 energy/day'] },
+  { id: 'safety', label: 'Safety', group: 'safety', r: 20, desc: 'Block, report, moderation queue, selfie verification, trust scoring, ghost scoring.', tags: ['Trust gate 0.25', 'Ghost score', 'Verification'] },
+  { id: 'ai', label: 'AI Layer', group: 'ai', r: 22, desc: '9 AI integrations: embeddings, photo, voice, match explanations, game agent, nudges, insights, dynamic intake.', tags: ['gpt-4.1-mini', 'text-embedding-3-small', 'Replicate'] },
+
+  // Moments children
+  { id: 'magical', label: 'Magical ◈', group: 'matching', r: 14, desc: 'Heart leads. API: "MAGICAL". Stored as YES. Costs 1 budget. Creates PURE or EDGE match.', tags: ['YES in DB', '1 budget'] },
+  { id: 'logical', label: 'Logical ◇', group: 'matching', r: 14, desc: 'Head leads. API: "LOGICAL". Stored as NO. Costs 1 budget. Creates PURE or EDGE match.', tags: ['NO in DB', '1 budget'] },
+  { id: 'save', label: 'Save ⏳', group: 'matching', r: 14, desc: 'Hold for later. API: "PENDING". Goes to pending queue. Cap: 2/day.', tags: ['PENDING in DB', '2/day cap'] },
+  { id: 'budget', label: 'Budget', group: 'system', r: 14, desc: 'Daily interaction allowance. 5 total / 2 Save per day. Resets midnight UTC. Cannot go negative.', tags: ['5/day', '2 Save/day', 'Midnight UTC reset'] },
+  { id: 'deck', label: 'Daily Deck', group: 'matching', r: 16, desc: '5 cards composed: 2 CORE_FIT + 1 LIFESTYLE_FIT + 1 CONVERSATION_FIT + 1 EXPLORER. Refreshes daily.', tags: ['5 slots', '4 buckets', 'DailyDeckOrchestrator'] },
+
+  // Balloons children
+  { id: 'pure', label: 'PURE Match', group: 'matching', r: 14, desc: 'Both chose same side. Full profile access immediately for both users. "You felt the same vibe."', tags: ['Same side', 'Full access'] },
+  { id: 'edge', label: 'EDGE Match', group: 'matching', r: 14, desc: 'Different sides. Edge owner gets full access. Non-owner gets limited (1 photo, no bio) until both message.', tags: ['Different sides', 'Edge owner', 'Limited access'] },
+  { id: 'trial', label: 'Trial (1 min)', group: 'matching', r: 15, desc: 'After popping a balloon. Both decide CONTINUE or END within 1 minute. Both CONTINUE → CONNECTED.', tags: ['60 seconds', 'CONTINUE/END', 'FindLoveAt=now'] },
+
+  // Chat children
+  { id: 'findlove', label: 'Find Love', group: 'social', r: 14, desc: 'Unlocks 5 min after both users have sent a message. Reveals AI date idea + date coordination UI.', tags: ['5 min delay', 'Date idea', 'AI-generated'] },
+  { id: 'nudges', label: 'Nudges', group: 'ai', r: 12, desc: 'AI-generated conversation prompts based on shared interests. Shown when conversation stalls.', tags: ['AI', 'Personalized'] },
+
+  // Games children
+  { id: 'knowme', label: 'Know Me', group: 'games', r: 13, desc: 'Round-based guessing game. Answer about yourself; opponent guesses. Reveals compatibility through play.', tags: ['Rounds', 'Guessing'] },
+  { id: 'rgflag', label: 'Red/Green Flag', group: 'games', r: 13, desc: 'Label each other\'s habits as red or green flags. Compare results to find alignment.', tags: ['Flags', 'Habits'] },
+
+  // Safety children
+  { id: 'trust', label: 'Trust Score', group: 'safety', r: 13, desc: 'TrustScore < 0.25 hides user from all candidate pools. Updated nightly.', tags: ['0–1 range', 'Pool gate', 'Nightly'] },
+  { id: 'ghost', label: 'Ghost Score', group: 'safety', r: 12, desc: 'Detects appear-but-never-engage behavior. Activated after 5+ matches. Reduces deck frequency.', tags: ['5+ matches required', 'Deck penalty'] },
+  { id: 'verify', label: 'Verification', group: 'safety', r: 12, desc: 'Selfie liveness check. States: UNVERIFIED → PENDING_REVIEW → VERIFIED. Expires 180 days.', tags: ['SpeechBrain', '180-day expiry'] },
+
+  // AI children
+  { id: 'embeddings', label: 'Embeddings', group: 'ai', r: 14, desc: '1536-dim vectors from text-embedding-3-small. Pillar, photo, voice, conversation embeddings stored in pgvector.', tags: ['1536-dim', 'HNSW index', 'pgvector'] },
+  { id: 'explanations', label: 'Explanations', group: 'ai', r: 13, desc: 'AI generates match explanation: headline + 3 bullets + tone. Shown on each Moments card.', tags: ['gpt-4.1-mini', 'Per-card', 'Cached'] },
+
+  // System nodes
+  { id: 'seasons', label: 'Seasons', group: 'system', r: 14, desc: '21-day platform-wide themed events. All active users participate. Scores accumulate from activity.', tags: ['21 days', 'Platform-wide', 'Score rank'] },
+  { id: 'pulse', label: 'Weekly Pulse', group: 'system', r: 13, desc: 'Weekly vibe check-in (battery, tone, role). Affects Pulse layer in matching (15% weight). States: UNANSWERED → ANSWERED → LOCKED.', tags: ['Weekly', '15% weight', '3 signals'] },
+  { id: 'foundational', label: 'Foundational Qs', group: 'system', r: 13, desc: 'Deep compatibility questions. Expiry: 15/45/60 days by type. Expired answers reduce that component\'s weight.', tags: ['3 expiry tiers', 'Core compatibility'] },
+];
+
+const links = [
+  { source: 'woven', target: 'moments', value: 3 },
+  { source: 'woven', target: 'balloons', value: 3 },
+  { source: 'woven', target: 'chat', value: 3 },
+  { source: 'woven', target: 'games', value: 2 },
+  { source: 'woven', target: 'commons', value: 2 },
+  { source: 'woven', target: 'safety', value: 2 },
+  { source: 'woven', target: 'ai', value: 2 },
+  { source: 'moments', target: 'magical', value: 2 },
+  { source: 'moments', target: 'logical', value: 2 },
+  { source: 'moments', target: 'save', value: 2 },
+  { source: 'moments', target: 'budget', value: 2 },
+  { source: 'moments', target: 'deck', value: 2 },
+  { source: 'balloons', target: 'pure', value: 2 },
+  { source: 'balloons', target: 'edge', value: 2 },
+  { source: 'balloons', target: 'trial', value: 2 },
+  { source: 'chat', target: 'findlove', value: 2 },
+  { source: 'chat', target: 'nudges', value: 1 },
+  { source: 'games', target: 'knowme', value: 2 },
+  { source: 'games', target: 'rgflag', value: 2 },
+  { source: 'safety', target: 'trust', value: 2 },
+  { source: 'safety', target: 'ghost', value: 2 },
+  { source: 'safety', target: 'verify', value: 2 },
+  { source: 'ai', target: 'embeddings', value: 2 },
+  { source: 'ai', target: 'explanations', value: 2 },
+  { source: 'ai', target: 'nudges', value: 1 },
+  { source: 'woven', target: 'seasons', value: 1 },
+  { source: 'woven', target: 'pulse', value: 1 },
+  { source: 'woven', target: 'foundational', value: 1 },
+  { source: 'trial', target: 'findlove', value: 1 },
+  { source: 'magical', target: 'pure', value: 1 },
+  { source: 'logical', target: 'edge', value: 1 },
+];
+
+const groupColors = {
+  core: '#7c3aed', matching: '#0ea5e9', social: '#10b981',
+  games: '#f59e0b', safety: '#ef4444', ai: '#6366f1', system: '#64748b'
+};
+
+const width = window.innerWidth;
+const height = window.innerHeight - 52;
+
+const svg = d3.select('#main-svg')
+  .attr('width', width).attr('height', height);
+
+const g = svg.append('g');
+
+const zoom = d3.zoom()
+  .scaleExtent([0.2, 3])
+  .on('zoom', e => g.attr('transform', e.transform));
+
+svg.call(zoom);
+
+const sim = d3.forceSimulation(nodes)
+  .force('link', d3.forceLink(links).id(d => d.id).distance(d => 90 + (d.value || 1) * 20).strength(0.5))
+  .force('charge', d3.forceManyBody().strength(-400))
+  .force('center', d3.forceCenter(width / 2, height / 2))
+  .force('collision', d3.forceCollide().radius(d => d.r + 18))
+  .alphaDecay(0.02);
+
+const link = g.append('g').selectAll('line')
+  .data(links).join('line')
+  .attr('class', 'link')
+  .style('stroke', d => groupColors[nodes.find(n => n.id === (d.source.id || d.source))?.group] || '#4a5568');
+
+const node = g.append('g').selectAll('.node')
+  .data(nodes).join('g')
+  .attr('class', d => 'node' + (d.id === 'woven' ? ' root' : ''))
+  .call(d3.drag()
+    .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+    .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+    .on('end', (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx = null; d.fy = null; })
+  );
+
+node.append('circle')
+  .attr('r', d => d.r)
+  .style('fill', d => groupColors[d.group] + '33')
+  .style('stroke', d => groupColors[d.group]);
+
+node.append('text')
+  .text(d => d.label)
+  .style('font-size', d => d.r > 20 ? '12px' : '10px')
+  .style('font-weight', d => d.r > 20 ? '600' : '400');
+
+const tooltip = document.getElementById('tooltip');
+
+node.on('mouseenter', function(e, d) {
+  tooltip.style.display = 'block';
+  document.getElementById('tt-title').textContent = d.label;
+  document.getElementById('tt-desc').textContent = d.desc;
+  document.getElementById('tt-tags').innerHTML = (d.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+})
+.on('mousemove', function(e) {
+  const x = e.clientX + 16, y = e.clientY + 16;
+  tooltip.style.left = Math.min(x, window.innerWidth - 300) + 'px';
+  tooltip.style.top = Math.min(y, window.innerHeight - 200) + 'px';
+})
+.on('mouseleave', () => { tooltip.style.display = 'none'; });
+
+sim.on('tick', () => {
+  link
+    .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+    .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+  node.attr('transform', d => `translate(${d.x},${d.y})`);
+});
+
+document.getElementById('zoom-in').onclick = () => svg.transition().call(zoom.scaleBy, 1.4);
+document.getElementById('zoom-out').onclick = () => svg.transition().call(zoom.scaleBy, 0.7);
+document.getElementById('reset').onclick = () => svg.transition().call(zoom.transform, d3.zoomIdentity.translate(width/2, height/2).scale(1));
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+name: PR Review — Lint & Format
+
+on:
+  pull_request:
+    branches: [main, master]
+
+concurrency:
+  group: pr-review-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ── Backend: dotnet format check ─────────────────────────────────────────
+  dotnet-format:
+    name: C# Format Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Cache NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('backend/**/*.csproj') }}
+          restore-keys: nuget-${{ runner.os }}-
+
+      - name: Restore
+        run: dotnet restore Woven.sln
+
+      - name: Check formatting
+        run: dotnet format Woven.sln --verify-no-changes --verbosity diagnostic
+
+  # ── Backend: security audit via reviewdog + semgrep ──────────────────────
+  semgrep-backend:
+    name: Semgrep (C# security patterns)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/csharp
+            p/owasp-top-ten
+            p/jwt
+          generateSarif: '1'
+        continue-on-error: true
+
+      - name: Upload Semgrep SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: semgrep.sarif
+        continue-on-error: true
+
+  # ── Frontend: ESLint via reviewdog ────────────────────────────────────────
+  eslint:
+    name: ESLint (TypeScript)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+
+    defaults:
+      run:
+        working-directory: frontend/woven-frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: frontend/woven-frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup reviewdog
+        uses: reviewdog/action-setup@v1
+        with:
+          reviewdog_version: latest
+
+      - name: Run ESLint with reviewdog
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx eslint \
+            --format json \
+            "src/**/*.ts" \
+            2>/dev/null | reviewdog \
+            -f=eslint \
+            -name="ESLint" \
+            -reporter=github-pr-review \
+            -filter-mode=added \
+            -fail-on-error=false || true
+
+  # ── Frontend: TypeScript strict type check ────────────────────────────────
+  typecheck:
+    name: TypeScript Type Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend/woven-frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: frontend/woven-frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+  # ── Infrastructure: Terraform validate & fmt ──────────────────────────────
+  terraform-validate:
+    name: Terraform Validate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '~1.7'
+
+      - name: terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: terraform init (no backend)
+        run: terraform init -backend=false
+
+      - name: terraform validate
+        run: terraform validate

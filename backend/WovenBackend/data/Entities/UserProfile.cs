@@ -17,6 +17,11 @@ public class UserProfile
     public double? Lat { get; set; }
     public double? Lng { get; set; }
 
+    // Phase 5A: inclusive identity
+    [System.ComponentModel.DataAnnotations.Schema.Column("display_pronouns")]
+    [System.ComponentModel.DataAnnotations.MaxLength(50)]
+    public string? DisplayPronouns { get; set; }
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 }

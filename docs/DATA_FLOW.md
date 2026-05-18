@@ -139,11 +139,14 @@ export class AuthInterceptor implements HttpInterceptor {
 │  User    │      │  Frontend   │      │   Backend   │      │    DB    │
 └────┬─────┘      └──────┬──────┘      └──────┬──────┘      └────┬─────┘
      │                   │                    │                   │
-     │ Tap YES/NO        │                    │                   │
+     │ Tap Magical ◈     │                    │                   │
+     │ or Logical ◇      │                    │                   │
      │──────────────────▶│                    │                   │
      │                   │                    │                   │
-     │                   │ POST /api/moments/choice               │
-     │                   │ { cardId, choice } │                   │
+     │                   │ POST /api/moments/respond              │
+     │                   │ { targetUserId,    │                   │
+     │                   │   choice: "MAGICAL"│                   │
+     │                   │   or "LOGICAL" }   │                   │
      │                   │───────────────────▶│                   │
      │                   │                    │                   │
      │                   │                    │ Check budget >= 1 │
@@ -198,8 +201,9 @@ interface MomentCard {
 interface MomentTheme {
   id: string;
   question: string;
-  optionYes: ThemeOption;
-  optionNo: ThemeOption;
+  left: ThemeOption;   // Logical (◇) — choice: "LOGICAL"
+  mid: ThemeOption;    // Save (⏳) — choice: "PENDING"
+  right: ThemeOption;  // Magical (◈) — choice: "MAGICAL"
 }
 
 interface MomentDeckResponse {

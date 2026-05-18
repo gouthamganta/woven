@@ -70,4 +70,17 @@ public class Match
     [Column("user_b_decision")]
     [MaxLength(20)]
     public string? UserBDecision { get; set; }
+
+    // Phase 4A: date coordination signals
+    [Column("DateIdeaInterestedA")]
+    public bool DateIdeaInterestedA { get; set; } = false;
+
+    [Column("DateIdeaInterestedB")]
+    public bool DateIdeaInterestedB { get; set; } = false;
+
+    [Column("DateIdeaInterestedAt")]
+    public DateTimeOffset? DateIdeaInterestedAt { get; set; }
+
+    [Column("DateAgreedAt")]
+    public DateTimeOffset? DateAgreedAt { get; set; }
 }

@@ -102,6 +102,46 @@ resource "azurerm_container_app" "backend" {
     value = random_password.jwt_key.result
   }
 
+  secret {
+    name  = "redis-conn"
+    value = var.redis_connection_string
+  }
+
+  secret {
+    name  = "storage-conn"
+    value = var.storage_connection_string
+  }
+
+  secret {
+    name  = "google-client-id"
+    value = var.google_client_id
+  }
+
+  secret {
+    name  = "moderation-enabled"
+    value = "true"
+  }
+
+  secret {
+    name  = "encryption-master-key"
+    value = var.encryption_master_key
+  }
+
+  secret {
+    name  = "replicate-api-token"
+    value = var.replicate_api_token
+  }
+
+  secret {
+    name  = "openai-api-key"
+    value = var.openai_api_key
+  }
+
+  secret {
+    name  = "google-places-key"
+    value = var.google_places_api_key
+  }
+
   template {
     min_replicas = 1
     max_replicas = 5
@@ -126,6 +166,46 @@ resource "azurerm_container_app" "backend" {
       env {
         name        = "Jwt__Key"
         secret_name = "jwt-key"
+      }
+
+      env {
+        name        = "Redis__ConnectionString"
+        secret_name = "redis-conn"
+      }
+
+      env {
+        name        = "Azure__Storage__ConnectionString"
+        secret_name = "storage-conn"
+      }
+
+      env {
+        name        = "GoogleAuth__ClientId"
+        secret_name = "google-client-id"
+      }
+
+      env {
+        name        = "IsModerationEnabled"
+        secret_name = "moderation-enabled"
+      }
+
+      env {
+        name        = "Encryption__MasterKey"
+        secret_name = "encryption-master-key"
+      }
+
+      env {
+        name        = "Replicate__ApiToken"
+        secret_name = "replicate-api-token"
+      }
+
+      env {
+        name        = "OpenAI__ApiKey"
+        secret_name = "openai-api-key"
+      }
+
+      env {
+        name        = "Google__PlacesApiKey"
+        secret_name = "google-places-key"
       }
 
       # --- Plain env vars ---

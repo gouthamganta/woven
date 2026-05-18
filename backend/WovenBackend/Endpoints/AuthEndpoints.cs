@@ -1,12 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using WovenBackend.Auth;
 using WovenBackend.Data;
+using WovenBackend.Services;
+using WovenBackend.Services.Analytics;
+using WovenBackend.Services.Security;
+using WovenBackend.Services.Trust;
 
 namespace WovenBackend.Endpoints;
 
 public static class AuthEndpoints
 {
-    public record GoogleAuthRequest(string IdToken);
+    public record GoogleAuthRequest(string IdToken, string? DeviceFingerprint = null);
 
     public static void MapAuthEndpoints(this WebApplication app)
     {
@@ -15,9 +19,24 @@ public static class AuthEndpoints
             IGoogleTokenVerifier googleVerifier,
             WovenDbContext db,
             JwtTokenService jwt,
+            ITrustService trust,
+            ICacheService cache,
             ILogger<Program> logger,
+            IAnalyticsService analytics,
+            HttpContext http,
             CancellationToken ct) =>
         {
+            // Rate limit: 20 auth attempts per IP per day
+            var ip = http.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+            var ipHash = PiiSanitizer.HashForAudit(ip, "rl-auth-v1");
+            var rlKey = $"rl:auth:{ipHash}:{DateOnly.FromDateTime(DateTime.UtcNow)}";
+            var allowed = await cache.CheckRateLimitAsync(rlKey, 20, CacheTtl.UntilMidnightUtc(), ct);
+            if (!allowed)
+            {
+                http.Response.Headers["Retry-After"] = ((int)CacheTtl.UntilMidnightUtc().TotalSeconds).ToString();
+                return Results.StatusCode(429);
+            }
+
             if (string.IsNullOrWhiteSpace(req.IdToken))
             {
                 return Results.BadRequest(new { error = "ID token is required" });
@@ -85,7 +104,26 @@ public static class AuthEndpoints
             user.UpdatedAt = DateTime.UtcNow;
             await db.SaveChangesAsync(ct);
 
+            // Phase 2B: trust signals — fire-and-forget, non-blocking
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await trust.CheckDeviceFingerprintAsync(user.Id, req.DeviceFingerprint);
+                    await trust.CheckVelocityAsync(user.Id);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogWarning(ex, "[Auth] Trust check failed for user {UserId}", user.Id);
+                }
+            });
+
             var accessToken = jwt.CreateAccessToken(user.Id, user.Email);
+
+            var isNewUser = existingIdentity == null;
+            _ = analytics.TrackAsync(user.Id, null,
+                isNewUser ? AnalyticsEvents.UserRegistered : AnalyticsEvents.AppOpened,
+                new { provider = "google", isNewUser });
 
             return Results.Ok(new
             {

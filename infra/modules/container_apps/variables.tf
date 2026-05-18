@@ -79,6 +79,48 @@ variable "custom_domain" {
   default     = ""
 }
 
+variable "redis_connection_string" {
+  description = "Redis connection string (stored as container app secret)"
+  type        = string
+  sensitive   = true
+}
+
+variable "storage_connection_string" {
+  description = "Azure Storage connection string (stored as container app secret)"
+  type        = string
+  sensitive   = true
+}
+
+variable "google_client_id" {
+  description = "Google OAuth client ID for the backend GoogleAuth middleware"
+  type        = string
+  sensitive   = true
+}
+
+variable "encryption_master_key" {
+  description = "AES-256 master key for column encryption (32 bytes, base64-encoded)"
+  type        = string
+  sensitive   = true
+}
+
+variable "replicate_api_token" {
+  description = "Replicate API token for photo embedding (CLIP)"
+  type        = string
+  sensitive   = true
+}
+
+variable "openai_api_key" {
+  description = "OpenAI API key for insight text extraction"
+  type        = string
+  sensitive   = true
+}
+
+variable "google_places_api_key" {
+  description = "Google Places API key for venue suggestions"
+  type        = string
+  sensitive   = true
+}
+
 variable "tags" {
   description = "Tags to apply to resources"
   type        = map(string)

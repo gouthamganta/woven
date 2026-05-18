@@ -66,13 +66,13 @@
           </div>
 
           <div class="actionsBar" *ngIf="meta?.theme; else fallback">
-            <button class="action" (click)="decide(card,'NO')">
+            <button class="action" (click)="decide(card,'LOGICAL')">
               <div class="emo">{{ meta?.theme?.left?.emoji }}</div>
               <div class="lab">{{ meta?.theme?.left?.label }}</div>
               <div class="mini">this side</div>
             </button>
 
-            <button class="action rightPick" (click)="decide(card,'YES')">
+            <button class="action rightPick" (click)="decide(card,'MAGICAL')">
               <div class="emo">{{ meta?.theme?.right?.emoji }}</div>
               <div class="lab">{{ meta?.theme?.right?.label }}</div>
               <div class="mini">this side</div>
@@ -81,13 +81,13 @@
 
           <ng-template #fallback>
             <div class="actionsBar">
-              <button class="action" (click)="decide(card,'NO')">
-                <div class="lab">No</div>
+              <button class="action" (click)="decide(card,'LOGICAL')">
+                <div class="lab">Logical (◇)</div>
                 <div class="mini">this side</div>
               </button>
 
-              <button class="action rightPick" (click)="decide(card,'YES')">
-                <div class="lab">Yes</div>
+              <button class="action rightPick" (click)="decide(card,'MAGICAL')">
+                <div class="lab">Magical (◈)</div>
                 <div class="mini">this side</div>
               </button>
             </div>

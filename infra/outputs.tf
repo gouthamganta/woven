@@ -123,3 +123,25 @@ output "jwt_secret_key" {
   value       = module.container_apps.jwt_secret_key
   sensitive   = true
 }
+
+output "storage_account_name" {
+  description = "Azure Storage account name for media blobs"
+  value       = azurerm_storage_account.woven_media.name
+}
+
+output "storage_account_connection_string" {
+  description = "Azure Storage primary connection string (for backend configuration)"
+  value       = azurerm_storage_account.woven_media.primary_connection_string
+  sensitive   = true
+}
+
+output "redis_hostname" {
+  description = "Azure Redis Cache hostname"
+  value       = azurerm_redis_cache.main.hostname
+}
+
+output "redis_connection_string" {
+  description = "Redis connection string for the backend (SSL, port 6380)"
+  value       = "${azurerm_redis_cache.main.hostname}:${azurerm_redis_cache.main.ssl_port},password=${azurerm_redis_cache.main.primary_access_key},ssl=True,abortConnect=False"
+  sensitive   = true
+}

@@ -1,0 +1,82 @@
+version: 2
+updates:
+  # GitHub Actions — keep workflow dependencies up to date
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore(deps)"
+
+  # npm — Angular frontend
+  - package-ecosystem: "npm"
+    directory: "/frontend/woven-frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "frontend"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      angular:
+        patterns:
+          - "@angular/*"
+          - "@angular-devkit/*"
+      testing:
+        patterns:
+          - "@types/*"
+          - "typescript"
+      primeng:
+        patterns:
+          - "primeng"
+          - "primeicons"
+
+  # NuGet — ASP.NET backend
+  - package-ecosystem: "nuget"
+    directory: "/backend/WovenBackend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "backend"
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      aspnetcore:
+        patterns:
+          - "Microsoft.AspNetCore.*"
+          - "Microsoft.Extensions.*"
+      efcore:
+        patterns:
+          - "Microsoft.EntityFrameworkCore.*"
+          - "Npgsql.*"
+
+  # Docker — Dockerfile base images
+  - package-ecosystem: "docker"
+    directory: "/backend/WovenBackend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "chore(deps)"
+
+  - package-ecosystem: "docker"
+    directory: "/frontend/woven-frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "chore(deps)"

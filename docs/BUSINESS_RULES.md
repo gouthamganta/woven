@@ -9,24 +9,25 @@
 
 The budget system is the core mechanic that makes Woven different from swipe apps.
 
-### Budget Rules
+### Budget Caps
 
-| Rule | Value | Rationale |
-|------|-------|-----------|
-| Daily Budget | Configured per tier | Forces intentional choices |
-| Reset Time | Midnight UTC | Consistent global reset |
-| Carry Over | No | Fresh start each day |
-| Negative Balance | Not allowed | Must have budget to act |
+| Tier | Total/Day | Save (⏳)/Day | Notes |
+|------|-----------|--------------|-------|
+| Default | 5 | 2 | Standard users |
+| Boosted | Configurable | Configurable | Special events or admin grants |
+
+- **Reset Time**: Midnight UTC — fresh start every day, no carry-over
+- **Negative Balance**: Not allowed — must have budget to act
 
 ### Spending Costs
 
 | Action | Cost | Notes |
 |--------|------|-------|
-| YES on Moment | 1 | Standard interaction |
-| NO on Moment | 1 | Standard interaction |
-| HOLD on Moment | 0 | Save for later, no cost |
-| SKIP Moment | 0 | Won't see again, no cost |
-| Pop Balloon | 0 | Already paid during Moment |
+| Magical (◈) on Moment | 1 | Standard interaction (stored as YES) |
+| Logical (◇) on Moment | 1 | Standard interaction (stored as NO) |
+| Save (⏳ Hold) on Moment | 1 | Goes to pending queue; separate Save cap of 2/day |
+| Skip Moment | 0 | Won't see again, no cost |
+| Pop Balloon | 0 | Already paid during Moment choice |
 | Send Message | 0 | After connection, unlimited |
 
 ### Budget Code Pattern
@@ -40,11 +41,9 @@ public class InteractionBudgetService
     {
         var budget = await GetOrCreateBudget(userId);
 
-        // Check if enough budget
         if (budget.Remaining < cost)
             return new SpendResult(false, budget.Remaining, "Not enough budget");
 
-        // Deduct
         budget.Remaining -= cost;
         budget.LastSpent = DateTime.UtcNow;
 
@@ -70,7 +69,7 @@ public class InteractionBudgetService
             {
                 UserId = userId,
                 Date = today,
-                Remaining = _config.DailyBudget
+                Remaining = _config.DailyBudget  // Default: 5
             };
             _db.UserBudgets.Add(budget);
         }
@@ -105,13 +104,12 @@ Users rate each other after interactions. Ratings affect visibility and matching
 | Rule | Value | Rationale |
 |------|-------|-----------|
 | Scale | -100 to +100 | Granular sentiment |
-| Display Threshold | count >= 5 | Prevents gaming |
+| Display Threshold | count >= 5 | Prevents gaming with small samples |
 | Display Format | Show when threshold met | Privacy protection |
 
 ### Rating Visibility Logic
 
 ```typescript
-// ✅ CORRECT - Check threshold before showing
 interface RatingDisplay {
   show: boolean;
   value?: number;
@@ -131,7 +129,6 @@ function getRatingDisplay(rating: Rating): RatingDisplay {
 ```
 
 ```html
-<!-- In template -->
 <div class="rating" *ngIf="rating.show">
   {{ rating.value | number:'1.0-0' }}
 </div>
@@ -162,27 +159,27 @@ Woven uses AI-powered matching based on UserVectors.
 
 ```typescript
 interface UserVector {
-  // Intent layer - What they're looking for
+  // Intent layer — What they're looking for (weight: 0.30)
   intent: {
     lookingFor: 'serious' | 'casual' | 'friendship' | 'unsure';
     timeline: 'now' | 'soon' | 'someday';
   };
 
-  // Foundational pillars - Core compatibility
+  // Foundational pillars — Core compatibility (weight: 0.35)
   foundational: {
     values: string[];        // e.g., ['family', 'career', 'adventure']
     dealbreakers: string[];  // Hard no's
     lifestyle: string[];     // Living preferences
   };
 
-  // Lifestyle layer - Day-to-day compatibility
+  // Lifestyle layer — Day-to-day compatibility (weight: 0.20)
   lifestyle: {
     schedule: 'early_bird' | 'night_owl' | 'flexible';
     socialLevel: 'introvert' | 'ambivert' | 'extrovert';
     activityLevel: 'low' | 'moderate' | 'high';
   };
 
-  // Pulse layer - Current mood/state (changes daily)
+  // Pulse layer — Current mood/state, changes daily (weight: 0.15)
   pulse: {
     battery: 'full' | 'half' | 'low';
     tone: 'playful' | 'chill' | 'serious';
@@ -191,47 +188,48 @@ interface UserVector {
 }
 ```
 
-### Match Scoring
+### Match Scoring (14 Components)
 
-```csharp
-public class MatchScoringService : IMatchScoringService
-{
-    public double CalculateScore(UserVector a, UserVector b)
-    {
-        var scores = new List<(double weight, double score)>
-        {
-            (0.30, ScoreIntent(a.Intent, b.Intent)),
-            (0.35, ScoreFoundational(a.Foundational, b.Foundational)),
-            (0.20, ScoreLifestyle(a.Lifestyle, b.Lifestyle)),
-            (0.15, ScorePulse(a.Pulse, b.Pulse))
-        };
+| Component | Weight | Description |
+|-----------|--------|-------------|
+| Intent alignment | 0.12 | Same lookingFor + timeline |
+| Foundational overlap | 0.15 | Shared values/pillars |
+| Dealbreaker check | 0.08 | Hard-stop veto if triggered |
+| Lifestyle fit | 0.10 | Schedule/social/activity alignment |
+| Pulse sync | 0.07 | Current mood and role compatibility |
+| Photo aesthetic | 0.06 | Visual preference learned signal |
+| Location proximity | 0.05 | Distance preference |
+| Age fit | 0.05 | Age range preference |
+| Voice energy | 0.04 | Speech pattern similarity |
+| Conversation fit | 0.06 | Message style compatibility |
+| Commons overlap | 0.05 | Shared community spaces |
+| Season momentum | 0.04 | Current season activity level |
+| New user boost | 0.04 | Temporary visibility boost for new users |
+| Under-exposure boost | 0.09 | Corrects deck monopolization |
 
-        return scores.Sum(s => s.weight * s.score);
-    }
+Weights are dynamic — when a component has no data, its weight redistributes to other available components. Weekly gradient descent (WeightLearningService, Sunday 04:00 UTC) adjusts weights based on Pearson correlation with connection outcomes, clamped to [0.01, 0.50].
 
-    private double ScoreIntent(Intent a, Intent b)
-    {
-        // Exact match on lookingFor = high score
-        if (a.LookingFor == b.LookingFor)
-            return 1.0;
+### Deck Composition (5 cards/day)
 
-        // Compatible combinations
-        if (IsCompatible(a.LookingFor, b.LookingFor))
-            return 0.7;
-
-        return 0.3;
-    }
-
-    // ... other scoring methods
-}
-```
+| Slot | Bucket | Source |
+|------|--------|--------|
+| 2 | CORE_FIT | Top intent + foundational scorers |
+| 1 | LIFESTYLE_FIT | Strong lifestyle + pulse match |
+| 1 | CONVERSATION_FIT | High conversation/commons signal |
+| 1 | EXPLORER | Random diversity pick |
 
 ### Match Types
 
 | Type | Condition | Description |
 |------|-----------|-------------|
-| PURE | Same Moment choice | "You both felt the same vibe" |
-| EDGE | Different Moment choice | "Opposites can attract" |
+| PURE | Both chose same side (both Magical ◈ or both Logical ◇) | "You both felt the same vibe" |
+| EDGE | Different sides (one Magical ◈, one Logical ◇) | "Opposites can attract" |
+
+For EDGE matches: the "edge owner" (randomly assigned) gets full profile access immediately. The non-owner sees limited access (1 photo, no bio) until `BothMessagedAt` is set.
+
+### Trust Gate
+
+Users with `TrustScore < 0.25` are excluded from the candidate pool entirely. They do not appear in anyone's deck. The trust score is recalculated nightly by TrustScoreWorker.
 
 ---
 
@@ -244,44 +242,50 @@ Moments are hypothetical questions that drive matching.
 ```typescript
 interface MomentTheme {
   id: string;
-  question: string;      // The hypothetical question
-  optionYes: {
-    label: string;       // e.g., "Brunch"
-    emoji: string;       // e.g., "☀️"
-    description: string; // What this choice means
+  question: string;       // e.g., "Which calls to you?"
+  left: {
+    label: string;        // e.g., "Logical (◇)"
+    emoji: string;        // e.g., "◇"
+    choice: string;       // "LOGICAL" (stored as NO in DB)
   };
-  optionNo: {
-    label: string;       // e.g., "Dinner"
-    emoji: string;       // e.g., "🌙"
-    description: string;
+  mid: {
+    label: string;        // "Hold"
+    emoji: string;        // "⏳"
+    choice: string;       // "PENDING"
   };
-  category: string;      // For grouping/filtering
-  activeFrom: Date;
-  activeTo: Date;
+  right: {
+    label: string;        // e.g., "Magical (◈)"
+    emoji: string;        // e.g., "◈"
+    choice: string;       // "MAGICAL" (stored as YES in DB)
+  };
 }
 ```
 
+### Choice Mapping (API → DB)
+
+| API Value | DB Enum | Product Label | Budget Cost |
+|-----------|---------|---------------|-------------|
+| `"MAGICAL"` | `YES` | Magical (◈) — heart leads | 1 |
+| `"LOGICAL"` | `NO` | Logical (◇) — head leads | 1 |
+| `"PENDING"` | `PENDING` | Save (⏳ Hold) | 1 (separate Save cap) |
+| `"SKIP"` | — | Skip | 0 |
+
 ### Theme Display Rules
 
-```typescript
-// Micro line for current theme
-get microLine(): string {
-  return 'One hypothetical date. What would it be?';
-}
-
-// Action labels - must feel like hypothetical choices
-<div class="action yes">
-  <div class="emoji">{{ theme.optionYes.emoji }}</div>
-  <div class="label">{{ theme.optionYes.label }}</div>
+```html
+<!-- Current theme layout -->
+<div class="action logical">
+  <div class="emoji">◇</div>
+  <div class="label">Logical (◇)</div>
 </div>
 
-<div class="action no">
-  <div class="emoji">{{ theme.optionNo.emoji }}</div>
-  <div class="label">{{ theme.optionNo.label }}</div>
-</div>
-
-<div class="action hold">
+<div class="action save">
   <div class="label">can't decide</div>
+</div>
+
+<div class="action magical">
+  <div class="emoji">◈</div>
+  <div class="label">Magical (◈)</div>
 </div>
 ```
 
@@ -289,27 +293,25 @@ get microLine(): string {
 
 ## 5. Balloon Rules
 
-Balloons are created when two users both make choices on the same Moment.
+Balloons are created when two users both make a Magical or Logical choice on the same Moment.
 
 ### Balloon Creation
 
 ```csharp
 public async Task<Balloon?> TryCreateBalloon(Guid momentId, Guid userA, Guid userB)
 {
-    // Get both users' choices
     var choiceA = await GetChoice(momentId, userA);
     var choiceB = await GetChoice(momentId, userB);
 
-    // Both must have made a choice (not HOLD, SKIP, or PENDING)
+    // Both must have made a definitive choice (not PENDING/SKIP)
     if (!IsValidChoice(choiceA) || !IsValidChoice(choiceB))
         return null;
 
-    // Determine match type
+    // PURE = same choice, EDGE = different choices
     var matchType = choiceA.Choice == choiceB.Choice
         ? MatchType.PURE
         : MatchType.EDGE;
 
-    // Create balloon
     var balloon = new Balloon
     {
         Id = Guid.NewGuid(),
@@ -319,7 +321,7 @@ public async Task<Balloon?> TryCreateBalloon(Guid momentId, Guid userA, Guid use
         MatchType = matchType,
         Status = BalloonStatus.ACTIVE,
         CreatedAt = DateTime.UtcNow,
-        ExpiresAt = DateTime.UtcNow.AddHours(72)
+        ExpiresAt = DateTime.UtcNow.AddDays(7)  // 7-day TTL
     };
 
     _db.Balloons.Add(balloon);
@@ -333,54 +335,58 @@ public async Task<Balloon?> TryCreateBalloon(Guid momentId, Guid userA, Guid use
 
 | Rule | Value |
 |------|-------|
-| Default Lifetime | 72 hours |
+| Default Lifetime | **7 days** |
 | Pop Deadline | Before expiration |
-| After Expiration | Auto-closes, match lost |
+| After Expiration | Auto-closes via BalloonExpiryWorker (runs every 60 s) |
 
 ### Balloon Actions
 
 | Action | Effect | Who Can Do |
 |--------|--------|------------|
-| Pop | Start trial period | Either user |
-| Let Expire | Balloon closes silently | Passive |
-| Unmatch | Balloon closes, recorded | Either user |
-| Block | Balloon closes, user blocked | Either user |
+| Pop | Start 1-minute trial period | Either user |
+| Let Expire | Balloon closes silently after 7 days | Passive |
+| Unmatch | Balloon closes immediately, recorded | Either user |
+| Block | Balloon closes, user added to block list | Either user |
 
 ---
 
 ## 6. Trial Period Rules
 
-After popping a balloon, users enter a trial communication period.
+After popping a balloon, users enter a 1-minute trial communication period.
 
 ### Trial Rules
 
 | Rule | Value |
 |------|-------|
-| Duration | 24-48 hours (configurable) |
-| Message Limit | Limited exchanges |
-| Pass Threshold | Both users must engage |
-| Result | Pass → Full connection, Fail → Match ends |
+| Duration | **1 minute** |
+| Both must decide | CONTINUE or END within 1 minute |
+| Result if both CONTINUE | FindLoveAt = now; full connection unlocked |
+| Result if either END | Match closes as UNMATCH |
+| Result if timeout | Match closes as UNMATCH |
 
 ### Trial Engagement Check
 
 ```csharp
-public async Task<TrialResult> EvaluateTrial(Guid trialId)
+public async Task<TrialResult> EvaluateTrial(Guid matchId)
 {
-    var trial = await _db.Trials.FindAsync(trialId);
-    var messages = await _db.Messages
-        .Where(m => m.TrialId == trialId)
-        .GroupBy(m => m.SenderId)
-        .Select(g => new { UserId = g.Key, Count = g.Count() })
-        .ToListAsync();
+    var match = await _db.Matches.FindAsync(matchId);
 
-    var userAEngaged = messages.Any(m => m.UserId == trial.UserAId && m.Count >= _config.MinMessages);
-    var userBEngaged = messages.Any(m => m.UserId == trial.UserBId && m.Count >= _config.MinMessages);
+    if (!match.IsTrial || match.TrialEndsAt == null)
+        return TrialResult.NOT_IN_TRIAL;
 
-    if (userAEngaged && userBEngaged)
-        return TrialResult.PASSED;
+    var userADecided = match.UserADecision != null;
+    var userBDecided = match.UserBDecision != null;
 
-    if (DateTime.UtcNow > trial.EndsAt)
-        return TrialResult.FAILED;
+    if (userADecided && userBDecided)
+    {
+        if (match.UserADecision == "CONTINUE" && match.UserBDecision == "CONTINUE")
+            return TrialResult.PASSED;
+        else
+            return TrialResult.FAILED;
+    }
+
+    if (DateTime.UtcNow > match.TrialEndsAt)
+        return TrialResult.TIMED_OUT;
 
     return TrialResult.IN_PROGRESS;
 }
@@ -388,7 +394,23 @@ public async Task<TrialResult> EvaluateTrial(Guid trialId)
 
 ---
 
-## 7. Communication Rules
+## 7. Find Love Unlock
+
+Find Love is the final stage of a connection — unlocked 5 minutes after both users have sent at least one message.
+
+### Find Love Rules
+
+| Rule | Value |
+|------|-------|
+| Trigger | `BothMessagedAt` is set when both users have sent ≥ 1 message |
+| Unlock Delay | 5 minutes after `BothMessagedAt` |
+| Content | AI-generated date idea, date coordination UI |
+| Who Sees It | Both users; shown via `showFindLove = true` |
+| Alternative Path | If trial passes (both CONTINUE), FindLoveAt = now |
+
+---
+
+## 8. Communication Rules
 
 Rules for messaging between users.
 
@@ -397,8 +419,8 @@ Rules for messaging between users.
 | Stage | Can Message |
 |-------|-------------|
 | Before Match | No |
-| Balloon Active | No (balloon must be popped) |
-| Trial Period | Yes, limited |
+| Balloon Active (not popped) | No — balloon must be popped first |
+| Trial Period (1 min) | Yes, within trial window |
 | Full Connection | Yes, unlimited |
 
 ### Message Validation
@@ -408,15 +430,12 @@ public async Task<SendResult> ValidateSend(Guid senderId, Guid threadId)
 {
     var thread = await _db.Threads.FindAsync(threadId);
 
-    // Check user is participant
     if (!IsParticipant(thread, senderId))
         return SendResult.Fail("Not authorized");
 
-    // Check thread status allows messaging
     if (!CanMessage(thread.Status))
         return SendResult.Fail("Cannot message in current state");
 
-    // Check rate limits
     if (await IsRateLimited(senderId))
         return SendResult.Fail("Rate limited");
 
@@ -426,21 +445,22 @@ public async Task<SendResult> ValidateSend(Guid senderId, Guid threadId)
 
 ---
 
-## 8. Profile Visibility Rules
+## 9. Profile Visibility Rules
 
 Who can see what profile information.
 
 ### Visibility Matrix
 
-| Viewer | Profile Visible | Photos | Full Name | Last Active |
-|--------|----------------|--------|-----------|-------------|
+| Viewer | Profile | Photos | Full Name | Last Active |
+|--------|---------|--------|-----------|-------------|
 | Stranger | No | No | No | No |
-| Moment Candidate | Yes (limited) | Yes | First name only | No |
-| Balloon Match | Yes | Yes | First name | General |
-| Trial Match | Yes | Yes | Full name | Yes |
-| Connected | Yes | Yes | Full name | Yes |
+| Moment Candidate | Limited | Yes | First name only | No |
+| Balloon Match — PURE | Yes | Yes | First name | General |
+| Balloon Match — EDGE (owner) | Yes | Yes | First name | General |
+| Balloon Match — EDGE (non-owner) | Limited | 1 photo | First name | No |
+| Trial / Connected | Yes | Yes | Full name | Yes |
 
-### Profile Privacy
+### Profile Privacy Code Pattern
 
 ```csharp
 public ProfileView GetProfileView(Guid viewerId, Guid profileId)
@@ -455,11 +475,10 @@ public ProfileView GetProfileView(Guid viewerId, Guid profileId)
             FirstName = profile.FirstName,
             Photos = profile.Photos,
             Bio = profile.Bio,
-            // Hide: LastName, Location details, Last active
+            // Hide: LastName, Location, Last active
         },
         Relationship.CONNECTED => new ProfileView
         {
-            // Full profile visible
             FirstName = profile.FirstName,
             LastName = profile.LastName,
             Photos = profile.Photos,
@@ -474,7 +493,7 @@ public ProfileView GetProfileView(Guid viewerId, Guid profileId)
 
 ---
 
-## 9. Block & Report Rules
+## 10. Block & Report Rules
 
 User safety and moderation rules.
 
@@ -482,10 +501,10 @@ User safety and moderation rules.
 
 | Effect | Description |
 |--------|-------------|
-| Mutual Invisibility | Neither user sees the other |
-| End All Connections | Active balloons/threads close |
-| Prevent Future Matches | Never shown to each other |
-| One-way | Blocked user doesn't know |
+| Mutual Invisibility | Neither user sees the other in any deck or search |
+| End All Connections | Active balloons/threads close immediately |
+| Prevent Future Matches | Never shown to each other again |
+| One-way | Blocked user doesn't know they're blocked |
 
 ### Report Flow
 
@@ -503,15 +522,121 @@ User Reports → Queued for Review → Moderator Action
 
 ---
 
+## 11. Trust & Ghost Scoring
+
+### Trust Score
+
+- **Range**: 0.0 – 1.0
+- **Threshold**: Users with `TrustScore < 0.25` are hidden from all candidate pools
+- **Inputs**: Account age, verification status, report count, response consistency, rating history
+- **Update**: Recalculated nightly by `TrustScoreWorker`
+
+```csharp
+// Trust gate enforcement in DailyDeckOrchestrator
+var candidates = await _db.Users
+    .Where(u => u.TrustScore >= 0.25)
+    .Where(u => /* other filters */)
+    .ToListAsync();
+```
+
+### Ghost Score
+
+- **Purpose**: Detects users who appear but never engage (ghost behavior)
+- **Threshold**: Calculated after 5+ balloon matches
+- **Inputs**: Read-without-reply rate, average response time, abandonment rate
+- **Effect**: High ghost score reduces appearance frequency in others' decks
+- **Update**: Recalculated by `GhostScoreWorker` after each match closes
+
+---
+
+## 12. Seasons
+
+Seasons add a recurring social layer to the platform.
+
+### Season Rules
+
+| Rule | Value |
+|------|-------|
+| Duration | **21 days** per season |
+| Theme | Set by platform admin |
+| Participation | Automatic — all active users participate |
+| Season Score | Accumulates from Moments, messages, connections |
+| Season Rank | Displayed on profile during active season |
+| Reset | Scores reset when new season starts |
+| History | Past seasons archived and visible on profile |
+
+---
+
+## 13. Foundational Questions
+
+Deep-compatibility questions answered during onboarding; expire and refresh periodically.
+
+### Expiry Rules
+
+| Question Type | Expiry |
+|--------------|--------|
+| Core foundational | **60 days** — fundamental values rarely change |
+| Lifestyle | **45 days** — living preferences shift occasionally |
+| Current state | **15 days** — mood/role/energy shifts frequently |
+
+When a foundational question expires, the user is prompted to re-answer it. Until re-answered, that component weight redistributes to other available components.
+
+---
+
+## 14. Energy Meter & Orbit Limits
+
+### Energy Meter (Tiles)
+
+- **Cap**: 100 tile interactions per day
+- **Reset**: Midnight UTC
+- **Purpose**: Limits how many profiles a user can browse in the Commons/Tiles feed
+- **Cost**: 1 energy per tile view (browsing Commons)
+
+### Orbit Rate Limit
+
+- **Cap**: 50 Orbit actions per day
+- **Reset**: Midnight UTC
+- **Purpose**: Limits how many users can be "orbited" (followed/circled) per day
+- **Effect**: Orbit does not cost interaction budget; it has its own separate cap
+
+---
+
+## 15. Visual Preference Learning
+
+The system learns photo aesthetic preferences from swipe behavior.
+
+### Rules
+
+| Rule | Value |
+|------|-------|
+| Minimum Decisions | **10** — system ignores visual preference component until 10 photo decisions recorded |
+| Learning Signal | Whether user chose Magical/Logical vs Save/Skip on a given card |
+| Model | Embedding similarity between photo embedding and user's "liked" cluster |
+| Update | Recalculated weekly by `VisualPreferenceLearner` |
+| Weight | 0.06 in scoring formula (0.0 until minimum decisions reached) |
+
+---
+
 ## Business Rule Validation Checklist
 
 When implementing features, verify:
 
-- [ ] Budget is checked before any costly action
+- [ ] Budget is checked before any costly action (Magical, Logical, Save)
+- [ ] Save cap (2/day) checked separately from total cap (5/day)
 - [ ] Ratings only show when count >= 5
-- [ ] State machines are respected
-- [ ] Profile visibility follows relationship rules
+- [ ] State machines are respected (no invalid transitions)
+- [ ] Profile visibility follows relationship tier rules
+- [ ] EDGE match: non-owner sees limited view until BothMessagedAt
 - [ ] Blocked users cannot see or interact with each other
-- [ ] Trial rules are enforced
-- [ ] Moment themes feel like hypothetical questions
+- [ ] Trial duration is 1 minute (not hours)
+- [ ] Find Love unlocks 5 minutes after BothMessagedAt
+- [ ] Balloon TTL is 7 days (not 72 hours)
+- [ ] Trust gate enforced: TrustScore < 0.25 excluded from pool
+- [ ] Ghost score calculated only after 5+ matches
+- [ ] Visual preference ignored until 10 decisions recorded
+- [ ] Energy cap 100/day for tile views
+- [ ] Orbit cap 50/day, separate from interaction budget
+- [ ] Season length is 21 days
+- [ ] Foundational Q expiry: 15/45/60 days by type
 - [ ] All timing rules use UTC
+- [ ] Moment themes feel like hypothetical questions (not preference surveys)

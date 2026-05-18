@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WovenBackend.Data;
 using WovenBackend.Services;
+using WovenBackend.Services.Analytics;
 
 namespace WovenBackend.Endpoints;
 
@@ -72,6 +73,7 @@ public static class DynamicIntakeEndpoints
             DynamicIntakeSubmitRequest req,
             WovenDbContext db,
             DynamicIntakeCycleService cycles,
+            IAnalyticsService analytics,
             ClaimsPrincipal user,
             HttpContext http, // ✅ ADD THIS (needed for RequestServices)
             CancellationToken ct) =>
@@ -123,6 +125,9 @@ public static class DynamicIntakeEndpoints
             set.UpdatedAtUtc = DateTime.UtcNow;
 
             await db.SaveChangesAsync(ct);
+
+            _ = analytics.TrackAsync(userId, null, AnalyticsEvents.WeeklyPulseSubmitted,
+                new { cycleId = set.CycleId });
 
             // ✅ TRIGGER: Update user vector pulse section (non-blocking)
             // Use IServiceScopeFactory to create a new scope for background work

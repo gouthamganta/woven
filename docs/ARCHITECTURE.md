@@ -44,9 +44,11 @@ Match ────────────────────────�
   ├── matchType: PURE | EDGE
   ├── balloonState: ACTIVE | CLOSED
   ├── closedReason: POP | EXPIRE | UNMATCH | BLOCK
-  ├── expiresAt (36 hours from creation)
-  ├── Trial fields: isTrial, trialStartedAt, trialEndsAt
-  └── Decisions: userADecision, userBDecision
+  ├── expiresAt (7 days from creation)
+  ├── Trial fields: isTrial, trialStartedAt, trialEndsAt (1-minute window)
+  ├── Decisions: userADecision, userBDecision (CONTINUE | END)
+  ├── edgeOwnerId (EDGE matches only — gets full profile access immediately)
+  └── bothMessagedAt, findLoveAt (Find Love unlock tracking)
 
 ChatThread (1:1 with Match) ───── ChatMessage[]
 ```

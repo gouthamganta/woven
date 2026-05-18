@@ -121,6 +121,8 @@ credentials.json
 # ================================
 .terraform/
 *.tfplan
+tfplan.out
+*.tfplan.out
 tfplan
 *.tfstate
 *.tfstate.backup

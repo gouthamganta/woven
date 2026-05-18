@@ -169,6 +169,36 @@ variable "allowed_ip_ranges" {
   default     = []
 }
 
+variable "google_client_id" {
+  description = "Google OAuth client ID for the backend"
+  type        = string
+  sensitive   = true
+}
+
+variable "encryption_master_key" {
+  description = "AES-256 master key for column-level encryption (32 bytes, base64-encoded). Generate with: openssl rand -base64 32"
+  type        = string
+  sensitive   = true
+}
+
+variable "replicate_api_token" {
+  description = "Replicate API token for photo embedding via CLIP"
+  type        = string
+  sensitive   = true
+}
+
+variable "openai_api_key" {
+  description = "OpenAI API key for insight text extraction"
+  type        = string
+  sensitive   = true
+}
+
+variable "google_places_api_key" {
+  description = "Google Places API key for venue suggestions"
+  type        = string
+  sensitive   = true
+}
+
 variable "tags" {
   description = "Additional tags to apply to all resources"
   type        = map(string)

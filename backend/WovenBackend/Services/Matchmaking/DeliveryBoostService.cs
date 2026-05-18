@@ -154,6 +154,68 @@ public class DeliveryBoostService : IDeliveryBoostService
                 boost[m.OtherId] -= UnmatchPenalty;
         }
 
+        // ---------------------------
+        // 6) Orbit gravity boost:
+        // Candidate has romantically orbited the viewer's tiles → boost them.
+        // Score is decayed further to now: score * e^(-0.1 * daysSinceLastOrbit).
+        // boostMultiplier += 0.08 * (decayedScore / 100) — capped contribution per orbit event.
+        // ---------------------------
+        var orbitGravities = await _db.OrbitGravities.AsNoTracking()
+            .Where(g => candidateIds.Contains(g.UserId) && g.CandidateId == viewerId)
+            .Select(g => new { g.UserId, g.Score, g.LastOrbitAt })
+            .ToListAsync(ct);
+
+        foreach (var g in orbitGravities)
+        {
+            if (!boost.ContainsKey(g.UserId)) continue;
+            var daysSince = (now - g.LastOrbitAt).TotalDays;
+            var decayedScore = g.Score * Math.Exp(-0.1 * daysSince);
+            boost[g.UserId] += 0.08 * (decayedScore / 100.0);
+        }
+
+        // ---------------------------
+        // 7) Trust score multiplier:
+        // Scales the boost additively based on candidate trust level.
+        // TrustScore 0.5 (default) → ±0 adjustment; 1.0 → +10; 0.0 → -10.
+        // This rewards trusted users and suppresses low-trust candidates without hard-blocking.
+        // ---------------------------
+        var trustScores = await _db.Users.AsNoTracking()
+            .Where(u => candidateIds.Contains(u.Id))
+            .Select(u => new { u.Id, u.TrustScore })
+            .ToDictionaryAsync(u => u.Id, u => (double)u.TrustScore, ct);
+
+        foreach (var id in boost.Keys.ToList())
+        {
+            if (trustScores.TryGetValue(id, out var ts))
+                boost[id] += (ts - 0.5) * 20.0; // ±10 range around neutral
+        }
+
+        // ---------------------------
+        // 8) GhostScore multiplier:
+        // Scales the final boost by the candidate's ghosting history.
+        // 1.0 = never ghosts (no reduction); 0.0 = always ghosts (zeroed out).
+        // ---------------------------
+        var ghostAndVerified = await _db.Users.AsNoTracking()
+            .Where(u => candidateIds.Contains(u.Id))
+            .Select(u => new { u.Id, u.GhostScore, u.IsVerified })
+            .ToDictionaryAsync(u => u.Id, u => u, ct);
+
+        foreach (var id in boost.Keys.ToList())
+        {
+            if (ghostAndVerified.TryGetValue(id, out var u))
+                boost[id] *= u.GhostScore;
+        }
+
+        // ---------------------------
+        // 9) Verified boost:
+        // Verified users appear slightly more often in decks (+5% multiplier).
+        // ---------------------------
+        foreach (var id in boost.Keys.ToList())
+        {
+            if (ghostAndVerified.TryGetValue(id, out var u) && u.IsVerified)
+                boost[id] *= 1.05;
+        }
+
         return boost;
     }
 }

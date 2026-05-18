@@ -4,6 +4,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
 import { PulseAnswers, PulseService, PulseState } from '../../services/pulse.service';
+import { RealtimeService } from '../../services/realtime.service';
 import { PulseSheetComponent } from './pulse-sheet.component';
 import { HowItWorksSheetComponent } from './how-it-works-sheet.component';
 
@@ -30,16 +31,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     public router: Router,
     private pulseApi: PulseService,
+    private realtime: RealtimeService,
     private cdr: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
+    this.realtime.start();
     await this.refreshPulse();
     this.startCountdownTicker();
   }
 
   ngOnDestroy() {
     if (this.timer) clearInterval(this.timer);
+    this.realtime.stop();
   }
 
   go(path: 'moments' | 'chats' | 'profile') {

@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using WovenBackend.Data;
 using WovenBackend.data.Entities.Moments;
+using WovenBackend.Services.Analytics;
 using WovenBackend.Services.Moments;
 
 namespace WovenBackend.Endpoints;
@@ -20,6 +21,7 @@ public static class MomentsEndpoints
         group.MapGet("", async (
             WovenDbContext db,
             WovenBackend.Services.Matchmaking.IDailyDeckOrchestrator deckOrchestrator,
+            IAnalyticsService analytics,
             HttpContext http,
             CancellationToken ct) =>
         {
@@ -92,8 +94,10 @@ public static class MomentsEndpoints
                 {
                     userId = u.Id,
                     fullName = u.FullName,
+                    isVerified = u.IsVerified,
                     age = db.UserProfiles.Where(p => p.UserId == u.Id).Select(p => (int?)p.Age).FirstOrDefault(),
                     gender = db.UserProfiles.Where(p => p.UserId == u.Id).Select(p => p.Gender).FirstOrDefault(),
+                    displayPronouns = db.UserProfiles.Where(p => p.UserId == u.Id).Select(p => p.DisplayPronouns).FirstOrDefault(),
                     location = db.UserProfiles.Where(p => p.UserId == u.Id)
                         .Select(p => new { city = p.City, state = p.State })
                         .FirstOrDefault(),
@@ -158,6 +162,8 @@ public static class MomentsEndpoints
                     {
                         candidate.userId,
                         candidate.fullName,
+                        candidate.isVerified,
+                        candidate.displayPronouns,
                         candidate.age,
                         candidate.gender,
                         candidate.location,
@@ -174,6 +180,9 @@ public static class MomentsEndpoints
                     };
                 })
                 .ToList();
+
+            _ = analytics.TrackAsync(userId, null, AnalyticsEvents.MomentsDeckViewed,
+                new { deckSize = cards.Count, hasStrongMatch = filteredItems.Any(i => i.Score >= 80) });
 
             return Results.Ok(new
             {
@@ -254,6 +263,8 @@ public static class MomentsEndpoints
             WovenDbContext db,
             InteractionBudgetService budget,
             MomentsMatchService matchService,
+            IAnalyticsService analytics,
+            IServiceScopeFactory scopeFactory,
             HttpContext http,
             CancellationToken ct) =>
         {
@@ -340,8 +351,8 @@ public static class MomentsEndpoints
 
             var choiceEnum = choice switch
             {
-                "YES" => MomentChoice.YES,
-                "NO" => MomentChoice.NO,
+                "MAGICAL" => MomentChoice.YES,
+                "LOGICAL" => MomentChoice.NO,
                 "PENDING" => MomentChoice.PENDING,
                 _ => (MomentChoice?)null
             };
@@ -369,6 +380,9 @@ public static class MomentsEndpoints
                     // ignore duplicate pending
                 }
 
+                _ = analytics.TrackAsync(me, null, AnalyticsEvents.PendingSaved,
+                    new { targetUserId = req.TargetUserId });
+
                 return Results.Ok(new
                 {
                     status = "PENDING_SAVED",
@@ -376,6 +390,9 @@ public static class MomentsEndpoints
                     spend.PendingUsed
                 });
             }
+
+            _ = analytics.TrackAsync(me, null, AnalyticsEvents.MomentResponded,
+                new { choice = choiceEnum.Value.ToString(), isFromPending });
 
             // ✅ YES/NO: record response (unique per day)
             // If from Pending and response already exists today -> update it (idempotent)
@@ -396,6 +413,37 @@ public static class MomentsEndpoints
             }
 
             await db.SaveChangesAsync(ct);
+
+            // Phase 3D: fire-and-forget visual decision recording
+            var capturedUserId = me;
+            var capturedTargetId = req.TargetUserId;
+            var capturedChoice = choiceEnum.Value.ToString();
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    using var scope = scopeFactory.CreateScope();
+                    var innerDb = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+
+                    // Find candidate's primary photo embedding
+                    var primaryPhoto = await innerDb.PhotoEmbeddings.AsNoTracking()
+                        .Where(p => p.UserId == capturedTargetId)
+                        .OrderBy(p => p.EmbeddedAt)
+                        .Select(p => (int?)p.Id)
+                        .FirstOrDefaultAsync();
+
+                    innerDb.UserVisualDecisions.Add(new WovenBackend.Data.Entities.UserVisualDecision
+                    {
+                        ViewerUserId = capturedUserId,
+                        TargetUserId = capturedTargetId,
+                        PhotoEmbeddingId = primaryPhoto,
+                        Choice = capturedChoice,
+                        DecidedAt = DateTimeOffset.UtcNow
+                    });
+                    await innerDb.SaveChangesAsync();
+                }
+                catch { /* best-effort; do not surface to request */ }
+            });
 
             // If YES/NO came from Pending, remove pending row (already loaded above)
             if (existingPending != null)
@@ -532,14 +580,14 @@ public static class MomentsEndpoints
 
     private static object ThemeOfTheDay(DateOnly day)
     {
-        // Single consistent theme: Brunch vs Dinner
+        // Single consistent theme: Magical vs Logical
         return new
         {
-            id = "BRUNCH_DINNER",
-            question = "If we grabbed a meal together...",
-            left = new { label = "Brunch", emoji = "☕", choice = "NO" },
+            id = "MAGICAL_LOGICAL",
+            question = "Which calls to you?",
+            left = new { label = "Logical (◇)", emoji = "◇", choice = "LOGICAL" },
             mid = new { label = "Hold", emoji = "⏳", choice = "PENDING" },
-            right = new { label = "Dinner", emoji = "🍽️", choice = "YES" }
+            right = new { label = "Magical (◈)", emoji = "◈", choice = "MAGICAL" }
         };
     }
 }

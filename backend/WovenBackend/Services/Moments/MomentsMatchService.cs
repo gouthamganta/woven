@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WovenBackend.Data;
 using WovenBackend.data.Entities.Moments;
+using WovenBackend.Services.Analytics;
 using MatchType = WovenBackend.data.Entities.Moments.MatchType;
 
 namespace WovenBackend.Services.Moments;
@@ -8,10 +9,14 @@ namespace WovenBackend.Services.Moments;
 public class MomentsMatchService
 {
     private readonly WovenDbContext _db;
+    private readonly WovenBackend.Services.INotificationService _notifications;
+    private readonly IAnalyticsService _analytics;
 
-    public MomentsMatchService(WovenDbContext db)
+    public MomentsMatchService(WovenDbContext db, WovenBackend.Services.INotificationService notifications, IAnalyticsService analytics)
     {
         _db = db;
+        _notifications = notifications;
+        _analytics = analytics;
     }
 
     public sealed record CreateMatchResult(
@@ -77,6 +82,28 @@ public class MomentsMatchService
         await _db.SaveChangesAsync(ct);
 
         await tx.CommitAsync(ct);
+
+        // Phase 1C: notify the recipient(s) in real-time
+        if (matchType == MatchType.EDGE && edgeOwnerId.HasValue)
+        {
+            // One user explicitly sent a Moment — notify the other user
+            var recipientId = edgeOwnerId.Value == a ? b : a;
+            await _notifications.MomentReceivedAsync(recipientId, match.Id, edgeOwnerId.Value, ct);
+        }
+        else if (matchType == MatchType.PURE)
+        {
+            // Algorithm-generated mutual match — notify both users
+            await Task.WhenAll(
+                _notifications.MomentReceivedAsync(a, match.Id, b, ct),
+                _notifications.MomentReceivedAsync(b, match.Id, a, ct)
+            );
+        }
+
+        _ = _analytics.TrackAsync(match.UserAId, null, AnalyticsEvents.MatchCreated,
+            new { matchType = matchType.ToString(), score = (object?)null, bucket = (object?)null });
+        _ = _analytics.TrackAsync(match.UserBId, null, AnalyticsEvents.MatchCreated,
+            new { matchType = matchType.ToString(), score = (object?)null, bucket = (object?)null });
+
         return new CreateMatchResult(true, match, null);
     }
 }

@@ -1,0 +1,60 @@
+name: Feature Request
+description: Propose a new feature or improvement
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Got an idea to make Woven better? Describe it below.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Matchmaking / Algorithm
+        - Moments / Balloon flow
+        - Chat / Messaging
+        - Games
+        - Profile / Onboarding
+        - Commons / Tiles / Orbit
+        - Seasons
+        - Safety / Moderation
+        - AI / Personalization
+        - Infrastructure / Performance
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      placeholder: Is your feature request related to a problem? e.g. "I'm frustrated when..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      placeholder: Describe what you'd like to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      placeholder: Any alternative approaches you thought of?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I've searched existing issues and this isn't a duplicate
+          required: true
+        - label: This feature aligns with Woven's intentional matchmaking philosophy

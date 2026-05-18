@@ -1,0 +1,52 @@
+name: Welcome
+
+on:
+  pull_request_target:
+    types: [opened]
+  issues:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  welcome-pr:
+    name: Welcome new PR authors
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_target'
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          pr-message: |
+            👋 Thanks for opening your first PR on Woven!
+
+            Here's a quick checklist to help the review go smoothly:
+
+            - [ ] PR title follows [Conventional Commits](https://www.conventionalcommits.org/) (e.g. `feat: add X`, `fix: resolve Y`)
+            - [ ] Changes are covered by tests
+            - [ ] No secrets or credentials committed
+            - [ ] Docs updated if the feature affects public behavior
+            - [ ] Database migrations include an updated snapshot
+
+            A maintainer will review your PR shortly. Thanks for contributing! 🎉
+
+  welcome-issue:
+    name: Welcome new issue reporters
+    runs-on: ubuntu-latest
+    if: github.event_name == 'issues'
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: |
+            👋 Thanks for filing your first issue on Woven!
+
+            To help us investigate faster, please make sure to include:
+            - What you expected to happen
+            - What actually happened
+            - Steps to reproduce
+            - Environment details (.NET version, Node version, browser, OS)
+
+            We'll look into this shortly!

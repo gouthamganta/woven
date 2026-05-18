@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 
-export type MomentChoice = 'YES' | 'NO' | 'PENDING';
+export type MomentChoice = 'MAGICAL' | 'LOGICAL' | 'PENDING';
 
 export type MomentsTheme = {
   id: string;

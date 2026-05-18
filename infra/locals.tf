@@ -17,6 +17,8 @@ locals {
     log_analytics    = "${local.name_prefix}-law"
     app_insights     = "${local.name_prefix}-ai"
     private_dns_zone = "privatelink.postgres.database.azure.com"
+    redis            = "${local.name_prefix}-redis"
+    storage_account  = replace("${var.project_name}${var.environment}media", "-", "")
   }
 
   common_tags = merge(

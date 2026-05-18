@@ -54,11 +54,11 @@ Get today's deck of candidate matches.
 {
   "dateUtc": "2025-01-25",
   "theme": {
-    "id": "BRUNCH_DINNER",
-    "question": "If we grabbed a meal together...",
-    "left": { "label": "Brunch", "emoji": "☕", "choice": "NO" },
+    "id": "MAGICAL_LOGICAL",
+    "question": "Which calls to you?",
+    "left": { "label": "Logical (◇)", "emoji": "◇", "choice": "LOGICAL" },
     "mid": { "label": "Hold", "emoji": "⏳", "choice": "PENDING" },
-    "right": { "label": "Dinner", "emoji": "🍽️", "choice": "YES" }
+    "right": { "label": "Magical (◈)", "emoji": "◈", "choice": "MAGICAL" }
   },
   "budget": {
     "totalCap": 5,
@@ -96,13 +96,13 @@ Get today's deck of candidate matches.
 
 ### POST /moments/respond
 
-Respond to a candidate (YES, NO, or PENDING).
+Respond to a candidate (MAGICAL, LOGICAL, or PENDING).
 
 **Request:**
 ```json
 {
   "targetUserId": 456,
-  "choice": "YES",
+  "choice": "MAGICAL",
   "source": null
 }
 ```

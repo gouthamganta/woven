@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using WovenBackend.Data;
 using WovenBackend.Data.Entities;
 using WovenBackend.Services;
+using WovenBackend.Services.Analytics;
 
 namespace WovenBackend.Endpoints;
 
@@ -66,7 +67,10 @@ public static class OnboardingEndpoints
     public record DetailsRequest(
         string Bio,
         OptionalFieldDto[] OptionalFields,
-        string? WeeklyVibe
+        string? WeeklyVibe,
+        string? DisplayPronouns,
+        bool? ReduceMotion,
+        bool? HighContrast
     );
 
     // ✅ Public preview DTOs
@@ -150,6 +154,7 @@ public static class OnboardingEndpoints
         // ✅ 2) POST /onboarding/welcome
         app.MapPost("/onboarding/welcome", async (
             WovenDbContext db,
+            IAnalyticsService analytics,
             ClaimsPrincipal user,
             CancellationToken ct) =>
         {
@@ -166,6 +171,8 @@ public static class OnboardingEndpoints
             u.UpdatedAt = DateTime.UtcNow;
             await db.SaveChangesAsync(ct);
 
+            _ = analytics.TrackAsync(userId, null, AnalyticsEvents.OnboardingStepCompleted, new { step = "welcome" });
+
             return Results.Ok(new
             {
                 profileStatus = u.ProfileStatus.ToString(),
@@ -179,6 +186,7 @@ public static class OnboardingEndpoints
         app.MapPut("/onboarding/basics", async (
             BasicsRequest req,
             WovenDbContext db,
+            IAnalyticsService analytics,
             ClaimsPrincipal user,
             CancellationToken ct) =>
         {
@@ -305,6 +313,8 @@ public static class OnboardingEndpoints
 
             await db.SaveChangesAsync(ct);
 
+            _ = analytics.TrackAsync(userId, null, AnalyticsEvents.OnboardingStepCompleted, new { step = "basics" });
+
             return Results.Ok(new
             {
                 profileStatus = u.ProfileStatus.ToString(),
@@ -372,6 +382,7 @@ public static class OnboardingEndpoints
         app.MapPut("/onboarding/intent", async (
             IntentRequest req,
             WovenDbContext db,
+            IAnalyticsService analytics,
             ClaimsPrincipal user,
             CancellationToken ct) =>
         {
@@ -422,6 +433,8 @@ public static class OnboardingEndpoints
             u.UpdatedAt = DateTime.UtcNow;
 
             await db.SaveChangesAsync(ct);
+
+            _ = analytics.TrackAsync(userId, null, AnalyticsEvents.OnboardingStepCompleted, new { step = "intent" });
 
             return Results.Ok(new
             {
@@ -530,6 +543,7 @@ public static class OnboardingEndpoints
             FoundationalRequest req,
             WovenDbContext db,
             FoundationalCycleService foundational,
+            IAnalyticsService analytics,
             ClaimsPrincipal user,
             CancellationToken ct) =>
         {
@@ -602,6 +616,8 @@ public static class OnboardingEndpoints
 
             var next = u.ProfileStatus == ProfileStatus.COMPLETE ? "/home" : "/onboarding/details";
 
+            _ = analytics.TrackAsync(userId, null, AnalyticsEvents.OnboardingStepCompleted, new { step = "foundational" });
+
             return Results.Ok(new
             {
                 profileStatus = u.ProfileStatus.ToString(),
@@ -615,6 +631,7 @@ public static class OnboardingEndpoints
         app.MapPut("/onboarding/details", async (
             DetailsRequest req,
             WovenDbContext db,
+            IAnalyticsService analytics,
             ClaimsPrincipal user,
             CancellationToken ct) =>
         {
@@ -735,12 +752,41 @@ public static class OnboardingEndpoints
                 if (vibe != null) db.UserWeeklyVibes.Remove(vibe);
             }
 
+            // Save displayPronouns to UserProfile if provided
+            if (req.DisplayPronouns != null)
+            {
+                var pronounStr = req.DisplayPronouns.Trim();
+                if (pronounStr.Length > 50)
+                    return Results.BadRequest(new { error = "DisplayPronouns must be 50 characters or less" });
+
+                var profile = await db.UserProfiles.FirstOrDefaultAsync(x => x.UserId == userId, ct);
+                if (profile != null)
+                {
+                    profile.DisplayPronouns = string.IsNullOrWhiteSpace(pronounStr) ? null : pronounStr;
+                    profile.UpdatedAt = DateTime.UtcNow;
+                }
+            }
+
+            // Save accessibility preferences to UserPreference if provided
+            if (req.ReduceMotion.HasValue || req.HighContrast.HasValue)
+            {
+                var pref = await db.UserPreferences.FirstOrDefaultAsync(x => x.UserId == userId, ct);
+                if (pref != null)
+                {
+                    if (req.ReduceMotion.HasValue) pref.ReduceMotion = req.ReduceMotion.Value;
+                    if (req.HighContrast.HasValue) pref.HighContrast = req.HighContrast.Value;
+                    pref.UpdatedAt = DateTime.UtcNow;
+                }
+            }
+
             if (u.ProfileStatus < ProfileStatus.DETAILS_DONE)
                 u.ProfileStatus = ProfileStatus.DETAILS_DONE;
 
             u.UpdatedAt = DateTime.UtcNow;
 
             await db.SaveChangesAsync(ct);
+
+            _ = analytics.TrackAsync(userId, null, AnalyticsEvents.OnboardingStepCompleted, new { step = "details" });
 
             return Results.Ok(new
             {
@@ -950,6 +996,8 @@ public static class OnboardingEndpoints
                     gender = profile?.Gender,
                     location = profile == null ? null : $"{profile.City}, {profile.State}",
                     bio,
+                    isVerified = u.IsVerified,
+                    displayPronouns = profile?.DisplayPronouns,
 
                     intent = intent == null
                         ? null
@@ -970,6 +1018,7 @@ public static class OnboardingEndpoints
         // ✅ 9) POST /onboarding/complete
         app.MapPost("/onboarding/complete", async (
             WovenDbContext db,
+            IAnalyticsService analytics,
             ClaimsPrincipal user,
             HttpContext http, // ✅ ADD THIS (needed for RequestServices)
             CancellationToken ct) =>
@@ -1031,6 +1080,8 @@ public static class OnboardingEndpoints
             {
                 // Silent fail - vector build is non-critical for onboarding
             }
+
+            _ = analytics.TrackAsync(userId, null, AnalyticsEvents.OnboardingStepCompleted, new { step = "complete" });
 
             return Results.Ok(new
             {

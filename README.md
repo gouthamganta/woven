@@ -22,7 +22,7 @@ A modern matchmaking and social interaction platform with AI-powered games, dyna
 
 Woven is a matchmaking platform that takes a fresh approach to online connections:
 
-- **Moments System**: Daily themed choices (Brunch vs Dinner) that create meaningful matches
+- **Moments System**: Daily themed choices (Magical ◈ vs Logical ◇) that create meaningful matches
 - **Balloon Matches**: Time-limited connections (36 hours) that encourage genuine interaction
 - **Trial Period**: 1-minute trial after "popping" a balloon to decide if the connection continues
 - **AI-Powered Games**: Interactive games (Know Me, Red/Green Flag) to break the ice

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Woven — User Journey Map</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0b0d14; color: #dde1ea; font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; }
+
+  #header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(11,13,20,0.97); backdrop-filter: blur(8px);
+    border-bottom: 1px solid #252a36; padding: 12px 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  #header h1 { font-size: 18px; font-weight: 600; color: #f0f2f7; }
+  #header span { font-size: 12px; color: #6b7280; }
+  #legend { margin-left: auto; display: flex; gap: 16px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #6b7280; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  #svg-container { width: 100vw; height: 100vh; padding-top: 52px; }
+  svg { width: 100%; height: 100%; cursor: grab; }
+  svg:active { cursor: grabbing; }
+
+  #tooltip {
+    position: fixed; background: rgba(18,22,32,0.98); border: 1px solid #374151;
+    border-radius: 10px; padding: 14px 18px; pointer-events: none;
+    font-size: 12px; line-height: 1.65; max-width: 300px;
+    display: none; z-index: 200; box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  }
+  #tooltip h3 { font-size: 14px; margin-bottom: 6px; color: #fff; }
+  #tooltip .tt-meta { font-size: 10px; color: #6b7280; margin-bottom: 8px; }
+  #tooltip p { font-size: 12px; color: #9ca3af; }
+  #tooltip .tt-tech { margin-top: 8px; }
+  .chip { display: inline-block; background: #1f2937; border-radius: 4px;
+    padding: 1px 7px; font-size: 10px; color: #9ca3af; margin: 2px 2px 0 0; }
+
+  #controls {
+    position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .ctrl-btn {
+    width: 36px; height: 36px; background: #1f2937; border: 1px solid #374151;
+    border-radius: 6px; color: #dde1ea; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .ctrl-btn:hover { background: #374151; }
+
+  #path-select {
+    position: fixed; bottom: 20px; left: 20px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .path-btn {
+    padding: 6px 14px; border-radius: 6px; border: 1px solid;
+    font-size: 11px; cursor: pointer; transition: all 0.2s;
+    background: transparent;
+  }
+  .path-btn:hover { opacity: 0.8; }
+  .path-btn.active { opacity: 1; }
+  .path-label { font-size: 10px; color: #6b7280; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>Woven · User Journey Map</h1>
+  <span>Hover nodes for details · Click path buttons to highlight · Scroll to zoom</span>
+  <div id="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>Onboarding</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0ea5e9"></div>Daily Loop</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Connection</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Games</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Exit</div>
+    <div class="legend-dot" style="background:#374151; width:20px; height:3px; border-radius:2px; margin: auto 0;"></div>
+    <span style="font-size:11px; color:#6b7280">Decision ◆</span>
+  </div>
+</div>
+
+<div id="svg-container"><svg id="main-svg"></svg></div>
+
+<div id="tooltip">
+  <h3 id="tt-title"></h3>
+  <div class="tt-meta" id="tt-meta"></div>
+  <p id="tt-desc"></p>
+  <div class="tt-tech" id="tt-tech"></div>
+</div>
+
+<div id="path-select">
+  <div class="path-label">HIGHLIGHT PATH</div>
+  <button class="path-btn active" id="pb-all" style="border-color:#555; color:#dde1ea; background:#1f2937">All paths</button>
+  <button class="path-btn" id="pb-pure" style="border-color:#10b981; color:#10b981">PURE → Connected</button>
+  <button class="path-btn" id="pb-edge" style="border-color:#0ea5e9; color:#0ea5e9">EDGE → Connected</button>
+  <button class="path-btn" id="pb-games" style="border-color:#f59e0b; color:#f59e0b">Games Path</button>
+  <button class="path-btn" id="pb-exit" style="border-color:#ef4444; color:#ef4444">Exit Paths</button>
+</div>
+
+<div id="controls">
+  <button class="ctrl-btn" id="zoom-in">+</button>
+  <button class="ctrl-btn" id="zoom-out">−</button>
+  <button class="ctrl-btn" id="reset">⌂</button>
+</div>
+
+<script>
+// Layout: x grows right (phases), y grows down (branches)
+// Phase columns: 0=Sign In, 1=Onboarding, 2=Daily Loop, 3=Choice, 4=Match, 5=Trial, 6=Connected, 7=Deep
+
+const steps = [
+  // ── Sign In ──
+  { id: 'signin', label: 'Sign In\nwith Google', x: 60, y: 300, type: 'step',
+    phase: 'Onboarding', color: '#7c3aed',
+    desc: 'Google OAuth 2.0. Backend verifies ID token and issues a 60-minute JWT. Stored in localStorage.',
+    tech: ['POST /auth/google', 'JWT 60min', 'Google OAuth'] },
+
+  // ── Onboarding ──
+  { id: 'ob_photos', label: 'Upload\nPhotos', x: 200, y: 200, type: 'step',
+    phase: 'Onboarding', color: '#7c3aed',
+    desc: 'At least 1 photo required. SAS token pattern — client uploads directly to Azure Blob. ProfileStatus → PHOTOS_ADDED.',
+    tech: ['SAS token', 'Azure Blob', 'profile-photos container'] },
+  { id: 'ob_bio', label: 'Write\nBio', x: 200, y: 300, type: 'step',
+    phase: 'Onboarding', color: '#7c3aed',
+    desc: 'Short bio text. ProfileStatus → BIO_ADDED.',
+    tech: ['PUT /onboarding/bio'] },
+  { id: 'ob_intent', label: 'Set\nIntent', x: 200, y: 400, type: 'step',
+    phase: 'Onboarding', color: '#7c3aed',
+    desc: 'What are you looking for? (serious/casual/friendship/unsure) + timeline (now/soon/someday). Weight: 30% in matching.',
+    tech: ['PUT /onboarding/intent', '30% weight'] },
+  { id: 'ob_prefs', label: 'Preferences', x: 340, y: 250, type: 'step',
+    phase: 'Onboarding', color: '#7c3aed',
+    desc: 'Age range, gender preferences, max distance. Used as hard filters in candidate pool.',
+    tech: ['PUT /onboarding/preferences'] },
+  { id: 'ob_found', label: 'Foundational\nQuestions', x: 340, y: 400, type: 'step',
+    phase: 'Onboarding', color: '#7c3aed',
+    desc: 'Deep-compatibility questions. Expiry: 15/45/60 days by type. Weight: 35% in matching.',
+    tech: ['Dynamic AI intake', '35% weight', 'text-embedding-3-small'] },
+  { id: 'ob_done', label: 'Onboarding\nComplete', x: 460, y: 300, type: 'milestone',
+    phase: 'Onboarding', color: '#7c3aed',
+    desc: 'ProfileStatus = COMPLETE. User enters candidate pools. TrustScore initialized. Weekly Pulse prompt shown.',
+    tech: ['TrustScore init', 'Candidate pool entry'] },
+
+  // ── Daily Loop ──
+  { id: 'deck', label: 'Moments\nDeck', x: 600, y: 300, type: 'step',
+    phase: 'Daily Loop', color: '#0ea5e9',
+    desc: '5 candidate cards shown daily. Composed: 2 CORE_FIT + 1 LIFESTYLE_FIT + 1 CONVERSATION_FIT + 1 EXPLORER. Each card shows AI-generated match explanation.',
+    tech: ['GET /moments', 'DailyDeckOrchestrator', '14-component scoring'] },
+
+  // ── Decision diamond ──
+  { id: 'choice_q', label: '◆ Choose', x: 740, y: 300, type: 'decision',
+    phase: 'Daily Loop', color: '#374151',
+    desc: 'User makes a choice for each card. Budget: 5 choices/day. Save cap: 2/day.',
+    tech: ['POST /moments/respond', 'Budget check'] },
+
+  // ── Branches ──
+  { id: 'magical', label: 'Magical ◈\n(heart leads)', x: 860, y: 160, type: 'step',
+    phase: 'Daily Loop', color: '#0ea5e9',
+    desc: 'API: "MAGICAL" → DB: YES. Costs 1 budget. If other user already chose → match created.',
+    tech: ['Budget −1', 'MomentsMatchService'] },
+  { id: 'logical', label: 'Logical ◇\n(head leads)', x: 860, y: 300, type: 'step',
+    phase: 'Daily Loop', color: '#0ea5e9',
+    desc: 'API: "LOGICAL" → DB: NO. Costs 1 budget. If other user already chose → match created.',
+    tech: ['Budget −1', 'MomentsMatchService'] },
+  { id: 'save', label: 'Save ⏳\n(hold)', x: 860, y: 440, type: 'step',
+    phase: 'Daily Loop', color: '#0ea5e9',
+    desc: 'API: "PENDING". Goes to pending queue. Cap: 2/day. Can revisit from Saves tab.',
+    tech: ['Budget −1 (Save cap)', 'GET /moments/pending'] },
+  { id: 'skip', label: 'Skip', x: 860, y: 560, type: 'step',
+    phase: 'Daily Loop', color: '#ef4444',
+    desc: 'No budget cost. Card won\'t appear again.',
+    tech: ['No budget cost'] },
+
+  // ── Match type decision ──
+  { id: 'match_q', label: '◆ Match\nType?', x: 1000, y: 230, type: 'decision',
+    phase: 'Connection', color: '#374151',
+    desc: 'When both users make a choice, a balloon is created. Type depends on whether choices match.',
+    tech: ['Match created', '7-day balloon TTL'] },
+
+  { id: 'pure', label: 'PURE Match\n(same side)', x: 1130, y: 160, type: 'milestone',
+    phase: 'Connection', color: '#10b981',
+    desc: 'Both chose Magical ◈ or both chose Logical ◇. Full profile access for both immediately.',
+    tech: ['Full profile', 'No edge owner'] },
+  { id: 'edge', label: 'EDGE Match\n(diff sides)', x: 1130, y: 300, type: 'milestone',
+    phase: 'Connection', color: '#0ea5e9',
+    desc: 'Different choices. Edge owner (random) gets full access. Non-owner sees 1 photo, no bio until both message.',
+    tech: ['Edge owner assigned', 'Limited view until BothMessagedAt'] },
+
+  // ── Balloon ──
+  { id: 'balloon', label: '🎈 Balloon\nACTIVE', x: 1270, y: 230, type: 'step',
+    phase: 'Connection', color: '#10b981',
+    desc: 'Balloon is ACTIVE for up to 7 days. Either user can pop it. BalloonExpiryWorker checks every 60 seconds.',
+    tech: ['7-day TTL', 'BalloonExpiryWorker', 'GET /matches'] },
+
+  { id: 'pop_q', label: '◆ Pop?', x: 1400, y: 230, type: 'decision',
+    phase: 'Connection', color: '#374151',
+    desc: 'Either user taps "Pop" to start the trial period. Or the balloon expires after 7 days.',
+    tech: ['POST /matches/{id}/pop'] },
+
+  { id: 'expire', label: 'Balloon\nExpired', x: 1400, y: 420, type: 'exit',
+    phase: 'Exit', color: '#ef4444',
+    desc: 'No action taken within 7 days. BalloonExpiryWorker closes the match. No trial, no connection.',
+    tech: ['BalloonExpiryWorker', 'CloseReason: EXPIRE'] },
+
+  // ── Trial ──
+  { id: 'trial', label: 'Trial\n(1 minute)', x: 1530, y: 160, type: 'step',
+    phase: 'Connection', color: '#10b981',
+    desc: 'Chat opens. Both users have 60 seconds to send a message and decide CONTINUE or END.',
+    tech: ['POST /chats/{id}/trial-decision', '60-second window', 'ChatThread created'] },
+
+  { id: 'trial_q', label: '◆ Both\nCONTINUE?', x: 1660, y: 160, type: 'decision',
+    phase: 'Connection', color: '#374151',
+    desc: 'If both submit CONTINUE within 1 minute → CONNECTED. If either submits END or timeout → UNMATCH.',
+    tech: ['60-second window'] },
+
+  { id: 'trial_fail', label: 'Match\nEnded', x: 1660, y: 340, type: 'exit',
+    phase: 'Exit', color: '#ef4444',
+    desc: 'Either user chose END, or 60-second window timed out. Match closes as UNMATCH. No Find Love.',
+    tech: ['CloseReason: UNMATCH'] },
+
+  // ── Connected ──
+  { id: 'connected', label: '✓ CONNECTED\nFind Love ♡', x: 1790, y: 160, type: 'milestone',
+    phase: 'Connection', color: '#10b981',
+    desc: 'Both chose CONTINUE. FindLoveAt = now. Full profile access. Unlimited messaging. AI date idea revealed.',
+    tech: ['FindLoveAt = now', 'Full profile', 'Date idea (gpt-4.1-mini)'] },
+
+  // ── BothMessaged (alternative path) ──
+  { id: 'both_msg', label: 'Both\nMessaged', x: 1530, y: 300, type: 'step',
+    phase: 'Connection', color: '#10b981',
+    desc: 'When both users send at least 1 message, BothMessagedAt is set. Find Love unlocks 5 minutes later.',
+    tech: ['BothMessagedAt', 'FindLoveAt = BothMessagedAt + 5min'] },
+
+  // ── Games ──
+  { id: 'games', label: 'Games\n(Know Me / R/G)', x: 1920, y: 300, type: 'step',
+    phase: 'Games', color: '#f59e0b',
+    desc: 'Available to connected users. Know Me (guessing game) and Red/Green Flag (habit labeling). AI-powered round moderation.',
+    tech: ['POST /games/sessions', 'GET /games/availability', 'GameService + AI agent'] },
+
+  // ── Exit paths ──
+  { id: 'unmatch', label: 'Unmatch', x: 1790, y: 420, type: 'exit',
+    phase: 'Exit', color: '#ef4444',
+    desc: 'Either user can unmatch at any stage. Optional rating (-100 to +100). Match closes immediately.',
+    tech: ['POST /matches/{id}/unmatch', 'Rating recorded'] },
+  { id: 'block', label: 'Block', x: 1920, y: 500, type: 'exit',
+    phase: 'Exit', color: '#ef4444',
+    desc: 'Mutual invisibility. All active connections closed. User never appears in each other\'s decks again.',
+    tech: ['POST /matches/{id}/block', 'Permanent'] },
+
+  // ── Budget exhausted ──
+  { id: 'budget_empty', label: 'Budget\nExhausted', x: 860, y: 680, type: 'exit',
+    phase: 'Exit', color: '#ef4444',
+    desc: 'All 5 daily choices used. Cannot make more choices until midnight UTC reset.',
+    tech: ['Resets midnight UTC'] },
+];
+
+const edges = [
+  // Onboarding flow
+  { s: 'signin', t: 'ob_photos', path: ['onboarding', 'pure', 'edge', 'games', 'exit'] },
+  { s: 'signin', t: 'ob_bio', path: ['onboarding', 'pure', 'edge', 'games', 'exit'] },
+  { s: 'signin', t: 'ob_intent', path: ['onboarding', 'pure', 'edge', 'games', 'exit'] },
+  { s: 'ob_photos', t: 'ob_prefs', path: ['onboarding', 'pure', 'edge', 'games', 'exit'] },
+  { s: 'ob_bio', t: 'ob_prefs', path: ['onboarding', 'pure', 'edge', 'games', 'exit'] },
+  { s: 'ob_intent', t: 'ob_found', path: ['onboarding', 'pure', 'edge', 'games', 'exit'] },
+  { s: 'ob_prefs', t: 'ob_done', path: ['onboarding', 'pure', 'edge', 'games', 'exit'] },
+  { s: 'ob_found', t: 'ob_done', path: ['onboarding', 'pure', 'edge', 'games', 'exit'] },
+  { s: 'ob_done', t: 'deck', path: ['onboarding', 'pure', 'edge', 'games', 'exit'] },
+
+  // Daily loop
+  { s: 'deck', t: 'choice_q', path: ['pure', 'edge', 'games', 'exit'] },
+  { s: 'choice_q', t: 'magical', label: 'Magical ◈', path: ['pure'] },
+  { s: 'choice_q', t: 'logical', label: 'Logical ◇', path: ['edge'] },
+  { s: 'choice_q', t: 'save', label: 'Save ⏳', path: ['exit'] },
+  { s: 'choice_q', t: 'skip', label: 'Skip', path: ['exit'] },
+  { s: 'choice_q', t: 'budget_empty', label: 'Budget 0', path: ['exit'] },
+
+  // Match creation
+  { s: 'magical', t: 'match_q', path: ['pure', 'edge'] },
+  { s: 'logical', t: 'match_q', path: ['pure', 'edge'] },
+  { s: 'match_q', t: 'pure', label: 'Same side', path: ['pure'] },
+  { s: 'match_q', t: 'edge', label: 'Diff sides', path: ['edge'] },
+  { s: 'pure', t: 'balloon', path: ['pure'] },
+  { s: 'edge', t: 'balloon', path: ['edge'] },
+
+  // Balloon → trial
+  { s: 'balloon', t: 'pop_q', path: ['pure', 'edge'] },
+  { s: 'pop_q', t: 'trial', label: 'Pop!', path: ['pure', 'edge'] },
+  { s: 'pop_q', t: 'expire', label: 'Expire (7d)', path: ['exit'] },
+
+  // Trial
+  { s: 'trial', t: 'trial_q', path: ['pure', 'edge'] },
+  { s: 'trial_q', t: 'connected', label: 'Both CONTINUE', path: ['pure', 'edge'] },
+  { s: 'trial_q', t: 'trial_fail', label: 'END/timeout', path: ['exit'] },
+
+  // Both messaged path
+  { s: 'balloon', t: 'both_msg', path: ['pure', 'edge'] },
+  { s: 'both_msg', t: 'connected', label: '+5 min', path: ['pure', 'edge'] },
+
+  // Connected
+  { s: 'connected', t: 'games', path: ['games'] },
+  { s: 'connected', t: 'unmatch', path: ['exit'] },
+  { s: 'unmatch', t: 'block', path: ['exit'] },
+];
+
+const pathColors = {
+  pure: '#10b981',
+  edge: '#0ea5e9',
+  games: '#f59e0b',
+  exit: '#ef4444',
+  onboarding: '#7c3aed',
+};
+
+const typeShapes = {
+  step: 'rect',
+  milestone: 'rect',
+  decision: 'diamond',
+  exit: 'rect',
+};
+
+const typeColors = {
+  step: null, // uses phase color
+  milestone: null,
+  decision: '#374151',
+  exit: '#ef4444',
+};
+
+const width = window.innerWidth;
+const height = window.innerHeight - 52;
+
+const svg = d3.select('#main-svg')
+  .attr('width', width).attr('height', height);
+
+// Arrow markers
+const defs = svg.append('defs');
+['#9ca3af', '#10b981', '#0ea5e9', '#f59e0b', '#ef4444', '#7c3aed'].forEach(color => {
+  const id = 'arr' + color.replace('#', '');
+  defs.append('marker')
+    .attr('id', id).attr('viewBox', '0 -3 6 6')
+    .attr('refX', 5).attr('refY', 0)
+    .attr('markerWidth', 5).attr('markerHeight', 5)
+    .attr('orient', 'auto')
+    .append('path').attr('d', 'M0,-3L6,0L0,3').attr('fill', color);
+});
+
+const g = svg.append('g');
+
+const zoom = d3.zoom()
+  .scaleExtent([0.1, 2])
+  .on('zoom', e => g.attr('transform', e.transform));
+
+svg.call(zoom);
+
+// Initial transform to show the full journey
+const allX = steps.map(s => s.x);
+const allY = steps.map(s => s.y);
+const minX = Math.min(...allX) - 80;
+const maxX = Math.max(...allX) + 140;
+const minY = Math.min(...allY) - 60;
+const maxY = Math.max(...allY) + 80;
+const diagW = maxX - minX;
+const diagH = maxY - minY;
+const initScale = Math.min(width / diagW, height / diagH) * 0.85;
+const initX = (width - diagW * initScale) / 2 - minX * initScale;
+const initY = (height - diagH * initScale) / 2 - minY * initScale;
+
+svg.call(zoom.transform, d3.zoomIdentity.translate(initX, initY).scale(initScale));
+
+let activeFilter = 'all';
+
+function getEdgeColor(e) {
+  if (e.path && e.path.length > 0) return pathColors[e.path[0]] || '#374151';
+  return '#374151';
+}
+
+function nodeCenter(id) {
+  const n = steps.find(s => s.id === id);
+  return n ? { x: n.x, y: n.y } : { x: 0, y: 0 };
+}
+
+function curvePath(sx, sy, tx, ty) {
+  const dx = tx - sx, dy = ty - sy;
+  const cx = sx + dx * 0.5 + Math.sign(dy) * Math.abs(dx) * 0.05;
+  const cy = sy + dy * 0.5 - Math.sign(dx) * Math.abs(dy) * 0.1;
+  return `M${sx},${sy} C${sx + dx*0.3},${sy} ${cx},${cy} ${tx},${ty}`;
+}
+
+// Draw edges
+const edgeGroup = g.append('g');
+const edgePaths = edgeGroup.selectAll('g').data(edges).join('g');
+
+edgePaths.each(function(e) {
+  const eg = d3.select(this);
+  const s = nodeCenter(e.s);
+  const t = nodeCenter(e.t);
+  const color = getEdgeColor(e);
+  const markerId = 'arr' + color.replace('#', '');
+
+  eg.append('path')
+    .attr('class', 'edge-path')
+    .attr('data-paths', (e.path || []).join(','))
+    .attr('d', curvePath(s.x, s.y, t.x, t.y))
+    .attr('fill', 'none')
+    .attr('stroke', color)
+    .attr('stroke-width', 1.5)
+    .attr('stroke-opacity', 0.5)
+    .attr('marker-end', `url(#${markerId})`);
+
+  if (e.label) {
+    const mx = (s.x + t.x) / 2;
+    const my = (s.y + t.y) / 2 - 8;
+    eg.append('text')
+      .attr('class', 'edge-label')
+      .attr('data-paths', (e.path || []).join(','))
+      .attr('x', mx).attr('y', my)
+      .attr('text-anchor', 'middle')
+      .style('font-size', '9px')
+      .style('fill', color)
+      .style('opacity', 0.7)
+      .text(e.label);
+  }
+});
+
+// Draw nodes
+const tooltip = document.getElementById('tooltip');
+const nodeGroup = g.append('g');
+
+const nodeW = 100, nodeH = 48;
+
+steps.forEach(step => {
+  const ng = nodeGroup.append('g')
+    .attr('transform', `translate(${step.x - nodeW/2}, ${step.y - nodeH/2})`)
+    .attr('class', 'step-node')
+    .attr('data-id', step.id)
+    .style('cursor', 'pointer');
+
+  const color = step.color;
+
+  if (step.type === 'decision') {
+    // Diamond shape
+    const dw = 68, dh = 38;
+    const pts = [[dw/2, 0], [dw, dh/2], [dw/2, dh], [0, dh/2]];
+    ng.append('polygon')
+      .attr('points', pts.map(p => p.join(',')).join(' '))
+      .attr('transform', `translate(${(nodeW - dw)/2}, ${(nodeH - dh)/2})`)
+      .style('fill', '#1a2032')
+      .style('stroke', '#374151')
+      .style('stroke-width', '1.5px');
+  } else {
+    ng.append('rect')
+      .attr('width', nodeW).attr('height', nodeH)
+      .attr('rx', step.type === 'milestone' ? 24 : 8)
+      .style('fill', color + '22')
+      .style('stroke', color)
+      .style('stroke-width', step.type === 'milestone' ? '2px' : '1.5px');
+  }
+
+  const lines = step.label.split('\n');
+  lines.forEach((line, i) => {
+    ng.append('text')
+      .attr('x', nodeW / 2)
+      .attr('y', nodeH / 2 + (i - (lines.length - 1) / 2) * 13)
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'middle')
+      .style('font-size', '10px')
+      .style('font-weight', step.type === 'milestone' ? '700' : '500')
+      .style('fill', step.type === 'decision' ? '#9ca3af' : color === '#ef4444' ? '#fca5a5' : '#f0f2f7')
+      .text(line);
+  });
+
+  // Phase label for milestones
+  if (step.type === 'milestone') {
+    ng.append('text')
+      .attr('x', nodeW / 2).attr('y', -8)
+      .attr('text-anchor', 'middle')
+      .style('font-size', '8px')
+      .style('fill', color)
+      .style('opacity', 0.7)
+      .text(step.phase);
+  }
+
+  ng.on('mouseenter', function(e) {
+    tooltip.style.display = 'block';
+    document.getElementById('tt-title').textContent = step.label.replace('\n', ' ');
+    document.getElementById('tt-meta').textContent = step.phase + (step.type === 'milestone' ? ' · Milestone' : step.type === 'decision' ? ' · Decision point' : '');
+    document.getElementById('tt-desc').textContent = step.desc;
+    document.getElementById('tt-tech').innerHTML = (step.tech || []).map(t => `<span class="chip">${t}</span>`).join('');
+  })
+  .on('mousemove', function(e) {
+    const x = e.clientX + 16, y = e.clientY + 16;
+    tooltip.style.left = Math.min(x, window.innerWidth - 320) + 'px';
+    tooltip.style.top = Math.min(y, window.innerHeight - 220) + 'px';
+  })
+  .on('mouseleave', () => { tooltip.style.display = 'none'; });
+});
+
+// Path filtering
+function applyFilter(pathId) {
+  activeFilter = pathId;
+  d3.selectAll('.edge-path, .edge-label').each(function() {
+    const el = d3.select(this);
+    const paths = (el.attr('data-paths') || '').split(',');
+    if (pathId === 'all') {
+      el.style('stroke-opacity', 0.5).style('opacity', 0.7);
+    } else {
+      const visible = paths.includes(pathId);
+      el.style('stroke-opacity', visible ? 0.85 : 0.08)
+        .style('opacity', visible ? 0.85 : 0.08);
+    }
+  });
+
+  // Dim nodes not on path
+  if (pathId !== 'all') {
+    const relevantPaths = {
+      pure: ['signin','ob_photos','ob_bio','ob_intent','ob_prefs','ob_found','ob_done','deck','choice_q','magical','match_q','pure','balloon','pop_q','trial','trial_q','connected','both_msg'],
+      edge: ['signin','ob_photos','ob_bio','ob_intent','ob_prefs','ob_found','ob_done','deck','choice_q','logical','match_q','edge','balloon','pop_q','trial','trial_q','connected','both_msg'],
+      games: ['connected','games'],
+      exit: ['skip','save','budget_empty','expire','trial_fail','unmatch','block'],
+    };
+    const relevant = relevantPaths[pathId] || [];
+    d3.selectAll('.step-node').each(function() {
+      const id = d3.select(this).attr('data-id');
+      d3.select(this).style('opacity', relevant.includes(id) ? 1 : 0.15);
+    });
+  } else {
+    d3.selectAll('.step-node').style('opacity', 1);
+  }
+
+  // Update button styles
+  document.querySelectorAll('.path-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('pb-' + pathId)?.classList.add('active');
+  if (pathId === 'all') {
+    document.getElementById('pb-all').style.background = '#1f2937';
+  }
+}
+
+document.getElementById('pb-all').onclick = () => applyFilter('all');
+document.getElementById('pb-pure').onclick = () => applyFilter('pure');
+document.getElementById('pb-edge').onclick = () => applyFilter('edge');
+document.getElementById('pb-games').onclick = () => applyFilter('games');
+document.getElementById('pb-exit').onclick = () => applyFilter('exit');
+
+document.getElementById('zoom-in').onclick = () => svg.transition().call(zoom.scaleBy, 1.3);
+document.getElementById('zoom-out').onclick = () => svg.transition().call(zoom.scaleBy, 0.77);
+document.getElementById('reset').onclick = () => svg.transition().call(zoom.transform, d3.zoomIdentity.translate(initX, initY).scale(initScale));
+</script>
+</body>
+</html>

@@ -9,6 +9,8 @@ namespace WovenBackend.Services.Matchmaking;
 
 public class CandidatePoolService : ICandidatePoolService
 {
+    private const float TrustGate = 0.25f;
+
     private readonly WovenDbContext _db;
     private readonly ILogger<CandidatePoolService> _logger;
 
@@ -102,13 +104,21 @@ public class CandidatePoolService : ICandidatePoolService
         _logger.LogInformation("[CandidatePool] After basic filters: {Count} candidates for user {UserId}",
             candidates.Count, userId);
 
+        // Batch-load trust scores for all candidate candidates
+        var candidateIdList = candidates.Select(c => c.Profile.UserId).ToList();
+        var trustScores = await _db.Users.AsNoTracking()
+            .Where(u => candidateIdList.Contains(u.Id))
+            .Select(u => new { u.Id, u.TrustScore })
+            .ToDictionaryAsync(u => u.Id, u => u.TrustScore, ct);
+
         var eligible = new List<int>();
         var filtered = new Dictionary<string, int>
         {
             ["age_reciprocal"] = 0,
             ["gender_reciprocal"] = 0,
             ["distance"] = 0,
-            ["relationship_structure"] = 0
+            ["relationship_structure"] = 0,
+            ["trust_gate"] = 0
         };
 
         foreach (var candidate in candidates)
@@ -173,18 +183,26 @@ public class CandidatePoolService : ICandidatePoolService
                 continue;
             }
 
+            // Trust gate: exclude candidates below minimum trust threshold
+            if (trustScores.TryGetValue(candidate.Profile.UserId, out var trust) && trust < TrustGate)
+            {
+                filtered["trust_gate"]++;
+                continue;
+            }
+
             eligible.Add(candidate.Profile.UserId);
         }
 
         _logger.LogInformation(
             "[CandidatePool] Found {Count} eligible candidates for user {UserId}. " +
             "Filtered: age_reciprocal={AgeFiltered}, gender_reciprocal={GenderFiltered}, " +
-            "distance={DistanceFiltered}, relationship_structure={RelationshipFiltered}",
+            "distance={DistanceFiltered}, relationship_structure={RelationshipFiltered}, trust_gate={TrustFiltered}",
             eligible.Count, userId,
             filtered["age_reciprocal"],
             filtered["gender_reciprocal"],
             filtered["distance"],
-            filtered["relationship_structure"]);
+            filtered["relationship_structure"],
+            filtered["trust_gate"]);
 
         return eligible;
     }

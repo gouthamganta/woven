@@ -21,6 +21,13 @@ public class UserPreference
     public WovenBackend.Data.Entities.RelationshipStructure RelationshipStructure { get; set; } 
         = WovenBackend.Data.Entities.RelationshipStructure.OPEN;
 
+    // Phase 5A: accessibility preferences
+    [System.ComponentModel.DataAnnotations.Schema.Column("reduce_motion")]
+    public bool ReduceMotion { get; set; } = false;
+
+    [System.ComponentModel.DataAnnotations.Schema.Column("high_contrast")]
+    public bool HighContrast { get; set; } = false;
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 }

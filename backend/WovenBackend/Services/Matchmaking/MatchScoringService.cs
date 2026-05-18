@@ -1,11 +1,29 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
+using Pgvector;
 using WovenBackend.Data;
 
 namespace WovenBackend.Services.Matchmaking;
 
 public class MatchScoringService : IMatchScoringService
 {
+    // Base weights for 14 components (PreferenceScore permanently excluded → redistributed)
+    // pillar, intent, expression, style, visual, voice, humor, lifestyle, behavioral,
+    // emotional_rhythm, attachment, orbit_gravity, pulse, cf
+    private static readonly double[] BaseWeights = new[]
+    {
+        0.20, 0.13, 0.10, 0.09, 0.10,
+        0.08, 0.07, 0.08, 0.05,
+        0.04, 0.04, 0.08, 0.06, 0.03
+    };
+
+    private static readonly string[] ComponentNames = new[]
+    {
+        "pillar", "intent", "expression", "style", "visual",
+        "voice", "humor", "lifestyle", "behavioral_lifestyle",
+        "emotional_rhythm", "attachment", "orbit_gravity", "pulse", "cf"
+    };
+
     private readonly WovenDbContext _db;
     private readonly ILogger<MatchScoringService> _logger;
 
@@ -38,66 +56,325 @@ public class MatchScoringService : IMatchScoringService
             return new List<MatchScore>();
         }
 
+        // Parse user data
         var userVectorData = ParseVector(userVector.VectorJson);
         var userPillarScores = ParsePillarScores(userVector.PillarScoresJson);
+        var userBehavioralLifestyle = ParseFloatArray(userVector.BehavioralLifestyleJson);
 
-        // ✅ Load each candidate's LATEST vector correctly
+        // Load candidate vectors (latest per user)
         var candidateVectors = await _db.UserVectors
             .Where(v => candidateIds.Contains(v.UserId))
             .GroupBy(v => v.UserId)
             .Select(g => g.OrderByDescending(x => x.Version).First())
             .ToListAsync(ct);
 
-        if (candidateVectors.Count == 0)
+        if (candidateVectors.Count == 0) return new List<MatchScore>();
+
+        var scoredIds = candidateVectors.Select(v => v.UserId).ToList();
+
+        // Batch load all auxiliary data in parallel
+        var cfScoreMapTask = _db.CfScores.AsNoTracking()
+            .Where(c => c.UserId == userId && scoredIds.Contains(c.CandidateId))
+            .ToDictionaryAsync(c => c.CandidateId, c => c.Score, ct);
+
+        var orbitGravityTask = _db.OrbitGravities.AsNoTracking()
+            .Where(g => scoredIds.Contains(g.UserId) && g.CandidateId == userId)
+            .Select(g => new { g.UserId, g.Score, g.LastOrbitAt })
+            .ToListAsync(ct);
+
+        var visualPrefTask = _db.UserVisualPreferences.AsNoTracking()
+            .Where(p => p.UserId == userId)
+            .FirstOrDefaultAsync(ct);
+
+        var voicePrefTask = _db.UserVoicePreferences.AsNoTracking()
+            .Where(p => p.UserId == userId)
+            .FirstOrDefaultAsync(ct);
+
+        var userOptionalTask = _db.UserOptionalFields.AsNoTracking()
+            .Where(f => f.UserId == userId)
+            .ToDictionaryAsync(f => f.Key, f => f.Value, ct);
+
+        var learnedWeightsTask = _db.UserMatchingWeights.AsNoTracking()
+            .Where(w => w.UserId == userId && w.SampleCount >= 5)
+            .ToDictionaryAsync(w => w.Component, w => (double)w.LearnedWeight, ct);
+
+        var seasonTask = _db.UserSeasonResponses.AsNoTracking()
+            .AnyAsync(r => r.UserId == userId, ct);
+
+        // Batch load candidate optional fields
+        var candidateOptionalTask = _db.UserOptionalFields.AsNoTracking()
+            .Where(f => scoredIds.Contains(f.UserId))
+            .ToListAsync(ct);
+
+        // Batch load candidate photo embeddings (primary photo per candidate)
+        var candidatePhotosTask = _db.PhotoEmbeddings.AsNoTracking()
+            .Where(p => scoredIds.Contains(p.UserId))
+            .GroupBy(p => p.UserId)
+            .Select(g => g.OrderBy(p => p.EmbeddedAt).First())
+            .ToListAsync(ct);
+
+        // Batch load candidate trust scores
+        var candidateTrustTask = _db.Users.AsNoTracking()
+            .Where(u => scoredIds.Contains(u.Id))
+            .Select(u => new { u.Id, u.TrustScore })
+            .ToDictionaryAsync(u => u.Id, u => (double)u.TrustScore, ct);
+
+        // Preload latest voice tile per candidate to avoid N+1 queries
+        var candidateVoiceTilesTask = _db.Tiles.AsNoTracking()
+            .Where(t => scoredIds.Contains(t.UserId) && t.VoiceEmbedding != null)
+            .GroupBy(t => t.UserId)
+            .Select(g => g.OrderByDescending(t => t.CreatedAt).First())
+            .Select(t => new { t.UserId, t.VoiceEmbedding })
+            .ToListAsync(ct);
+
+        await Task.WhenAll(cfScoreMapTask, orbitGravityTask, visualPrefTask,
+            voicePrefTask, userOptionalTask, learnedWeightsTask, seasonTask,
+            candidateOptionalTask, candidatePhotosTask, candidateTrustTask,
+            candidateVoiceTilesTask);
+
+        var cfScoreMap = await cfScoreMapTask;
+        var orbitGravities = await orbitGravityTask;
+        var visualPref = await visualPrefTask;
+        var voicePref = await voicePrefTask;
+        var userFields = await userOptionalTask;
+        var learnedWeightMap = await learnedWeightsTask;
+        var hasSeasonResponse = await seasonTask;
+        var allCandidateFields = await candidateOptionalTask;
+        var candidatePhotos = (await candidatePhotosTask).ToDictionary(p => p.UserId);
+        var trustScores = await candidateTrustTask;
+        var candidateVoiceTiles = (await candidateVoiceTilesTask)
+            .ToDictionary(t => t.UserId, t => t.VoiceEmbedding);
+
+        // Group candidate fields by userId
+        var candidateFieldsMap = allCandidateFields
+            .GroupBy(f => f.UserId)
+            .ToDictionary(g => g.Key, g => g.ToDictionary(f => f.Key, f => f.Value));
+
+        // Orbit gravity lookup
+        var now = DateTimeOffset.UtcNow;
+        var orbitMap = orbitGravities.ToDictionary(g => g.UserId, g => g);
+
+        // Build learned weights array (or null to use base weights)
+        double[]? learnedWeightsArray = null;
+        if (learnedWeightMap.Count >= ComponentNames.Length / 2)
         {
-            _logger.LogWarning("[Scoring] No candidate vectors found for user {UserId}", userId);
-            return new List<MatchScore>();
+            learnedWeightsArray = new double[ComponentNames.Length];
+            for (int i = 0; i < ComponentNames.Length; i++)
+                learnedWeightsArray[i] = learnedWeightMap.TryGetValue(ComponentNames[i], out var lw)
+                    ? lw : BaseWeights[i];
         }
 
         var scores = new List<MatchScore>(candidateVectors.Count);
 
-        foreach (var candidateVector in candidateVectors)
+        foreach (var candidateVec in candidateVectors)
         {
-            var score = new MatchScore(candidateVector.UserId);
+            var score = new MatchScore(candidateVec.UserId);
+            var available = new bool[14];
+            var cvData = ParseVector(candidateVec.VectorJson);
+            var cvPillarScores = ParsePillarScores(candidateVec.PillarScoresJson);
+            var cvBehavioralLifestyle = ParseFloatArray(candidateVec.BehavioralLifestyleJson);
 
-            var candidateVectorData = ParseVector(candidateVector.VectorJson);
-            var candidatePillarScores = ParsePillarScores(candidateVector.PillarScoresJson);
+            // ── 0. PillarScore ────────────────────────────────────────────────────
+            if (userVector.PillarEmbedding != null && candidateVec.PillarEmbedding != null)
+            {
+                score.PillarScore = CosineSimilarityToScore(
+                    userVector.PillarEmbedding, candidateVec.PillarEmbedding);
+                available[0] = true;
+            }
+            else
+            {
+                var pillarSim = userPillarScores.CosineSimilarity(cvPillarScores);
+                score.PillarScore = pillarSim * 100;
+                available[0] = true;
+            }
 
-            // 1) Intent
-            score.IntentScore = ComputeIntentScore(userVectorData, candidateVectorData);
+            // ── 1. IntentScore ────────────────────────────────────────────────────
+            var intentScore = ComputeIntentScore(userVectorData, cvData);
+            if (intentScore.HasValue)
+            {
+                score.IntentScore = intentScore.Value;
+                available[1] = true;
+            }
 
-            // 2) Foundational
-            score.FoundationalScore = ComputeFoundationalScore(
-                userPillarScores,
-                candidatePillarScores,
-                userVectorData,
-                candidateVectorData);
+            // ── 2. ExpressionScore ────────────────────────────────────────────────
+            if (userVector.ExpressionEmbedding != null && candidateVec.ExpressionEmbedding != null)
+            {
+                score.ExpressionScore = CosineSimilarityToScore(
+                    userVector.ExpressionEmbedding, candidateVec.ExpressionEmbedding);
+                available[2] = true;
+            }
 
-            // 3) Lifestyle
-            score.LifestyleScore = await ComputeLifestyleScoreAsync(userId, candidateVector.UserId, ct);
+            // ── 3. StyleScore ─────────────────────────────────────────────────────
+            if (userVector.StyleEmbedding != null && candidateVec.StyleEmbedding != null)
+            {
+                score.StyleScore = CosineSimilarityToScore(
+                    userVector.StyleEmbedding, candidateVec.StyleEmbedding);
+                available[3] = true;
+            }
 
-            // 4) Pulse
-            score.PulseScore = ComputePulseScore(userVectorData, candidateVectorData);
+            // ── 4. VisualPreference ───────────────────────────────────────────────
+            if (visualPref?.PreferenceEmbedding != null && candidatePhotos.TryGetValue(candidateVec.UserId, out var candidatePhoto)
+                && candidatePhoto.Embedding != null)
+            {
+                var dotProduct = DotProduct(visualPref.PreferenceEmbedding, candidatePhoto.Embedding);
+                score.VisualScore = Math.Clamp(50 + dotProduct * 50, 0, 100);
+                available[4] = true;
+            }
 
-            score.ComputeTotal();
+            // ── 5. VoicePreference ────────────────────────────────────────────────
+            if (voicePref?.PreferenceEmbedding != null &&
+                candidateVoiceTiles.TryGetValue(candidateVec.UserId, out var candVoiceEmb) &&
+                candVoiceEmb != null)
+            {
+                var dotProduct = DotProduct(voicePref.PreferenceEmbedding, candVoiceEmb);
+                score.VoiceScore = Math.Clamp(50 + dotProduct * 50, 0, 100);
+                available[5] = true;
+            }
+
+            // ── 6. HumorScore ─────────────────────────────────────────────────────
+            if (userVector.HumorEmbedding != null && candidateVec.HumorEmbedding != null)
+            {
+                score.HumorScore = CosineSimilarityToScore(
+                    userVector.HumorEmbedding, candidateVec.HumorEmbedding);
+                available[6] = true;
+            }
+
+            // ── 7. LifestyleScore ─────────────────────────────────────────────────
+            if (userVector.LifestyleEmbedding != null && candidateVec.LifestyleEmbedding != null)
+            {
+                score.LifestyleScore = CosineSimilarityToScore(
+                    userVector.LifestyleEmbedding, candidateVec.LifestyleEmbedding);
+                available[7] = true;
+            }
+            else
+            {
+                var cFields = candidateFieldsMap.GetValueOrDefault(candidateVec.UserId) ?? new Dictionary<string, string>();
+                var lifestyleScore = ComputeLifestyleScore(userFields, cFields);
+                score.LifestyleScore = lifestyleScore;
+                available[7] = true;
+            }
+
+            // ── 8. BehavioralLifestyle ────────────────────────────────────────────
+            if (userBehavioralLifestyle != null && cvBehavioralLifestyle != null)
+            {
+                score.BehavioralLifestyleScore = VectorCosineSimilarityToScore(userBehavioralLifestyle, cvBehavioralLifestyle);
+                available[8] = true;
+            }
+
+            // ── 9. EmotionalRhythm ────────────────────────────────────────────────
+            if (userVector.EmotionalRhythmEmbedding != null && candidateVec.EmotionalRhythmEmbedding != null)
+            {
+                score.EmotionalRhythmScore = CosineSimilarityToScore(
+                    userVector.EmotionalRhythmEmbedding, candidateVec.EmotionalRhythmEmbedding);
+                available[9] = true;
+            }
+
+            // ── 10. AttachmentScore ───────────────────────────────────────────────
+            if (userVector.AttachmentProxyEmbedding != null && candidateVec.AttachmentProxyEmbedding != null)
+            {
+                score.AttachmentScore = CosineSimilarityToScore(
+                    userVector.AttachmentProxyEmbedding, candidateVec.AttachmentProxyEmbedding);
+                available[10] = true;
+            }
+
+            // ── 11. OrbitGravityScore ─────────────────────────────────────────────
+            if (orbitMap.TryGetValue(candidateVec.UserId, out var gravity))
+            {
+                var daysSince = (now - gravity.LastOrbitAt).TotalDays;
+                var decayed = gravity.Score * Math.Exp(-0.1 * daysSince);
+                score.OrbitGravityScore = Math.Clamp(decayed, 0, 100);
+                available[11] = true;
+            }
+
+            // ── 12. PulseScore ────────────────────────────────────────────────────
+            var pulseScore = ComputePulseScore(userVectorData, cvData);
+            if (pulseScore.HasValue)
+            {
+                score.PulseScore = pulseScore.Value;
+                available[12] = true;
+            }
+
+            // ── 13. CFScore ───────────────────────────────────────────────────────
+            if (cfScoreMap.TryGetValue(candidateVec.UserId, out var cfRaw))
+            {
+                score.CfScore = Math.Min(100.0, cfRaw * 100.0);
+                available[13] = true;
+            }
+
+            // Intent multiplier
+            var intentMult = ComputeIntentMultiplier(userVectorData, cvData);
+
+            // Trust score
+            var trust = trustScores.TryGetValue(candidateVec.UserId, out var t) ? t : 0.5;
+
+            score.ComputeTotal(
+                available,
+                BaseWeights,
+                learnedWeightsArray,
+                intentMult,
+                trust,
+                hasSeasonResponse);
+
             scores.Add(score);
         }
 
-        _logger.LogInformation("[Scoring] Scored {Count} candidates, avg score: {AvgScore:F2}",
-            scores.Count, scores.Average(s => s.TotalScore));
+        _logger.LogInformation("[Scoring] Scored {Count} candidates, avg={AvgScore:F2}",
+            scores.Count, scores.Count > 0 ? scores.Average(s => s.TotalScore) : 0);
 
         return scores;
     }
 
-    private double ComputeIntentScore(
+    // ── Helpers ──────────────────────────────────────────────────────────────────
+
+    private static double CosineSimilarityToScore(Vector a, Vector b)
+    {
+        var sim = CosineSimilarity(a.Memory.Span, b.Memory.Span);
+        // Map [-1, 1] → [0, 100]
+        return Math.Clamp((sim + 1.0) / 2.0 * 100.0, 0, 100);
+    }
+
+    private static double VectorCosineSimilarityToScore(float[] a, float[] b)
+    {
+        double dot = 0, normA = 0, normB = 0;
+        for (int i = 0; i < Math.Min(a.Length, b.Length); i++)
+        {
+            dot += a[i] * b[i];
+            normA += a[i] * a[i];
+            normB += b[i] * b[i];
+        }
+        var sim = (normA == 0 || normB == 0) ? 0.0 : dot / (Math.Sqrt(normA) * Math.Sqrt(normB));
+        return Math.Clamp((sim + 1.0) / 2.0 * 100.0, 0, 100);
+    }
+
+    private static double CosineSimilarity(ReadOnlySpan<float> a, ReadOnlySpan<float> b)
+    {
+        double dot = 0, normA = 0, normB = 0;
+        for (int i = 0; i < a.Length && i < b.Length; i++)
+        {
+            dot += a[i] * b[i];
+            normA += a[i] * a[i];
+            normB += b[i] * b[i];
+        }
+        return (normA == 0 || normB == 0) ? 0.0 : dot / (Math.Sqrt(normA) * Math.Sqrt(normB));
+    }
+
+    private static double DotProduct(Vector a, Vector b)
+    {
+        var aSpan = a.Memory.Span;
+        var bSpan = b.Memory.Span;
+        double dot = 0;
+        for (int i = 0; i < aSpan.Length && i < bSpan.Length; i++)
+            dot += aSpan[i] * bSpan[i];
+        return dot;
+    }
+
+    private double? ComputeIntentScore(
         Dictionary<string, JsonElement> userVector,
         Dictionary<string, JsonElement> candidateVector)
     {
         var userIntent = GetIntentMetadata(userVector);
         var candidateIntent = GetIntentMetadata(candidateVector);
-
-        if (userIntent == null || candidateIntent == null)
-            return 50.0;
+        if (userIntent == null || candidateIntent == null) return null;
 
         var seriousnessDiff = Math.Abs(userIntent.Seriousness - candidateIntent.Seriousness);
         var seriousnessScore = 100 * (1 - seriousnessDiff);
@@ -107,308 +384,159 @@ public class MatchScoringService : IMatchScoringService
 
         var userTags = new HashSet<string>(userIntent.Tags ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
         var candidateTags = new HashSet<string>(candidateIntent.Tags ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
-        var overlap = userTags.Intersect(candidateTags).Count();
-        var tagBonus = Math.Min(20, overlap * 10);
+        var tagBonus = Math.Min(20, userTags.Intersect(candidateTags).Count() * 10);
 
-        var intentScore = (seriousnessScore * 0.5) + (commitmentScore * 0.3) + tagBonus;
-        return Math.Max(0, Math.Min(100, intentScore));
+        return Math.Clamp(seriousnessScore * 0.5 + commitmentScore * 0.3 + tagBonus, 0, 100);
     }
 
-    private double ComputeFoundationalScore(
-        PillarScores userPillars,
-        PillarScores candidatePillars,
+    private static double ComputeIntentMultiplier(
         Dictionary<string, JsonElement> userVector,
         Dictionary<string, JsonElement> candidateVector)
     {
-        // Calculate signal strength (variance from neutral 0.5)
-        var userVariance = CalculatePillarVariance(userPillars);
-        var candidateVariance = CalculatePillarVariance(candidatePillars);
-
-        // If either user has very low signal (all pillars near 0.5), return neutral score
-        // This prevents the "everyone matches everyone at 95%" problem
-        const double LowSignalThreshold = 0.05;
-        if (userVariance < LowSignalThreshold || candidateVariance < LowSignalThreshold)
+        // Openness proxy: if intent seriousness difference is very low → full alignment
+        try
         {
-            _logger.LogInformation("[Scoring] Low signal detected - user variance: {UserVar:F4}, candidate variance: {CandVar:F4}",
-                userVariance, candidateVariance);
-            return 50.0; // Neutral score when we don't have enough data
-        }
-
-        var similarity = userPillars.CosineSimilarity(candidatePillars);
-
-        // Dampen similarity by signal strength to avoid over-scoring low-data profiles
-        var signalStrength = Math.Min(userVariance, candidateVariance) / 0.15; // Normalize: 0.15 variance = full signal
-        signalStrength = Math.Min(1.0, signalStrength); // Cap at 1.0
-
-        var pillarScore = similarity * 100 * signalStrength;
-
-        var userTags = GetFoundationalTags(userVector);
-        var candidateTags = GetFoundationalTags(candidateVector);
-
-        var overlapCount = 0;
-
-        foreach (var category in userTags.Keys)
-        {
-            if (!candidateTags.ContainsKey(category)) continue;
-
-            var userCategoryTags = new HashSet<string>(userTags[category], StringComparer.OrdinalIgnoreCase);
-            var candidateCategoryTags = new HashSet<string>(candidateTags[category], StringComparer.OrdinalIgnoreCase);
-
-            overlapCount += userCategoryTags.Intersect(candidateCategoryTags).Count();
-        }
-
-        var tagBonus = Math.Min(20, overlapCount * 3);
-        var foundationalScore = pillarScore + tagBonus;
-
-        return Math.Max(0, Math.Min(100, foundationalScore));
-    }
-
-    /// <summary>
-    /// Calculates the variance of pillar scores from the neutral value (0.5).
-    /// Higher variance = more meaningful signal from the user's answers.
-    /// </summary>
-    private double CalculatePillarVariance(PillarScores pillars)
-    {
-        var values = pillars.ToArray();
-        const double Neutral = 0.5;
-
-        double sumSquaredDiff = 0;
-        foreach (var value in values)
-        {
-            var diff = value - Neutral;
-            sumSquaredDiff += diff * diff;
-        }
-
-        return sumSquaredDiff / values.Length;
-    }
-
-    private async Task<double> ComputeLifestyleScoreAsync(int userId, int candidateId, CancellationToken ct)
-    {
-        var userFields = await _db.UserOptionalFields
-            .Where(f => f.UserId == userId)
-            .ToDictionaryAsync(f => f.Key, f => f.Value, ct);
-
-        var candidateFields = await _db.UserOptionalFields
-            .Where(f => f.UserId == candidateId)
-            .ToDictionaryAsync(f => f.Key, f => f.Value, ct);
-
-        double score = 50.0;
-
-        // ✅ Helpers to avoid key-mismatch silent failures
-        string? Get(Dictionary<string, string> dict, params string[] keys)
-        {
-            foreach (var k in keys)
+            if (userVector.TryGetValue("intent", out var ui) && candidateVector.TryGetValue("intent", out var ci))
             {
-                if (dict.TryGetValue(k, out var v) && !string.IsNullOrWhiteSpace(v))
-                    return v;
-            }
-            return null;
-        }
-
-        // Kids
-        var userKids = Get(userFields, "children", "pref_children");
-        var candidateKids = Get(candidateFields, "children", "pref_children");
-        if (userKids != null && candidateKids != null)
-        {
-            if (IsMismatch(userKids, candidateKids, new[] { "Never", "Want someday" }))
-                score -= 30;
-            else if (IsMatch(userKids, candidateKids))
-                score += 20;
-        }
-
-        // Smoking
-        var userSmoking = Get(userFields, "pref_smoking", "smoking");
-        var candidateSmoking = Get(candidateFields, "pref_smoking", "smoking");
-        if (userSmoking != null && candidateSmoking != null)
-        {
-            if (IsMatch(userSmoking, candidateSmoking))
-                score += 15;
-            else
-                score -= 15;
-        }
-
-        // Diet
-        var userDiet = Get(userFields, "diet");
-        var candidateDiet = Get(candidateFields, "diet");
-        if (userDiet != null && candidateDiet != null)
-        {
-            if (IsMatch(userDiet, candidateDiet))
-                score += 10;
-            else if (IsMismatch(userDiet, candidateDiet, new[] { "Vegan", "Vegetarian" }))
-                score -= 10;
-        }
-
-        // Religion (bonus only)
-        var userReligion = Get(userFields, "pref_religion", "religion");
-        var candidateReligion = Get(candidateFields, "pref_religion", "religion");
-        if (userReligion != null && candidateReligion != null)
-        {
-            if (IsMatch(userReligion, candidateReligion))
-                score += 10;
-        }
-
-        // Drinking
-        if (userFields.TryGetValue("pref_drinking", out var userDrink) &&
-            candidateFields.TryGetValue("pref_drinking", out var candDrink))
-        {
-            if (IsMatch(userDrink, candDrink)) score += 10;
-            else score -= 10;
-        }
-
-        // Workout
-        if (userFields.TryGetValue("pref_workout", out var userWorkout) &&
-            candidateFields.TryGetValue("pref_workout", out var candWorkout))
-        {
-            if (IsMatch(userWorkout, candWorkout)) score += 8;
-            else score -= 8;
-        }
-
-        // Height (bonus-only)
-        if (userFields.TryGetValue("pref_height", out var userHeightPref) &&
-            candidateFields.TryGetValue("pref_height", out var candHeightPref))
-        {
-            if (IsMatch(userHeightPref, candHeightPref)) score += 5;
-        }
-
-        // Work (bonus-only)
-        if (userFields.TryGetValue("pref_work", out var userWorkPref) &&
-            candidateFields.TryGetValue("pref_work", out var candWorkPref))
-        {
-            if (IsMatch(userWorkPref, candWorkPref)) score += 5;
-        }
-
-        // Ethnicity (bonus-only)
-        if (userFields.TryGetValue("pref_ethnicity", out var userEthPref) &&
-            candidateFields.TryGetValue("pref_ethnicity", out var candEthPref))
-        {
-            if (IsMatch(userEthPref, candEthPref)) score += 3;
-        }
-
-        return Math.Max(0, Math.Min(100, score));
-    }
-
-    private double ComputePulseScore(
-        Dictionary<string, JsonElement> userVector,
-        Dictionary<string, JsonElement> candidateVector)
-    {
-        var userPulse = GetPulseFeatures(userVector);
-        var candidatePulse = GetPulseFeatures(candidateVector);
-
-        if (userPulse.Count == 0 || candidatePulse.Count == 0)
-            return 50.0;
-
-        double score = 50.0;
-
-        if (userPulse.TryGetValue("socialCapacity", out var userCapacity) &&
-            candidatePulse.TryGetValue("socialCapacity", out var candidateCapacity))
-        {
-            var diff = Math.Abs(userCapacity - candidateCapacity);
-            score += 20 * (1 - diff);
-        }
-
-        if (userPulse.TryGetValue("initiative", out var userInitiative) &&
-            candidatePulse.TryGetValue("initiative", out var candidateInitiative))
-        {
-            var diff = Math.Abs(userInitiative - candidateInitiative);
-
-            if (diff > 0.4) score += 15;
-            else if (diff < 0.2) score += 5;
-        }
-
-        if (candidatePulse.TryGetValue("ghostRisk", out var ghostRisk) && ghostRisk > 0.6)
-            score -= 10;
-
-        return Math.Max(0, Math.Min(100, score));
-    }
-
-    private Dictionary<string, JsonElement> ParseVector(string json)
-    {
-        try
-        {
-            return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(json)
-                   ?? new Dictionary<string, JsonElement>();
-        }
-        catch
-        {
-            return new Dictionary<string, JsonElement>();
-        }
-    }
-
-    private PillarScores ParsePillarScores(string json)
-    {
-        try
-        {
-            return JsonSerializer.Deserialize<PillarScores>(json) ?? new PillarScores();
-        }
-        catch
-        {
-            return new PillarScores();
-        }
-    }
-
-    private IntentMetadata? GetIntentMetadata(Dictionary<string, JsonElement> vector)
-    {
-        try
-        {
-            if (vector.TryGetValue("intent", out var intentElement))
-                return JsonSerializer.Deserialize<IntentMetadata>(intentElement.GetRawText(),
+                var uIntent = JsonSerializer.Deserialize<IntentMetadata>(ui.GetRawText(),
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        }
-        catch { }
+                var cIntent = JsonSerializer.Deserialize<IntentMetadata>(ci.GetRawText(),
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-        return null;
-    }
-
-    private Dictionary<string, List<string>> GetFoundationalTags(Dictionary<string, JsonElement> vector)
-    {
-        try
-        {
-            if (vector.TryGetValue("foundational", out var foundationalElement))
-            {
-                var foundational = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(
-                    foundationalElement.GetRawText());
-
-                if (foundational != null && foundational.TryGetValue("tags", out var tagsElement))
+                if (uIntent != null && cIntent != null)
                 {
-                    return JsonSerializer.Deserialize<Dictionary<string, List<string>>>(
-                               tagsElement.GetRawText(),
-                               new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
-                           ?? new Dictionary<string, List<string>>();
+                    var diff = Math.Abs(uIntent.Seriousness - cIntent.Seriousness);
+                    if (diff < 0.05) return 1.05; // exact alignment
+                    var openness = 1.0 - diff;
+                    if (openness > 0.6) return 1.00;
+                    if (openness > 0.3) return 0.92;
+                    if (openness > 0.0) return 0.82;
                 }
             }
         }
         catch { }
 
-        return new Dictionary<string, List<string>>();
+        return 0.70; // no intent data
     }
 
-    private Dictionary<string, double> GetPulseFeatures(Dictionary<string, JsonElement> vector)
+    private double? ComputePulseScore(
+        Dictionary<string, JsonElement> userVector,
+        Dictionary<string, JsonElement> candidateVector)
+    {
+        var userPulse = GetPulseFeatures(userVector);
+        var candidatePulse = GetPulseFeatures(candidateVector);
+        if (userPulse.Count == 0 || candidatePulse.Count == 0) return null;
+
+        double score = 50.0;
+
+        if (userPulse.TryGetValue("socialCapacity", out var uCap) &&
+            candidatePulse.TryGetValue("socialCapacity", out var cCap))
+            score += 20 * (1 - Math.Abs(uCap - cCap));
+
+        if (userPulse.TryGetValue("initiative", out var uInit) &&
+            candidatePulse.TryGetValue("initiative", out var cInit))
+        {
+            var diff = Math.Abs(uInit - cInit);
+            score += diff > 0.4 ? 15 : diff < 0.2 ? 5 : 0;
+        }
+
+        if (candidatePulse.TryGetValue("ghostRisk", out var ghostRisk) && ghostRisk > 0.6)
+            score -= 10;
+
+        return Math.Clamp(score, 0, 100);
+    }
+
+    private static double ComputeLifestyleScore(
+        Dictionary<string, string> userFields,
+        Dictionary<string, string> candidateFields)
+    {
+        double score = 50.0;
+
+        string? Get(Dictionary<string, string> d, params string[] keys)
+        {
+            foreach (var k in keys)
+                if (d.TryGetValue(k, out var v) && !string.IsNullOrWhiteSpace(v)) return v;
+            return null;
+        }
+
+        bool IsMatch(string? a, string? b) =>
+            a != null && b != null && string.Equals(a.Trim(), b.Trim(), StringComparison.OrdinalIgnoreCase);
+
+        bool IsMismatch(string? a, string? b, string[] incompatible)
+        {
+            if (a == null || b == null) return false;
+            var set = new HashSet<string>(incompatible, StringComparer.OrdinalIgnoreCase);
+            return (set.Contains(a.Trim()) && !set.Contains(b.Trim())) ||
+                   (set.Contains(b.Trim()) && !set.Contains(a.Trim()));
+        }
+
+        var uKids = Get(userFields, "children", "pref_children");
+        var cKids = Get(candidateFields, "children", "pref_children");
+        if (IsMismatch(uKids, cKids, new[] { "Never", "Want someday" })) score -= 30;
+        else if (IsMatch(uKids, cKids)) score += 20;
+
+        var uSmoke = Get(userFields, "pref_smoking", "smoking");
+        var cSmoke = Get(candidateFields, "pref_smoking", "smoking");
+        if (IsMatch(uSmoke, cSmoke)) score += 15; else if (uSmoke != null && cSmoke != null) score -= 15;
+
+        var uDiet = Get(userFields, "diet");
+        var cDiet = Get(candidateFields, "diet");
+        if (IsMatch(uDiet, cDiet)) score += 10;
+        else if (IsMismatch(uDiet, cDiet, new[] { "Vegan", "Vegetarian" })) score -= 10;
+
+        if (IsMatch(Get(userFields, "pref_religion", "religion"), Get(candidateFields, "pref_religion", "religion"))) score += 10;
+
+        if (userFields.TryGetValue("pref_drinking", out var uDrink) && candidateFields.TryGetValue("pref_drinking", out var cDrink))
+        { if (IsMatch(uDrink, cDrink)) score += 10; else score -= 10; }
+
+        if (userFields.TryGetValue("pref_workout", out var uWork) && candidateFields.TryGetValue("pref_workout", out var cWork))
+        { if (IsMatch(uWork, cWork)) score += 8; else score -= 8; }
+
+        return Math.Clamp(score, 0, 100);
+    }
+
+    // ── JSON parsers ──────────────────────────────────────────────────────────
+
+    private static Dictionary<string, JsonElement> ParseVector(string json)
+    {
+        try { return JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(json) ?? new(); }
+        catch { return new(); }
+    }
+
+    private static PillarScores ParsePillarScores(string json)
+    {
+        try { return JsonSerializer.Deserialize<PillarScores>(json) ?? new(); }
+        catch { return new(); }
+    }
+
+    private static float[]? ParseFloatArray(string? json)
+    {
+        if (string.IsNullOrWhiteSpace(json)) return null;
+        try { return JsonSerializer.Deserialize<float[]>(json); }
+        catch { return null; }
+    }
+
+    private static IntentMetadata? GetIntentMetadata(Dictionary<string, JsonElement> vector)
     {
         try
         {
-            if (vector.TryGetValue("pulse", out var pulseElement))
-            {
-                return JsonSerializer.Deserialize<Dictionary<string, double>>(
-                           pulseElement.GetRawText(),
-                           new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
-                       ?? new Dictionary<string, double>();
-            }
+            if (vector.TryGetValue("intent", out var el))
+                return JsonSerializer.Deserialize<IntentMetadata>(el.GetRawText(),
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
         catch { }
-
-        return new Dictionary<string, double>();
+        return null;
     }
 
-    private bool IsMatch(string value1, string value2)
-        => string.Equals(value1?.Trim(), value2?.Trim(), StringComparison.OrdinalIgnoreCase);
-
-    private bool IsMismatch(string value1, string value2, string[] incompatibleValues)
+    private static Dictionary<string, double> GetPulseFeatures(Dictionary<string, JsonElement> vector)
     {
-        var set = new HashSet<string>(incompatibleValues, StringComparer.OrdinalIgnoreCase);
-        var v1 = value1?.Trim() ?? "";
-        var v2 = value2?.Trim() ?? "";
-
-        return (set.Contains(v1) && !set.Contains(v2)) ||
-               (set.Contains(v2) && !set.Contains(v1));
+        try
+        {
+            if (vector.TryGetValue("pulse", out var el))
+                return JsonSerializer.Deserialize<Dictionary<string, double>>(el.GetRawText(),
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new();
+        }
+        catch { }
+        return new();
     }
 }

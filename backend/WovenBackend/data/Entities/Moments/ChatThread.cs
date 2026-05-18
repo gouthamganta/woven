@@ -18,4 +18,13 @@ public class ChatThread
 
     [Column("updated_at")]
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
+
+    [Column("MessageCount")]
+    public int MessageCount { get; set; } = 0;
+
+    [Column("AvgResponseTimeMs")]
+    public long? AvgResponseTimeMs { get; set; }
+
+    [Column("LastMessageAt")]
+    public DateTimeOffset? LastMessageAt { get; set; }
 }

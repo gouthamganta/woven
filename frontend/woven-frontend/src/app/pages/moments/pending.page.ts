@@ -116,7 +116,7 @@ export class PendingMomentsPageComponent implements OnInit {
     el.scrollTo({ left: i * el.clientWidth, behavior: 'smooth' });
   }
 
-  async decide(card: PendingCard, choice: 'YES' | 'NO') {
+  async decide(card: PendingCard, choice: 'MAGICAL' | 'LOGICAL') {
     try {
       const res = await firstValueFrom(
         this.moments.respond({

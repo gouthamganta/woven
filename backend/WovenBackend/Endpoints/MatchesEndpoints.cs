@@ -56,6 +56,11 @@ public static class MatchesEndpoints
                 {
                     userId = u.Id,
                     fullName = u.FullName,
+                    isVerified = u.IsVerified,
+                    displayPronouns = db.UserProfiles
+                        .Where(p => p.UserId == u.Id)
+                        .Select(p => p.DisplayPronouns)
+                        .FirstOrDefault(),
                     profilePhoto = db.UserPhotos
                         .Where(p => p.UserId == u.Id)
                         .OrderBy(p => p.SortOrder)
@@ -80,7 +85,7 @@ public static class MatchesEndpoints
                 x.showBalloonTimer,
                 x.reflectionSecondsLeft,
                 other = map.TryGetValue(x.otherUserId, out var u)
-                    ? new { userId = u.userId, fullName = u.fullName, profilePhoto = u.profilePhoto }
+                    ? new { userId = u.userId, fullName = u.fullName, isVerified = u.isVerified, displayPronouns = u.displayPronouns, profilePhoto = u.profilePhoto }
                     : null
             });
 
@@ -251,6 +256,8 @@ public static class MatchesEndpoints
                 age = profile?.Age,
                 gender = profile?.Gender,
                 location = loc,
+                isVerified = u.IsVerified,
+                displayPronouns = profile?.DisplayPronouns,
                 bio,
 
                 intent = intent == null

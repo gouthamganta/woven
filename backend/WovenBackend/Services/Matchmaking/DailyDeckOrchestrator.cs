@@ -13,6 +13,8 @@ public class DailyDeckOrchestrator : IDailyDeckOrchestrator
     private readonly IDeckSelectionService _selection;
     private readonly IMatchExplanationService _explanation;
     private readonly IDeliveryBoostService _deliveryBoost;
+    private readonly WovenBackend.Services.ICacheService _cache;
+    private readonly WovenBackend.Services.INotificationService _notifications;
     private readonly ILogger<DailyDeckOrchestrator> _logger;
 
     public DailyDeckOrchestrator(
@@ -22,6 +24,8 @@ public class DailyDeckOrchestrator : IDailyDeckOrchestrator
         IDeckSelectionService selection,
         IMatchExplanationService explanation,
         IDeliveryBoostService deliveryBoost,
+        WovenBackend.Services.ICacheService cache,
+        WovenBackend.Services.INotificationService notifications,
         ILogger<DailyDeckOrchestrator> logger)
     {
         _db = db;
@@ -30,6 +34,8 @@ public class DailyDeckOrchestrator : IDailyDeckOrchestrator
         _selection = selection;
         _explanation = explanation;
         _deliveryBoost = deliveryBoost;
+        _cache = cache;
+        _notifications = notifications;
         _logger = logger;
     }
 
@@ -37,16 +43,27 @@ public class DailyDeckOrchestrator : IDailyDeckOrchestrator
     {
         _logger.LogInformation("[DeckOrchestrator] Getting deck for user {UserId} on {Date}", userId, dateUtc);
 
-        // Check if deck already exists
+        // Phase 1B: Redis fast-path — avoids a DB round-trip for repeat calls on the same day
+        var cacheKey = WovenBackend.Services.CacheKeys.DailyDeck(userId, dateUtc);
+        var cached = await _cache.GetAsync<List<DeckItem>>(cacheKey, ct);
+        if (cached != null)
+        {
+            _logger.LogInformation("[DeckOrchestrator] Redis cache hit for user {UserId}", userId);
+            return new DailyDeckResult { Items = cached, Generated = false };
+        }
+
+        // Check if deck already exists in DB
         var existingDeck = await _db.DailyDecks
             .AsNoTracking()
             .FirstOrDefaultAsync(d => d.UserId == userId && d.DateUtc == dateUtc, ct);
 
         if (existingDeck != null)
         {
-            _logger.LogInformation("[DeckOrchestrator] Deck already exists, returning cached version");
+            _logger.LogInformation("[DeckOrchestrator] Deck already exists in DB, backfilling Redis cache");
             var items = JsonSerializer.Deserialize<List<DeckItem>>(existingDeck.ItemsJson)
                 ?? new List<DeckItem>();
+
+            await _cache.SetAsync(cacheKey, items, WovenBackend.Services.CacheTtl.UntilMidnightUtc(), ct);
 
             return new DailyDeckResult
             {
@@ -152,6 +169,12 @@ public class DailyDeckOrchestrator : IDailyDeckOrchestrator
 
         _db.DailyDecks.Add(deck);
         await _db.SaveChangesAsync(ct);
+
+        // Phase 1B: cache the freshly generated deck until UTC midnight
+        await _cache.SetAsync(cacheKey, deckItems, WovenBackend.Services.CacheTtl.UntilMidnightUtc(), ct);
+
+        // Phase 1C: notify the user in real-time that their deck is ready
+        await _notifications.DeckReadyAsync(userId, dateUtc, ct);
 
         _logger.LogInformation("[DeckOrchestrator] Generated and saved deck with {Count} items for user {UserId}",
             deckItems.Count, userId);

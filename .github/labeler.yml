@@ -1,0 +1,57 @@
+# Maps file path patterns to PR labels
+# Labels are automatically applied when matching files are changed in a PR
+
+backend:
+  - changed-files:
+    - any-glob-to-any-file: 'backend/**'
+
+frontend:
+  - changed-files:
+    - any-glob-to-any-file: 'frontend/**'
+
+infrastructure:
+  - changed-files:
+    - any-glob-to-any-file: 'infra/**'
+    - any-glob-to-any-file: 'docker-compose*.yml'
+    - any-glob-to-any-file: '**/Dockerfile'
+
+documentation:
+  - changed-files:
+    - any-glob-to-any-file: 'docs/**'
+    - any-glob-to-any-file: '*.md'
+    - any-glob-to-any-file: '**/*.md'
+
+github-actions:
+  - changed-files:
+    - any-glob-to-any-file: '.github/**'
+
+database:
+  - changed-files:
+    - any-glob-to-any-file: 'backend/**/Migrations/**'
+    - any-glob-to-any-file: 'backend/**/data/**'
+
+matchmaking:
+  - changed-files:
+    - any-glob-to-any-file: 'backend/**/Services/Matchmaking/**'
+    - any-glob-to-any-file: 'backend/**/Services/Moments/**'
+
+ai:
+  - changed-files:
+    - any-glob-to-any-file: 'backend/**/Services/Embeddings/**'
+    - any-glob-to-any-file: 'backend/**/Services/Insights/**'
+    - any-glob-to-any-file: 'backend/**/Services/Nudges/**'
+
+security:
+  - changed-files:
+    - any-glob-to-any-file: 'backend/**/Services/Security/**'
+    - any-glob-to-any-file: 'backend/**/Services/Trust/**'
+    - any-glob-to-any-file: 'backend/**/Services/Moderation/**'
+    - any-glob-to-any-file: 'backend/**/Auth/**'
+
+api:
+  - changed-files:
+    - any-glob-to-any-file: 'backend/**/Endpoints/**'
+
+games:
+  - changed-files:
+    - any-glob-to-any-file: 'backend/**/Services/Games/**'

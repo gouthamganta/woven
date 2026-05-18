@@ -4,7 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WovenBackend.Data;
 using WovenBackend.data.Entities.Moments;
+using WovenBackend.Services;
+using WovenBackend.Services.Analytics;
 using WovenBackend.Services.Moments;
+using WovenBackend.Services.Nudges;
+using WovenBackend.Services.Venues;
 using System.Text.Json;
 
 namespace WovenBackend.Endpoints;
@@ -74,6 +78,11 @@ public static class ChatEndpoints
                 {
                     userId = u.Id,
                     fullName = u.FullName,
+                    isVerified = u.IsVerified,
+                    displayPronouns = db.UserProfiles
+                        .Where(p => p.UserId == u.Id)
+                        .Select(p => p.DisplayPronouns)
+                        .FirstOrDefault(),
                     profilePhoto = db.UserPhotos
                         .Where(p => p.UserId == u.Id)
                         .OrderBy(p => p.SortOrder)
@@ -119,7 +128,7 @@ public static class ChatEndpoints
                 x.reflectionSecondsLeft,
                 title = userMap.TryGetValue(x.otherUserId, out var u1) ? $"A moment with {u1.fullName}" : "A moment",
                 other = userMap.TryGetValue(x.otherUserId, out var u)
-                    ? new { userId = u.userId, fullName = u.fullName, profilePhoto = u.profilePhoto }
+                    ? new { userId = u.userId, fullName = u.fullName, isVerified = u.isVerified, displayPronouns = u.displayPronouns, profilePhoto = u.profilePhoto }
                     : null,
                 lastMessage = lastMap.TryGetValue(x.threadId, out var lm)
                     ? new { lm.body, lm.createdAt, lm.senderUserId, lm.messageType, lm.metaJson }
@@ -137,6 +146,7 @@ public static class ChatEndpoints
         group.MapPost("/start", async (
             StartChatRequest req,
             WovenDbContext db,
+            IAnalyticsService analytics,
             HttpContext http,
             CancellationToken ct) =>
         {
@@ -166,6 +176,8 @@ public static class ChatEndpoints
 
             db.ChatThreads.Add(thread);
             await db.SaveChangesAsync(ct);
+
+            _ = analytics.TrackAsync(me, null, AnalyticsEvents.ChatStarted, new { matchId = req.MatchId });
 
             return Results.Ok(new { threadId = thread.Id, matchId = req.MatchId });
         });
@@ -320,6 +332,7 @@ public static class ChatEndpoints
             Guid threadId,
             SendMessageRequest req,
             WovenDbContext db,
+            IAnalyticsService analytics,
             HttpContext http,
             CancellationToken ct) =>
         {
@@ -360,8 +373,32 @@ public static class ChatEndpoints
 
             db.ChatMessages.Add(msg);
             thread.UpdatedAt = now;
+            thread.LastMessageAt = now;
+
+            // Compute AvgResponseTimeMs: find last message from the OTHER user
+            var otherUserIdForResp = match.UserAId == me ? match.UserBId : match.UserAId;
+            var prevMsg = await db.ChatMessages.AsNoTracking()
+                .Where(m => m.ThreadId == threadId && m.SenderUserId == otherUserIdForResp)
+                .OrderByDescending(m => m.CreatedAt)
+                .FirstOrDefaultAsync(ct);
+
+            if (prevMsg != null)
+            {
+                var responseMs = (long)(now - prevMsg.CreatedAt).TotalMilliseconds;
+                thread.MessageCount++;
+                thread.AvgResponseTimeMs = thread.AvgResponseTimeMs == null
+                    ? responseMs
+                    : (thread.AvgResponseTimeMs * (thread.MessageCount - 1) + responseMs) / thread.MessageCount;
+            }
+            else
+            {
+                thread.MessageCount++;
+            }
 
             await db.SaveChangesAsync(ct);
+
+            _ = analytics.TrackAsync(me, null, AnalyticsEvents.MessageSent,
+                new { messageNumber = thread.MessageCount });
 
             // ✅ Set BothMessagedAt + FindLoveAt ONCE when both users have messaged
             if (match.BothMessagedAt == null)
@@ -380,6 +417,10 @@ public static class ChatEndpoints
                         match.FindLoveAt = now.Add(ReflectionWindow);
 
                     await db.SaveChangesAsync(ct);
+
+                    var otherUserIdForUnlock = match.UserAId == me ? match.UserBId : match.UserAId;
+                    _ = analytics.TrackAsync(me, null, AnalyticsEvents.FindLoveUnlocked, null);
+                    _ = analytics.TrackAsync(otherUserIdForUnlock, null, AnalyticsEvents.FindLoveUnlocked, null);
                 }
             }
 
@@ -419,6 +460,41 @@ public static class ChatEndpoints
                 createdAt = msg.CreatedAt
             });
         });
+
+        // POST /chats/{threadId}/close-gracefully — mutual walk-away without ghosting penalty
+        group.MapPost("/{threadId:guid}/close-gracefully", async (
+            Guid threadId,
+            WovenDbContext db,
+            INotificationService notify,
+            HttpContext http,
+            CancellationToken ct) =>
+        {
+            var me = GetUserId(http.User);
+            var now = MomentsRules.NowUtc();
+
+            var thread = await db.ChatThreads.AsNoTracking().FirstOrDefaultAsync(t => t.Id == threadId, ct);
+            if (thread == null) return Results.NotFound(new { error = "THREAD_NOT_FOUND" });
+
+            var match = await db.Matches.FirstOrDefaultAsync(m => m.Id == thread.MatchId, ct);
+            if (match == null) return Results.NotFound(new { error = "MATCH_NOT_FOUND" });
+
+            var isParticipant = match.UserAId == me || match.UserBId == me;
+            if (!isParticipant) return Results.Forbid();
+
+            if (match.BalloonState != BalloonState.ACTIVE)
+                return Results.BadRequest(new { error = "BALLOON_NOT_ACTIVE" });
+
+            match.BalloonState = BalloonState.CLOSED;
+            match.ClosedReason = ClosedReason.UNMATCH;
+            match.ClosedAt = now;
+            await db.SaveChangesAsync(ct);
+
+            await notify.MomentExpiredAsync(match.UserAId, match.UserBId, match.Id, ct);
+
+            return Results.Ok(new { status = "CLOSED", closedAt = now });
+        });
+
+        MapNudgeAndDateEndpoints(group);
 
         // POST /chats/{threadId}/trial-decision
         group.MapPost("/{threadId:guid}/trial-decision", async (
@@ -535,6 +611,190 @@ public static class ChatEndpoints
             });
         });
     }
+
+    // GET /chats/{threadId}/nudge
+    // POST /chats/{threadId}/nudge/dismiss
+    // POST /chats/{threadId}/date-interest
+    private static void MapNudgeAndDateEndpoints(RouteGroupBuilder group)
+    {
+        group.MapGet("/{threadId:guid}/nudge", async (
+            Guid threadId,
+            INudgeService nudges,
+            HttpContext http,
+            CancellationToken ct) =>
+        {
+            var me = GetUserId(http.User);
+            var nudge = await nudges.GetConversationNudgeAsync(me, threadId, ct);
+            return Results.Ok(new { nudge });
+        });
+
+        group.MapPost("/{threadId:guid}/nudge/dismiss", async (
+            Guid threadId,
+            ICacheService cache,
+            IAnalyticsService analytics,
+            HttpContext http,
+            CancellationToken ct) =>
+        {
+            var me = GetUserId(http.User);
+            var key = $"nudge:dismissed:{threadId}:{me}";
+            await cache.SetAsync(key, "1", TimeSpan.FromHours(48), ct);
+            _ = analytics.TrackAsync(me, null, AnalyticsEvents.NudgeDismissed, new { threadId });
+            return Results.NoContent();
+        });
+
+        group.MapPost("/{threadId:guid}/date-interest", async (
+            Guid threadId,
+            WovenDbContext db,
+            ICacheService cache,
+            INotificationService notify,
+            IAnalyticsService analytics,
+            HttpContext http,
+            CancellationToken ct) =>
+        {
+            var me = GetUserId(http.User);
+
+            var thread = await db.ChatThreads.AsNoTracking().FirstOrDefaultAsync(t => t.Id == threadId, ct);
+            if (thread == null) return Results.NotFound(new { error = "THREAD_NOT_FOUND" });
+
+            var match = await db.Matches.FirstOrDefaultAsync(m => m.Id == thread.MatchId, ct);
+            if (match == null) return Results.NotFound(new { error = "MATCH_NOT_FOUND" });
+
+            var isParticipant = match.UserAId == me || match.UserBId == me;
+            if (!isParticipant) return Results.Forbid();
+
+            if (match.BalloonState != BalloonState.ACTIVE)
+                return Results.BadRequest(new { error = "BALLOON_NOT_ACTIVE" });
+
+            var isUserA = match.UserAId == me;
+            var otherUserId = isUserA ? match.UserBId : match.UserAId;
+
+            if (isUserA)
+                match.DateIdeaInterestedA = true;
+            else
+                match.DateIdeaInterestedB = true;
+
+            var mutualInterest = match.DateIdeaInterestedA && match.DateIdeaInterestedB;
+            if (mutualInterest)
+                match.DateIdeaInterestedAt = DateTimeOffset.UtcNow;
+
+            await db.SaveChangesAsync(ct);
+
+            _ = analytics.TrackAsync(me, null, AnalyticsEvents.DateInterestExpressed, new { threadId });
+
+            if (mutualInterest)
+            {
+                _ = analytics.TrackAsync(match.UserAId, null, AnalyticsEvents.DateInterestMutual, new { threadId });
+                _ = analytics.TrackAsync(match.UserBId, null, AnalyticsEvents.DateInterestMutual, new { threadId });
+
+                var msg = "You both want to meet up! Check out some nearby spots 🗺️";
+                await Task.WhenAll(
+                    notify.SendPushAsync(match.UserAId, msg, ct),
+                    notify.SendPushAsync(match.UserBId, msg, ct));
+
+                return Results.Ok(new { mutualInterest = true });
+            }
+
+            // Notify the other user once (dedup via Redis)
+            var notifyKey = $"dateinterest:notified:{match.Id}";
+            var alreadyNotified = await cache.GetAsync<string>(notifyKey, ct);
+            if (alreadyNotified == null)
+            {
+                var senderName = await db.Users.AsNoTracking()
+                    .Where(u => u.Id == me)
+                    .Select(u => u.FullName)
+                    .FirstOrDefaultAsync(ct);
+
+                var firstName = senderName?.Split(' ')[0] ?? "Someone";
+                await notify.SendPushAsync(otherUserId,
+                    $"{firstName} is interested in the date idea 👀", ct);
+
+                await cache.SetAsync(notifyKey, "1", TimeSpan.FromDays(7), ct);
+            }
+
+            return Results.Ok(new { mutualInterest = false });
+        });
+
+        // GET /chats/{threadId}/venue-suggestions
+        group.MapGet("/{threadId:guid}/venue-suggestions", async (
+            Guid threadId,
+            WovenDbContext db,
+            IVenueService venues,
+            IAnalyticsService analytics,
+            HttpContext http,
+            CancellationToken ct) =>
+        {
+            var me = GetUserId(http.User);
+
+            var thread = await db.ChatThreads.AsNoTracking().FirstOrDefaultAsync(t => t.Id == threadId, ct);
+            if (thread == null) return Results.NotFound(new { error = "THREAD_NOT_FOUND" });
+
+            var match = await db.Matches.AsNoTracking().FirstOrDefaultAsync(m => m.Id == thread.MatchId, ct);
+            if (match == null) return Results.NotFound(new { error = "MATCH_NOT_FOUND" });
+
+            var isParticipant = match.UserAId == me || match.UserBId == me;
+            if (!isParticipant) return Results.Forbid();
+
+            if (!match.DateIdeaInterestedA || !match.DateIdeaInterestedB)
+                return Results.Json(new { error = "MUTUAL_INTEREST_REQUIRED" }, statusCode: 403);
+
+            var partnerId = match.UserAId == me ? match.UserBId : match.UserAId;
+            var suggestions = await venues.GetVenueSuggestionsAsync(me, partnerId, ct);
+            _ = analytics.TrackAsync(me, null, AnalyticsEvents.VenueSuggestionsViewed,
+                new { threadId, venueCount = suggestions.Count });
+            return Results.Ok(new { venues = suggestions });
+        });
+
+        // POST /chats/{threadId}/availability
+        group.MapPost("/{threadId:guid}/availability", async (
+            Guid threadId,
+            AvailabilitySignalRequest req,
+            WovenDbContext db,
+            INotificationService notify,
+            HttpContext http,
+            CancellationToken ct) =>
+        {
+            var me = GetUserId(http.User);
+
+            if (string.IsNullOrWhiteSpace(req.SignalText))
+                return Results.BadRequest(new { error = "SIGNAL_TEXT_REQUIRED" });
+            if (req.SignalText.Length > 200)
+                return Results.BadRequest(new { error = "SIGNAL_TEXT_TOO_LONG" });
+
+            var thread = await db.ChatThreads.AsNoTracking().FirstOrDefaultAsync(t => t.Id == threadId, ct);
+            if (thread == null) return Results.NotFound(new { error = "THREAD_NOT_FOUND" });
+
+            var match = await db.Matches.AsNoTracking().FirstOrDefaultAsync(m => m.Id == thread.MatchId, ct);
+            if (match == null) return Results.NotFound(new { error = "MATCH_NOT_FOUND" });
+
+            var isParticipant = match.UserAId == me || match.UserBId == me;
+            if (!isParticipant) return Results.Forbid();
+
+            if (match.BalloonState != BalloonState.ACTIVE)
+                return Results.BadRequest(new { error = "BALLOON_NOT_ACTIVE" });
+
+            db.ChatAvailabilitySignals.Add(new ChatAvailabilitySignal
+            {
+                ThreadId = threadId,
+                UserId = me,
+                SignalText = req.SignalText.Trim(),
+                CreatedAt = DateTimeOffset.UtcNow
+            });
+            await db.SaveChangesAsync(ct);
+
+            var partnerId = match.UserAId == me ? match.UserBId : match.UserAId;
+            var senderName = await db.Users.AsNoTracking()
+                .Where(u => u.Id == me)
+                .Select(u => u.FullName)
+                .FirstOrDefaultAsync(ct);
+            var firstName = senderName?.Split(' ')[0] ?? "Someone";
+
+            await notify.SendPushAsync(partnerId, $"{firstName} is free: {req.SignalText.Trim()}", ct);
+
+            return Results.NoContent();
+        });
+    }
+
+    private record AvailabilitySignalRequest(string SignalText);
 
     private static int GetUserId(ClaimsPrincipal user)
     {

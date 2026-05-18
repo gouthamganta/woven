@@ -5,7 +5,7 @@ services:
   # PostgreSQL Database
   # ================================
   postgres:
-    image: postgres:16-alpine
+    image: pgvector/pgvector:pg16
     container_name: woven-db
     restart: unless-stopped
     environment:
@@ -25,6 +25,36 @@ services:
       - woven-network
 
   # ================================
+  # Azurite (Azure Blob Storage emulator — local dev only)
+  # ================================
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    container_name: woven-azurite
+    restart: unless-stopped
+    ports:
+      - "10000:10000"
+    command: azurite-blob --blobHost 0.0.0.0
+    networks:
+      - woven-network
+
+  # ================================
+  # Redis Cache
+  # ================================
+  redis:
+    image: redis:7-alpine
+    container_name: woven-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - woven-network
+
+  # ================================
   # Backend API (.NET)
   # ================================
   backend:
@@ -36,9 +66,13 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=woven;Username=woven;Password=woven
+      - Redis__ConnectionString=redis:6379,abortConnect=false
+      - Azure__Storage__ConnectionString=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OcDhPq5LQjZLc8HVjA1yMOHhDFgAnmJJ9bNoWtMBKZKD4V5FZtCt4OGQ==;BlobEndpoint=http://azurite:10000/devstoreaccount1;
       - Jwt__Key=${JWT_KEY:-CHANGE_THIS_TO_A_LONG_RANDOM_SECRET_MIN_32_CHARS_PRODUCTION}
       - Jwt__Issuer=WovenBackend
       - Jwt__Audience=WovenFrontend

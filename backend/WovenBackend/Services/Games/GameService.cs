@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using WovenBackend.Data;
 using WovenBackend.Data.Entities.Games;
 using WovenBackend.data.Entities.Moments;
+using WovenBackend.Services.Analytics;
 
 namespace WovenBackend.Services.Games;
 
@@ -26,19 +27,25 @@ public class GameService : IGameService
     private readonly ILogger<GameService> _logger;
     private readonly IAiProfileService _aiProfileService;
     private readonly IGameOutcomeService _gameOutcomeService;
+    private readonly WovenBackend.Services.INotificationService _notifications;
+    private readonly IAnalyticsService _analytics;
 
     public GameService(
         WovenDbContext db,
         IGameAgentFactory agentFactory,
         ILogger<GameService> logger,
         IAiProfileService aiProfileService,
-        IGameOutcomeService gameOutcomeService)
+        IGameOutcomeService gameOutcomeService,
+        WovenBackend.Services.INotificationService notifications,
+        IAnalyticsService analytics)
     {
         _db = db;
         _agentFactory = agentFactory;
         _logger = logger;
         _aiProfileService = aiProfileService;
         _gameOutcomeService = gameOutcomeService;
+        _notifications = notifications;
+        _analytics = analytics;
     }
 
     public async Task<GameAvailabilityDto> CheckAvailabilityAsync(
@@ -161,7 +168,14 @@ public class GameService : IGameService
             ct
         );
 
-        _logger.LogInformation("[Game] Created session {SessionId}, expires at {ExpiresAt}", 
+        // Phase 1C: notify the other user that they have a game invite
+        var otherUserId = match.UserAId == initiatorUserId ? match.UserBId : match.UserAId;
+        await _notifications.GameInviteReceivedAsync(otherUserId, session.Id, session.MatchId, session.GameType, session.ExpiresAt, ct);
+
+        _ = _analytics.TrackAsync(initiatorUserId, null, AnalyticsEvents.GameInvited,
+            new { gameType = session.GameType });
+
+        _logger.LogInformation("[Game] Created session {SessionId}, expires at {ExpiresAt}",
             session.Id, session.ExpiresAt);
 
         return new GameSessionDto
@@ -293,7 +307,13 @@ public class GameService : IGameService
             ct
         );
 
-        _logger.LogInformation("[Game] Session {SessionId} started, round 1 generated, expires at {ExpiresAt}", 
+        // Phase 1C: notify both players the game has started
+        await _notifications.GameStartedAsync(match.UserAId, match.UserBId, session.Id, session.MatchId, session.GameType, ct);
+
+        _ = _analytics.TrackAsync(userId, null, AnalyticsEvents.GameAccepted,
+            new { gameType = session.GameType });
+
+        _logger.LogInformation("[Game] Session {SessionId} started, round 1 generated, expires at {ExpiresAt}",
             session.Id, session.ExpiresAt);
 
         return true;
@@ -579,6 +599,14 @@ public class GameService : IGameService
             },
             ct
         );
+
+        // Phase 1C: notify both players the game is complete
+        await _notifications.GameCompletedAsync(match.UserAId, match.UserBId, session.Id, session.MatchId, session.GameType, result.WinnerUserId, ct);
+
+        _ = _analytics.TrackAsync(match.UserAId, null, AnalyticsEvents.GameCompleted,
+            new { gameType = session.GameType, userScore = userAScore, partnerScore = userBScore });
+        _ = _analytics.TrackAsync(match.UserBId, null, AnalyticsEvents.GameCompleted,
+            new { gameType = session.GameType, userScore = userBScore, partnerScore = userAScore });
 
         _logger.LogInformation("[Game] Session {SessionId} completed, winner: {Winner}",
             session.Id, result.WinnerUserId?.ToString() ?? "tie");

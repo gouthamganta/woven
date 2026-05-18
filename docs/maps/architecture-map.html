@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Woven — Architecture Map</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d1117; color: #c9d1d9; font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; }
+
+  #header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,17,23,0.97); backdrop-filter: blur(8px);
+    border-bottom: 1px solid #30363d; padding: 12px 20px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  #header h1 { font-size: 18px; font-weight: 600; color: #f0f6fc; }
+  #header span { font-size: 12px; color: #8b949e; }
+  #legend { margin-left: auto; display: flex; gap: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #8b949e; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+  #svg-container { width: 100vw; height: 100vh; padding-top: 52px; }
+  svg { width: 100%; height: 100%; cursor: grab; }
+  svg:active { cursor: grabbing; }
+
+  #detail-panel {
+    position: fixed; right: 0; top: 52px; bottom: 0; width: 300px;
+    background: rgba(13,17,23,0.98); border-left: 1px solid #30363d;
+    padding: 20px; overflow-y: auto; transform: translateX(100%);
+    transition: transform 0.3s ease; z-index: 50;
+  }
+  #detail-panel.open { transform: translateX(0); }
+  #detail-panel h2 { font-size: 16px; font-weight: 600; color: #f0f6fc; margin-bottom: 8px; }
+  #detail-panel .subtitle { font-size: 11px; color: #8b949e; margin-bottom: 16px; }
+  .detail-section { margin-bottom: 16px; }
+  .detail-section h3 { font-size: 12px; font-weight: 600; color: #58a6ff; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .detail-section p { font-size: 12px; color: #8b949e; line-height: 1.6; }
+  .detail-section ul { list-style: none; padding: 0; }
+  .detail-section li { font-size: 12px; color: #8b949e; padding: 2px 0; }
+  .detail-section li::before { content: '→ '; color: #58a6ff; }
+  .chip { display: inline-block; background: #21262d; border: 1px solid #30363d; border-radius: 4px; padding: 2px 8px; font-size: 10px; color: #8b949e; margin: 2px 2px 0 0; }
+  #close-panel { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #8b949e; font-size: 18px; cursor: pointer; }
+  #close-panel:hover { color: #f0f6fc; }
+
+  #controls {
+    position: fixed; bottom: 20px; left: 20px; display: flex; gap: 8px;
+  }
+  .ctrl-btn {
+    padding: 6px 14px; background: #21262d; border: 1px solid #30363d;
+    border-radius: 6px; color: #c9d1d9; font-size: 12px; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .ctrl-btn:hover { background: #30363d; }
+
+  .node-box {
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .node-box:hover { opacity: 0.85; }
+  .node-box rect { rx: 8px; }
+
+  .layer-label { font-size: 11px; fill: #30363d; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+
+  .flow-arrow { fill: none; stroke-width: 1.5; stroke-opacity: 0.5; marker-end: url(#arrow); }
+
+  @keyframes flowDash {
+    to { stroke-dashoffset: -20; }
+  }
+  .flow-animated {
+    stroke-dasharray: 6 4;
+    animation: flowDash 1.2s linear infinite;
+  }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>Woven · Architecture Map</h1>
+  <span>Click any component for details · Drag to pan · Scroll to zoom</span>
+  <div id="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#1c6ef3"></div>Frontend</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#16a34a"></div>Backend</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#b45309"></div>Data</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#6d28d9"></div>External</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0f766e"></div>Infra</div>
+  </div>
+</div>
+
+<div id="svg-container"><svg id="main-svg"></svg></div>
+
+<div id="detail-panel">
+  <button id="close-panel">✕</button>
+  <h2 id="dp-title"></h2>
+  <div class="subtitle" id="dp-subtitle"></div>
+  <div id="dp-content"></div>
+</div>
+
+<div id="controls">
+  <button class="ctrl-btn" id="zoom-in">Zoom +</button>
+  <button class="ctrl-btn" id="zoom-out">Zoom −</button>
+  <button class="ctrl-btn" id="reset">Reset</button>
+</div>
+
+<script>
+const components = [
+  // Frontend layer (y=80)
+  {
+    id: 'angular', label: 'Angular 21\nSPA', x: 100, y: 80, w: 120, h: 60,
+    color: '#1c3a8a', stroke: '#3b82f6', layer: 'Frontend',
+    title: 'Angular 21 — Single Page App',
+    subtitle: 'Frontend · Port 4200 (dev) / Port 80 (prod via nginx)',
+    sections: [
+      { h: 'Tech Stack', items: ['Angular 21 + TypeScript', 'RxJS Observables', 'PrimeNG UI components', 'OnPush change detection', 'nginx:alpine in prod'] },
+      { h: 'Pages', items: ['Moments (swipe deck)', 'Chats (messaging)', 'Matches (balloon list)', 'Profile + Onboarding', 'Commons + Games'] },
+      { h: 'Core', items: ['AuthInterceptor (JWT)', 'AuthGuard (route protection)', 'BehaviorSubject state', 'SignalR client'] },
+    ]
+  },
+
+  // Backend layer (y=230)
+  { id: 'api', label: 'ASP.NET Core 10\nMinimal API', x: 100, y: 230, w: 140, h: 60,
+    color: '#14532d', stroke: '#22c55e', layer: 'Backend',
+    title: 'ASP.NET Core 10 — Minimal API',
+    subtitle: 'Backend · Port 8080 (container) / 5135 (local)',
+    sections: [
+      { h: 'Endpoints (47 total)', items: ['/auth/google', '/moments + /moments/respond', '/chats/{id}/messages', '/matches/{id}/pop', '/games/sessions', '/admin/*', '/health/live + /ready'] },
+      { h: 'Middleware', items: ['JWT Bearer auth', 'CORS per-environment', 'Rate limiting (Redis)', 'Request logging', 'Error handling'] },
+      { h: 'Services', items: ['DailyDeckOrchestrator', 'MomentsMatchService', 'InteractionBudgetService', 'GameService', 'CircuitBreakerService'] },
+    ]
+  },
+  { id: 'workers', label: 'Background\nWorkers', x: 280, y: 230, w: 120, h: 60,
+    color: '#1c1c3a', stroke: '#6366f1', layer: 'Backend',
+    title: 'Background Workers (14 total)',
+    subtitle: 'Backend · Hosted Services via IHostedService',
+    sections: [
+      { h: 'Every 60s', items: ['BalloonExpiryWorker — closes expired matches'] },
+      { h: 'Hourly', items: ['NudgeGenerationWorker', 'GhostScoreWorker'] },
+      { h: 'Daily (various times)', items: ['TrustScoreWorker (02:00 UTC)', 'WeeklyPulseWorker (03:00 UTC)', 'FoundationalExpiryWorker (04:00 UTC)', 'VisualPreferenceLearner (05:00 UTC)'] },
+      { h: 'Weekly (Sunday)', items: ['WeightLearningService (04:00 UTC) — gradient descent on 14 scoring weights'] },
+    ]
+  },
+
+  // Data layer (y=380)
+  { id: 'postgres', label: 'PostgreSQL 16\n+ pgvector', x: 60, y: 380, w: 130, h: 60,
+    color: '#3b1f0a', stroke: '#f59e0b', layer: 'Data',
+    title: 'PostgreSQL 16 + pgvector',
+    subtitle: 'Data · Azure Database for PostgreSQL Flexible Server',
+    sections: [
+      { h: 'Key Tables (~60)', items: ['users, user_profiles, user_photos', 'matches, chat_threads, chat_messages', 'moment_responses, daily_interactions', 'game_sessions, game_rounds', 'seasons, tiles, orbit_follows'] },
+      { h: 'pgvector', items: ['user_vectors (pillar embedding)', 'photo_embeddings, voice_embeddings', 'conversation_embeddings', 'All indexed with HNSW (1536-dim)'] },
+      { h: 'Constraints', items: ['user_a_id < user_b_id (normalized pairs)', 'EDGE matches require edge_owner_id', 'pending_used ≤ total_used (budget)'] },
+    ]
+  },
+  { id: 'redis', label: 'Redis\nCache', x: 220, y: 380, w: 100, h: 60,
+    color: '#3a0f0f', stroke: '#ef4444', layer: 'Data',
+    title: 'Redis — Rate Limiting & Caching',
+    subtitle: 'Data · Azure Cache for Redis',
+    sections: [
+      { h: 'Rate Limit Keys', items: ['rl:{userId}:{endpoint}', '10 req/s per user', '100 req/min per IP'] },
+      { h: 'Cache Keys', items: ['deck:{userId}:{date} — daily deck (TTL: 24h)', 'budget:{userId}:{date} — budget state', 'vector:{userId} — embedding (TTL: 1h)'] },
+      { h: 'Fail-Open', p: 'If Redis is unavailable, all rate limit checks return true (allow). Service never blocks users due to Redis outage.' },
+    ]
+  },
+  { id: 'blob', label: 'Azure Blob\nStorage', x: 350, y: 380, w: 110, h: 60,
+    color: '#0a2540', stroke: '#0ea5e9', layer: 'Data',
+    title: 'Azure Blob Storage — Media',
+    subtitle: 'Data · 3 containers: profile-photos, voice-clips, verification-selfies',
+    sections: [
+      { h: 'SAS Token Pattern', p: 'Backend issues time-limited SAS tokens. Client uploads directly to Azure Blob — backend never handles binary data.' },
+      { h: 'Containers', items: ['profile-photos — profile images', 'voice-clips — voice intro clips', 'verification-selfies — selfie verification'] },
+    ]
+  },
+
+  // External layer (y=530)
+  { id: 'openai', label: 'OpenAI\nAPI', x: 60, y: 530, w: 100, h: 55,
+    color: '#0f2027', stroke: '#6366f1', layer: 'External',
+    title: 'OpenAI API',
+    subtitle: 'External · text-embedding-3-small + gpt-4.1-mini',
+    sections: [
+      { h: 'Models Used', items: ['text-embedding-3-small → 1536-dim embeddings', 'gpt-4.1-mini → all text completions (Responses API)'] },
+      { h: 'Integrations', items: ['Pillar embeddings (onboarding)', 'Match explanations (per deck card)', 'Game agent (Know Me / Red-Green)', 'Nudge generation', 'Insights generation', 'Dynamic intake Q generation'] },
+      { h: 'Circuit Breaker', p: 'CLOSED → OPEN → HALF_OPEN on consecutive failures. OPEN state bypasses AI calls, returns cached/fallback responses.' },
+    ]
+  },
+  { id: 'replicate', label: 'Replicate\nAPI', x: 190, y: 530, w: 100, h: 55,
+    color: '#0f2027', stroke: '#6366f1', layer: 'External',
+    title: 'Replicate API',
+    subtitle: 'External · Photo & voice processing',
+    sections: [
+      { h: 'Integrations', items: ['Photo embeddings (aesthetic similarity)', 'Voice energy analysis (speech patterns)'] },
+      { h: 'Fallback', p: 'Falls back gracefully on circuit breaker OPEN. Missing embeddings reduce that component\'s weight in scoring.' },
+    ]
+  },
+  { id: 'google', label: 'Google\nOAuth', x: 310, y: 530, w: 100, h: 55,
+    color: '#0f2027', stroke: '#6366f1', layer: 'External',
+    title: 'Google OAuth 2.0',
+    subtitle: 'External · The only authentication method',
+    sections: [
+      { h: 'Flow', items: ['1. Client obtains Google ID token', '2. POST /auth/google with idToken', '3. Backend verifies token via Google API', '4. Backend issues 60-min JWT'] },
+    ]
+  },
+  { id: 'signalr', label: 'SignalR\nHub', x: 430, y: 530, w: 100, h: 55,
+    color: '#0f2027', stroke: '#6366f1', layer: 'External',
+    title: 'SignalR — Real-Time Events',
+    subtitle: 'External · WebSocket / SSE push to clients',
+    sections: [
+      { h: 'Events (6 types)', items: ['match:new — new balloon created', 'message:new — new chat message', 'trial:started — balloon popped', 'trial:result — trial outcome', 'findlove:unlocked', 'nudge:new'] },
+      { h: 'Security', p: 'All server→client events signed with HMAC-SHA256. JWT passed via querystring for WebSocket auth.' },
+    ]
+  },
+
+  // Infra (y=80, right side)
+  { id: 'acr', label: 'Azure\nContainerApps', x: 530, y: 80, w: 130, h: 60,
+    color: '#0a2030', stroke: '#0ea5e9', layer: 'Infra',
+    title: 'Azure Container Apps',
+    subtitle: 'Infra · Serverless containers in woven-prod-rg',
+    sections: [
+      { h: 'Apps', items: ['woven-backend — ASP.NET API', 'woven-frontend — nginx + Angular'] },
+      { h: 'Networking', items: ['Frontend ingress: external (HTTPS)', 'Backend ingress: internal only', 'VNet integration for DB access', 'Zero public access to PostgreSQL'] },
+      { h: 'CI/CD', items: ['GitHub Actions → ACR build', 'SHA-tagged images', 'Smoke checks post-deploy'] },
+    ]
+  },
+  { id: 'monitor', label: 'App Insights\n+ Monitoring', x: 530, y: 200, w: 130, h: 60,
+    color: '#0a2030', stroke: '#0ea5e9', layer: 'Infra',
+    title: 'Application Insights + Monitoring',
+    subtitle: 'Infra · Observability stack',
+    sections: [
+      { h: 'Health Endpoints', items: ['/health/live — liveness probe', '/health/ready — readiness + DB check'] },
+      { h: 'Analytics Events', items: ['deck.shown, deck.card.chosen', 'balloon.popped, trial.passed', 'findlove.unlocked', 'game.completed'] },
+      { h: 'Alerts', p: 'p95 latency > 500ms, error rate > 1%, DB connection failures.' },
+    ]
+  },
+];
+
+const flows = [
+  { source: 'angular', target: 'api', label: 'HTTPS / JWT', animated: false },
+  { source: 'angular', target: 'signalr', label: 'WebSocket', animated: true },
+  { source: 'api', target: 'postgres', label: 'EF Core', animated: false },
+  { source: 'api', target: 'redis', label: 'Rate limit / Cache', animated: false },
+  { source: 'api', target: 'openai', label: 'Embeddings / GPT', animated: false },
+  { source: 'api', target: 'replicate', label: 'Photo / Voice', animated: false },
+  { source: 'api', target: 'google', label: 'Token verify', animated: false },
+  { source: 'angular', target: 'blob', label: 'Direct upload (SAS)', animated: true },
+  { source: 'workers', target: 'postgres', label: 'Scheduled jobs', animated: false },
+  { source: 'workers', target: 'openai', label: 'Batch embeddings', animated: false },
+  { source: 'api', target: 'signalr', label: 'Push events', animated: true },
+  { source: 'acr', target: 'api', label: 'Hosts', animated: false },
+  { source: 'acr', target: 'angular', label: 'Hosts', animated: false },
+  { source: 'monitor', target: 'api', label: 'Telemetry', animated: false },
+];
+
+const width = window.innerWidth;
+const height = window.innerHeight - 52;
+
+const svg = d3.select('#main-svg')
+  .attr('width', width).attr('height', height);
+
+// Arrow marker
+svg.append('defs').append('marker')
+  .attr('id', 'arrow').attr('viewBox', '0 -4 8 8')
+  .attr('refX', 6).attr('refY', 0)
+  .attr('markerWidth', 6).attr('markerHeight', 6)
+  .attr('orient', 'auto')
+  .append('path').attr('d', 'M0,-4L8,0L0,4').attr('fill', '#4a5568');
+
+const g = svg.append('g');
+
+const zoom = d3.zoom()
+  .scaleExtent([0.3, 2.5])
+  .on('zoom', e => g.attr('transform', e.transform));
+
+svg.call(zoom);
+
+// Initial transform to center the diagram
+const initScale = Math.min(width / 700, height / 650) * 0.85;
+const initX = (width - 700 * initScale) / 2;
+const initY = (height - 650 * initScale) / 2 + 20;
+svg.call(zoom.transform, d3.zoomIdentity.translate(initX, initY).scale(initScale));
+
+// Layer background bands
+const layers = [
+  { label: 'FRONTEND', y: 60, h: 90, color: '#1c6ef308' },
+  { label: 'BACKEND SERVICES', y: 210, h: 90, color: '#16a34a08' },
+  { label: 'DATA STORES', y: 360, h: 90, color: '#b4530908' },
+  { label: 'EXTERNAL APIS', y: 510, h: 85, color: '#6d28d908' },
+];
+
+g.selectAll('.layer-bg').data(layers).join('rect')
+  .attr('class', 'layer-bg')
+  .attr('x', 0).attr('y', d => d.y)
+  .attr('width', 500).attr('height', d => d.h)
+  .attr('fill', d => d.color)
+  .attr('rx', 4);
+
+g.selectAll('.layer-label').data(layers).join('text')
+  .attr('class', 'layer-label')
+  .attr('x', 8).attr('y', d => d.y + 14)
+  .text(d => d.label);
+
+// Draw flows as curved paths between component centers
+function componentCenter(id) {
+  const c = components.find(c => c.id === id);
+  if (!c) return { x: 0, y: 0 };
+  return { x: c.x + c.w / 2, y: c.y + c.h / 2 };
+}
+
+function flowPath(src, tgt) {
+  const s = componentCenter(src);
+  const t = componentCenter(tgt);
+  const dx = t.x - s.x, dy = t.y - s.y;
+  const mx = s.x + dx * 0.5;
+  const my = s.y + dy * 0.5 - Math.abs(dx) * 0.1;
+  return `M${s.x},${s.y} Q${mx},${my} ${t.x},${t.y}`;
+}
+
+const flowGroup = g.append('g');
+flows.forEach(f => {
+  const path = flowGroup.append('path')
+    .attr('d', flowPath(f.source, f.target))
+    .attr('class', 'flow-arrow' + (f.animated ? ' flow-animated' : ''))
+    .style('stroke', '#4a5568');
+
+  const s = componentCenter(f.source);
+  const t = componentCenter(f.target);
+  const mx = (s.x + t.x) / 2;
+  const my = (s.y + t.y) / 2 - Math.abs(t.x - s.x) * 0.05;
+
+  flowGroup.append('text')
+    .attr('x', mx).attr('y', my - 4)
+    .attr('text-anchor', 'middle')
+    .style('font-size', '9px')
+    .style('fill', '#4a5568')
+    .text(f.label);
+});
+
+// Draw components
+const panel = document.getElementById('detail-panel');
+const dpTitle = document.getElementById('dp-title');
+const dpSubtitle = document.getElementById('dp-subtitle');
+const dpContent = document.getElementById('dp-content');
+
+const compGroup = g.append('g');
+components.forEach(c => {
+  const cg = compGroup.append('g')
+    .attr('class', 'node-box')
+    .attr('transform', `translate(${c.x},${c.y})`)
+    .on('click', () => {
+      dpTitle.textContent = c.title;
+      dpSubtitle.textContent = c.subtitle;
+      dpContent.innerHTML = (c.sections || []).map(s =>
+        `<div class="detail-section">
+          <h3>${s.h}</h3>
+          ${s.items ? `<ul>${s.items.map(i => `<li>${i}</li>`).join('')}</ul>` : ''}
+          ${s.p ? `<p>${s.p}</p>` : ''}
+        </div>`
+      ).join('');
+      panel.classList.add('open');
+    });
+
+  cg.append('rect')
+    .attr('width', c.w).attr('height', c.h)
+    .attr('rx', 8)
+    .style('fill', c.color)
+    .style('stroke', c.stroke)
+    .style('stroke-width', '1.5px');
+
+  // Layer badge
+  cg.append('rect')
+    .attr('x', 4).attr('y', 4)
+    .attr('width', c.layer.length * 5.5).attr('height', 14)
+    .attr('rx', 3)
+    .style('fill', c.stroke + '33');
+
+  cg.append('text')
+    .attr('x', 7).attr('y', 13)
+    .style('font-size', '8px')
+    .style('fill', c.stroke)
+    .text(c.layer);
+
+  // Main label
+  const lines = c.label.split('\n');
+  lines.forEach((line, i) => {
+    cg.append('text')
+      .attr('x', c.w / 2)
+      .attr('y', c.h / 2 + (i - (lines.length - 1) / 2) * 14)
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'middle')
+      .style('font-size', '12px')
+      .style('font-weight', '600')
+      .style('fill', '#f0f6fc')
+      .text(line);
+  });
+});
+
+document.getElementById('close-panel').onclick = () => panel.classList.remove('open');
+document.getElementById('zoom-in').onclick = () => svg.transition().call(zoom.scaleBy, 1.3);
+document.getElementById('zoom-out').onclick = () => svg.transition().call(zoom.scaleBy, 0.77);
+document.getElementById('reset').onclick = () => svg.transition().call(zoom.transform, d3.zoomIdentity.translate(initX, initY).scale(initScale));
+</script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
+using Pgvector;
 using WovenBackend.Data;
 using WovenBackend.Data.Entities;
 
@@ -9,15 +10,18 @@ public class UserVectorBuilder : IUserVectorBuilder
 {
     private readonly WovenDbContext _db;
     private readonly IOpenAiTaggingService _tagging;
+    private readonly WovenBackend.Services.ICacheService _cache;
     private readonly ILogger<UserVectorBuilder> _logger;
 
     public UserVectorBuilder(
         WovenDbContext db,
         IOpenAiTaggingService tagging,
+        WovenBackend.Services.ICacheService cache,
         ILogger<UserVectorBuilder> logger)
     {
         _db = db;
         _tagging = tagging;
+        _cache = cache;
         _logger = logger;
     }
 
@@ -39,6 +43,13 @@ public class UserVectorBuilder : IUserVectorBuilder
                 return existing.Id;
             }
 
+            // Build 8-dim pillar embedding from the computed scores.
+            // Phase 3B note: consider replacing with text-embedding-3-small (1536-dim) on
+            // pillar answer text for richer angular separation — add a second column then.
+            var pillarFloats = vectorDto.PillarScores.ToArray()
+                .Select(d => (float)d)
+                .ToArray();
+
             // Save vector
             var vector = new UserVector
             {
@@ -46,7 +57,9 @@ public class UserVectorBuilder : IUserVectorBuilder
                 Version = 1,
                 VectorJson = vectorDto.ToJson(),
                 PillarScoresJson = vectorDto.PillarScoresToJson(),
-                CreatedAt = DateTime.UtcNow
+                PillarEmbedding = new Vector(pillarFloats),
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
 
             _db.UserVectors.Add(vector);
@@ -54,6 +67,9 @@ public class UserVectorBuilder : IUserVectorBuilder
 
             // Save tags (optional, for fast queries)
             await SaveTagsAsync(userId, 1, vectorDto, ct);
+
+            // Phase 1B: invalidate any stale embedding lookup from Redis
+            await _cache.DeleteAsync(WovenBackend.Services.CacheKeys.PillarEmbedding(userId), ct);
 
             _logger.LogInformation("[VectorBuilder] Saved v1 (id={VectorId}) for user {UserId}", vector.Id, userId);
             return vector.Id;

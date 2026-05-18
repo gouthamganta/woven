@@ -1,14 +1,21 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Npgsql;
+using Pgvector.EntityFrameworkCore;
+using StackExchange.Redis;
 using WovenBackend.Auth;
 using WovenBackend.Data;
 using WovenBackend.Endpoints;
+using WovenBackend.Hubs;
+using WovenBackend.Infrastructure;
 using WovenBackend.Services;
+using WovenBackend.Services.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,9 +58,18 @@ builder.Services.AddCors(options =>
 // ----------------------------------------------------
 // DATABASE
 // ----------------------------------------------------
+// Phase 1A: UseVector() must be called on NpgsqlDataSourceBuilder (Npgsql 9+ API),
+// not on NpgsqlDbContextOptionsBuilder. Build the data source first, then pass it to EF Core.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+var npgsqlDataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+npgsqlDataSourceBuilder.UseVector();
+var npgsqlDataSource = npgsqlDataSourceBuilder.Build();
+
+// IEncryptionService (singleton) is registered above, so the DI container will
+// automatically use WovenDbContext's two-parameter constructor to inject it.
 builder.Services.AddDbContext<WovenDbContext>(options =>
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
+        npgsqlDataSource,
         npgsqlOptions =>
         {
             npgsqlOptions.EnableRetryOnFailure(
@@ -61,6 +77,7 @@ builder.Services.AddDbContext<WovenDbContext>(options =>
                 maxRetryDelay: TimeSpan.FromSeconds(10),
                 errorCodesToAdd: null);
             npgsqlOptions.CommandTimeout(30);
+            npgsqlOptions.UseVector();
         }));
 
 // ----------------------------------------------------
@@ -135,9 +152,59 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 builder.Configuration.GetValue<int>("Jwt:ClockSkewMinutes", 1)
             )
         };
+
+        // Phase 1C: WebSocket protocol cannot send headers, so SignalR passes the JWT as
+        // ?access_token=... in the query string. Read it here and set context.Token.
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                    context.Token = accessToken;
+                return Task.CompletedTask;
+            }
+        };
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireClaim("role", "admin"));
+});
+
+// ============================================
+// BACKGROUND WORKER SCHEDULE (all times UTC)
+// ============================================
+// 01:00       — SeasonTransitionWorker (nightly)
+// 02:00       — TrustBatchWorker (nightly)
+// 02:15       — AnalyticsRetentionWorker (1st of month only)
+// 02:30       — EmbeddingBatchWorker (nightly)
+// 03:00       — CfBatchWorker (nightly)
+// 03:30       — GhostDetectionWorker (nightly pass)
+// 04:00       — WeightLearningBatchWorker (weekly Sun)
+// 04:30       — InsightBatchWorker (nightly)
+// 05:00       — SecurityAuditCleanupWorker (weekly Sun)
+// 06:00       — WeeklyDigestWorker (weekly Sun)
+// 08:00       — FeedbackTriggerWorker (daily)
+// Every 1min  — BalloonExpiryWorker (continuous)
+// Every 6h    — GhostDetectionWorker (silent threads)
+// ============================================
+
+// ----------------------------------------------------
+// PHASE 3E: ENCRYPTION + SECURITY AUDIT
+// ----------------------------------------------------
+// Singleton: constructed once; master key loaded from config at startup.
+builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
+builder.Services.AddSingleton<ISecurityAuditService, SecurityAuditService>();
+builder.Services.AddHostedService<SecurityAuditCleanupWorker>();
+
+// KeyRotationWorker registered as singleton so AdminSecurityEndpoints can resolve it directly.
+builder.Services.AddSingleton<KeyRotationWorker>();
+builder.Services.AddHostedService(sp => sp.GetRequiredService<KeyRotationWorker>());
+
+// OutboundPiiHandler: transient DelegatingHandler for "external-api" named client.
+builder.Services.AddTransient<OutboundPiiHandler>();
 
 // ----------------------------------------------------
 // HTTP CLIENT (REQUIRED)
@@ -145,6 +212,10 @@ builder.Services.AddAuthorization();
 // NOTE: You already register a default HttpClient below,
 // so you do NOT need multiple AddHttpClient() calls.
 builder.Services.AddHttpClient();
+
+// Named client for external API calls — all traffic passes through OutboundPiiHandler.
+builder.Services.AddHttpClient("external-api")
+    .AddHttpMessageHandler<OutboundPiiHandler>();
 
 // ----------------------------------------------------
 // HTTP CLIENT + OPENAI REWRITE SERVICE
@@ -199,11 +270,128 @@ builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IDeckSelectionServi
 builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IMatchExplanationService,
     WovenBackend.Services.Matchmaking.MatchExplanationService>();
 
+// Phase 1A: pgvector cosine similarity queries
+builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IVectorSearchService,
+    WovenBackend.Services.Matchmaking.VectorSearchService>();
+
+// ----------------------------------------------------
+// PHASE 1C: SIGNALR + PUSH NOTIFICATIONS
+// ----------------------------------------------------
+// Redis backplane allows pushes to work across all Container Apps replicas.
+// AbortOnConnectFail=false: app starts even if Redis is briefly unavailable.
+builder.Services.AddSignalR()
+    .AddStackExchangeRedis(
+        builder.Configuration["Redis:ConnectionString"] ?? "localhost:6379",
+        opts => { opts.Configuration.AbortOnConnectFail = false; });
+
+builder.Services.AddSingleton<INotificationService, NotificationService>();
+
+// ----------------------------------------------------
+// PHASE 1B: REDIS CACHE
+// ----------------------------------------------------
+// Singleton IConnectionMultiplexer — one TCP connection shared across the process.
+// AbortOnConnectFail=false: app starts even if Redis is temporarily unavailable;
+// the multiplexer reconnects in the background. CacheService wraps all ops in
+// try/catch, so a Redis outage is never user-visible.
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var redisConnStr = builder.Configuration["Redis:ConnectionString"] ?? "localhost:6379";
+    var cfg = ConfigurationOptions.Parse(redisConnStr);
+    cfg.AbortOnConnectFail = false;
+    return ConnectionMultiplexer.Connect(cfg);
+});
+builder.Services.AddSingleton<ICacheService, CacheService>();
+
+// ----------------------------------------------------
+// PHASE 1D: AZURE BLOB STORAGE (MEDIA)
+// ----------------------------------------------------
+// BlobServiceClient is thread-safe — singleton is correct.
+builder.Services.AddSingleton<BlobServiceClient>(sp =>
+    new BlobServiceClient(builder.Configuration["Azure:Storage:ConnectionString"]
+        ?? throw new InvalidOperationException("Azure:Storage:ConnectionString is required")));
+builder.Services.AddScoped<IMediaService, MediaService>();
+builder.Services.AddHostedService<WovenBackend.Services.Media.MediaLifecycleWorker>();
+
 builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IDailyDeckOrchestrator,
     WovenBackend.Services.Matchmaking.DailyDeckOrchestrator>();
 
+// ----------------------------------------------------
+// PHASE 2A: TILES
+// ----------------------------------------------------
+// TileEmbeddingService is a singleton so it can be safely called from fire-and-forget
+// Task.Run after the originating request scope ends (uses IServiceScopeFactory internally).
+builder.Services.AddSingleton<WovenBackend.Services.Tiles.TileEmbeddingService>();
+builder.Services.AddScoped<WovenBackend.Services.Tiles.ITileService,
+    WovenBackend.Services.Tiles.TileService>();
+builder.Services.AddHostedService<WovenBackend.Services.Tiles.TileExpiryWorker>();
+
 builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IMatchOutcomeService,
     WovenBackend.Services.Matchmaking.MatchOutcomeService>();
+
+// ----------------------------------------------------
+// PHASE 2B: MODERATION + TRUST
+// ----------------------------------------------------
+builder.Services.AddHttpClient<WovenBackend.Services.Moderation.ModerationService>();
+builder.Services.AddScoped<WovenBackend.Services.Moderation.IModerationService,
+    WovenBackend.Services.Moderation.ModerationService>();
+builder.Services.AddHostedService<WovenBackend.Services.Moderation.ModerationWorker>();
+
+builder.Services.AddScoped<WovenBackend.Services.Trust.ITrustService,
+    WovenBackend.Services.Trust.TrustService>();
+builder.Services.AddHostedService<WovenBackend.Services.Trust.TrustBatchWorker>();
+
+// ----------------------------------------------------
+// PHASE 2C: COMMONS FEED
+// ----------------------------------------------------
+builder.Services.AddScoped<WovenBackend.Services.Commons.ICommonsFeedService,
+    WovenBackend.Services.Commons.CommonsFeedService>();
+
+// ----------------------------------------------------
+// PHASE 3A: ORBIT + FRIEND BRIDGE
+// ----------------------------------------------------
+builder.Services.AddScoped<WovenBackend.Services.Orbit.IOrbitService,
+    WovenBackend.Services.Orbit.OrbitService>();
+builder.Services.AddScoped<WovenBackend.Services.Orbit.IFriendBridgeService,
+    WovenBackend.Services.Orbit.FriendBridgeService>();
+
+// ----------------------------------------------------
+// PHASE 3B: SEASONS
+// ----------------------------------------------------
+builder.Services.AddScoped<WovenBackend.Services.Seasons.ISeasonService,
+    WovenBackend.Services.Seasons.SeasonService>();
+builder.Services.AddHostedService<WovenBackend.Services.Seasons.SeasonTransitionWorker>();
+
+// ----------------------------------------------------
+// PHASE 3C: COLLABORATIVE FILTERING
+// ----------------------------------------------------
+builder.Services.AddScoped<WovenBackend.Services.Recommendations.ICollaborativeFilteringService,
+    WovenBackend.Services.Recommendations.CollaborativeFilteringService>();
+builder.Services.AddHostedService<WovenBackend.Services.Recommendations.CfBatchWorker>();
+
+// ----------------------------------------------------
+// PHASE 3D: ENHANCED EMBEDDINGS + WEIGHT LEARNING
+// ----------------------------------------------------
+builder.Services.AddHttpClient<WovenBackend.Services.Embeddings.IPhotoEmbeddingService,
+    WovenBackend.Services.Embeddings.PhotoEmbeddingService>();
+builder.Services.AddHttpClient<WovenBackend.Services.Embeddings.IVoiceEmbeddingService,
+    WovenBackend.Services.Embeddings.VoiceEmbeddingService>();
+builder.Services.AddScoped<WovenBackend.Services.Embeddings.IStyleEmbeddingService,
+    WovenBackend.Services.Embeddings.StyleEmbeddingService>();
+builder.Services.AddScoped<WovenBackend.Services.Embeddings.IHumorEmbeddingService,
+    WovenBackend.Services.Embeddings.HumorEmbeddingService>();
+builder.Services.AddScoped<WovenBackend.Services.Embeddings.ILifestyleEmbeddingService,
+    WovenBackend.Services.Embeddings.LifestyleEmbeddingService>();
+builder.Services.AddScoped<WovenBackend.Services.Embeddings.IEmotionalRhythmService,
+    WovenBackend.Services.Embeddings.EmotionalRhythmService>();
+builder.Services.AddScoped<WovenBackend.Services.Embeddings.IAttachmentProxyService,
+    WovenBackend.Services.Embeddings.AttachmentProxyService>();
+builder.Services.AddScoped<WovenBackend.Services.Embeddings.IVisualPreferenceService,
+    WovenBackend.Services.Embeddings.VisualPreferenceService>();
+builder.Services.AddHostedService<WovenBackend.Services.Embeddings.EmbeddingBatchWorker>();
+
+builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IWeightLearningService,
+    WovenBackend.Services.Matchmaking.WeightLearningService>();
+builder.Services.AddHostedService<WovenBackend.Services.Matchmaking.WeightLearningBatchWorker>();
 
 // ----------------------------------------------------
 // OPENAI RESILIENCE SERVICES (circuit breaker, cost tracking)
@@ -233,6 +421,51 @@ builder.Services.AddScoped<WovenBackend.Services.Games.IGameOutcomeService,
 // Add more agents as you build them:
 // builder.Services.AddHttpClient<WovenBackend.Services.Games.Top10Agent>();
 // builder.Services.AddHttpClient<WovenBackend.Services.Games.RapidFireAgent>();
+
+// ----------------------------------------------------
+// PHASE 5C: ANALYTICS ENGINE
+// ----------------------------------------------------
+builder.Services.AddSingleton<WovenBackend.Services.Analytics.IAnalyticsService,
+    WovenBackend.Services.Analytics.AnalyticsService>();
+// Anonymizes user_id_hash + session_id for events older than 12 months on the 1st of each month at 2am UTC.
+builder.Services.AddHostedService<WovenBackend.Services.Analytics.AnalyticsRetentionWorker>();
+builder.Services.AddScoped<WovenBackend.Services.Verification.IVerificationService,
+    WovenBackend.Services.Verification.VerificationService>();
+
+// ----------------------------------------------------
+// PHASE 4E: CATFISH DETECTION
+// ----------------------------------------------------
+builder.Services.AddScoped<WovenBackend.Services.Trust.ICatfishDetectionService,
+    WovenBackend.Services.Trust.CatfishDetectionService>();
+builder.Services.AddScoped<WovenBackend.Services.Feedback.FeedbackInsightService>();
+
+// PHASE 4D: PRE-DATE BRIDGE
+// ----------------------------------------------------
+builder.Services.AddScoped<WovenBackend.Services.Venues.IVenueService,
+    WovenBackend.Services.Venues.VenueService>();
+builder.Services.AddScoped<WovenBackend.Services.Feedback.IDateFeedbackService,
+    WovenBackend.Services.Feedback.DateFeedbackService>();
+builder.Services.AddHostedService<WovenBackend.Services.Feedback.FeedbackTriggerWorker>();
+
+// PHASE 4C: INSIGHTS + OPINIONS
+// ----------------------------------------------------
+builder.Services.AddScoped<WovenBackend.Services.Insights.IInsightService,
+    WovenBackend.Services.Insights.InsightService>();
+builder.Services.AddHostedService<WovenBackend.Services.Insights.WeeklyDigestWorker>();
+builder.Services.AddHostedService<WovenBackend.Services.Insights.InsightBatchWorker>();
+
+// ----------------------------------------------------
+// PHASE 4B: CONVERSATION NUDGES
+// ----------------------------------------------------
+builder.Services.AddScoped<WovenBackend.Services.Nudges.INudgeService,
+    WovenBackend.Services.Nudges.NudgeService>();
+
+// ----------------------------------------------------
+// PHASE 4A: ANTI-GHOSTING
+// ----------------------------------------------------
+builder.Services.AddScoped<WovenBackend.Services.AntiGhosting.IGhostDetectionService,
+    WovenBackend.Services.AntiGhosting.GhostDetectionService>();
+builder.Services.AddHostedService<WovenBackend.Services.AntiGhosting.GhostDetectionWorker>();
 
 // ----------------------------------------------------
 // BUILD APP
@@ -306,6 +539,67 @@ else
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Phase 4A/4C/5C: LastActiveAt — fire-and-forget DB write + re-engagement insight on 5-day absence + AppOpened analytics
+app.Use(async (context, next) =>
+{
+    await next(context);
+
+    if (context.User.Identity?.IsAuthenticated == true)
+    {
+        var uidClaim = context.User.FindFirst("uid")?.Value
+                    ?? context.User.FindFirst("sub")?.Value;
+        if (int.TryParse(uidClaim, out var userId))
+        {
+            var scopeFactory = context.RequestServices.GetRequiredService<IServiceScopeFactory>();
+            var analytics = context.RequestServices.GetRequiredService<WovenBackend.Services.Analytics.IAnalyticsService>();
+            var cache = context.RequestServices.GetRequiredService<ICacheService>();
+
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    using var scope = scopeFactory.CreateScope();
+                    var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+
+                    var prev = await db.Users.AsNoTracking()
+                        .Where(u => u.Id == userId)
+                        .Select(u => u.LastActiveAt)
+                        .FirstOrDefaultAsync();
+
+                    await db.Users
+                        .Where(u => u.Id == userId)
+                        .ExecuteUpdateAsync(s => s.SetProperty(u => u.LastActiveAt, DateTimeOffset.UtcNow));
+
+                    // Track AppOpened only when a new analytics session starts (TTL 2h)
+                    var sessionKey = $"analytics:session:{userId}";
+                    var existingSession = await cache.GetAsync<string>(sessionKey, CancellationToken.None);
+                    if (existingSession == null)
+                    {
+                        var daysSinceLastOpen = prev != null
+                            ? (int)Math.Max(0, (DateTimeOffset.UtcNow - prev.Value).TotalDays)
+                            : -1;
+                        _ = analytics.TrackAsync(userId, null, WovenBackend.Services.Analytics.AnalyticsEvents.AppOpened,
+                            new { daysSinceLastOpen });
+                    }
+
+                    // Re-engagement insight if absent 5+ days
+                    if (prev != null && prev < DateTimeOffset.UtcNow.AddDays(-5))
+                    {
+                        var insights = scope.ServiceProvider
+                            .GetRequiredService<WovenBackend.Services.Insights.IInsightService>();
+                        await insights.DeliverInsightAtMomentAsync(userId, "reengagement");
+                    }
+                }
+                catch { /* non-critical */ }
+            });
+        }
+    }
+});
+
+// Phase 1C: SignalR hub — must come after UseAuthentication/UseAuthorization
+// so the [Authorize] attribute on WovenHub is enforced.
+app.MapHub<WovenHub>("/hubs/woven");
+
 // ----------------------------------------------------
 // HEALTH ENDPOINTS
 // ----------------------------------------------------
@@ -345,6 +639,19 @@ app.MapChatEndpoints();
 app.MapGameEndpoints();
 app.MapMatchesEndpoints();
 app.MapDynamicIntakeEndpoints();
+app.MapMediaEndpoints();
+app.MapTileEndpoints();
+app.MapAdminEndpoints();
+app.MapAdminSecurityEndpoints();
+app.MapUserDataEndpoints();
+app.MapCommonsEndpoints();
+app.MapOrbitEndpoints();
+app.MapSeasonEndpoints();
+app.MapMeEndpoints();
+app.MapFeedbackEndpoints();
+app.MapVerificationEndpoints();
+app.MapAdminAnalyticsEndpoints();
+app.MapLegalEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
@@ -603,6 +910,28 @@ if (app.Environment.IsDevelopment())
             o.CreatedAt
         }));
     });
+}
+
+// SpeechBrain smoke test (Development only — never blocks startup)
+if (app.Environment.IsDevelopment())
+{
+    try
+    {
+        var proc = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+        {
+            FileName = "python3",
+            Arguments = "scripts/speechbrain_embed.py --test",
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false
+        });
+        if (proc != null) await proc.WaitForExitAsync();
+        logger.LogInformation("SpeechBrain: OK — voice embedding available");
+    }
+    catch
+    {
+        logger.LogWarning("SpeechBrain: UNAVAILABLE — voice embedding will be skipped. Install: pip install speechbrain torch torchaudio");
+    }
 }
 
 app.Run();
