@@ -1,0 +1,213 @@
+name: Auto-merge
+
+# Fires on every status/check update and when PRs are labeled or opened
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, labeled]
+  check_suite:
+    types: [completed]
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  # ── Dependabot: auto-approve + enable auto-merge for patch/minor ──────────
+  dependabot-auto-merge:
+    name: Auto-merge Dependabot PRs (patch/minor only)
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+
+    steps:
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── MAJOR bump: comment and stop, do not auto-merge ──────────────────
+      - name: Flag major bumps for manual review
+        if: steps.meta.outputs.update-type == 'version-update:semver-major'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request?.number || context.payload.number,
+            });
+            const alreadyCommented = comments.some(c =>
+              c.user.login === 'github-actions[bot]' &&
+              c.body.includes('major version bump')
+            );
+            if (!alreadyCommented) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request?.number || context.payload.number,
+                body: [
+                  '⚠️ **Major version bump detected — manual review required.**',
+                  '',
+                  `This PR updates \`${{ steps.meta.outputs.dependency-names }}\` from \`${{ steps.meta.outputs.previous-version }}\` to \`${{ steps.meta.outputs.new-version }}\` — a **major** semver change.`,
+                  '',
+                  'Major bumps can include breaking API changes. Please:',
+                  '1. Review the changelog/release notes for breaking changes',
+                  '2. Test locally against the new version',
+                  '3. Merge manually once confirmed safe',
+                  '',
+                  '_Auto-merge is disabled for major bumps._',
+                ].join('\n'),
+              });
+            }
+
+      # ── PATCH / MINOR: approve and enable auto-merge ─────────────────────
+      - name: Approve patch/minor PR
+        if: |
+          steps.meta.outputs.update-type == 'version-update:semver-patch' ||
+          steps.meta.outputs.update-type == 'version-update:semver-minor'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number;
+            if (!prNumber) return;
+
+            // Check for existing approval to avoid duplicates
+            const { data: reviews } = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+            const alreadyApproved = reviews.some(r =>
+              r.user.login === 'github-actions[bot]' && r.state === 'APPROVED'
+            );
+
+            if (!alreadyApproved) {
+              await github.rest.pulls.createReview({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                event: 'APPROVE',
+                body: [
+                  `✅ Auto-approved: \`${{ steps.meta.outputs.dependency-names }}\` ${{ steps.meta.outputs.previous-version }} → ${{ steps.meta.outputs.new-version }} (${{ steps.meta.outputs.update-type }}).`,
+                  'All CI checks must pass before this merges.',
+                ].join('\n'),
+              });
+            }
+
+      - name: Enable auto-merge (squash) for patch/minor
+        if: |
+          steps.meta.outputs.update-type == 'version-update:semver-patch' ||
+          steps.meta.outputs.update-type == 'version-update:semver-minor'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number;
+            if (!prNumber) return;
+
+            // Enable auto-merge via GraphQL (REST doesn't support this)
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+
+            await github.graphql(`
+              mutation EnableAutoMerge($prId: ID!) {
+                enablePullRequestAutoMerge(input: {
+                  pullRequestId: $prId,
+                  mergeMethod: SQUASH
+                }) {
+                  pullRequest { number title }
+                }
+              }
+            `, { prId: pr.node_id });
+
+            console.log(`Auto-merge enabled on PR #${prNumber}`);
+
+  # ── Human PRs: auto-merge only if ALL checks pass + has auto-merge label ──
+  human-pr-auto-merge:
+    name: Auto-merge labeled human PRs
+    runs-on: ubuntu-latest
+    if: |
+      github.actor != 'dependabot[bot]' &&
+      contains(github.event.pull_request.labels.*.name, 'auto-merge')
+
+    steps:
+      - name: Check PR is approved and all checks pass
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number;
+            if (!prNumber) { console.log('No PR number, skipping'); return; }
+
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+
+            // Must be approved by at least one human
+            const { data: reviews } = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+            const approved = reviews.some(r =>
+              r.state === 'APPROVED' && r.user.login !== 'github-actions[bot]'
+            );
+            if (!approved) {
+              console.log('No human approval yet — skipping auto-merge');
+              return;
+            }
+
+            // Check all status checks passed
+            const { data: checks } = await github.rest.checks.listForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: pr.head.sha,
+            });
+            const failed = checks.check_runs.filter(c =>
+              c.status === 'completed' && c.conclusion !== 'success' && c.conclusion !== 'skipped' && c.conclusion !== 'neutral'
+            );
+            if (failed.length > 0) {
+              console.log('Some checks failed:', failed.map(c => c.name).join(', '));
+              return;
+            }
+
+            // Enable auto-merge
+            await github.graphql(`
+              mutation EnableAutoMerge($prId: ID!) {
+                enablePullRequestAutoMerge(input: {
+                  pullRequestId: $prId,
+                  mergeMethod: SQUASH
+                }) {
+                  pullRequest { number title }
+                }
+              }
+            `, { prId: pr.node_id });
+
+            console.log(`Auto-merge enabled on PR #${prNumber}`);
+
+  # ── Notify on successful auto-merge ──────────────────────────────────────
+  notify-merged:
+    name: Comment on auto-merged PR
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'pull_request_target' &&
+      github.event.action == 'closed' &&
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.auto_merge != null
+
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: '🤖 Auto-merged after all CI checks passed.',
+            });
