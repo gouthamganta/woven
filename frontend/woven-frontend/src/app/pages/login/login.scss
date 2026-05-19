@@ -1,105 +1,79 @@
 /* ======================================================
-   Woven Login — Dark Plum
-   All motion is driven by GSAP (login.ts).
-   This file handles layout, visual appearance, and
-   initial invisible states only.
+   Woven Login — 2D Love Story + Card
+   Motion is driven by GSAP + canvas rAF (login.ts).
+   This file handles layout and static appearance only.
    ====================================================== */
 
-/* ── Splash overlay ────────────────────────────────── */
-.splash {
+/* ── Story overlay ─────────────────────────────────── */
+.story {
   position: fixed;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 100;
   pointer-events: none;
-  /* opacity controlled by GSAP */
-}
-
-/* ── Burst canvas (particle explosion at conjunction) ── */
-.burst-canvas {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* ── Stage 1: Diamonds ─────────────────────────────── */
-.spark-field {
-  position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.diamond {
+/* ── Story canvas — characters, trails, hearts ─────── */
+.story-canvas {
   position: absolute;
-  font-size: 72px;
-  font-family: var(--font-display);
-  line-height: 1;
-  opacity: 0; /* GSAP sets initial x/scale/rotation */
-  will-change: transform, opacity;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.diamond-left {
-  color: var(--rose-400);
-  text-shadow:
-    0 0 30px var(--rose-glow),
-    0 0 80px rgba(224, 84, 144, 0.20);
-}
-
-.diamond-right {
-  color: var(--plum-400);
-  text-shadow:
-    0 0 30px var(--plum-glow),
-    0 0 80px rgba(125, 91, 208, 0.20);
-}
-
-/* ── Stage 2: Conjunction flash ────────────────────── */
-.conjunction {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #fff;
-  opacity: 0; /* GSAP controls */
-  box-shadow:
-    0 0 40px 16px rgba(255, 255, 255, 0.88),
-    0 0 80px 40px var(--rose-glow),
-    0 0 160px 80px var(--plum-glow);
-}
-
-/* ── Stage 3: W mark ───────────────────────────────── */
-.w-mark {
-  position: absolute;
-  font-family: var(--font-display);
-  font-size: 128px;
-  font-weight: 700;
-  letter-spacing: -6px;
-  line-height: 1;
-  color: var(--text-primary);
-  opacity: 0; /* GSAP controls blur + scale */
-}
-
-/* ── Stage 4: Wordmark letters ─────────────────────── */
+/* ── Wordmark — appears at end of story ────────────── */
 .wordmark {
   position: absolute;
   display: flex;
-  gap: 0;
   font-family: var(--font-display);
-  font-size: 56px;
+  font-size: 52px;
   font-weight: 300;
-  letter-spacing: 14px;
+  letter-spacing: 16px;
   text-transform: uppercase;
   color: var(--text-primary);
+  text-indent: 16px; /* compensate for letter-spacing on last char */
+  top: 50%;
+  transform: translateY(70px); /* sits below center; GSAP adjusts */
 }
 
 .wordmark span {
   display: inline-block;
-  opacity: 0; /* GSAP staggers each letter in */
+  opacity: 0; /* GSAP staggers each letter */
   will-change: transform, opacity;
+}
+
+/* ── Skip button ───────────────────────────────────── */
+.skip-btn {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: auto;
+  cursor: pointer;
+
+  border: 1px solid var(--border-soft);
+  background: rgba(44, 29, 53, 0.70);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text-muted);
+  padding: 10px 22px;
+  border-radius: 9999px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+
+  opacity: 0; /* GSAP fades in at 0.8s */
+  transition: color var(--dur-base) ease, border-color var(--dur-base) ease,
+              background var(--dur-base) ease;
+}
+
+.skip-btn:hover {
+  color: var(--text-secondary);
+  border-color: var(--border-medium);
+  background: rgba(44, 29, 53, 0.90);
 }
 
 /* ── Login stage ───────────────────────────────────── */
@@ -124,37 +98,27 @@
   backdrop-filter: blur(24px) saturate(1.5);
   -webkit-backdrop-filter: blur(24px) saturate(1.5);
   border: 1px solid var(--border-soft);
-  box-shadow:
-    var(--shadow-lg),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
   opacity: 0; /* GSAP springs it in */
   will-change: transform, opacity;
 
-  /* CSS custom props for mouse spotlight (set by GSAP quickSetter) */
+  /* For mouse spotlight */
   --cx: 220px;
   --cy: 180px;
 }
 
-/* Top-edge shimmer — sweeps once when card appears */
+/* Top-edge shimmer sweeps once when card appears */
 .card::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 10%;
-  right: 10%;
+  top: 0; left: 10%; right: 10%;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--rose-400) 40%,
-    var(--plum-400) 60%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, var(--rose-400) 40%, var(--plum-400) 60%, transparent 100%);
   background-size: 200% 100%;
   background-position: -100% 0;
   border-radius: var(--radius-full);
-  animation: shimmerSweep 1.6s ease-out 4.4s 1 forwards;
+  animation: shimmerSweep 1.6s ease-out 5.0s 1 forwards;
 }
 
 @keyframes shimmerSweep {
@@ -163,29 +127,21 @@
   100% { background-position: 150% 0;  opacity: 1; }
 }
 
-/* Mouse spotlight radial highlight */
+/* Mouse spotlight */
 .card::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(
-    circle 260px at var(--cx) var(--cy),
-    rgba(224, 84, 144, 0.07),
-    transparent 70%
-  );
+  background: radial-gradient(circle 260px at var(--cx) var(--cy), rgba(224,84,144,0.07), transparent 70%);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.5s ease;
 }
-
 .card:hover::after { opacity: 1; }
 
 /* ── Brand ─────────────────────────────────────────── */
-.brand {
-  text-align: center;
-  margin-bottom: var(--space-8);
-}
+.brand { text-align: center; margin-bottom: var(--space-8); }
 
 .logo {
   font-family: var(--font-display);
@@ -226,29 +182,16 @@
   margin: 0 0 var(--space-5);
 }
 
-.googleWrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: var(--space-5);
-}
+.googleWrap { display: flex; justify-content: center; margin-bottom: var(--space-5); }
 
-#googleBtn {
-  width: min(360px, 90vw);
-  min-height: 44px;
-}
+#googleBtn { width: min(360px, 90vw); min-height: 44px; }
 
-.state {
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  margin-top: var(--space-4);
-}
+.state { font-size: var(--text-sm); color: var(--text-muted); margin-top: var(--space-4); }
 .state.err { color: #ff7070; }
 
 /* ── Mobile ────────────────────────────────────────── */
 @media (max-width: 520px) {
-  .diamond  { font-size: 52px; }
-  .w-mark   { font-size: 88px; }
-  .wordmark { font-size: 38px; letter-spacing: 8px; }
-  .card     { padding: var(--space-10) var(--space-6); }
-  .logo     { font-size: var(--text-4xl); }
+  .wordmark { font-size: 36px; letter-spacing: 10px; }
+  .card { padding: var(--space-10) var(--space-6); }
+  .logo { font-size: var(--text-4xl); }
 }
