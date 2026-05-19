@@ -301,9 +301,9 @@ type DetailVisKey =
       margin: 8px 0 16px;
       padding: 12px 14px;
       border-radius: 12px;
-      background: rgba(176, 0, 32, 0.06);
-      border: 1px solid rgba(176, 0, 32, 0.12);
-      color: #b00020;
+      background: rgba(255, 112, 112, 0.10);
+      border: 1px solid rgba(255, 112, 112, 0.22);
+      color: #ff7070;
       font-size: 13px;
       font-weight: 500;
       line-height: 1.4;
@@ -314,16 +314,18 @@ type DetailVisKey =
       margin: 8px 0 20px;
       padding: 14px 16px;
       border-radius: 14px;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      background: rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      font-family: "DM Sans", system-ui, sans-serif;
       font-size: 13px;
       font-weight: 500;
       line-height: 1.45;
-      color: #0f0f0f;
+      color: rgba(255, 230, 242, 0.70);
     }
 
     .notice b {
       font-weight: 700;
+      color: rgba(255, 245, 250, 0.90);
     }
 
     /* ===== Block ===== */
@@ -333,16 +335,17 @@ type DetailVisKey =
 
     /* ===== Label ===== */
     .label {
-      font-weight: 650;
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-weight: 600;
       font-size: 12px;
       display: block;
       margin-bottom: 10px;
-      color: #0f0f0f;
+      color: rgba(255, 215, 235, 0.55);
       letter-spacing: 0.01em;
     }
 
     .req {
-      color: #b00020;
+      color: #ff7070;
       margin-left: 2px;
     }
 
@@ -350,30 +353,30 @@ type DetailVisKey =
     .input, .textarea {
       width: 100%;
       border-radius: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(44, 29, 53, 0.75);
       padding: 12px 14px;
       outline: none;
+      font-family: "DM Sans", system-ui, sans-serif;
       font-size: 14px;
       font-weight: 500;
-      color: #0f0f0f;
-      transition: all 0.2s ease;
+      color: rgba(255, 245, 250, 0.92);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .input::placeholder, .textarea::placeholder {
-      color: #0f0f0f;
-      opacity: 0.4;
+      color: rgba(255, 215, 235, 0.35);
     }
 
     .input:focus, .textarea:focus {
-      border-color: #0f0f0f;
-      box-shadow: 0 0 0 3px rgba(15, 15, 15, 0.06);
+      border-color: #E05490;
+      box-shadow: 0 0 0 3px rgba(224, 84, 144, 0.28);
     }
 
     select.input {
       cursor: pointer;
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A07FD8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 12px center;
       padding-right: 36px;
@@ -383,7 +386,7 @@ type DetailVisKey =
       resize: vertical;
       min-height: 100px;
       line-height: 1.5;
-      font-family: inherit;
+      font-family: "DM Sans", system-ui, sans-serif;
     }
 
     /* ===== Row ===== */

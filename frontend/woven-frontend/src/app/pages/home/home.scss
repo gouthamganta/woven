@@ -1,3 +1,7 @@
+/* ======================================================
+   Home Page — Dark Plum Theme
+   ====================================================== */
+
 .home {
   min-height: 100vh;
   position: relative;
@@ -5,6 +9,7 @@
   padding-bottom: 78px;
 }
 
+/* ── Top bar (fixed wordmark) ──────────────────────── */
 .top {
   position: fixed;
   top: 20px;
@@ -13,61 +18,70 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  opacity: 0.92;
   z-index: 5;
   pointer-events: none;
 }
 
 .brand {
-  letter-spacing: 0.32em;
-  font-weight: 820;
-  font-size: 11px;
+  font-family: var(--font-display);
+  letter-spacing: 0.28em;
+  font-weight: 300;
+  font-size: 13px;
   text-transform: uppercase;
+  color: var(--text-primary);
+  opacity: 0.85;
 }
 
 .meta {
-  font-size: 12px;
-  opacity: 0.65;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
+/* ── Watermark ─────────────────────────────────────── */
 .watermark {
   position: absolute;
   right: -40px;
   top: -30px;
+  font-family: var(--font-display);
   font-size: 240px;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: -0.06em;
-  color: rgba(0, 0, 0, 0.035);
+  color: rgba(255, 255, 255, 0.04);
   transform: rotate(-8deg);
   user-select: none;
   pointer-events: none;
   z-index: 0;
 }
 
+/* ── Content panel ─────────────────────────────────── */
 .content {
   max-width: 760px;
   margin: 0 auto;
-  padding: 110px 16px 0; /* ✅ increased from 86px to make room for floating pill */
+  padding: 110px 16px 0;
   position: relative;
   z-index: 2;
 }
 
 .panel {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  background: rgba(34, 22, 40, 0.72);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
   padding: 16px;
   min-height: calc(100vh - 170px);
   overflow: visible;
 }
 
-/* ✅ Floating Pulse pill (sits above the card) */
+/* ── Floating Pulse pill ───────────────────────────── */
 .pulsePill {
   position: fixed;
-  top: 74px; /* below WOVEN header */
+  top: 74px;
   right: 22px;
   z-index: 12;
 
@@ -75,15 +89,16 @@
   align-items: center;
   gap: 8px;
 
-  border: 1px solid rgba(0, 0, 0, 0.10);
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-soft);
+  background: rgba(44, 29, 53, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   will-change: transform;
-  border-radius: 999px;
+  border-radius: 9999px;
   padding: 12px 16px;
   min-height: 44px;
 
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.10);
+  box-shadow: var(--shadow-md);
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -94,8 +109,8 @@
 }
 
 .pulsePill:hover {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(0, 0, 0, 0.15);
+  background: rgba(44, 29, 53, 0.95);
+  border-color: var(--border-medium);
 }
 
 .pulsePill:active {
@@ -105,60 +120,64 @@
 .dotMini {
   width: 8px;
   height: 8px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.55);
+  border-radius: 9999px;
+  background: var(--text-muted);
   flex: 0 0 auto;
 }
 
 .pulsePill.missing .dotMini {
-  background: rgba(255, 170, 0, 0.95);
+  background: #FBBF24;
 }
 
 .pulseText {
+  font-family: var(--font-ui);
   font-size: 11px;
-  font-weight: 900;
-  letter-spacing: .22em;
+  font-weight: 700;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  opacity: .75;
+  color: var(--text-muted);
 }
 
 .pulseStatus {
+  font-family: var(--font-ui);
   font-size: 12px;
-  font-weight: 850;
-  opacity: .9;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .pulsePill.missing .pulseStatus {
-  color: rgba(170, 90, 0, 0.95);
+  color: #FCD34D;
 }
 
 .pulseCountdown {
+  font-family: var(--font-data);
   font-size: 11px;
-  opacity: .65;
+  color: var(--text-muted);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 160px;
 }
 
+/* ── Pulse error ───────────────────────────────────── */
 .pulseErr {
   position: fixed;
-  top: 130px; /* ✅ below the floating pill */
+  top: 130px;
   left: 22px;
   right: 22px;
   max-width: 760px;
   margin: 0 auto;
   z-index: 11;
-  
+
   padding: 10px 12px;
-  border-radius: 14px;
-  background: rgba(255, 0, 0, 0.06);
-  border: 1px solid rgba(255, 0, 0, 0.10);
+  border-radius: var(--radius-md);
+  background: rgba(255, 112, 112, 0.10);
+  border: 1px solid rgba(255, 112, 112, 0.20);
   font-size: 12px;
-  opacity: .8;
+  color: #ff9090;
 }
 
-// ✅ NEW: Brand row with info button
+/* ── Brand row with info button ────────────────────── */
 .brandRow {
   display: flex;
   align-items: center;
@@ -168,20 +187,21 @@
 .infoBtn {
   width: 44px;
   height: 44px;
-  border: 0;
-  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s;
-  color: rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+  color: var(--text-muted);
   pointer-events: auto;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.12);
-    color: rgba(0, 0, 0, 0.8);
+    background: rgba(255, 255, 255, 0.10);
+    border-color: var(--border-soft);
+    color: var(--text-primary);
     transform: scale(1.05);
   }
 
@@ -195,7 +215,7 @@
   }
 }
 
-/* bottom tabs */
+/* ── Bottom tab bar ────────────────────────────────── */
 .tabs {
   position: fixed;
   left: 14px;
@@ -207,14 +227,14 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 18px;
+  background: rgba(34, 22, 40, 0.88);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-xl);
   padding: 10px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.10);
-  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   will-change: transform;
-
   pointer-events: auto;
 }
 
@@ -223,46 +243,47 @@
   background: transparent;
   padding: 12px 10px;
   min-height: 56px;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   gap: 6px;
   align-items: center;
   justify-content: center;
-  opacity: 0.62;
+  color: var(--text-muted);
   cursor: pointer;
   pointer-events: auto;
   transition: all 0.2s ease;
 }
 
 .tab:hover {
-  opacity: 0.85;
+  color: var(--text-secondary);
 }
 
 .tab.active {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.06);
+  background: rgba(224, 84, 144, 0.12);
+  color: var(--text-primary);
 }
 
 .dot {
   width: 6px;
   height: 6px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.35);
+  border-radius: 9999px;
+  background: var(--text-dim);
 }
 
 .tab.active .dot {
-  background: rgba(0, 0, 0, 0.85);
+  background: var(--rose-400);
 }
 
 .tab span {
+  font-family: var(--font-ui);
   font-size: 12px;
-  font-weight: 750;
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 
 @media (max-width: 520px) {
   .watermark { font-size: 190px; right: -55px; top: -40px; }
-  .panel { border-radius: 18px; }
+  .panel { border-radius: var(--radius-lg); }
   .pulseCountdown { max-width: 110px; }
 }

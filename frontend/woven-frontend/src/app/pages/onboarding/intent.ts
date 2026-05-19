@@ -31,10 +31,10 @@ type Intent = 'dating' | 'relationship' | 'marriage' | 'casual' | 'not_sure';
 
         /* ===== Labels ===== */
         .label {
+          font-family: "DM Sans", system-ui, sans-serif;
           font-size: 12px;
           font-weight: 600;
-          color: #0f0f0f;
-          opacity: 0.65;
+          color: rgba(255, 215, 235, 0.55);
           margin-bottom: 10px;
           display: block;
           letter-spacing: 0.01em;
@@ -51,29 +51,30 @@ type Intent = 'dating' | 'relationship' | 'marriage' | 'casual' | 'not_sure';
           padding: 12px 18px;
           min-height: 44px;
           border-radius: 100px;
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          background: rgba(255, 255, 255, 0.8);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: rgba(255, 255, 255, 0.06);
           cursor: pointer;
+          font-family: "DM Sans", system-ui, sans-serif;
           font-size: 13px;
           font-weight: 600;
-          color: #0f0f0f;
+          color: rgba(255, 245, 250, 0.85);
           transition: all 0.2s ease;
         }
 
         .chip:hover:not(.active) {
-          border-color: rgba(0, 0, 0, 0.2);
-          background: rgba(255, 255, 255, 1);
+          border-color: rgba(255, 255, 255, 0.22);
+          background: rgba(255, 255, 255, 0.10);
         }
 
         .chip.active {
-          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+          background: linear-gradient(135deg, #E05490, #7D5BD0);
           color: #fff;
           border-color: transparent;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 4px 16px rgba(224, 84, 144, 0.30);
         }
 
         .chip:focus-visible {
-          outline: 2px solid #0f0f0f;
+          outline: 2px solid #E05490;
           outline-offset: 2px;
         }
 
@@ -81,8 +82,7 @@ type Intent = 'dating' | 'relationship' | 'marriage' | 'casual' | 'not_sure';
         .helper {
           font-size: 12px;
           font-weight: 450;
-          color: #0f0f0f;
-          opacity: 0.55;
+          color: rgba(255, 215, 235, 0.46);
           line-height: 1.45;
           margin-top: 10px;
         }
@@ -94,25 +94,24 @@ type Intent = 'dating' | 'relationship' | 'marriage' | 'casual' | 'not_sure';
           resize: vertical;
           padding: 14px;
           border-radius: 14px;
-          border: 1px solid rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.12);
           outline: none;
-          background: rgba(255, 255, 255, 0.9);
+          background: rgba(44, 29, 53, 0.75);
+          font-family: "DM Sans", system-ui, sans-serif;
           font-size: 14px;
           font-weight: 500;
-          color: #0f0f0f;
+          color: rgba(255, 245, 250, 0.92);
           line-height: 1.5;
-          transition: all 0.2s ease;
-          font-family: inherit;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .textarea::placeholder {
-          color: #0f0f0f;
-          opacity: 0.4;
+          color: rgba(255, 215, 235, 0.35);
         }
 
         .textarea:focus {
-          border-color: #0f0f0f;
-          box-shadow: 0 0 0 3px rgba(15, 15, 15, 0.06);
+          border-color: #E05490;
+          box-shadow: 0 0 0 3px rgba(224, 84, 144, 0.28);
         }
 
         /* ===== Row ===== */
@@ -127,10 +126,10 @@ type Intent = 'dating' | 'relationship' | 'marriage' | 'casual' | 'not_sure';
 
         /* ===== Mini Text ===== */
         .mini {
+          font-family: "JetBrains Mono", monospace;
           font-size: 11px;
-          font-weight: 600;
-          color: #0f0f0f;
-          opacity: 0.45;
+          font-weight: 500;
+          color: rgba(255, 215, 235, 0.40);
         }
 
         /* ===== Primary Button ===== */
@@ -139,23 +138,25 @@ type Intent = 'dating' | 'relationship' | 'marriage' | 'casual' | 'not_sure';
           padding: 14px 18px;
           border-radius: 14px;
           border: 0;
-          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+          background: linear-gradient(135deg, #E05490, #7D5BD0);
           color: #fff;
           cursor: pointer;
-          font-weight: 650;
+          font-family: "DM Sans", system-ui, sans-serif;
+          font-weight: 600;
           font-size: 15px;
           letter-spacing: -0.01em;
-          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+          transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                      box-shadow 380ms cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 8px 32px rgba(224, 84, 144, 0.28);
         }
 
         .btn:hover:not(:disabled) {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+          transform: translateY(-2px) scale(1.01);
+          box-shadow: 0 12px 40px rgba(224, 84, 144, 0.38);
         }
 
         .btn:active:not(:disabled) {
-          transform: translateY(0);
+          transform: translateY(0) scale(0.99);
         }
 
         .btn:disabled {
@@ -164,7 +165,7 @@ type Intent = 'dating' | 'relationship' | 'marriage' | 'casual' | 'not_sure';
         }
 
         .btn:focus-visible {
-          outline: 2px solid #0f0f0f;
+          outline: 2px solid #E05490;
           outline-offset: 2px;
         }
 
@@ -172,9 +173,9 @@ type Intent = 'dating' | 'relationship' | 'marriage' | 'casual' | 'not_sure';
         .error {
           padding: 12px 14px;
           border-radius: 12px;
-          background: rgba(176, 0, 32, 0.06);
-          border: 1px solid rgba(176, 0, 32, 0.12);
-          color: #b00020;
+          background: rgba(255, 112, 112, 0.10);
+          border: 1px solid rgba(255, 112, 112, 0.22);
+          color: #ff7070;
           font-size: 13px;
           font-weight: 500;
           line-height: 1.4;

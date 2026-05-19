@@ -30,7 +30,7 @@ type FoundationalQa = { id: string; q: string; a: string };
            BASE / TYPOGRAPHY
         =========================== */
         .ui, .ui * {
-          font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+          font-family: "DM Sans", system-ui, sans-serif;
           letter-spacing: 0;
           font-weight: 500;
         }
@@ -56,9 +56,10 @@ type FoundationalQa = { id: string; q: string; a: string };
           display: inline-flex;
           padding: 5px;
           border-radius: 100px;
-          border: 1px solid rgba(0, 0, 0, 0.08);
-          background: rgba(255, 255, 255, 0.9);
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.10);
+          background: rgba(44, 29, 53, 0.70);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
           gap: 4px;
         }
 
@@ -70,26 +71,25 @@ type FoundationalQa = { id: string; q: string; a: string };
           min-height: 44px;
           border-radius: 100px;
           background: transparent;
+          font-family: "DM Sans", system-ui, sans-serif;
           font-size: 13px;
-          font-weight: 650;
-          color: #0f0f0f;
-          opacity: 0.6;
+          font-weight: 600;
+          color: rgba(255, 245, 250, 0.55);
           transition: all 0.2s ease;
         }
 
         .tabBtn:hover:not(.active) {
-          opacity: 0.8;
+          color: rgba(255, 245, 250, 0.80);
         }
 
         .tabBtn.active {
-          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+          background: linear-gradient(135deg, #E05490, #7D5BD0);
           color: #fff;
-          opacity: 1;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 4px 12px rgba(224, 84, 144, 0.30);
         }
 
         .tabBtn:focus-visible {
-          outline: 2px solid #0f0f0f;
+          outline: 2px solid #E05490;
           outline-offset: 2px;
         }
 
@@ -97,8 +97,7 @@ type FoundationalQa = { id: string; q: string; a: string };
           margin-top: 10px;
           font-size: 11px;
           font-weight: 500;
-          color: #0f0f0f;
-          opacity: 0.5;
+          color: rgba(255, 215, 235, 0.40);
           line-height: 1.4;
         }
 
@@ -106,17 +105,16 @@ type FoundationalQa = { id: string; q: string; a: string };
           padding: 16px 0;
           font-size: 13px;
           font-weight: 500;
-          color: #0f0f0f;
-          opacity: 0.6;
+          color: rgba(255, 230, 242, 0.55);
         }
 
         .error {
           margin-top: 12px;
           padding: 12px 14px;
           border-radius: 12px;
-          background: rgba(176, 0, 32, 0.06);
-          border: 1px solid rgba(176, 0, 32, 0.12);
-          color: #b00020;
+          background: rgba(255, 112, 112, 0.10);
+          border: 1px solid rgba(255, 112, 112, 0.22);
+          color: #ff7070;
           font-size: 13px;
           font-weight: 500;
           line-height: 1.4;
@@ -144,25 +142,25 @@ type FoundationalQa = { id: string; q: string; a: string };
         }
 
         .btn.primary {
-          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+          background: linear-gradient(135deg, #E05490, #7D5BD0);
           color: #fff;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+          box-shadow: 0 8px 32px rgba(224, 84, 144, 0.28);
         }
 
         .btn.primary:hover:not(:disabled) {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+          transform: translateY(-2px) scale(1.01);
+          box-shadow: 0 12px 40px rgba(224, 84, 144, 0.38);
         }
 
         .btn.ghost {
-          background: rgba(255, 255, 255, 0.9);
-          border: 1px solid rgba(0, 0, 0, 0.1);
-          color: #0f0f0f;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          color: rgba(255, 245, 250, 0.85);
         }
 
         .btn.ghost:hover:not(:disabled) {
-          background: rgba(255, 255, 255, 1);
-          border-color: rgba(0, 0, 0, 0.15);
+          background: rgba(255, 255, 255, 0.10);
+          border-color: rgba(255, 255, 255, 0.22);
           transform: translateY(-1px);
         }
 
@@ -173,7 +171,7 @@ type FoundationalQa = { id: string; q: string; a: string };
         }
 
         .btn:focus-visible {
-          outline: 2px solid #0f0f0f;
+          outline: 2px solid #E05490;
           outline-offset: 2px;
         }
 
@@ -182,23 +180,24 @@ type FoundationalQa = { id: string; q: string; a: string };
           border: 0;
           cursor: pointer;
           background: transparent;
-          color: #0f0f0f;
-          font-weight: 650;
+          color: rgba(255, 245, 250, 0.75);
+          font-family: "DM Sans", system-ui, sans-serif;
+          font-weight: 600;
           font-size: 13px;
           padding: 10px 16px;
           min-height: 44px;
           border-radius: 100px;
-          border: 1px solid rgba(0, 0, 0, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.10);
           transition: all 0.2s ease;
         }
 
         .linkBtn:hover {
-          background: rgba(0, 0, 0, 0.04);
-          border-color: rgba(0, 0, 0, 0.15);
+          background: rgba(255, 255, 255, 0.06);
+          border-color: rgba(255, 255, 255, 0.18);
         }
 
         .linkBtn:focus-visible {
-          outline: 2px solid #0f0f0f;
+          outline: 2px solid #E05490;
           outline-offset: 2px;
         }
 
@@ -207,7 +206,7 @@ type FoundationalQa = { id: string; q: string; a: string };
         =========================== */
         .section {
           padding: 20px 0;
-          border-top: 1px solid rgba(0, 0, 0, 0.06);
+          border-top: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .section:first-of-type {
@@ -222,9 +221,10 @@ type FoundationalQa = { id: string; q: string; a: string };
         }
 
         .hTitle {
+          font-family: "DM Sans", system-ui, sans-serif;
           font-size: 15px;
           font-weight: 700;
-          color: #0f0f0f;
+          color: rgba(255, 245, 250, 0.90);
           letter-spacing: -0.01em;
         }
 
