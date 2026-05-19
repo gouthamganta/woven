@@ -31,23 +31,25 @@ import { OnboardingShellComponent } from './onboarding-shell';
           padding: 14px 18px;
           border-radius: 14px;
           border: 0;
-          background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+          background: linear-gradient(135deg, #E05490, #7D5BD0);
           color: #fff;
           cursor: pointer;
-          font-weight: 650;
+          font-family: "DM Sans", system-ui, sans-serif;
+          font-weight: 600;
           font-size: 15px;
           letter-spacing: -0.01em;
-          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+          transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+                      box-shadow 380ms cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 8px 32px rgba(224, 84, 144, 0.28);
         }
 
         .btn:hover:not(:disabled) {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+          transform: translateY(-2px) scale(1.01);
+          box-shadow: 0 12px 40px rgba(224, 84, 144, 0.38), 0 4px 16px rgba(125, 91, 208, 0.26);
         }
 
         .btn:active:not(:disabled) {
-          transform: translateY(0);
+          transform: translateY(0) scale(0.99);
         }
 
         .btn:disabled {
@@ -55,18 +57,13 @@ import { OnboardingShellComponent } from './onboarding-shell';
           cursor: not-allowed;
         }
 
-        .btn:focus-visible {
-          outline: 2px solid #0f0f0f;
-          outline-offset: 2px;
-        }
-
         .error {
           margin-top: 4px;
           padding: 12px 14px;
           border-radius: 12px;
-          background: rgba(176, 0, 32, 0.06);
-          border: 1px solid rgba(176, 0, 32, 0.12);
-          color: #b00020;
+          background: rgba(255, 112, 112, 0.10);
+          border: 1px solid rgba(255, 112, 112, 0.22);
+          color: #ff7070;
           font-size: 13px;
           font-weight: 500;
           line-height: 1.4;

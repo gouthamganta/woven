@@ -44,8 +44,6 @@ import { CommonModule } from '@angular/common';
     /* ===== Base ===== */
     .bg {
       min-height: 100vh;
-      color: #0f0f0f;
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
       position: relative;
       overflow: visible;
       background: transparent;
@@ -63,23 +61,23 @@ import { CommonModule } from '@angular/common';
       align-items: center;
       pointer-events: none;
       z-index: 5;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 100%);
+      background: linear-gradient(to bottom, rgba(26,15,30,0.92) 0%, rgba(26,15,30,0) 100%);
     }
 
     .brand {
-      letter-spacing: 0.25em;
-      font-weight: 800;
+      font-family: "DM Sans", system-ui, sans-serif;
+      letter-spacing: 0.22em;
+      font-weight: 700;
       font-size: 11px;
       text-transform: uppercase;
-      color: #0f0f0f;
-      opacity: 0.85;
+      color: rgba(255, 245, 250, 0.70);
     }
 
     .meta {
+      font-family: "DM Sans", system-ui, sans-serif;
       font-size: 11px;
-      font-weight: 600;
-      color: #0f0f0f;
-      opacity: 0.5;
+      font-weight: 500;
+      color: rgba(255, 215, 235, 0.46);
       letter-spacing: 0.02em;
     }
 
@@ -88,10 +86,11 @@ import { CommonModule } from '@angular/common';
       position: absolute;
       right: -50px;
       top: -40px;
+      font-family: "Fraunces", Georgia, serif;
       font-size: 280px;
       font-weight: 900;
       letter-spacing: -0.08em;
-      color: rgba(0, 0, 0, 0.025);
+      color: rgba(255, 255, 255, 0.04);
       transform: rotate(-12deg);
       user-select: none;
       pointer-events: none;
@@ -110,26 +109,38 @@ import { CommonModule } from '@angular/common';
     /* ===== Card ===== */
     .card {
       position: relative;
-      background: rgba(255, 255, 255, 0.96);
-      border: 1px solid rgba(0, 0, 0, 0.06);
+      background: rgba(34, 22, 40, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.13);
       border-radius: 24px;
       padding: 28px;
       box-shadow:
-        0 1px 2px rgba(0, 0, 0, 0.04),
-        0 4px 12px rgba(0, 0, 0, 0.04),
-        0 16px 48px rgba(0, 0, 0, 0.06);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+        0 4px 20px rgba(0, 0, 0, 0.44),
+        0 1px 0 rgba(255, 255, 255, 0.07) inset;
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    }
+
+    /* Gradient shimmer on top edge */
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(224,84,144,0.6), rgba(125,91,208,0.6), transparent);
+      border-radius: 9999px;
     }
 
     .cardBrand {
       position: absolute;
       top: 16px;
       right: 20px;
+      font-family: "DM Sans", system-ui, sans-serif;
       font-size: 8px;
       letter-spacing: 0.3em;
-      font-weight: 800;
-      opacity: 0.15;
+      font-weight: 700;
+      color: rgba(255, 245, 250, 0.18);
       pointer-events: none;
       user-select: none;
       text-transform: uppercase;
@@ -144,44 +155,46 @@ import { CommonModule } from '@angular/common';
     }
 
     .progressText {
+      font-family: "DM Sans", system-ui, sans-serif;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 600;
       letter-spacing: 0.04em;
-      color: #0f0f0f;
-      opacity: 0.45;
+      color: rgba(255, 215, 235, 0.46);
     }
 
     .bar {
-      height: 6px;
-      background: rgba(0, 0, 0, 0.06);
+      height: 5px;
+      background: rgba(255, 255, 255, 0.08);
       border-radius: 100px;
       overflow: hidden;
     }
 
     .fill {
       height: 100%;
-      background: linear-gradient(90deg, #0f0f0f 0%, #2a2a2a 100%);
+      background: linear-gradient(90deg, #E05490, #7D5BD0);
       border-radius: 100px;
       transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 12px rgba(224,84,144,0.4);
     }
 
     /* ===== Typography ===== */
     .title {
+      font-family: "Fraunces", Georgia, serif;
       margin: 0 0 8px;
       font-size: 28px;
-      font-weight: 700;
+      font-weight: 400;
       letter-spacing: -0.025em;
       line-height: 1.15;
-      color: #0f0f0f;
+      color: rgba(255, 245, 250, 0.96);
     }
 
     .sub {
+      font-family: "DM Sans", system-ui, sans-serif;
       margin: 0 0 24px;
       font-size: 14px;
-      font-weight: 450;
+      font-weight: 400;
       line-height: 1.55;
-      color: #0f0f0f;
-      opacity: 0.6;
+      color: rgba(255, 230, 242, 0.65);
       max-width: 48ch;
     }
 
@@ -189,17 +202,17 @@ import { CommonModule } from '@angular/common';
     .footer {
       margin-top: 24px;
       padding-top: 18px;
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .hint {
+      font-family: "DM Sans", system-ui, sans-serif;
       font-size: 11px;
       font-weight: 500;
-      color: #0f0f0f;
-      opacity: 0.4;
+      color: rgba(255, 215, 235, 0.36);
       letter-spacing: 0.01em;
     }
 
@@ -210,65 +223,34 @@ import { CommonModule } from '@angular/common';
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 1px solid rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      font-family: "DM Sans", system-ui, sans-serif;
       font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.05em;
-      color: #0f0f0f;
-      opacity: 0.5;
+      font-weight: 700;
+      color: rgba(255, 245, 250, 0.40);
       transition: all 0.2s ease;
     }
 
     .tiny:hover {
-      opacity: 0.8;
+      color: rgba(255, 245, 250, 0.80);
+      border-color: rgba(255, 255, 255, 0.22);
       transform: scale(1.05);
     }
 
     /* ===== Responsive ===== */
     @media (max-width: 520px) {
-      .watermark {
-        font-size: 200px;
-        right: -60px;
-        top: -50px;
-      }
-
-      .card {
-        padding: 22px;
-        border-radius: 20px;
-      }
-
-      .title {
-        font-size: 24px;
-      }
-
-      .wrap {
-        padding: 90px 16px 48px;
-      }
-
-      .top {
-        padding: 14px 18px;
-      }
-
-      .cardBrand {
-        font-size: 7px;
-        top: 14px;
-        right: 16px;
-      }
+      .watermark { font-size: 200px; right: -60px; top: -50px; }
+      .card { padding: 22px; border-radius: 20px; }
+      .title { font-size: 24px; }
+      .wrap { padding: 90px 16px 48px; }
+      .top { padding: 14px 18px; }
+      .cardBrand { font-size: 7px; top: 14px; right: 16px; }
     }
 
     @media (max-width: 380px) {
-      .card {
-        padding: 18px;
-        border-radius: 18px;
-      }
-
-      .title {
-        font-size: 22px;
-      }
-
-      .sub {
-        font-size: 13px;
-      }
+      .card { padding: 18px; border-radius: 18px; }
+      .title { font-size: 22px; }
+      .sub { font-size: 13px; }
     }
   `]
 })
