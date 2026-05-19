@@ -1,15 +1,14 @@
 /* ======================================================
-   WOVEN Global Styles — STABLE + WOW + SPRINKLES
-   - Hearts/stars graphics with scroll-reactive animation
-   - Global background visible on ALL pages
-   - PrimeNG-safe, no DOM changes needed
+   WOVEN Global Design System v2 — Dark Plum Theme
    ====================================================== */
 
-/* Fonts: Inter for UI + elegant cursive for luxury touches */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+/* Fonts: Fraunces (display) · DM Sans (UI) · Caveat (personal) · JetBrains Mono (data) */
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap");
 
-/* 1) Reset */
+/* ── Reset ─────────────────────────────────────────── */
 *,
 *::before,
 *::after { box-sizing: border-box; }
@@ -22,243 +21,303 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 2) Tokens */
+/* ── Design Tokens ─────────────────────────────────── */
 :root {
-  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
-  --font-luxury: "Great Vibes", cursive; /* Elegant signature style */
+  /* Color — Backgrounds */
+  --bg-base:     #1A0F1E;
+  --bg-surface:  #221628;
+  --bg-elevated: #2C1D35;
 
-  --woven-text: #161616;
-  --woven-text-soft: rgba(22, 22, 22, 0.78);
-  --woven-text-muted: rgba(22, 22, 22, 0.55);
+  /* Color — Rose (primary) */
+  --rose-300: #F07AAC;
+  --rose-400: #E05490;
+  --rose-500: #C73F78;
+  --rose-glow: rgba(224, 84, 144, 0.28);
 
-  --accent: #ff3b88;
-  --accent-2: #ffb3cf;
+  /* Color — Plum (accent) */
+  --plum-300: #A07FD8;
+  --plum-400: #7D5BD0;
+  --plum-500: #5E3FA8;
+  --plum-glow: rgba(125, 91, 208, 0.26);
 
-  /* Parallax + scroll vars (set by AppComponent) */
+  /* Color — Text */
+  --text-primary:   rgba(255, 245, 250, 0.96);
+  --text-secondary: rgba(255, 230, 242, 0.70);
+  --text-muted:     rgba(255, 215, 235, 0.46);
+  --text-dim:       rgba(255, 200, 225, 0.28);
+
+  /* Color — Border */
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-soft:   rgba(255, 255, 255, 0.13);
+  --border-medium: rgba(255, 255, 255, 0.22);
+
+  /* Typography */
+  --font-display:  "Fraunces", Georgia, "Times New Roman", serif;
+  --font-ui:       "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-personal: "Caveat", cursive;
+  --font-data:     "JetBrains Mono", "Fira Code", "Courier New", monospace;
+
+  /* Type Scale */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+  --text-6xl:  3.75rem;
+
+  /* Spacing */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Radius */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-2xl:  32px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.36);
+  --shadow-md:   0 4px 20px rgba(0, 0, 0, 0.44);
+  --shadow-lg:   0 8px 40px rgba(0, 0, 0, 0.52);
+  --shadow-rose: 0 8px 32px var(--rose-glow);
+  --shadow-plum: 0 8px 32px var(--plum-glow);
+
+  /* Motion */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --ease-inout:  cubic-bezier(0.45, 0, 0.55, 1);
+  --dur-fast:    120ms;
+  --dur-base:    220ms;
+  --dur-slow:    380ms;
+  --dur-xslow:   600ms;
+
+  /* Parallax drift (set by AppComponent scroll / mouse) */
   --wx: 0px;
   --wy: 0px;
-  --scroll: 0; /* 0..1 scroll progress */
-
-  /* Base canvas */
-  --woven-base-1: #ffe8dc;
-  --woven-base-2: #fef1eb;
-  --woven-base-3: #faf8f6;
-
-  /* Aura tuning */
-  --aura-1: rgba(255, 85, 160, 0.14);
-  --aura-2: rgba(255, 198, 166, 0.16);
-  --aura-3: rgba(255, 255, 255, 0.10);
+  --scroll: 0;
 }
 
-/* 3) Base typography */
-body {
-  font-family: var(--font-ui);
-  color: var(--woven-text);
-  font-size: 16px;
-  line-height: 1.55;
-  letter-spacing: -0.01em;
-  text-rendering: optimizeLegibility;
-
-  /* CRITICAL: transparent so WOW layer shows through */
-  background: transparent !important;
-  min-height: 100%;
-}
-
-/* Always keep a base gradient visible on HTML */
+/* ── Base ──────────────────────────────────────────── */
 html {
   min-height: 100%;
-  background: linear-gradient(165deg, var(--woven-base-1), var(--woven-base-2) 52%, var(--woven-base-3));
-  background-attachment: fixed;
+  background: var(--bg-base);
+  color-scheme: dark;
 }
 
-/* Make sure app content paints above the overlays */
+body {
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  background: transparent;
+  text-rendering: optimizeLegibility;
+}
+
 app-root {
   position: relative;
   z-index: 1;
 }
 
-/* ======================================================
-   4) WOW LAYERS — GLOBAL (visible everywhere)
-   - Layer A: Aura glow (html::before)
-   - Layer B: Woven texture (html::after)
-   - Layer C: Glowing hearts/stars (body::before)
-   - Layer D: Luxury signature text (body::after)
-   ====================================================== */
-
-html::before,
-html::after,
-body::before,
-body::after {
+/* ── Global Background — Layer A: Deep aura (scroll-reactive) ── */
+html::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-}
-
-/* Layer A — Aura glow with drift */
-html::before {
   transform: translate3d(var(--wx), var(--wy), 0);
   will-change: transform;
   transition: transform 80ms linear;
 
   background:
-    radial-gradient(900px 650px at 18% 12%, var(--aura-2), transparent 62%),
-    radial-gradient(820px 620px at 86% 18%, var(--aura-1), transparent 60%),
-    radial-gradient(1100px 800px at 78% 88%, var(--aura-3), transparent 68%),
-    linear-gradient(140deg, transparent 0%, rgba(255, 59, 136, 0.03) 30%, transparent 55%);
+    radial-gradient(900px 700px at 20% 15%, rgba(125, 91, 208, 0.16), transparent 65%),
+    radial-gradient(800px 600px at 82% 22%, rgba(224, 84, 144, 0.14), transparent 62%),
+    radial-gradient(1000px 800px at 74% 90%, rgba(125, 91, 208, 0.10), transparent 70%),
+    radial-gradient(600px 400px at 8%  84%, rgba(224, 84, 144, 0.09), transparent 60%);
 }
 
-/* Layer B — Woven texture */
+/* ── Global Background — Layer B: Woven textile weave ── */
 html::after {
-  opacity: 0.22;
-  mix-blend-mode: multiply;
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.16;
+  mix-blend-mode: screen;
 
   background-image:
     repeating-linear-gradient(
       135deg,
-      rgba(0,0,0,0.035) 0px,
-      rgba(0,0,0,0.035) 1px,
+      rgba(255, 255, 255, 0.045) 0px,
+      rgba(255, 255, 255, 0.045) 1px,
       transparent 1px,
-      transparent 10px
+      transparent 14px
     ),
     repeating-linear-gradient(
       45deg,
-      rgba(0,0,0,0.025) 0px,
-      rgba(0,0,0,0.025) 1px,
+      rgba(255, 255, 255, 0.030) 0px,
+      rgba(255, 255, 255, 0.030) 1px,
       transparent 1px,
-      transparent 12px
+      transparent 18px
     );
 }
 
-/* Layer C — Glowing hearts + stars (BRIGHT & LUXURIOUS) */
+/* ── Global Background — Layer C: Floating symbols (◈ ◇ ♡) ── */
 body::before {
-  /* Scroll-reactive opacity: MUCH more visible and glowing */
-  opacity: calc(0.35 + (var(--scroll) * 0.25));
-  
-  /* Multiple glowing hearts with different sizes + stars */
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
   background-image:
-    /* Large glowing heart */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cdefs%3E%3Cfilter id='glow'%3E%3CfeGaussianBlur stdDeviation='3.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23glow)'%3E%3Cpath d='M70 95c-14-11-27-21-27-35 0-8 6-14 14-14 6 0 10 3 13 8 3-5 7-8 13-8 8 0 14 6 14 14 0 14-13 24-27 35z' fill='%23ff3b88' opacity='0.65'/%3E%3C/g%3E%3C/svg%3E"),
-    /* Medium glowing heart */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cdefs%3E%3Cfilter id='glow2'%3E%3CfeGaussianBlur stdDeviation='2.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23glow2)'%3E%3Cpath d='M50 65c-10-8-18-14-18-24 0-5 4-9 9-9 4 0 7 2 9 5 2-3 5-5 9-5 5 0 9 4 9 9 0 10-8 16-18 24z' fill='%23ffb3cf' opacity='0.55'/%3E%3C/g%3E%3C/svg%3E"),
-    /* Small hearts */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cdefs%3E%3Cfilter id='glow3'%3E%3CfeGaussianBlur stdDeviation='2' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23glow3)'%3E%3Cpath d='M40 52c-7-6-12-10-12-16 0-3 3-6 6-6 3 0 5 2 6 3 1-1 3-3 6-3 3 0 6 3 6 6 0 6-5 10-12 16z' fill='%23ff6ba8' opacity='0.50'/%3E%3Cpath d='M25 28c-4-3-7-6-7-10 0-2 2-4 4-4 2 0 3 1 3 2 1-1 2-2 3-2 2 0 4 2 4 4 0 4-3 6-7 10z' fill='%23ffc4dc' opacity='0.45'/%3E%3C/g%3E%3C/svg%3E"),
-    /* Glowing stars */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cdefs%3E%3Cfilter id='starglow'%3E%3CfeGaussianBlur stdDeviation='2.5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23starglow)'%3E%3Cpath d='M90 52l5 15h16l-13 9 5 15-13-9-13 9 5-15-13-9h16z' fill='%23ffd4e5' opacity='0.55'/%3E%3C/g%3E%3Ccircle cx='45' cy='140' r='2.5' fill='%23ff3b88' opacity='0.60' filter='url(%23starglow)'/%3E%3Ccircle cx='135' cy='40' r='2' fill='%23ffb3cf' opacity='0.55' filter='url(%23starglow)'/%3E%3C/svg%3E");
-
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Ctext x='30'  y='90'  font-size='44' fill='rgba(224,84,144,0.42)'  font-family='serif'%3E◈%3C/text%3E%3Ctext x='140' y='190' font-size='36' fill='rgba(125,91,208,0.38)'  font-family='serif'%3E◇%3C/text%3E%3Ctext x='16'  y='195' font-size='30' fill='rgba(240,122,172,0.30)' font-family='serif'%3E♡%3C/text%3E%3Ctext x='165' y='60'  font-size='24' fill='rgba(160,127,216,0.28)' font-family='serif'%3E∿%3C/text%3E%3C/svg%3E");
   background-repeat: repeat;
-  background-size: 160px 160px, 120px 120px, 90px 90px, 200px 200px;
-
-  /* Position reacts to scroll + drift */
+  background-size: 240px 240px;
   background-position:
-    calc(0px + var(--wx)) calc(0px + var(--wy)),
-    calc(50px - var(--wx)) calc(70px - var(--wy)),
-    calc(25px + var(--wx) * 0.5) calc(40px + var(--wy) * 0.5),
-    calc(80px - var(--wx) * 0.7) calc(100px - var(--wy) * 0.7);
+    calc(0px + var(--wx) * 0.5) calc(0px + var(--wy) * 0.5);
 
-  /* Gentle floating animation */
-  animation: wovenFloat 16s ease-in-out infinite;
-  
-  /* Add STRONG glow filter */
-  filter: drop-shadow(0 0 15px rgba(255, 59, 136, 0.25)) 
-          drop-shadow(0 0 8px rgba(255, 182, 207, 0.20));
+  animation: symbolDrift 28s ease-in-out infinite;
 }
 
-@keyframes wovenFloat {
-  0%   { transform: translate3d(0, 0, 0); }
-  50%  { transform: translate3d(0, -12px, 0); }
-  100% { transform: translate3d(0, 0, 0); }
+@keyframes symbolDrift {
+  0%   { background-position: 0px 0px; }
+  25%  { background-position: 18px -12px; }
+  50%  { background-position: -8px 22px; }
+  75%  { background-position: 10px -6px; }
+  100% { background-position: 0px 0px; }
 }
 
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  html::before { 
-    transition: none !important; 
-    transform: none !important; 
-  }
-  body::before { 
-    animation: none !important; 
-  }
+  html::before    { transition: none !important; transform: none !important; }
+  body::before    { animation: none !important; }
 }
 
-/* If any page wrapper tries to set background, keep it transparent */
-.woven-stage {
-  background: transparent !important;
+/* ── Typography ────────────────────────────────────── */
+h1, h2, h3, h4, .display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 
-/* 5) Text defaults */
-p { color: var(--woven-text-soft); line-height: 1.7; }
-small, .mini, .diMini, .waitingText { color: var(--woven-text-muted); }
+p              { color: var(--text-secondary); line-height: 1.7; }
+small, .mini   { color: var(--text-muted); font-size: var(--text-sm); }
+.caption       { font-family: var(--font-personal); color: var(--text-secondary); }
+.mono, .timer  { font-family: var(--font-data); }
+.display-italic { font-family: var(--font-display); font-style: italic; }
 
-/* 6) Buttons (ADAPTIVE)
-      Only style YOUR button classes. DO NOT touch .p-button. */
-:where(.btn, .chipBtn, .submitBtn, .retryBtn, .send, .diBtn, .moreItem) {
-  min-height: 46px;
-  padding: 12px 16px;
-  border-radius: 16px;
-  font-weight: 650;
-
+/* ── Buttons ───────────────────────────────────────── */
+:where(.btn, .btnPrimary, .btnGhost, .chipBtn, .submitBtn, .retryBtn, .send) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid rgba(0, 0, 0, 0.10);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(10px);
-
+  gap: var(--space-2);
+  min-height: 46px;
+  padding: 12px 20px;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: var(--text-sm);
   cursor: pointer;
   user-select: none;
-
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: visible;
-
-  transition: transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1),
-              box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
-              background 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
-              border-color 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-:where(.btn, .chipBtn, .submitBtn, .retryBtn, .send, .diBtn, .moreItem):hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.10);
-  border-color: rgba(255, 59, 136, 0.22);
-  background: rgba(255, 255, 255, 0.92);
-}
-
-:where(.primary, .btn.primary, .submitBtn, .send) {
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
   border: none;
-  color: #fff;
-  box-shadow: 0 16px 40px rgba(255, 59, 136, 0.22);
+  transition:
+    transform var(--dur-base) var(--ease-spring),
+    box-shadow var(--dur-slow) var(--ease-out),
+    background var(--dur-base) var(--ease-out);
 }
 
-/* Game options can wrap */
+.btnPrimary, .submitBtn, .send {
+  background: linear-gradient(135deg, var(--rose-400), var(--plum-400));
+  color: #fff;
+  box-shadow: var(--shadow-rose);
+}
+
+.btnPrimary:hover:not(:disabled),
+.submitBtn:hover:not(:disabled),
+.send:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 12px 40px var(--rose-glow), 0 4px 16px var(--plum-glow);
+}
+
+.btnGhost, .retryBtn {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-soft);
+  color: var(--text-primary);
+}
+
+.btnGhost:hover:not(:disabled),
+.retryBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-md);
+}
+
 .gameOption, .option {
   white-space: normal;
   text-align: left;
   justify-content: flex-start;
 }
 
-/* 7) Inputs */
+/* ── Inputs ────────────────────────────────────────── */
 input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
 textarea,
 select {
   width: 100%;
   min-height: 46px;
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1.5px solid rgba(0, 0, 0, 0.10);
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(12px);
-  color: var(--woven-text);
-  font-size: 0.98rem;
-  font-family: inherit;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  transition:
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow   var(--dur-base) var(--ease-out);
 }
 
-/* 8) Responsive */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--rose-400);
+  box-shadow: 0 0 0 3px var(--rose-glow);
+}
+
+/* ── Surface utilities ─────────────────────────────── */
+.surface {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.glass {
+  background: rgba(34, 22, 40, 0.75);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid var(--border-soft);
+}
+
+/* ── Responsive ────────────────────────────────────── */
 @media (max-width: 768px) { body { font-size: 15px; } }
 @media (max-width: 480px) { body { font-size: 14px; } }
