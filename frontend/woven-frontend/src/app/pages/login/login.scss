@@ -1,6 +1,8 @@
 /* ======================================================
-   Woven Login — Dark Plum Splash + Card
-   Animation timeline: 0s → 7s
+   Woven Login — Dark Plum
+   All motion is driven by GSAP (login.ts).
+   This file handles layout, visual appearance, and
+   initial invisible states only.
    ====================================================== */
 
 /* ── Splash overlay ────────────────────────────────── */
@@ -12,14 +14,18 @@
   justify-content: center;
   z-index: 100;
   pointer-events: none;
-  animation: splashOut 0.7s var(--ease-inout) 6.1s forwards;
+  /* opacity controlled by GSAP */
 }
 
-@keyframes splashOut {
-  to { opacity: 0; visibility: hidden; }
+/* ── Burst canvas (particle explosion at conjunction) ── */
+.burst-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
 }
 
-/* ── Stage 1: Diamonds draw from the edges ─────────── */
+/* ── Stage 1: Diamonds ─────────────────────────────── */
 .spark-field {
   position: absolute;
   inset: 0;
@@ -33,76 +39,39 @@
   font-size: 72px;
   font-family: var(--font-display);
   line-height: 1;
-  opacity: 0;
+  opacity: 0; /* GSAP sets initial x/scale/rotation */
   will-change: transform, opacity;
 }
 
-/* ◈ Magical — rose, starts far left */
 .diamond-left {
   color: var(--rose-400);
   text-shadow:
     0 0 30px var(--rose-glow),
     0 0 80px rgba(224, 84, 144, 0.20);
-  animation: diamondLeft 2.6s var(--ease-out) 0.3s forwards;
 }
 
-/* ◇ Logical — plum, starts far right */
 .diamond-right {
   color: var(--plum-400);
   text-shadow:
     0 0 30px var(--plum-glow),
     0 0 80px rgba(125, 91, 208, 0.20);
-  animation: diamondRight 2.6s var(--ease-out) 0.5s forwards;
-}
-
-/* Each diamond fades in at its edge, slides to center, merges */
-@keyframes diamondLeft {
-  0%   { opacity: 0; transform: translateX(-46vw) scale(0.5) rotate(-15deg); }
-  15%  { opacity: 1; transform: translateX(-46vw) scale(1)   rotate(0deg); }
-  78%  { opacity: 1; transform: translateX(-28px) scale(1.05) rotate(0deg); }
-  100% { opacity: 0; transform: translateX(0)     scale(1.5)  rotate(5deg); }
-}
-
-@keyframes diamondRight {
-  0%   { opacity: 0; transform: translateX(46vw)  scale(0.5) rotate(15deg); }
-  15%  { opacity: 1; transform: translateX(46vw)  scale(1)   rotate(0deg); }
-  78%  { opacity: 1; transform: translateX(28px)  scale(1.05) rotate(0deg); }
-  100% { opacity: 0; transform: translateX(0)     scale(1.5)  rotate(-5deg); }
 }
 
 /* ── Stage 2: Conjunction flash ────────────────────── */
 .conjunction {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: #fff;
-  opacity: 0;
-  animation: conjunctionFlash 0.7s var(--ease-out) 2.7s forwards;
+  opacity: 0; /* GSAP controls */
+  box-shadow:
+    0 0 40px 16px rgba(255, 255, 255, 0.88),
+    0 0 80px 40px var(--rose-glow),
+    0 0 160px 80px var(--plum-glow);
 }
 
-@keyframes conjunctionFlash {
-  0%  {
-    opacity: 0;
-    transform: scale(0);
-    box-shadow: none;
-  }
-  35% {
-    opacity: 1;
-    transform: scale(1);
-    box-shadow:
-      0 0  40px 16px rgba(255, 255, 255, 0.90),
-      0 0  80px 40px var(--rose-glow),
-      0 0 160px 80px var(--plum-glow);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(6);
-    box-shadow: none;
-  }
-}
-
-/* ── Stage 3: W crystallises from the flash ─────────── */
+/* ── Stage 3: W mark ───────────────────────────────── */
 .w-mark {
   position: absolute;
   font-family: var(--font-display);
@@ -111,35 +80,26 @@
   letter-spacing: -6px;
   line-height: 1;
   color: var(--text-primary);
-  opacity: 0;
-  filter: blur(12px);
-  animation: wMarkIn 0.9s var(--ease-out) 3.2s forwards;
+  opacity: 0; /* GSAP controls blur + scale */
 }
 
-@keyframes wMarkIn {
-  0%   { opacity: 0; transform: scale(1.4); filter: blur(12px); }
-  60%  { opacity: 1; transform: scale(0.98); filter: blur(0px); }
-  80%  { transform: scale(1.03); }
-  100% { opacity: 1; transform: scale(1); filter: blur(0px); }
-}
-
-/* ── Stage 4: Wordmark sweeps in ───────────────────── */
+/* ── Stage 4: Wordmark letters ─────────────────────── */
 .wordmark {
   position: absolute;
+  display: flex;
+  gap: 0;
   font-family: var(--font-display);
   font-size: 56px;
   font-weight: 300;
   letter-spacing: 14px;
   text-transform: uppercase;
   color: var(--text-primary);
-  opacity: 0;
-  transform: translateY(22px);
-  animation: wordmarkIn 1.0s var(--ease-out) 4.0s forwards;
 }
 
-@keyframes wordmarkIn {
-  0%   { opacity: 0; transform: translateY(22px) scale(0.96); letter-spacing: 4px; }
-  100% { opacity: 1; transform: translateY(0)   scale(1);    letter-spacing: 14px; }
+.wordmark span {
+  display: inline-block;
+  opacity: 0; /* GSAP staggers each letter in */
+  will-change: transform, opacity;
 }
 
 /* ── Login stage ───────────────────────────────────── */
@@ -168,33 +128,58 @@
     var(--shadow-lg),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
-  opacity: 0;
-  transform: translateY(44px) scale(0.97);
-  animation: cardIn 0.9s var(--ease-spring) 6.0s forwards;
+  opacity: 0; /* GSAP springs it in */
+  will-change: transform, opacity;
+
+  /* CSS custom props for mouse spotlight (set by GSAP quickSetter) */
+  --cx: 220px;
+  --cy: 180px;
 }
 
-@keyframes cardIn {
-  0%   { opacity: 0; transform: translateY(44px) scale(0.97); }
-  100% { opacity: 1; transform: translateY(0)    scale(1); }
-}
-
-/* Gradient top-border shimmer */
+/* Top-edge shimmer — sweeps once when card appears */
 .card::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 20%;
-  right: 20%;
+  left: 10%;
+  right: 10%;
   height: 1px;
   background: linear-gradient(
     90deg,
-    transparent,
-    var(--rose-400),
-    var(--plum-400),
-    transparent
+    transparent 0%,
+    var(--rose-400) 40%,
+    var(--plum-400) 60%,
+    transparent 100%
   );
+  background-size: 200% 100%;
+  background-position: -100% 0;
   border-radius: var(--radius-full);
+  animation: shimmerSweep 1.6s ease-out 4.4s 1 forwards;
 }
+
+@keyframes shimmerSweep {
+  0%   { background-position: -100% 0; opacity: 0; }
+  10%  { opacity: 1; }
+  100% { background-position: 150% 0;  opacity: 1; }
+}
+
+/* Mouse spotlight radial highlight */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle 260px at var(--cx) var(--cy),
+    rgba(224, 84, 144, 0.07),
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.card:hover::after { opacity: 1; }
 
 /* ── Brand ─────────────────────────────────────────── */
 .brand {
@@ -230,9 +215,7 @@
 }
 
 /* ── Action ────────────────────────────────────────── */
-.action {
-  text-align: center;
-}
+.action { text-align: center; }
 
 .kicker {
   font-size: var(--text-xs);
@@ -259,23 +242,13 @@
   color: var(--text-muted);
   margin-top: var(--space-4);
 }
-
 .state.err { color: #ff7070; }
 
 /* ── Mobile ────────────────────────────────────────── */
 @media (max-width: 520px) {
-  .diamond       { font-size: 52px; }
-  .w-mark        { font-size: 88px; }
-  .wordmark      { font-size: 38px; letter-spacing: 8px; }
-  .card          { padding: var(--space-10) var(--space-6); }
-  .logo          { font-size: var(--text-4xl); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .splash        { animation: none; opacity: 0; visibility: hidden; }
-  .diamond,
-  .conjunction,
-  .w-mark,
-  .wordmark      { animation: none !important; }
-  .card          { animation: none; opacity: 1; transform: none; }
+  .diamond  { font-size: 52px; }
+  .w-mark   { font-size: 88px; }
+  .wordmark { font-size: 38px; letter-spacing: 8px; }
+  .card     { padding: var(--space-10) var(--space-6); }
+  .logo     { font-size: var(--text-4xl); }
 }

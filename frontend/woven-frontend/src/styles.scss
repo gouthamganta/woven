@@ -179,35 +179,10 @@ html::after {
     );
 }
 
-/* ── Global Background — Layer C: Floating symbols (◈ ◇ ♡) ── */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Ctext x='30'  y='90'  font-size='44' fill='rgba(224,84,144,0.42)'  font-family='serif'%3E◈%3C/text%3E%3Ctext x='140' y='190' font-size='36' fill='rgba(125,91,208,0.38)'  font-family='serif'%3E◇%3C/text%3E%3Ctext x='16'  y='195' font-size='30' fill='rgba(240,122,172,0.30)' font-family='serif'%3E♡%3C/text%3E%3Ctext x='165' y='60'  font-size='24' fill='rgba(160,127,216,0.28)' font-family='serif'%3E∿%3C/text%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 240px 240px;
-  background-position:
-    calc(0px + var(--wx) * 0.5) calc(0px + var(--wy) * 0.5);
-
-  animation: symbolDrift 28s ease-in-out infinite;
-}
-
-@keyframes symbolDrift {
-  0%   { background-position: 0px 0px; }
-  25%  { background-position: 18px -12px; }
-  50%  { background-position: -8px 22px; }
-  75%  { background-position: 10px -6px; }
-  100% { background-position: 0px 0px; }
-}
+/* Layer C: Three.js WovenBgComponent handles particle/symbol layer */
 
 @media (prefers-reduced-motion: reduce) {
-  html::before    { transition: none !important; transform: none !important; }
-  body::before    { animation: none !important; }
+  html::before { transition: none !important; transform: none !important; }
 }
 
 /* ── Typography ────────────────────────────────────── */

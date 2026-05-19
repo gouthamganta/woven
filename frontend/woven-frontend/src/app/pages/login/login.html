@@ -1,6 +1,9 @@
 <!-- ── Splash intro ──────────────────────────────────── -->
 <div class="splash">
 
+  <!-- Particle burst canvas — fires at conjunction moment -->
+  <canvas #burstCanvas class="burst-canvas"></canvas>
+
   <!-- Stage 1: ◈ (Magical) and ◇ (Logical) draw in from the edges -->
   <div class="spark-field">
     <span class="diamond diamond-left">◈</span>
@@ -13,8 +16,10 @@
   <!-- Stage 3: W crystallises from the flash -->
   <div class="w-mark">W</div>
 
-  <!-- Stage 4: Full wordmark sweeps in -->
-  <div class="wordmark">Woven</div>
+  <!-- Stage 4: Full wordmark — each letter staggers in independently -->
+  <div class="wordmark">
+    <span>W</span><span>o</span><span>v</span><span>e</span><span>n</span>
+  </div>
 
 </div>
 
