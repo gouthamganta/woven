@@ -43,7 +43,7 @@ jobs:
     name: Secret scan (gitleaks)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0  # Full history for accurate scanning
 
@@ -57,7 +57,7 @@ jobs:
     name: Large file check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Check for large files (>5MB)
         run: |
@@ -78,7 +78,7 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, 'database')
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
