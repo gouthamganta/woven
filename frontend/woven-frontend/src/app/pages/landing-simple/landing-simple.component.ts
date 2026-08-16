@@ -26,10 +26,9 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
 
   isBrowser: boolean;
   showIntro = true;
-  showTapPrompt = false;
+  videoPlaying = false;
   isMobileDevice = false;
   private hideIntroTimer?: ReturnType<typeof setTimeout>;
-  private videoStartAttempted = false;
   introVideoSrc: string = '/login-intro.mp4'; // Default to desktop video
 
   registration: RegistrationData = {
@@ -100,15 +99,15 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
     // Detect mobile and set video source
     this.isMobileDevice = window.innerWidth <= 768;
     this.introVideoSrc = this.isMobileDevice ? '/login-intro-mobile.mp4' : '/login-intro.mp4';
-    this.showTapPrompt = this.isMobileDevice;
-    console.log('[Landing] AfterViewInit - Device:', this.isMobileDevice ? 'mobile' : 'desktop', 'showTapPrompt:', this.showTapPrompt);
-    this.cdr.markForCheck();
+    console.log('[Landing] Device:', this.isMobileDevice ? 'mobile' : 'desktop', 'Video:', this.introVideoSrc);
 
     // Fallback: hide intro if video never fires 'ended'
     this.hideIntroTimer = setTimeout(() => this.hideLandingIntro(), 13_000);
 
-    // Delay slightly for SSR hydration
-    setTimeout(() => this.startVideo(), 200);
+    // On desktop, try autoplay (mobile waits for user click)
+    if (!this.isMobileDevice) {
+      setTimeout(() => this.startVideo(), 200);
+    }
   }
 
   private initScrollAnimations(): void {
@@ -313,23 +312,12 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
     video.muted = true;
     video.currentTime = 0;
 
-    // On mobile, wait for user tap (don't try autoplay)
-    if (this.isMobileDevice) {
-      console.log('[Landing] Mobile detected - waiting for user tap');
-      return;
-    }
-
-    // Desktop: try autoplay
     const tryPlay = () => {
       video.play().then(() => {
-        this.videoStartAttempted = true;
-        this.showTapPrompt = false;
+        this.videoPlaying = true;
         this.cdr.markForCheck();
       }).catch((err: any) => {
-        console.warn('[Landing] video.play() blocked - showing tap prompt:', err);
-        this.showTapPrompt = true;
-        this.videoStartAttempted = false;
-        this.cdr.markForCheck();
+        console.warn('[Landing] Autoplay blocked:', err);
       });
     };
 
@@ -340,16 +328,15 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  onIntroClick(): void {
-    if (this.showTapPrompt && !this.videoStartAttempted) {
-      const video = this.videoRef?.nativeElement;
-      if (video) {
-        video.play().then(() => {
-          this.showTapPrompt = false;
-          this.videoStartAttempted = true;
-          this.cdr.markForCheck();
-        }).catch(err => console.warn('[Landing] Manual play failed:', err));
-      }
+  onVideoClick(): void {
+    const video = this.videoRef?.nativeElement;
+    if (!video) return;
+
+    if (video.paused) {
+      video.play().then(() => {
+        this.videoPlaying = true;
+        this.cdr.markForCheck();
+      }).catch(err => console.warn('[Landing] Play failed:', err));
     }
   }
 

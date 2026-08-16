@@ -1,5 +1,5 @@
 <!-- Video Intro -->
-<div class="intro" #introEl *ngIf="showIntro" (click)="onIntroClick()">
+<div class="intro" #introEl *ngIf="showIntro">
   <video
     #introVideo
     class="intro-video"
@@ -8,9 +8,13 @@
     playsinline
     preload="auto"
     (ended)="onVideoEnd()"
+    (click)="onVideoClick()"
   ></video>
-  <div class="tap-to-play" *ngIf="showTapPrompt">Tap to begin ↵</div>
-  <button class="skip-btn" (click)="skipIntro(); $event.stopPropagation()">Skip ↵</button>
+  <button class="play-btn" (click)="onVideoClick()" [class.hidden]="videoPlaying">
+    <span class="play-icon">▶</span>
+    <span class="play-text">Play</span>
+  </button>
+  <button class="skip-btn" (click)="skipIntro()">Skip ↵</button>
 </div>
 
 <app-woven-bg></app-woven-bg>
