@@ -26,8 +26,10 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
 
   isBrowser: boolean;
   showIntro = true;
+  showTapPrompt = false;
   private hideIntroTimer?: ReturnType<typeof setTimeout>;
-  introVideoSrc: string = 'login-intro.mp4'; // Default to desktop video
+  private videoStartAttempted = false;
+  introVideoSrc: string = '/login-intro.mp4'; // Default to desktop video
 
   registration: RegistrationData = {
     name: '',
@@ -93,7 +95,7 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
     // Set video source based on screen size
     if (this.isBrowser) {
       const isMobile = window.innerWidth <= 768;
-      this.introVideoSrc = isMobile ? 'login-intro-mobile.mp4' : 'login-intro.mp4';
+      this.introVideoSrc = isMobile ? '/login-intro-mobile.mp4' : '/login-intro.mp4';
     }
   }
 
@@ -310,8 +312,15 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
     video.currentTime = 0;
 
     const tryPlay = () => {
-      video.play().catch((err: any) => {
-        console.warn('[Landing] video.play() blocked:', err);
+      video.play().then(() => {
+        this.videoStartAttempted = true;
+        this.showTapPrompt = false;
+        this.cdr.markForCheck();
+      }).catch((err: any) => {
+        console.warn('[Landing] video.play() blocked - showing tap prompt:', err);
+        this.showTapPrompt = true;
+        this.videoStartAttempted = false;
+        this.cdr.markForCheck();
       });
     };
 
@@ -319,6 +328,19 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
       tryPlay();
     } else {
       video.addEventListener('canplay', tryPlay, { once: true });
+    }
+  }
+
+  onIntroClick(): void {
+    if (this.showTapPrompt && !this.videoStartAttempted) {
+      const video = this.videoRef?.nativeElement;
+      if (video) {
+        video.play().then(() => {
+          this.showTapPrompt = false;
+          this.videoStartAttempted = true;
+          this.cdr.markForCheck();
+        }).catch(err => console.warn('[Landing] Manual play failed:', err));
+      }
     }
   }
 
