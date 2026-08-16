@@ -51781,6 +51781,7 @@ var LandingSimpleComponent = class _LandingSimpleComponent {
   isBrowser;
   showIntro = true;
   showTapPrompt = false;
+  isMobileDevice = false;
   hideIntroTimer;
   videoStartAttempted = false;
   introVideoSrc = "/login-intro.mp4";
@@ -51842,8 +51843,10 @@ var LandingSimpleComponent = class _LandingSimpleComponent {
     this.cdr = cdr;
     this.isBrowser = isPlatformBrowser(platformId);
     if (this.isBrowser) {
-      const isMobile = window.innerWidth <= 768;
-      this.introVideoSrc = isMobile ? "/login-intro-mobile.mp4" : "/login-intro.mp4";
+      this.isMobileDevice = window.innerWidth <= 768;
+      this.introVideoSrc = this.isMobileDevice ? "/login-intro-mobile.mp4" : "/login-intro.mp4";
+      this.showTapPrompt = this.isMobileDevice;
+      console.log("[Landing] Device:", this.isMobileDevice ? "mobile" : "desktop", "Video:", this.introVideoSrc);
     }
   }
   ngAfterViewInit() {
@@ -52015,6 +52018,10 @@ var LandingSimpleComponent = class _LandingSimpleComponent {
     }
     video.muted = true;
     video.currentTime = 0;
+    if (this.isMobileDevice) {
+      console.log("[Landing] Mobile detected - waiting for user tap");
+      return;
+    }
     const tryPlay = () => {
       video.play().then(() => {
         this.videoStartAttempted = true;
@@ -52096,517 +52103,517 @@ var LandingSimpleComponent = class _LandingSimpleComponent {
 (() => {
   (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(LandingSimpleComponent, [{
     type: Component,
-    args: [{ selector: "app-landing-simple", standalone: true, imports: [CommonModule, RouterModule, FormsModule, WovenBgComponent], changeDetection: ChangeDetectionStrategy.OnPush, template: `<!-- Video Intro -->
-<div class="intro" #introEl *ngIf="showIntro" (click)="onIntroClick()">
-  <video
-    #introVideo
-    class="intro-video"
-    [src]="introVideoSrc"
-    muted
-    playsinline
-    preload="auto"
-    (ended)="onVideoEnd()"
-  ></video>
-  <div class="tap-to-play" *ngIf="showTapPrompt">Tap to begin \u21B5</div>
-  <button class="skip-btn" (click)="skipIntro(); $event.stopPropagation()">Skip \u21B5</button>
-</div>
-
-<app-woven-bg></app-woven-bg>
-
-<div class="landing" *ngIf="!showIntro">
-
-  <!-- HERO -->
-  <section class="hero">
-    <h1 class="logo">Woven</h1>
-    <p class="tagline">Energy. Intention. Chemistry.</p>
-
-    <div class="hero-content">
-      <h2 class="hero-headline">Not one swipe to marriage.<br>Not a thousand swipes to nowhere.</h2>
-      <p class="hero-subheadline">
-        Woven is the space in between. Five people a day, introduced like moments \u2014 not dealt like cards.
-        One honest question: Magical, or Resonate? A matchmaker that learns who you actually fall for.
-        And a promise: no swiping, no ghosting, no conversation that starts with "hi."
-      </p>
-
-      <button class="cta-primary" routerLink="/login">Join the first circle \u2014 Hyderabad</button>
-      <p class="cta-under">Open to women first. Men, we'll call you.</p>
-    </div>
-
-    <div class="hero-visual">
-      <img src="/landing-photos/hero/belove woven title cards.png" alt="Woven Moments" class="hero-image" />
-    </div>
-  </section>
-
-  <!-- SECTION 2: THE PROBLEM -->
-  <section class="problem-section">
-    <div class="container">
-      <h2 class="section-header">You've been given two bad options.</h2>
-      <div class="problem-text">
-        <p>Arranged marriage apps want you married by the second meeting. Dating apps want you swiping until you die. One is too fast to be safe. The other is too shallow to go anywhere.</p>
-        <p>On Tinder, the average user swipes through 140 profiles to get one match. On Bumble, 92% of matches never message. On Hinge, 70% of first dates don't lead to a second. The system isn't broken \u2014 it's working exactly as designed. More swipes, more ads, more paying users who never leave.</p>
-        <p>Somewhere between "meet the family" and "hey wyd" is where real relationships actually start. Nobody built an app for that place.</p>
-        <p class="reveal-line">So we did.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 3: THE MOMENTS PAGE -->
-  <section class="moments-section">
-    <div class="container">
-      <h2 class="section-header">Five people a day. Introduced, not dealt.</h2>
-      <div class="section-intro">
-        <p>First, Woven asks about you. The Daily Pulse \u2014 how's your energy, what's your tone today, what are you open to. Because the right five people on a heavy Tuesday aren't the same five as a bright Saturday. Your day shapes your deck.</p>
-        <p>Then your five arrive \u2014 and each one arrives like a moment. Photos that move. A voice that introduces them: who they are, how they carry themselves, what sitting across from them might feel like. You don't scan a card in 0.8 seconds. You meet a person for thirty.</p>
-      </div>
-    </div>
-
-    <!-- Moments Cards - Polaroid Carousel (center spotlight) -->
-    <div class="polaroid-carousel">
-      <div class="carousel-track">
-        <div class="polaroid" *ngFor="let person of people; let i = index" [attr.data-index]="i">
-          <div class="polaroid-photo">
-            <img [src]="person.photo" [alt]="person.name" />
-          </div>
-          <div class="polaroid-info">
-            <h3 class="polaroid-name">{{ person.name }}, {{ person.age }}</h3>
-            <div class="polaroid-label">What caught our eye</div>
-            <p class="polaroid-explanation">{{ person.explanation }}</p>
-            <div class="polaroid-actions">
-              <button class="btn-magical"><span class="icon">\u25C8</span> Magical</button>
-              <button class="btn-resonant"><span class="icon">\u25C7</span> Resonate</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="container choice-container">
-      <div class="choice-side">
-        <div class="choice-symbol magical-symbol">\u25C8</div>
-        <div class="choice-label">Magical</div>
-      </div>
-      <div class="choice-center">
-        <p class="choice-rule">Choose the same: a Pure match. Choose differently: an Edge match. Both are matches. There is no like, no dislike, no reject pile.</p>
-        <p class="choice-end">Five moments. Then the app is done for the day.</p>
-      </div>
-      <div class="choice-side">
-        <div class="choice-symbol resonant-symbol">\u25C7</div>
-        <div class="choice-label">Resonate</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 4: THE CHAT NOTE -->
-  <section class="text-section chat-note-section">
-    <div class="container chat-note-container">
-      <div class="chat-note-text">
-        <h2 class="section-header">Say it while you feel it. They'll read it when it matters.</h2>
-        <div class="section-text">
-          <p>On every other app, you match, the moment passes, and three days later someone types "hey." The feeling that made you choose them? Gone. Every conversation starts cold.</p>
-          <p>On Woven, the instant you choose someone, you write them a note \u2014 right then, while it's real. Why them. What caught you. What you'd ask if they were standing in front of you. The note is sealed, and it waits.</p>
-          <p>Match, and the Balloon opens with both your notes pinned at the top \u2014 revealed to each other at the same moment. Before anyone types a word, you've each read why the other person chose you.</p>
-          <p class="highlight">No more "hi" to start a conversation. In Woven, choose your own icebreaker or pick a real question to start with. We tried our best to make it interesting \u2014 it's up to you now to make it count.</p>
-        </div>
-      </div>
-      <div class="chat-note-demo">
-        <div class="demo-label">How it works</div>
-
-        <!-- State 1: Modal input (writing the note) -->
-        <div class="demo-state">
-          <div class="state-label">1. Write it while you feel it</div>
-          <div class="note-modal">
-            <div class="modal-header">What book/movie/song changed you recently?</div>
-            <textarea class="note-input" placeholder="What caught your eye? Be specific \u2014 they'll see this when you match.">You said The Midnight Library made you rethink your whole career path. That's wild. Most people just say it was "good" and move on. What are you gonna do about it?</textarea>
-            <div class="char-count">142 / 150</div>
-            <button class="modal-submit">Send \u25C8</button>
-          </div>
-        </div>
-
-        <!-- Both revealed when you match -->
-        <div class="demo-state">
-          <div class="state-label">Both revealed when you match</div>
-          <div class="chat-notes-pinned">
-            <div class="pinned-note yours">
-              <div class="note-label">Your opening \xB7 \u25C8 Magical</div>
-              <div class="note-text">You said The Midnight Library made you rethink your whole career path. That's wild. Most people just say it was "good" and move on. What are you gonna do about it?</div>
-            </div>
-            <div class="pinned-note theirs">
-              <div class="note-label">Their opening \xB7 \u25C7 Resonate</div>
-              <div class="note-text">Your voice note about being bad at mornings but good at 2am conversations made me laugh. I'm the exact same. Do you actually function before 10am or just pretend?</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 5: ECHO -->
-  <section class="echo-section">
-    <div class="container">
-      <h2 class="section-header">Meet ECHO. It knows the difference between your type and your person.</h2>
-      <div class="echo-text">
-        <p>Every app has an algorithm. Theirs learns which faces you swipe on. That's it.</p>
-        <p>ECHO learns something harder: the gap between what you say you want and who you actually connect with. You say "calm and settled" \u2014 but your best conversations are with the chaotic ones. You say age matters \u2014 your patterns say it doesn't. Your checklist lies to you. ECHO doesn't take it personally. It just pays attention.</p>
-        <p>It reads you across eight things that actually predict connection \u2014 your lifestyle, your energy, how you communicate, how you show care, what steadies you, what you value, what makes you curious, and your emotional rhythm. Every match, every conversation, every Pulse teaches it. Tomorrow's five are chosen better than today's.</p>
-        <p class="highlight">It's not an algorithm learning your type. It's a matchmaker learning you.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 6: THE BALLOON -->
-  <section class="text-section balloon-section">
-    <div class="container">
-      <h2 class="section-header">Every conversation ends honestly. That's a promise.</h2>
-
-      <div class="section-text centered">
-        <p>When you match, you get a Balloon \u2014 it opens with both your notes pinned at the top. You already said something real to each other. Start from there.</p>
-        <p>The Balloon lives for 36 hours. Both of you send real messages \u2192 5-minute gated window opens. An intense, contained moment. Then one of you pops it \u2014 either as the natural end or as the exit ramp ("not feeling it? pop it, no explanation needed").</p>
-        <p>Pop triggers 3 minutes of reflection. Chat locks. You both sit with it. Then you both choose: Continue \u2192 Find Love unlocks (date ideas, games, the works). Exit \u2192 clean ending. No ghosting possible. Leaving well isn't rude here. It's the rule.</p>
-      </div>
-
-      <!-- Balloon States (Static) -->
-      <div class="balloon-states-grid">
-        <!-- Warming -->
-        <div class="state-card">
-          <div class="state-label">Warming</div>
-          <div class="state-content">
-            <div class="state-icon">\u25CE</div>
-            <div class="state-desc">36h to connect</div>
-          </div>
-        </div>
-
-        <!-- Gated Window -->
-        <div class="state-card">
-          <div class="state-label">Gated Window</div>
-          <div class="state-content">
-            <div class="state-icon pulse">\u25CE</div>
-            <div class="state-desc">5-min window</div>
-            <button class="state-action">Pop</button>
-          </div>
-        </div>
-
-        <!-- Reflection -->
-        <div class="state-card">
-          <div class="state-label">Reflection</div>
-          <div class="state-content">
-            <div class="state-title">Sit with it.</div>
-            <div class="state-choices">
-              <button class="choice-btn">Continue</button>
-              <button class="choice-btn">Exit</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 7: FIND LOVE -->
-  <section class="text-section accent-section features-section">
-    <div class="container">
-      <h2 class="section-header">Other apps stop at the match. That's where Woven starts.</h2>
-      <div class="section-text centered">
-        <p>You both chose to continue. Now what? On every other app: nothing. Two people staring at a chat, waiting for someone to be brave.</p>
-        <p>On Woven, the moment you continue, a date idea appears \u2014 built for the two of you, from everything ECHO knows about you both. Then Plan a Date hands you three real places to make it happen. Pick one. Set it. Go.</p>
-        <p class="highlight">Other apps count matches. We count dates that actually happened.</p>
-      </div>
-
-      <!-- Features Grid (Static) -->
-      <div class="features-static-grid">
-          <!-- Know Me Game -->
-          <div class="feature-card">
-            <div class="feature-label">Know Me</div>
-            <div class="game-card-mock">
-              <div class="game-header-mock">Round 2 of 5 \xB7 You're guessing</div>
-              <div class="game-question-mock">If they had one day left in a city they love, what would they do?</div>
-              <div class="game-options-mock">
-                <button class="game-option-mock">See every landmark one last time</button>
-                <button class="game-option-mock selected">Walk their favorite quiet route, slowly</button>
-                <button class="game-option-mock">Call everyone they care about</button>
-              </div>
-              <div class="game-timer-mock">
-                <div class="timer-fill-mock" style="width: 60%"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Red/Green Flag -->
-          <div class="feature-card">
-            <div class="feature-label">Red / Green Flag</div>
-            <div class="game-card-mock">
-              <div class="game-header-mock">Round 3 of 5 \xB7 You're guessing</div>
-              <div class="game-scenario-mock">"I need space when I'm processing something tough \u2014 talking too soon just makes it worse."</div>
-              <div class="flag-buttons-grid-mock">
-                <button class="flag-btn-mock green">\u2705 Green</button>
-                <button class="flag-btn-mock yellow">\u26A0\uFE0F Yellow</button>
-                <button class="flag-btn-mock red">\u{1F6A9} Red</button>
-                <button class="flag-btn-mock depends">\u{1F937} Depends</button>
-              </div>
-              <div class="game-timer-mock">
-                <div class="timer-fill-mock" style="width: 80%"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Date Idea -->
-          <div class="feature-card">
-            <div class="feature-label">Date Idea</div>
-            <div class="date-idea-mock">
-              <div class="date-kicker-mock">SUGGESTED FOR YOU TWO</div>
-              <div class="date-card-mock">
-                <div class="date-text-mock">Try an Italian caf\xE9 in Banjara Hills, then walk around KBR Park. You both mentioned needing green spaces + good coffee.</div>
-                <button class="plan-btn-mock">Plan It</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Date Planning -->
-          <div class="feature-card">
-            <div class="feature-label">Plan a Date</div>
-            <div class="planning-mock">
-              <div class="planning-title-mock">3 best for you both:</div>
-              <div class="venue-options-mock">
-                <div class="venue-mock selected">
-                  <div class="venue-name">Dyu Art Caf\xE9</div>
-                  <div class="venue-distance">1.8 km</div>
-                </div>
-                <div class="venue-mock">
-                  <div class="venue-name">Caf\xE9 Bahar</div>
-                  <div class="venue-distance">2.4 km</div>
-                </div>
-                <div class="venue-mock">
-                  <div class="venue-name">Olive Bistro</div>
-                  <div class="venue-distance">3.1 km</div>
-                </div>
-              </div>
-              <div class="planning-hint-mock">Pick & edit before sending</div>
-            </div>
-          </div>
-        </div>
-    </div>
-  </section>
-
-  <!-- SECTION 8: COMMONS -->
-  <section class="commons-section">
-    <div class="container commons-container">
-      <div class="commons-text">
-        <h2 class="section-header">On every other app, you don't exist until someone matches you. Not here.</h2>
-        <div class="section-text">
-          <p>Commons is Woven's anonymous space. Post a Tile \u2014 a thought, a voice note, a photo, a piece of your day. No name. No face. Just you, unperformed.</p>
-          <p>When someone's Tile resonates, you Orbit it. Not a like \u2014 a quiet pull. And when two people keep orbiting each other's way of seeing the world, Woven notices \u2014 and starts drawing them toward each other in their daily five.</p>
-          <p class="highlight">From your very first day \u2014 before any match \u2014 you have a voice here, and people quietly drawn to it. You're never alone on Woven.</p>
-        </div>
-      </div>
-
-      <!-- Commons Tiles Grid (RIGHT side, larger) -->
-      <div class="commons-grid-wrapper">
-        <div class="commons-grid">
-          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 210934.png" alt="Tile" /></div>
-          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 210944.png" alt="Tile" /></div>
-          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211456.png" alt="Tile" /></div>
-          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211503.png" alt="Tile" /></div>
-          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211511.png" alt="Tile" /></div>
-          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211649.png" alt="Tile" /></div>
-          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211657.png" alt="Tile" /></div>
-          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211704.png" alt="Tile" /></div>
-          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211854.png" alt="Tile" /></div>
-          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211902.png" alt="Tile" /></div>
-
-      <!-- Voice Note Mockup -->
-      <div class="grid-item grid-item--voice">
-        <div class="voice-mock">
-          <div class="voice-waveform">
-            <span class="wave-bar" style="height: 40%"></span>
-            <span class="wave-bar" style="height: 70%"></span>
-            <span class="wave-bar" style="height: 55%"></span>
-            <span class="wave-bar" style="height: 85%"></span>
-            <span class="wave-bar" style="height: 60%"></span>
-            <span class="wave-bar" style="height: 45%"></span>
-            <span class="wave-bar" style="height: 75%"></span>
-            <span class="wave-bar" style="height: 50%"></span>
-          </div>
-          <div class="voice-duration">0:42</div>
-        </div>
-      </div>
-
-      <!-- Poetry/Text Mockup -->
-      <div class="grid-item grid-item--text">
-        <div class="text-mock">
-          <p class="text-content">"Sometimes I think about how we're all just looking for someone who gets the quiet parts."</p>
-        </div>
-      </div>
-
-      <!-- Music Player Mockup -->
-      <div class="grid-item grid-item--music">
-        <div class="music-mock">
-          <div class="music-art">\u266A</div>
-          <div class="music-info">
-            <div class="music-title">Midnight Rain</div>
-            <div class="music-artist">Current mood</div>
-          </div>
-          <div class="music-progress">
-            <div class="progress-bar" style="width: 65%"></div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
-    </div>
-  </section>
-
-  <!-- SECTION 9: FINAL CTA -->
-  <section class="final-cta">
-    <div class="container">
-      <h2 class="cta-header">Five people. One honest question. Starting in Hyderabad.</h2>
-      <p class="cta-subtext">The first circle is small on purpose. One city. Women first. Every member chosen.</p>
-
-      <form class="reg-form" *ngIf="!submitted" (ngSubmit)="onSubmitRegistration()">
-        <div class="form-row">
-          <div class="form-field">
-            <label>Name</label>
-            <input type="text" [(ngModel)]="registration.name" name="name" required placeholder="Your name" />
-          </div>
-          <div class="form-field form-field--small">
-            <label>Age</label>
-            <input type="number" [(ngModel)]="registration.age" name="age" required placeholder="26" min="18" max="99" />
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-field">
-            <label>Gender</label>
-            <select [(ngModel)]="registration.gender" name="gender" required>
-              <option value="" disabled selected>Select</option>
-              <option value="woman">Woman</option>
-              <option value="man">Man</option>
-              <option value="non-binary">Non-binary</option>
-            </select>
-          </div>
-          <div class="form-field">
-            <label>Location</label>
-            <input type="text" [(ngModel)]="registration.location" name="location" required placeholder="Hyderabad, Gachibowli..." />
-          </div>
-        </div>
-
-        <div class="form-field">
-          <label>Email</label>
-          <input type="email" [(ngModel)]="registration.email" name="email" required placeholder="you@example.com" />
-        </div>
-
-        <button type="submit" class="cta-primary cta-large">Claim your place</button>
-        <p class="cta-under">Free for founding members. Hyderabad only, for now.</p>
-      </form>
-
-      <div class="reg-success" *ngIf="submitted">
-        <div class="success-icon">\u2713</div>
-        <h3>You're on the list</h3>
-        <p>We'll reach out when we're ready.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 10: ABOUT CAROUSEL (Women, Founder, Security) -->
-  <section class="about-section">
-    <div class="about-carousel">
-      <div class="about-track">
-
-        <!-- Slide 1: Women First -->
-        <div class="about-slide">
-          <div class="slide-content">
-            <h2 class="slide-header">Built for women first. Not as a tagline. As the actual launch plan.</h2>
-            <div class="slide-text">
-              <p>Woven opens to women before anyone else. You build the room. Men can only apply \u2014 verified, waitlisted, and let in when the balance is right.</p>
-              <p>And once they're in, how they behave decides what they get. Men who reply, show up honestly, and end conversations with respect earn their place. Men who don't, lose it.</p>
-              <p class="slide-highlight">You don't join Woven. You get chosen.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 2: Who Built It -->
-        <div class="about-slide">
-          <div class="slide-content">
-            <h2 class="slide-header">Built by one person who was tired of it too.</h2>
-            <div class="slide-text">
-              <p>Woven was built by a solo engineer who spent too many years on dating apps that led nowhere.</p>
-              <p>No boardroom. No growth team optimizing your loneliness for ad revenue. Twelve days of building, one belief:</p>
-              <p class="slide-quote">"A dating app that works is one you eventually delete. Because it worked."</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 3: Security & Trust -->
-        <div class="about-slide">
-          <div class="slide-content">
-            <h2 class="slide-header">Your privacy. Your safety. No compromise.</h2>
-            <div class="slide-text">
-              <p>Your profile stays invisible to your contacts. Your exits are always graceful. And you never have to explain yourself to leave.</p>
-              <p>On Woven, being decent isn't a bio claim. It's tracked, and it's worth something. Bad behavior gets you removed. Good behavior earns trust.</p>
-              <p class="slide-highlight">Safe by design. Not as a feature, as the foundation.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 4: Onboarding -->
-        <div class="about-slide">
-          <div class="slide-content">
-            <h2 class="slide-header">Onboarding that earns your effort.</h2>
-            <div class="slide-text">
-              <p>Google OAuth \u2192 basics \u2192 intent \u2192 preferences \u2192 photos \u2192 bio \u2192 foundational questions. Intent comes first \u2014 the "this app is different" moment happens before we ask for work.</p>
-              <p>Your photos become polaroids as you upload. Questions are scenario-based, not homework. Progress visible every screen.</p>
-              <p class="slide-highlight">Onboarding ends by delivering your first deck immediately. The reward is people, not a success screen.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 5: Three Rhythms -->
-        <div class="about-slide">
-          <div class="slide-content">
-            <h2 class="slide-header">Three clocks. One living profile.</h2>
-            <div class="slide-text">
-              <p><strong>Foundational</strong> (seasonal) \u2014 deep questions that build your 8-pillar vector. Refreshed every 45\u201360 days. <strong>Weekly Pulse</strong> \u2014 battery, tone, role. 30 seconds. <strong>Daily Pulse</strong> \u2014 how you're feeling today, before the deck loads.</p>
-              <p>Your profile isn't a photo of who you were at signup. It evolves.</p>
-              <p class="slide-highlight">Foundational = who you are. Weekly = where you are. Daily = how you are today.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Slide 6: Notifications -->
-        <div class="about-slide">
-          <div class="slide-content">
-            <h2 class="slide-header">The bell is a direct action, not a list.</h2>
-            <div class="slide-text">
-              <p>Tap the bell \u2192 straight into what needs you. No notification drawer. Weekly digest card shows your week at a glance. Insights page surfaces patterns you're living but can't see.</p>
-              <p>Opinion prompts ask what you think about how the app is working. Your feedback shapes what we build next.</p>
-              <p class="slide-highlight">Built for you, not at you.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="carousel-dots">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-brand">
-        <h3 class="logo">Woven</h3>
-        <p class="tagline">Energy. Intention. Chemistry.</p>
-      </div>
-      <div class="footer-bottom">
-        <p>Built in Hyderabad \xB7 hello@wooven.me</p>
-      </div>
-    </div>
-  </footer>
-
-</div>
+    args: [{ selector: "app-landing-simple", standalone: true, imports: [CommonModule, RouterModule, FormsModule, WovenBgComponent], changeDetection: ChangeDetectionStrategy.OnPush, template: `<!-- Video Intro -->\r
+<div class="intro" #introEl *ngIf="showIntro" (click)="onIntroClick()">\r
+  <video\r
+    #introVideo\r
+    class="intro-video"\r
+    [src]="introVideoSrc"\r
+    muted\r
+    playsinline\r
+    preload="auto"\r
+    (ended)="onVideoEnd()"\r
+  ></video>\r
+  <div class="tap-to-play" *ngIf="showTapPrompt">Tap to begin \u21B5</div>\r
+  <button class="skip-btn" (click)="skipIntro(); $event.stopPropagation()">Skip \u21B5</button>\r
+</div>\r
+\r
+<app-woven-bg></app-woven-bg>\r
+\r
+<div class="landing" *ngIf="!showIntro">\r
+\r
+  <!-- HERO -->\r
+  <section class="hero">\r
+    <h1 class="logo">Woven</h1>\r
+    <p class="tagline">Energy. Intention. Chemistry.</p>\r
+\r
+    <div class="hero-content">\r
+      <h2 class="hero-headline">Not one swipe to marriage.<br>Not a thousand swipes to nowhere.</h2>\r
+      <p class="hero-subheadline">\r
+        Woven is the space in between. Five people a day, introduced like moments \u2014 not dealt like cards.\r
+        One honest question: Magical, or Resonate? A matchmaker that learns who you actually fall for.\r
+        And a promise: no swiping, no ghosting, no conversation that starts with "hi."\r
+      </p>\r
+\r
+      <button class="cta-primary" routerLink="/login">Join the first circle \u2014 Hyderabad</button>\r
+      <p class="cta-under">Open to women first. Men, we'll call you.</p>\r
+    </div>\r
+\r
+    <div class="hero-visual">\r
+      <img src="/landing-photos/hero/belove woven title cards.png" alt="Woven Moments" class="hero-image" />\r
+    </div>\r
+  </section>\r
+\r
+  <!-- SECTION 2: THE PROBLEM -->\r
+  <section class="problem-section">\r
+    <div class="container">\r
+      <h2 class="section-header">You've been given two bad options.</h2>\r
+      <div class="problem-text">\r
+        <p>Arranged marriage apps want you married by the second meeting. Dating apps want you swiping until you die. One is too fast to be safe. The other is too shallow to go anywhere.</p>\r
+        <p>On Tinder, the average user swipes through 140 profiles to get one match. On Bumble, 92% of matches never message. On Hinge, 70% of first dates don't lead to a second. The system isn't broken \u2014 it's working exactly as designed. More swipes, more ads, more paying users who never leave.</p>\r
+        <p>Somewhere between "meet the family" and "hey wyd" is where real relationships actually start. Nobody built an app for that place.</p>\r
+        <p class="reveal-line">So we did.</p>\r
+      </div>\r
+    </div>\r
+  </section>\r
+\r
+  <!-- SECTION 3: THE MOMENTS PAGE -->\r
+  <section class="moments-section">\r
+    <div class="container">\r
+      <h2 class="section-header">Five people a day. Introduced, not dealt.</h2>\r
+      <div class="section-intro">\r
+        <p>First, Woven asks about you. The Daily Pulse \u2014 how's your energy, what's your tone today, what are you open to. Because the right five people on a heavy Tuesday aren't the same five as a bright Saturday. Your day shapes your deck.</p>\r
+        <p>Then your five arrive \u2014 and each one arrives like a moment. Photos that move. A voice that introduces them: who they are, how they carry themselves, what sitting across from them might feel like. You don't scan a card in 0.8 seconds. You meet a person for thirty.</p>\r
+      </div>\r
+    </div>\r
+\r
+    <!-- Moments Cards - Polaroid Carousel (center spotlight) -->\r
+    <div class="polaroid-carousel">\r
+      <div class="carousel-track">\r
+        <div class="polaroid" *ngFor="let person of people; let i = index" [attr.data-index]="i">\r
+          <div class="polaroid-photo">\r
+            <img [src]="person.photo" [alt]="person.name" />\r
+          </div>\r
+          <div class="polaroid-info">\r
+            <h3 class="polaroid-name">{{ person.name }}, {{ person.age }}</h3>\r
+            <div class="polaroid-label">What caught our eye</div>\r
+            <p class="polaroid-explanation">{{ person.explanation }}</p>\r
+            <div class="polaroid-actions">\r
+              <button class="btn-magical"><span class="icon">\u25C8</span> Magical</button>\r
+              <button class="btn-resonant"><span class="icon">\u25C7</span> Resonate</button>\r
+            </div>\r
+          </div>\r
+        </div>\r
+      </div>\r
+    </div>\r
+\r
+    <div class="container choice-container">\r
+      <div class="choice-side">\r
+        <div class="choice-symbol magical-symbol">\u25C8</div>\r
+        <div class="choice-label">Magical</div>\r
+      </div>\r
+      <div class="choice-center">\r
+        <p class="choice-rule">Choose the same: a Pure match. Choose differently: an Edge match. Both are matches. There is no like, no dislike, no reject pile.</p>\r
+        <p class="choice-end">Five moments. Then the app is done for the day.</p>\r
+      </div>\r
+      <div class="choice-side">\r
+        <div class="choice-symbol resonant-symbol">\u25C7</div>\r
+        <div class="choice-label">Resonate</div>\r
+      </div>\r
+    </div>\r
+  </section>\r
+\r
+  <!-- SECTION 4: THE CHAT NOTE -->\r
+  <section class="text-section chat-note-section">\r
+    <div class="container chat-note-container">\r
+      <div class="chat-note-text">\r
+        <h2 class="section-header">Say it while you feel it. They'll read it when it matters.</h2>\r
+        <div class="section-text">\r
+          <p>On every other app, you match, the moment passes, and three days later someone types "hey." The feeling that made you choose them? Gone. Every conversation starts cold.</p>\r
+          <p>On Woven, the instant you choose someone, you write them a note \u2014 right then, while it's real. Why them. What caught you. What you'd ask if they were standing in front of you. The note is sealed, and it waits.</p>\r
+          <p>Match, and the Balloon opens with both your notes pinned at the top \u2014 revealed to each other at the same moment. Before anyone types a word, you've each read why the other person chose you.</p>\r
+          <p class="highlight">No more "hi" to start a conversation. In Woven, choose your own icebreaker or pick a real question to start with. We tried our best to make it interesting \u2014 it's up to you now to make it count.</p>\r
+        </div>\r
+      </div>\r
+      <div class="chat-note-demo">\r
+        <div class="demo-label">How it works</div>\r
+\r
+        <!-- State 1: Modal input (writing the note) -->\r
+        <div class="demo-state">\r
+          <div class="state-label">1. Write it while you feel it</div>\r
+          <div class="note-modal">\r
+            <div class="modal-header">What book/movie/song changed you recently?</div>\r
+            <textarea class="note-input" placeholder="What caught your eye? Be specific \u2014 they'll see this when you match.">You said The Midnight Library made you rethink your whole career path. That's wild. Most people just say it was "good" and move on. What are you gonna do about it?</textarea>\r
+            <div class="char-count">142 / 150</div>\r
+            <button class="modal-submit">Send \u25C8</button>\r
+          </div>\r
+        </div>\r
+\r
+        <!-- Both revealed when you match -->\r
+        <div class="demo-state">\r
+          <div class="state-label">Both revealed when you match</div>\r
+          <div class="chat-notes-pinned">\r
+            <div class="pinned-note yours">\r
+              <div class="note-label">Your opening \xB7 \u25C8 Magical</div>\r
+              <div class="note-text">You said The Midnight Library made you rethink your whole career path. That's wild. Most people just say it was "good" and move on. What are you gonna do about it?</div>\r
+            </div>\r
+            <div class="pinned-note theirs">\r
+              <div class="note-label">Their opening \xB7 \u25C7 Resonate</div>\r
+              <div class="note-text">Your voice note about being bad at mornings but good at 2am conversations made me laugh. I'm the exact same. Do you actually function before 10am or just pretend?</div>\r
+            </div>\r
+          </div>\r
+        </div>\r
+      </div>\r
+    </div>\r
+  </section>\r
+\r
+  <!-- SECTION 5: ECHO -->\r
+  <section class="echo-section">\r
+    <div class="container">\r
+      <h2 class="section-header">Meet ECHO. It knows the difference between your type and your person.</h2>\r
+      <div class="echo-text">\r
+        <p>Every app has an algorithm. Theirs learns which faces you swipe on. That's it.</p>\r
+        <p>ECHO learns something harder: the gap between what you say you want and who you actually connect with. You say "calm and settled" \u2014 but your best conversations are with the chaotic ones. You say age matters \u2014 your patterns say it doesn't. Your checklist lies to you. ECHO doesn't take it personally. It just pays attention.</p>\r
+        <p>It reads you across eight things that actually predict connection \u2014 your lifestyle, your energy, how you communicate, how you show care, what steadies you, what you value, what makes you curious, and your emotional rhythm. Every match, every conversation, every Pulse teaches it. Tomorrow's five are chosen better than today's.</p>\r
+        <p class="highlight">It's not an algorithm learning your type. It's a matchmaker learning you.</p>\r
+      </div>\r
+    </div>\r
+  </section>\r
+\r
+  <!-- SECTION 6: THE BALLOON -->\r
+  <section class="text-section balloon-section">\r
+    <div class="container">\r
+      <h2 class="section-header">Every conversation ends honestly. That's a promise.</h2>\r
+\r
+      <div class="section-text centered">\r
+        <p>When you match, you get a Balloon \u2014 it opens with both your notes pinned at the top. You already said something real to each other. Start from there.</p>\r
+        <p>The Balloon lives for 36 hours. Both of you send real messages \u2192 5-minute gated window opens. An intense, contained moment. Then one of you pops it \u2014 either as the natural end or as the exit ramp ("not feeling it? pop it, no explanation needed").</p>\r
+        <p>Pop triggers 3 minutes of reflection. Chat locks. You both sit with it. Then you both choose: Continue \u2192 Find Love unlocks (date ideas, games, the works). Exit \u2192 clean ending. No ghosting possible. Leaving well isn't rude here. It's the rule.</p>\r
+      </div>\r
+\r
+      <!-- Balloon States (Static) -->\r
+      <div class="balloon-states-grid">\r
+        <!-- Warming -->\r
+        <div class="state-card">\r
+          <div class="state-label">Warming</div>\r
+          <div class="state-content">\r
+            <div class="state-icon">\u25CE</div>\r
+            <div class="state-desc">36h to connect</div>\r
+          </div>\r
+        </div>\r
+\r
+        <!-- Gated Window -->\r
+        <div class="state-card">\r
+          <div class="state-label">Gated Window</div>\r
+          <div class="state-content">\r
+            <div class="state-icon pulse">\u25CE</div>\r
+            <div class="state-desc">5-min window</div>\r
+            <button class="state-action">Pop</button>\r
+          </div>\r
+        </div>\r
+\r
+        <!-- Reflection -->\r
+        <div class="state-card">\r
+          <div class="state-label">Reflection</div>\r
+          <div class="state-content">\r
+            <div class="state-title">Sit with it.</div>\r
+            <div class="state-choices">\r
+              <button class="choice-btn">Continue</button>\r
+              <button class="choice-btn">Exit</button>\r
+            </div>\r
+          </div>\r
+        </div>\r
+      </div>\r
+    </div>\r
+  </section>\r
+\r
+  <!-- SECTION 7: FIND LOVE -->\r
+  <section class="text-section accent-section features-section">\r
+    <div class="container">\r
+      <h2 class="section-header">Other apps stop at the match. That's where Woven starts.</h2>\r
+      <div class="section-text centered">\r
+        <p>You both chose to continue. Now what? On every other app: nothing. Two people staring at a chat, waiting for someone to be brave.</p>\r
+        <p>On Woven, the moment you continue, a date idea appears \u2014 built for the two of you, from everything ECHO knows about you both. Then Plan a Date hands you three real places to make it happen. Pick one. Set it. Go.</p>\r
+        <p class="highlight">Other apps count matches. We count dates that actually happened.</p>\r
+      </div>\r
+\r
+      <!-- Features Grid (Static) -->\r
+      <div class="features-static-grid">\r
+          <!-- Know Me Game -->\r
+          <div class="feature-card">\r
+            <div class="feature-label">Know Me</div>\r
+            <div class="game-card-mock">\r
+              <div class="game-header-mock">Round 2 of 5 \xB7 You're guessing</div>\r
+              <div class="game-question-mock">If they had one day left in a city they love, what would they do?</div>\r
+              <div class="game-options-mock">\r
+                <button class="game-option-mock">See every landmark one last time</button>\r
+                <button class="game-option-mock selected">Walk their favorite quiet route, slowly</button>\r
+                <button class="game-option-mock">Call everyone they care about</button>\r
+              </div>\r
+              <div class="game-timer-mock">\r
+                <div class="timer-fill-mock" style="width: 60%"></div>\r
+              </div>\r
+            </div>\r
+          </div>\r
+\r
+          <!-- Red/Green Flag -->\r
+          <div class="feature-card">\r
+            <div class="feature-label">Red / Green Flag</div>\r
+            <div class="game-card-mock">\r
+              <div class="game-header-mock">Round 3 of 5 \xB7 You're guessing</div>\r
+              <div class="game-scenario-mock">"I need space when I'm processing something tough \u2014 talking too soon just makes it worse."</div>\r
+              <div class="flag-buttons-grid-mock">\r
+                <button class="flag-btn-mock green">\u2705 Green</button>\r
+                <button class="flag-btn-mock yellow">\u26A0\uFE0F Yellow</button>\r
+                <button class="flag-btn-mock red">\u{1F6A9} Red</button>\r
+                <button class="flag-btn-mock depends">\u{1F937} Depends</button>\r
+              </div>\r
+              <div class="game-timer-mock">\r
+                <div class="timer-fill-mock" style="width: 80%"></div>\r
+              </div>\r
+            </div>\r
+          </div>\r
+\r
+          <!-- Date Idea -->\r
+          <div class="feature-card">\r
+            <div class="feature-label">Date Idea</div>\r
+            <div class="date-idea-mock">\r
+              <div class="date-kicker-mock">SUGGESTED FOR YOU TWO</div>\r
+              <div class="date-card-mock">\r
+                <div class="date-text-mock">Try an Italian caf\xE9 in Banjara Hills, then walk around KBR Park. You both mentioned needing green spaces + good coffee.</div>\r
+                <button class="plan-btn-mock">Plan It</button>\r
+              </div>\r
+            </div>\r
+          </div>\r
+\r
+          <!-- Date Planning -->\r
+          <div class="feature-card">\r
+            <div class="feature-label">Plan a Date</div>\r
+            <div class="planning-mock">\r
+              <div class="planning-title-mock">3 best for you both:</div>\r
+              <div class="venue-options-mock">\r
+                <div class="venue-mock selected">\r
+                  <div class="venue-name">Dyu Art Caf\xE9</div>\r
+                  <div class="venue-distance">1.8 km</div>\r
+                </div>\r
+                <div class="venue-mock">\r
+                  <div class="venue-name">Caf\xE9 Bahar</div>\r
+                  <div class="venue-distance">2.4 km</div>\r
+                </div>\r
+                <div class="venue-mock">\r
+                  <div class="venue-name">Olive Bistro</div>\r
+                  <div class="venue-distance">3.1 km</div>\r
+                </div>\r
+              </div>\r
+              <div class="planning-hint-mock">Pick & edit before sending</div>\r
+            </div>\r
+          </div>\r
+        </div>\r
+    </div>\r
+  </section>\r
+\r
+  <!-- SECTION 8: COMMONS -->\r
+  <section class="commons-section">\r
+    <div class="container commons-container">\r
+      <div class="commons-text">\r
+        <h2 class="section-header">On every other app, you don't exist until someone matches you. Not here.</h2>\r
+        <div class="section-text">\r
+          <p>Commons is Woven's anonymous space. Post a Tile \u2014 a thought, a voice note, a photo, a piece of your day. No name. No face. Just you, unperformed.</p>\r
+          <p>When someone's Tile resonates, you Orbit it. Not a like \u2014 a quiet pull. And when two people keep orbiting each other's way of seeing the world, Woven notices \u2014 and starts drawing them toward each other in their daily five.</p>\r
+          <p class="highlight">From your very first day \u2014 before any match \u2014 you have a voice here, and people quietly drawn to it. You're never alone on Woven.</p>\r
+        </div>\r
+      </div>\r
+\r
+      <!-- Commons Tiles Grid (RIGHT side, larger) -->\r
+      <div class="commons-grid-wrapper">\r
+        <div class="commons-grid">\r
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 210934.png" alt="Tile" /></div>\r
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 210944.png" alt="Tile" /></div>\r
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211456.png" alt="Tile" /></div>\r
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211503.png" alt="Tile" /></div>\r
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211511.png" alt="Tile" /></div>\r
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211649.png" alt="Tile" /></div>\r
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211657.png" alt="Tile" /></div>\r
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211704.png" alt="Tile" /></div>\r
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211854.png" alt="Tile" /></div>\r
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211902.png" alt="Tile" /></div>\r
+\r
+      <!-- Voice Note Mockup -->\r
+      <div class="grid-item grid-item--voice">\r
+        <div class="voice-mock">\r
+          <div class="voice-waveform">\r
+            <span class="wave-bar" style="height: 40%"></span>\r
+            <span class="wave-bar" style="height: 70%"></span>\r
+            <span class="wave-bar" style="height: 55%"></span>\r
+            <span class="wave-bar" style="height: 85%"></span>\r
+            <span class="wave-bar" style="height: 60%"></span>\r
+            <span class="wave-bar" style="height: 45%"></span>\r
+            <span class="wave-bar" style="height: 75%"></span>\r
+            <span class="wave-bar" style="height: 50%"></span>\r
+          </div>\r
+          <div class="voice-duration">0:42</div>\r
+        </div>\r
+      </div>\r
+\r
+      <!-- Poetry/Text Mockup -->\r
+      <div class="grid-item grid-item--text">\r
+        <div class="text-mock">\r
+          <p class="text-content">"Sometimes I think about how we're all just looking for someone who gets the quiet parts."</p>\r
+        </div>\r
+      </div>\r
+\r
+      <!-- Music Player Mockup -->\r
+      <div class="grid-item grid-item--music">\r
+        <div class="music-mock">\r
+          <div class="music-art">\u266A</div>\r
+          <div class="music-info">\r
+            <div class="music-title">Midnight Rain</div>\r
+            <div class="music-artist">Current mood</div>\r
+          </div>\r
+          <div class="music-progress">\r
+            <div class="progress-bar" style="width: 65%"></div>\r
+          </div>\r
+        </div>\r
+        </div>\r
+      </div>\r
+    </div>\r
+    </div>\r
+  </section>\r
+\r
+  <!-- SECTION 9: FINAL CTA -->\r
+  <section class="final-cta">\r
+    <div class="container">\r
+      <h2 class="cta-header">Five people. One honest question. Starting in Hyderabad.</h2>\r
+      <p class="cta-subtext">The first circle is small on purpose. One city. Women first. Every member chosen.</p>\r
+\r
+      <form class="reg-form" *ngIf="!submitted" (ngSubmit)="onSubmitRegistration()">\r
+        <div class="form-row">\r
+          <div class="form-field">\r
+            <label>Name</label>\r
+            <input type="text" [(ngModel)]="registration.name" name="name" required placeholder="Your name" />\r
+          </div>\r
+          <div class="form-field form-field--small">\r
+            <label>Age</label>\r
+            <input type="number" [(ngModel)]="registration.age" name="age" required placeholder="26" min="18" max="99" />\r
+          </div>\r
+        </div>\r
+\r
+        <div class="form-row">\r
+          <div class="form-field">\r
+            <label>Gender</label>\r
+            <select [(ngModel)]="registration.gender" name="gender" required>\r
+              <option value="" disabled selected>Select</option>\r
+              <option value="woman">Woman</option>\r
+              <option value="man">Man</option>\r
+              <option value="non-binary">Non-binary</option>\r
+            </select>\r
+          </div>\r
+          <div class="form-field">\r
+            <label>Location</label>\r
+            <input type="text" [(ngModel)]="registration.location" name="location" required placeholder="Hyderabad, Gachibowli..." />\r
+          </div>\r
+        </div>\r
+\r
+        <div class="form-field">\r
+          <label>Email</label>\r
+          <input type="email" [(ngModel)]="registration.email" name="email" required placeholder="you@example.com" />\r
+        </div>\r
+\r
+        <button type="submit" class="cta-primary cta-large">Claim your place</button>\r
+        <p class="cta-under">Free for founding members. Hyderabad only, for now.</p>\r
+      </form>\r
+\r
+      <div class="reg-success" *ngIf="submitted">\r
+        <div class="success-icon">\u2713</div>\r
+        <h3>You're on the list</h3>\r
+        <p>We'll reach out when we're ready.</p>\r
+      </div>\r
+    </div>\r
+  </section>\r
+\r
+  <!-- SECTION 10: ABOUT CAROUSEL (Women, Founder, Security) -->\r
+  <section class="about-section">\r
+    <div class="about-carousel">\r
+      <div class="about-track">\r
+\r
+        <!-- Slide 1: Women First -->\r
+        <div class="about-slide">\r
+          <div class="slide-content">\r
+            <h2 class="slide-header">Built for women first. Not as a tagline. As the actual launch plan.</h2>\r
+            <div class="slide-text">\r
+              <p>Woven opens to women before anyone else. You build the room. Men can only apply \u2014 verified, waitlisted, and let in when the balance is right.</p>\r
+              <p>And once they're in, how they behave decides what they get. Men who reply, show up honestly, and end conversations with respect earn their place. Men who don't, lose it.</p>\r
+              <p class="slide-highlight">You don't join Woven. You get chosen.</p>\r
+            </div>\r
+          </div>\r
+        </div>\r
+\r
+        <!-- Slide 2: Who Built It -->\r
+        <div class="about-slide">\r
+          <div class="slide-content">\r
+            <h2 class="slide-header">Built by one person who was tired of it too.</h2>\r
+            <div class="slide-text">\r
+              <p>Woven was built by a solo engineer who spent too many years on dating apps that led nowhere.</p>\r
+              <p>No boardroom. No growth team optimizing your loneliness for ad revenue. Twelve days of building, one belief:</p>\r
+              <p class="slide-quote">"A dating app that works is one you eventually delete. Because it worked."</p>\r
+            </div>\r
+          </div>\r
+        </div>\r
+\r
+        <!-- Slide 3: Security & Trust -->\r
+        <div class="about-slide">\r
+          <div class="slide-content">\r
+            <h2 class="slide-header">Your privacy. Your safety. No compromise.</h2>\r
+            <div class="slide-text">\r
+              <p>Your profile stays invisible to your contacts. Your exits are always graceful. And you never have to explain yourself to leave.</p>\r
+              <p>On Woven, being decent isn't a bio claim. It's tracked, and it's worth something. Bad behavior gets you removed. Good behavior earns trust.</p>\r
+              <p class="slide-highlight">Safe by design. Not as a feature, as the foundation.</p>\r
+            </div>\r
+          </div>\r
+        </div>\r
+\r
+        <!-- Slide 4: Onboarding -->\r
+        <div class="about-slide">\r
+          <div class="slide-content">\r
+            <h2 class="slide-header">Onboarding that earns your effort.</h2>\r
+            <div class="slide-text">\r
+              <p>Google OAuth \u2192 basics \u2192 intent \u2192 preferences \u2192 photos \u2192 bio \u2192 foundational questions. Intent comes first \u2014 the "this app is different" moment happens before we ask for work.</p>\r
+              <p>Your photos become polaroids as you upload. Questions are scenario-based, not homework. Progress visible every screen.</p>\r
+              <p class="slide-highlight">Onboarding ends by delivering your first deck immediately. The reward is people, not a success screen.</p>\r
+            </div>\r
+          </div>\r
+        </div>\r
+\r
+        <!-- Slide 5: Three Rhythms -->\r
+        <div class="about-slide">\r
+          <div class="slide-content">\r
+            <h2 class="slide-header">Three clocks. One living profile.</h2>\r
+            <div class="slide-text">\r
+              <p><strong>Foundational</strong> (seasonal) \u2014 deep questions that build your 8-pillar vector. Refreshed every 45\u201360 days. <strong>Weekly Pulse</strong> \u2014 battery, tone, role. 30 seconds. <strong>Daily Pulse</strong> \u2014 how you're feeling today, before the deck loads.</p>\r
+              <p>Your profile isn't a photo of who you were at signup. It evolves.</p>\r
+              <p class="slide-highlight">Foundational = who you are. Weekly = where you are. Daily = how you are today.</p>\r
+            </div>\r
+          </div>\r
+        </div>\r
+\r
+        <!-- Slide 6: Notifications -->\r
+        <div class="about-slide">\r
+          <div class="slide-content">\r
+            <h2 class="slide-header">The bell is a direct action, not a list.</h2>\r
+            <div class="slide-text">\r
+              <p>Tap the bell \u2192 straight into what needs you. No notification drawer. Weekly digest card shows your week at a glance. Insights page surfaces patterns you're living but can't see.</p>\r
+              <p>Opinion prompts ask what you think about how the app is working. Your feedback shapes what we build next.</p>\r
+              <p class="slide-highlight">Built for you, not at you.</p>\r
+            </div>\r
+          </div>\r
+        </div>\r
+\r
+      </div>\r
+      <div class="carousel-dots">\r
+        <span class="dot"></span>\r
+        <span class="dot"></span>\r
+        <span class="dot"></span>\r
+        <span class="dot"></span>\r
+        <span class="dot"></span>\r
+        <span class="dot"></span>\r
+      </div>\r
+    </div>\r
+  </section>\r
+\r
+  <!-- Footer -->\r
+  <footer class="footer">\r
+    <div class="container">\r
+      <div class="footer-brand">\r
+        <h3 class="logo">Woven</h3>\r
+        <p class="tagline">Energy. Intention. Chemistry.</p>\r
+      </div>\r
+      <div class="footer-bottom">\r
+        <p>Built in Hyderabad \xB7 hello@wooven.me</p>\r
+      </div>\r
+    </div>\r
+  </footer>\r
+\r
+</div>\r
 `, styles: ['@charset "UTF-8";\n\n/* src/app/pages/landing-simple/landing-simple.component.scss */\n:host {\n  display: block;\n  position: relative;\n  min-height: 100vh;\n  color: var(--text-primary);\n  font-family: "DM Sans", sans-serif;\n  overflow-x: hidden;\n}\n.landing {\n  position: relative;\n  z-index: 1;\n}\n.intro {\n  position: fixed;\n  inset: 0;\n  z-index: 100;\n  background: #1A0F1E;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.intro-video {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  min-width: 100%;\n  min-height: 100%;\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  object-position: center center;\n}\n.tap-to-play {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  z-index: 10;\n  cursor: pointer;\n  border: 2px solid rgba(255, 255, 255, 0.3);\n  background: rgba(26, 15, 30, 0.85);\n  -webkit-backdrop-filter: blur(16px);\n  backdrop-filter: blur(16px);\n  color: rgba(255, 230, 242, 0.95);\n  padding: 20px 40px;\n  border-radius: 9999px;\n  font-family: "DM Sans", sans-serif;\n  font-size: 16px;\n  font-weight: 600;\n  letter-spacing: 0.06em;\n  animation: tapPulse 2s ease infinite;\n  text-align: center;\n}\n@media (max-width: 768px) {\n  .tap-to-play {\n    font-size: 14px;\n    padding: 16px 32px;\n  }\n}\n@keyframes tapPulse {\n  0%, 100% {\n    opacity: 0.85;\n    transform: translate(-50%, -50%) scale(1);\n  }\n  50% {\n    opacity: 1;\n    transform: translate(-50%, -50%) scale(1.05);\n  }\n}\n.skip-btn {\n  position: absolute;\n  bottom: 40px;\n  left: 50%;\n  transform: translateX(-50%);\n  z-index: 10;\n  cursor: pointer;\n  border: 1px solid rgba(255, 255, 255, 0.18);\n  background: rgba(26, 15, 30, 0.72);\n  -webkit-backdrop-filter: blur(12px);\n  backdrop-filter: blur(12px);\n  color: rgba(255, 215, 235, 0.55);\n  padding: 10px 24px;\n  border-radius: 9999px;\n  font-family: "DM Sans", sans-serif;\n  font-size: 12px;\n  font-weight: 600;\n  letter-spacing: 0.08em;\n  opacity: 0;\n  animation: skipFadeIn 0.5s ease 1.5s forwards;\n  transition: all 0.2s ease;\n}\n.skip-btn:hover {\n  color: rgba(255, 230, 242, 0.85);\n  border-color: rgba(255, 255, 255, 0.32);\n  background: rgba(26, 15, 30, 0.92);\n}\n@keyframes skipFadeIn {\n  to {\n    opacity: 1;\n  }\n}\n.landing {\n  position: relative;\n  z-index: 1;\n}\n.container {\n  width: 100%;\n  max-width: 1400px;\n  margin: 0 auto;\n  padding: 0 60px;\n}\n@media (max-width: 768px) {\n  .container {\n    padding: 0 20px;\n  }\n}\n@media (prefers-reduced-motion: reduce) {\n  .landing {\n    perspective: none;\n  }\n  section,\n  .feature-card,\n  .state-card,\n  .cta-primary {\n    transform: none !important;\n  }\n  .starwars-scroll {\n    transform: none !important;\n    opacity: 1 !important;\n  }\n}\n.hero {\n  min-height: 100vh;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  text-align: center;\n  padding: 100px 40px 0;\n  position: relative;\n  z-index: 2;\n  overflow: hidden;\n}\n.hero::after {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  width: 100vw;\n  margin-left: calc(-50vw + 50%);\n  background-image: url(/landing-photos/hero/hero\\ new.png);\n  background-size: cover;\n  background-position: center center;\n  opacity: 0.35;\n  z-index: -1;\n}\n.logo {\n  font-family: var(--font-display);\n  font-size: var(--text-5xl);\n  font-weight: 300;\n  letter-spacing: -2px;\n  margin: 0 0 20px 0;\n  background:\n    linear-gradient(\n      135deg,\n      var(--gold-300) 0%,\n      var(--text-primary) 45%,\n      var(--rose-300) 100%);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  background-clip: text;\n}\n.tagline {\n  font-size: var(--text-sm);\n  color: var(--text-muted);\n  letter-spacing: 0.1em;\n  text-transform: uppercase;\n  margin: 0 0 60px 0;\n}\n.hero-content {\n  max-width: 800px;\n  margin-bottom: 80px;\n  animation: fadeInUp 0.8s ease;\n}\n@keyframes fadeInUp {\n  from {\n    opacity: 0;\n    transform: translateY(30px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n.hero-headline {\n  font-family: "Fraunces", serif;\n  font-size: clamp(36px, 6vw, 56px);\n  font-weight: 400;\n  line-height: 1.2;\n  margin: 0 0 32px 0;\n  color: var(--text-primary);\n}\n.hero-subheadline {\n  font-size: 18px;\n  line-height: 1.7;\n  color: var(--text-secondary);\n  margin: 0 0 48px 0;\n}\n.cta-primary {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  padding: 20px 48px;\n  border-radius: 9999px;\n  background:\n    linear-gradient(\n      135deg,\n      var(--rose-400) 0%,\n      var(--plum-400) 100%);\n  color: var(--text-primary);\n  font-family: "DM Sans", sans-serif;\n  font-size: 16px;\n  font-weight: 600;\n  letter-spacing: 0.04em;\n  border: none;\n  cursor: pointer;\n  transform-style: preserve-3d;\n  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);\n  box-shadow: 0 8px 32px rgba(192, 57, 43, 0.4);\n  text-decoration: none;\n}\n.cta-primary:hover {\n  transform: translateY(-4px) translateZ(12px);\n  box-shadow: 0 16px 48px rgba(192, 57, 43, 0.6), 0 4px 12px rgba(0, 0, 0, 0.3);\n}\n.cta-primary:active {\n  transform: translateY(-1px) translateZ(-2px);\n  box-shadow: 0 6px 24px rgba(192, 57, 43, 0.4);\n}\n.cta-primary.cta-large {\n  padding: 24px 56px;\n  font-size: 18px;\n  margin-top: 32px;\n}\n.cta-under {\n  font-size: 13px;\n  color: var(--text-muted);\n  margin-top: 16px;\n}\n.hero-visual {\n  display: none;\n}\n@keyframes fadeIn {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n.section-header {\n  font-family: "Fraunces", serif;\n  font-size: clamp(32px, 5vw, 48px);\n  font-weight: 400;\n  line-height: 1.25;\n  color: var(--text-primary);\n  margin: 0 0 32px 0;\n  text-align: center;\n}\n.section-intro,\n.section-text {\n  font-size: 18px;\n  line-height: 1.8;\n  color: var(--text-secondary);\n  max-width: 700px;\n  margin: 0 auto;\n}\n.section-intro p,\n.section-text p {\n  margin: 0 0 20px 0;\n}\n.section-intro p:last-child,\n.section-text p:last-child {\n  margin-bottom: 0;\n}\n.section-intro .highlight,\n.section-text .highlight {\n  font-size: 20px;\n  color: var(--text-primary);\n  font-weight: 600;\n  margin-top: 28px;\n}\n.section-footer {\n  text-align: center;\n  font-size: 18px;\n  line-height: 1.8;\n  color: var(--text-secondary);\n  max-width: 700px;\n  margin: 32px auto 0;\n}\n.section-footer-em {\n  font-style: italic;\n  color: var(--gold-400);\n  margin-top: 16px;\n}\n.problem-section {\n  padding: 40px 0;\n  position: relative;\n  z-index: 2;\n}\n.problem-section .problem-text {\n  max-width: 700px;\n  margin: 0 auto 60px;\n  font-size: 18px;\n  line-height: 1.8;\n  color: var(--text-secondary);\n}\n.problem-section .problem-text p {\n  margin: 0 0 28px 0;\n}\n.problem-section .problem-text .reveal-line {\n  font-size: 24px;\n  font-weight: 600;\n  color: var(--gold-400);\n  text-align: center;\n  margin-top: 40px;\n}\n.problem-visual {\n  max-width: 900px;\n  margin: 0 auto;\n}\n.problem-visual .section-video {\n  width: 100%;\n  border-radius: 20px;\n  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);\n}\n.moments-section {\n  padding: 40px 0;\n  position: relative;\n  z-index: 2;\n  overflow: hidden;\n}\n.moments-section::after {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  width: 100vw;\n  margin-left: calc(-50vw + 50%);\n  background-image: url(/landing-photos/hero/hero4.png);\n  background-size: cover;\n  background-position: center center;\n  opacity: 0.2;\n  z-index: -1;\n}\n.polaroid-carousel {\n  min-height: 120vh;\n  position: relative;\n  perspective: 2500px;\n  perspective-origin: center center;\n  overflow: hidden;\n}\n.carousel-track {\n  display: flex;\n  align-items: center;\n  gap: 80px;\n  padding: 0 calc(50vw - 200px);\n  will-change: transform;\n  cursor: grab;\n}\n.carousel-track:active {\n  cursor: grabbing;\n}\n.polaroid-carousel::before {\n  content: "";\n  position: absolute;\n  bottom: 40px;\n  left: 50%;\n  transform: translateX(-50%);\n  width: 100px;\n  height: 3px;\n  background: rgba(212, 160, 23, 0.2);\n  border-radius: 2px;\n  z-index: 10;\n}\n.polaroid {\n  flex-shrink: 0;\n  width: 360px;\n  background: #ffffff;\n  padding: 18px;\n  padding-bottom: 28px;\n  border-radius: 8px;\n  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);\n  transform-style: preserve-3d;\n  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);\n  will-change: transform, opacity;\n  position: relative;\n}\n.polaroid::before {\n  content: "";\n  position: absolute;\n  inset: -30px;\n  background:\n    radial-gradient(\n      circle,\n      rgba(212, 160, 23, 0) 0%,\n      rgba(212, 160, 23, 0) 100%);\n  border-radius: 16px;\n  z-index: -1;\n  opacity: 0;\n  transition: opacity 0.6s ease;\n}\n.polaroid.center-card::before {\n  background:\n    radial-gradient(\n      circle,\n      rgba(212, 160, 23, 0.4) 0%,\n      rgba(212, 160, 23, 0) 70%);\n  opacity: 1;\n}\n.polaroid-photo {\n  width: 100%;\n  aspect-ratio: 3/4;\n  overflow: hidden;\n  background: #f0f0f0;\n  margin-bottom: 24px;\n  border-radius: 4px;\n}\n.polaroid-photo img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  display: block;\n}\n.polaroid-info {\n  text-align: center;\n}\n.polaroid-name {\n  font-family: "Caveat", cursive;\n  font-size: 28px;\n  color: #1a1a1a;\n  margin: 0 0 20px 0;\n}\n.polaroid-label {\n  font-size: 9px;\n  font-weight: 700;\n  letter-spacing: 0.3em;\n  text-transform: uppercase;\n  color: #d4a017;\n  margin-bottom: 12px;\n}\n.polaroid-explanation {\n  font-family: "Fraunces", serif;\n  font-size: 15px;\n  line-height: 1.55;\n  font-style: italic;\n  color: #444;\n  margin: 0 0 24px 0;\n  padding: 0 12px;\n}\n.polaroid-actions {\n  display: flex;\n  gap: 12px;\n  padding: 0 8px;\n}\n.btn-magical,\n.btn-resonant {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 8px;\n  padding: 12px;\n  border-radius: 8px;\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  border: none;\n  background: transparent;\n  font-family: "DM Sans", sans-serif;\n}\n.btn-magical .icon,\n.btn-resonant .icon {\n  font-size: 20px;\n  filter: drop-shadow(0 0 8px currentColor);\n}\n.btn-magical {\n  color: var(--rose-400);\n}\n.btn-magical:hover {\n  transform: translateY(-2px);\n}\n.btn-magical:hover .icon {\n  filter: drop-shadow(0 0 12px currentColor);\n}\n.btn-resonant {\n  color: var(--plum-400);\n}\n.btn-resonant:hover {\n  transform: translateY(-2px);\n}\n.btn-resonant:hover .icon {\n  filter: drop-shadow(0 0 12px currentColor);\n}\n.choice-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 60px;\n  max-width: 900px;\n  margin: 0 auto;\n  padding: 24px 20px;\n}\n@media (max-width: 768px) {\n  .choice-container {\n    flex-direction: column;\n    gap: 32px;\n  }\n}\n.choice-side {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 12px;\n}\n.choice-symbol {\n  font-size: 64px;\n  filter: drop-shadow(0 0 16px currentColor);\n}\n.choice-symbol.magical-symbol {\n  color: var(--rose-400);\n}\n.choice-symbol.resonant-symbol {\n  color: var(--plum-400);\n}\n.choice-label {\n  font-size: 14px;\n  font-weight: 600;\n  color: var(--text-secondary);\n  text-transform: uppercase;\n  letter-spacing: 0.1em;\n}\n.choice-center {\n  flex: 1;\n  text-align: center;\n}\n.choice-center .choice-rule {\n  font-size: 15px;\n  line-height: 1.5;\n  color: var(--text-secondary);\n  margin: 0 0 12px 0;\n}\n.choice-center .choice-end {\n  font-size: 14px;\n  font-style: italic;\n  color: var(--gold-400);\n  margin: 0;\n}\n.text-section {\n  padding: 40px 0;\n  position: relative;\n  z-index: 2;\n}\n.text-section.accent-section {\n  background: rgba(127, 119, 221, 0.03);\n}\n.chat-note-section .chat-note-container {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 80px;\n  align-items: start;\n  max-width: 1200px;\n}\n@media (max-width: 968px) {\n  .chat-note-section .chat-note-container {\n    grid-template-columns: 1fr;\n    gap: 60px;\n  }\n}\n.chat-note-section .chat-note-text .section-header {\n  text-align: left;\n}\n.balloon-section .section-header {\n  text-align: center;\n  margin-bottom: 24px;\n}\n.balloon-section .section-text.centered {\n  max-width: 900px;\n  margin: 0 auto 48px;\n  text-align: center;\n}\n.balloon-section .section-text.centered p {\n  font-size: 15px;\n  line-height: 1.7;\n  color: var(--text-secondary);\n  margin-bottom: 16px;\n}\n.balloon-section .section-text.centered p:last-child {\n  margin-bottom: 0;\n}\n.balloon-states-grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 32px;\n  max-width: 1100px;\n  margin: 48px auto;\n  padding: 0 20px;\n}\n@media (max-width: 968px) {\n  .balloon-states-grid {\n    grid-template-columns: 1fr;\n    gap: 24px;\n  }\n}\n.state-card {\n  background: rgba(22, 13, 28, 0.6);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 16px;\n  padding: 24px;\n  transition: all 0.3s ease;\n  transform: scale(0.92);\n  transform-style: preserve-3d;\n}\n.state-card:hover {\n  transform: scale(1) translateZ(15px) rotateX(2deg);\n  border-color: var(--gold-400);\n  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);\n}\n.state-card .state-label {\n  font-size: 10px;\n  font-weight: 700;\n  text-transform: uppercase;\n  letter-spacing: 0.15em;\n  color: var(--gold-400);\n  margin-bottom: 16px;\n  text-align: center;\n}\n.state-card .state-content {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 12px;\n  min-height: 120px;\n  justify-content: center;\n}\n.state-card .state-icon {\n  font-size: 40px;\n  color: var(--gold-400);\n}\n.state-card .state-icon.pulse {\n  animation: pulse 1.5s ease-in-out infinite;\n}\n.state-card .state-desc {\n  font-size: 13px;\n  color: var(--text-secondary);\n  text-align: center;\n}\n.state-card .state-title {\n  font-size: 16px;\n  font-weight: 500;\n  color: var(--text-primary);\n  margin-bottom: 8px;\n}\n.state-card .state-action {\n  padding: 8px 20px;\n  background: var(--rose-400);\n  border: none;\n  border-radius: 8px;\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--text-primary);\n  cursor: pointer;\n}\n.state-card .state-choices {\n  display: flex;\n  gap: 10px;\n  width: 100%;\n}\n.state-card .state-choices .choice-btn {\n  flex: 1;\n  padding: 10px;\n  background: rgba(127, 119, 221, 0.2);\n  border: 1px solid var(--plum-400);\n  border-radius: 8px;\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--text-primary);\n  cursor: pointer;\n}\n.chat-note-demo {\n  display: flex;\n  flex-direction: column;\n  gap: 32px;\n}\n.chat-note-demo .demo-label {\n  font-size: 10px;\n  font-weight: 700;\n  letter-spacing: 0.3em;\n  text-transform: uppercase;\n  color: var(--gold-400);\n  text-align: center;\n  margin-bottom: 8px;\n}\n.demo-state .state-label {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--text-secondary);\n  margin-bottom: 12px;\n  text-align: center;\n}\n.note-modal {\n  background: rgba(22, 13, 28, 0.95);\n  border: 1px solid rgba(212, 160, 23, 0.3);\n  border-radius: 20px;\n  padding: 24px;\n  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);\n  transform-style: preserve-3d;\n  transition: transform 0.4s ease;\n}\n.note-modal:hover {\n  transform: translateZ(20px) rotateY(2deg);\n}\n.note-modal .modal-header {\n  font-family: "Fraunces", serif;\n  font-size: 18px;\n  font-weight: 500;\n  color: var(--text-primary);\n  margin-bottom: 16px;\n}\n.note-modal .note-input {\n  width: 100%;\n  min-height: 100px;\n  background: rgba(255, 255, 255, 0.05);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 12px;\n  padding: 16px;\n  font-family: "Caveat", cursive;\n  font-size: 18px;\n  color: var(--text-primary);\n  resize: none;\n  margin-bottom: 12px;\n}\n.note-modal .note-input::placeholder {\n  color: var(--text-muted);\n  opacity: 0.5;\n}\n.note-modal .note-input:focus {\n  outline: none;\n  border-color: var(--gold-400);\n}\n.note-modal .char-count {\n  font-size: 12px;\n  color: var(--text-secondary);\n  text-align: right;\n  margin-bottom: 16px;\n}\n.note-modal .modal-submit {\n  width: 100%;\n  padding: 16px;\n  background:\n    linear-gradient(\n      135deg,\n      var(--rose-400) 0%,\n      var(--plum-400) 100%);\n  color: var(--text-primary);\n  font-size: 14px;\n  font-weight: 600;\n  border: none;\n  border-radius: 12px;\n  cursor: pointer;\n  transition: transform 0.2s;\n}\n.note-modal .modal-submit:hover {\n  transform: translateY(-2px);\n}\n.note-sealed {\n  background: rgba(22, 13, 28, 0.8);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 16px;\n  padding: 32px;\n  text-align: center;\n}\n.note-sealed .sealed-icon {\n  font-size: 32px;\n  margin-bottom: 16px;\n}\n.note-sealed .sealed-text {\n  font-size: 15px;\n  color: var(--text-primary);\n}\n.note-sealed .sealed-text span {\n  display: block;\n  font-size: 13px;\n  color: var(--text-secondary);\n  margin-top: 8px;\n}\n.chat-notes-pinned {\n  background: rgba(22, 13, 28, 0.8);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 16px;\n  padding: 20px;\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n  transform-style: preserve-3d;\n  transition: transform 0.4s ease;\n}\n.chat-notes-pinned:hover {\n  transform: translateZ(20px) rotateY(-2deg);\n}\n.chat-notes-pinned .pinned-note {\n  background: rgba(255, 255, 255, 0.03);\n  border-radius: 12px;\n  padding: 16px;\n}\n.chat-notes-pinned .pinned-note.yours {\n  border-left: 3px solid var(--rose-400);\n}\n.chat-notes-pinned .pinned-note.theirs {\n  border-left: 3px solid var(--plum-400);\n}\n.chat-notes-pinned .pinned-note .note-label {\n  font-size: 10px;\n  font-weight: 700;\n  text-transform: uppercase;\n  letter-spacing: 0.1em;\n  color: var(--text-secondary);\n  margin-bottom: 8px;\n}\n.chat-notes-pinned .pinned-note .note-text {\n  font-family: "Caveat", cursive;\n  font-size: 16px;\n  line-height: 1.5;\n  color: var(--text-primary);\n}\n.echo-section {\n  padding: 80px 0;\n  position: relative;\n  z-index: 2;\n  text-align: center;\n  overflow: hidden;\n}\n.echo-section::after {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  width: 100vw;\n  margin-left: calc(-50vw + 50%);\n  background-image: url(/landing-photos/hero/hero2.png);\n  background-size: cover;\n  background-position: center center;\n  opacity: 0.2;\n  z-index: -1;\n}\n.echo-text {\n  font-size: 18px;\n  line-height: 1.8;\n  color: var(--text-secondary);\n  max-width: 800px;\n  margin: 60px auto;\n  text-align: left;\n  position: relative;\n  z-index: 2;\n}\n.echo-text p {\n  margin: 0 0 28px 0;\n}\n.echo-text p:last-child {\n  margin-bottom: 0;\n}\n.echo-text .highlight {\n  font-size: 20px;\n  color: var(--text-primary);\n  font-weight: 600;\n  margin-top: 40px;\n  text-align: center;\n}\n.commons-section {\n  padding: 80px 0;\n  position: relative;\n  z-index: 2;\n}\n.commons-container {\n  display: grid;\n  grid-template-columns: 1fr 1.5fr;\n  gap: 80px;\n  align-items: start;\n  max-width: 1400px;\n  margin: 0 auto;\n  padding: 0 40px;\n}\n@media (max-width: 968px) {\n  .commons-container {\n    grid-template-columns: 1fr;\n    gap: 60px;\n  }\n}\n.commons-text .section-header {\n  text-align: left;\n}\n.commons-grid-wrapper {\n  overflow: hidden;\n}\n.commons-grid {\n  display: grid;\n  grid-template-columns: repeat(5, 1fr);\n  gap: 16px;\n}\n@media (max-width: 968px) {\n  .commons-grid {\n    grid-template-columns: repeat(3, 1fr);\n  }\n}\n@media (max-width: 640px) {\n  .commons-grid {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}\n.commons-grid .grid-item {\n  border-radius: 16px;\n  overflow: hidden;\n  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);\n  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);\n  background: rgba(22, 13, 28, 0.7);\n  position: relative;\n  cursor: pointer;\n}\n.commons-grid .grid-item:hover {\n  transform: translateY(-6px) scale(1.02);\n  box-shadow: 0 20px 60px rgba(212, 160, 23, 0.35);\n  z-index: 10;\n}\n.commons-grid .grid-item img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  display: block;\n}\n.commons-grid .grid-item::after {\n  content: "\\25c8  Orbit";\n  position: absolute;\n  bottom: 12px;\n  right: 12px;\n  padding: 8px 16px;\n  background: rgba(212, 160, 23, 0.9);\n  color: #1a1a1a;\n  font-size: 11px;\n  font-weight: 700;\n  text-transform: uppercase;\n  letter-spacing: 0.08em;\n  border-radius: 20px;\n  opacity: 0;\n  transform: translateY(10px);\n  transition: all 0.3s ease;\n  pointer-events: none;\n}\n.commons-grid .grid-item:hover::after {\n  opacity: 1;\n  transform: translateY(0);\n}\n.commons-grid .grid-item--large {\n  grid-column: span 2;\n  grid-row: span 2;\n}\n.commons-grid .grid-item--wide {\n  grid-column: span 2;\n  grid-row: span 1;\n}\n.commons-grid .grid-item--tall {\n  grid-column: span 1;\n  grid-row: span 2;\n}\n.grid-item--voice {\n  background:\n    linear-gradient(\n      135deg,\n      rgba(192, 57, 43, 0.2),\n      rgba(127, 119, 221, 0.2));\n}\n.voice-mock {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  gap: 16px;\n  padding: 20px;\n}\n.voice-mock .voice-waveform {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: 4px;\n  height: 60px;\n}\n.voice-mock .voice-waveform .wave-bar {\n  width: 4px;\n  background: var(--text-primary);\n  border-radius: 2px;\n  opacity: 0.7;\n}\n.voice-mock .voice-duration {\n  font-size: 14px;\n  color: var(--text-secondary);\n}\n.grid-item--text {\n  background: rgba(212, 160, 23, 0.1);\n  grid-column: span 2;\n}\n.text-mock {\n  height: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: 32px;\n}\n.text-mock .text-content {\n  font-family: "Fraunces", serif;\n  font-size: 18px;\n  line-height: 1.6;\n  font-style: italic;\n  color: var(--text-primary);\n  text-align: center;\n  margin: 0;\n}\n.grid-item--music {\n  background:\n    linear-gradient(\n      135deg,\n      rgba(127, 119, 221, 0.2),\n      rgba(22, 13, 28, 0.9));\n}\n.music-mock {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  padding: 20px;\n  gap: 12px;\n}\n.music-mock .music-art {\n  font-size: 48px;\n  text-align: center;\n  color: var(--plum-300);\n  margin-bottom: 8px;\n}\n.music-mock .music-info .music-title {\n  font-size: 15px;\n  font-weight: 600;\n  color: var(--text-primary);\n  margin-bottom: 4px;\n}\n.music-mock .music-info .music-artist {\n  font-size: 12px;\n  color: var(--text-secondary);\n}\n.music-mock .music-progress {\n  height: 3px;\n  background: rgba(255, 255, 255, 0.1);\n  border-radius: 2px;\n  margin-top: 8px;\n}\n.music-mock .music-progress .progress-bar {\n  height: 100%;\n  background: var(--plum-400);\n  border-radius: 2px;\n}\n.founder-section {\n  padding: 80px 0;\n  position: relative;\n  z-index: 2;\n  text-align: center;\n}\n.founder-text {\n  font-size: 18px;\n  line-height: 1.8;\n  color: var(--text-secondary);\n  max-width: 700px;\n  margin: 0 auto 40px;\n}\n.founder-quote {\n  font-family: "Fraunces", serif;\n  font-size: 24px;\n  font-style: italic;\n  color: var(--gold-400);\n  max-width: 600px;\n  margin: 0 auto;\n}\n.final-cta {\n  padding: 80px 0;\n  position: relative;\n  z-index: 2;\n  text-align: center;\n}\n.cta-header {\n  font-family: "Fraunces", serif;\n  font-size: clamp(36px, 5vw, 52px);\n  font-weight: 400;\n  line-height: 1.25;\n  color: var(--text-primary);\n  margin: 0 0 24px 0;\n}\n.cta-subtext {\n  font-size: 18px;\n  color: var(--text-secondary);\n  margin: 0 0 60px 0;\n}\n.reg-form {\n  max-width: 600px;\n  margin: 0 auto;\n}\n.form-row {\n  display: flex;\n  gap: 20px;\n  margin-bottom: 20px;\n}\n@media (max-width: 560px) {\n  .form-row {\n    flex-direction: column;\n  }\n}\n.form-field {\n  flex: 1;\n  text-align: left;\n}\n.form-field--small {\n  flex: 0 0 120px;\n}\n.form-field label {\n  display: block;\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--text-secondary);\n  margin-bottom: 8px;\n}\n.form-field input,\n.form-field select {\n  width: 100%;\n  padding: 16px 20px;\n  background: rgba(22, 13, 28, 0.8);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 12px;\n  font-family: "DM Sans", sans-serif;\n  font-size: 16px;\n  color: var(--text-primary);\n  transition: all 0.3s ease;\n}\n.form-field input:focus,\n.form-field select:focus {\n  outline: none;\n  border-color: var(--gold-400);\n  box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.1);\n}\n.form-field input::placeholder,\n.form-field select::placeholder {\n  color: var(--text-muted);\n}\n.form-field select {\n  cursor: pointer;\n}\n.reg-success {\n  padding: 60px 0;\n}\n.reg-success .success-icon {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 100px;\n  height: 100px;\n  border-radius: 50%;\n  background: rgba(127, 119, 221, 0.15);\n  border: 2px solid var(--plum-400);\n  font-size: 56px;\n  color: var(--plum-400);\n  margin-bottom: 32px;\n}\n.reg-success h3 {\n  font-family: "Fraunces", serif;\n  font-size: 32px;\n  font-weight: 500;\n  color: var(--text-primary);\n  margin: 0 0 16px 0;\n}\n.reg-success p {\n  font-size: 18px;\n  color: var(--text-secondary);\n  margin: 0;\n}\n.demo-ui {\n  background: rgba(22, 13, 28, 0.6);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 16px;\n  padding: 20px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);\n}\n.demo-ui .demo-label {\n  font-size: 10px;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.1em;\n  color: var(--text-secondary);\n  margin-bottom: 12px;\n  text-align: center;\n}\n.balloon-state-mock {\n  min-height: 140px;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  gap: 12px;\n}\n.balloon-state-mock.warming .balloon-icon-mock.vibrant {\n  opacity: 1;\n  animation: float 3s ease-in-out infinite;\n}\n.balloon-state-mock.gated .balloon-icon-mock.pulsing {\n  animation: pulse 1.5s ease-in-out infinite;\n}\n.balloon-state-mock.reflection {\n  background: rgba(0, 0, 0, 0.2);\n  border-radius: 12px;\n  padding: 20px;\n}\n.balloon-header-mock {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  width: 100%;\n  justify-content: space-between;\n}\n.balloon-header-mock .balloon-icon-mock {\n  font-size: 20px;\n  color: var(--gold-400);\n}\n.balloon-header-mock .balloon-name-mock {\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--text-primary);\n  flex: 1;\n}\n.balloon-header-mock .header-pop-btn-mock {\n  padding: 6px 12px;\n  background: var(--rose-400);\n  color: var(--text-primary);\n  border: none;\n  border-radius: 6px;\n  font-size: 11px;\n  font-weight: 600;\n  cursor: pointer;\n}\n.balloon-prompt-mock {\n  font-size: 12px;\n  color: var(--text-secondary);\n  font-style: italic;\n  text-align: center;\n  margin-top: 8px;\n}\n.breathing-ring-mock {\n  width: 40px;\n  height: 40px;\n  border: 3px solid var(--gold-400);\n  border-radius: 50%;\n  opacity: 0.6;\n  animation: breathe 2s ease-in-out infinite;\n}\n.reflection-text-mock {\n  font-size: 16px;\n  font-weight: 500;\n  color: var(--text-primary);\n  margin-bottom: 12px;\n}\n.reflection-ring-mock {\n  width: 60px;\n  height: 60px;\n  margin-bottom: 16px;\n  position: relative;\n}\n.reflection-ring-mock::before {\n  content: "";\n  position: absolute;\n  inset: 0;\n  border: 4px solid rgba(212, 160, 23, 0.2);\n  border-radius: 50%;\n}\n.reflection-ring-mock .ring-progress-mock {\n  width: 100%;\n  height: 100%;\n  border: 4px solid var(--gold-400);\n  border-radius: 50%;\n  opacity: 0.7;\n}\n@keyframes float {\n  0%, 100% {\n    transform: translateY(0);\n  }\n  50% {\n    transform: translateY(-4px);\n  }\n}\n@keyframes pulse {\n  0%, 100% {\n    opacity: 1;\n    transform: scale(1);\n  }\n  50% {\n    opacity: 0.7;\n    transform: scale(0.95);\n  }\n}\n@keyframes breathe {\n  0%, 100% {\n    transform: scale(1);\n    opacity: 0.6;\n  }\n  50% {\n    transform: scale(1.1);\n    opacity: 0.8;\n  }\n}\n.timer-banner-mock {\n  background: rgba(127, 119, 221, 0.12);\n  border: 1px solid rgba(127, 119, 221, 0.3);\n  border-radius: 12px;\n  padding: 12px;\n}\n.timer-banner-mock .timer-content-mock {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 8px;\n}\n.timer-banner-mock .timer-label-mock {\n  font-size: 11px;\n  font-weight: 600;\n  text-transform: uppercase;\n  color: var(--plum-300);\n}\n.timer-banner-mock .timer-countdown-mock {\n  font-size: 16px;\n  font-weight: 700;\n  color: var(--text-primary);\n}\n.timer-banner-mock .timer-bar-mock {\n  height: 4px;\n  background: rgba(127, 119, 221, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.timer-banner-mock .timer-bar-mock .timer-fill-mock {\n  height: 100%;\n  background: var(--plum-400);\n  border-radius: 2px;\n}\n.stage-bar-mock {\n  background: rgba(22, 13, 28, 0.8);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 12px;\n  padding: 12px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.stage-bar-mock .stage-pill-mock {\n  display: flex;\n  align-items: center;\n  gap: 8px;\n  padding: 8px 12px;\n  background: rgba(212, 160, 23, 0.15);\n  border-radius: 20px;\n}\n.stage-bar-mock .stage-pill-mock .stage-icon-mock {\n  font-size: 14px;\n  color: var(--gold-400);\n}\n.stage-bar-mock .stage-pill-mock .stage-text-mock {\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--text-primary);\n}\n.stage-bar-mock .pop-btn-mock {\n  padding: 8px 16px;\n  background: var(--rose-400);\n  color: var(--text-primary);\n  border: none;\n  border-radius: 8px;\n  font-size: 12px;\n  font-weight: 600;\n  cursor: pointer;\n}\n.decision-card-mock {\n  background: rgba(22, 13, 28, 0.9);\n  border: 1px solid rgba(212, 160, 23, 0.3);\n  border-radius: 12px;\n  padding: 20px;\n  text-align: center;\n}\n.decision-card-mock .decision-question-mock {\n  font-size: 15px;\n  font-weight: 500;\n  color: var(--text-primary);\n  margin-bottom: 16px;\n}\n.decision-card-mock .decision-buttons-mock {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n}\n.decision-card-mock .decision-btn-mock {\n  padding: 12px;\n  border: none;\n  border-radius: 8px;\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: transform 0.2s;\n}\n.decision-card-mock .decision-btn-mock.continue {\n  background:\n    linear-gradient(\n      135deg,\n      var(--rose-400),\n      var(--plum-400));\n  color: var(--text-primary);\n}\n.decision-card-mock .decision-btn-mock.end {\n  background: rgba(255, 255, 255, 0.08);\n  color: var(--text-secondary);\n}\n.decision-card-mock .decision-btn-mock.block {\n  background: rgba(192, 57, 43, 0.2);\n  color: var(--rose-400);\n}\n.features-section {\n  position: relative;\n  overflow: hidden;\n}\n.features-section::after {\n  content: "";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  width: 100vw;\n  margin-left: calc(-50vw + 50%);\n  background-image: url(/landing-photos/hero/hero3.png);\n  background-size: cover;\n  background-position: center center;\n  opacity: 0.25;\n  z-index: 0;\n  pointer-events: none;\n}\n.features-section::before {\n  content: "";\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  width: 600px;\n  height: 600px;\n  background:\n    radial-gradient(\n      circle,\n      rgba(127, 119, 221, 0.15) 0%,\n      transparent 70%);\n  pointer-events: none;\n  z-index: 1;\n}\n.features-section .section-text.centered {\n  max-width: 900px;\n  margin: 0 auto 48px;\n  text-align: center;\n  position: relative;\n  z-index: 1;\n}\n.features-section .section-text.centered p {\n  font-size: 15px;\n  line-height: 1.7;\n  color: var(--text-secondary);\n  margin-bottom: 16px;\n}\n.features-section .section-text.centered p:last-child {\n  margin-bottom: 0;\n}\n.features-section .section-text.centered .highlight {\n  color: var(--gold-400);\n  font-weight: 500;\n}\n.features-static-grid {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  gap: 20px;\n  width: 100%;\n  max-width: calc(100vw - 120px);\n  margin: 0 auto;\n  padding: 40px 0;\n  position: relative;\n  z-index: 1;\n}\n@media (max-width: 1200px) {\n  .features-static-grid {\n    grid-template-columns: repeat(2, 1fr);\n    gap: 24px;\n    max-width: calc(100vw - 80px);\n  }\n}\n@media (max-width: 640px) {\n  .features-static-grid {\n    grid-template-columns: 1fr;\n    max-width: calc(100vw - 40px);\n  }\n}\n.feature-card {\n  position: relative;\n  flex-shrink: 0;\n  width: 320px;\n  background: rgba(22, 13, 28, 0.8);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 16px;\n  padding: 20px;\n  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);\n  transform-style: preserve-3d;\n  transition:\n    transform 0.3s ease,\n    box-shadow 0.3s ease,\n    border-color 0.3s ease;\n}\n.feature-card:hover {\n  transform: translateZ(25px) rotateY(3deg) scale(1.02);\n  border-color: var(--plum-400);\n  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(127, 119, 221, 0.3);\n}\n.feature-card .feature-label {\n  font-size: 11px;\n  font-weight: 700;\n  text-transform: uppercase;\n  letter-spacing: 0.1em;\n  color: var(--gold-400);\n  margin-bottom: 16px;\n  text-align: center;\n}\n.game-card-mock .game-header-mock {\n  font-size: 11px;\n  font-weight: 600;\n  color: var(--text-secondary);\n  margin-bottom: 16px;\n  text-align: center;\n}\n.game-card-mock .game-question-mock,\n.game-card-mock .game-scenario-mock {\n  font-family: "Fraunces", serif;\n  font-size: 16px;\n  line-height: 1.5;\n  color: var(--text-primary);\n  margin-bottom: 16px;\n  text-align: center;\n}\n.game-card-mock .game-options-mock {\n  display: flex;\n  flex-direction: column;\n  gap: 8px;\n  margin-bottom: 12px;\n}\n.game-card-mock .game-options-mock .game-option-mock {\n  padding: 12px;\n  background: rgba(255, 255, 255, 0.05);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 8px;\n  color: var(--text-secondary);\n  font-size: 13px;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.game-card-mock .game-options-mock .game-option-mock.selected {\n  background: rgba(127, 119, 221, 0.15);\n  border-color: var(--plum-400);\n  color: var(--text-primary);\n}\n.game-card-mock .flag-buttons-mock {\n  display: flex;\n  gap: 12px;\n}\n.game-card-mock .flag-buttons-mock .flag-btn-mock {\n  flex: 1;\n  padding: 16px;\n  border: none;\n  border-radius: 12px;\n  font-size: 14px;\n  font-weight: 600;\n  cursor: pointer;\n}\n.game-card-mock .flag-buttons-mock .flag-btn-mock.red {\n  background: rgba(192, 57, 43, 0.2);\n  color: var(--rose-400);\n}\n.game-card-mock .flag-buttons-mock .flag-btn-mock.green {\n  background: rgba(46, 204, 113, 0.2);\n  color: #2ecc71;\n}\n.game-card-mock .flag-buttons-grid-mock {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 8px;\n}\n.game-card-mock .flag-buttons-grid-mock .flag-btn-mock {\n  padding: 12px;\n  border: none;\n  border-radius: 10px;\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.game-card-mock .flag-buttons-grid-mock .flag-btn-mock.green {\n  background: rgba(46, 204, 113, 0.2);\n  color: #2ecc71;\n}\n.game-card-mock .flag-buttons-grid-mock .flag-btn-mock.yellow {\n  background: rgba(241, 196, 15, 0.2);\n  color: #f1c40f;\n}\n.game-card-mock .flag-buttons-grid-mock .flag-btn-mock.red {\n  background: rgba(192, 57, 43, 0.2);\n  color: var(--rose-400);\n}\n.game-card-mock .flag-buttons-grid-mock .flag-btn-mock.depends {\n  background: rgba(127, 119, 221, 0.2);\n  color: var(--plum-300);\n}\n.game-card-mock .game-timer-mock {\n  height: 4px;\n  background: rgba(212, 160, 23, 0.2);\n  border-radius: 2px;\n  overflow: hidden;\n}\n.game-card-mock .game-timer-mock .timer-fill-mock {\n  height: 100%;\n  background: var(--gold-400);\n  border-radius: 2px;\n}\n.date-idea-mock .date-kicker-mock {\n  font-size: 10px;\n  font-weight: 700;\n  letter-spacing: 0.3em;\n  text-transform: uppercase;\n  color: var(--gold-400);\n  margin-bottom: 12px;\n  text-align: center;\n}\n.date-idea-mock .date-card-mock {\n  background: rgba(255, 255, 255, 0.03);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 12px;\n  padding: 16px;\n  margin-bottom: 12px;\n}\n.date-idea-mock .date-text-mock {\n  font-family: "Caveat", cursive;\n  font-size: 16px;\n  line-height: 1.5;\n  color: var(--text-primary);\n  margin-bottom: 12px;\n}\n.date-idea-mock .plan-btn-mock {\n  width: 100%;\n  padding: 12px;\n  background:\n    linear-gradient(\n      135deg,\n      var(--rose-400),\n      var(--plum-400));\n  color: var(--text-primary);\n  border: none;\n  border-radius: 8px;\n  font-size: 13px;\n  font-weight: 600;\n  cursor: pointer;\n}\n.date-idea-mock .date-hint-mock {\n  font-size: 11px;\n  color: var(--text-secondary);\n  text-align: center;\n  font-style: italic;\n}\n.planning-mock .planning-title-mock {\n  font-size: 13px;\n  font-weight: 600;\n  color: var(--text-primary);\n  margin-bottom: 12px;\n  text-align: center;\n}\n.planning-mock .venue-options-mock {\n  display: flex;\n  flex-direction: column;\n  gap: 6px;\n  margin-bottom: 12px;\n}\n.planning-mock .venue-options-mock .venue-mock {\n  padding: 8px 10px;\n  background: rgba(255, 255, 255, 0.03);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 6px;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.planning-mock .venue-options-mock .venue-mock.selected {\n  background: rgba(212, 160, 23, 0.1);\n  border-color: var(--gold-400);\n}\n.planning-mock .venue-options-mock .venue-mock .venue-name {\n  font-size: 12px;\n  font-weight: 500;\n  color: var(--text-primary);\n  margin-bottom: 2px;\n}\n.planning-mock .venue-options-mock .venue-mock .venue-distance {\n  font-size: 10px;\n  color: var(--text-secondary);\n}\n.planning-mock .planning-hint-mock {\n  font-size: 11px;\n  color: var(--text-secondary);\n  text-align: center;\n  font-style: italic;\n}\n.feedback-mock .feedback-question-mock {\n  font-size: 15px;\n  font-weight: 500;\n  color: var(--text-primary);\n  margin-bottom: 16px;\n  text-align: center;\n}\n.feedback-mock .rating-mock {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n  margin-bottom: 16px;\n}\n.feedback-mock .rating-mock .star-mock {\n  font-size: 24px;\n  color: var(--gold-400);\n}\n.feedback-mock .rating-mock .star-mock.unfilled {\n  opacity: 0.3;\n}\n.feedback-mock .feedback-input-mock {\n  width: 100%;\n  min-height: 80px;\n  background: rgba(255, 255, 255, 0.05);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 8px;\n  padding: 12px;\n  color: var(--text-primary);\n  font-family: "Caveat", cursive;\n  font-size: 15px;\n  resize: none;\n  margin-bottom: 16px;\n}\n.feedback-mock .feedback-input-mock::placeholder {\n  color: var(--text-muted);\n  opacity: 0.5;\n}\n.feedback-mock .meet-again-mock .meet-label-mock {\n  display: block;\n  font-size: 12px;\n  font-weight: 600;\n  color: var(--text-secondary);\n  margin-bottom: 8px;\n  text-align: center;\n}\n.feedback-mock .meet-again-mock .meet-options-mock {\n  display: flex;\n  gap: 8px;\n}\n.feedback-mock .meet-again-mock .meet-options-mock .meet-btn-mock {\n  flex: 1;\n  padding: 10px;\n  background: rgba(255, 255, 255, 0.05);\n  border: 1px solid rgba(212, 160, 23, 0.2);\n  border-radius: 8px;\n  color: var(--text-secondary);\n  font-size: 12px;\n  font-weight: 600;\n  cursor: pointer;\n}\n.about-section {\n  padding: 60px 0;\n  position: relative;\n  z-index: 2;\n}\n.about-carousel {\n  padding: 20px 0;\n  position: relative;\n  overflow: hidden;\n}\n.about-carousel .carousel-dots {\n  display: flex;\n  justify-content: center;\n  gap: 8px;\n  margin-top: 40px;\n}\n.about-carousel .carousel-dots .dot {\n  width: 8px;\n  height: 8px;\n  border-radius: 50%;\n  background: rgba(212, 160, 23, 0.3);\n  transition: all 0.3s;\n  cursor: pointer;\n}\n.about-carousel .carousel-dots .dot.active {\n  background: var(--gold-400);\n  width: 24px;\n  border-radius: 4px;\n}\n.about-track {\n  display: flex;\n  gap: 40px;\n  padding: 0 50vw;\n  cursor: grab;\n}\n.about-track:active {\n  cursor: grabbing;\n}\n.about-slide {\n  flex-shrink: 0;\n  width: 450px;\n  max-width: 85vw;\n}\n.about-slide .slide-content {\n  text-align: center;\n}\n.about-slide .slide-header {\n  font-family: "Fraunces", serif;\n  font-size: clamp(22px, 3.5vw, 32px);\n  font-weight: 400;\n  line-height: 1.3;\n  color: var(--text-primary);\n  margin: 0 0 20px 0;\n  transform: perspective(600px) rotateX(12deg);\n  transform-origin: bottom;\n}\n.about-slide .slide-text {\n  font-size: 15px;\n  line-height: 1.65;\n  color: var(--text-secondary);\n}\n.about-slide .slide-text p {\n  margin: 0 0 24px 0;\n  transform: perspective(600px) rotateX(8deg);\n  transform-origin: bottom;\n}\n.about-slide .slide-text p:last-child {\n  margin-bottom: 0;\n}\n.about-slide .slide-text .slide-highlight {\n  font-size: 19px;\n  color: var(--text-primary);\n  font-weight: 600;\n  margin-top: 32px;\n  transform: perspective(600px) rotateX(10deg);\n}\n.about-slide .slide-text .slide-quote {\n  font-family: "Fraunces", serif;\n  font-size: 22px;\n  font-style: italic;\n  color: var(--gold-400);\n  margin-top: 32px;\n  transform: perspective(600px) rotateX(10deg);\n}\n.footer {\n  padding: 80px 0 40px;\n  position: relative;\n  z-index: 2;\n  border-top: 1px solid rgba(212, 160, 23, 0.12);\n  text-align: center;\n}\n.footer .footer-brand {\n  margin-bottom: 40px;\n}\n.footer .footer-brand .logo {\n  font-size: 40px;\n  margin-bottom: 12px;\n}\n.footer .footer-brand .tagline {\n  font-size: 12px;\n  margin: 0;\n}\n.footer .footer-bottom p {\n  font-size: 13px;\n  color: var(--text-muted);\n  margin: 0;\n}\n@media (max-width: 1024px) {\n  .container {\n    padding: 0 32px;\n  }\n}\n@media (max-width: 768px) {\n  .container {\n    padding: 0 20px;\n    max-width: 100%;\n  }\n  section {\n    padding: 50px 0;\n  }\n  .hero {\n    padding: 60px 0 50px;\n  }\n  .problem-section,\n  .moments-section,\n  .echo-section,\n  .balloon-section,\n  .features-section,\n  .commons-section,\n  .final-cta,\n  .about-section {\n    padding: 40px 0;\n  }\n  .intro-video {\n    object-fit: cover;\n  }\n  .skip-btn {\n    bottom: 30px;\n    font-size: 11px;\n    padding: 8px 20px;\n  }\n  .intro h1,\n  .intro .intro-title {\n    font-size: 42px !important;\n    padding: 0 20px;\n  }\n  .hero {\n    min-height: auto;\n    padding: 70px 0 60px;\n  }\n  .hero .logo {\n    font-size: 48px;\n    letter-spacing: 3px;\n  }\n  .hero .tagline {\n    font-size: 13px;\n    letter-spacing: 1.5px;\n  }\n  .hero .hero-content {\n    margin-top: 40px;\n  }\n  .hero .hero-headline {\n    font-size: 32px;\n    line-height: 1.3;\n    max-width: 100%;\n  }\n  .hero .hero-subheadline {\n    font-size: 16px;\n    line-height: 1.6;\n    max-width: 100%;\n  }\n  .hero .cta-primary {\n    font-size: 15px;\n    padding: 14px 32px;\n  }\n  .hero .cta-under {\n    font-size: 13px;\n  }\n  .hero .hero-visual {\n    margin-top: 48px;\n    max-width: 90%;\n  }\n  .hero .hero-visual .hero-image {\n    width: 100%;\n    height: auto;\n  }\n  .problem-section .section-header {\n    font-size: 30px;\n    line-height: 1.3;\n  }\n  .problem-section .problem-text p {\n    font-size: 15px;\n    line-height: 1.7;\n  }\n  .problem-section .reveal-line {\n    font-size: 18px;\n  }\n  .moments-section {\n    padding: 40px 0 0 !important;\n  }\n  .moments-section .section-header {\n    font-size: 30px;\n    margin-bottom: 20px;\n  }\n  .moments-section .section-intro {\n    margin-bottom: 20px;\n  }\n  .moments-section .section-intro p {\n    font-size: 15px;\n    margin-bottom: 12px;\n  }\n  .polaroid-carousel {\n    overflow-x: auto;\n    overflow-y: hidden;\n    -webkit-overflow-scrolling: touch;\n    scrollbar-width: none;\n    padding: 10px 0 10px;\n    margin: 0 0 -10px 0;\n    position: relative;\n    scroll-snap-type: x mandatory;\n  }\n  .polaroid-carousel::-webkit-scrollbar {\n    display: none;\n  }\n  .polaroid-carousel .carousel-track {\n    min-width: max-content;\n    padding: 15px 0;\n    gap: 20px;\n    display: flex;\n    align-items: center;\n  }\n  .polaroid-carousel .polaroid {\n    width: 260px;\n    min-width: 260px;\n    scroll-snap-align: center;\n    transition: transform 0.3s ease, opacity 0.3s ease;\n    transform: scale(0.88);\n    opacity: 0.7;\n  }\n  .polaroid-carousel .polaroid.center-card,\n  .polaroid-carousel .polaroid:hover {\n    transform: scale(1);\n    opacity: 1;\n    z-index: 2;\n  }\n  .polaroid-carousel .polaroid .polaroid-photo {\n    height: 300px;\n  }\n  .polaroid-carousel .polaroid .polaroid-photo img {\n    object-fit: cover;\n  }\n  .polaroid-carousel .polaroid .polaroid-name {\n    font-size: 18px;\n  }\n  .polaroid-carousel .polaroid .polaroid-label {\n    font-size: 10px;\n  }\n  .polaroid-carousel .polaroid .polaroid-explanation {\n    font-size: 13px;\n    line-height: 1.5;\n  }\n  .polaroid-carousel .polaroid .polaroid-actions {\n    gap: 10px;\n  }\n  .polaroid-carousel .polaroid .polaroid-actions button {\n    font-size: 13px;\n    padding: 10px 18px;\n  }\n  .polaroid-carousel::after {\n    content: "\\2b24  \\2b24  \\2b24  \\2b24  \\2b24  \\2b24  \\2b24";\n    display: block;\n    position: absolute;\n    bottom: -10px;\n    left: 50%;\n    transform: translateX(-50%);\n    font-size: 8px;\n    letter-spacing: 8px;\n    color: rgba(159, 122, 234, 0.5);\n    text-shadow: 0 0 8px rgba(159, 122, 234, 0.8);\n  }\n  .choice-container {\n    padding: 0 12px 30px !important;\n    margin: 0 !important;\n    display: flex;\n    flex-direction: row;\n    align-items: center;\n    justify-content: space-between;\n    gap: 12px;\n    background: transparent;\n  }\n  .choice-container .choice-side {\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    gap: 6px;\n    flex-shrink: 0;\n  }\n  .choice-container .choice-symbol {\n    font-size: 44px;\n    line-height: 1;\n  }\n  .choice-container .choice-label {\n    font-size: 12px;\n    font-weight: 600;\n    text-transform: uppercase;\n    letter-spacing: 0.5px;\n    white-space: nowrap;\n  }\n  .choice-container .choice-center {\n    flex: 1;\n    text-align: center;\n    padding: 0 8px;\n  }\n  .choice-container .choice-rule,\n  .choice-container .choice-end {\n    font-size: 12px;\n    line-height: 1.4;\n    margin: 0 0 8px 0;\n  }\n  .choice-container .choice-end {\n    margin-bottom: 0;\n    font-weight: 500;\n  }\n  .chat-note-section .section-header {\n    font-size: 30px;\n  }\n  .chat-note-section .section-text p {\n    font-size: 15px;\n  }\n  .chat-note-section .highlight {\n    font-size: 15px;\n  }\n  .chat-note-container .demo-label {\n    font-size: 11px;\n  }\n  .chat-note-container .state-label {\n    font-size: 12px;\n  }\n  .chat-note-container .note-modal .modal-header {\n    font-size: 13px;\n  }\n  .chat-note-container .note-modal .note-input {\n    font-size: 14px;\n  }\n  .chat-note-container .note-modal .char-count {\n    font-size: 11px;\n  }\n  .chat-note-container .note-modal .modal-submit {\n    font-size: 14px;\n    padding: 11px 24px;\n  }\n  .chat-note-container .pinned-note .note-label {\n    font-size: 11px;\n  }\n  .chat-note-container .pinned-note .note-text {\n    font-size: 14px;\n  }\n  .echo-section .section-header {\n    font-size: 30px;\n  }\n  .echo-section .echo-text p {\n    font-size: 15px;\n  }\n  .echo-section .highlight {\n    font-size: 16px;\n  }\n  .balloon-section .section-header {\n    font-size: 30px;\n  }\n  .balloon-section .section-text p {\n    font-size: 15px;\n  }\n  .balloon-states-grid {\n    grid-template-columns: repeat(3, 1fr);\n    gap: 16px;\n  }\n  .balloon-states-grid .state-card {\n    padding: 24px 16px;\n  }\n  .balloon-states-grid .state-label {\n    font-size: 11px;\n  }\n  .balloon-states-grid .state-icon {\n    font-size: 42px;\n  }\n  .balloon-states-grid .state-desc {\n    font-size: 13px;\n  }\n  .balloon-states-grid .state-title {\n    font-size: 16px;\n  }\n  .balloon-states-grid .state-action,\n  .balloon-states-grid .choice-btn {\n    font-size: 13px;\n    padding: 9px 18px;\n  }\n  .features-section .section-header {\n    font-size: 30px;\n  }\n  .features-section .section-text p {\n    font-size: 15px;\n  }\n  .features-static-grid {\n    grid-template-columns: 1fr;\n    gap: 20px;\n    max-width: 400px;\n    margin: 0 auto;\n    padding: 0 10px;\n  }\n  .features-static-grid .feature-card {\n    padding: 24px 20px;\n    text-align: center;\n  }\n  .features-static-grid .feature-label {\n    font-size: 11px;\n    text-align: center;\n  }\n  .game-card-mock .game-header-mock {\n    font-size: 11px;\n  }\n  .game-card-mock .game-question-mock,\n  .game-card-mock .game-scenario-mock {\n    font-size: 14px;\n  }\n  .game-card-mock .game-option-mock,\n  .game-card-mock .flag-btn-mock {\n    font-size: 13px;\n    padding: 10px;\n  }\n  .date-idea-mock .date-kicker-mock {\n    font-size: 10px;\n  }\n  .date-idea-mock .date-text-mock {\n    font-size: 14px;\n  }\n  .date-idea-mock .plan-btn-mock {\n    font-size: 13px;\n  }\n  .planning-mock .planning-title-mock {\n    font-size: 13px;\n  }\n  .planning-mock .venue-name {\n    font-size: 14px;\n  }\n  .planning-mock .venue-distance {\n    font-size: 11px;\n  }\n  .planning-mock .planning-hint-mock {\n    font-size: 12px;\n  }\n  .commons-section .section-header {\n    font-size: 30px;\n  }\n  .commons-section .section-text p {\n    font-size: 15px;\n  }\n  .commons-section {\n    padding: 60px 0;\n  }\n  .commons-container {\n    gap: 30px;\n  }\n  .commons-grid {\n    grid-template-columns: repeat(2, 1fr);\n    gap: 8px;\n    overflow: hidden;\n  }\n  .commons-grid .grid-item {\n    border-radius: 10px;\n    aspect-ratio: 1;\n    overflow: hidden;\n  }\n  .commons-grid .grid-item img {\n    width: 100%;\n    height: 100%;\n    object-fit: cover;\n  }\n  .commons-grid .grid-item:nth-child(n+9) {\n    display: none;\n  }\n  .final-cta .cta-header {\n    font-size: 34px;\n  }\n  .final-cta .cta-subtext {\n    font-size: 15px;\n  }\n  .reg-form {\n    max-width: 100%;\n  }\n  .reg-form .form-field {\n    margin-bottom: 18px;\n  }\n  .reg-form .form-field label {\n    font-size: 12px;\n  }\n  .reg-form .form-field input,\n  .reg-form .form-field select {\n    font-size: 15px;\n    padding: 13px 16px;\n  }\n  .reg-form .form-row {\n    gap: 0;\n  }\n  .reg-form .form-row .form-field {\n    flex: 1 1 100%;\n  }\n  .reg-form .cta-large {\n    font-size: 16px;\n    padding: 15px 32px;\n  }\n  .reg-form .cta-under {\n    font-size: 13px;\n  }\n  .reg-success .success-icon {\n    font-size: 52px;\n  }\n  .reg-success h3 {\n    font-size: 26px;\n  }\n  .reg-success p {\n    font-size: 15px;\n  }\n  .about-carousel {\n    overflow-x: auto;\n    overflow-y: hidden;\n    -webkit-overflow-scrolling: touch;\n    scrollbar-width: none;\n    padding: 30px 0;\n  }\n  .about-carousel::-webkit-scrollbar {\n    display: none;\n  }\n  .about-carousel .about-track {\n    min-width: max-content;\n    padding: 10px 0;\n    gap: 16px;\n  }\n  .about-carousel .about-slide {\n    width: 300px;\n    min-width: 300px;\n    padding: 32px 24px;\n  }\n  .about-carousel .slide-header {\n    font-size: 20px;\n    line-height: 1.3;\n    margin-bottom: 16px;\n  }\n  .about-carousel .slide-text p {\n    font-size: 14px;\n    line-height: 1.6;\n    margin-bottom: 12px;\n  }\n  .about-carousel .slide-quote {\n    font-size: 15px;\n    padding: 16px;\n    line-height: 1.5;\n  }\n  .about-carousel .slide-highlight {\n    font-size: 14px;\n  }\n  .about-carousel .carousel-dots {\n    margin-top: 20px;\n  }\n  .about-carousel .carousel-dots .dot {\n    width: 6px;\n    height: 6px;\n  }\n  .footer {\n    padding: 70px 0 36px;\n  }\n  .footer .footer-brand .logo {\n    font-size: 36px;\n  }\n  .footer .footer-brand .tagline {\n    font-size: 12px;\n  }\n  .footer .footer-bottom p {\n    font-size: 13px;\n  }\n  .stat-row {\n    gap: 20px;\n    flex-wrap: wrap;\n  }\n  .stat-row .stat {\n    min-width: 130px;\n  }\n  .stat-row .stat .stat-number {\n    font-size: 38px;\n  }\n  .stat-row .stat .stat-label {\n    font-size: 12px;\n  }\n  .content-grid {\n    gap: 20px;\n  }\n  .card {\n    padding: 26px 22px;\n  }\n  .card h3 {\n    font-size: 18px;\n  }\n  .card p {\n    font-size: 14px;\n  }\n  .highlight-box {\n    padding: 22px;\n    font-size: 14px;\n  }\n  .kicker {\n    font-size: 10px;\n  }\n}\n@media (max-width: 480px) {\n  .container {\n    padding: 0 16px;\n  }\n  .hero .logo {\n    font-size: 38px;\n  }\n  .hero .hero-headline {\n    font-size: 26px;\n  }\n  .hero .hero-subheadline {\n    font-size: 14px;\n  }\n  .hero .cta-primary {\n    width: 100%;\n  }\n  .section-header {\n    font-size: 24px !important;\n  }\n  .polaroid {\n    width: 240px;\n    min-width: 240px;\n  }\n  .polaroid .polaroid-photo {\n    height: 280px;\n  }\n  .polaroid .polaroid-explanation {\n    font-size: 12px;\n  }\n  .about-slide {\n    width: 280px;\n    min-width: 280px;\n    padding: 28px 20px;\n  }\n  .about-slide .slide-header {\n    font-size: 18px;\n  }\n  .about-slide .slide-text p {\n    font-size: 13px;\n  }\n  .commons-grid {\n    grid-template-columns: repeat(2, 1fr);\n    gap: 6px;\n  }\n  .features-static-grid {\n    max-width: 340px;\n  }\n  .balloon-states-grid {\n    grid-template-columns: 1fr;\n    gap: 14px;\n  }\n  .stat-row .stat {\n    min-width: 110px;\n  }\n  .stat-row .stat .stat-number {\n    font-size: 32px;\n  }\n  .final-cta .cta-header {\n    font-size: 28px;\n  }\n  .choice-container {\n    padding: 20px 12px 32px;\n    gap: 12px;\n  }\n  .choice-container .choice-symbol {\n    font-size: 40px;\n  }\n  .choice-container .choice-label {\n    font-size: 12px;\n  }\n  .choice-container .choice-rule,\n  .choice-container .choice-end {\n    font-size: 12px;\n  }\n}\n/*# sourceMappingURL=landing-simple.component.css.map */\n'] }]
   }], () => [{ type: Object, decorators: [{
     type: Inject,

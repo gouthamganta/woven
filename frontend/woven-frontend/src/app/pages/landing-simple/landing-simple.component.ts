@@ -27,6 +27,7 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
   isBrowser: boolean;
   showIntro = true;
   showTapPrompt = false;
+  isMobileDevice = false;
   private hideIntroTimer?: ReturnType<typeof setTimeout>;
   private videoStartAttempted = false;
   introVideoSrc: string = '/login-intro.mp4'; // Default to desktop video
@@ -94,8 +95,11 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
 
     // Set video source based on screen size
     if (this.isBrowser) {
-      const isMobile = window.innerWidth <= 768;
-      this.introVideoSrc = isMobile ? '/login-intro-mobile.mp4' : '/login-intro.mp4';
+      this.isMobileDevice = window.innerWidth <= 768;
+      this.introVideoSrc = this.isMobileDevice ? '/login-intro-mobile.mp4' : '/login-intro.mp4';
+      // Show tap prompt immediately on mobile (don't try autoplay)
+      this.showTapPrompt = this.isMobileDevice;
+      console.log('[Landing] Device:', this.isMobileDevice ? 'mobile' : 'desktop', 'Video:', this.introVideoSrc);
     }
   }
 
@@ -311,6 +315,13 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
     video.muted = true;
     video.currentTime = 0;
 
+    // On mobile, wait for user tap (don't try autoplay)
+    if (this.isMobileDevice) {
+      console.log('[Landing] Mobile detected - waiting for user tap');
+      return;
+    }
+
+    // Desktop: try autoplay
     const tryPlay = () => {
       video.play().then(() => {
         this.videoStartAttempted = true;
