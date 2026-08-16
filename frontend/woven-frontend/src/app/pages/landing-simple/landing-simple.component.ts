@@ -92,19 +92,17 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
-
-    // Set video source based on screen size
-    if (this.isBrowser) {
-      this.isMobileDevice = window.innerWidth <= 768;
-      this.introVideoSrc = this.isMobileDevice ? '/login-intro-mobile.mp4' : '/login-intro.mp4';
-      // Show tap prompt immediately on mobile (don't try autoplay)
-      this.showTapPrompt = this.isMobileDevice;
-      console.log('[Landing] Device:', this.isMobileDevice ? 'mobile' : 'desktop', 'Video:', this.introVideoSrc);
-    }
   }
 
   ngAfterViewInit(): void {
     if (!this.isBrowser) return;
+
+    // Detect mobile and set video source
+    this.isMobileDevice = window.innerWidth <= 768;
+    this.introVideoSrc = this.isMobileDevice ? '/login-intro-mobile.mp4' : '/login-intro.mp4';
+    this.showTapPrompt = this.isMobileDevice;
+    console.log('[Landing] AfterViewInit - Device:', this.isMobileDevice ? 'mobile' : 'desktop', 'showTapPrompt:', this.showTapPrompt);
+    this.cdr.markForCheck();
 
     // Fallback: hide intro if video never fires 'ended'
     this.hideIntroTimer = setTimeout(() => this.hideLandingIntro(), 13_000);

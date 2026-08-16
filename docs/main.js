@@ -51842,16 +51842,15 @@ var LandingSimpleComponent = class _LandingSimpleComponent {
   constructor(platformId, cdr) {
     this.cdr = cdr;
     this.isBrowser = isPlatformBrowser(platformId);
-    if (this.isBrowser) {
-      this.isMobileDevice = window.innerWidth <= 768;
-      this.introVideoSrc = this.isMobileDevice ? "/login-intro-mobile.mp4" : "/login-intro.mp4";
-      this.showTapPrompt = this.isMobileDevice;
-      console.log("[Landing] Device:", this.isMobileDevice ? "mobile" : "desktop", "Video:", this.introVideoSrc);
-    }
   }
   ngAfterViewInit() {
     if (!this.isBrowser)
       return;
+    this.isMobileDevice = window.innerWidth <= 768;
+    this.introVideoSrc = this.isMobileDevice ? "/login-intro-mobile.mp4" : "/login-intro.mp4";
+    this.showTapPrompt = this.isMobileDevice;
+    console.log("[Landing] AfterViewInit - Device:", this.isMobileDevice ? "mobile" : "desktop", "showTapPrompt:", this.showTapPrompt);
+    this.cdr.markForCheck();
     this.hideIntroTimer = setTimeout(() => this.hideLandingIntro(), 13e3);
     setTimeout(() => this.startVideo(), 200);
   }
