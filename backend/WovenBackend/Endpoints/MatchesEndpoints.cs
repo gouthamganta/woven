@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WovenBackend.Data;
 using WovenBackend.data.Entities.Moments;
+using WovenBackend.Data.Entities;
+using WovenBackend.Services;
 using WovenBackend.Services.Moments;
 using MatchType = WovenBackend.data.Entities.Moments.MatchType;
 
@@ -13,6 +15,7 @@ namespace WovenBackend.Endpoints;
 public static class MatchesEndpoints
 {
     public record UnmatchRequest(int? Rating);
+    public record FlagRequest(string? Reason);
 
     public static void MapMatchesEndpoints(this WebApplication app)
     {
@@ -287,9 +290,22 @@ public static class MatchesEndpoints
         .WithName("MatchProfileView");
 
         // POST /matches/{matchId}/pop - starts trial period instead of closing
-        group.MapPost("/{matchId:guid}/pop", async (Guid matchId, WovenDbContext db, HttpContext http, CancellationToken ct) =>
+        group.MapPost("/{matchId:guid}/pop", async (Guid matchId, WovenDbContext db, HttpContext http, IIdempotencyService idempotency, CancellationToken ct) =>
         {
             var me = GetUserId(http.User);
+
+            // Check idempotency key
+            var idempotencyKey = http.Request.Headers["X-Idempotency-Key"].ToString();
+            if (!string.IsNullOrWhiteSpace(idempotencyKey))
+            {
+                var cached = await idempotency.CheckAsync(idempotencyKey, me, $"/matches/{matchId}/pop", ct);
+                if (cached != null)
+                {
+                    return Results.Json(
+                        System.Text.Json.JsonSerializer.Deserialize<object>(cached.ResponseBodyJson),
+                        statusCode: cached.StatusCode);
+                }
+            }
 
             var match = await db.Matches.FirstOrDefaultAsync(m => m.Id == matchId, ct);
             if (match == null) return Results.NotFound(new { error = "MATCH_NOT_FOUND" });
@@ -303,20 +319,36 @@ public static class MatchesEndpoints
                 return Results.BadRequest(new { error = "CANNOT_POP_NOW" });
 
             var now = MomentsRules.NowUtc();
+            var isUserA = match.UserAId == me;
 
-            // Start trial period (1 minute)
+            // Start trial — TrialEndsAt is NOT set here.
+            // It gets set when the OTHER user opens the thread (3-min window from that moment).
             match.IsTrial = true;
             match.TrialStartedAt = now;
-            match.TrialEndsAt = now.AddMinutes(1);
+
+            // Record that the popper has already "opened" the trial
+            if (isUserA)
+                match.TrialUserAOpenedAt = now;
+            else
+                match.TrialUserBOpenedAt = now;
 
             await db.SaveChangesAsync(ct);
 
-            return Results.Ok(new
+            var response = new
             {
                 status = "TRIAL_STARTED",
                 matchId = match.Id,
-                trialEndsAt = match.TrialEndsAt
-            });
+                trialStartedAt = match.TrialStartedAt,
+                waitingForOtherToOpen = true
+            };
+
+            // Store idempotency record
+            if (!string.IsNullOrWhiteSpace(idempotencyKey))
+            {
+                _ = idempotency.StoreAsync(idempotencyKey, me, $"/matches/{matchId}/pop", 200, response, ct);
+            }
+
+            return Results.Ok(response);
         })
         .WithName("MatchPop");
 
@@ -447,6 +479,44 @@ public static class MatchesEndpoints
             });
         })
         .WithName("MatchBlock");
+
+        // POST /matches/{matchId}/flag — lightweight post-interaction flag for safety/trust scoring
+        // Body: { reason: "no_issues" | "uncomfortable" | "inappropriate" }
+        // "no_issues" is the default (pre-selected in UI) — only stored if negative
+        group.MapPost("/{matchId:guid}/flag", async (
+            Guid matchId,
+            FlagRequest req,
+            WovenDbContext db,
+            IMatchSignalService signals,
+            HttpContext http,
+            CancellationToken ct) =>
+        {
+            var me = GetUserId(http.User);
+
+            var match = await db.Matches.AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == matchId, ct);
+            if (match == null) return Results.NotFound(new { error = "MATCH_NOT_FOUND" });
+            if (!IsParticipant(match, me)) return Results.Forbid();
+
+            var reason = (req.Reason ?? "no_issues").Trim().ToLowerInvariant();
+            if (reason == "no_issues")
+                return Results.Ok(new { status = "NO_ISSUES_NOTED" });
+
+            if (reason != "uncomfortable" && reason != "inappropriate")
+                return Results.BadRequest(new { error = "INVALID_REASON" });
+
+            var candidateId = match.UserAId == me ? match.UserBId : match.UserAId;
+            var metaJson = JsonSerializer.Serialize(new { reason, matchId });
+
+            try
+            {
+                await signals.RecordAsync(me, candidateId, MatchSignalEventTypes.UserFlagged, 1f, metaJson, ct);
+            }
+            catch { /* non-critical */ }
+
+            return Results.Ok(new { status = "FLAGGED" });
+        })
+        .WithName("MatchFlag");
     }
 
     private static bool IsParticipant(Match m, int userId) => m.UserAId == userId || m.UserBId == userId;

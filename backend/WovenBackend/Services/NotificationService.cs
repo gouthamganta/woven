@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.SignalR;
 using WovenBackend.Hubs;
+using WovenBackend.Services.PushNotifications;
 using WovenBackend.Services.Security;
 
 namespace WovenBackend.Services;
@@ -10,17 +11,20 @@ namespace WovenBackend.Services;
 public class NotificationService : INotificationService
 {
     private readonly IHubContext<WovenHub> _hub;
+    private readonly IWebPushService _webPush;
     private readonly ISecurityAuditService _audit;
     private readonly ILogger<NotificationService> _logger;
     private readonly byte[] _signingKey;
 
     public NotificationService(
         IHubContext<WovenHub> hub,
+        IWebPushService webPush,
         IEncryptionService enc,
         ISecurityAuditService audit,
         ILogger<NotificationService> logger)
     {
         _hub = hub;
+        _webPush = webPush;
         _audit = audit;
         _logger = logger;
         _signingKey = Convert.FromBase64String(enc.DeriveKey("signing-v1"));
@@ -68,6 +72,12 @@ public class NotificationService : INotificationService
         {
             await Send(_hub.Clients.Group(WovenHub.UserGroup(recipientUserId)), "MomentReceived",
                 new { matchId, fromUserId }, ct);
+
+            _ = _webPush.SendToUserAsync(recipientUserId,
+                title: "You have a new match! 🎉",
+                body: "Someone chose you — open Woven to see who.",
+                url: "/moments",
+                ct: ct);
         }
         catch (Exception ex)
         {
@@ -87,6 +97,26 @@ public class NotificationService : INotificationService
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "[Notify] MomentExpired failed for match {MatchId}", matchId);
+        }
+    }
+
+    public async Task NewChatMessageAsync(int recipientUserId, Guid threadId, Guid messageId,
+        string body, int senderUserId, DateTimeOffset createdAt, CancellationToken ct = default)
+    {
+        try
+        {
+            await Send(_hub.Clients.Group(WovenHub.UserGroup(recipientUserId)), "NewChatMessage",
+                new { threadId, messageId, body, senderUserId, createdAt }, ct);
+
+            _ = _webPush.SendToUserAsync(recipientUserId,
+                title: "New message",
+                body: body.Length > 80 ? body[..80] + "…" : body,
+                url: $"/chats/{threadId}",
+                ct: ct);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "[Notify] NewChatMessage failed for user {UserId}", recipientUserId);
         }
     }
 
@@ -198,6 +228,12 @@ public class NotificationService : INotificationService
         {
             await Send(_hub.Clients.Group(WovenHub.UserGroup(userId)), "Push",
                 new { message }, ct);
+
+            _ = _webPush.SendToUserAsync(userId,
+                title: "Woven",
+                body: message,
+                url: "/",
+                ct: ct);
         }
         catch (Exception ex)
         {

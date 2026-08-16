@@ -121,6 +121,46 @@ variable "google_places_api_key" {
   sensitive   = true
 }
 
+variable "workers_app_name" {
+  description = "Name for the batch workers container app (min=max=1, no public ingress)"
+  type        = string
+}
+
+variable "speechbrain_app_name" {
+  description = "Name for the SpeechBrain voice embedding container app"
+  type        = string
+}
+
+variable "speechbrain_image_tag" {
+  description = "Docker image tag for the SpeechBrain service (woven-speechbrain in ACR)"
+  type        = string
+  default     = "latest"
+}
+
+variable "service_bus_connection_string" {
+  description = "Azure Service Bus primary connection string (stored as container app secret)"
+  type        = string
+  sensitive   = true
+}
+
+variable "vapid_public_key" {
+  description = "VAPID public key for Web Push notifications (base64url-encoded)"
+  type        = string
+  sensitive   = true
+}
+
+variable "vapid_private_key" {
+  description = "VAPID private key for Web Push notifications (base64url-encoded)"
+  type        = string
+  sensitive   = true
+}
+
+variable "run_migrations" {
+  description = "Set true for first production deploy to auto-migrate the fresh database. Remove after schema is created."
+  type        = bool
+  default     = false
+}
+
 variable "tags" {
   description = "Tags to apply to resources"
   type        = map(string)

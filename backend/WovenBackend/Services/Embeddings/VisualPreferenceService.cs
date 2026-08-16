@@ -82,6 +82,48 @@ public class VisualPreferenceService : IVisualPreferenceService
             userId, yesEmbeddings.Count, noEmbeddings.Count);
     }
 
+    public async Task<string?> GetBestPhotoUrlAsync(int viewerUserId, int candidateUserId, CancellationToken ct = default)
+    {
+        var pref = await _db.UserVisualPreferences.AsNoTracking()
+            .FirstOrDefaultAsync(p => p.UserId == viewerUserId, ct);
+
+        if (pref?.PreferenceEmbedding == null)
+            return null;
+
+        var photos = await _db.PhotoEmbeddings.AsNoTracking()
+            .Where(e => e.UserId == candidateUserId && e.Embedding != null)
+            .Select(e => new { e.PhotoUrl, e.Embedding })
+            .ToListAsync(ct);
+
+        if (photos.Count == 0) return null;
+        if (photos.Count == 1) return photos[0].PhotoUrl;
+
+        var prefSpan = pref.PreferenceEmbedding.Memory.Span;
+        string? bestUrl = null;
+        double bestSim = double.MinValue;
+
+        foreach (var p in photos)
+        {
+            var sim = CosineSimilarity(prefSpan, p.Embedding!.Memory.Span);
+            if (sim > bestSim) { bestSim = sim; bestUrl = p.PhotoUrl; }
+        }
+
+        return bestUrl;
+    }
+
+    private static double CosineSimilarity(ReadOnlySpan<float> a, ReadOnlySpan<float> b)
+    {
+        double dot = 0, normA = 0, normB = 0;
+        int len = Math.Min(a.Length, b.Length);
+        for (int i = 0; i < len; i++)
+        {
+            dot   += a[i] * b[i];
+            normA += a[i] * a[i];
+            normB += b[i] * b[i];
+        }
+        return (normA == 0 || normB == 0) ? 0 : dot / (Math.Sqrt(normA) * Math.Sqrt(normB));
+    }
+
     private static float[] ElementWiseMean(List<Vector?> vectors)
     {
         var dim = vectors.First()!.Memory.Length;

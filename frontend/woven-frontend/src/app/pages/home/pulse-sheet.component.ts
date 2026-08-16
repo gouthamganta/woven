@@ -191,7 +191,7 @@ import { PulseAnswers, PulseQuestion, PulseState } from '../../services/pulse.se
       overflow:hidden;
     }
 
-    .card:active{ transform: scale(0.985); }
+    .card:active{ transform: scale(0.96); }
     .card:disabled{ opacity: .62; cursor:not-allowed; transform:none; }
 
     .card.selected{

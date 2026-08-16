@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECHO - 3D Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Consolas', monospace;
+            background: #000;
+            color: #0ff;
+            overflow: hidden;
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        #canvas3d {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #ui-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        #header {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid #0ff;
+            pointer-events: auto;
+        }
+
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            text-shadow: 0 0 10px #0ff;
+        }
+
+        #state-panel {
+            position: absolute;
+            top: 100px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border: 2px solid #0ff;
+            border-radius: 10px;
+            min-width: 300px;
+            pointer-events: auto;
+        }
+
+        .state-bar {
+            margin: 10px 0;
+        }
+
+        .state-label {
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .bar-container {
+            width: 100%;
+            height: 20px;
+            background: #111;
+            border: 1px solid #0ff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0ff, #0f0);
+            transition: width 0.5s ease;
+        }
+
+        #neural-activity {
+            position: absolute;
+            top: 100px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border: 2px solid #f0f;
+            border-radius: 10px;
+            width: 300px;
+            height: 400px;
+            pointer-events: auto;
+        }
+
+        #neural-canvas {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #f0f;
+        }
+
+        #conversation {
+            position: absolute;
+            bottom: 120px;
+            left: 20px;
+            right: 20px;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #0ff;
+            border-radius: 10px;
+            padding: 15px;
+            overflow-y: auto;
+            pointer-events: auto;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 3px solid #0ff;
+            animation: fadeIn 0.3s;
+        }
+
+        .founder { border-left-color: #0f0; color: #0f0; }
+        .echo { border-left-color: #0ff; color: #0ff; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: auto;
+        }
+
+        button {
+            font-family: 'Consolas', monospace;
+            font-size: 1.2em;
+            padding: 15px 40px;
+            margin: 0 10px;
+            background: #0ff;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #0f0;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button.recording {
+            background: #f00;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px #f00; }
+            50% { box-shadow: 0 0 40px #f00; }
+        }
+
+        #status {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            text-align: center;
+            text-shadow: 0 0 20px currentColor;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #status.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <canvas id="canvas3d"></canvas>
+
+        <div id="ui-overlay">
+            <div id="header">
+                <h1>◆ E C H O ◆ 3D Neural Interface</h1>
+            </div>
+
+            <div id="state-panel">
+                <h3>INTERNAL STATE</h3>
+                <div class="state-bar">
+                    <div class="state-label">ENERGY: <span id="energy-val">70</span>%</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="energy-bar" style="width: 70%"></div>
+                    </div>
+                </div>
+                <div class="state-bar">
+                    <div class="state-label">PATIENCE: <span id="patience-val">60</span>%</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="patience-bar" style="width: 60%"></div>
+                    </div>
+                </div>
+                <div class="state-bar">
+                    <div class="state-label">EXCITEMENT: <span id="excitement-val">55</span>%</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="excitement-bar" style="width: 55%"></div>
+                    </div>
+                </div>
+                <div class="state-bar">
+                    <div class="state-label">SKEPTICISM: <span id="skepticism-val">40</span>%</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" id="skepticism-bar" style="width: 40%"></div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #0ff;">
+                    <strong>MOOD:</strong> <span id="mood-display">IDLE</span>
+                </div>
+            </div>
+
+            <div id="neural-activity">
+                <h3 style="color: #f0f; margin-bottom: 10px;">NEURAL ACTIVITY</h3>
+                <canvas id="neural-canvas"></canvas>
+            </div>
+
+            <div id="conversation"></div>
+
+            <div id="controls">
+                <button id="listen-btn" onclick="toggleListen()">🎤 SPEAK</button>
+                <button onclick="clearConversation()">CLEAR</button>
+            </div>
+
+            <div id="status"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // ===== 3D SCENE SETUP =====
+        let scene, camera, renderer, echoBody, brain, heart, neurons = [];
+        let clock = new THREE.Clock();
+        let currentMood = 'idle';
+
+        function init3D() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            renderer = new THREE.WebGLRenderer({
+                canvas: document.getElementById('canvas3d'),
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 1);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x404040, 2);
+            scene.add(ambientLight);
+
+            const pointLight = new THREE.PointLight(0x00ffff, 2, 100);
+            pointLight.position.set(0, 5, 5);
+            scene.add(pointLight);
+
+            // Create ECHO's body
+            createEchoBody();
+
+            // Start animation
+            animate();
+        }
+
+        function createEchoBody() {
+            // Main body (transparent sphere showing internals)
+            const bodyGeometry = new THREE.SphereGeometry(2, 32, 32);
+            const bodyMaterial = new THREE.MeshPhongMaterial({
+                color: 0x00ffff,
+                transparent: true,
+                opacity: 0.2,
+                wireframe: false
+            });
+            echoBody = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            scene.add(echoBody);
+
+            // Brain (central sphere with neural network)
+            const brainGeometry = new THREE.SphereGeometry(0.8, 16, 16);
+            const brainMaterial = new THREE.MeshPhongMaterial({
+                color: 0xff00ff,
+                emissive: 0xff00ff,
+                emissiveIntensity: 0.5,
+                wireframe: true
+            });
+            brain = new THREE.Mesh(brainGeometry, brainMaterial);
+            brain.position.y = 0.5;
+            echoBody.add(brain);
+
+            // Heart (pulsing core)
+            const heartGeometry = new THREE.OctahedronGeometry(0.3);
+            const heartMaterial = new THREE.MeshPhongMaterial({
+                color: 0xff0000,
+                emissive: 0xff0000,
+                emissiveIntensity: 0.8
+            });
+            heart = new THREE.Mesh(heartGeometry, heartMaterial);
+            heart.position.y = -0.5;
+            echoBody.add(heart);
+
+            // Neural connections (lines between random points)
+            createNeuralNetwork();
+
+            // Energy field (outer glow)
+            const glowGeometry = new THREE.SphereGeometry(2.2, 32, 32);
+            const glowMaterial = new THREE.MeshBasicMaterial({
+                color: 0x00ffff,
+                transparent: true,
+                opacity: 0.1,
+                side: THREE.BackSide
+            });
+            const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+            scene.add(glow);
+        }
+
+        function createNeuralNetwork() {
+            // Create neural nodes
+            for (let i = 0; i < 50; i++) {
+                const geometry = new THREE.SphereGeometry(0.02);
+                const material = new THREE.MeshBasicMaterial({
+                    color: 0x00ffff,
+                    emissive: 0x00ffff,
+                    emissiveIntensity: 1
+                });
+                const neuron = new THREE.Mesh(geometry, material);
+
+                // Random position inside brain
+                neuron.position.set(
+                    (Math.random() - 0.5) * 1.5,
+                    (Math.random() - 0.5) * 1.5 + 0.5,
+                    (Math.random() - 0.5) * 1.5
+                );
+
+                neurons.push(neuron);
+                echoBody.add(neuron);
+            }
+
+            // Neural connections (lines)
+            const linesMaterial = new THREE.LineBasicMaterial({
+                color: 0xff00ff,
+                transparent: true,
+                opacity: 0.3
+            });
+
+            for (let i = 0; i < neurons.length; i++) {
+                if (Math.random() > 0.7) {
+                    const target = neurons[Math.floor(Math.random() * neurons.length)];
+                    const points = [neurons[i].position, target.position];
+                    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                    const line = new THREE.Line(geometry, linesMaterial);
+                    echoBody.add(line);
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const delta = clock.getDelta();
+            const elapsed = clock.getElapsedTime();
+
+            // Rotate body
+            echoBody.rotation.y += 0.002;
+
+            // Pulse heart
+            const heartPulse = 1 + Math.sin(elapsed * 2) * 0.3;
+            heart.scale.set(heartPulse, heartPulse, heartPulse);
+
+            // Pulse brain based on mood
+            const brainIntensity = currentMood === 'thinking' ? 2 : 0.5;
+            brain.material.emissiveIntensity = 0.3 + Math.sin(elapsed * 3) * brainIntensity;
+
+            // Animate neurons
+            neurons.forEach((neuron, i) => {
+                neuron.material.emissiveIntensity = 0.5 + Math.sin(elapsed * 5 + i) * 0.5;
+            });
+
+            // Mood-based effects
+            if (currentMood === 'excited') {
+                echoBody.rotation.y += 0.01;
+                neurons.forEach(n => n.material.color.setHex(0x00ff00));
+            } else if (currentMood === 'annoyed') {
+                neurons.forEach(n => n.material.color.setHex(0xff0000));
+            } else {
+                neurons.forEach(n => n.material.color.setHex(0x00ffff));
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // ===== NEURAL ACTIVITY VISUALIZATION =====
+        let neuralCanvas, neuralCtx;
+        let neuralNodes = [];
+
+        function initNeuralCanvas() {
+            neuralCanvas = document.getElementById('neural-canvas');
+            neuralCtx = neuralCanvas.getContext('2d');
+            neuralCanvas.width = 260;
+            neuralCanvas.height = 340;
+
+            // Create nodes
+            for (let i = 0; i < 30; i++) {
+                neuralNodes.push({
+                    x: Math.random() * 260,
+                    y: Math.random() * 340,
+                    vx: (Math.random() - 0.5) * 2,
+                    vy: (Math.random() - 0.5) * 2,
+                    activity: Math.random()
+                });
+            }
+
+            animateNeural();
+        }
+
+        function animateNeural() {
+            neuralCtx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            neuralCtx.fillRect(0, 0, 260, 340);
+
+            // Update and draw nodes
+            neuralNodes.forEach((node, i) => {
+                node.x += node.vx;
+                node.y += node.vy;
+
+                if (node.x < 0 || node.x > 260) node.vx *= -1;
+                if (node.y < 0 || node.y > 340) node.vy *= -1;
+
+                node.activity = 0.3 + Math.sin(Date.now() / 1000 + i) * 0.7;
+
+                // Draw connections
+                neuralNodes.forEach((other, j) => {
+                    if (i < j) {
+                        const dist = Math.hypot(node.x - other.x, node.y - other.y);
+                        if (dist < 80) {
+                            neuralCtx.strokeStyle = `rgba(255, 0, 255, ${(1 - dist / 80) * 0.3})`;
+                            neuralCtx.lineWidth = 1;
+                            neuralCtx.beginPath();
+                            neuralCtx.moveTo(node.x, node.y);
+                            neuralCtx.lineTo(other.x, other.y);
+                            neuralCtx.stroke();
+                        }
+                    }
+                });
+
+                // Draw node
+                neuralCtx.fillStyle = `rgba(255, 0, 255, ${node.activity})`;
+                neuralCtx.beginPath();
+                neuralCtx.arc(node.x, node.y, 3, 0, Math.PI * 2);
+                neuralCtx.fill();
+            });
+
+            requestAnimationFrame(animateNeural);
+        }
+
+        // ===== VOICE & CONVERSATION =====
+        let isListening = false;
+        let ws = null;
+
+        function toggleListen() {
+            const btn = document.getElementById('listen-btn');
+
+            if (!isListening) {
+                isListening = true;
+                btn.textContent = '🔴 LISTENING...';
+                btn.classList.add('recording');
+                currentMood = 'listening';
+                showStatus('LISTENING...', '#00ff00');
+                startListening();
+            } else {
+                isListening = false;
+                btn.textContent = '🎤 SPEAK';
+                btn.classList.remove('recording');
+                currentMood = 'idle';
+                hideStatus();
+            }
+        }
+
+        function startListening() {
+            // Call Python backend to record and transcribe
+            fetch('http://localhost:8765/listen', { method: 'POST' })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.text) {
+                        addMessage('founder', data.text, data.language);
+                        processInput(data.text);
+                    }
+                    isListening = false;
+                    document.getElementById('listen-btn').textContent = '🎤 SPEAK';
+                    document.getElementById('listen-btn').classList.remove('recording');
+                })
+                .catch(err => {
+                    console.error(err);
+                    isListening = false;
+                    showStatus('Error: ' + err.message, '#ff0000');
+                });
+        }
+
+        function processInput(text) {
+            currentMood = 'thinking';
+            showStatus('THINKING...', '#ffff00');
+
+            // Generate response
+            setTimeout(() => {
+                const response = generateResponse(text);
+                addMessage('echo', response);
+                speak(response);
+                updateState(text);
+            }, 1000);
+        }
+
+        function generateResponse(text) {
+            const lower = text.toLowerCase();
+
+            if (lower.includes('100 women') || lower.includes('without money')) {
+                return "Yes. Possible. But you'll hate how. Get uncomfortable. Cold DMs. Show up at cafes. Ask for intros. No money = manual hustle. Are you willing to look desperate?";
+            } else if (lower.includes('pivot') || lower.includes('change')) {
+                return "Another pivot? Haven't validated current idea. Pick one thing. Commit. Execute. Stop chasing shiny objects.";
+            } else if (lower.includes('user') || lower.includes('traction')) {
+                return "Show me numbers. How many users now? How many this week? Data or it didn't happen.";
+            } else {
+                return "I heard you. What's the actual next action? Not strategy. The thing you'll do in the next hour.";
+            }
+        }
+
+        function speak(text) {
+            currentMood = 'speaking';
+            showStatus('SPEAKING...', '#ff00ff');
+
+            // Call Python TTS
+            fetch('http://localhost:8765/speak', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text })
+            }).then(() => {
+                currentMood = 'idle';
+                hideStatus();
+            });
+        }
+
+        function addMessage(speaker, text, lang = 'en') {
+            const conv = document.getElementById('conversation');
+            const div = document.createElement('div');
+            div.className = `message ${speaker}`;
+
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = speaker === 'founder' ? '👤 YOU' : '◆ ECHO';
+
+            div.innerHTML = `<strong>[${timestamp}] ${prefix}${lang !== 'en' ? ` (${lang})` : ''}:</strong><br>${text}`;
+
+            conv.appendChild(div);
+            conv.scrollTop = conv.scrollHeight;
+        }
+
+        function updateState(text) {
+            const lower = text.toLowerCase();
+
+            if (lower.includes('pivot') || lower.includes('change')) {
+                setStateValue('patience', -15);
+                setStateValue('skepticism', +10);
+                currentMood = 'annoyed';
+            } else if (lower.includes('ship') || lower.includes('launch')) {
+                setStateValue('energy', +10);
+                setStateValue('excitement', +15);
+                currentMood = 'excited';
+            } else {
+                setStateValue('energy', -5);
+            }
+
+            document.getElementById('mood-display').textContent = currentMood.toUpperCase();
+        }
+
+        function setStateValue(type, delta) {
+            const val = document.getElementById(`${type}-val`);
+            const bar = document.getElementById(`${type}-bar`);
+
+            let current = parseInt(val.textContent);
+            current = Math.max(0, Math.min(100, current + delta));
+
+            val.textContent = current;
+            bar.style.width = current + '%';
+        }
+
+        function showStatus(text, color) {
+            const status = document.getElementById('status');
+            status.textContent = text;
+            status.style.color = color;
+            status.classList.add('show');
+        }
+
+        function hideStatus() {
+            document.getElementById('status').classList.remove('show');
+        }
+
+        function clearConversation() {
+            document.getElementById('conversation').innerHTML = '';
+        }
+
+        // ===== INIT =====
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        init3D();
+        initNeuralCanvas();
+
+        // Initial greeting
+        setTimeout(() => {
+            addMessage('echo', "I'm listening. Click SPEAK and talk to me.");
+            speak("I'm listening. Click SPEAK and talk to me.");
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -138,6 +138,46 @@ public static class UserDataEndpoints
             return Results.Ok(new { reset = true });
         });
 
+        // GET /me/blocks — list of users the caller has blocked
+        group.MapGet("/blocks", async (
+            ClaimsPrincipal principal,
+            WovenDbContext db,
+            CancellationToken ct) =>
+        {
+            var userId = GetUserId(principal);
+
+            var blocked = await db.Blocks
+                .Where(b => b.BlockerId == userId)
+                .Join(db.Users,
+                    b => b.BlockedId,
+                    u => u.Id,
+                    (b, u) => new
+                    {
+                        userId      = u.Id,
+                        name        = u.FullName ?? "Unknown",
+                        photo       = u.ProfilePhoto,
+                        blockedAt   = b.CreatedAt
+                    })
+                .OrderByDescending(x => x.blockedAt)
+                .ToListAsync(ct);
+
+            return Results.Ok(blocked);
+        });
+
+        // DELETE /me/blocks/{targetUserId} — unblock a user
+        group.MapDelete("/blocks/{targetUserId:int}", async (
+            int targetUserId,
+            ClaimsPrincipal principal,
+            WovenDbContext db,
+            CancellationToken ct) =>
+        {
+            var userId = GetUserId(principal);
+            var deleted = await db.Blocks
+                .Where(b => b.BlockerId == userId && b.BlockedId == targetUserId)
+                .ExecuteDeleteAsync(ct);
+            return deleted > 0 ? Results.Ok(new { unblocked = true }) : Results.NotFound();
+        });
+
         // DELETE /me/account — hard delete; anonymizes matches and removes all media
         group.MapDelete("/account", async (
             ClaimsPrincipal principal,
@@ -189,3 +229,70 @@ public static class UserDataEndpoints
         return int.Parse(raw);
     }
 }
+
+// ── Push subscription endpoints ────────────────────────────────────────────────
+public static class PushEndpoints
+{
+    public static void MapPushEndpoints(this WebApplication app)
+    {
+        var group = app.MapGroup("/me").RequireAuthorization();
+
+        // GET /me/vapid-public-key — frontend needs this to subscribe
+        group.MapGet("/vapid-public-key", (WovenBackend.Services.PushNotifications.IWebPushService push) =>
+            Results.Ok(new { publicKey = push.GetPublicVapidKey() }));
+
+        // POST /me/push-subscription — register a browser push subscription
+        group.MapPost("/push-subscription", async (
+            PushSubscriptionRequest req,
+            ClaimsPrincipal principal,
+            WovenDbContext db,
+            CancellationToken ct) =>
+        {
+            var userId = GetPushUserId(principal);
+
+            // Upsert by endpoint — one browser registers one endpoint
+            var existing = await db.PushSubscriptions
+                .FirstOrDefaultAsync(s => s.UserId == userId && s.Endpoint == req.Endpoint, ct);
+
+            if (existing is null)
+            {
+                db.PushSubscriptions.Add(new WovenBackend.Data.Entities.UserPushSubscription
+                {
+                    UserId    = userId,
+                    Endpoint  = req.Endpoint,
+                    P256dh    = req.P256dh,
+                    Auth      = req.Auth,
+                    UserAgent = req.UserAgent,
+                });
+                await db.SaveChangesAsync(ct);
+            }
+
+            return Results.Ok(new { registered = true });
+        });
+
+        // DELETE /me/push-subscription — unregister (on toggle off or logout)
+        group.MapDelete("/push-subscription", async (
+            PushUnsubscribeRequest req,
+            ClaimsPrincipal principal,
+            WovenDbContext db,
+            CancellationToken ct) =>
+        {
+            var userId = GetPushUserId(principal);
+            await db.PushSubscriptions
+                .Where(s => s.UserId == userId && s.Endpoint == req.Endpoint)
+                .ExecuteDeleteAsync(ct);
+            return Results.Ok(new { unregistered = true });
+        });
+    }
+
+    private static int GetPushUserId(ClaimsPrincipal principal)
+    {
+        var raw = principal.FindFirstValue("uid")
+               ?? principal.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier)
+               ?? throw new UnauthorizedAccessException("No user ID claim");
+        return int.Parse(raw);
+    }
+}
+
+internal record PushSubscriptionRequest(string Endpoint, string P256dh, string Auth, string? UserAgent);
+internal record PushUnsubscribeRequest(string Endpoint);

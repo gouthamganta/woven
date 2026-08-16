@@ -6,13 +6,18 @@ namespace WovenBackend.Services.Matchmaking;
 
 public class WeightLearningBatchWorker : BackgroundService
 {
+    private const string LockKey = "lock:weight-learning-batch";
+    private static readonly TimeSpan LockExpiry = TimeSpan.FromHours(6);
+
     private readonly IServiceScopeFactory _scopeFactory;
+    private readonly ICacheService _cache;
     private readonly ILogger<WeightLearningBatchWorker> _logger;
 
-    public WeightLearningBatchWorker(IServiceScopeFactory scopeFactory, ILogger<WeightLearningBatchWorker> logger)
+    public WeightLearningBatchWorker(IServiceScopeFactory scopeFactory, ICacheService cache, ILogger<WeightLearningBatchWorker> logger)
     {
         _scopeFactory = scopeFactory;
-        _logger = logger;
+        _cache        = cache;
+        _logger       = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken ct)
@@ -21,6 +26,12 @@ public class WeightLearningBatchWorker : BackgroundService
         {
             await SleepUntilSunday4AmUtcAsync(ct);
             if (ct.IsCancellationRequested) break;
+
+            if (!await _cache.AcquireLockAsync(LockKey, LockExpiry, ct))
+            {
+                _logger.LogInformation("[WeightLearningBatchWorker] Skipping — another pod holds the lock");
+                continue;
+            }
 
             var start = DateTime.UtcNow;
             _logger.LogInformation("[WeightLearningBatchWorker] Starting weekly weight learning at {Time}", start);
@@ -60,6 +71,10 @@ public class WeightLearningBatchWorker : BackgroundService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "[WeightLearningBatchWorker] Batch failed");
+            }
+            finally
+            {
+                await _cache.ReleaseLockAsync(LockKey, ct);
             }
         }
     }

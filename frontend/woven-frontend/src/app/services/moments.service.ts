@@ -3,92 +3,114 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 
-export type MomentChoice = 'MAGICAL' | 'LOGICAL' | 'PENDING';
-
-export type MomentsTheme = {
-  id: string;
-  question?: string;
-  left: { label: string; emoji: string; choice: MomentChoice };
-  mid: { label: string; emoji: string; choice: MomentChoice };
-  right: { label: string; emoji: string; choice: MomentChoice };
-};
+export type MomentAction = 'MAGICAL' | 'LOGICAL' | 'PASS';
+export type MomentSource = 'TODAY' | 'LIKED_YOU' | null;
 
 export type LocationDto = { city?: string | null; state?: string | null };
 
-/** ✅ NEW: Match explanation returned from backend */
 export type MatchReason = {
   headline?: string | null;
   bullets?: string[] | null;
   tone?: string | null;
+  bridgeQuestion?: string | null;
+};
+
+export type HighlightedTile = {
+  id: string;
+  contentType: string;
+  contentText?: string | null;
+  mediaUrl?: string | null;
+  isActive?: boolean;  // true = live in Commons right now, false = pinned highlight
 };
 
 export type MomentsCard = {
   userId: number;
   fullName: string;
   profilePhoto?: string | null;
-  age?: number | null;
   gender?: string | null;
+  displayPronouns?: string | null;
   location?: LocationDto | null;
-
-  // Orchestrator fields
+  isVerified?: boolean | null;
   score?: number | null;
   bucket?: string | null;
+  alreadyChoseYou?: boolean;
   reason?: MatchReason | null;
+  rating?: { average: number; count: number; show: boolean } | null;
+  photos?: string[] | null;
+  highlightedTiles?: HighlightedTile[] | null;
+  // Cinematic intro (null until Build N+1 populates)
+  kenBurnsPhotoUrls?: string[] | null;
+  curatedQuote?: string | null;
+  narrationUrl?: string | null;
+  narrationExposed?: boolean;
+};
 
-  // Rating (shown when count >= 5)
-  rating?: {
-    average: number;
-    count: number;
-    show: boolean;
-  } | null;
+export type LikedYouCard = {
+  userId: number;
+  fullName: string;
+  profilePhoto?: string | null;
+  location?: LocationDto | null;
+  isVerified?: boolean | null;
+  likedAt: string;
+  expiresInHours: number;
+  photos?: string[] | null;
+  highlightedTiles?: HighlightedTile[] | null;
+  rating?: { average: number; count: number; show: boolean } | null;
 };
 
 export type MomentsBudget = {
   totalCap: number;
   totalUsed: number;
   totalRemaining: number;
-  pendingCap: number;
-  pendingUsed: number;
-  pendingRemaining: number;
 };
 
 export type MomentsResponse = {
   dateUtc: string;
-  theme: MomentsTheme;
   budget: MomentsBudget;
+  sparkBalance?: number;
+  moodLine?: string | null;
   count: number;
   cards: MomentsCard[];
 };
 
+export type LikedYouResponse = {
+  count: number;
+  cards: LikedYouCard[];
+};
+
 export type RespondRequest = {
   targetUserId: number;
-  choice: MomentChoice;
-  source?: 'PENDING' | 'MOMENTS' | null;
+  choice: MomentAction;
+  source?: MomentSource;
+  timeOnCardMs?: number | null;
 };
 
 export type RespondResult = {
   status: string;
   matchId?: string;
+  matchType?: string;
   edgeOwnerId?: number | null;
   reason?: string | null;
   totalUsed?: number;
-  pendingUsed?: number;
   error?: string;
 };
 
-// ✅ Pending/Hold
-export type PendingCard = {
-  userId: number;
-  fullName: string;
-  profilePhoto?: string | null;
-  age?: number | null;
-  location?: LocationDto | null;
-  savedAt?: string; // ISO string
+export type ChooseRequest = {
+  targetUserId: number;
+  choice: 'MAGICAL' | 'LOGICAL';
+  noteText: string;
+  source?: MomentSource;
+  timeOnCardMs?: number | null;
 };
 
-export type PendingResponse = {
-  count: number;
-  cards: PendingCard[];
+export type ChooseResult = {
+  status: string;
+  matchId?: string;
+  matchType?: string;
+  edgeOwnerId?: number | null;
+  reason?: string | null;
+  error?: string;
+  sparkBalance?: number;
 };
 
 @Injectable({ providedIn: 'root' })
@@ -99,11 +121,15 @@ export class MomentsService {
     return this.http.get<MomentsResponse>(`${environment.apiUrl}/moments`);
   }
 
-  getPending(): Observable<PendingResponse> {
-    return this.http.get<PendingResponse>(`${environment.apiUrl}/moments/pending`);
+  getLikedYou(): Observable<LikedYouResponse> {
+    return this.http.get<LikedYouResponse>(`${environment.apiUrl}/moments/liked-you`);
   }
 
   respond(req: RespondRequest): Observable<RespondResult> {
     return this.http.post<RespondResult>(`${environment.apiUrl}/moments/respond`, req);
+  }
+
+  choose(req: ChooseRequest): Observable<ChooseResult> {
+    return this.http.post<ChooseResult>(`${environment.apiUrl}/moments/choose`, req);
   }
 }

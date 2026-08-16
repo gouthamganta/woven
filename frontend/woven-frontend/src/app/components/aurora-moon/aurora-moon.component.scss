@@ -1,0 +1,170 @@
+.aurora-moon-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+// === VISIBLE AURORA - PROVEN COLORS ===
+.aurora-waves {
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0.7;
+  transition: opacity 0.8s ease;
+
+  &.scrolling {
+    opacity: 1;
+    filter: brightness(1.2);
+  }
+}
+
+.wave-band {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg,
+    transparent 0%,
+    #00ff87 20%,
+    #60efff 40%,
+    #b490ff 60%,
+    #ff6b9d 80%,
+    transparent 100%);
+  opacity: 0.5;
+  filter: blur(50px);
+  animation: aurora-flow 20s ease-in-out infinite;
+
+  &.band-1 {
+    animation-duration: 25s;
+    animation-delay: 0s;
+  }
+
+  &.band-2 {
+    animation-duration: 30s;
+    animation-delay: -10s;
+    opacity: 0.4;
+    transform: scaleY(0.8);
+  }
+
+  &.band-3 {
+    animation-duration: 35s;
+    animation-delay: -20s;
+    opacity: 0.35;
+    transform: scaleY(0.9) rotate(5deg);
+  }
+
+  &.band-4 {
+    animation-duration: 28s;
+    animation-delay: -15s;
+    opacity: 0.3;
+    transform: scaleY(0.7) rotate(-3deg);
+  }
+}
+
+@keyframes aurora-flow {
+  0% {
+    transform: translateX(0%) translateY(-10%);
+    filter: blur(50px) hue-rotate(0deg);
+  }
+  50% {
+    transform: translateX(-40%) translateY(10%);
+    filter: blur(60px) hue-rotate(20deg);
+  }
+  100% {
+    transform: translateX(0%) translateY(-10%);
+    filter: blur(50px) hue-rotate(0deg);
+  }
+}
+
+// === MOON - MULTI-LAYER GLOW TECHNIQUE ===
+.aurora-moon {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: 140px;
+  height: 140px;
+  transition: all 0.3s ease-out;
+  will-change: transform;
+  transform: translateZ(0); // GPU acceleration
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.moon-body {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: relative;
+  background: radial-gradient(circle at 35% 35%,
+    #E8E8E8 0%,
+    #D0D0D0 40%,
+    #A8A8A8 100%);
+  transition: all 0.8s ease;
+
+  // Multi-layer box-shadow for volumetric glow (proven technique)
+  .aurora-moon:not(.scrolling) & {
+    box-shadow:
+      inset -8px -8px 15px rgba(0, 0, 0, 0.3),
+      inset 3px 3px 10px rgba(255, 255, 255, 0.3),
+      0 0 20px rgba(255, 255, 200, 0.3),
+      0 0 60px rgba(255, 255, 200, 0.2),
+      0 0 100px rgba(255, 255, 180, 0.15);
+    animation: moon-breathe 8s ease-in-out infinite;
+  }
+
+  .aurora-moon.scrolling & {
+    box-shadow:
+      inset -8px -8px 15px rgba(0, 0, 0, 0.25),
+      inset 3px 3px 10px rgba(255, 255, 255, 0.4),
+      0 0 25px rgba(255, 255, 220, 0.5),
+      0 0 70px rgba(255, 255, 200, 0.35),
+      0 0 120px rgba(255, 255, 180, 0.25);
+  }
+}
+
+.moon-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+@keyframes moon-breathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+// Disable on reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .aurora-wave {
+    animation: none !important;
+  }
+
+  .aurora-moon {
+    animation: none !important;
+  }
+
+  .aurora-waves.scrolling,
+  .aurora-moon.scrolling {
+    transition: none !important;
+    transform: none !important;
+  }
+}

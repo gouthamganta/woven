@@ -23,33 +23,44 @@ body {
 
 /* ── Design Tokens ─────────────────────────────────── */
 :root {
-  /* Color — Backgrounds */
-  --bg-base:     #1A0F1E;
-  --bg-surface:  #221628;
-  --bg-elevated: #2C1D35;
+  /* Color — Backgrounds (cinematic midnight, matches video) */
+  --bg-base:     #0E0912;
+  --bg-surface:  #160D1C;
+  --bg-elevated: #1E1228;
 
-  /* Color — Rose (primary) */
-  --rose-300: #F07AAC;
-  --rose-400: #E05490;
-  --rose-500: #C73F78;
-  --rose-glow: rgba(224, 84, 144, 0.28);
+  /* Color — Crimson (primary — video thread / WOVEN wordmark) */
+  --rose-300: #E8564A;
+  --rose-400: #C0392B;
+  --rose-500: #962D22;
+  --rose-glow: rgba(192, 57, 43, 0.30);
 
-  /* Color — Plum (accent) */
-  --plum-300: #A07FD8;
-  --plum-400: #7D5BD0;
-  --plum-500: #5E3FA8;
-  --plum-glow: rgba(125, 91, 208, 0.26);
+  /* Color — Gold (highlight — video gold hand) */
+  --gold-300: #D4A850;
+  --gold-400: #D4A017;
+  --gold-500: #A87C10;
+  --gold-glow: rgba(212, 160, 23, 0.36);
+
+  /* Color — Violet (secondary — video purple hand) */
+  --plum-300: #9E99E8;
+  --plum-400: #7F77DD;
+  --plum-500: #5E57C0;
+  --plum-glow: rgba(127, 119, 221, 0.26);
+
+  /* Color — Green (online / live / success) */
+  --green-300: #52c47a;
+  --green-400: #3aa862;
+  --green-glow: rgba(82, 196, 122, 0.22);
 
   /* Color — Text */
-  --text-primary:   rgba(255, 245, 250, 0.96);
-  --text-secondary: rgba(255, 230, 242, 0.70);
-  --text-muted:     rgba(255, 215, 235, 0.46);
-  --text-dim:       rgba(255, 200, 225, 0.28);
+  --text-primary:   rgba(255, 248, 240, 0.96);
+  --text-secondary: rgba(240, 225, 200, 0.72);
+  --text-muted:     rgba(220, 200, 180, 0.50);
+  --text-dim:       rgba(200, 180, 160, 0.40);  /* raised from 0.28 — WCAG AA */
 
   /* Color — Border */
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-soft:   rgba(255, 255, 255, 0.13);
-  --border-medium: rgba(255, 255, 255, 0.22);
+  --border-subtle: rgba(255, 255, 255, 0.10);
+  --border-soft:   rgba(255, 255, 255, 0.15);
+  --border-medium: rgba(255, 255, 255, 0.24);
 
   /* Typography */
   --font-display:  "Fraunces", Georgia, "Times New Roman", serif;
@@ -89,12 +100,18 @@ body {
   --radius-2xl:  32px;
   --radius-full: 9999px;
 
+  /* Backgrounds — overlays & elevation */
+  --bg-overlay:  rgba(10, 7, 14, 0.94);   /* gallery, coaching card, modals */
+  --bg-scrim:    rgba(14, 9, 18, 0.82);   /* photo overlays, drawer backs */
+
   /* Shadows */
   --shadow-sm:   0 2px 8px rgba(0, 0, 0, 0.36);
   --shadow-md:   0 4px 20px rgba(0, 0, 0, 0.44);
   --shadow-lg:   0 8px 40px rgba(0, 0, 0, 0.52);
   --shadow-rose: 0 8px 32px var(--rose-glow);
+  --shadow-gold: 0 8px 32px var(--gold-glow);
   --shadow-plum: 0 8px 32px var(--plum-glow);
+  --shadow-green: 0 4px 16px var(--green-glow);
 
   /* Motion */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -146,10 +163,10 @@ html::before {
   transition: transform 80ms linear;
 
   background:
-    radial-gradient(900px 700px at 20% 15%, rgba(125, 91, 208, 0.16), transparent 65%),
-    radial-gradient(800px 600px at 82% 22%, rgba(224, 84, 144, 0.14), transparent 62%),
-    radial-gradient(1000px 800px at 74% 90%, rgba(125, 91, 208, 0.10), transparent 70%),
-    radial-gradient(600px 400px at 8%  84%, rgba(224, 84, 144, 0.09), transparent 60%);
+    radial-gradient(900px 700px at 20% 15%, rgba(127, 119, 221, 0.13), transparent 65%),
+    radial-gradient(800px 600px at 82% 22%, rgba(192, 57,  43,  0.11), transparent 62%),
+    radial-gradient(1000px 800px at 74% 90%, rgba(212, 160, 23,  0.07), transparent 70%),
+    radial-gradient(600px 400px at 8%  84%, rgba(192, 57,  43,  0.08), transparent 60%);
 }
 
 /* ── Global Background — Layer B: Woven textile weave ── */
@@ -200,56 +217,103 @@ small, .mini   { color: var(--text-muted); font-size: var(--text-sm); }
 .display-italic { font-family: var(--font-display); font-style: italic; }
 
 /* ── Buttons ───────────────────────────────────────── */
-:where(.btn, .btnPrimary, .btnGhost, .chipBtn, .submitBtn, .retryBtn, .send) {
+:where(.btn, .btnPrimary, .btnGhost, .btnDanger, .chipBtn, .submitBtn, .retryBtn, .send) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  min-height: 46px;
-  padding: 12px 20px;
+  min-height: 48px;
+  padding: 13px 22px;
   border-radius: var(--radius-lg);
   font-family: var(--font-ui);
-  font-weight: 600;
+  font-weight: 700;
   font-size: var(--text-sm);
+  letter-spacing: 0.01em;
   cursor: pointer;
   user-select: none;
   border: none;
   transition:
-    transform var(--dur-base) var(--ease-spring),
-    box-shadow var(--dur-slow) var(--ease-out),
-    background var(--dur-base) var(--ease-out);
+    transform var(--dur-fast) var(--ease-spring),
+    box-shadow var(--dur-base) var(--ease-out),
+    opacity     var(--dur-base) var(--ease-out);
 }
 
+/* PRIMARY — gold gradient (all positive CTAs) */
 .btnPrimary, .submitBtn, .send {
-  background: linear-gradient(135deg, var(--rose-400), var(--plum-400));
-  color: #fff;
-  box-shadow: var(--shadow-rose);
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
+  color: var(--bg-base);
+  box-shadow: 0 4px 20px var(--gold-glow);
 }
 
 .btnPrimary:hover:not(:disabled),
 .submitBtn:hover:not(:disabled),
 .send:hover:not(:disabled) {
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 12px 40px var(--rose-glow), 0 4px 16px var(--plum-glow);
+  box-shadow: 0 8px 32px var(--gold-glow), 0 2px 8px rgba(0,0,0,0.4);
 }
 
+.btnPrimary:active:not(:disabled),
+.submitBtn:active:not(:disabled),
+.send:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* GHOST — transparent with border */
 .btnGhost, .retryBtn {
-  background: var(--bg-elevated);
+  background: transparent;
   border: 1px solid var(--border-soft);
   color: var(--text-primary);
 }
 
 .btnGhost:hover:not(:disabled),
 .retryBtn:hover:not(:disabled) {
-  transform: translateY(-1px);
   border-color: var(--border-medium);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm);
 }
+
+.btnGhost:active:not(:disabled),
+.retryBtn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* DANGER — crimson (destructive actions only) */
+.btnDanger {
+  background: linear-gradient(135deg, var(--rose-500), var(--rose-400));
+  color: #fff;
+  box-shadow: 0 4px 20px var(--rose-glow);
+}
+
+.btnDanger:hover:not(:disabled) {
+  box-shadow: 0 8px 32px var(--rose-glow);
+}
+
+.btnDanger:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* DISABLED */
+:where(.btn, .btnPrimary, .btnGhost, .btnDanger, .submitBtn, .retryBtn, .send):disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* LOADING — pulse while async pending */
+@keyframes btnPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+.btnLoading { animation: btnPulse 1.2s var(--ease-inout) infinite; pointer-events: none; }
 
 .gameOption, .option {
   white-space: normal;
   text-align: left;
   justify-content: flex-start;
+}
+
+/* ── Focus-visible ring (keyboard nav) ─────────────── */
+:focus-visible {
+  outline: 2px solid var(--gold-400);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
 /* ── Inputs ────────────────────────────────────────── */
@@ -275,7 +339,7 @@ textarea:focus,
 select:focus {
   outline: none;
   border-color: var(--rose-400);
-  box-shadow: 0 0 0 3px var(--rose-glow);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.20);
 }
 
 /* ── Surface utilities ─────────────────────────────── */
@@ -283,11 +347,14 @@ select:focus {
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 1px rgba(212, 160, 23, 0.06),
+    0 0 24px rgba(127, 119, 221, 0.07);
 }
 
 .glass {
-  background: rgba(34, 22, 40, 0.75);
+  background: rgba(22, 13, 28, 0.78);
   backdrop-filter: blur(20px) saturate(1.6);
   -webkit-backdrop-filter: blur(20px) saturate(1.6);
   border: 1px solid var(--border-soft);

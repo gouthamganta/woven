@@ -48,3 +48,18 @@ output "jwt_secret_key" {
   value       = random_password.jwt_key.result
   sensitive   = true
 }
+
+output "workers_container_app_id" {
+  description = "Batch workers Container App resource ID"
+  value       = azurerm_container_app.workers.id
+}
+
+output "speechbrain_container_app_id" {
+  description = "SpeechBrain Container App resource ID"
+  value       = azurerm_container_app.speechbrain.id
+}
+
+output "speechbrain_internal_url" {
+  description = "Internal URL for SpeechBrain voice embedding endpoint"
+  value       = "http://${var.speechbrain_app_name}.internal.${azurerm_container_app_environment.main.default_domain}/embed"
+}

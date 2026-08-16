@@ -29,9 +29,29 @@ public class MatchExplanation
     // Tone used for generation: "playful", "calm", "serious"
     public string Tone { get; set; } = "calm";
 
-    // ✅ NEW: Date idea shown after Find Love unlocks
-    // e.g., "Grab coffee and explore a new neighborhood together"
+    // Date idea shown after Find Love unlocks (single idea, legacy)
     public string? DateIdea { get; set; } = null;
 
+    // JSON array of 3 date ideas; falls back to [DateIdea] for old rows
+    public string? DateIdeasJson { get; set; } = null;
+
+    // ECHO-generated opening question specific to this pair.
+    // Shown to the viewer post-choice. Pre-loaded as chat opener if they match.
+    public string? BridgeQuestion { get; set; } = null;
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public List<string> GetDateIdeas()
+    {
+        if (!string.IsNullOrEmpty(DateIdeasJson))
+        {
+            try
+            {
+                var ideas = System.Text.Json.JsonSerializer.Deserialize<List<string>>(DateIdeasJson);
+                if (ideas?.Count > 0) return ideas;
+            }
+            catch { }
+        }
+        return string.IsNullOrEmpty(DateIdea) ? [] : [DateIdea];
+    }
 }

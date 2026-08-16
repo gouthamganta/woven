@@ -1,0 +1,3 @@
+@echo off
+echo Starting ECHO GUI...
+python .echo\echo-gui.py

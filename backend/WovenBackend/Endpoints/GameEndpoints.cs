@@ -147,10 +147,17 @@ public static class GameEndpoints
             Guid sessionId,
             SubmitAnswersRequest req,
             IGameService gameService,
+            WovenBackend.Services.ICacheService cache,
             HttpContext http,
             CancellationToken ct) =>
         {
             var userId = GetUserId(http.User);
+
+            // Rate limit: 5 submissions per minute per user
+            var rateLimitKey = $"ratelimit:game:answers:{userId}";
+            var allowed = await cache.CheckRateLimitAsync(rateLimitKey, 5, TimeSpan.FromMinutes(1), ct);
+            if (!allowed)
+                return Results.Json(new { error = "RATE_LIMIT_EXCEEDED", retryAfter = 60 }, statusCode: 429);
 
             try
             {
@@ -170,10 +177,17 @@ public static class GameEndpoints
             Guid sessionId,
             SubmitAnswersRequest req,
             IGameService gameService,
+            WovenBackend.Services.ICacheService cache,
             HttpContext http,
             CancellationToken ct) =>
         {
             var userId = GetUserId(http.User);
+
+            // Rate limit: 5 submissions per minute per user (triggers AI calls)
+            var rateLimitKey = $"ratelimit:game:target-answers:{userId}";
+            var allowed = await cache.CheckRateLimitAsync(rateLimitKey, 5, TimeSpan.FromMinutes(1), ct);
+            if (!allowed)
+                return Results.Json(new { error = "RATE_LIMIT_EXCEEDED", retryAfter = 60 }, statusCode: 429);
 
             try
             {

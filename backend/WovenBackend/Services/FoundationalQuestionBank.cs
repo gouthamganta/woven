@@ -25,9 +25,9 @@ public static class FoundationalQuestionBank
         "Lifestyle", "Energy", "Values", "Communication", "Ambition", "Stability", "Curiosity", "Affection"
     };
 
-    public static BankQuestion[] GetBaseFiveForVersion(int version)
+    public static BankQuestion[] GetQuestionsForVersion(int version)
     {
-        // 5 questions intentionally cover 8 canonical pillars via overlap.
+        // 6 questions cover all 8 canonical pillars with intentional overlap.
         // IMPORTANT: Only use canonical pillar names to ensure proper scoring.
         return new[]
         {
@@ -39,23 +39,32 @@ public static class FoundationalQuestionBank
             new BankQuestion(
                 Id: "q2",
                 Text: "What kind of connection makes you feel most comfortable with someone new?",
-                Pillars: new[] { "Communication", "Affection" } // Fixed: was Connection, Attachment
+                Pillars: new[] { "Communication", "Affection" }
             ),
             new BankQuestion(
                 Id: "q3",
                 Text: "What's a small habit or routine that genuinely makes your life better?",
-                Pillars: new[] { "Lifestyle", "Stability" } // Fixed: was Habits, Stability
+                Pillars: new[] { "Lifestyle", "Stability" }
             ),
             new BankQuestion(
                 Id: "q4",
                 Text: "What's something you're proud of that doesn't show up on a resume?",
-                Pillars: new[] { "Values", "Curiosity" } // Fixed: was Identity, SelfWorth
+                Pillars: new[] { "Values", "Curiosity" }
             ),
             new BankQuestion(
                 Id: "q5",
                 Text: "What does a good relationship feel like to you in everyday moments?",
-                Pillars: new[] { "Affection", "Communication" } // Fixed: was Relationship, ConflictRepair
+                Pillars: new[] { "Affection", "Communication" }
+            ),
+            new BankQuestion(
+                Id: "q6",
+                Text: "What are you working toward right now that genuinely excites you?",
+                Pillars: new[] { "Ambition", "Curiosity" }
             )
         };
     }
+
+    // Backward-compat alias — remove after next deploy
+    public static BankQuestion[] GetBaseFiveForVersion(int version)
+        => GetQuestionsForVersion(version);
 }

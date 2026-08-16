@@ -5,13 +5,18 @@ namespace WovenBackend.Services.Trust;
 
 public class TrustBatchWorker : BackgroundService
 {
+    private const string LockKey = "lock:trust-batch";
+    private static readonly TimeSpan LockExpiry = TimeSpan.FromHours(4);
+
     private readonly IServiceScopeFactory _scopeFactory;
+    private readonly ICacheService _cache;
     private readonly ILogger<TrustBatchWorker> _logger;
 
-    public TrustBatchWorker(IServiceScopeFactory scopeFactory, ILogger<TrustBatchWorker> logger)
+    public TrustBatchWorker(IServiceScopeFactory scopeFactory, ICacheService cache, ILogger<TrustBatchWorker> logger)
     {
         _scopeFactory = scopeFactory;
-        _logger = logger;
+        _cache        = cache;
+        _logger       = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -23,6 +28,12 @@ public class TrustBatchWorker : BackgroundService
             await WaitForNextRunAsync(stoppingToken);
             if (stoppingToken.IsCancellationRequested) break;
 
+            if (!await _cache.AcquireLockAsync(LockKey, LockExpiry, stoppingToken))
+            {
+                _logger.LogInformation("[TrustBatch] Skipping — another pod holds the lock");
+                continue;
+            }
+
             try
             {
                 await RunBatchAsync(stoppingToken);
@@ -31,6 +42,10 @@ public class TrustBatchWorker : BackgroundService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "[TrustBatch] Error during nightly trust batch");
+            }
+            finally
+            {
+                await _cache.ReleaseLockAsync(LockKey, stoppingToken);
             }
         }
     }

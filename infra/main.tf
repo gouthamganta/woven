@@ -96,18 +96,44 @@ resource "azurerm_postgresql_flexible_server_configuration" "pgvector" {
 }
 
 # --------------------------------------------------------------
-# Redis Cache (Basic C0 — cache-only, no VNet integration at this tier)
+# Redis Cache — Standard C1
+# Upgraded from Basic C0: adds 99.9% SLA, 1 GB memory, and non-volatile (replica) persistence.
+# Note: AOF/RDB snapshot persistence requires Premium tier; Standard C1 provides replica-based
+# durability (data survives a single-node failure). This is the minimum for production.
 # --------------------------------------------------------------
 
 resource "azurerm_redis_cache" "main" {
   name                = local.resource_names.redis
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  capacity            = 0
+  capacity            = 1
   family              = "C"
-  sku_name            = "Basic"
+  sku_name            = "Standard"
   minimum_tls_version = "1.2"
   tags                = local.common_tags
+}
+
+# --------------------------------------------------------------
+# Azure Service Bus — Standard tier (queues + dead-letter queues + 10 GB storage)
+# Used for durable embedding task queue: tile upload → Service Bus → workers pod.
+# Messages survive pod restarts. Dead-letter queue captures failed embeddings for investigation.
+# --------------------------------------------------------------
+
+resource "azurerm_servicebus_namespace" "main" {
+  name                = local.resource_names.service_bus
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  sku                 = "Standard"
+  tags                = local.common_tags
+}
+
+resource "azurerm_servicebus_queue" "tile_embedding" {
+  name                                 = "tile-embedding"
+  namespace_id                         = azurerm_servicebus_namespace.main.id
+  max_delivery_count                   = 5
+  default_message_ttl                  = "P2D"
+  lock_duration                        = "PT5M"
+  dead_lettering_on_message_expiration = true
 }
 
 # --------------------------------------------------------------
@@ -172,19 +198,26 @@ module "container_apps" {
   internal_only                  = var.container_apps_internal_only
   backend_app_name               = local.resource_names.backend_app
   frontend_app_name              = local.resource_names.frontend_app
+  workers_app_name               = local.resource_names.workers_app
+  speechbrain_app_name           = local.resource_names.speechbrain_app
   acr_login_server               = module.acr.login_server
   acr_id                         = module.acr.acr_id
   postgres_connection_string     = module.postgres.connection_string
   app_insights_connection_string = module.monitoring.app_insights_connection_string
   redis_connection_string        = "${azurerm_redis_cache.main.hostname}:${azurerm_redis_cache.main.ssl_port},password=${azurerm_redis_cache.main.primary_access_key},ssl=True,abortConnect=False"
   storage_connection_string      = azurerm_storage_account.woven_media.primary_connection_string
+  service_bus_connection_string  = azurerm_servicebus_namespace.main.default_primary_connection_string
   backend_image_tag              = var.backend_image_tag
   frontend_image_tag             = var.frontend_image_tag
+  speechbrain_image_tag          = var.speechbrain_image_tag
   custom_domain                  = var.custom_domain
   google_client_id               = var.google_client_id
   encryption_master_key          = var.encryption_master_key
   replicate_api_token            = var.replicate_api_token
   openai_api_key                 = var.openai_api_key
   google_places_api_key          = var.google_places_api_key
+  vapid_public_key               = var.vapid_public_key
+  vapid_private_key              = var.vapid_private_key
+  run_migrations                 = var.run_migrations
   tags                           = local.common_tags
 }

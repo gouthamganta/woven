@@ -71,6 +71,18 @@ public class Match
     [MaxLength(20)]
     public string? UserBDecision { get; set; }
 
+    // Timer starts when BOTH users have opened the thread during trial
+    [Column("trial_user_a_opened_at")]
+    public DateTimeOffset? TrialUserAOpenedAt { get; set; }
+
+    [Column("trial_user_b_opened_at")]
+    public DateTimeOffset? TrialUserBOpenedAt { get; set; }
+
+    // Why the trial ended — feeds ECHO preference learning
+    [Column("trial_end_reason")]
+    [MaxLength(30)]
+    public string? TrialEndReason { get; set; }
+
     // Phase 4A: date coordination signals
     [Column("DateIdeaInterestedA")]
     public bool DateIdeaInterestedA { get; set; } = false;

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Pgvector;
@@ -10,16 +11,19 @@ namespace WovenBackend.Services.Embeddings;
 public class VoiceEmbeddingService : IVoiceEmbeddingService
 {
     private readonly WovenDbContext _db;
-    private readonly HttpClient _http;
+    private readonly HttpClient     _http;
+    private readonly IConfiguration _config;
     private readonly ILogger<VoiceEmbeddingService> _logger;
 
     public VoiceEmbeddingService(
         WovenDbContext db,
-        HttpClient http,
+        HttpClient     http,
+        IConfiguration config,
         ILogger<VoiceEmbeddingService> logger)
     {
-        _db = db;
-        _http = http;
+        _db     = db;
+        _http   = http;
+        _config = config;
         _logger = logger;
     }
 
@@ -27,38 +31,24 @@ public class VoiceEmbeddingService : IVoiceEmbeddingService
     {
         try
         {
-            // Download audio to a temp file
             var audioBytes = await _http.GetByteArrayAsync(audioUrl, ct);
-            var tempPath = Path.GetTempFileName() + ".wav";
-            await File.WriteAllBytesAsync(tempPath, audioBytes, ct);
 
-            float[]? embedding;
-            try
-            {
-                embedding = await RunSpeechBrainAsync(tempPath, ct);
-            }
-            finally
-            {
-                File.Delete(tempPath);
-            }
-
+            var embedding = await GetEmbeddingAsync(audioBytes, ct);
             if (embedding == null || embedding.Length != 192)
             {
-                _logger.LogWarning("[VoiceEmbedding] Invalid embedding for tile {TileId}", tileId);
+                _logger.LogWarning("[VoiceEmbedding] Invalid or missing embedding for tile {TileId}", tileId);
                 return;
             }
 
-            // Store on tile
             var tile = await _db.Tiles.FirstOrDefaultAsync(t => t.Id == tileId, ct);
             if (tile == null) return;
 
             tile.VoiceEmbedding = new Vector(embedding);
             await _db.SaveChangesAsync(ct);
 
-            // Upsert user_voice_preference via element-wise mean
-            await UpdateVoicePreferenceAsync(userId, embedding, ct);
+            await UpdateUserVoiceEmbeddingAsync(userId, embedding, ct);
 
-            _logger.LogInformation("[VoiceEmbedding] Stored voice embedding for tile {TileId}, user {UserId}", tileId, userId);
+            _logger.LogInformation("[VoiceEmbedding] Stored embedding for tile {TileId}, user {UserId}", tileId, userId);
         }
         catch (Exception ex)
         {
@@ -66,62 +56,111 @@ public class VoiceEmbeddingService : IVoiceEmbeddingService
         }
     }
 
-    private static async Task<float[]?> RunSpeechBrainAsync(string audioPath, CancellationToken ct)
+    // ── HTTP endpoint (production) ────────────────────────────────────────────
+    // Expects: POST SpeechBrain:EndpointUrl with audio/wav body.
+    // Returns: JSON float array of length 192 (ECAPA-TDNN speaker embedding).
+    private async Task<float[]?> GetEmbeddingAsync(byte[] audioBytes, CancellationToken ct)
     {
-        var scriptPath = Path.Combine(AppContext.BaseDirectory, "scripts", "speechbrain_embed.py");
-        var psi = new ProcessStartInfo("python3", $"\"{scriptPath}\" \"{audioPath}\"")
-        {
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false
-        };
+        var endpointUrl = _config["SpeechBrain:EndpointUrl"];
+        if (!string.IsNullOrWhiteSpace(endpointUrl))
+            return await CallHttpEndpointAsync(endpointUrl, audioBytes, ct);
 
-        using var proc = Process.Start(psi);
-        if (proc == null) return null;
+        // Dev fallback: spawn Python subprocess when no HTTP endpoint configured.
+        return await RunSubprocessAsync(audioBytes, ct);
+    }
 
-        var stdout = await proc.StandardOutput.ReadToEndAsync(ct);
-        await proc.WaitForExitAsync(ct);
-
-        if (proc.ExitCode != 0) return null;
-
+    private async Task<float[]?> CallHttpEndpointAsync(string endpointUrl, byte[] audioBytes, CancellationToken ct)
+    {
         try
         {
+            using var content = new ByteArrayContent(audioBytes);
+            content.Headers.ContentType = new MediaTypeHeaderValue("audio/wav");
+
+            using var response = await _http.PostAsync(endpointUrl, content, ct);
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogWarning("[VoiceEmbedding] HTTP endpoint returned {Status}", response.StatusCode);
+                return null;
+            }
+
+            var json = await response.Content.ReadAsStringAsync(ct);
+            return JsonSerializer.Deserialize<float[]>(json);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "[VoiceEmbedding] HTTP endpoint call failed for {Url}", endpointUrl);
+            return null;
+        }
+    }
+
+    // ── Subprocess fallback (dev only — not available in production containers) ─
+    private static async Task<float[]?> RunSubprocessAsync(byte[] audioBytes, CancellationToken ct)
+    {
+        var tempPath = Path.GetTempFileName() + ".wav";
+        try
+        {
+            await File.WriteAllBytesAsync(tempPath, audioBytes, ct);
+
+            var scriptPath = Path.Combine(AppContext.BaseDirectory, "scripts", "speechbrain_embed.py");
+            var psi = new ProcessStartInfo("python3", $"\"{scriptPath}\" \"{tempPath}\"")
+            {
+                RedirectStandardOutput = true,
+                RedirectStandardError  = true,
+                UseShellExecute        = false
+            };
+
+            using var proc = Process.Start(psi);
+            if (proc == null) return null;
+
+            var stdout = await proc.StandardOutput.ReadToEndAsync(ct);
+            await proc.WaitForExitAsync(ct);
+            if (proc.ExitCode != 0) return null;
+
             return JsonSerializer.Deserialize<float[]>(stdout.Trim());
         }
         catch
         {
             return null;
         }
+        finally
+        {
+            File.Delete(tempPath);
+        }
     }
 
-    private async Task UpdateVoicePreferenceAsync(int userId, float[] newEmbedding, CancellationToken ct)
+    // Updates UserVector.VoiceEmbedding with a running mean of the user's own voice tiles.
+    // UserVoicePreference (what voices attract this user) is updated separately by
+    // TileViewProcessorWorker when the user dwells on someone else's voice tile.
+    private async Task UpdateUserVoiceEmbeddingAsync(int userId, float[] newEmbedding, CancellationToken ct)
     {
-        var pref = await _db.UserVoicePreferences.FirstOrDefaultAsync(p => p.UserId == userId, ct);
+        var userVector = await _db.UserVectors
+            .Where(v => v.UserId == userId)
+            .OrderByDescending(v => v.Version)
+            .FirstOrDefaultAsync(ct);
 
-        if (pref == null)
+        if (userVector == null) return;
+
+        if (userVector.VoiceEmbedding == null)
         {
-            _db.UserVoicePreferences.Add(new UserVoicePreference
-            {
-                UserId = userId,
-                PreferenceEmbedding = new Vector(newEmbedding),
-                YesSampleCount = 1,
-                UpdatedAt = DateTimeOffset.UtcNow
-            });
+            userVector.VoiceEmbedding = new Vector(newEmbedding);
         }
         else
         {
-            // Incremental element-wise mean: mean = (mean * n + new) / (n + 1)
-            var n = pref.YesSampleCount;
-            var current = pref.PreferenceEmbedding?.Memory.ToArray() ?? new float[192];
+            // Running mean: (current * (n-1) + new) / n
+            // n = total voice tiles with embeddings for this user (includes the one just saved)
+            var n = await _db.Tiles
+                .CountAsync(t => t.UserId == userId && t.VoiceEmbedding != null, ct);
+            n = Math.Max(n, 2); // guard: at least 2 so denominator > previous count
+
+            var current = userVector.VoiceEmbedding.Memory.ToArray();
             var updated = new float[192];
             for (int i = 0; i < 192; i++)
-                updated[i] = (current[i] * n + newEmbedding[i]) / (n + 1);
+                updated[i] = (current[i] * (n - 1) + newEmbedding[i]) / n;
 
-            pref.PreferenceEmbedding = new Vector(updated);
-            pref.YesSampleCount = n + 1;
-            pref.UpdatedAt = DateTimeOffset.UtcNow;
+            userVector.VoiceEmbedding = new Vector(updated);
         }
 
+        userVector.UpdatedAt = DateTime.UtcNow;
         await _db.SaveChangesAsync(ct);
     }
 }

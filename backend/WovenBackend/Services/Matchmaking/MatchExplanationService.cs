@@ -1,5 +1,3 @@
-using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using WovenBackend.Data;
@@ -10,23 +8,84 @@ namespace WovenBackend.Services.Matchmaking;
 public class MatchExplanationService : IMatchExplanationService
 {
     private readonly WovenDbContext _db;
-    private readonly HttpClient _http;
-    private readonly IConfiguration _config;
+    private readonly IOpenAiResilientClient _ai;
     private readonly ILogger<MatchExplanationService> _logger;
     private readonly IAiProfileService _aiProfileService;
 
     public MatchExplanationService(
         WovenDbContext db,
-        HttpClient http,
-        IConfiguration config,
+        IOpenAiResilientClient ai,
         ILogger<MatchExplanationService> logger,
         IAiProfileService aiProfileService)
     {
         _db = db;
-        _http = http;
-        _config = config;
+        _ai = ai;
         _logger = logger;
         _aiProfileService = aiProfileService;
+    }
+
+    // Returns the dominant tone from past fast-contact explanations (≥50% threshold, min 3 contacts).
+    private async Task<string?> GetToneBiasAsync(int userId, CancellationToken ct)
+    {
+        const long fortyEightHoursMs = 172_800_000L;
+
+        var fastContactIds = await _db.MatchSignalLogs
+            .AsNoTracking()
+            .Where(s => s.ViewerId == userId
+                     && s.EventType == MatchSignalEventTypes.TimeToFirstMessageMs
+                     && s.EventValue < fortyEightHoursMs)
+            .Select(s => s.CandidateId)
+            .Distinct()
+            .ToListAsync(ct);
+
+        if (fastContactIds.Count < 3) return null;
+
+        var tones = await _db.MatchExplanations
+            .AsNoTracking()
+            .Where(e => e.UserId == userId && fastContactIds.Contains(e.CandidateId))
+            .Select(e => e.Tone)
+            .ToListAsync(ct);
+
+        if (tones.Count == 0) return null;
+
+        var dominant = tones
+            .GroupBy(t => t)
+            .OrderByDescending(g => g.Count())
+            .First();
+
+        return dominant.Count() * 2 >= tones.Count ? dominant.Key : null;
+    }
+
+    // Returns semicolon-joined idea texts from last 5 DateIdeaAccepted signals.
+    private async Task<string?> GetDateStyleHintAsync(int userId, CancellationToken ct)
+    {
+        var signals = await _db.MatchSignalLogs
+            .AsNoTracking()
+            .Where(s => s.ViewerId == userId && s.EventType == MatchSignalEventTypes.DateIdeaAccepted)
+            .OrderByDescending(s => s.OccurredAt)
+            .Take(5)
+            .Select(s => s.MetadataJson)
+            .ToListAsync(ct);
+
+        if (signals.Count == 0) return null;
+
+        var ideas = signals
+            .Where(m => !string.IsNullOrEmpty(m))
+            .Select(m =>
+            {
+                try
+                {
+                    var doc = System.Text.Json.JsonDocument.Parse(m!);
+                    if (doc.RootElement.TryGetProperty("chosenIdea", out var el))
+                        return el.GetString();
+                }
+                catch { }
+                return null;
+            })
+            .Where(s => !string.IsNullOrEmpty(s))
+            .ToList();
+
+        return ideas.Count > 0 ? string.Join("; ", ideas) : null;
     }
 
     public async Task<int> GenerateAndSaveExplanationAsync(
@@ -66,8 +125,12 @@ public class MatchExplanationService : IMatchExplanationService
         // Determine tone from pulse (prefer user's tone if available)
         var tone = pairContext?.UserProfile.ConversationTone ?? DetermineTone(userVector.VectorJson);
 
-        // Generate explanation via OpenAI with pair context
-        var (headline, bullets, dateIdea) = await GenerateExplanationAsync(reasons, bucket, tone, pairContext, ct);
+        // Read behavioral feedback to personalize this viewer's experience
+        var toneBias = await GetToneBiasAsync(userId, ct);
+        var dateStyleHint = await GetDateStyleHintAsync(userId, ct);
+
+        // Generate explanation via OpenAI with pair context + feedback loop
+        var (headline, bullets, dateIdeas, bridgeQuestion) = await GenerateExplanationAsync(reasons, bucket, tone, pairContext, toneBias, dateStyleHint, ct);
 
         // Save to database
         var explanation = new MatchExplanation
@@ -78,7 +141,9 @@ public class MatchExplanationService : IMatchExplanationService
             Headline = headline,
             BulletsJson = JsonSerializer.Serialize(bullets),
             Tone = tone,
-            DateIdea = dateIdea,
+            DateIdea = dateIdeas.Count > 0 ? dateIdeas[0] : null,
+            DateIdeasJson = JsonSerializer.Serialize(dateIdeas),
+            BridgeQuestion = bridgeQuestion,
             CreatedAt = DateTime.UtcNow
         };
 
@@ -216,20 +281,15 @@ public class MatchExplanationService : IMatchExplanationService
         return "calm";
     }
 
-    private async Task<(string Headline, List<string> Bullets, string? DateIdea)> GenerateExplanationAsync(
+    private async Task<(string Headline, List<string> Bullets, List<string> DateIdeas, string? BridgeQuestion)> GenerateExplanationAsync(
         Dictionary<string, object> reasons,
         MatchBucket bucket,
         string tone,
         PairContext? pairContext,
+        string? toneBias,
+        string? dateStyleHint,
         CancellationToken ct)
     {
-        var apiKey = _config["OpenAI:ApiKey"];
-        if (string.IsNullOrWhiteSpace(apiKey))
-        {
-            _logger.LogWarning("[Explanation] OpenAI API key missing, using fallback");
-            return GenerateFallbackExplanation(bucket);
-        }
-
         // Build rich match data section if we have pair context
         var matchDataSection = "";
         if (pairContext != null)
@@ -256,15 +316,38 @@ MATCH DATA (USE THIS - IT'S SPECIFIC TO THESE TWO PEOPLE):
 - Intent alignment: {pairContext.GetIntentAlignmentDescription()}";
         }
 
+        // Build viewer history section from behavioral feedback
+        var viewerHistorySection = "";
+        if (toneBias != null || dateStyleHint != null)
+        {
+            viewerHistorySection = "\n\nVIEWER HISTORY (personalize for this specific viewer):";
+            if (toneBias != null)
+                viewerHistorySection += $"\n- This viewer connects faster when tone is {toneBias} — lean into that";
+            if (dateStyleHint != null)
+                viewerHistorySection += $"\n- This viewer has previously chosen: {dateStyleHint} — offer variety but lean toward that style";
+        }
+
         var systemPrompt = $@"You write 'why you're a match' explanations for a dating app.
 
 Tone: {tone}
 {matchDataSection}
+{viewerHistorySection}
 
 STRICT REQUIREMENTS:
 - Write 1 headline (max 15 words) - MUST reference at least 1 aligned trait OR 2 shared interests
 - Write 1-2 bullet points (max 20 words each) - MUST mention specific shared interests/traits
-- Write 1 date idea (max 15 words) - If they share hobbies, the date idea MUST incorporate one
+- Write 3 date ideas (max 15 words each):
+  * One active/outdoor activity
+  * One social/cultural activity
+  * One casual/low-key activity
+  * If they share hobbies, at least 1 idea MUST incorporate one
+  * No overlap in activity type across the 3
+- Write 1 bridge question: an opening question the viewer could ask THIS specific person.
+  * It must be rooted in something real from the match data (shared tag, aligned pillar, or hobby)
+  * It should invite a story or memory, not a yes/no answer
+  * Max 20 words
+  * Sound like something a curious, warm person would genuinely ask
+  * NOT generic (""what do you like to do?"") — must be specific to this pair
 - Focus on what they SPECIFICALLY have in common
 - Never overpromise or guarantee outcomes
 - Sound natural, not robotic
@@ -289,7 +372,12 @@ Output ONLY valid JSON:
     ""[Specific shared interest]: [what you have in common]"",
     ""[Aligned trait]: [how you're similar]""
   ],
-  ""dateIdea"": ""[Activity that uses a shared hobby/interest]""
+  ""dateIdeas"": [
+    ""[Active/outdoor idea using their shared interest]"",
+    ""[Social/cultural idea]"",
+    ""[Casual/low-key idea]""
+  ],
+  ""bridgeQuestion"": ""[Specific opening question for this pair]""
 }}";
 
         var userPrompt = $@"Match reasons: {JsonSerializer.Serialize(reasons)}
@@ -297,11 +385,9 @@ Bucket: {bucket}
 
 Generate explanation JSON. Be SPECIFIC using the match data provided.";
 
-        var response = await CallOpenAiAsync(systemPrompt, userPrompt, ct);
+        var response = await _ai.ExecuteWithSystemAsync("match-explanation", systemPrompt, userPrompt, ct: ct);
         if (response == null)
-        {
             return GenerateFallbackExplanation(bucket);
-        }
 
         try
         {
@@ -310,7 +396,10 @@ Generate explanation JSON. Be SPECIFIC using the match data provided.";
 
             if (parsed != null && !string.IsNullOrWhiteSpace(parsed.Headline))
             {
-                return (parsed.Headline, parsed.Bullets ?? new List<string>(), parsed.DateIdea);
+                var ideas = parsed.DateIdeas?.Where(s => !string.IsNullOrWhiteSpace(s)).Take(3).ToList()
+                            ?? new List<string>();
+                var bridge = string.IsNullOrWhiteSpace(parsed.BridgeQuestion) ? null : parsed.BridgeQuestion.Trim();
+                return (parsed.Headline, parsed.Bullets ?? new List<string>(), ideas, bridge);
             }
         }
         catch (Exception ex)
@@ -321,108 +410,64 @@ Generate explanation JSON. Be SPECIFIC using the match data provided.";
         return GenerateFallbackExplanation(bucket);
     }
 
-    private async Task<string?> CallOpenAiAsync(string systemPrompt, string userPrompt, CancellationToken ct)
-    {
-        var endpoint = _config["OpenAI:Endpoint"] ?? "https://api.openai.com/v1/responses";
-        var model = _config["OpenAI:Model"] ?? "gpt-4.1-mini";
-        var apiKey = _config["OpenAI:ApiKey"];
-
-        var payload = new
-        {
-            model,
-            input = new object[]
-            {
-                new
-                {
-                    role = "system",
-                    content = new object[] { new { type = "input_text", text = systemPrompt } }
-                },
-                new
-                {
-                    role = "user",
-                    content = new object[] { new { type = "input_text", text = userPrompt } }
-                }
-            },
-            text = new
-            {
-                format = new { type = "json_object" }
-            },
-            temperature = 0.7
-        };
-
-        using var req = new HttpRequestMessage(HttpMethod.Post, endpoint);
-        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
-        req.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
-
-        try
-        {
-            using var resp = await _http.SendAsync(req, ct);
-            var raw = await resp.Content.ReadAsStringAsync(ct);
-
-            if (!resp.IsSuccessStatusCode)
-            {
-                _logger.LogWarning("[Explanation] OpenAI failed: {Status}", (int)resp.StatusCode);
-                return null;
-            }
-
-            using var doc = JsonDocument.Parse(raw);
-            
-            // Responses API returns: output[0].content[0].text
-            if (doc.RootElement.TryGetProperty("output", out var outputArr) &&
-                outputArr.ValueKind == JsonValueKind.Array &&
-                outputArr.GetArrayLength() > 0)
-            {
-                var firstOutput = outputArr[0];
-                if (firstOutput.TryGetProperty("content", out var contentArr) &&
-                    contentArr.ValueKind == JsonValueKind.Array &&
-                    contentArr.GetArrayLength() > 0)
-                {
-                    var firstContent = contentArr[0];
-                    if (firstContent.TryGetProperty("text", out var textProp))
-                    {
-                        return textProp.GetString();
-                    }
-                }
-            }
-
-            _logger.LogWarning("[Explanation] Unexpected response structure");
-            return null;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "[Explanation] OpenAI exception");
-            return null;
-        }
-    }
-
-    private (string, List<string>, string?) GenerateFallbackExplanation(MatchBucket bucket)
+    private (string, List<string>, List<string>, string?) GenerateFallbackExplanation(MatchBucket bucket)
     {
         return bucket switch
         {
             MatchBucket.CORE_FIT => (
-                "You both want something meaningful.",
+                "You both know what you want and it lines up.",
                 new List<string> { "Shared: similar values and relationship goals" },
-                "Have a deep conversation over dinner"
+                new List<string>
+                {
+                    "Have dinner somewhere with a real menu and talk",
+                    "Find a bookshop or record store and wander together",
+                    "Cook something together — doesn't need to be perfect"
+                },
+                "What's something you believed strongly that you've since changed your mind about?"
             ),
             MatchBucket.LIFESTYLE_FIT => (
-                "Your lifestyles align in key ways.",
-                new List<string> { "Lifestyle: compatible daily routines and priorities" },
-                "Try a new activity you both enjoy"
+                "Your daily rhythms point in the same direction.",
+                new List<string> { "Lifestyle: compatible routines and priorities" },
+                new List<string>
+                {
+                    "Go for a morning run or walk together",
+                    "Hit a farmers market and grab breakfast after",
+                    "Try a new neighborhood restaurant neither of you has been to"
+                },
+                "What does a genuinely good Saturday morning look like for you?"
             ),
             MatchBucket.CONVERSATION_FIT => (
-                "You're on the same wavelength right now.",
-                new List<string> { "Energy: good match for today's vibe" },
-                "Grab coffee and see where the conversation goes"
+                "The way you each communicate fits well.",
+                new List<string> { "Communication: you talk and listen in similar ways" },
+                new List<string>
+                {
+                    "Grab coffee and keep the conversation going",
+                    "Check out a local exhibit or gallery together",
+                    "Find a rooftop or park with a good view and just talk"
+                },
+                "What's the last thing someone said that genuinely made you think differently?"
             ),
             MatchBucket.EXPLORER => (
-                "There's potential here worth exploring.",
-                new List<string> { "Shared: some interesting common ground" },
-                "Meet for a casual walk and chat"
+                "Some interesting things overlap here.",
+                new List<string> { "Shared: common ground to discover together" },
+                new List<string>
+                {
+                    "Meet for a walk and see where the conversation goes",
+                    "Try a trivia night or board game café",
+                    "Find a low-key spot and figure each other out"
+                },
+                "What's something you've gotten really into recently that surprised you?"
             ),
             _ => (
-                "This could be an interesting match.",
-                new List<string> { "Worth a conversation" },
-                "Start with a coffee and see how it feels"
+                "You share enough to make it interesting.",
+                new List<string> { "Start a conversation and find out" },
+                new List<string>
+                {
+                    "Coffee — low pressure, easy to extend if it clicks",
+                    "Walk somewhere neither of you has been",
+                    "Grab food from a place you both want to try"
+                },
+                null
             )
         };
     }
@@ -434,7 +479,7 @@ Generate explanation JSON. Be SPECIFIC using the match data provided.";
         DateOnly dateUtc,
         CancellationToken ct)
     {
-        var (headline, bullets, dateIdea) = GenerateFallbackExplanation(bucket);
+        var (headline, bullets, dateIdeas, bridgeQuestion) = GenerateFallbackExplanation(bucket);
 
         var explanation = new MatchExplanation
         {
@@ -444,7 +489,9 @@ Generate explanation JSON. Be SPECIFIC using the match data provided.";
             Headline = headline,
             BulletsJson = JsonSerializer.Serialize(bullets),
             Tone = "calm",
-            DateIdea = dateIdea,
+            DateIdea = dateIdeas.Count > 0 ? dateIdeas[0] : null,
+            DateIdeasJson = JsonSerializer.Serialize(dateIdeas),
+            BridgeQuestion = bridgeQuestion,
             CreatedAt = DateTime.UtcNow
         };
 
@@ -458,6 +505,7 @@ Generate explanation JSON. Be SPECIFIC using the match data provided.";
     {
         public string Headline { get; set; } = "";
         public List<string>? Bullets { get; set; }
-        public string? DateIdea { get; set; } // ✅ NEW
+        public List<string>? DateIdeas { get; set; }
+        public string? BridgeQuestion { get; set; }
     }
 }

@@ -4,7 +4,7 @@ public class MatchScore
 {
     public int CandidateId { get; set; }
 
-    // Phase 3D: 14-component scoring (PreferenceScore always NULL, redistributed)
+    // 16-component scoring
     public double PillarScore { get; set; } = 50.0;
     public double IntentScore { get; set; } = 50.0;
     public double ExpressionScore { get; set; } = 50.0;
@@ -19,6 +19,8 @@ public class MatchScore
     public double OrbitGravityScore { get; set; } = 50.0;
     public double PulseScore { get; set; } = 50.0;
     public double CfScore { get; set; } = 50.0;
+    public double SharedTileAffinityScore { get; set; } = 50.0;
+    public double PreferenceAffinityScore { get; set; } = 50.0;
 
     // Backward-compat alias used by DeckSelectionService and MatchExplanationService
     public double FoundationalScore => PillarScore;
@@ -50,7 +52,8 @@ public class MatchScore
         {
             PillarScore, IntentScore, ExpressionScore, StyleScore, VisualScore,
             VoiceScore, HumorScore, LifestyleScore, BehavioralLifestyleScore,
-            EmotionalRhythmScore, AttachmentScore, OrbitGravityScore, PulseScore, CfScore
+            EmotionalRhythmScore, AttachmentScore, OrbitGravityScore, PulseScore, CfScore,
+            SharedTileAffinityScore, PreferenceAffinityScore
         };
 
         // Use learned weights if sample_count >= 5, else base weights

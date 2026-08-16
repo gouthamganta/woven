@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,821 +6,223 @@ import { firstValueFrom } from 'rxjs';
 import { OnboardingService } from '../../onboarding/onboarding.service';
 import { OnboardingShellComponent } from './onboarding-shell';
 
-type VisibilityLevel = 'Public' | 'MatchingOnly' | 'Private';
+const mk = (k: string, v: string) => ({ key: k, label: v });
 
-type OptionalFieldDto = {
-  key: string;
-  value: string;
-  visibility: VisibilityLevel;
-};
+const HOROSCOPE = [
+  'Aries','Taurus','Gemini','Cancer','Leo','Virgo',
+  'Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces',
+].map(v => mk(v.toLowerCase(), v));
 
-// ✅ keys we allow for visibility toggles (Step 3)
-type DetailVisKey =
-  | 'children'
-  | 'zodiac'
-  | 'diet'
-  | 'pets'
-  | 'hometown'
-  | 'hobbies'
-  | 'languages';
+const EDUCATION = [
+  'High school','Some college','Associate degree','Bachelor\'s degree',
+  'Master\'s degree','Doctorate','Trade / Vocational','Prefer not to say',
+].map(v => mk(v.toLowerCase().replace(/[^a-z]/g, '_'), v));
 
 @Component({
-  selector: 'app-details-onboarding',
+  selector: 'woven-onboarding-details',
   standalone: true,
   imports: [CommonModule, FormsModule, OnboardingShellComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <woven-onboarding-shell
-    [title]="shellTitle"
-    [subtitle]="shellSubtitle"
-    [stepNumber]="step"
-    [totalSteps]="3"
-    [stepLabel]="'Details'"
-  >
-    <div class="error" *ngIf="error">{{ error }}</div>
+    <woven-onboarding-shell
+      title="Tell us about you."
+      subtitle="This helps us write better introductions and find stronger matches."
+      [stepNumber]="6"
+      [totalSteps]="9"
+      stepLabel="About You"
+    >
+      <div class="stack">
 
-    <!-- Step 1: Bio -->
-    <ng-container *ngIf="step === 1">
-      <div class="block">
-        <label class="label">Bio <span class="req">*</span></label>
-        <textarea
-          [(ngModel)]="bio"
-          [maxlength]="bioMax"
-          rows="5"
-          class="textarea"
-          placeholder="A few lines that feel like you. Simple is perfect."
-        ></textarea>
-
-        <div class="row">
-          <div class="mini">Max {{ bioMax }} characters.</div>
-          <div class="count">{{ (bio || '').length }}/{{ bioMax }}</div>
+        <!-- Bio -->
+        <div class="field">
+          <label class="label">Bio <span class="opt">optional</span></label>
+          <textarea
+            class="textarea"
+            [(ngModel)]="bio"
+            placeholder="A line or two about what makes you, you."
+            maxlength="300"
+            rows="4"
+          ></textarea>
+          <div class="charCount" [class.warn]="bio.length > 260">{{ bio.length }} / 300</div>
         </div>
 
-        <div class="helper">
-          Think “enough to start a good conversation,” not a full autobiography.
-        </div>
-      </div>
+        <div class="divider"></div>
 
-      <div class="actions">
-        <button class="ghost" (click)="back()" [disabled]="saving">Back</button>
-        <button class="primary" (click)="next()" [disabled]="!bioValid || saving">Next</button>
-      </div>
-    </ng-container>
+        <!-- Life basics -->
+        <div class="section">
+          <div class="sectionHead">Life</div>
 
-    <!-- Step 2: Dating preferences (Matching-only) -->
-    <ng-container *ngIf="step === 2">
-      <div class="notice">
-        These are your <b>dating preferences</b>. They are used for matching and are not shown publicly.
-      </div>
+          <div class="grid2">
+            <div class="field">
+              <label class="label">Job title</label>
+              <input class="input" type="text" [(ngModel)]="jobTitle" placeholder="What do you do?" maxlength="80"/>
+            </div>
+            <div class="field">
+              <label class="label">Hometown</label>
+              <input class="input" type="text" [(ngModel)]="hometown" placeholder="Where are you from?" maxlength="80"/>
+            </div>
+          </div>
 
-      <div class="grid">
-        <div class="block">
-          <label class="label">Preferred ethnicity (optional)</label>
-          <select class="input" [(ngModel)]="prefEthnicity">
-            <option value="">No preference</option>
-            <option *ngFor="let o of ethnicityOptions" [value]="o">{{ o }}</option>
-          </select>
-        </div>
+          <div class="field">
+            <label class="label">Education</label>
+            <div class="pills">
+              <button
+                *ngFor="let e of education"
+                class="pill"
+                [class.active]="educationLevel === e.key"
+                (click)="educationLevel = e.key; mark()"
+              >{{ e.label }}</button>
+            </div>
+          </div>
 
-        <div class="block">
-          <label class="label">Preferred religion (optional)</label>
-          <select class="input" [(ngModel)]="prefReligion">
-            <option value="">No preference</option>
-            <option *ngFor="let o of religionOptions" [value]="o">{{ o }}</option>
-          </select>
-        </div>
+          <div class="grid2">
+            <div class="field">
+              <label class="label">School / University</label>
+              <input class="input" type="text" [(ngModel)]="school" placeholder="Where did you study?" maxlength="100"/>
+            </div>
+            <div class="field">
+              <label class="label">Height <span class="opt">optional</span></label>
+              <input class="input" type="text" [(ngModel)]="height" placeholder="e.g. 178 cm" maxlength="20"/>
+            </div>
+          </div>
 
-        <div class="block">
-          <label class="label">Preferred height (optional)</label>
-          <select class="input" [(ngModel)]="prefHeight">
-            <option value="">No preference</option>
-            <option *ngFor="let o of heightOptions" [value]="o">{{ o }}</option>
-          </select>
-        </div>
-
-        <div class="block">
-          <label class="label">Preferred workout (optional)</label>
-          <select class="input" [(ngModel)]="prefWorkout">
-            <option value="">No preference</option>
-            <option *ngFor="let o of workoutOptions" [value]="o">{{ o }}</option>
-          </select>
-        </div>
-
-        <div class="block">
-          <label class="label">Preferred smoking (optional)</label>
-          <select class="input" [(ngModel)]="prefSmoking">
-            <option value="">No preference</option>
-            <option *ngFor="let o of smokingOptions" [value]="o">{{ o }}</option>
-          </select>
-        </div>
-
-        <div class="block">
-          <label class="label">Preferred drinking (optional)</label>
-          <select class="input" [(ngModel)]="prefDrinking">
-            <option value="">No preference</option>
-            <option *ngFor="let o of drinkingOptions" [value]="o">{{ o }}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="block">
-        <label class="label">Preferred work / profession (optional)</label>
-        <input class="input" [(ngModel)]="prefWork" placeholder="e.g., Tech, Healthcare, Trades, Student…" />
-        <div class="mini">Keep it broad. This helps matching, not filtering people out harshly.</div>
-      </div>
-
-      <div class="actions">
-        <button class="ghost" (click)="back()" [disabled]="saving">Back</button>
-        <button class="ghost" (click)="skipStep2()" [disabled]="saving">Skip for now</button>
-        <button class="primary" (click)="next()" [disabled]="saving">Next</button>
-      </div>
-    </ng-container>
-
-    <!-- Step 3: Your details + weekly vibe (with visibility toggles) -->
-    <ng-container *ngIf="step === 3">
-      <div class="notice">
-        These are <b>your profile details</b>. You can control visibility per item.
-      </div>
-
-      <div class="grid">
-        <!-- Children -->
-        <div class="block">
-          <label class="label">Children (optional)</label>
-          <select class="input" [(ngModel)]="children">
-            <option value="">Select</option>
-            <option *ngFor="let o of childrenOptions" [value]="o">{{ o }}</option>
-          </select>
-          <div class="visRow">
-            <div class="mini">Visibility</div>
-            <div class="seg">
-              <button type="button" class="segBtn" [class.on]="detailVis.children==='Public'" (click)="setVis('children','Public')">Public</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.children==='Private'" (click)="setVis('children','Private')">Private</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.children==='MatchingOnly'" (click)="setVis('children','MatchingOnly')">Matching</button>
+          <div class="field">
+            <label class="label">Zodiac sign <span class="opt">optional</span></label>
+            <div class="pills">
+              <button
+                *ngFor="let z of horoscopes"
+                class="pill"
+                [class.active]="horoscope === z.key"
+                (click)="horoscope = z.key; mark()"
+              >{{ z.label }}</button>
             </div>
           </div>
         </div>
 
-        <!-- Zodiac -->
-        <div class="block">
-          <label class="label">Zodiac (optional)</label>
-          <select class="input" [(ngModel)]="zodiac">
-            <option value="">Select</option>
-            <option *ngFor="let o of zodiacOptions" [value]="o">{{ o }}</option>
-          </select>
-          <div class="visRow">
-            <div class="mini">Visibility</div>
-            <div class="seg">
-              <button type="button" class="segBtn" [class.on]="detailVis.zodiac==='Public'" (click)="setVis('zodiac','Public')">Public</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.zodiac==='Private'" (click)="setVis('zodiac','Private')">Private</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.zodiac==='MatchingOnly'" (click)="setVis('zodiac','MatchingOnly')">Matching</button>
-            </div>
-          </div>
-        </div>
+        <p class="err" *ngIf="err">{{ err }}</p>
 
-        <!-- Diet -->
-        <div class="block">
-          <label class="label">Diet (optional)</label>
-          <select class="input" [(ngModel)]="diet">
-            <option value="">Select</option>
-            <option *ngFor="let o of dietOptions" [value]="o">{{ o }}</option>
-          </select>
-          <div class="visRow">
-            <div class="mini">Visibility</div>
-            <div class="seg">
-              <button type="button" class="segBtn" [class.on]="detailVis.diet==='Public'" (click)="setVis('diet','Public')">Public</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.diet==='Private'" (click)="setVis('diet','Private')">Private</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.diet==='MatchingOnly'" (click)="setVis('diet','MatchingOnly')">Matching</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pets -->
-        <div class="block">
-          <label class="label">Pets (optional)</label>
-          <input class="input" [(ngModel)]="pets" placeholder="Dog / Cat / None / Future pet parent" />
-          <div class="visRow">
-            <div class="mini">Visibility</div>
-            <div class="seg">
-              <button type="button" class="segBtn" [class.on]="detailVis.pets==='Public'" (click)="setVis('pets','Public')">Public</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.pets==='Private'" (click)="setVis('pets','Private')">Private</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.pets==='MatchingOnly'" (click)="setVis('pets','MatchingOnly')">Matching</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Hometown -->
-        <div class="block">
-          <label class="label">Hometown (optional)</label>
-          <input class="input" [(ngModel)]="hometown" placeholder="Austin, TX" />
-          <div class="visRow">
-            <div class="mini">Visibility</div>
-            <div class="seg">
-              <button type="button" class="segBtn" [class.on]="detailVis.hometown==='Public'" (click)="setVis('hometown','Public')">Public</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.hometown==='Private'" (click)="setVis('hometown','Private')">Private</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.hometown==='MatchingOnly'" (click)="setVis('hometown','MatchingOnly')">Matching</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Hobbies -->
-        <div class="block">
-          <label class="label">Hobbies (optional)</label>
-          <input class="input" [(ngModel)]="hobbies" placeholder="Gym, hiking, cooking, movies…" />
-          <div class="visRow">
-            <div class="mini">Visibility</div>
-            <div class="seg">
-              <button type="button" class="segBtn" [class.on]="detailVis.hobbies==='Public'" (click)="setVis('hobbies','Public')">Public</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.hobbies==='Private'" (click)="setVis('hobbies','Private')">Private</button>
-              <button type="button" class="segBtn" [class.on]="detailVis.hobbies==='MatchingOnly'" (click)="setVis('hobbies','MatchingOnly')">Matching</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Languages -->
-      <div class="block">
-        <label class="label">Languages (optional)</label>
-        <div class="chips">
-          <button
-            type="button"
-            class="chip"
-            *ngFor="let lang of languageOptions"
-            [class.active]="languages.includes(lang)"
-            (click)="toggleLanguage(lang)"
-          >
-            {{ lang }}
-          </button>
-        </div>
-
-        <div class="visRow" style="margin-top:10px;">
-          <div class="mini">Visibility</div>
-          <div class="seg">
-            <button type="button" class="segBtn" [class.on]="detailVis.languages==='Public'" (click)="setVis('languages','Public')">Public</button>
-            <button type="button" class="segBtn" [class.on]="detailVis.languages==='Private'" (click)="setVis('languages','Private')">Private</button>
-            <button type="button" class="segBtn" [class.on]="detailVis.languages==='MatchingOnly'" (click)="setVis('languages','MatchingOnly')">Matching</button>
-          </div>
-        </div>
-
-        <div class="mini">Pick as many as you want.</div>
-      </div>
-
-      <!-- Weekly vibe -->
-      <div class="block">
-        <label class="label">Weekly vibe (optional)</label>
-        <textarea
-          [(ngModel)]="weeklyVibe"
-          (ngModelChange)="onVibeChange()"
-          [maxlength]="vibeMax"
-          rows="3"
-          class="textarea"
-          placeholder="What’s your week feeling like?"
-        ></textarea>
-
-        <div class="row">
-          <div class="mini">Expires in 7 days.</div>
-          <div class="count">{{ (weeklyVibe || '').length }}/{{ vibeMax }}</div>
-        </div>
-
-        <button class="miniBtn" type="button" (click)="weeklyVibe=''" [disabled]="saving">
-          Clear
+        <button class="cta" (click)="next()" [disabled]="loading">
+          <span *ngIf="!loading">Continue →</span>
+          <span *ngIf="loading">Saving…</span>
         </button>
-      </div>
 
-      <div class="actions">
-        <button class="ghost" (click)="back()" [disabled]="saving">Back</button>
-        <button class="ghost" (click)="skipStep3()" [disabled]="saving">Skip for now</button>
-        <button class="primary" (click)="save(false)" [disabled]="saving || !bioValid">
-          {{ saving ? 'Saving…' : 'Continue' }}
-        </button>
+        <button class="skip" (click)="skip()">Skip for now</button>
+
       </div>
-    </ng-container>
-  </woven-onboarding-shell>
+    </woven-onboarding-shell>
   `,
   styles: [`
-    /* ===== Error ===== */
-    .error {
-      margin: 8px 0 16px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      background: rgba(255, 112, 112, 0.10);
-      border: 1px solid rgba(255, 112, 112, 0.22);
-      color: #ff7070;
-      font-size: 13px;
-      font-weight: 500;
-      line-height: 1.4;
-    }
+    .stack { display: grid; gap: 20px; }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border-soft), transparent); }
+    .section { display: grid; gap: 16px; }
+    .sectionHead { font-family: var(--font-display); font-size: 16px; font-weight: 400; color: var(--text-secondary); letter-spacing: -0.01em; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field { display: grid; gap: 8px; }
+    .label { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .opt { font-weight: 500; opacity: 0.7; text-transform: none; letter-spacing: 0; }
 
-    /* ===== Notice ===== */
-    .notice {
-      margin: 8px 0 20px;
-      padding: 14px 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(255, 255, 255, 0.04);
-      font-family: "DM Sans", system-ui, sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      line-height: 1.45;
-      color: rgba(255, 230, 242, 0.70);
+    .input {
+      width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);
+      color: var(--text-primary); font-family: var(--font-ui); font-size: 14px;
+      outline: none; transition: border-color 0.2s ease; box-sizing: border-box;
     }
-
-    .notice b {
-      font-weight: 700;
-      color: rgba(255, 245, 250, 0.90);
-    }
-
-    /* ===== Block ===== */
-    .block {
-      margin: 16px 0;
-    }
-
-    /* ===== Label ===== */
-    .label {
-      font-family: "DM Sans", system-ui, sans-serif;
-      font-weight: 600;
-      font-size: 12px;
-      display: block;
-      margin-bottom: 10px;
-      color: rgba(255, 215, 235, 0.55);
-      letter-spacing: 0.01em;
-    }
-
-    .req {
-      color: #ff7070;
-      margin-left: 2px;
-    }
-
-    /* ===== Inputs ===== */
-    .input, .textarea {
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(44, 29, 53, 0.75);
-      padding: 12px 14px;
-      outline: none;
-      font-family: "DM Sans", system-ui, sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255, 245, 250, 0.92);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .input::placeholder, .textarea::placeholder {
-      color: rgba(255, 215, 235, 0.35);
-    }
-
-    .input:focus, .textarea:focus {
-      border-color: #E05490;
-      box-shadow: 0 0 0 3px rgba(224, 84, 144, 0.28);
-    }
-
-    select.input {
-      cursor: pointer;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A07FD8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 36px;
-    }
+    .input::placeholder { color: var(--text-dim); }
+    .input:focus { border-color: var(--gold-400); }
 
     .textarea {
-      resize: vertical;
-      min-height: 100px;
-      line-height: 1.5;
-      font-family: "DM Sans", system-ui, sans-serif;
+      width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);
+      color: var(--text-primary); font-family: var(--font-ui); font-size: 14px;
+      line-height: 1.6; resize: vertical; outline: none; transition: border-color 0.2s ease; box-sizing: border-box;
     }
+    .textarea::placeholder { color: var(--text-dim); }
+    .textarea:focus { border-color: var(--gold-400); }
 
-    /* ===== Row ===== */
-    .row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-top: 8px;
-      align-items: center;
+    .charCount { font-family: var(--font-data); font-size: 11px; color: var(--text-dim); text-align: right; transition: color 0.2s; }
+    .charCount.warn { color: var(--rose-300); }
+
+    .pills { display: flex; flex-wrap: wrap; gap: 7px; }
+    .pill {
+      padding: 8px 14px; border: 1px solid var(--border-subtle); border-radius: 9999px;
+      background: transparent; color: var(--text-muted); font-family: var(--font-ui);
+      font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s ease;
     }
+    .pill:hover { border-color: var(--border-soft); color: var(--text-secondary); }
+    .pill.active { border-color: var(--gold-400); background: rgba(212,160,23,0.10); color: var(--gold-300); font-weight: 600; }
 
-    /* ===== Mini Text ===== */
-    .mini {
-      font-size: 11px;
-      font-weight: 600;
-      color: #0f0f0f;
-      opacity: 0.45;
+    .cta {
+      width: 100%; padding: 16px 24px; border: none; border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
+      color: var(--bg-base); font-family: var(--font-ui); font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: opacity 0.2s ease, transform 0.15s ease;
+      box-shadow: 0 4px 20px rgba(212,160,23,0.28);
     }
+    .cta:hover:not(:disabled) { opacity: 0.88; }
+    .cta:active:not(:disabled) { transform: scale(0.96); }
+    .cta:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .count {
-      font-size: 11px;
-      font-weight: 700;
-      color: #0f0f0f;
-      opacity: 0.5;
+    .skip {
+      width: 100%; padding: 12px; border: 1px solid var(--border-subtle); border-radius: var(--radius-xl);
+      background: transparent; color: var(--text-dim); font-family: var(--font-ui);
+      font-size: 13px; cursor: pointer; transition: all 0.2s ease;
     }
+    .skip:hover { color: var(--text-muted); border-color: var(--border-soft); }
 
-    /* ===== Helper ===== */
-    .helper {
-      margin-top: 10px;
-      font-size: 12px;
-      font-weight: 450;
-      color: #0f0f0f;
-      opacity: 0.55;
-      line-height: 1.45;
-    }
-
-    /* ===== Grid ===== */
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    @media (max-width: 560px) {
-      .grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-    }
-
-    /* ===== Actions ===== */
-    .actions {
-      margin-top: 24px;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    /* ===== Buttons ===== */
-    .ghost, .primary {
-      border-radius: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      padding: 14px 18px;
-      min-height: 44px;
-      font-weight: 650;
-      font-size: 14px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.8);
-      color: #0f0f0f;
-      transition: all 0.2s ease;
-    }
-
-    .ghost:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 1);
-      border-color: rgba(0, 0, 0, 0.15);
-    }
-
-    .primary {
-      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-      color: #fff;
-      border-color: transparent;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    }
-
-    .primary:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
-    }
-
-    .primary:active:not(:disabled) {
-      transform: translateY(0);
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none !important;
-    }
-
-    .ghost:focus-visible, .primary:focus-visible {
-      outline: 2px solid #0f0f0f;
-      outline-offset: 2px;
-    }
-
-    /* ===== Chips ===== */
-    .chips {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-
-    .chip {
-      border-radius: 100px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      background: rgba(255, 255, 255, 0.8);
-      padding: 12px 18px;
-      min-height: 44px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      color: #0f0f0f;
-      transition: all 0.2s ease;
-    }
-
-    .chip:hover:not(.active) {
-      border-color: rgba(0, 0, 0, 0.2);
-      background: rgba(255, 255, 255, 1);
-    }
-
-    .chip.active {
-      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-      color: #fff;
-      border-color: transparent;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-    }
-
-    .chip:focus-visible {
-      outline: 2px solid #0f0f0f;
-      outline-offset: 2px;
-    }
-
-    /* ===== Mini Button ===== */
-    .miniBtn {
-      margin-top: 10px;
-      border-radius: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      padding: 12px 16px;
-      min-height: 44px;
-      font-weight: 650;
-      background: rgba(255, 255, 255, 0.8);
-      cursor: pointer;
-      font-size: 13px;
-      color: #0f0f0f;
-      transition: all 0.2s ease;
-    }
-
-    .miniBtn:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 1);
-      border-color: rgba(0, 0, 0, 0.15);
-    }
-
-    /* ===== Visibility Row ===== */
-    .visRow {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-top: 12px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    /* ===== Segment Buttons ===== */
-    .seg {
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .segBtn {
-      border-radius: 100px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      background: rgba(255, 255, 255, 0.8);
-      padding: 10px 14px;
-      min-height: 44px;
-      font-weight: 650;
-      font-size: 11px;
-      cursor: pointer;
-      color: #0f0f0f;
-      transition: all 0.2s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-    }
-
-    .segBtn:hover:not(.on) {
-      background: rgba(255, 255, 255, 1);
-      border-color: rgba(0, 0, 0, 0.15);
-    }
-
-    .segBtn.on {
-      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
-      color: #fff;
-      border-color: transparent;
-    }
-
-    .segBtn:focus-visible {
-      outline: 2px solid #0f0f0f;
-      outline-offset: 2px;
-    }
-
-    /* ===== Mobile ===== */
-    @media (max-width: 480px) {
-      .visRow {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
-
-      .seg {
-        justify-content: flex-start;
-      }
-
-      .segBtn {
-        padding: 10px 14px;
-        min-height: 44px;
-        font-size: 11px;
-      }
-
-      .chips {
-        gap: 8px;
-      }
-
-      .chip {
-        padding: 12px 16px;
-        min-height: 44px;
-        font-size: 13px;
-      }
-    }
-  `]
+    .err { font-size: 12px; color: var(--rose-300); }
+  `],
 })
 export class DetailsOnboardingComponent {
-  step: 1 | 2 | 3 = 1;
+  education  = EDUCATION;
+  horoscopes = HOROSCOPE;
 
-  saving = false;
-  error = '';
+  bio            = '';
+  jobTitle       = '';
+  hometown       = '';
+  school         = '';
+  height         = '';
+  educationLevel = '';
+  horoscope      = '';
 
-  bioMax = 200;
-  vibeMax = 120;
+  loading = false;
+  err = '';
 
-  bio = '';
-  weeklyVibe = '';
+  constructor(
+    private onboarding: OnboardingService,
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
-  // ✅ Step 2: dating preferences (stored as pref_* keys; backend forces MatchingOnly)
-  prefEthnicity = '';
-  prefReligion = '';
-  prefHeight = '';
-  prefWorkout = '';
-  prefSmoking = '';
-  prefDrinking = '';
-  prefWork = '';
+  mark() { this.cdr.markForCheck(); }
 
-  // ✅ Step 3: your details (stored as detail keys; visibility controlled here)
-  children = '';
-  zodiac = '';
-  diet = '';
-  pets = '';
-  hometown = '';
-  hobbies = '';
-  languages: string[] = [];
-
-  // ✅ Per-detail visibility settings (defaults -> Public)
-  detailVis: Record<DetailVisKey, VisibilityLevel> = {
-    children: 'Public',
-    zodiac: 'Public',
-    diet: 'Public',
-    pets: 'Public',
-    hometown: 'Public',
-    hobbies: 'Public',
-    languages: 'Public',
-  };
-
-  ethnicityOptions = ['Asian', 'Black / African', 'Hispanic / Latino', 'Middle Eastern', 'Native / Indigenous', 'White', 'Mixed', 'Other', 'Prefer not to say'];
-  religionOptions = ['Christian', 'Muslim', 'Hindu', 'Sikh', 'Buddhist', 'Jewish', 'Spiritual', 'Agnostic', 'Atheist', 'Other', 'Prefer not to say'];
-  childrenOptions = ['No', 'Someday', 'Have & want more', 'Have & don’t want more', 'Prefer not to say'];
-  zodiacOptions = ['Aries','Taurus','Gemini','Cancer','Leo','Virgo','Libra','Scorpio','Sagittarius','Capricorn','Aquarius','Pisces','Prefer not to say'];
-  dietOptions = ['Anything','Vegetarian','Vegan','Pescatarian','Halal','Kosher','Keto','Gluten-free','Other','Prefer not to say'];
-  workoutOptions = ['Never','Sometimes','Often','Daily','Prefer not to say'];
-  smokingOptions = ['No', 'Sometimes', 'Yes', 'Prefer not to say'];
-  drinkingOptions = ['No', 'Sometimes', 'Socially', 'Yes', 'Prefer not to say'];
-  languageOptions = ['English','Spanish','Hindi','Telugu','Tamil','French','German','Arabic','Chinese','Japanese','Korean','Portuguese','Other'];
-
-  heightOptions = [
-    '4’10”','4’11”','5’0”','5’1”','5’2”','5’3”','5’4”','5’5”','5’6”','5’7”','5’8”','5’9”',
-    '5’10”','5’11”','6’0”','6’1”','6’2”','6’3”','6’4”','6’5”','6’6”','6’7”','6’8”',
-    'Prefer not to say'
-  ];
-
-  constructor(private onboarding: OnboardingService, private router: Router) {}
-
-  get shellTitle() {
-    if (this.step === 1) return 'A quick bio';
-    if (this.step === 2) return 'Dating preferences';
-    return 'Your details & vibe';
+  buildFields() {
+    const f: { key: string; value: string; visibility: string }[] = [];
+    if (this.jobTitle)       f.push({ key: 'job',        value: this.jobTitle,       visibility: 'Public' });
+    if (this.hometown)       f.push({ key: 'hometown',   value: this.hometown,       visibility: 'Public' });
+    if (this.school)         f.push({ key: 'school',     value: this.school,         visibility: 'Public' });
+    if (this.educationLevel) f.push({ key: 'education',  value: this.educationLevel, visibility: 'Public' });
+    if (this.height)         f.push({ key: 'pref_height',value: this.height,         visibility: 'MatchingOnly' });
+    if (this.horoscope)      f.push({ key: 'horoscope',  value: this.horoscope,      visibility: 'Public' });
+    return f;
   }
 
-  get shellSubtitle() {
-    if (this.step === 1) return 'A short bio helps people start conversations naturally.';
-    if (this.step === 2) return 'Optional filters to improve match quality (matching-only).';
-    return 'Optional details with visibility controls + your weekly vibe.';
-  }
-
-  get bioValid() {
-    return (this.bio || '').trim().length > 0 && (this.bio || '').length <= this.bioMax;
-  }
-
-  setVis(key: DetailVisKey, v: VisibilityLevel) {
-    this.detailVis[key] = v;
-  }
-
-  toggleLanguage(lang: string) {
-    const i = this.languages.indexOf(lang);
-    if (i >= 0) this.languages.splice(i, 1);
-    else this.languages.push(lang);
-  }
-
-  onVibeChange() {
-    if ((this.weeklyVibe || '').length > this.vibeMax) {
-      this.weeklyVibe = (this.weeklyVibe || '').slice(0, this.vibeMax);
-    }
-  }
-
-  back() {
-    this.error = '';
-    if (this.step === 1) {
-      window.history.back();
-      return;
-    }
-    this.step = (this.step - 1) as any;
-  }
-
-  next() {
-    this.error = '';
-    if (this.step === 1 && !this.bioValid) {
-      this.error = 'Bio is required (max 200 characters).';
-      return;
-    }
-    if (this.step < 3) this.step = (this.step + 1) as any;
-  }
-
-  // Skip Step 2: clear preference fields only
-  skipStep2() {
-    this.prefEthnicity = '';
-    this.prefReligion = '';
-    this.prefHeight = '';
-    this.prefWorkout = '';
-    this.prefSmoking = '';
-    this.prefDrinking = '';
-    this.prefWork = '';
-    this.next();
-  }
-
-  // Skip Step 3: clear details + vibe, then save bio + preferences only
-  skipStep3() {
-    this.children = '';
-    this.zodiac = '';
-    this.diet = '';
-    this.pets = '';
-    this.hometown = '';
-    this.hobbies = '';
-    this.languages = [];
-    this.weeklyVibe = '';
-    this.save(true);
-  }
-
-  private buildOptionalFields(): OptionalFieldDto[] {
-    const fields: OptionalFieldDto[] = [];
-
-    const add = (key: string, value: string, visibility: VisibilityLevel) => {
-      const v = (value || '').trim();
-      if (!v) return;
-      fields.push({ key, value: v, visibility });
-    };
-
-    // ✅ Preferences (matching-only) => pref_* keys (backend enforces MatchingOnly)
-    add('pref_ethnicity', this.prefEthnicity, 'MatchingOnly');
-    add('pref_religion', this.prefReligion, 'MatchingOnly');
-    add('pref_height', this.prefHeight, 'MatchingOnly');
-    add('pref_workout', this.prefWorkout, 'MatchingOnly');
-    add('pref_smoking', this.prefSmoking, 'MatchingOnly');
-    add('pref_drinking', this.prefDrinking, 'MatchingOnly');
-    add('pref_work', this.prefWork, 'MatchingOnly');
-
-    // ✅ Your details (visibility controlled)
-    add('children', this.children, this.detailVis.children);
-    add('zodiac', this.zodiac, this.detailVis.zodiac);
-    add('diet', this.diet, this.detailVis.diet);
-    add('pets', this.pets, this.detailVis.pets);
-    add('hometown', this.hometown, this.detailVis.hometown);
-    add('hobbies', this.hobbies, this.detailVis.hobbies);
-
-    if (this.languages.length > 0) {
-      add('languages', this.languages.join(', '), this.detailVis.languages);
-    }
-
-    return fields;
-  }
-
-  async save(skipVibe: boolean) {
-    this.error = '';
-
-    if (!this.bioValid) {
-      this.error = 'Bio is required (max 200 characters).';
-      this.step = 1;
-      return;
-    }
-
-    const payload: any = {
-      bio: this.bio.trim(),
-      optionalFields: this.buildOptionalFields(),
-      weeklyVibe: skipVibe ? '' : (this.weeklyVibe || '').trim(),
-    };
-
-    this.saving = true;
+  async next() {
+    this.loading = true; this.err = ''; this.cdr.markForCheck();
     try {
-      await firstValueFrom(this.onboarding.saveDetails(payload));
-      await this.router.navigateByUrl('/onboarding/review');
-    } catch (e: any) {
-      this.error = e?.error?.error || e?.message || 'Couldn’t save details. Please try again.';
+      await firstValueFrom(this.onboarding.saveDetails({
+        bio: this.bio.trim(),
+        optionalFields: this.buildFields(),
+      }));
+      this.router.navigateByUrl('/onboarding/lifestyle');
+    } catch {
+      this.err = 'Could not save. Please try again.';
     } finally {
-      this.saving = false;
+      this.loading = false; this.cdr.markForCheck();
     }
+  }
+
+  async skip() {
+    this.bio = '';
+    await this.next();
   }
 }

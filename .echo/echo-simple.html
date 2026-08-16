@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECHO - Live Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Consolas', monospace;
+            background: #000;
+            color: #0ff;
+            overflow: hidden;
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-align: center;
+            text-shadow: 0 0 20px #0ff;
+            margin-bottom: 40px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; text-shadow: 0 0 20px #0ff; }
+            50% { opacity: 0.7; text-shadow: 0 0 40px #0ff; }
+        }
+
+        #state-display {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid #0ff;
+            padding: 30px;
+            border-radius: 15px;
+            min-width: 500px;
+            margin-bottom: 30px;
+        }
+
+        .state-item {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .state-label {
+            width: 150px;
+            font-weight: bold;
+        }
+
+        .state-bar {
+            flex: 1;
+            height: 25px;
+            background: #111;
+            border: 1px solid #0ff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .state-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0ff, #0f0);
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px #0ff;
+        }
+
+        .state-value {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 5px #000;
+        }
+
+        #mood {
+            font-size: 2em;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .mood-idle { color: #0ff; }
+        .mood-listening { color: #0f0; animation: blink 0.5s infinite; }
+        .mood-thinking { color: #ff0; animation: blink 0.3s infinite; }
+        .mood-speaking { color: #f0f; animation: blink 0.7s infinite; }
+        .mood-excited { color: #0f0; }
+        .mood-annoyed { color: #f00; }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        #conversation {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #0ff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 3px solid #0ff;
+            animation: fadeIn 0.3s;
+        }
+
+        .message.founder {
+            border-left-color: #0f0;
+            color: #0f0;
+        }
+
+        .message.echo {
+            border-left-color: #0ff;
+            color: #0ff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timestamp {
+            color: #666;
+            font-size: 0.8em;
+        }
+
+        #status {
+            margin-top: 30px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .status-connected { color: #0f0; }
+        .status-disconnected { color: #f00; }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>◆ E C H O ◆</h1>
+
+        <div id="state-display">
+            <div id="mood" class="mood-idle">IDLE</div>
+
+            <div class="state-item">
+                <div class="state-label">ENERGY:</div>
+                <div class="state-bar">
+                    <div class="state-bar-fill" id="energy-bar" style="width: 70%"></div>
+                    <div class="state-value"><span id="energy-val">70</span>%</div>
+                </div>
+            </div>
+
+            <div class="state-item">
+                <div class="state-label">PATIENCE:</div>
+                <div class="state-bar">
+                    <div class="state-bar-fill" id="patience-bar" style="width: 60%"></div>
+                    <div class="state-value"><span id="patience-val">60</span>%</div>
+                </div>
+            </div>
+
+            <div class="state-item">
+                <div class="state-label">EXCITEMENT:</div>
+                <div class="state-bar">
+                    <div class="state-bar-fill" id="excitement-bar" style="width: 55%"></div>
+                    <div class="state-value"><span id="excitement-val">55</span>%</div>
+                </div>
+            </div>
+
+            <div class="state-item">
+                <div class="state-label">SKEPTICISM:</div>
+                <div class="state-bar">
+                    <div class="state-bar-fill" id="skepticism-bar" style="width: 40%"></div>
+                    <div class="state-value"><span id="skepticism-val">40</span>%</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="conversation"></div>
+
+        <div id="status" class="status-disconnected">Connecting to backend...</div>
+    </div>
+
+    <script>
+        let lastConversationLength = 0;
+
+        function updateState() {
+            fetch('http://localhost:8765/state')
+                .then(r => r.json())
+                .then(data => {
+                    // Update mood
+                    const moodEl = document.getElementById('mood');
+                    moodEl.textContent = data.mood.toUpperCase();
+                    moodEl.className = 'mood-' + data.mood;
+
+                    // Update state bars
+                    ['energy', 'patience', 'excitement', 'skepticism'].forEach(key => {
+                        const val = data[key];
+                        document.getElementById(key + '-val').textContent = val;
+                        document.getElementById(key + '-bar').style.width = val + '%';
+                    });
+
+                    // Update status
+                    document.getElementById('status').textContent = 'CONNECTED - ALWAYS LISTENING';
+                    document.getElementById('status').className = 'status-connected';
+                })
+                .catch(err => {
+                    document.getElementById('status').textContent = 'DISCONNECTED';
+                    document.getElementById('status').className = 'status-disconnected';
+                });
+        }
+
+        function updateConversation() {
+            fetch('http://localhost:8765/conversation')
+                .then(r => r.json())
+                .then(messages => {
+                    if (messages.length !== lastConversationLength) {
+                        const conv = document.getElementById('conversation');
+
+                        // Only add new messages
+                        for (let i = lastConversationLength; i < messages.length; i++) {
+                            const msg = messages[i];
+                            const div = document.createElement('div');
+                            div.className = 'message ' + msg.speaker;
+
+                            const timestamp = new Date(msg.timestamp * 1000).toLocaleTimeString();
+                            const prefix = msg.speaker === 'founder' ? '[YOU]' : '[ECHO]';
+                            const lang = msg.language ? ` (${msg.language})` : '';
+
+                            div.innerHTML = `
+                                <span class="timestamp">${timestamp}</span>
+                                <strong>${prefix}${lang}:</strong><br>
+                                ${msg.text}
+                            `;
+
+                            conv.appendChild(div);
+                        }
+
+                        conv.scrollTop = conv.scrollHeight;
+                        lastConversationLength = messages.length;
+                    }
+                })
+                .catch(err => console.error('Conversation fetch error:', err));
+        }
+
+        // Update state every 500ms
+        setInterval(updateState, 500);
+
+        // Update conversation every 1s
+        setInterval(updateConversation, 1000);
+
+        // Initial update
+        updateState();
+        updateConversation();
+    </script>
+</body>
+</html>

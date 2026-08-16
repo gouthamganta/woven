@@ -1,0 +1,266 @@
+<div class="landing">
+  <!-- Section 1: Hero -->
+  <section class="hero" id="hero">
+    <div class="hero__container">
+      <div class="hero__wordmark">
+        <h1 class="hero__title">
+          <span class="hero__woven">WOVEN</span>
+        </h1>
+        <p class="hero__tagline">
+          Dating apps optimized for <em>your</em> outcome.<br />
+          Not their engagement metrics.
+        </p>
+      </div>
+      <p class="hero__subtitle">
+        Behavioral AI that learns from what you <strong>do</strong>, not what you <em>say</em> you want.<br />
+        Finite daily decks. Invisible compatibility. Real dates.
+      </p>
+      <div class="hero__cta">
+        <a href="https://wooven.me" class="btn btn--primary">Start Matching</a>
+      </div>
+    </div>
+    <div class="hero__scroll-hint" (click)="scrollToSection('problem')">
+      <span>Scroll to explore</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 5v14m0 0l-7-7m7 7l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Section 2: Problem -->
+  <section class="problem" id="problem">
+    <div class="problem__container">
+      <h2 class="problem__title">
+        You're not tired of dating.<br />
+        <span class="problem__emphasis">You're tired of swiping.</span>
+      </h2>
+      <div class="problem__content">
+        <p>Most dating app users describe their experience as <strong>exhausting</strong>.</p>
+        <p>The problem isn't a lack of people.<br />The problem is the apps aren't working.</p>
+        <div class="problem__cycle">
+          <p class="problem__cycle-item">You match.</p>
+          <p class="problem__cycle-item">You message.</p>
+          <p class="problem__cycle-item">The conversation trails off.</p>
+          <p class="problem__cycle-repeat"><strong>Repeat 47 times.</strong></p>
+        </div>
+        <p class="problem__verdict">
+          This isn't a user failure. It's a <span class="problem__highlight">design failure</span>.
+        </p>
+      </div>
+      <div class="problem__faces" aria-hidden="true">
+        <!-- Abstract infinite scroll visualization -->
+        <div class="problem__face"></div>
+        <div class="problem__face"></div>
+        <div class="problem__face"></div>
+        <div class="problem__face"></div>
+        <div class="problem__face"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Intentionality -->
+  <section class="intentionality" id="intentionality">
+    <div class="intentionality__container">
+      <h2 class="intentionality__title">Intentionality is a feature, not friction.</h2>
+      <div class="intentionality__card">
+        <div class="intentionality__card-header">
+          <span class="intentionality__badge">✓ Verified</span>
+        </div>
+        <div class="intentionality__card-body">
+          <h3>What caught our eye</h3>
+          <ul class="intentionality__bullets">
+            <li>5 curated profiles per day. Not 500.</li>
+            <li>Every choice requires a note (20-150 characters).</li>
+            <li>Behavioral ML that learns from outcomes, not questionnaires.</li>
+          </ul>
+        </div>
+        <div class="intentionality__card-actions">
+          <button class="btn btn--magical">◈ Magical</button>
+          <button class="btn btn--resonant">◇ Resonant</button>
+        </div>
+      </div>
+      <p class="intentionality__explainer">
+        ECHO tracks: how fast you respond, whether you listen to voice notes, whether you accept trial periods, which date ideas you choose.
+      </p>
+      <p class="intentionality__truth">
+        Your preferences are what you <strong>reveal</strong>, not what you <em>claim</em>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 4: ECHO -->
+  <section class="echo" id="echo">
+    <div class="echo__container">
+      <h2 class="echo__title">
+        <span class="echo__mono">16</span> behavioral signals.<br />
+        <span class="echo__mono">9</span> embedding types.<br />
+        Per-user weight adaptation.
+      </h2>
+      <div class="echo__constellation" aria-label="ECHO scoring components visualization">
+        <div class="echo__node echo__node--pillar" data-label="Pillar (1536-dim)"></div>
+        <div class="echo__node echo__node--voice" data-label="Voice (192-dim)"></div>
+        <div class="echo__node echo__node--lifestyle" data-label="Lifestyle (128-dim)"></div>
+        <div class="echo__node echo__node--orbit" data-label="Orbit Gravity"></div>
+        <div class="echo__node echo__node--humor" data-label="Humor (64-dim)"></div>
+        <div class="echo__node echo__node--intent" data-label="Intent (1536-dim)"></div>
+        <svg class="echo__connections" aria-hidden="true">
+          <line x1="20%" y1="30%" x2="50%" y2="50%" />
+          <line x1="50%" y1="50%" x2="80%" y2="30%" />
+          <line x1="20%" y1="70%" x2="50%" y2="50%" />
+          <line x1="50%" y1="50%" x2="80%" y2="70%" />
+        </svg>
+      </div>
+      <p class="echo__explainer">
+        Every Sunday, logistic regression updates <em>your</em> weights based on what actually predicted connection <strong>for you</strong>.
+      </p>
+      <p class="echo__truth">
+        You never see a score.<br />
+        You just see better matches.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 5: Journey -->
+  <section class="journey" id="journey">
+    <div class="journey__container">
+      <h2 class="journey__title">From swipe to real date — built into the product.</h2>
+      <div class="journey__steps">
+        <div class="journey__step">
+          <h3>Step 1: Balloon</h3>
+          <p>A mutual choice creates a <strong>Balloon</strong> — a 7-day connection window.</p>
+        </div>
+        <div class="journey__step journey__step--trial">
+          <h3>Step 2: Trial Period</h3>
+          <p>After 3 minutes of messaging, both decide:</p>
+          <div class="journey__timer" data-duration="180">3:00</div>
+          <div class="journey__decisions">
+            <button class="btn btn--continue">CONTINUE</button>
+            <button class="btn btn--end">END</button>
+            <button class="btn btn--block">BLOCK</button>
+          </div>
+        </div>
+        <div class="journey__step">
+          <h3>Step 3: Find Love</h3>
+          <p>ECHO generates <strong>3 personalized date ideas</strong>.</p>
+          <div class="journey__date-ideas">
+            <div class="journey__date-card">Coffee at a rooftop cafe</div>
+            <div class="journey__date-card">Late-night bookstore browse</div>
+            <div class="journey__date-card">Weekend hike + picnic</div>
+          </div>
+        </div>
+      </div>
+      <p class="journey__truth">
+        Most apps end at match formation.<br />
+        Woven extends to the moment you need help most.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 6: Voice + Games -->
+  <section class="signals" id="signals">
+    <div class="signals__container">
+      <h2 class="signals__title">Rich signals. Real depth.</h2>
+      <div class="signals__grid">
+        <div class="signals__card">
+          <h3>Voice Notes</h3>
+          <div class="signals__waveform" aria-label="Voice note waveform">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <p>Up to 180 seconds. Tone matters.</p>
+          <p class="signals__signal-note">
+            When you listen all the way through, ECHO records <code>VoiceNoteListenComplete</code> — one of the strongest signals of genuine interest.
+          </p>
+        </div>
+        <div class="signals__card">
+          <h3>AI Games</h3>
+          <div class="signals__game-preview">
+            <p><strong>KnowMe:</strong> Predict their self-rating</p>
+            <p><strong>Red/Green Flag:</strong> 90-second values alignment</p>
+          </div>
+          <p class="signals__signal-note">
+            Grounded in real profile data, not generic prompts.
+          </p>
+        </div>
+      </div>
+      <p class="signals__truth">
+        Every interaction feeds ECHO.<br />
+        Nothing is wasted.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 7: Privacy -->
+  <section class="privacy" id="privacy">
+    <div class="privacy__container">
+      <h2 class="privacy__title">Invisible AI = no performance anxiety.</h2>
+      <div class="privacy__lock" aria-label="AES-256-GCM encryption">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V7c0-2.757-2.243-5-5-5z" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="15" r="2" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="privacy__content">
+        <h3>What Woven never shows you:</h3>
+        <ul class="privacy__list">
+          <li>Your compatibility score</li>
+          <li>Community ratings or flags</li>
+          <li>AI-generated labels or badges</li>
+          <li>Who you "missed" after they expire</li>
+        </ul>
+        <p class="privacy__explainer">
+          When users see a score, they optimize for the score instead of genuine self-presentation.<br />
+          This corrupts the training signal and turns dating into a performance.
+        </p>
+        <p class="privacy__truth">
+          Invisible AI means ECHO learns from <strong>real behavior</strong>, not behavior shaped by visibility.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 8: CTA + Footer -->
+  <section class="cta" id="cta">
+    <div class="cta__container">
+      <h2 class="cta__title">Join thousands of intentional daters.</h2>
+      <p class="cta__subtitle">Woven is live. Available on iOS and Android.</p>
+      <div class="cta__buttons">
+        <a href="https://wooven.me" class="btn btn--primary cta__button">Start Matching</a>
+        <a href="#privacy" class="btn btn--secondary cta__button">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__container">
+      <div class="footer__brand">
+        <h3>WOVEN</h3>
+        <p>Dating apps optimized for your outcome.</p>
+      </div>
+      <div class="footer__links">
+        <div class="footer__column">
+          <h4>Product</h4>
+          <a href="#echo">How ECHO Works</a>
+          <a href="#privacy">Privacy & Security</a>
+          <a href="#journey">Find Love Flow</a>
+        </div>
+        <div class="footer__column">
+          <h4>Company</h4>
+          <a href="/about">About</a>
+          <a href="/careers">Careers</a>
+          <a href="/blog">Blog</a>
+        </div>
+        <div class="footer__column">
+          <h4>Legal</h4>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/guidelines">Community Guidelines</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>Built with ❤️ in India</p>
+        <p>hello@wooven.me</p>
+      </div>
+    </div>
+  </footer>
+</div>

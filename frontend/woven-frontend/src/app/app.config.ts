@@ -7,6 +7,7 @@ import Aura from '@primeng/themes/aura';
 
 import { routes } from './app.routes';
 import { authInterceptor } from './core/auth/auth.interceptor';
+import { correlationIdInterceptor } from './core/correlation-id.interceptor';
 import { httpErrorInterceptor } from './core/http-error.interceptor';
 import { GlobalErrorHandler } from './core/global-error.handler';
 
@@ -16,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(
-      withInterceptors([authInterceptor, httpErrorInterceptor])
+      withInterceptors([correlationIdInterceptor, authInterceptor, httpErrorInterceptor])
     ),
     providePrimeNG({
       theme: {

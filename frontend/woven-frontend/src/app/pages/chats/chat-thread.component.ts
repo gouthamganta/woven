@@ -12,8 +12,10 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom, Subscription, filter } from 'rxjs';
 import { ChatService, ChatThreadResponse } from '../../services/chat.service';
+import { MediaService } from '../../services/media.service';
 import { MatchesService } from '../../services/matches.service';
 import { GamesService, FinalResultResponse } from '../../services/games.service';
+import { RealtimeService, NewChatMessageEvent } from '../../services/realtime.service';
 import { GameMessageCardComponent } from '../../components/game-message-card/game-message-card.component';
 import { InlineGamePlayerComponent } from '../../components/inline-game-player/inline-game-player.component';
 import { TrialDecisionComponent } from '../../components/trial-decision/trial-decision.component';
@@ -53,6 +55,7 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
   private readonly dateIdeaDelayMs = 10 * 60 * 1000;
   private shouldAutoScroll = false;
   private navSub?: Subscription;
+  private rtSub?: Subscription;
   private currentThreadId: string | null = null;
   private loadingThreadId: string | null = null;
 
@@ -65,6 +68,17 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
   justTransitionedToFindLove = false;
   dateIdeaJustUnlocked = false;
   private previousFindLoveState = false;
+
+  // Date idea pick state
+  selectedIdeaIndex: number | null = null;
+  mutualInterest = false;
+
+  get revealedIdeas(): string[] {
+    const ideas = this.data?.dateIdeas;
+    if (ideas?.length) return ideas;
+    const single = this.data?.dateIdea;
+    return single ? [single] : [];
+  }
 
   showGamePicker = false;
 
@@ -81,13 +95,26 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
   // Unmatch rating state
   showUnmatchRating = false;
 
+  // Voice recording state
+  isRecording = false;
+  recordingMs = 0;
+  private mediaRecorder?: MediaRecorder;
+  private audioChunks: Blob[] = [];
+  private recordingTimer?: number;
+  private recordingStartMs = 0;
+
+  // Voice playback tracking
+  private listenedMessageIds = new Set<string>();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private chatApi: ChatService,
+    private mediaService: MediaService,
     private matchesApi: MatchesService,
     private games: GamesService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private realtime: RealtimeService
   ) {}
 
   ngOnInit() {
@@ -112,6 +139,23 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
       }, 1000);
     }
 
+    this.rtSub = this.realtime.newChatMessage$.subscribe((e: NewChatMessageEvent) => {
+      if (e.threadId !== this.currentThreadId || !this.data) return;
+      if (this.data.messages?.some((m) => m.messageId === e.messageId)) return;
+      this.data = {
+        ...this.data,
+        messages: [...(this.data.messages ?? []), {
+          messageId: e.messageId,
+          senderUserId: e.senderUserId,
+          body: e.body,
+          messageType: 'CHAT' as const,
+          createdAt: e.createdAt,
+        } as any],
+      };
+      this.shouldAutoScroll = true;
+      this.cdr.markForCheck();
+    });
+
     this.tryLoadFromRouteTree();
 
     this.navSub = this.router.events
@@ -130,7 +174,10 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
 
   ngOnDestroy() {
     if (this.timer && typeof window !== 'undefined') window.clearInterval(this.timer);
+    if (this.recordingTimer) window.clearInterval(this.recordingTimer);
+    if (this.isRecording) this.mediaRecorder?.stop();
     this.navSub?.unsubscribe();
+    this.rtSub?.unsubscribe();
   }
 
   private getThreadIdFromRouteTree(): string | null {
@@ -311,11 +358,18 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
   }
 
   back() {
-    this.router.navigateByUrl('/home/chats');
+    this.router.navigateByUrl('/chats');
   }
 
   titleName(): string {
     return this.data?.other?.fullName ?? 'Chat';
+  }
+
+  matchTypeLabel(): string {
+    const t = this.data?.matchType;
+    if (t === 'PURE') return '◈◈ Pure';
+    if (t === 'EDGE') return '◈◇ Edge';
+    return '';
   }
 
   countdownSafe(iso: string | null | undefined): string {
@@ -387,26 +441,27 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
     return Math.max(0, Math.min(100, ((totalTrialSeconds - this.trialSecondsLeft) / totalTrialSeconds) * 100));
   }
 
-  async onTrialDecision(event: { decision: 'CONTINUE' | 'END'; rating?: number }) {
+  async onTrialDecision(event: { decision: 'CONTINUE' | 'END' | 'BLOCK'; endReason?: string }) {
     if (!this.data) return;
 
     try {
       const result = await firstValueFrom(
-        this.chatApi.trialDecision(this.data.threadId, event.decision, event.rating)
+        this.chatApi.trialDecision(this.data.threadId, event.decision, event.endReason)
       );
 
       this.showTrialDecision = false;
 
-      if (result.status === 'MATCH_ENDED') {
+      if (result.status === 'MATCH_BLOCKED') {
+        this.showToast('Blocked.');
+        setTimeout(() => this.router.navigateByUrl('/chats'), 800);
+      } else if (result.status === 'MATCH_ENDED') {
         this.showToast('Match ended.');
-        setTimeout(() => {
-          this.router.navigateByUrl('/home/chats');
-        }, 800);
+        setTimeout(() => this.router.navigateByUrl('/chats'), 800);
       } else if (result.status === 'MATCH_CONTINUES') {
-        this.showToast('Match continues!');
+        this.showToast('Match continues ◈');
         await this.refreshSilent();
       } else {
-        this.showToast('Decision recorded. Waiting for them...');
+        this.showToast('Waiting for them...');
         await this.refreshSilent();
       }
     } catch (err) {
@@ -529,7 +584,7 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
   viewProfile() {
     const matchId = (this.data as any)?.matchId;
     if (!matchId) return;
-    this.router.navigateByUrl(`/home/matches/${matchId}/profile`);
+    this.router.navigateByUrl(`/matches/${matchId}/profile`);
   }
 
   async popBalloon() {
@@ -553,7 +608,7 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
         await this.refreshSilent();
       } else {
         this.showToast('Balloon popped.');
-        this.router.navigateByUrl('/home/chats');
+        this.router.navigateByUrl('/chats');
       }
     } catch (err) {
       console.error('Pop error:', err);
@@ -590,7 +645,7 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
       await firstValueFrom(this.matchesApi.unmatch(matchId, rating));
       this.showToast('Unmatched.');
       setTimeout(() => {
-        this.router.navigateByUrl('/home/chats');
+        this.router.navigateByUrl('/chats');
       }, 800);
     } catch {
       this.showToast('Could not unmatch.');
@@ -620,7 +675,7 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
       await firstValueFrom(this.matchesApi.block(matchId));
       this.showToast('Blocked.');
       setTimeout(() => {
-        this.router.navigateByUrl('/home/chats');
+        this.router.navigateByUrl('/chats');
       }, 800);
     } catch {
       this.showToast('Could not block.');
@@ -705,6 +760,108 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
       this.showMore = false;
       this.cdr.detectChanges();
     }
+  }
+
+  planIt(index: number) {
+    if (this.selectedIdeaIndex !== null) return;
+    const idea = this.revealedIdeas[index];
+    if (!idea || !this.data) return;
+
+    this.selectedIdeaIndex = index;
+    this.cdr.detectChanges();
+
+    this.chatApi.expressDateInterest(this.data.threadId, index, idea).subscribe({
+      next: (res) => {
+        this.mutualInterest = res.mutualInterest;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.selectedIdeaIndex = null;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  formatRecordingTime(): string {
+    const s = Math.floor(this.recordingMs / 1000);
+    const mm = Math.floor(s / 60);
+    const ss = s % 60;
+    return `${mm}:${ss.toString().padStart(2, '0')}`;
+  }
+
+  isVoiceMessage(msg: any): boolean {
+    return (msg?.messageType || '').toUpperCase() === 'VOICE';
+  }
+
+  getVoiceDuration(msg: any): string {
+    const secs = msg?.meta?.durationSecs ?? 0;
+    const mm = Math.floor(secs / 60);
+    const ss = secs % 60;
+    return `${mm}:${ss.toString().padStart(2, '0')}`;
+  }
+
+  async startRecording() {
+    if (this.isRecording || typeof navigator === 'undefined') return;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      this.audioChunks = [];
+      this.mediaRecorder = new MediaRecorder(stream);
+      this.mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) this.audioChunks.push(e.data);
+      };
+      this.mediaRecorder.start(100);
+      this.isRecording = true;
+      this.recordingMs = 0;
+      this.recordingStartMs = Date.now();
+      this.recordingTimer = window.setInterval(() => {
+        this.recordingMs = Date.now() - this.recordingStartMs;
+        if (this.recordingMs >= 180_000) this.stopRecording();
+        this.cdr.detectChanges();
+      }, 100);
+      this.cdr.detectChanges();
+    } catch {
+      this.showToast('Microphone access denied');
+    }
+  }
+
+  stopRecording() {
+    if (!this.isRecording || !this.mediaRecorder) return;
+    this.mediaRecorder.stop();
+    this.mediaRecorder.stream?.getTracks().forEach((t) => t.stop());
+    if (this.recordingTimer) window.clearInterval(this.recordingTimer);
+    this.isRecording = false;
+
+    const durationSecs = Math.ceil(this.recordingMs / 1000);
+    const mimeType = this.mediaRecorder.mimeType || 'audio/webm';
+    this.mediaRecorder.onstop = async () => {
+      if (durationSecs < 1) {
+        this.showToast('Too short');
+        this.cdr.detectChanges();
+        return;
+      }
+      const blob = new Blob(this.audioChunks, { type: mimeType });
+      await this.uploadAndSendVoice(blob, durationSecs);
+    };
+    this.cdr.detectChanges();
+  }
+
+  private async uploadAndSendVoice(blob: Blob, durationSecs: number) {
+    if (!this.data) return;
+    try {
+      const { fileUrl } = await this.mediaService.uploadVoiceNote(blob, durationSecs);
+      await firstValueFrom(this.chatApi.sendVoiceMessage(this.data.threadId, fileUrl, durationSecs));
+      await this.load(this.data.threadId, { silent: true });
+    } catch {
+      this.showToast('Could not send voice note');
+    }
+  }
+
+  onVoiceEnded(msg: any) {
+    if (!this.data || !msg?.messageId) return;
+    if (this.listenedMessageIds.has(msg.messageId)) return;
+    if (this.isMine(msg.senderUserId)) return;
+    this.listenedMessageIds.add(msg.messageId);
+    this.chatApi.voiceListened(this.data.threadId, msg.messageId).subscribe();
   }
 
   private showToast(msg: string) {

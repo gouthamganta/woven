@@ -49,13 +49,12 @@
 }
 
 .pill:hover {
-  background: rgba(255, 255, 255, 0.10);
+  background: var(--bg-elevated);
   border-color: var(--border-medium);
-  transform: translateY(-1px);
 }
 
 .pill.outline { background: transparent; border-color: var(--border-subtle); }
-.pill.outline:hover { background: rgba(255, 255, 255, 0.06); }
+.pill.outline:hover { background: var(--bg-surface); }
 
 /* ── Meta ──────────────────────────────────────────── */
 .metaLine {
@@ -77,7 +76,7 @@
 
 /* ── State / Empty ─────────────────────────────────── */
 .state { padding: 14px; color: var(--text-muted); }
-.state.err { color: #ff7070; }
+.state.err { color: var(--rose-300); }
 
 .empty {
   background: var(--bg-elevated);
@@ -119,7 +118,6 @@
 }
 
 .row:hover {
-  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-color: var(--border-soft);
 }
@@ -127,6 +125,25 @@
 .left { display: flex; gap: 12px; align-items: flex-start; min-width: 0; }
 
 /* ── Avatar ────────────────────────────────────────── */
+.avatarWrap {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.onlineDot {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--green-300);
+  border: 2px solid var(--bg-surface);
+}
+
+.activeSep { color: var(--text-dim); }
+.activeLabel { color: var(--text-dim); font-size: 11px; }
+
 .photo,
 .initials {
   width: 62px;
@@ -198,18 +215,18 @@
               border-color var(--dur-base) var(--ease-out);
 }
 
-.uspChip:hover { transform: translateY(-1px); border-color: var(--border-soft); }
+.uspChip:hover { border-color: var(--border-soft); }
 
 .uspChip.ready {
-  background: rgba(224, 84, 144, 0.08);
-  border-color: rgba(224, 84, 144, 0.22);
+  background: var(--rose-glow);
+  border-color: rgba(192, 57, 43, 0.22);
   color: var(--rose-300);
 }
 
 .uspChip.danger {
-  background: rgba(255, 112, 112, 0.08);
-  border-color: rgba(255, 112, 112, 0.20);
-  color: #ff9090;
+  background: rgba(192, 57, 43, 0.08);
+  border-color: rgba(192, 57, 43, 0.20);
+  color: var(--rose-300);
 }
 
 .uspIcon { font-size: 14px; line-height: 1; }
@@ -230,7 +247,29 @@
   border: 1px solid var(--border-subtle);
 }
 
-.rightSide { display: flex; align-items: center; }
+.rightSide { display: flex; align-items: center; gap: 8px; }
+
+.unreadDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold-400);
+  flex-shrink: 0;
+}
+
+/* ── Your Turn pill ────────────────────────────────── */
+.yourTurnPill {
+  border: 1px solid rgba(212, 160, 23, 0.45);
+  background: rgba(212, 160, 23, 0.10);
+  color: var(--gold-300, #d4a017);
+  padding: 10px 16px;
+  min-height: 40px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
 
 /* ── Open pill ─────────────────────────────────────── */
 .openPill {
@@ -242,11 +281,11 @@
   border-radius: 9999px;
   font-size: 13px;
   font-weight: 600;
-  transition: all 0.2s ease;
+  transition: all var(--dur-base) var(--ease-out);
 }
 
 .openPill:hover {
-  background: rgba(255, 255, 255, 0.10);
+  background: var(--bg-elevated);
   border-color: var(--border-medium);
 }
 
@@ -256,7 +295,7 @@
   left: 50%;
   bottom: 96px;
   transform: translateX(-50%);
-  background: rgba(44, 29, 53, 0.95);
+  background: var(--bg-overlay);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   color: var(--text-primary);

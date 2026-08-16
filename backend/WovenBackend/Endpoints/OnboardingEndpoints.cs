@@ -503,7 +503,7 @@ public static class OnboardingEndpoints
             {
                 try
                 {
-                    var bank = FoundationalQuestionBank.GetBaseFiveForVersion(set.Version);
+                    var bank = FoundationalQuestionBank.GetQuestionsForVersion(set.Version);
 
                     set.QuestionsJson = JsonSerializer.Serialize(
                         bank.Select(q => new { id = q.Id, text = q.Text, pillars = q.Pillars })

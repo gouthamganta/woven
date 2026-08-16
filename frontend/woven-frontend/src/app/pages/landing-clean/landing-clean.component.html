@@ -1,0 +1,173 @@
+<app-woven-bg></app-woven-bg>
+
+<div class="landing">
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="logo">Woven</h1>
+    <p class="tagline">Energy. Intention. Chemistry.</p>
+  </section>
+
+  <!-- Story -->
+  <section class="story fade-in">
+    <div class="container">
+      <div class="story-block">
+        <div class="kicker">WHAT WE ARE</div>
+        <h2 class="story-title">Dating apps optimized for your outcome. Not their engagement metrics.</h2>
+        <p class="story-text">
+          Most apps are built to keep you swiping. We're built to help you leave—together.
+        </p>
+      </div>
+
+      <div class="story-block">
+        <div class="kicker">WHY WE EXIST</div>
+        <h2 class="story-title">You're not tired of dating. You're tired of swiping.</h2>
+        <p class="story-text">
+          The problem isn't a lack of people. The problem is apps that treat matching as the end state.
+          They optimize for swipe counts. We optimize for the moment two people decide to meet.
+        </p>
+      </div>
+
+      <div class="story-block">
+        <div class="kicker">HOW WE'RE DIFFERENT</div>
+        <h2 class="story-title">Behavioral ML that learns from what you do.</h2>
+        <p class="story-text">
+          ECHO doesn't ask what you want. It watches what you choose. How fast you respond.
+          Whether you listen to a voice note all the way through. Whether you continue after a trial period.
+          <strong>Your preferences are what you reveal, not what you claim.</strong>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Moments 3D Section -->
+  <section class="moments-3d-section">
+    <div class="moments-intro fade-in">
+      <div class="kicker">MOMENTS</div>
+      <h2 class="section-title">5 curated profiles per day</h2>
+      <p class="section-sub">Chosen by ECHO based on 16 behavioral signals. No infinite scroll. Just intention.</p>
+    </div>
+
+    <!-- 3D Canvas (cards ARE the 3D scene, not background) -->
+    <div class="canvas-wrapper">
+      <canvas #canvas></canvas>
+    </div>
+
+    <!-- Card info overlays (sync with 3D cards) -->
+    <div class="cards-info">
+      <div class="card-info" *ngFor="let card of momentsCards; let i = index">
+        <h3 class="card-name">{{ card.name }}, {{ card.age }}</h3>
+        <div class="card-explanation">
+          <div class="explanation-kicker">What caught our eye</div>
+          <p class="explanation-text">{{ card.explanation }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features fade-in">
+    <div class="container">
+      <div class="feature">
+        <div class="feature-icon">⏱</div>
+        <div class="kicker">TRIAL PERIOD</div>
+        <h3 class="feature-title">3 minutes to decide</h3>
+        <p class="feature-text">
+          After both users open the chat, a 3-minute window begins.
+          Both decide: CONTINUE, END, or BLOCK. No ghosting. No permanent silence.
+        </p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">◈</div>
+        <div class="kicker">ECHO ENGINE</div>
+        <h3 class="feature-title">You never see a score</h3>
+        <p class="feature-text">
+          16 behavioral components. 9 embedding types. Per-user weight adaptation every Sunday.
+          You don't see compatibility percentages. You just see better matches.
+        </p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">💫</div>
+        <div class="kicker">FIND LOVE</div>
+        <h3 class="feature-title">From conversation to real date</h3>
+        <p class="feature-text">
+          Five minutes after both users message, ECHO generates 3 personalized date ideas.
+          Both pick one. Venue suggestions unlock. The app doesn't end at the match—it ends at the plan.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Registration -->
+  <section class="registration fade-in">
+    <div class="container">
+      <div class="kicker">EARLY ACCESS</div>
+      <h2 class="section-title">We'll keep you posted</h2>
+      <p class="section-sub">Woven is live. Join the waitlist for early access and updates.</p>
+
+      <form class="reg-form" *ngIf="!submitted" (ngSubmit)="onSubmitRegistration()">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Name</label>
+            <input type="text" [(ngModel)]="registration.name" name="name" required placeholder="Your name" />
+          </div>
+          <div class="form-field form-field--small">
+            <label>Age</label>
+            <input type="number" [(ngModel)]="registration.age" name="age" required placeholder="25" min="18" max="99" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Gender</label>
+            <select [(ngModel)]="registration.gender" name="gender" required>
+              <option value="" disabled selected>Select</option>
+              <option value="man">Man</option>
+              <option value="woman">Woman</option>
+              <option value="non-binary">Non-binary</option>
+              <option value="prefer-not-to-say">Prefer not to say</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Location</label>
+            <input type="text" [(ngModel)]="registration.location" name="location" required placeholder="City, State" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="registration.email" name="email" required placeholder="you@example.com" />
+        </div>
+
+        <button type="submit" class="pill pill--large">Notify Me</button>
+      </form>
+
+      <div class="reg-success" *ngIf="submitted">
+        <div class="success-icon">✓</div>
+        <h3>You're on the list</h3>
+        <p>We'll reach out when early access opens.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">
+        <h3 class="logo">Woven</h3>
+        <p class="tagline">Energy. Intention. Chemistry.</p>
+      </div>
+      <div class="footer-links">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/data-policy">Data Policy</a>
+      </div>
+      <div class="footer-bottom">
+        <p>Built with ❤️ in India · hello@wooven.me</p>
+      </div>
+    </div>
+  </footer>
+
+</div>

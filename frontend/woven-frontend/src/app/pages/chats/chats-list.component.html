@@ -27,13 +27,15 @@
   <div class="list" *ngIf="!loading && !error && chats.length > 0">
     <button class="row" *ngFor="let c of chats" (click)="open(c)">
       <div class="left">
-        <div class="photo" *ngIf="c.other?.profilePhoto; else initials">
-          <img [src]="c.other?.profilePhoto!" alt="profile" />
+        <div class="avatarWrap">
+          <div class="photo" *ngIf="c.other?.profilePhoto; else initials">
+            <img [src]="c.other?.profilePhoto!" alt="profile" />
+          </div>
+          <ng-template #initials>
+            <div class="initials">{{ (c.other?.fullName || 'W').slice(0,1) }}</div>
+          </ng-template>
+          <span class="onlineDot" *ngIf="isOnline(c)"></span>
         </div>
-
-        <ng-template #initials>
-          <div class="initials">{{ (c.other?.fullName || 'W').slice(0,1) }}</div>
-        </ng-template>
 
         <div class="info">
           <div class="nameLine">
@@ -43,6 +45,8 @@
 
           <div class="mini">
             {{ statusLine(c) }}
+            <span class="activeSep" *ngIf="lastSeenLabel(c)"> · </span>
+            <span class="activeLabel" *ngIf="lastSeenLabel(c)">{{ lastSeenLabel(c) }}</span>
           </div>
 
           <div class="uspRow">
@@ -70,7 +74,9 @@
       </div>
 
       <div class="rightSide">
-        <span class="openPill">Open</span>
+        <span class="unreadDot" *ngIf="unreadThreadIds.has(c.threadId)"></span>
+        <span class="yourTurnPill" *ngIf="isMyTurn(c)">Your Turn</span>
+        <span class="openPill" *ngIf="!isMyTurn(c)">Open</span>
       </div>
     </button>
   </div>

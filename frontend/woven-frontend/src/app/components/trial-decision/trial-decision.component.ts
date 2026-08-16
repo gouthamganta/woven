@@ -1,274 +1,273 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+
+export type TrialDecision = 'CONTINUE' | 'END' | 'BLOCK';
+export type TrialEndReason = 'no_spark' | 'wrong_timing' | 'not_my_type';
 
 @Component({
   selector: 'app-trial-decision',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   template: `
-    <div class="modal-backdrop" (click)="close()">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <h2>Trial Period Ended</h2>
-          <p class="subtitle">How was your trial with {{ otherName }}?</p>
-        </div>
+    <div class="backdrop">
+      <div class="card">
 
-        <div class="modal-body">
-          <!-- Rating slider (only for User A) -->
-          <div class="rating-section" *ngIf="isUserA">
-            <label>Rate your experience:</label>
-            <div class="rating-slider-container">
-              <span class="rating-label negative">-100</span>
-              <input
-                type="range"
-                min="-100"
-                max="100"
-                step="1"
-                [(ngModel)]="rating"
-                class="rating-slider"
-                [class.negative]="rating < 0"
-                [class.positive]="rating > 0"
-              />
-              <span class="rating-label positive">+100</span>
-            </div>
-            <div class="rating-value" [class.negative]="rating < 0" [class.positive]="rating > 0">
-              {{ rating > 0 ? '+' : '' }}{{ rating }}
-            </div>
-          </div>
+        <!-- Main decision view -->
+        <ng-container *ngIf="!showReasonPicker">
+          <div class="eyebrow">Trial ended</div>
+          <div class="title">How was it with {{ otherName }}?</div>
 
-          <div class="waiting-notice" *ngIf="!isUserA">
-            <p>Waiting for your match to rate the trial...</p>
-          </div>
-
-          <!-- Decision buttons -->
-          <div class="decision-buttons">
-            <button
-              class="btn btn-continue"
-              [disabled]="submitting"
-              (click)="submitDecision('CONTINUE')"
-            >
-              Continue Match
+          <div class="actions">
+            <button class="btnContinue" [disabled]="submitting" (click)="onContinue()">
+              Continue ◈
             </button>
-            <button
-              class="btn btn-end"
-              [disabled]="submitting"
-              (click)="submitDecision('END')"
-            >
-              End Match
+            <button class="btnEnd" [disabled]="submitting" (click)="onEnd()">
+              End match
+            </button>
+            <button class="btnBlock" [disabled]="submitting" (click)="onBlock()">
+              Block
             </button>
           </div>
+        </ng-container>
 
-          <p class="hint" *ngIf="isUserA">
-            Your rating helps improve match quality for everyone.
-          </p>
-        </div>
+        <!-- Reason picker (shown after End) -->
+        <ng-container *ngIf="showReasonPicker">
+          <div class="eyebrow">One more thing</div>
+          <div class="title">What felt off?</div>
+          <div class="reasonHint">Optional · dismisses in {{ reasonCountdown }}s</div>
+
+          <div class="reasons">
+            <button class="reasonBtn" [class.active]="selectedReason === 'no_spark'"
+                    (click)="selectReason('no_spark')">No spark</button>
+            <button class="reasonBtn" [class.active]="selectedReason === 'wrong_timing'"
+                    (click)="selectReason('wrong_timing')">Wrong timing</button>
+            <button class="reasonBtn" [class.active]="selectedReason === 'not_my_type'"
+                    (click)="selectReason('not_my_type')">Not my type</button>
+          </div>
+
+          <button class="btnSubmitReason" [disabled]="submitting" (click)="submitWithReason()">
+            {{ submitting ? 'Saving…' : 'Done' }}
+          </button>
+        </ng-container>
+
       </div>
     </div>
   `,
   styles: [`
-    .modal-backdrop {
+    .backdrop {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
+      inset: 0;
+      z-index: 50;
+      background: rgba(9, 5, 13, 0.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
-      z-index: 1000;
-      padding: 20px;
+      padding-bottom: 24px;
     }
 
-    .modal-content {
-      background: white;
-      border-radius: 20px;
+    .card {
       width: 100%;
-      max-width: 380px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      overflow: hidden;
+      max-width: 480px;
+      margin: 0 16px;
+      background: rgba(28, 17, 36, 0.97);
+      border: 1px solid rgba(212, 160, 23, 0.18);
+      border-radius: 24px;
+      padding: 28px 20px 24px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
     }
 
-    .modal-header {
-      padding: 24px 24px 16px;
-      text-align: center;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-
-      h2 {
-        margin: 0;
-        font-size: 20px;
-        font-weight: 800;
-        letter-spacing: -0.02em;
-      }
-
-      .subtitle {
-        margin: 8px 0 0;
-        font-size: 14px;
-        opacity: 0.7;
-      }
-    }
-
-    .modal-body {
-      padding: 24px;
-    }
-
-    .rating-section {
-      margin-bottom: 24px;
-
-      label {
-        display: block;
-        font-size: 13px;
-        font-weight: 700;
-        margin-bottom: 12px;
-        opacity: 0.8;
-      }
-    }
-
-    .rating-slider-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .rating-label {
+    .eyebrow {
+      font-family: var(--font-ui);
       font-size: 11px;
-      font-weight: 800;
-      min-width: 32px;
-      text-align: center;
-
-      &.negative { color: #ef4444; }
-      &.positive { color: #22c55e; }
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
     }
 
-    .rating-slider {
-      flex: 1;
-      -webkit-appearance: none;
-      appearance: none;
-      height: 8px;
-      border-radius: 4px;
-      background: linear-gradient(to right, #ef4444 0%, #fbbf24 50%, #22c55e 100%);
-      outline: none;
-
-      &::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: white;
-        border: 3px solid #333;
-        cursor: pointer;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      }
-
-      &::-moz-range-thumb {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: white;
-        border: 3px solid #333;
-        cursor: pointer;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      }
+    .title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 24px;
     }
 
-    .rating-value {
-      text-align: center;
-      margin-top: 12px;
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-
-      &.negative { color: #ef4444; }
-      &.positive { color: #22c55e; }
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .waiting-notice {
-      text-align: center;
-      padding: 20px;
-      background: rgba(0, 0, 0, 0.03);
-      border-radius: 12px;
-      margin-bottom: 20px;
-
-      p {
-        margin: 0;
-        font-size: 14px;
-        opacity: 0.7;
-      }
-    }
-
-    .decision-buttons {
-      display: grid;
-      gap: 12px;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 14px 20px;
+    .btnContinue {
+      padding: 15px;
+      border-radius: 14px;
       border: none;
-      border-radius: 12px;
+      background: #8b1a4a;
+      color: #fff;
+      font-family: var(--font-ui);
       font-size: 15px;
-      font-weight: 800;
+      font-weight: 700;
+      letter-spacing: 0.04em;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background 0.2s ease;
 
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
+      &:hover:not(:disabled) { background: #a62058; }
+      &:disabled { opacity: 0.45; cursor: default; }
+      &:active:not(:disabled) { transform: scale(0.96); }
     }
 
-    .btn-continue {
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: white;
+    .btnEnd {
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-secondary);
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
 
-      &:hover:not(:disabled) {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
-      }
+      &:hover:not(:disabled) { background: rgba(255,255,255,0.08); }
+      &:disabled { opacity: 0.45; cursor: default; }
     }
 
-    .btn-end {
-      background: rgba(0, 0, 0, 0.06);
-      color: #333;
+    .btnBlock {
+      padding: 11px;
+      border-radius: 14px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s ease;
 
-      &:hover:not(:disabled) {
-        background: rgba(0, 0, 0, 0.1);
-      }
+      &:hover:not(:disabled) { color: #ff6b6b; }
+      &:disabled { opacity: 0.45; cursor: default; }
     }
 
-    .hint {
-      margin: 16px 0 0;
-      text-align: center;
+    /* Reason picker */
+    .reasonHint {
+      font-family: var(--font-ui);
       font-size: 12px;
-      opacity: 0.5;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .reasons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .reasonBtn {
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-secondary);
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+      &:hover { background: rgba(255,255,255,0.08); }
+      &.active {
+        border-color: rgba(139, 26, 74, 0.6);
+        background: rgba(139, 26, 74, 0.15);
+        color: var(--text-primary);
+      }
+    }
+
+    .btnSubmitReason {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      background: rgba(255,255,255,0.08);
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover:not(:disabled) { background: rgba(255,255,255,0.13); }
+      &:disabled { opacity: 0.45; cursor: default; }
     }
   `]
 })
-export class TrialDecisionComponent {
-  @Input() otherName: string = 'your match';
-  @Input() isUserA: boolean = false;
-  @Input() threadId: string = '';
+export class TrialDecisionComponent implements OnDestroy {
+  @Input() otherName = 'your match';
 
-  @Output() decided = new EventEmitter<{ decision: 'CONTINUE' | 'END'; rating?: number; result?: any }>();
-  @Output() closed = new EventEmitter<void>();
+  @Output() decided = new EventEmitter<{ decision: TrialDecision; endReason?: TrialEndReason }>();
 
-  rating: number = 0;
   submitting = false;
+  showReasonPicker = false;
+  selectedReason: TrialEndReason | null = null;
+  reasonCountdown = 30;
 
-  close() {
-    this.closed.emit();
-  }
+  private reasonTimer: any;
+  private countdownInterval: any;
 
-  submitDecision(decision: 'CONTINUE' | 'END') {
+  onContinue() {
     if (this.submitting) return;
     this.submitting = true;
+    this.decided.emit({ decision: 'CONTINUE' });
+  }
 
+  onEnd() {
+    if (this.submitting) return;
+    this.showReasonPicker = true;
+    this.startReasonCountdown();
+  }
+
+  onBlock() {
+    if (this.submitting) return;
+    this.submitting = true;
+    this.decided.emit({ decision: 'BLOCK' });
+  }
+
+  selectReason(reason: TrialEndReason) {
+    this.selectedReason = reason;
+  }
+
+  submitWithReason() {
+    if (this.submitting) return;
+    this.submitting = true;
+    this.clearTimers();
     this.decided.emit({
-      decision,
-      rating: this.isUserA ? this.rating : undefined
+      decision: 'END',
+      endReason: this.selectedReason ?? undefined
     });
+  }
+
+  private startReasonCountdown() {
+    this.reasonCountdown = 30;
+    this.countdownInterval = setInterval(() => {
+      this.reasonCountdown--;
+      if (this.reasonCountdown <= 0) {
+        this.clearTimers();
+        this.submitWithReason();
+      }
+    }, 1000);
+  }
+
+  private clearTimers() {
+    if (this.reasonTimer) clearTimeout(this.reasonTimer);
+    if (this.countdownInterval) clearInterval(this.countdownInterval);
+  }
+
+  ngOnDestroy() {
+    this.clearTimers();
   }
 }

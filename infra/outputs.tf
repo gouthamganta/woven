@@ -145,3 +145,19 @@ output "redis_connection_string" {
   value       = "${azurerm_redis_cache.main.hostname}:${azurerm_redis_cache.main.ssl_port},password=${azurerm_redis_cache.main.primary_access_key},ssl=True,abortConnect=False"
   sensitive   = true
 }
+
+output "service_bus_connection_string" {
+  description = "Azure Service Bus primary connection string"
+  value       = azurerm_servicebus_namespace.main.default_primary_connection_string
+  sensitive   = true
+}
+
+output "speechbrain_internal_url" {
+  description = "Internal URL for the SpeechBrain voice embedding service"
+  value       = module.container_apps.speechbrain_internal_url
+}
+
+output "workers_container_app_id" {
+  description = "Batch workers Container App resource ID"
+  value       = module.container_apps.workers_container_app_id
+}

@@ -57,7 +57,6 @@
 .pill:hover {
   background: rgba(255, 255, 255, 0.10);
   border-color: var(--border-medium);
-  transform: translateY(-1px);
 }
 
 .pill.outline { background: transparent; border-color: var(--border-subtle); }
@@ -126,7 +125,6 @@
 }
 
 .row:hover {
-  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-color: var(--border-soft);
 }
@@ -209,7 +207,6 @@
 }
 
 .uspChip:hover {
-  transform: translateY(-1px);
   border-color: var(--border-soft);
 }
 
@@ -254,7 +251,7 @@
   left: 50%;
   bottom: 96px;
   transform: translateX(-50%);
-  background: rgba(44, 29, 53, 0.95);
+  background: var(--bg-overlay);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   color: var(--text-primary);

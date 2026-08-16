@@ -1,0 +1,181 @@
+<div class="landing-3d">
+  <!-- Three.js Canvas (fullscreen background) -->
+  <canvas #threeCanvas class="three-canvas"></canvas>
+
+  <!-- Content overlay (scroll-driven) -->
+  <div class="content-overlay">
+
+    <!-- Section 1: Hero -->
+    <section class="section section--hero" id="hero">
+      <div class="container">
+        <h1 class="hero__title">
+          <span class="gradient-text">WOVEN</span>
+        </h1>
+        <p class="hero__tagline">
+          Dating apps optimized for <em>your</em> outcome.<br />
+          Not their engagement metrics.
+        </p>
+        <p class="hero__subtitle">
+          Behavioral AI that learns from what you <strong>do</strong>, not what you <em>say</em> you want.
+        </p>
+        <div class="hero__cta">
+          <a href="https://wooven.me" class="btn btn--primary">Start Matching</a>
+        </div>
+      </div>
+      <div class="scroll-hint" (click)="scrollToSection('problem')">
+        <span>Scroll</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 5v14m0 0l-7-7m7 7l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Section 2: Problem -->
+    <section class="section section--problem" id="problem">
+      <div class="container">
+        <h2>
+          You're not tired of dating.<br />
+          <span class="accent">You're tired of swiping.</span>
+        </h2>
+        <div class="content">
+          <p>Most dating app users describe their experience as <strong>exhausting</strong>.</p>
+          <p>The problem isn't a lack of people. The problem is the apps aren't working.</p>
+          <div class="cycle">
+            <p>You match.</p>
+            <p>You message.</p>
+            <p>The conversation trails off.</p>
+            <p class="cycle__repeat"><strong>Repeat 47 times.</strong></p>
+          </div>
+          <p class="verdict">
+            This isn't a user failure. It's a <span class="accent">design failure</span>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Intentionality -->
+    <section class="section section--intentionality" id="intentionality">
+      <div class="container">
+        <h2>Intentionality is a feature, not friction.</h2>
+        <div class="features">
+          <div class="feature">
+            <h3>5 curated profiles per day</h3>
+            <p>Not 500. ECHO scores every candidate across 16 dimensions.</p>
+          </div>
+          <div class="feature">
+            <h3>Every choice requires a note</h3>
+            <p>20-150 characters. No reflexive swipes.</p>
+          </div>
+          <div class="feature">
+            <h3>Behavioral ML</h3>
+            <p>Learns from outcomes, not questionnaires.</p>
+          </div>
+        </div>
+        <p class="truth">
+          Your preferences are what you <strong>reveal</strong>, not what you <em>claim</em>.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 4: ECHO -->
+    <section class="section section--echo" id="echo">
+      <div class="container">
+        <h2>
+          <span class="mono">16</span> behavioral signals.<br />
+          <span class="mono">9</span> embedding types.<br />
+          Per-user weight adaptation.
+        </h2>
+        <p class="explainer">
+          Every Sunday, logistic regression updates <em>your</em> weights based on what actually predicted connection <strong>for you</strong>.
+        </p>
+        <p class="truth">
+          You never see a score.<br />
+          You just see better matches.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 5: Journey -->
+    <section class="section section--journey" id="journey">
+      <div class="container">
+        <h2>From swipe to real date — built into the product.</h2>
+        <div class="steps">
+          <div class="step">
+            <h3>Step 1: Balloon</h3>
+            <p>A mutual choice creates a <strong>Balloon</strong> — a 7-day connection window.</p>
+          </div>
+          <div class="step">
+            <h3>Step 2: Trial Period</h3>
+            <p>After 3 minutes: CONTINUE, END, or BLOCK.</p>
+          </div>
+          <div class="step">
+            <h3>Step 3: Find Love</h3>
+            <p>ECHO generates <strong>3 personalized date ideas</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Privacy -->
+    <section class="section section--privacy" id="privacy">
+      <div class="container">
+        <h2>Invisible AI = no performance anxiety.</h2>
+        <div class="privacy-list">
+          <h3>What Woven never shows you:</h3>
+          <ul>
+            <li>Your compatibility score</li>
+            <li>Community ratings or flags</li>
+            <li>AI-generated labels</li>
+            <li>Who you "missed"</li>
+          </ul>
+        </div>
+        <p class="truth">
+          When users see a score, they optimize for the score instead of genuine self-presentation.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 7: CTA -->
+    <section class="section section--cta" id="cta">
+      <div class="container">
+        <h2>Join thousands of intentional daters.</h2>
+        <p class="subtitle">Woven is live. Available on iOS and Android.</p>
+        <div class="cta-buttons">
+          <a href="https://wooven.me" class="btn btn--primary">Start Matching</a>
+          <a href="#privacy" class="btn btn--secondary">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__brand">
+          <h3>WOVEN</h3>
+          <p>Dating apps optimized for your outcome.</p>
+        </div>
+        <div class="footer__links">
+          <div class="footer__column">
+            <h4>Product</h4>
+            <a href="#echo">How ECHO Works</a>
+            <a href="#privacy">Privacy</a>
+          </div>
+          <div class="footer__column">
+            <h4>Company</h4>
+            <a href="/about">About</a>
+            <a href="/careers">Careers</a>
+          </div>
+          <div class="footer__column">
+            <h4>Legal</h4>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms</a>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <p>Built with ❤️ in India</p>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+</div>

@@ -5,13 +5,18 @@ namespace WovenBackend.Services.Embeddings;
 
 public class EmbeddingBatchWorker : BackgroundService
 {
+    private const string LockKey = "lock:embedding-batch";
+    private static readonly TimeSpan LockExpiry = TimeSpan.FromHours(4);
+
     private readonly IServiceScopeFactory _scopeFactory;
+    private readonly ICacheService _cache;
     private readonly ILogger<EmbeddingBatchWorker> _logger;
 
-    public EmbeddingBatchWorker(IServiceScopeFactory scopeFactory, ILogger<EmbeddingBatchWorker> logger)
+    public EmbeddingBatchWorker(IServiceScopeFactory scopeFactory, ICacheService cache, ILogger<EmbeddingBatchWorker> logger)
     {
         _scopeFactory = scopeFactory;
-        _logger = logger;
+        _cache        = cache;
+        _logger       = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken ct)
@@ -20,6 +25,12 @@ public class EmbeddingBatchWorker : BackgroundService
         {
             await SleepUntil2h30AmUtcAsync(ct);
             if (ct.IsCancellationRequested) break;
+
+            if (!await _cache.AcquireLockAsync(LockKey, LockExpiry, ct))
+            {
+                _logger.LogInformation("[EmbeddingBatchWorker] Skipping — another pod holds the lock");
+                continue;
+            }
 
             var start = DateTime.UtcNow;
             _logger.LogInformation("[EmbeddingBatchWorker] Starting embedding batch at {Time}", start);
@@ -48,6 +59,8 @@ public class EmbeddingBatchWorker : BackgroundService
                         await sp.GetRequiredService<IHumorEmbeddingService>().ComputeHumorEmbeddingAsync(userId, ct);
                         await sp.GetRequiredService<ILifestyleEmbeddingService>().ComputeLifestyleEmbeddingAsync(userId, ct);
                         await sp.GetRequiredService<IEmotionalRhythmService>().ComputeEmotionalRhythmAsync(userId, ct);
+                        // ECHO Phase 5: behavioral fingerprint must run before AttachmentProxy (Step 12 uses it)
+                        await sp.GetRequiredService<IBehavioralFingerprintService>().ComputeAsync(userId, ct);
                         await sp.GetRequiredService<IAttachmentProxyService>().ComputeAttachmentProxyAsync(userId, ct);
                         await sp.GetRequiredService<IVisualPreferenceService>().UpdateVisualPreferenceAsync(userId, ct);
 
@@ -67,6 +80,10 @@ public class EmbeddingBatchWorker : BackgroundService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "[EmbeddingBatchWorker] Batch failed");
+            }
+            finally
+            {
+                await _cache.ReleaseLockAsync(LockKey, ct);
             }
         }
     }

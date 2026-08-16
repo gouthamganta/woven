@@ -120,6 +120,9 @@ public static class AuthEndpoints
 
             var accessToken = jwt.CreateAccessToken(user.Id, user.Email);
 
+            // Set httpOnly cookie for XSS protection (in addition to JSON response for backward compat)
+            CookieAuthHelper.SetAccessTokenCookie(http.Response, accessToken);
+
             var isNewUser = existingIdentity == null;
             _ = analytics.TrackAsync(user.Id, null,
                 isNewUser ? AnalyticsEvents.UserRegistered : AnalyticsEvents.AppOpened,
@@ -137,7 +140,14 @@ public static class AuthEndpoints
                 }
             });
         })
-
         .WithName("GoogleAuth");
+
+        // POST /auth/logout — clears authentication cookies
+        app.MapPost("/auth/logout", (HttpContext http) =>
+        {
+            CookieAuthHelper.ClearAuthCookies(http.Response);
+            return Results.Ok(new { status = "logged_out" });
+        })
+        .WithName("Logout");
     }
 }

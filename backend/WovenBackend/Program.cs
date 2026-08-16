@@ -1,13 +1,19 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
+using Azure.Messaging.ServiceBus;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Npgsql;
 using Pgvector.EntityFrameworkCore;
+using Serilog;
+using Serilog.Events;
+using Serilog.Formatting.Compact;
 using StackExchange.Redis;
 using WovenBackend.Auth;
 using WovenBackend.Data;
@@ -15,9 +21,133 @@ using WovenBackend.Endpoints;
 using WovenBackend.Hubs;
 using WovenBackend.Infrastructure;
 using WovenBackend.Services;
+using WovenBackend.Services.Queue;
 using WovenBackend.Services.Security;
 
+// ── Serilog bootstrap logger ─────────────────────────────────────────────────
+// Captures startup errors before full configuration is loaded.
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
+
 var builder = WebApplication.CreateBuilder(args);
+
+// ── Azure Key Vault configuration (production) ─────────────────────────────────
+// Load secrets from Azure Key Vault in production environments
+if (builder.Environment.IsProduction())
+{
+    var keyVaultName = builder.Configuration["KeyVault:Name"];
+    if (!string.IsNullOrEmpty(keyVaultName))
+    {
+        var keyVaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
+        builder.Configuration.AddAzureKeyVault(
+            keyVaultUri,
+            new Azure.Identity.DefaultAzureCredential());
+
+        Log.Information("[Startup] Azure Key Vault configured: {KeyVaultUri}", keyVaultUri);
+    }
+    else
+    {
+        Log.Warning("[Startup] KeyVault:Name not configured — secrets will not be loaded from Key Vault");
+    }
+}
+
+// ── Full Serilog configuration ────────────────────────────────────────────────
+builder.Host.UseSerilog((context, services, config) =>
+{
+    var isProduction = context.HostingEnvironment.IsProduction();
+
+    config
+        .ReadFrom.Configuration(context.Configuration)
+        .ReadFrom.Services(services)
+        .Enrich.FromLogContext()
+        .Enrich.WithEnvironmentName()
+        .Enrich.WithThreadId()
+        .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command",
+            isProduction ? LogEventLevel.Warning : LogEventLevel.Information)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Mvc",     LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning);
+
+    if (isProduction)
+        config.WriteTo.Console(new CompactJsonFormatter());   // JSON for log aggregators
+    else
+        config.WriteTo.Console();                             // human-readable in dev
+});
+
+// API pods disable heavy nightly batch workers; those run on the dedicated workers pod (min=max=1).
+// Lightweight real-time workers (BalloonExpiry, Moderation, TileExpiry, etc.) still run on all pods.
+var batchWorkersDisabled = builder.Configuration.GetValue<bool>("WOVEN_DISABLE_BATCH_WORKERS", false);
+
+// ----------------------------------------------------
+// OBSERVABILITY — Correlation IDs + Structured Error Handling
+// ----------------------------------------------------
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICorrelationService, CorrelationService>();
+builder.Services.AddExceptionHandler<AuthExceptionHandler>();
+builder.Services.AddExceptionHandler<DomainExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
+// ----------------------------------------------------
+// RATE LIMITING
+// ----------------------------------------------------
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = 429;
+    options.OnRejected = async (ctx, ct) =>
+    {
+        var correlationId = ctx.HttpContext.Items[CorrelationIdMiddleware.ItemsKey] as string ?? "?";
+        ctx.HttpContext.Response.Headers["X-Correlation-ID"] = correlationId;
+        ctx.HttpContext.Response.Headers["Retry-After"] = "60";
+        await ctx.HttpContext.Response.WriteAsJsonAsync(new
+        {
+            error = "Rate limit exceeded. Please slow down.",
+            correlationId,
+            retryAfterSeconds = 60
+        }, ct);
+    };
+
+    // Global per-user sliding window — 120 requests / 60s
+    options.AddPolicy("user", context =>
+    {
+        var userId = context.User.FindFirst("uid")?.Value ?? context.Connection.RemoteIpAddress?.ToString() ?? "anon";
+        return RateLimitPartition.GetSlidingWindowLimiter(userId, _ => new SlidingWindowRateLimiterOptions
+        {
+            PermitLimit          = 120,
+            Window               = TimeSpan.FromSeconds(60),
+            SegmentsPerWindow    = 6,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            QueueLimit           = 0
+        });
+    });
+
+    // Strict rate limit for AI-heavy endpoints (deck generation, games, explanations)
+    options.AddPolicy("ai-heavy", context =>
+    {
+        var userId = context.User.FindFirst("uid")?.Value ?? "anon";
+        return RateLimitPartition.GetTokenBucketLimiter(userId, _ => new TokenBucketRateLimiterOptions
+        {
+            TokenLimit               = 10,
+            QueueProcessingOrder     = QueueProcessingOrder.OldestFirst,
+            QueueLimit               = 0,
+            ReplenishmentPeriod      = TimeSpan.FromSeconds(60),
+            TokensPerPeriod          = 10,
+            AutoReplenishment        = true
+        });
+    });
+
+    // OpenAI proxy limit — 5 concurrent outbound AI calls globally (prevent quota exhaustion)
+    options.AddPolicy("openai-global", _ =>
+        RateLimitPartition.GetConcurrencyLimiter("openai", _ => new ConcurrencyLimiterOptions
+        {
+            PermitLimit  = 5,
+            QueueLimit   = 20,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst
+        }));
+});
 
 // ----------------------------------------------------
 // JSON
@@ -63,6 +193,11 @@ builder.Services.AddCors(options =>
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 var npgsqlDataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
 npgsqlDataSourceBuilder.UseVector();
+// Explicit pool bounds prevent saturation from 14+ background workers + real-time traffic.
+// PostgreSQL default max_connections is 100; we stay under it with room for migrations/admin.
+npgsqlDataSourceBuilder.ConnectionStringBuilder.MaxPoolSize = 50;
+npgsqlDataSourceBuilder.ConnectionStringBuilder.MinPoolSize = 2;
+npgsqlDataSourceBuilder.ConnectionStringBuilder.ConnectionIdleLifetime = 300;
 var npgsqlDataSource = npgsqlDataSourceBuilder.Build();
 
 // IEncryptionService (singleton) is registered above, so the DI container will
@@ -155,14 +290,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
         // Phase 1C: WebSocket protocol cannot send headers, so SignalR passes the JWT as
         // ?access_token=... in the query string. Read it here and set context.Token.
+        // Phase 1D: Also accept JWT from httpOnly cookies for XSS protection.
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context =>
             {
+                // Priority 1: SignalR query string token
                 var accessToken = context.Request.Query["access_token"];
                 var path = context.HttpContext.Request.Path;
                 if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                {
                     context.Token = accessToken;
+                    return Task.CompletedTask;
+                }
+
+                // Priority 2: httpOnly cookie
+                var cookieToken = WovenBackend.Auth.CookieAuthHelper.GetAccessTokenFromCookie(context.Request);
+                if (!string.IsNullOrEmpty(cookieToken))
+                {
+                    context.Token = cookieToken;
+                }
+
                 return Task.CompletedTask;
             }
         };
@@ -182,10 +330,17 @@ builder.Services.AddAuthorization(options =>
 // 02:30       — EmbeddingBatchWorker (nightly)
 // 03:00       — CfBatchWorker (nightly)
 // 03:30       — GhostDetectionWorker (nightly pass)
+// 03:45       — SelfDisclosureBatchWorker (nightly)
+// 03:50       — ConnectionScoreBatchWorker (nightly, ECHO Phase 2)
+// every 4h   — ChatNoteEmbeddingWorker
 // 04:00       — WeightLearningBatchWorker (weekly Sun)
+// 04:15       — PreferenceDriftBatchWorker (nightly, ECHO Phase 6)
+// 05:00       — CfScoreBatchWorker (daily, collaborative filtering)
+// 04:20       — LinUcbBatchWorker (nightly, ECHO Phase 7)
 // 04:30       — InsightBatchWorker (nightly)
 // 05:00       — SecurityAuditCleanupWorker (weekly Sun)
 // 06:00       — WeeklyDigestWorker (weekly Sun)
+// 18:00 Wed  — CoachingSummaryWorker (weekly Wed)
 // 08:00       — FeedbackTriggerWorker (daily)
 // Every 1min  — BalloonExpiryWorker (continuous)
 // Every 6h    — GhostDetectionWorker (silent threads)
@@ -197,7 +352,7 @@ builder.Services.AddAuthorization(options =>
 // Singleton: constructed once; master key loaded from config at startup.
 builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
 builder.Services.AddSingleton<ISecurityAuditService, SecurityAuditService>();
-builder.Services.AddHostedService<SecurityAuditCleanupWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<SecurityAuditCleanupWorker>();
 
 // KeyRotationWorker registered as singleton so AdminSecurityEndpoints can resolve it directly.
 builder.Services.AddSingleton<KeyRotationWorker>();
@@ -218,9 +373,19 @@ builder.Services.AddHttpClient("external-api")
     .AddHttpMessageHandler<OutboundPiiHandler>();
 
 // ----------------------------------------------------
-// HTTP CLIENT + OPENAI REWRITE SERVICE
+// OPENAI CLIENT — single entry point for all AI calls
 // ----------------------------------------------------
-builder.Services.AddHttpClient<OpenAiRewriteService>();
+// All OpenAI calls go through IOpenAiClient:
+//   - Correlation ID on every request
+//   - Exponential backoff on 429/5xx (up to 3 retries)
+//   - Token usage logged per call
+//   - Rate limit enforced via "openai-global" policy
+builder.Services.AddScoped<IOpenAiClient, OpenAiClient>();
+
+// ----------------------------------------------------
+// OPENAI REWRITE SERVICE
+// ----------------------------------------------------
+builder.Services.AddScoped<OpenAiRewriteService>();
 
 // ----------------------------------------------------
 // AI PROFILE SERVICE
@@ -233,10 +398,10 @@ builder.Services.AddScoped<IAiProfileService, AiProfileService>();
 builder.Services.AddScoped<FoundationalCycleService>();
 
 builder.Services.AddScoped<WovenBackend.Services.Moments.InteractionBudgetService>();
+builder.Services.AddScoped<WovenBackend.Services.Moments.SparkWalletService>();
 builder.Services.AddScoped<WovenBackend.Services.Moments.MomentsMatchService>();
 builder.Services.AddHostedService<WovenBackend.Services.Moments.BalloonExpiryWorker>();
 
-builder.Services.AddHttpClient<OpenAiDynamicIntakeRewriteService>();
 builder.Services.AddScoped<OpenAiDynamicIntakeRewriteService>();
 builder.Services.AddScoped<DynamicIntakeCycleService>();
 
@@ -244,11 +409,8 @@ builder.Services.AddScoped<DynamicIntakeCycleService>();
 // MATCHMAKING ENGINE SERVICES
 // ----------------------------------------------------
 
-// HttpClient for MatchExplanationService
-builder.Services.AddHttpClient<WovenBackend.Services.Matchmaking.MatchExplanationService>();
-
-// Tagging service (uses existing OpenAI HttpClient pattern)
-builder.Services.AddHttpClient<WovenBackend.Services.Matchmaking.IOpenAiTaggingService,
+// Tagging service
+builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IOpenAiTaggingService,
     WovenBackend.Services.Matchmaking.OpenAiTaggingService>();
 
 // Core matchmaking services (scoped = one instance per request)
@@ -257,6 +419,9 @@ builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IUserVectorBuilder,
 
 builder.Services.AddScoped<WovenBackend.Services.Matchmaking.ICandidatePoolService,
     WovenBackend.Services.Matchmaking.CandidatePoolService>();
+// ECHO Phase 3: hard filter — only age reciprocity + distance are binary exclusions
+builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IHardFilterService,
+    WovenBackend.Services.Matchmaking.HardFilterService>();
 
 builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IMatchScoringService,
     WovenBackend.Services.Matchmaking.MatchScoringService>();
@@ -269,6 +434,9 @@ builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IDeckSelectionServi
 
 builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IMatchExplanationService,
     WovenBackend.Services.Matchmaking.MatchExplanationService>();
+
+builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IMatchNarratorService,
+    WovenBackend.Services.Matchmaking.MatchNarratorService>();
 
 // Phase 1A: pgvector cosine similarity queries
 builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IVectorSearchService,
@@ -285,6 +453,13 @@ builder.Services.AddSignalR()
         opts => { opts.Configuration.AbortOnConnectFail = false; });
 
 builder.Services.AddSingleton<INotificationService, NotificationService>();
+builder.Services.AddScoped<WovenBackend.Services.PushNotifications.IWebPushService, WovenBackend.Services.PushNotifications.WebPushService>();
+
+// ECHO Phase 1: match signal ledger
+builder.Services.AddScoped<IMatchSignalService, MatchSignalService>();
+
+// Idempotency service for critical mutations
+builder.Services.AddScoped<IIdempotencyService, IdempotencyService>();
 
 // ----------------------------------------------------
 // PHASE 1B: REDIS CACHE
@@ -316,14 +491,31 @@ builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IDailyDeckOrchestra
     WovenBackend.Services.Matchmaking.DailyDeckOrchestrator>();
 
 // ----------------------------------------------------
-// PHASE 2A: TILES
+// PHASE 2A: TILES + EMBEDDING QUEUE
 // ----------------------------------------------------
-// TileEmbeddingService is a singleton so it can be safely called from fire-and-forget
-// Task.Run after the originating request scope ends (uses IServiceScopeFactory internally).
+// TileEmbeddingService: singleton — safe to call from BackgroundService workers (IServiceScopeFactory).
 builder.Services.AddSingleton<WovenBackend.Services.Tiles.TileEmbeddingService>();
 builder.Services.AddScoped<WovenBackend.Services.Tiles.ITileService,
     WovenBackend.Services.Tiles.TileService>();
 builder.Services.AddHostedService<WovenBackend.Services.Tiles.TileExpiryWorker>();
+
+// Embedding task queue: durable (Azure Service Bus) when configured, in-process Channel fallback for dev.
+// Service Bus queue name: "tile-embedding" — provision in Azure before production deployment.
+var serviceBusConnStr = builder.Configuration["ServiceBus:ConnectionString"];
+if (!string.IsNullOrWhiteSpace(serviceBusConnStr))
+{
+    var sbClient = new ServiceBusClient(serviceBusConnStr);
+    builder.Services.AddSingleton(sbClient);
+    builder.Services.AddSingleton<IEmbeddingQueue, ServiceBusEmbeddingQueue>();
+    builder.Services.AddHostedService<ServiceBusEmbeddingWorker>();
+}
+else
+{
+    var inMemQueue = new InMemoryEmbeddingQueue();
+    builder.Services.AddSingleton(inMemQueue);
+    builder.Services.AddSingleton<IEmbeddingQueue>(inMemQueue);
+    builder.Services.AddHostedService<InMemoryEmbeddingWorker>();
+}
 
 builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IMatchOutcomeService,
     WovenBackend.Services.Matchmaking.MatchOutcomeService>();
@@ -338,7 +530,7 @@ builder.Services.AddHostedService<WovenBackend.Services.Moderation.ModerationWor
 
 builder.Services.AddScoped<WovenBackend.Services.Trust.ITrustService,
     WovenBackend.Services.Trust.TrustService>();
-builder.Services.AddHostedService<WovenBackend.Services.Trust.TrustBatchWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Trust.TrustBatchWorker>();
 
 // ----------------------------------------------------
 // PHASE 2C: COMMONS FEED
@@ -359,14 +551,15 @@ builder.Services.AddScoped<WovenBackend.Services.Orbit.IFriendBridgeService,
 // ----------------------------------------------------
 builder.Services.AddScoped<WovenBackend.Services.Seasons.ISeasonService,
     WovenBackend.Services.Seasons.SeasonService>();
-builder.Services.AddHostedService<WovenBackend.Services.Seasons.SeasonTransitionWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Seasons.SeasonTransitionWorker>();
 
 // ----------------------------------------------------
 // PHASE 3C: COLLABORATIVE FILTERING
 // ----------------------------------------------------
 builder.Services.AddScoped<WovenBackend.Services.Recommendations.ICollaborativeFilteringService,
     WovenBackend.Services.Recommendations.CollaborativeFilteringService>();
-builder.Services.AddHostedService<WovenBackend.Services.Recommendations.CfBatchWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Recommendations.CfBatchWorker>();
+builder.Services.AddHostedService<WovenBackend.Services.Commons.TileViewProcessorWorker>();
 
 // ----------------------------------------------------
 // PHASE 3D: ENHANCED EMBEDDINGS + WEIGHT LEARNING
@@ -387,11 +580,35 @@ builder.Services.AddScoped<WovenBackend.Services.Embeddings.IAttachmentProxyServ
     WovenBackend.Services.Embeddings.AttachmentProxyService>();
 builder.Services.AddScoped<WovenBackend.Services.Embeddings.IVisualPreferenceService,
     WovenBackend.Services.Embeddings.VisualPreferenceService>();
-builder.Services.AddHostedService<WovenBackend.Services.Embeddings.EmbeddingBatchWorker>();
+// ECHO Phase 5: behavioral fingerprint (16-dim from MatchSignalLogs, no OpenAI)
+builder.Services.AddScoped<WovenBackend.Services.Embeddings.IBehavioralFingerprintService,
+    WovenBackend.Services.Embeddings.BehavioralFingerprintService>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Embeddings.EmbeddingBatchWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Embeddings.ChatNoteEmbeddingWorker>();
+
+// ECHO PHASE 2: CONNECTION SCORES (must run before WeightLearning)
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Matchmaking.ConnectionScoreBatchWorker>();
 
 builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IWeightLearningService,
     WovenBackend.Services.Matchmaking.WeightLearningService>();
-builder.Services.AddHostedService<WovenBackend.Services.Matchmaking.WeightLearningBatchWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Matchmaking.WeightLearningBatchWorker>();
+
+// CF Score batch worker (05:00 daily)
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Matchmaking.CfScoreBatchWorker>();
+
+// ECHO PHASE 6: PREFERENCE DRIFT
+builder.Services.AddScoped<WovenBackend.Services.Matchmaking.IPreferenceDriftService,
+    WovenBackend.Services.Matchmaking.PreferenceDriftService>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Matchmaking.PreferenceDriftBatchWorker>();
+
+// ECHO PHASE 7: LinUCB BANDIT
+builder.Services.AddScoped<WovenBackend.Services.Matchmaking.ILinUcbService,
+    WovenBackend.Services.Matchmaking.LinUcbService>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Matchmaking.LinUcbBatchWorker>();
+
+// ECHO PHASE 8: SYNTHETIC PERSONA VALIDATION
+builder.Services.AddSingleton<WovenBackend.Services.Validation.IPersonaValidationService,
+    WovenBackend.Services.Validation.PersonaValidationService>();
 
 // ----------------------------------------------------
 // OPENAI RESILIENCE SERVICES (circuit breaker, cost tracking)
@@ -428,7 +645,7 @@ builder.Services.AddScoped<WovenBackend.Services.Games.IGameOutcomeService,
 builder.Services.AddSingleton<WovenBackend.Services.Analytics.IAnalyticsService,
     WovenBackend.Services.Analytics.AnalyticsService>();
 // Anonymizes user_id_hash + session_id for events older than 12 months on the 1st of each month at 2am UTC.
-builder.Services.AddHostedService<WovenBackend.Services.Analytics.AnalyticsRetentionWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Analytics.AnalyticsRetentionWorker>();
 builder.Services.AddScoped<WovenBackend.Services.Verification.IVerificationService,
     WovenBackend.Services.Verification.VerificationService>();
 
@@ -445,14 +662,15 @@ builder.Services.AddScoped<WovenBackend.Services.Venues.IVenueService,
     WovenBackend.Services.Venues.VenueService>();
 builder.Services.AddScoped<WovenBackend.Services.Feedback.IDateFeedbackService,
     WovenBackend.Services.Feedback.DateFeedbackService>();
-builder.Services.AddHostedService<WovenBackend.Services.Feedback.FeedbackTriggerWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Feedback.FeedbackTriggerWorker>();
 
 // PHASE 4C: INSIGHTS + OPINIONS
 // ----------------------------------------------------
 builder.Services.AddScoped<WovenBackend.Services.Insights.IInsightService,
     WovenBackend.Services.Insights.InsightService>();
-builder.Services.AddHostedService<WovenBackend.Services.Insights.WeeklyDigestWorker>();
-builder.Services.AddHostedService<WovenBackend.Services.Insights.InsightBatchWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Insights.WeeklyDigestWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Insights.InsightBatchWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Coaching.CoachingSummaryWorker>();
 
 // ----------------------------------------------------
 // PHASE 4B: CONVERSATION NUDGES
@@ -465,7 +683,12 @@ builder.Services.AddScoped<WovenBackend.Services.Nudges.INudgeService,
 // ----------------------------------------------------
 builder.Services.AddScoped<WovenBackend.Services.AntiGhosting.IGhostDetectionService,
     WovenBackend.Services.AntiGhosting.GhostDetectionService>();
-builder.Services.AddHostedService<WovenBackend.Services.AntiGhosting.GhostDetectionWorker>();
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.AntiGhosting.GhostDetectionWorker>();
+
+// ----------------------------------------------------
+// ECHO PHASE 1: SELF-DISCLOSURE SIGNAL
+// ----------------------------------------------------
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Moments.SelfDisclosureBatchWorker>();
 
 // ----------------------------------------------------
 // BUILD APP
@@ -481,14 +704,18 @@ logger.LogInformation("ASPNETCORE_URLS: {Urls}", Environment.GetEnvironmentVaria
 logger.LogInformation("DB connection configured: {HasDb}", !string.IsNullOrEmpty(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // ----------------------------------------------------
-// AUTO-MIGRATE DATABASE
+// DATABASE MIGRATIONS
 // ----------------------------------------------------
-// Applies any pending EF Core migrations on startup.
-// Safe: uses __EFMigrationsHistory table to skip already-applied migrations.
-// Required for Container Apps where the DB is on a private VNet
-// and cannot be reached from local dev machines.
-using (var scope = app.Services.CreateScope())
+// Development: always auto-migrate.
+// Production first deploy: set WOVEN_RUN_MIGRATIONS=true in Terraform (var.run_migrations).
+//   Remove it after the first successful deploy — schema exists, no need to run on every pod start.
+// Production normal: migrations checked; error logged if pending (run via CI/CD step).
+var runMigrations = app.Environment.IsDevelopment()
+    || app.Configuration.GetValue<bool>("WOVEN_RUN_MIGRATIONS", false);
+
+if (runMigrations)
 {
+    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
     try
     {
@@ -498,8 +725,19 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Failed to apply database migrations. The app will start but some features may not work.");
+        logger.LogError(ex, "Failed to apply database migrations.");
     }
+}
+else
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+    var pending = db.Database.GetPendingMigrations().ToList();
+    if (pending.Count > 0)
+        logger.LogError(
+            "[STARTUP] {Count} pending migration(s) in production: {Migrations}. " +
+            "Run via CI/CD or set WOVEN_RUN_MIGRATIONS=true for first deploy.",
+            pending.Count, string.Join(", ", pending));
 }
 
 // ----------------------------------------------------
@@ -513,28 +751,39 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
 
+// ── 1. Correlation ID — must be first so all downstream logs carry it ─────────
+app.UseMiddleware<CorrelationIdMiddleware>();
+
+// ── 2. Serilog request logging — logs every request with timing + status code ─
+app.UseSerilogRequestLogging(options =>
+{
+    options.MessageTemplate =
+        "HTTP {RequestMethod} {RequestPath} → {StatusCode} in {Elapsed:0.000}ms " +
+        "[CorrelationId={CorrelationId} UserId={UserId}]";
+
+    options.EnrichDiagnosticContext = (diag, context) =>
+    {
+        diag.Set("CorrelationId", context.Items[CorrelationIdMiddleware.ItemsKey] ?? "?");
+        diag.Set("UserId",        context.User.FindFirst("uid")?.Value ?? "anon");
+        diag.Set("UserAgent",     context.Request.Headers.UserAgent.ToString());
+    };
+});
+
+// ── 3. Structured exception handling (replaces the old errorApp lambda) ───────
+app.UseExceptionHandler();
+
+// ── 4. Rate limiting ──────────────────────────────────────────────────────────
+app.UseRateLimiter();
+
 app.UseCors("DefaultCorsPolicy");
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseDeveloperExceptionPage();
     app.UseHttpsRedirection();
 }
-else
-{
-    app.UseExceptionHandler(errorApp =>
-    {
-        errorApp.Run(async context =>
-        {
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "application/json";
-            await context.Response.WriteAsJsonAsync(new { error = "An unexpected error occurred" });
-        });
-    });
-    // HTTPS redirect NOT used in production — Container Apps handles TLS termination at ingress
-}
+// HTTPS redirect NOT used in production — Container Apps handles TLS termination at ingress
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -638,20 +887,29 @@ app.MapMomentsEndpoints();
 app.MapChatEndpoints();
 app.MapGameEndpoints();
 app.MapMatchesEndpoints();
+app.MapCoachingEndpoints();
 app.MapDynamicIntakeEndpoints();
 app.MapMediaEndpoints();
 app.MapTileEndpoints();
 app.MapAdminEndpoints();
 app.MapAdminSecurityEndpoints();
+app.MapAdminValidationEndpoints();
 app.MapUserDataEndpoints();
+app.MapPushEndpoints();
+
+var pushNotifications = app.MapGroup("/push-notifications");
+pushNotifications.MapPushNotificationEndpoints();
+
 app.MapCommonsEndpoints();
 app.MapOrbitEndpoints();
+app.MapSparkEndpoints();
 app.MapSeasonEndpoints();
 app.MapMeEndpoints();
 app.MapFeedbackEndpoints();
 app.MapVerificationEndpoints();
 app.MapAdminAnalyticsEndpoints();
 app.MapLegalEndpoints();
+app.MapSupportEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
@@ -784,7 +1042,7 @@ if (app.Environment.IsDevelopment())
         if (userId == 0) return Results.Unauthorized();
 
         var profile = await aiProfileService.GetProfileAsync(userId, ct);
-        var baseQuestions = FoundationalQuestionBank.GetBaseFiveForVersion(1);
+        var baseQuestions = FoundationalQuestionBank.GetQuestionsForVersion(1);
 
         var rewritten = await rewriteService.RewriteAsync(
             baseQuestions,
@@ -934,4 +1192,11 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-app.Run();
+try
+{
+    app.Run();
+}
+finally
+{
+    Log.CloseAndFlush();   // Ensure all buffered log entries are flushed before process exits
+}

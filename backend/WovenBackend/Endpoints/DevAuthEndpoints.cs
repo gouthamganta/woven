@@ -15,12 +15,16 @@ public static class DevAuthEndpoints
             int userId,
             WovenDbContext db,
             JwtTokenService jwt,
+            HttpContext http,
             CancellationToken ct) =>
         {
             var user = await db.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == userId, ct);
             if (user == null) return Results.NotFound(new { error = "USER_NOT_FOUND" });
 
             var accessToken = jwt.CreateAccessToken(user.Id, user.Email);
+
+            // Set httpOnly cookie
+            CookieAuthHelper.SetAccessTokenCookie(http.Response, accessToken);
 
             return Results.Ok(new
             {
@@ -35,12 +39,16 @@ public static class DevAuthEndpoints
             int userId,
             WovenDbContext db,
             JwtTokenService jwt,
+            HttpContext http,
             CancellationToken ct) =>
         {
             var user = await db.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == userId, ct);
             if (user == null) return Results.NotFound(new { error = "USER_NOT_FOUND" });
 
             var accessToken = jwt.CreateAdminToken(user.Id, user.Email);
+
+            // Set httpOnly cookie
+            CookieAuthHelper.SetAccessTokenCookie(http.Response, accessToken, expiryMinutes: 60);
 
             return Results.Ok(new
             {

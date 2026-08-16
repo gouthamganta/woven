@@ -7,21 +7,22 @@ namespace WovenBackend.Services.Matchmaking;
 
 public class MatchScoringService : IMatchScoringService
 {
-    // Base weights for 14 components (PreferenceScore permanently excluded → redistributed)
+    // Base weights for 16 components
     // pillar, intent, expression, style, visual, voice, humor, lifestyle, behavioral,
-    // emotional_rhythm, attachment, orbit_gravity, pulse, cf
+    // emotional_rhythm, attachment, orbit_gravity, pulse, cf, shared_tile_affinity, preference_affinity
     private static readonly double[] BaseWeights = new[]
     {
-        0.20, 0.13, 0.10, 0.09, 0.10,
+        0.19, 0.12, 0.09, 0.09, 0.10,
         0.08, 0.07, 0.08, 0.05,
-        0.04, 0.04, 0.08, 0.06, 0.03
+        0.04, 0.04, 0.08, 0.06, 0.03, 0.05, 0.04
     };
 
     private static readonly string[] ComponentNames = new[]
     {
         "pillar", "intent", "expression", "style", "visual",
         "voice", "humor", "lifestyle", "behavioral_lifestyle",
-        "emotional_rhythm", "attachment", "orbit_gravity", "pulse", "cf"
+        "emotional_rhythm", "attachment", "orbit_gravity", "pulse", "cf",
+        "shared_tile_affinity", "preference_affinity"
     };
 
     private readonly WovenDbContext _db;
@@ -169,7 +170,7 @@ public class MatchScoringService : IMatchScoringService
         foreach (var candidateVec in candidateVectors)
         {
             var score = new MatchScore(candidateVec.UserId);
-            var available = new bool[14];
+            var available = new bool[16];
             var cvData = ParseVector(candidateVec.VectorJson);
             var cvPillarScores = ParsePillarScores(candidateVec.PillarScoresJson);
             var cvBehavioralLifestyle = ParseFloatArray(candidateVec.BehavioralLifestyleJson);
@@ -299,6 +300,29 @@ public class MatchScoringService : IMatchScoringService
             {
                 score.CfScore = Math.Min(100.0, cfRaw * 100.0);
                 available[13] = true;
+            }
+
+            // ── 14. SharedTileAffinity ────────────────────────────────────────────
+            // Cosine similarity between viewer's and candidate's ReceptionEmbeddings.
+            // ReceptionEmbedding = exponentially-weighted mean of tile embeddings the
+            // user dwelled on (≥8s) — built by TileViewProcessorWorker every 30min.
+            // Captures shared *content* taste, not just shared contacts (cf component).
+            if (userVector.ReceptionEmbedding != null && candidateVec.ReceptionEmbedding != null)
+            {
+                score.SharedTileAffinityScore = CosineSimilarityToScore(
+                    userVector.ReceptionEmbedding, candidateVec.ReceptionEmbedding);
+                available[14] = true;
+            }
+
+            // ── 15. PreferenceAffinity ────────────────────────────────────────────
+            // Cosine similarity between user's PreferenceEmbedding (from ChatNotes —
+            // what they say they find interesting) and candidate's ExpressionEmbedding
+            // (what candidate posts). Cross-modal: stated attraction vs expressed self.
+            if (userVector.PreferenceEmbedding != null && candidateVec.ExpressionEmbedding != null)
+            {
+                score.PreferenceAffinityScore = CosineSimilarityToScore(
+                    userVector.PreferenceEmbedding, candidateVec.ExpressionEmbedding);
+                available[15] = true;
             }
 
             // Intent multiplier

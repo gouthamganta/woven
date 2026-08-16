@@ -121,6 +121,161 @@ namespace WovenBackend.Migrations
                     b.ToTable("AuthIdentities");
                 });
 
+            modelBuilder.Entity("WovenBackend.Data.Entities.AbAssignment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("AssignedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("assigned_at");
+
+                    b.Property<string>("ExperimentId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("experiment_id");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("Variant")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("variant");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExperimentId");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_ab_assignments_user_id");
+
+                    b.HasIndex("UserId", "ExperimentId")
+                        .IsUnique()
+                        .HasDatabaseName("uq_ab_assignments_user_experiment");
+
+                    b.ToTable("ab_assignments");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.AbConversion", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("ConversionType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("conversion_type");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("ExperimentId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("experiment_id");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExperimentId");
+
+                    b.HasIndex("UserId", "ExperimentId")
+                        .HasDatabaseName("ix_ab_conversions_user_experiment");
+
+                    b.ToTable("ab_conversions");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.AbExperiment", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("Variants")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("variants");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ab_experiments");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.AnalyticsEvent", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("event_type");
+
+                    b.Property<string>("Properties")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("properties");
+
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("session_id");
+
+                    b.Property<string>("UserIdHash")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .HasColumnName("user_id_hash");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("ix_analytics_events_created_at");
+
+                    b.HasIndex("EventType")
+                        .HasDatabaseName("ix_analytics_events_event_type");
+
+                    b.HasIndex("UserIdHash")
+                        .HasDatabaseName("ix_analytics_events_user_id_hash")
+                        .HasFilter("\"user_id_hash\" IS NOT NULL");
+
+                    b.ToTable("analytics_events");
+                });
+
             modelBuilder.Entity("WovenBackend.Data.Entities.CandidateExposure", b =>
                 {
                     b.Property<int>("Id")
@@ -233,6 +388,86 @@ namespace WovenBackend.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WovenBackend.Data.Entities.CoachingSummary", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("DeliveredAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("DismissedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("InterpretedNarrative")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("OptedOutAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("SummaryText")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateOnly>("WeekStartDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "CreatedAt")
+                        .HasDatabaseName("ix_coaching_summaries_user_id");
+
+                    b.HasIndex("UserId", "WeekStartDate")
+                        .IsUnique()
+                        .HasDatabaseName("uq_coaching_summary_user_week");
+
+                    b.ToTable("coaching_summaries", (string)null);
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.ConnectionScore", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ComputedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<float>("Score")
+                        .HasColumnType("real");
+
+                    b.Property<int>("ViewerId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidateId");
+
+                    b.HasIndex("ViewerId", "CandidateId")
+                        .IsUnique()
+                        .HasDatabaseName("uq_connection_score_pair");
+
+                    b.HasIndex("ViewerId", "Score")
+                        .HasDatabaseName("ix_connection_score_viewer_score");
+
+                    b.ToTable("ConnectionScores");
+                });
+
             modelBuilder.Entity("WovenBackend.Data.Entities.DailyDeck", b =>
                 {
                     b.Property<int>("Id")
@@ -251,6 +486,9 @@ namespace WovenBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("MoodLine")
+                        .HasColumnType("text");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -260,6 +498,48 @@ namespace WovenBackend.Migrations
                         .IsUnique();
 
                     b.ToTable("DailyDecks");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.DailyDeckItem", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Bucket")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("DeckId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Rank")
+                        .HasColumnType("integer");
+
+                    b.Property<double>("Score")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Bucket", "Score")
+                        .HasDatabaseName("ix_daily_deck_item_bucket_score");
+
+                    b.HasIndex("CandidateId", "CreatedAt")
+                        .HasDatabaseName("ix_daily_deck_item_candidate_time");
+
+                    b.HasIndex("DeckId", "CandidateId")
+                        .IsUnique()
+                        .HasDatabaseName("uq_daily_deck_item_deck_candidate");
+
+                    b.ToTable("DailyDeckItems");
                 });
 
             modelBuilder.Entity("WovenBackend.Data.Entities.FriendBridge", b =>
@@ -647,6 +927,77 @@ namespace WovenBackend.Migrations
                     b.ToTable("game_sessions");
                 });
 
+            modelBuilder.Entity("WovenBackend.Data.Entities.IdempotencyRecord", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Endpoint")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ResponseBody")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("StatusCode")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExpiresAt")
+                        .HasDatabaseName("ix_idempotency_expires_at");
+
+                    b.HasIndex("Key", "UserId")
+                        .IsUnique()
+                        .HasDatabaseName("uq_idempotency_key_user");
+
+                    b.ToTable("IdempotencyRecords");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.LinUcbUserModel", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("AInvJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("BJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Dim")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ObservationCount")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("LinUcbUserModels");
+                });
+
             modelBuilder.Entity("WovenBackend.Data.Entities.MatchExplanation", b =>
                 {
                     b.Property<int>("Id")
@@ -654,6 +1005,9 @@ namespace WovenBackend.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BridgeQuestion")
+                        .HasColumnType("text");
 
                     b.Property<string>("BulletsJson")
                         .IsRequired()
@@ -666,6 +1020,9 @@ namespace WovenBackend.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DateIdea")
+                        .HasColumnType("text");
+
+                    b.Property<string>("DateIdeasJson")
                         .HasColumnType("text");
 
                     b.Property<DateOnly>("DateUtc")
@@ -687,6 +1044,52 @@ namespace WovenBackend.Migrations
                     b.HasIndex("UserId", "CandidateId", "DateUtc");
 
                     b.ToTable("MatchExplanations");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.MatchSignalLog", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("CandidateId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("EventValue")
+                        .HasColumnType("real");
+
+                    b.Property<string>("MetadataJson")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("OccurredAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ViewerId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidateId");
+
+                    b.HasIndex("OccurredAt")
+                        .HasDatabaseName("ix_match_signal_log_occurred_at");
+
+                    b.HasIndex("ViewerId", "CandidateId", "OccurredAt")
+                        .HasDatabaseName("ix_match_signal_log_pair_time");
+
+                    b.HasIndex("ViewerId", "EventType", "OccurredAt")
+                        .HasDatabaseName("ix_match_signal_log_viewer_event");
+
+                    b.ToTable("MatchSignalLogs", t =>
+                        {
+                            t.HasCheckConstraint("ck_match_signal_log_no_self", "\"viewer_id\" <> \"candidate_id\"");
+                        });
                 });
 
             modelBuilder.Entity("WovenBackend.Data.Entities.ModerationQueue", b =>
@@ -813,6 +1216,33 @@ namespace WovenBackend.Migrations
                     b.ToTable("photo_embeddings");
                 });
 
+            modelBuilder.Entity("WovenBackend.Data.Entities.ReferencePhotoEmbedding", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("AddedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("added_at");
+
+                    b.Property<Vector>("Embedding")
+                        .IsRequired()
+                        .HasColumnType("vector(512)")
+                        .HasColumnName("embedding");
+
+                    b.Property<string>("Label")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("label");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("reference_photo_embeddings");
+                });
+
             modelBuilder.Entity("WovenBackend.Data.Entities.Season", b =>
                 {
                     b.Property<int>("Id")
@@ -917,6 +1347,32 @@ namespace WovenBackend.Migrations
                         {
                             t.HasCheckConstraint("ck_audit_event_type", "\"event_type\" IN ('external_api_call','pii_access','encryption_key_rotation','admin_data_access','bulk_data_export','suspicious_pattern','failed_decryption')");
                         });
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.SparkWallet", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+
+                    b.Property<int>("BalanceTenths")
+                        .HasColumnType("integer")
+                        .HasColumnName("balance_tenths");
+
+                    b.Property<DateOnly?>("LastEarnedDate")
+                        .HasColumnType("date")
+                        .HasColumnName("last_earned_date");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("spark_wallets");
                 });
 
             modelBuilder.Entity("WovenBackend.Data.Entities.TileEngagement", b =>
@@ -1079,6 +1535,23 @@ namespace WovenBackend.Migrations
                         .HasDatabaseName("ix_tile_views_user_date");
 
                     b.ToTable("tile_views");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.UserBehavioralFingerprint", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ComputedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("VectorJson")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserBehavioralFingerprints");
                 });
 
             modelBuilder.Entity("WovenBackend.Data.Entities.UserDynamicIntakeSet", b =>
@@ -1297,6 +1770,49 @@ namespace WovenBackend.Migrations
                     b.ToTable("user_matching_weights");
                 });
 
+            modelBuilder.Entity("WovenBackend.Data.Entities.UserPushSubscription", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Auth")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("auth");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Endpoint")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)")
+                        .HasColumnName("endpoint");
+
+                    b.Property<string>("P256dh")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("p256dh");
+
+                    b.Property<string>("UserAgent")
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .HasColumnName("user_agent");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("user_push_subscriptions");
+                });
+
             modelBuilder.Entity("WovenBackend.Data.Entities.UserSeasonResponse", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1386,6 +1902,12 @@ namespace WovenBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Vector>("PreferenceEmbedding")
+                        .HasColumnType("vector");
+
+                    b.Property<Vector>("ReceptionEmbedding")
+                        .HasColumnType("vector");
+
                     b.Property<Vector>("StyleEmbedding")
                         .HasColumnType("vector(128)");
 
@@ -1401,6 +1923,9 @@ namespace WovenBackend.Migrations
 
                     b.Property<int>("Version")
                         .HasColumnType("integer");
+
+                    b.Property<Vector>("VoiceEmbedding")
+                        .HasColumnType("vector(192)");
 
                     b.HasKey("Id");
 
@@ -1442,6 +1967,50 @@ namespace WovenBackend.Migrations
                     b.HasIndex("UserId", "Version", "TagType");
 
                     b.ToTable("UserVectorTags");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.UserVerification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("FailureReason")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("failure_reason");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("status");
+
+                    b.Property<DateTimeOffset>("SubmittedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("submitted_at");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("type");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.Property<DateTimeOffset?>("VerifiedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("verified_at");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "Status")
+                        .HasDatabaseName("ix_user_verifications_user_status");
+
+                    b.ToTable("user_verifications");
                 });
 
             modelBuilder.Entity("WovenBackend.Data.Entities.UserVisualDecision", b =>
@@ -1552,6 +2121,9 @@ namespace WovenBackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("CoachingOptedOut")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -1564,6 +2136,11 @@ namespace WovenBackend.Migrations
 
                     b.Property<float>("GhostScore")
                         .HasColumnType("real");
+
+                    b.Property<bool>("IsVerified")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.Property<DateTimeOffset?>("LastActiveAt")
                         .HasColumnType("timestamp with time zone");
@@ -1587,6 +2164,12 @@ namespace WovenBackend.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("VerificationType")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("VerifiedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -1759,9 +2342,21 @@ namespace WovenBackend.Migrations
                     b.Property<int>("DistanceMiles")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("HighContrast")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("high_contrast");
+
                     b.Property<string>("InterestedInJson")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("ReduceMotion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("reduce_motion");
 
                     b.Property<string>("RelationshipStructure")
                         .IsRequired()
@@ -1798,6 +2393,11 @@ namespace WovenBackend.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DisplayPronouns")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("display_pronouns");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -1884,6 +2484,41 @@ namespace WovenBackend.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.ChatAvailabilitySignal", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<string>("SignalText")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("SignalText");
+
+                    b.Property<Guid>("ThreadId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ThreadId");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ThreadId")
+                        .HasDatabaseName("ix_chat_avail_thread");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("chat_availability_signals");
+                });
+
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.ChatMessage", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1931,6 +2566,81 @@ namespace WovenBackend.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.ChatNote", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<int>("Choice")
+                        .HasColumnType("integer")
+                        .HasColumnName("choice");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("FromUserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("from_user_id");
+
+                    b.Property<Guid?>("MatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("match_id");
+
+                    b.Property<string>("NoteText")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("note_text");
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("source");
+
+                    b.Property<int>("ToUserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("to_user_id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("chat_notes");
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.ChatNoteLoveReaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("FromUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("NoteAuthorUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("NoteId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NoteId")
+                        .HasDatabaseName("ix_chatnote_love_note_id");
+
+                    b.HasIndex("FromUserId", "NoteId")
+                        .IsUnique()
+                        .HasDatabaseName("uq_chatnote_love_user_note");
+
+                    b.ToTable("ChatNoteLoveReactions");
+                });
+
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.ChatThread", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1938,13 +2648,25 @@ namespace WovenBackend.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<long?>("AvgResponseTimeMs")
+                        .HasColumnType("bigint")
+                        .HasColumnName("AvgResponseTimeMs");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
+                    b.Property<DateTimeOffset?>("LastMessageAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("LastMessageAt");
+
                     b.Property<Guid>("MatchId")
                         .HasColumnType("uuid")
                         .HasColumnName("match_id");
+
+                    b.Property<int>("MessageCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("MessageCount");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -2000,6 +2722,110 @@ namespace WovenBackend.Migrations
 
                             t.HasCheckConstraint("ck_daily_total_cap", "\"total_used\" >= 0 AND \"total_used\" <= 5");
                         });
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.DateFeedback", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<string>("FeltOffText")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("FeltOffText");
+
+                    b.Property<string>("FeltRightText")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("FeltRightText");
+
+                    b.Property<Guid>("MatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("MatchId");
+
+                    b.Property<string>("MeetAgain")
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("MeetAgain");
+
+                    b.Property<bool>("MetInPerson")
+                        .HasColumnType("boolean")
+                        .HasColumnName("MetInPerson");
+
+                    b.Property<int?>("Stars")
+                        .HasColumnType("integer")
+                        .HasColumnName("Stars");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("MatchId", "UserId")
+                        .IsUnique()
+                        .HasDatabaseName("uq_date_feedback_match_user");
+
+                    b.ToTable("date_feedback");
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.DateFeedbackPrompt", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("MatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("MatchId");
+
+                    b.Property<int>("RescheduleCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("RescheduleCount");
+
+                    b.Property<DateTimeOffset?>("RespondedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("RespondedAt");
+
+                    b.Property<DateTimeOffset>("ScheduledFor")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ScheduledFor");
+
+                    b.Property<DateTimeOffset?>("SentAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("SentAt");
+
+                    b.Property<string>("TriggerType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("TriggerType");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("MatchId", "UserId")
+                        .IsUnique()
+                        .HasDatabaseName("uq_date_fb_prompt_match_user");
+
+                    b.HasIndex("ScheduledFor", "SentAt")
+                        .HasDatabaseName("ix_date_fb_prompts_scheduled");
+
+                    b.ToTable("date_feedback_prompts");
                 });
 
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.Highlight", b =>
@@ -2105,6 +2931,11 @@ namespace WovenBackend.Migrations
                         .HasColumnType("text")
                         .HasColumnName("match_type");
 
+                    b.Property<string>("TrialEndReason")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("trial_end_reason");
+
                     b.Property<DateTimeOffset?>("TrialEndsAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("trial_ends_at");
@@ -2112,6 +2943,14 @@ namespace WovenBackend.Migrations
                     b.Property<DateTimeOffset?>("TrialStartedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("trial_started_at");
+
+                    b.Property<DateTimeOffset?>("TrialUserAOpenedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("trial_user_a_opened_at");
+
+                    b.Property<DateTimeOffset?>("TrialUserBOpenedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("trial_user_b_opened_at");
 
                     b.Property<string>("UserADecision")
                         .HasMaxLength(20)
@@ -2157,6 +2996,43 @@ namespace WovenBackend.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.MessageLoveReaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("FromUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MessageAuthorUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ThreadId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageId");
+
+                    b.HasIndex("ThreadId")
+                        .HasDatabaseName("ix_message_love_thread_id");
+
+                    b.HasIndex("FromUserId", "MessageId")
+                        .IsUnique()
+                        .HasDatabaseName("uq_message_love_user_message");
+
+                    b.ToTable("MessageLoveReactions");
+                });
+
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.MomentResponse", b =>
                 {
                     b.Property<Guid>("Id")
@@ -2180,6 +3056,15 @@ namespace WovenBackend.Migrations
                     b.Property<int>("FromUserId")
                         .HasColumnType("integer")
                         .HasColumnName("from_user_id");
+
+                    b.Property<string>("Source")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("source");
+
+                    b.Property<int?>("TimeOnCardMs")
+                        .HasColumnType("integer")
+                        .HasColumnName("time_on_card_ms");
 
                     b.Property<int>("ToUserId")
                         .HasColumnType("integer")
@@ -2367,6 +3252,24 @@ namespace WovenBackend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WovenBackend.Data.Entities.AbAssignment", b =>
+                {
+                    b.HasOne("WovenBackend.Data.Entities.AbExperiment", null)
+                        .WithMany()
+                        .HasForeignKey("ExperimentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.AbConversion", b =>
+                {
+                    b.HasOne("WovenBackend.Data.Entities.AbExperiment", null)
+                        .WithMany()
+                        .HasForeignKey("ExperimentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WovenBackend.Data.Entities.CfScore", b =>
                 {
                     b.HasOne("WovenBackend.Data.User", null)
@@ -2382,6 +3285,32 @@ namespace WovenBackend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WovenBackend.Data.Entities.CoachingSummary", b =>
+                {
+                    b.HasOne("WovenBackend.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.ConnectionScore", b =>
+                {
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("ViewerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WovenBackend.Data.Entities.DailyDeck", b =>
                 {
                     b.HasOne("WovenBackend.Data.User", "User")
@@ -2391,6 +3320,25 @@ namespace WovenBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.DailyDeckItem", b =>
+                {
+                    b.HasOne("WovenBackend.Data.User", "Candidate")
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WovenBackend.Data.Entities.DailyDeck", "Deck")
+                        .WithMany()
+                        .HasForeignKey("DeckId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Candidate");
+
+                    b.Navigation("Deck");
                 });
 
             modelBuilder.Entity("WovenBackend.Data.Entities.FriendBridge", b =>
@@ -2503,6 +3451,15 @@ namespace WovenBackend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WovenBackend.Data.Entities.LinUcbUserModel", b =>
+                {
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WovenBackend.Data.Entities.MatchExplanation", b =>
                 {
                     b.HasOne("WovenBackend.Data.User", "User")
@@ -2512,6 +3469,21 @@ namespace WovenBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.MatchSignalLog", b =>
+                {
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("ViewerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WovenBackend.Data.Entities.ModerationQueue", b =>
@@ -2648,6 +3620,15 @@ namespace WovenBackend.Migrations
                     b.Navigation("Tile");
                 });
 
+            modelBuilder.Entity("WovenBackend.Data.Entities.UserBehavioralFingerprint", b =>
+                {
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WovenBackend.Data.Entities.UserDynamicIntakeSet", b =>
                 {
                     b.HasOne("WovenBackend.Data.User", "User")
@@ -2737,6 +3718,15 @@ namespace WovenBackend.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WovenBackend.Data.Entities.UserVerification", b =>
+                {
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WovenBackend.Data.Entities.UserVisualDecision", b =>
@@ -2875,6 +3865,21 @@ namespace WovenBackend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.ChatAvailabilitySignal", b =>
+                {
+                    b.HasOne("WovenBackend.data.Entities.Moments.ChatThread", null)
+                        .WithMany()
+                        .HasForeignKey("ThreadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.ChatMessage", b =>
                 {
                     b.HasOne("WovenBackend.Data.User", null)
@@ -2890,6 +3895,23 @@ namespace WovenBackend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.ChatNoteLoveReaction", b =>
+                {
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("FromUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WovenBackend.data.Entities.Moments.ChatNote", "Note")
+                        .WithMany()
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Note");
+                });
+
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.ChatThread", b =>
                 {
                     b.HasOne("WovenBackend.data.Entities.Moments.Match", null)
@@ -2901,6 +3923,36 @@ namespace WovenBackend.Migrations
 
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.DailyInteraction", b =>
                 {
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.DateFeedback", b =>
+                {
+                    b.HasOne("WovenBackend.data.Entities.Moments.Match", null)
+                        .WithMany()
+                        .HasForeignKey("MatchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.DateFeedbackPrompt", b =>
+                {
+                    b.HasOne("WovenBackend.data.Entities.Moments.Match", null)
+                        .WithMany()
+                        .HasForeignKey("MatchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WovenBackend.Data.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -2943,6 +3995,23 @@ namespace WovenBackend.Migrations
                         .HasForeignKey("UserBId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.MessageLoveReaction", b =>
+                {
+                    b.HasOne("WovenBackend.Data.User", null)
+                        .WithMany()
+                        .HasForeignKey("FromUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("WovenBackend.data.Entities.Moments.ChatMessage", "Message")
+                        .WithMany()
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
                 });
 
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.MomentResponse", b =>

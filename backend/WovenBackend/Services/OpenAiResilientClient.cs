@@ -11,13 +11,25 @@ namespace WovenBackend.Services;
 public interface IOpenAiResilientClient
 {
     /// <summary>
-    /// Executes an OpenAI API call with resilience patterns.
-    /// Returns null if circuit is open or budget exceeded (fallback mode).
+    /// Single-message call — uses a generic dating-app system prompt.
+    /// Returns null when circuit is open, budget exceeded, or key missing (caller must handle fallback).
     /// </summary>
     Task<string?> ExecuteAsync(
         string operationType,
         string prompt,
         bool useJsonMode = true,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Full system + user message call with optional temperature override.
+    /// Routes through the same circuit breaker, retry, and cost tracking as ExecuteAsync.
+    /// </summary>
+    Task<string?> ExecuteWithSystemAsync(
+        string operationType,
+        string systemPrompt,
+        string userPrompt,
+        bool useJsonMode = true,
+        float temperature = 0.7f,
         CancellationToken ct = default);
 }
 
@@ -51,18 +63,32 @@ public class OpenAiResilientClient : IOpenAiResilientClient
         _logger = logger;
     }
 
-    public async Task<string?> ExecuteAsync(
+    // Backwards-compatible single-prompt call — uses the generic dating-app system message.
+    public Task<string?> ExecuteAsync(
         string operationType,
         string prompt,
         bool useJsonMode = true,
         CancellationToken ct = default)
+        => ExecuteWithSystemAsync(
+            operationType,
+            "You are a helpful assistant for a dating app.",
+            prompt,
+            useJsonMode,
+            temperature: 0.7f,
+            ct);
+
+    public async Task<string?> ExecuteWithSystemAsync(
+        string operationType,
+        string systemPrompt,
+        string userPrompt,
+        bool useJsonMode = true,
+        float temperature = 0.7f,
+        CancellationToken ct = default)
     {
-        // Check budget first (before circuit breaker to avoid wasting retries)
         if (_costTracker.IsBudgetExceeded())
         {
-            _logger.LogWarning("[OpenAI Resilient] Daily budget exceeded, denying request for {OperationType}",
-                operationType);
-            return null; // Graceful degradation - return null for fallback handling
+            _logger.LogWarning("[OpenAI Resilient] Daily budget exceeded, denying request for {OperationType}", operationType);
+            return null;
         }
 
         var apiKey = _config["OpenAI:ApiKey"];
@@ -72,33 +98,32 @@ public class OpenAiResilientClient : IOpenAiResilientClient
             return null;
         }
 
-        // Execute through circuit breaker with retry logic
         try
         {
-            var result = await _circuitBreaker.ExecuteAsync(
+            return await _circuitBreaker.ExecuteAsync(
                 CircuitName,
-                async (circuitCt) => await ExecuteWithRetryAsync(operationType, prompt, apiKey, useJsonMode, circuitCt),
+                async (circuitCt) => await ExecuteWithRetryAsync(operationType, systemPrompt, userPrompt, apiKey, useJsonMode, temperature, circuitCt),
                 ct);
-
-            return result;
         }
         catch (CircuitBreakerOpenException ex)
         {
             _logger.LogWarning("[OpenAI Resilient] {Message}", ex.Message);
-            return null; // Graceful degradation
+            return null;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "[OpenAI Resilient] Failed after all retries for {OperationType}", operationType);
-            return null; // Graceful degradation
+            return null;
         }
     }
 
     private async Task<string> ExecuteWithRetryAsync(
         string operationType,
-        string prompt,
+        string systemPrompt,
+        string userPrompt,
         string apiKey,
         bool useJsonMode,
+        float temperature,
         CancellationToken ct)
     {
         Exception? lastException = null;
@@ -115,30 +140,21 @@ public class OpenAiResilientClient : IOpenAiResilientClient
                     await Task.Delay(delay, ct);
                 }
 
-                return await ExecuteOpenAiCallAsync(operationType, prompt, apiKey, useJsonMode, ct);
+                return await ExecuteOpenAiCallAsync(operationType, systemPrompt, userPrompt, apiKey, useJsonMode, temperature, ct);
             }
             catch (HttpRequestException ex) when (IsTransientError(ex))
             {
                 lastException = ex;
                 _logger.LogWarning(ex, "[OpenAI Resilient] Transient error on attempt {Attempt}/{MaxRetries} for {OperationType}",
                     attempt + 1, MaxRetries + 1, operationType);
-
-                if (attempt >= MaxRetries)
-                {
-                    throw;
-                }
+                if (attempt >= MaxRetries) throw;
             }
             catch (TaskCanceledException) when (!ct.IsCancellationRequested)
             {
-                // Timeout (not user cancellation)
                 lastException = new TimeoutException($"OpenAI request timed out for {operationType}");
                 _logger.LogWarning("[OpenAI Resilient] Timeout on attempt {Attempt}/{MaxRetries} for {OperationType}",
                     attempt + 1, MaxRetries + 1, operationType);
-
-                if (attempt >= MaxRetries)
-                {
-                    throw lastException;
-                }
+                if (attempt >= MaxRetries) throw lastException;
             }
         }
 
@@ -147,9 +163,11 @@ public class OpenAiResilientClient : IOpenAiResilientClient
 
     private async Task<string> ExecuteOpenAiCallAsync(
         string operationType,
-        string prompt,
+        string systemMessage,
+        string userMessage,
         string apiKey,
         bool useJsonMode,
+        float temperature,
         CancellationToken ct)
     {
         var stopwatch = Stopwatch.StartNew();
@@ -162,11 +180,11 @@ public class OpenAiResilientClient : IOpenAiResilientClient
             model,
             messages = new[]
             {
-                new { role = "system", content = "You are a helpful assistant for a dating app." },
-                new { role = "user", content = prompt }
+                new { role = "system", content = systemMessage },
+                new { role = "user", content = userMessage }
             },
             response_format = useJsonMode ? new { type = "json_object" } : null,
-            temperature = 0.7
+            temperature
         };
 
         var json = JsonSerializer.Serialize(requestBody);

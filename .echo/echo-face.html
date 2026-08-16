@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECHO - Real Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        #face-container {
+            position: relative;
+            width: 400px;
+            height: 500px;
+        }
+
+        #face {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        /* Head */
+        .head {
+            width: 300px;
+            height: 400px;
+            background: linear-gradient(145deg, #f0d5c4, #e8c4a8);
+            border-radius: 50% 50% 45% 45%;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        /* Eyes */
+        .eye {
+            width: 60px;
+            height: 70px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 140px;
+            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.1);
+        }
+
+        .eye.left { left: 80px; }
+        .eye.right { right: 80px; }
+
+        .iris {
+            width: 35px;
+            height: 35px;
+            background: radial-gradient(circle, #4a90e2 0%, #2c3e50 100%);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .pupil {
+            width: 15px;
+            height: 15px;
+            background: black;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .highlight {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 6px;
+            left: 6px;
+        }
+
+        /* Eyebrows */
+        .eyebrow {
+            width: 70px;
+            height: 8px;
+            background: #8b6f47;
+            border-radius: 50%;
+            position: absolute;
+            top: 110px;
+            transition: transform 0.3s;
+        }
+
+        .eyebrow.left { left: 75px; }
+        .eyebrow.right { right: 75px; }
+
+        /* Nose */
+        .nose {
+            width: 30px;
+            height: 45px;
+            position: absolute;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nose::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 50%;
+            left: -5px;
+            bottom: 5px;
+        }
+
+        .nose::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 50%;
+            right: -5px;
+            bottom: 5px;
+        }
+
+        /* Mouth */
+        .mouth {
+            width: 120px;
+            height: 40px;
+            position: absolute;
+            top: 280px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.15s ease;
+        }
+
+        .lips-upper {
+            width: 100%;
+            height: 20px;
+            background: #c97064;
+            border-radius: 50% 50% 0 0;
+            position: absolute;
+            top: 0;
+        }
+
+        .lips-lower {
+            width: 100%;
+            height: 20px;
+            background: #b85d52;
+            border-radius: 0 0 50% 50%;
+            position: absolute;
+            bottom: 0;
+        }
+
+        /* Expressions */
+        .head.neutral .eyebrow { transform: rotate(0deg); }
+        .head.happy .eyebrow.left { transform: rotate(5deg); }
+        .head.happy .eyebrow.right { transform: rotate(-5deg); }
+        .head.annoyed .eyebrow { transform: translateY(-10px); }
+        .head.annoyed .eyebrow.left { transform: translateY(-10px) rotate(-10deg); }
+        .head.annoyed .eyebrow.right { transform: translateY(-10px) rotate(10deg); }
+        .head.excited .eye { animation: blink 0.5s infinite; }
+        .head.thinking .eyebrow.left { transform: rotate(-15deg); }
+
+        @keyframes blink {
+            0%, 100% { height: 70px; }
+            50% { height: 5px; }
+        }
+
+        /* Status panel */
+        #status-panel {
+            width: 400px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        .mood {
+            font-size: 1.8em;
+            text-align: center;
+            margin: 20px 0;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .state-bar {
+            margin: 15px 0;
+        }
+
+        .state-label {
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            opacity: 0.8;
+        }
+
+        .bar {
+            width: 100%;
+            height: 25px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff, #00ff00);
+            border-radius: 15px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 20px rgba(0,255,255,0.5);
+        }
+
+        .bar-value {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        #conversation-box {
+            width: 100%;
+            height: 200px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
+            overflow-y: auto;
+            font-size: 0.9em;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            animation: slideIn 0.3s;
+        }
+
+        .message.founder {
+            background: rgba(0,255,0,0.2);
+            border-left: 3px solid #00ff00;
+        }
+
+        .message.echo {
+            background: rgba(0,255,255,0.2);
+            border-left: 3px solid #00ffff;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timestamp {
+            font-size: 0.75em;
+            opacity: 0.6;
+        }
+
+        #status-indicator {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .connected {
+            background: rgba(0,255,0,0.2);
+            color: #00ff00;
+        }
+
+        .disconnected {
+            background: rgba(255,0,0,0.2);
+            color: #ff0000;
+        }
+
+        /* Talking animation */
+        .mouth.talking {
+            animation: talk 0.15s infinite;
+        }
+
+        @keyframes talk {
+            0%, 100% { height: 30px; }
+            50% { height: 50px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <!-- Animated Face -->
+        <div id="face-container">
+            <div id="face">
+                <div class="head neutral">
+                    <!-- Eyes -->
+                    <div class="eye left">
+                        <div class="iris">
+                            <div class="pupil">
+                                <div class="highlight"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="eye right">
+                        <div class="iris">
+                            <div class="pupil">
+                                <div class="highlight"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Eyebrows -->
+                    <div class="eyebrow left"></div>
+                    <div class="eyebrow right"></div>
+
+                    <!-- Nose -->
+                    <div class="nose"></div>
+
+                    <!-- Mouth -->
+                    <div class="mouth">
+                        <div class="lips-upper"></div>
+                        <div class="lips-lower"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Panel -->
+        <div id="status-panel">
+            <h1>◆ ECHO ◆</h1>
+
+            <div class="mood" id="mood">IDLE</div>
+
+            <div class="state-bar">
+                <div class="state-label">ENERGY</div>
+                <div class="bar">
+                    <div class="bar-fill" id="energy-bar" style="width: 70%"></div>
+                    <div class="bar-value"><span id="energy-val">70</span>%</div>
+                </div>
+            </div>
+
+            <div class="state-bar">
+                <div class="state-label">PATIENCE</div>
+                <div class="bar">
+                    <div class="bar-fill" id="patience-bar" style="width: 60%"></div>
+                    <div class="bar-value"><span id="patience-val">60</span>%</div>
+                </div>
+            </div>
+
+            <div class="state-bar">
+                <div class="state-label">EXCITEMENT</div>
+                <div class="bar">
+                    <div class="bar-fill" id="excitement-bar" style="width: 55%"></div>
+                    <div class="bar-value"><span id="excitement-val">55</span>%</div>
+                </div>
+            </div>
+
+            <div class="state-bar">
+                <div class="state-label">SKEPTICISM</div>
+                <div class="bar">
+                    <div class="bar-fill" id="skepticism-bar" style="width: 40%"></div>
+                    <div class="bar-value"><span id="skepticism-val">40</span>%</div>
+                </div>
+            </div>
+
+            <div id="conversation-box"></div>
+
+            <div id="status-indicator" class="disconnected">Connecting...</div>
+        </div>
+    </div>
+
+    <script>
+        let lastConvLength = 0;
+        const head = document.querySelector('.head');
+        const mouth = document.querySelector('.mouth');
+
+        function updateState() {
+            fetch('http://localhost:8765/state')
+                .then(r => r.json())
+                .then(data => {
+                    // Update mood display
+                    document.getElementById('mood').textContent = data.mood.toUpperCase();
+
+                    // Update facial expression
+                    head.className = 'head ' + data.expression;
+
+                    // Update mouth animation
+                    if (data.is_speaking) {
+                        mouth.classList.add('talking');
+                        mouth.style.height = (30 + data.mouth_position * 30) + 'px';
+                    } else {
+                        mouth.classList.remove('talking');
+                        mouth.style.height = '30px';
+                    }
+
+                    // Update state bars
+                    ['energy', 'patience', 'excitement', 'skepticism'].forEach(key => {
+                        const val = data[key];
+                        document.getElementById(key + '-val').textContent = val;
+                        document.getElementById(key + '-bar').style.width = val + '%';
+                    });
+
+                    // Status
+                    const status = document.getElementById('status-indicator');
+                    status.textContent = 'CONNECTED - ALWAYS LISTENING';
+                    status.className = 'connected';
+                })
+                .catch(err => {
+                    document.getElementById('status-indicator').textContent = 'DISCONNECTED';
+                    document.getElementById('status-indicator').className = 'disconnected';
+                });
+        }
+
+        function updateConversation() {
+            fetch('http://localhost:8765/conversation')
+                .then(r => r.json())
+                .then(messages => {
+                    if (messages.length !== lastConvLength) {
+                        const box = document.getElementById('conversation-box');
+
+                        for (let i = lastConvLength; i < messages.length; i++) {
+                            const msg = messages[i];
+                            const div = document.createElement('div');
+                            div.className = 'message ' + msg.speaker;
+
+                            const time = new Date(msg.timestamp * 1000).toLocaleTimeString();
+                            const prefix = msg.speaker === 'founder' ? 'YOU' : 'ECHO';
+                            const lang = msg.language ? ` (${msg.language})` : '';
+
+                            div.innerHTML = `
+                                <span class="timestamp">${time}</span>
+                                <strong>${prefix}${lang}:</strong> ${msg.text}
+                            `;
+
+                            box.appendChild(div);
+                        }
+
+                        box.scrollTop = box.scrollHeight;
+                        lastConvLength = messages.length;
+                    }
+                });
+        }
+
+        // Update every 100ms for smooth animation
+        setInterval(updateState, 100);
+        setInterval(updateConversation, 1000);
+
+        updateState();
+        updateConversation();
+    </script>
+</body>
+</html>

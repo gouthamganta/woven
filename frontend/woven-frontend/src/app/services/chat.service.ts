@@ -14,6 +14,7 @@ export type ChatOther = {
   userId: number;
   fullName: string;
   profilePhoto?: string | null;
+  lastActiveAt?: string | null;
 };
 
 export type ChatLastMessage = {
@@ -70,11 +71,19 @@ export type ChatMessage = {
   createdAt: string;
 };
 
+export type ChatNotePin = {
+  fromUserId: number;
+  noteText: string;
+  choice: string;
+  createdAt: string;
+};
+
 export type ChatThreadResponse = {
   meUserId?: number;
 
   threadId: string;
   matchId: string;
+  matchType?: string;
 
   balloonState: string;
 
@@ -87,6 +96,8 @@ export type ChatThreadResponse = {
   reflectionSecondsLeft?: number;
 
   dateIdea?: string | null;
+  dateIdeas?: string[] | null;
+  chatNotes?: ChatNotePin[];
 
   other?: ChatOther | null;
   messages: ChatMessage[];
@@ -137,9 +148,30 @@ export class ChatService {
     );
   }
 
-  trialDecision(threadId: string, decision: 'CONTINUE' | 'END', rating?: number): Observable<any> {
+  trialDecision(threadId: string, decision: 'CONTINUE' | 'END' | 'BLOCK', endReason?: string): Observable<any> {
     const body: any = { decision };
-    if (rating !== undefined) body.rating = rating;
+    if (endReason) body.endReason = endReason;
     return this.http.post(`${environment.apiUrl}/chats/${threadId}/trial-decision`, body);
+  }
+
+  expressDateInterest(threadId: string, ideaIndex: number, ideaText: string): Observable<{ mutualInterest: boolean }> {
+    return this.http.post<{ mutualInterest: boolean }>(
+      `${environment.apiUrl}/chats/${threadId}/date-interest`,
+      { ideaIndex, ideaText }
+    );
+  }
+
+  sendVoiceMessage(threadId: string, audioUrl: string, durationSecs: number): Observable<{ messageId: string; createdAt: string }> {
+    return this.http.post<{ messageId: string; createdAt: string }>(
+      `${environment.apiUrl}/chats/${threadId}/voice-message`,
+      { audioUrl, durationSecs }
+    );
+  }
+
+  voiceListened(threadId: string, messageId: string): Observable<any> {
+    return this.http.post(
+      `${environment.apiUrl}/chats/${threadId}/messages/${messageId}/voice-listened`,
+      {}
+    );
   }
 }

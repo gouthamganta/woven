@@ -47,7 +47,8 @@ export class FoundationalComponent implements OnInit {
     'Think “comfortable + safe”, not “impressive”.',
     'Small routines > big goals.',
     'Something personal that matters to you.',
-    'Describe the everyday vibe (not a movie scene).'
+    'Describe the everyday vibe (not a movie scene).',
+    'Could be a project, a skill, a goal — anything that pulls you forward.'
   ];
 
   constructor(

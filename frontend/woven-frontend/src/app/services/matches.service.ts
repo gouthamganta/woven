@@ -101,4 +101,8 @@ export class MatchesService {
   block(matchId: string): Observable<any> {
     return this.http.post(`${environment.apiUrl}/matches/${matchId}/block`, {});
   }
+
+  flag(matchId: string, reason: 'no_issues' | 'uncomfortable' | 'inappropriate'): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/matches/${matchId}/flag`, { reason });
+  }
 }

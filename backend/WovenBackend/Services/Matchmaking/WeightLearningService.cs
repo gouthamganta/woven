@@ -5,23 +5,50 @@ using WovenBackend.Services.Analytics;
 
 namespace WovenBackend.Services.Matchmaking;
 
+/// <summary>
+/// ECHO Phase 4 — logistic regression weight learner.
+///
+/// Label source: ConnectionScore.Score [0,1] per (viewer, candidate) pair.
+///   Replaces the old MatchOutcomes binary label (positive/negative).
+///   ConnectionScore is a richer composite from 7 behavioral signals
+///   (balloon pop, trial accepted, message depth, date interest, feedback, love reactions).
+///
+/// Algorithm: mini-batch gradient ascent on log-likelihood (equivalent to minimising
+/// binary cross-entropy when labels are treated as pseudo-probabilities):
+///   ŷ  = σ(w · x)
+///   Δw = lr × [Σ (y − ŷ) × x] − 2λw    (L2 regularisation term)
+///   w  ← clip(w, 0.01, 0.50)
+///
+/// Weights are normalised to sum to 1 after learning so the scoring formula
+/// remains a proper weighted average.
+/// </summary>
 public class WeightLearningService : IWeightLearningService
 {
-    private const int MinOutcomes = 5;
+    private const int MinSamples = 10;
+    private const double LearningRate = 0.01;
+    private const int Iterations = 100;
+    private const double L2Lambda = 0.01;
+    private const double MinWeight = 0.01;
+    private const double MaxWeight = 0.50;
 
-    // Component names matching the scoring formula
+    // Minimum ConnectionScore to include a pair as a training sample.
+    // Pairs with only a BalloonPop (score ≈ 0.05) give almost no signal about
+    // component compatibility — we need at least some conversation depth.
+    private const float MinConnectionScore = 0.08f;
+
     private static readonly string[] Components = new[]
     {
         "pillar", "intent", "expression", "style", "visual",
         "voice", "humor", "lifestyle", "behavioral_lifestyle",
-        "emotional_rhythm", "attachment", "orbit_gravity", "pulse", "cf"
+        "emotional_rhythm", "attachment", "orbit_gravity", "pulse", "cf",
+        "shared_tile_affinity", "preference_affinity"
     };
 
     private static readonly double[] DefaultWeights = new[]
     {
-        0.20, 0.13, 0.10, 0.09, 0.10,
+        0.19, 0.12, 0.09, 0.09, 0.10,
         0.08, 0.07, 0.08, 0.05,
-        0.04, 0.04, 0.08, 0.06, 0.03
+        0.04, 0.04, 0.08, 0.06, 0.03, 0.05, 0.04
     };
 
     private readonly WovenDbContext _db;
@@ -43,133 +70,156 @@ public class WeightLearningService : IWeightLearningService
 
     public async Task LearnWeightsAsync(int userId, CancellationToken ct = default)
     {
-        var outcomes = await _db.MatchOutcomes.AsNoTracking()
-            .Where(o => o.UserId == userId && !o.Expired)
-            .Select(o => new { o.CandidateId, o.Messages24h, o.ChatStarted, o.Blocked, o.Unmatched })
+        // NarrationExposed baseline protection:
+        // When Cinematic:NarrationLaunchDate is set, this block should filter out
+        // ConnectionScores for pairs where the choice was made with NarrationExposed=true,
+        // for 30 days post-launch. This prevents ECHO weights from being biased by
+        // the cinematic experience itself.
+        // Currently NarrationExposed is always false → no-op. Wire this once narration goes live.
+
+        // Load ConnectionScores for this viewer — ECHO's ground-truth outcome labels
+        var connectionScores = await _db.ConnectionScores.AsNoTracking()
+            .Where(c => c.ViewerId == userId && c.Score >= MinConnectionScore)
+            .Select(c => new { c.CandidateId, c.Score })
             .ToListAsync(ct);
 
-        if (outcomes.Count < MinOutcomes)
+        if (connectionScores.Count < MinSamples)
         {
-            _logger.LogInformation("[WeightLearning] Skipping user {UserId} — only {N} outcomes", userId, outcomes.Count);
+            _logger.LogInformation("[WeightLearning] Skipping user {UserId} — only {N} qualifying connection scores (need {Min})",
+                userId, connectionScores.Count, MinSamples);
             return;
         }
 
-        // Compute scores for all candidate pairs
-        var candidateIds = outcomes.Select(o => o.CandidateId).Distinct().ToList();
-        var scores = await _scoring.ScoreCandidatesAsync(userId, candidateIds, ct);
-        if (scores.Count == 0) return;
+        // Score the candidates to get component feature vectors
+        var candidateIds = connectionScores.Select(c => c.CandidateId).Distinct().ToList();
+        var matchScores = await _scoring.ScoreCandidatesAsync(userId, candidateIds, ct);
+        if (matchScores.Count == 0) return;
 
-        var scoreMap = scores.ToDictionary(s => s.CandidateId);
+        var scoreMap = matchScores.ToDictionary(s => s.CandidateId);
 
-        // Build feature matrix and labels
-        var featureMatrix = new List<double[]>();
-        var labels = new List<double>();
+        // Build feature matrix X and label vector y
+        var X = new List<double[]>();
+        var y = new List<double>();
 
-        foreach (var outcome in outcomes)
+        foreach (var cs in connectionScores)
         {
-            if (!scoreMap.TryGetValue(outcome.CandidateId, out var score)) continue;
+            if (!scoreMap.TryGetValue(cs.CandidateId, out var ms)) continue;
 
-            // Positive signal: engaged meaningfully
-            var positive = (outcome.Messages24h > 15 || outcome.ChatStarted) && !outcome.Blocked;
-            // Negative signal: blocked or unmatched quickly
-            var negative = outcome.Blocked || outcome.Unmatched;
-
-            if (!positive && !negative) continue; // no clear signal
-
-            featureMatrix.Add(new[]
+            X.Add(new[]
             {
-                score.PillarScore / 100.0,
-                score.IntentScore / 100.0,
-                score.ExpressionScore / 100.0,
-                score.StyleScore / 100.0,
-                score.VisualScore / 100.0,
-                score.VoiceScore / 100.0,
-                score.HumorScore / 100.0,
-                score.LifestyleScore / 100.0,
-                score.BehavioralLifestyleScore / 100.0,
-                score.EmotionalRhythmScore / 100.0,
-                score.AttachmentScore / 100.0,
-                score.OrbitGravityScore / 100.0,
-                score.PulseScore / 100.0,
-                score.CfScore / 100.0
+                ms.PillarScore              / 100.0,
+                ms.IntentScore              / 100.0,
+                ms.ExpressionScore          / 100.0,
+                ms.StyleScore               / 100.0,
+                ms.VisualScore              / 100.0,
+                ms.VoiceScore               / 100.0,
+                ms.HumorScore               / 100.0,
+                ms.LifestyleScore           / 100.0,
+                ms.BehavioralLifestyleScore / 100.0,
+                ms.EmotionalRhythmScore     / 100.0,
+                ms.AttachmentScore          / 100.0,
+                ms.OrbitGravityScore        / 100.0,
+                ms.PulseScore               / 100.0,
+                ms.CfScore                  / 100.0,
+                ms.SharedTileAffinityScore  / 100.0,
+                ms.PreferenceAffinityScore  / 100.0
             });
-            labels.Add(positive ? 1.0 : 0.0);
+            y.Add(cs.Score); // ConnectionScore [0,1] as pseudo-probability label
         }
 
-        if (featureMatrix.Count < MinOutcomes) return;
+        if (X.Count < MinSamples)
+        {
+            _logger.LogInformation("[WeightLearning] Skipping user {UserId} — only {N} matched samples after scoring", userId, X.Count);
+            return;
+        }
 
-        // Compute per-component correlation with positive label
-        var gradients = ComputeCorrelationGradients(featureMatrix, labels);
-
-        // Update weights via gradient: learned_weight = default + 0.1 * gradient
+        // Initialise weights from existing learned weights (warm start) or defaults
         var existingWeights = await _db.UserMatchingWeights.AsNoTracking()
             .Where(w => w.UserId == userId)
-            .ToDictionaryAsync(w => w.Component, ct);
+            .ToDictionaryAsync(w => w.Component, w => (double)w.LearnedWeight, ct);
 
-        var now = DateTimeOffset.UtcNow;
-        for (int i = 0; i < Components.Length; i++)
+        var w = new double[Components.Length];
+        for (int j = 0; j < Components.Length; j++)
+            w[j] = existingWeights.TryGetValue(Components[j], out var lw) ? lw : DefaultWeights[j];
+
+        // Gradient ascent on log-likelihood with L2 regularisation
+        int n = X.Count;
+        for (int iter = 0; iter < Iterations; iter++)
         {
-            var component = Components[i];
-            var defaultW = DefaultWeights[i];
-            var learnedW = (float)Math.Clamp(defaultW + 0.1 * gradients[i], 0.01, 0.5);
+            var grad = new double[Components.Length];
 
-            if (existingWeights.TryGetValue(component, out _))
+            for (int i = 0; i < n; i++)
             {
-                var row = await _db.UserMatchingWeights
-                    .FirstAsync(w => w.UserId == userId && w.Component == component, ct);
-                row.LearnedWeight = learnedW;
-                row.SampleCount = featureMatrix.Count;
-                row.UpdatedAt = now;
+                var predicted = Sigmoid(Dot(w, X[i]));
+                var residual  = y[i] - predicted;
+                for (int j = 0; j < Components.Length; j++)
+                    grad[j] += residual * X[i][j];
+            }
+
+            // Apply gradient + L2 penalty
+            for (int j = 0; j < Components.Length; j++)
+            {
+                w[j] += LearningRate * (grad[j] / n - 2 * L2Lambda * w[j]);
+                w[j]  = Math.Clamp(w[j], MinWeight, MaxWeight);
+            }
+        }
+
+        // Normalise so weights sum to 1 (scoring formula stays a proper weighted average)
+        var total = w.Sum();
+        if (total > 0)
+            for (int j = 0; j < Components.Length; j++)
+                w[j] = Math.Clamp(w[j] / total, MinWeight, MaxWeight);
+
+        // Persist
+        var now = DateTimeOffset.UtcNow;
+        var dbWeights = await _db.UserMatchingWeights
+            .Where(ww => ww.UserId == userId)
+            .ToDictionaryAsync(ww => ww.Component, ct);
+
+        for (int j = 0; j < Components.Length; j++)
+        {
+            var comp   = Components[j];
+            var learned = (float)w[j];
+
+            if (dbWeights.TryGetValue(comp, out var row))
+            {
+                row.LearnedWeight = learned;
+                row.SampleCount   = n;
+                row.UpdatedAt     = now;
             }
             else
             {
                 _db.UserMatchingWeights.Add(new UserMatchingWeight
                 {
-                    UserId = userId,
-                    Component = component,
-                    LearnedWeight = learnedW,
-                    SampleCount = featureMatrix.Count,
-                    UpdatedAt = now
+                    UserId        = userId,
+                    Component     = comp,
+                    LearnedWeight = learned,
+                    SampleCount   = n,
+                    UpdatedAt     = now
                 });
             }
         }
 
         await _db.SaveChangesAsync(ct);
-        _logger.LogInformation("[WeightLearning] Learned weights for user {UserId} from {N} outcomes", userId, featureMatrix.Count);
 
-        var topComponent = Components.Length > 0 ? Components[0] : "pillar";
+        // Log which component got the highest learned weight for analytics
+        var topIdx       = Array.IndexOf(w, w.Max());
+        var topComponent = Components[topIdx];
+
+        _logger.LogInformation(
+            "[WeightLearning] User {UserId}: learned weights from {N} samples, top={Top} ({Val:F3})",
+            userId, n, topComponent, w[topIdx]);
+
         _ = _analytics.TrackAsync(userId, null, AnalyticsEvents.WeightLearningRun,
-            new { sampleCount = featureMatrix.Count, topComponent });
+            new { sampleCount = n, topComponent });
     }
 
-    private static double[] ComputeCorrelationGradients(List<double[]> features, List<double> labels)
+    private static double Sigmoid(double z) => 1.0 / (1.0 + Math.Exp(-z));
+
+    private static double Dot(double[] a, double[] b)
     {
-        int n = features.Count;
-        int d = features[0].Length;
-        var gradients = new double[d];
-
-        var labelMean = labels.Average();
-
-        for (int j = 0; j < d; j++)
-        {
-            var featureValues = features.Select(f => f[j]).ToList();
-            var featureMean = featureValues.Average();
-
-            double cov = 0, varF = 0, varL = 0;
-            for (int i = 0; i < n; i++)
-            {
-                var df = featureValues[i] - featureMean;
-                var dl = labels[i] - labelMean;
-                cov += df * dl;
-                varF += df * df;
-                varL += dl * dl;
-            }
-
-            // Pearson correlation coefficient
-            var denom = Math.Sqrt(varF * varL);
-            gradients[j] = denom > 0 ? cov / denom : 0;
-        }
-
-        return gradients;
+        double s = 0;
+        for (int i = 0; i < a.Length; i++) s += a[i] * b[i];
+        return s;
     }
 }

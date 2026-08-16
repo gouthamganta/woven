@@ -51,25 +51,27 @@
 }
 
 .pill:hover {
-  background: rgba(255, 255, 255, 0.10);
+  background: var(--bg-elevated);
   border-color: var(--border-medium);
-  transform: translateY(-1px);
 }
 
 .pill.outline { background: transparent; border-color: var(--border-subtle); }
-.pill.outline:hover { background: rgba(255, 255, 255, 0.06); }
+.pill.outline:hover { background: var(--bg-surface); }
 
 /* ── States ────────────────────────────────────────── */
 .state { padding: 14px; color: var(--text-muted); }
-.state.err { color: #ff7070; }
+.state.err { color: var(--rose-300); }
 
 /* ── Public frame (swipeable feed) ────────────────── */
 .publicFrame {
   border-radius: 22px;
   overflow: hidden;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-soft);
   background: var(--bg-base);
-  box-shadow: var(--shadow-lg);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 0 1px var(--plum-glow),
+    0 0 32px var(--gold-glow);
 }
 
 .feed {
@@ -100,10 +102,10 @@
   bottom: 14px;
   padding: 10px 12px;
   border-radius: 16px;
-  background: rgba(26, 15, 30, 0.72);
+  background: rgba(14, 9, 18, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--border-soft);
   color: var(--text-primary);
   box-shadow: var(--shadow-md);
   max-width: 92%;
@@ -124,8 +126,8 @@
   left: 12px;
   top: 12px;
   appearance: none;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  background: rgba(26, 15, 30, 0.65);
+  border: 1px solid var(--border-soft);
+  background: rgba(14, 9, 18, 0.65);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: var(--text-primary);
@@ -143,8 +145,8 @@
   max-width: 90%;
   padding: 10px 12px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(26, 15, 30, 0.82);
+  border: 1px solid var(--border-soft);
+  background: rgba(14, 9, 18, 0.82);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   color: var(--text-primary);
@@ -211,7 +213,7 @@
   left: 50%;
   bottom: 88px;
   transform: translateX(-50%);
-  background: rgba(44, 29, 53, 0.95);
+  background: var(--bg-overlay);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-soft);

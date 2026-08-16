@@ -294,7 +294,7 @@ Return ONLY valid JSON exactly in this format:
                 new()
                 {
                     Id = "s1",
-                    Text = "They reply fast… but disappear for hours randomly.",
+                    Text = "They’ll cancel plans last minute if they’re drained — and tell you honestly.",
                     Difficulty = "EASY",
                     Category = "red_green_flag",
                     Options = BaseOptions()
@@ -302,7 +302,7 @@ Return ONLY valid JSON exactly in this format:
                 new()
                 {
                     Id = "s2",
-                    Text = "They’re super social — always down to be outside and doing something.",
+                    Text = "They want their partner to have a full life outside the relationship.",
                     Difficulty = "MEDIUM",
                     Category = "red_green_flag",
                     Options = BaseOptions()
@@ -310,7 +310,7 @@ Return ONLY valid JSON exactly in this format:
                 new()
                 {
                     Id = "s3",
-                    Text = "They like planning the date… but want you to pick the vibe.",
+                    Text = "They’d rather have an awkward honest conversation than let tension sit.",
                     Difficulty = "HARD",
                     Category = "red_green_flag",
                     Options = BaseOptions()

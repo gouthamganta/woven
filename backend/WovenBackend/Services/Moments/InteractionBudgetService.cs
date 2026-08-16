@@ -17,8 +17,9 @@ public class InteractionBudgetService
 
     public enum SpendType
     {
-        Moment = 1,   // consumes total_used
-        Pending = 2   // consumes total_used + pending_used
+        Moment = 1,   // Today deck choice — consumes total_used
+        Pending = 2,  // legacy Save — consumes total_used + pending_used (kept for old code)
+        LikedYou = 3, // Liked You tab choice — consumes total_used (spark-gated)
     }
 
     public sealed record SpendResult(

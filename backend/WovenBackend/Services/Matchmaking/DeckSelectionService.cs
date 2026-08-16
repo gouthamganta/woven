@@ -103,11 +103,17 @@ public class DeckSelectionService : IDeckSelectionService
                 conversationFitCandidate.CandidateId, conversationFitCandidate.PulseScore);
         }
 
-        // 4. Pick top 1 as EXPLORER (someone different - lowest overlap with user's top traits)
-        // Use inverse of foundational to find someone interestingly different
-        var explorerCandidate = scores
+        // 4. Pick top 1 as EXPLORER (someone different - lowest pillar similarity from high-quality pool)
+        // Strategy: from top-20 by TotalScore, pick the one with lowest FoundationalScore (pillar compatibility)
+        // This approximates "lowest cosine similarity to viewer's pillar embedding"
+        var top20Pool = scores
             .Where(s => !selectedIds.Contains(s.CandidateId))
-            .OrderByDescending(s => s.TotalScore - (s.FoundationalScore * 0.3) + (boostMap?.GetValueOrDefault(s.CandidateId) ?? 0) * 0.5)
+            .OrderByDescending(s => s.TotalScore + (boostMap?.GetValueOrDefault(s.CandidateId) ?? 0))
+            .Take(20)
+            .ToList();
+
+        var explorerCandidate = top20Pool
+            .OrderBy(s => s.FoundationalScore)  // Lowest pillar score = most different personality
             .FirstOrDefault();
 
         if (explorerCandidate != null)
@@ -137,19 +143,6 @@ public class DeckSelectionService : IDeckSelectionService
         return selection;
     }
 
-    private List<(MatchScore Score, MatchBucket Bucket)> AssignBuckets(List<MatchScore> scores)
-    {
-        var result = new List<(MatchScore Score, MatchBucket Bucket)>();
-
-        foreach (var score in scores)
-        {
-            var bucket = DetermineBucket(score);
-            result.Add((score, bucket));
-        }
-
-        return result;
-    }
-
     private MatchBucket DetermineBucket(MatchScore score)
     {
         // CORE_FIT: High intent + high foundational
@@ -172,18 +165,4 @@ public class DeckSelectionService : IDeckSelectionService
         return MatchBucket.WILDCARD;
     }
 
-    private List<(int CandidateId, MatchBucket Bucket)> PickFromBucket(
-        List<(MatchScore Score, MatchBucket Bucket)> bucketedCandidates,
-        MatchBucket bucket,
-        int count,
-        Dictionary<int, double>? boostMap = null)
-    {
-        return bucketedCandidates
-            .Where(bc => bc.Bucket == bucket)
-            .OrderByDescending(bc =>
-                bc.Score.TotalScore + (boostMap?.GetValueOrDefault(bc.Score.CandidateId) ?? 0))
-            .Take(count)
-            .Select(bc => (bc.Score.CandidateId, bc.Bucket))
-            .ToList();
-    }
 }

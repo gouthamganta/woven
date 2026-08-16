@@ -1,24 +1,19 @@
-using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
 
 namespace WovenBackend.Services;
 
 public class OpenAiRewriteService
 {
-    private readonly HttpClient _http;
-    private readonly IConfiguration _config;
+    private readonly IOpenAiResilientClient _ai;
     private readonly ILogger<OpenAiRewriteService> _logger;
     private readonly IAiProfileService _aiProfileService;
 
     public OpenAiRewriteService(
-        HttpClient http,
-        IConfiguration config,
+        IOpenAiResilientClient ai,
         ILogger<OpenAiRewriteService> logger,
         IAiProfileService aiProfileService)
     {
-        _http = http;
-        _config = config;
+        _ai = ai;
         _logger = logger;
         _aiProfileService = aiProfileService;
     }
@@ -31,20 +26,6 @@ public class OpenAiRewriteService
         string style,
         CancellationToken ct)
     {
-        // ✅ Never block onboarding
-        var apiKey = _config["OpenAI:ApiKey"];
-
-        // ✅ DEBUG (safe): confirm key is loaded without printing full key
-        _logger.LogInformation("[OpenAI] ApiKey present={Present} prefix={Prefix}",
-            !string.IsNullOrWhiteSpace(apiKey),
-            string.IsNullOrWhiteSpace(apiKey) ? "" : apiKey.Substring(0, Math.Min(6, apiKey.Length)));
-
-        if (string.IsNullOrWhiteSpace(apiKey))
-        {
-            _logger.LogInformation("[OpenAI] ApiKey missing -> using bank questions.");
-            return baseQuestions;
-        }
-
         // Load AiProfile for personalization
         AiProfile? aiProfile = null;
         if (ctx.UserId.HasValue && ctx.UserId.Value > 0)
@@ -54,65 +35,22 @@ public class OpenAiRewriteService
                 ctx.UserId, aiProfile?.TopPillars.Count ?? 0);
         }
 
-        var endpoint = _config["OpenAI:Endpoint"] ?? "https://api.openai.com/v1/responses";
-        var model = _config["OpenAI:Model"] ?? "gpt-4.1-mini";
-
         var systemPrompt = BuildSystemPrompt(style, aiProfile);
-
-        var payload = new
-        {
-            model,
-            input = new object[]
-            {
-                new
-                {
-                    role = "system",
-                    content = new object[]
-                    {
-                        new
-                        {
-                            // ✅ Responses API expects input_text (NOT "text")
-                            type = "input_text",
-                            text = systemPrompt
-                        }
-                    }
-                },
-                new
-                {
-                    role = "user",
-                    content = new object[]
-                    {
-                        // ✅ Responses API expects input_text (NOT "text")
-                        new { type = "input_text", text = BuildUserPrompt(baseQuestions, ctx, aiProfile) }
-                    }
-                }
-            },
-
-            // ✅ JSON mode
-            text = new { format = new { type = "json_object" } }
-        };
-
-        using var req = new HttpRequestMessage(HttpMethod.Post, endpoint);
-        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
-        req.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+        var userPrompt = BuildUserPrompt(baseQuestions, ctx, aiProfile);
 
         try
         {
-            _logger.LogInformation("[OpenAI] Calling model={Model} endpoint={Endpoint}", model, endpoint);
-
-            using var resp = await _http.SendAsync(req, ct);
-            var raw = await resp.Content.ReadAsStringAsync(ct);
-
-            if (!resp.IsSuccessStatusCode)
+            var content = await _ai.ExecuteWithSystemAsync("rewrite-foundational", systemPrompt, userPrompt, ct: ct);
+            if (content == null)
             {
-                _logger.LogWarning("[OpenAI] FAIL status={Status} body={Body}", (int)resp.StatusCode, Trunc(raw, 1000));
+                _logger.LogWarning("[OpenAI] Resilient client returned null -> using bank.");
                 return baseQuestions;
             }
 
-            var parsed = TryParseQuestionsFromResponsesApi(raw, expectedCount: baseQuestions.Length);
+            var parsed = ParseWrapper(content);
             if (parsed == null || parsed.Length != baseQuestions.Length)
             {
-                _logger.LogWarning("[OpenAI] Parse/shape invalid -> using bank. raw={Body}", Trunc(raw, 1000));
+                _logger.LogWarning("[OpenAI] Parse/shape invalid -> using bank.");
                 return baseQuestions;
             }
 
@@ -238,69 +176,19 @@ Rewrite these base questions (JSON):
 Return ONLY the JSON object in the required shape.";
     }
 
-    // We ignore model pillars; only parse id + text.
+    // Only parses id + text; pillars are preserved from the bank.
     private record Wrapper(ModelQuestion[] Questions);
     private record ModelQuestion(string Id, string Text);
-
-    private static ModelQuestion[]? TryParseQuestionsFromResponsesApi(string raw, int expectedCount)
-    {
-        try
-        {
-            using var doc = JsonDocument.Parse(raw);
-
-            // 1) Responses API typical path:
-            // output[].content[] may contain output_text blocks with a "text" string
-            if (doc.RootElement.TryGetProperty("output", out var outputArr) &&
-                outputArr.ValueKind == JsonValueKind.Array)
-            {
-                foreach (var outItem in outputArr.EnumerateArray())
-                {
-                    if (!outItem.TryGetProperty("content", out var contentArr) || contentArr.ValueKind != JsonValueKind.Array)
-                        continue;
-
-                    foreach (var c in contentArr.EnumerateArray())
-                    {
-                        // We look for any block that has a "text" string.
-                        if (c.TryGetProperty("text", out var textEl) && textEl.ValueKind == JsonValueKind.String)
-                        {
-                            var inner = textEl.GetString();
-                            var q = ParseWrapper(inner);
-                            if (q != null && q.Length == expectedCount) return q;
-                        }
-                    }
-                }
-            }
-
-            // 2) Sometimes the API/gateway returns the JSON object directly
-            var direct = ParseWrapper(doc.RootElement.GetRawText());
-            if (direct != null && direct.Length == expectedCount) return direct;
-
-            return null;
-        }
-        catch
-        {
-            return null;
-        }
-    }
 
     private static ModelQuestion[]? ParseWrapper(string? json)
     {
         if (string.IsNullOrWhiteSpace(json)) return null;
-
         try
         {
-            var wrapper = JsonSerializer.Deserialize<Wrapper>(
-                json,
-                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-            );
+            var wrapper = JsonSerializer.Deserialize<Wrapper>(json,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             return wrapper?.Questions;
         }
-        catch
-        {
-            return null;
-        }
+        catch { return null; }
     }
-
-    private static string Trunc(string s, int max)
-        => string.IsNullOrEmpty(s) ? "" : (s.Length <= max ? s : s.Substring(0, max) + "...");
 }

@@ -87,7 +87,7 @@ export class BalloonsPageComponent implements OnInit, OnDestroy {
   async open(m: MatchListItem) {
     try {
       const started = await firstValueFrom(this.chat.start(m.matchId));
-      this.router.navigateByUrl(`/home/chats/${started.threadId}`);
+      this.router.navigateByUrl(`/chats/${started.threadId}`);
     } catch {
       // ignore
     }
@@ -113,7 +113,7 @@ export class BalloonsPageComponent implements OnInit, OnDestroy {
   // ✅ View profile (uses Review-like publicPreview)
   viewProfile(m: MatchListItem, ev: MouseEvent) {
     ev.stopPropagation();
-    this.router.navigateByUrl(`/home/matches/${m.matchId}/profile`);
+    this.router.navigateByUrl(`/matches/${m.matchId}/profile`);
   }
 
   isBusy(m: MatchListItem): boolean {

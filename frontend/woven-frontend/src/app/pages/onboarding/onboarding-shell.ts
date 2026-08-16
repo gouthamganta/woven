@@ -65,19 +65,19 @@ import { CommonModule } from '@angular/common';
     }
 
     .brand {
-      font-family: "DM Sans", system-ui, sans-serif;
+      font-family: var(--font-ui);
       letter-spacing: 0.22em;
       font-weight: 700;
       font-size: 11px;
       text-transform: uppercase;
-      color: rgba(255, 245, 250, 0.70);
+      color: var(--text-secondary);
     }
 
     .meta {
-      font-family: "DM Sans", system-ui, sans-serif;
+      font-family: var(--font-ui);
       font-size: 11px;
       font-weight: 500;
-      color: rgba(255, 215, 235, 0.46);
+      color: var(--text-muted);
       letter-spacing: 0.02em;
     }
 
@@ -171,30 +171,30 @@ import { CommonModule } from '@angular/common';
 
     .fill {
       height: 100%;
-      background: linear-gradient(90deg, #E05490, #7D5BD0);
+      background: linear-gradient(90deg, var(--rose-400), var(--plum-400));
       border-radius: 100px;
       transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 12px rgba(224,84,144,0.4);
+      box-shadow: 0 0 12px var(--rose-glow);
     }
 
     /* ===== Typography ===== */
     .title {
-      font-family: "Fraunces", Georgia, serif;
+      font-family: var(--font-display);
       margin: 0 0 8px;
       font-size: 28px;
       font-weight: 400;
       letter-spacing: -0.025em;
       line-height: 1.15;
-      color: rgba(255, 245, 250, 0.96);
+      color: var(--text-primary);
     }
 
     .sub {
-      font-family: "DM Sans", system-ui, sans-serif;
+      font-family: var(--font-ui);
       margin: 0 0 24px;
       font-size: 14px;
       font-weight: 400;
       line-height: 1.55;
-      color: rgba(255, 230, 242, 0.65);
+      color: var(--text-muted);
       max-width: 48ch;
     }
 

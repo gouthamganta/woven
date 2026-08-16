@@ -27,4 +27,7 @@ public class User
     public bool IsVerified { get; set; } = false;
     public DateTimeOffset? VerifiedAt { get; set; }
     public string? VerificationType { get; set; }
+
+    // Weekly coaching summary opt-out (opt-out default = false)
+    public bool CoachingOptedOut { get; set; } = false;
 }

@@ -1,585 +1,412 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-
-import { environment } from '../../../environments/environment';
 import { OnboardingService } from '../../onboarding/onboarding.service';
 import { OnboardingShellComponent } from './onboarding-shell';
 
-type Gender = 'male' | 'female' | 'nonbinary' | 'other';
-type Interest = 'male' | 'female' | 'nonbinary';
-type RelationshipStructure = 'OPEN' | 'MONOGAMY' | 'NON_MONOGAMY';
+const GENDERS = [
+  { key: 'man',          label: 'Man' },
+  { key: 'woman',        label: 'Woman' },
+  { key: 'nonbinary',    label: 'Non-binary' },
+  { key: 'transgender',  label: 'Transgender' },
+  { key: 'genderfluid',  label: 'Gender-fluid' },
+  { key: 'other',        label: 'Other' },
+  { key: 'prefer_not',   label: 'Prefer not to say' },
+];
 
-// ✅ STEP 1.1: Updated CityOption to include lat/lng
-type CityOption = {
-  label: string;
-  city: string;
-  state: string;
-  country?: string;
-  lat: number;
-  lng: number;
-};
+const INTERESTS = [
+  { key: 'men',      label: 'Men' },
+  { key: 'women',    label: 'Women' },
+  { key: 'nonbinary',label: 'Non-binary people' },
+  { key: 'everyone', label: 'Everyone' },
+];
+
+const LOOKING_FOR = [
+  { key: 'long_term',       label: 'Long-term' },
+  { key: 'short_term',      label: 'Short-term' },
+  { key: 'friendship',      label: 'Friendship' },
+  { key: 'open_to_anything',label: 'Open to anything' },
+];
+
+const ORIENTATIONS = [
+  { key: 'straight',    label: 'Straight' },
+  { key: 'gay',         label: 'Gay' },
+  { key: 'lesbian',     label: 'Lesbian' },
+  { key: 'bisexual',    label: 'Bisexual' },
+  { key: 'pansexual',   label: 'Pansexual' },
+  { key: 'asexual',     label: 'Asexual' },
+  { key: 'queer',       label: 'Queer' },
+  { key: 'prefer_not',  label: 'Prefer not to say' },
+];
+
+const PRONOUNS = [
+  { key: 'he_him',    label: 'He / Him' },
+  { key: 'she_her',   label: 'She / Her' },
+  { key: 'they_them', label: 'They / Them' },
+  { key: 'other',     label: 'Other' },
+];
 
 @Component({
+  selector: 'woven-onboarding-basics',
   standalone: true,
   imports: [CommonModule, FormsModule, OnboardingShellComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <woven-onboarding-shell
-      title="Basics"
-      subtitle="Keep it simple. You can edit later."
+      title="The basics."
+      subtitle="Just enough to get started — you can always edit later."
       [stepNumber]="2"
-      [totalSteps]="6"
-      stepLabel="Profile"
+      [totalSteps]="8"
+      stepLabel="Basics"
     >
-      <style>
-        /* ===== Layout ===== */
-        .stack {
-          display: grid;
-          gap: 20px;
-        }
-
-        .grid2 {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 14px;
-        }
-
-        /* ===== Labels ===== */
-        .label {
-          display: block;
-          font-family: "DM Sans", system-ui, sans-serif;
-          font-size: 12px;
-          font-weight: 600;
-          color: rgba(255, 215, 235, 0.55);
-          margin-bottom: 8px;
-          letter-spacing: 0.01em;
-        }
-
-        /* ===== Inputs ===== */
-        .input, select {
-          width: 100%;
-          padding: 12px 14px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          border-radius: 12px;
-          outline: none;
-          background: rgba(44, 29, 53, 0.75);
-          font-family: "DM Sans", system-ui, sans-serif;
-          font-size: 14px;
-          font-weight: 500;
-          color: rgba(255, 245, 250, 0.92);
-          transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .input::placeholder {
-          color: rgba(255, 215, 235, 0.35);
-        }
-
-        .input:focus, select:focus {
-          border-color: #E05490;
-          box-shadow: 0 0 0 3px rgba(224, 84, 144, 0.28);
-        }
-
-        select {
-          cursor: pointer;
-          appearance: none;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23A07FD8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-          background-repeat: no-repeat;
-          background-position: right 12px center;
-          padding-right: 36px;
-        }
-
-        /* ===== Checkboxes ===== */
-        .checks {
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
-        }
-
-        .check {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 12px 16px;
-          min-height: 44px;
-          border-radius: 100px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          background: rgba(255, 255, 255, 0.06);
-          cursor: pointer;
-          transition: all 0.2s ease;
-          font-family: "DM Sans", system-ui, sans-serif;
-          font-size: 13px;
-          font-weight: 550;
-          color: rgba(255, 245, 250, 0.88);
-        }
-
-        .check:hover {
-          border-color: rgba(255, 255, 255, 0.22);
-          background: rgba(255, 255, 255, 0.10);
-        }
-
-        .check input[type="checkbox"] {
-          width: 16px;
-          height: 16px;
-          accent-color: #E05490;
-          cursor: pointer;
-        }
-
-        /* ===== Range Indicators ===== */
-        .rangeRow {
-          display: flex;
-          justify-content: space-between;
-          font-family: "JetBrains Mono", monospace;
-          font-size: 11px;
-          font-weight: 500;
-          color: rgba(255, 215, 235, 0.46);
-          margin-top: 8px;
-        }
-
-        /* ===== Segment Buttons ===== */
-        .segment {
-          display: flex;
-          gap: 8px;
-          flex-wrap: wrap;
-        }
-
-        .segbtn {
-          padding: 12px 18px;
-          min-height: 44px;
-          border-radius: 100px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          background: rgba(255, 255, 255, 0.06);
-          cursor: pointer;
-          font-family: "DM Sans", system-ui, sans-serif;
-          font-weight: 600;
-          font-size: 13px;
-          color: rgba(255, 245, 250, 0.85);
-          transition: all 0.2s ease;
-        }
-
-        .segbtn:hover:not(.active) {
-          border-color: rgba(255, 255, 255, 0.22);
-          background: rgba(255, 255, 255, 0.10);
-        }
-
-        .segbtn.active {
-          background: linear-gradient(135deg, #E05490, #7D5BD0);
-          color: #fff;
-          border-color: transparent;
-          box-shadow: 0 4px 16px rgba(224, 84, 144, 0.30);
-        }
-
-        .segbtn:focus-visible {
-          outline: 2px solid #E05490;
-          outline-offset: 2px;
-        }
-
-        /* ===== Range Slider ===== */
-        input[type="range"] {
-          width: 100%;
-          height: 6px;
-          border-radius: 100px;
-          background: rgba(255, 255, 255, 0.12);
-          outline: none;
-          -webkit-appearance: none;
-          appearance: none;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          appearance: none;
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: #E05490;
-          cursor: pointer;
-          border: 3px solid #2C1D35;
-          box-shadow: 0 2px 10px rgba(224, 84, 144, 0.40);
-          transition: transform 0.15s ease;
-        }
-
-        input[type="range"]::-webkit-slider-thumb:hover {
-          transform: scale(1.1);
-        }
-
-        input[type="range"]::-moz-range-thumb {
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: #E05490;
-          cursor: pointer;
-          border: 3px solid #2C1D35;
-          box-shadow: 0 2px 10px rgba(224, 84, 144, 0.40);
-        }
-
-        /* ===== Primary Button ===== */
-        .btn {
-          width: 100%;
-          padding: 14px 18px;
-          border-radius: 14px;
-          border: 0;
-          background: linear-gradient(135deg, #E05490, #7D5BD0);
-          color: #fff;
-          cursor: pointer;
-          font-family: "DM Sans", system-ui, sans-serif;
-          font-weight: 600;
-          font-size: 15px;
-          letter-spacing: -0.01em;
-          transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
-                      box-shadow 380ms cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 8px 32px rgba(224, 84, 144, 0.28);
-          margin-top: 8px;
-        }
-
-        .btn:hover:not(:disabled) {
-          transform: translateY(-2px) scale(1.01);
-          box-shadow: 0 12px 40px rgba(224, 84, 144, 0.38);
-        }
-
-        .btn:active:not(:disabled) {
-          transform: translateY(0) scale(0.99);
-        }
-
-        .btn:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .btn:focus-visible {
-          outline: 2px solid #E05490;
-          outline-offset: 2px;
-        }
-
-        /* ===== Error ===== */
-        .error {
-          padding: 12px 14px;
-          border-radius: 12px;
-          background: rgba(255, 112, 112, 0.10);
-          border: 1px solid rgba(255, 112, 112, 0.22);
-          color: #ff7070;
-          font-size: 13px;
-          font-weight: 500;
-          line-height: 1.4;
-        }
-
-        /* ===== Responsive ===== */
-        @media (max-width: 480px) {
-          .grid2 {
-            grid-template-columns: 1fr;
-            gap: 16px;
-          }
-
-          .segment {
-            gap: 8px;
-          }
-
-          .segbtn {
-            padding: 12px 16px;
-            min-height: 44px;
-            font-size: 13px;
-          }
-        }
-      </style>
-
       <div class="stack">
-        <div>
-          <label class="label">Full name</label>
-          <input
-            class="input"
-            [(ngModel)]="model.fullName"
-            placeholder="Your name"
-            autocomplete="name"
-          />
+
+        <!-- Name -->
+        <div class="field">
+          <label class="label">First name</label>
+          <input class="input" type="text" [(ngModel)]="firstName" placeholder="What do people call you?" maxlength="50"/>
         </div>
 
-        <div class="grid2">
-          <div>
-            <label class="label">Age</label>
-            <input
-              class="input"
-              type="number"
-              [(ngModel)]="model.age"
-              min="18"
-              max="100"
-              inputmode="numeric"
-            />
-          </div>
-
-          <div>
-            <label class="label">Gender</label>
-            <select [(ngModel)]="model.gender">
-              <option value="" disabled>Select</option>
-              <option *ngFor="let g of genderOptions" [value]="g.value">{{ g.label }}</option>
-            </select>
-          </div>
+        <!-- Date of birth -->
+        <div class="field">
+          <label class="label">Date of birth</label>
+          <input class="input" type="date" [(ngModel)]="dob" [max]="maxDob"/>
+          <span class="hint" *ngIf="age !== null">{{ age }} years old</span>
+          <span class="hint err" *ngIf="age !== null && age < 18">You must be 18 or older to join Woven.</span>
         </div>
 
-        <!-- ✅ Location dropdown -->
-        <div>
-          <label class="label">Location</label>
-          <select
-            [(ngModel)]="selectedCity"
-            (ngModelChange)="applyCitySelection($event)"
-          >
-            <option [ngValue]="null" disabled>Select a city</option>
-            <option *ngFor="let c of cityOptions" [ngValue]="c">
-              {{ c.label }}
-            </option>
-          </select>
+        <div class="divider"></div>
 
-          <div class="rangeRow" *ngIf="model.location.city && model.location.state">
-            <span>Selected:</span>
-            <span><b>{{ model.location.city }}</b>, <b>{{ model.location.state }}</b></span>
-          </div>
-        </div>
-
-        <div>
-          <label class="label">Interested in</label>
-          <div class="checks">
-            <label *ngFor="let opt of interestOptions" class="check">
-              <input
-                type="checkbox"
-                [checked]="model.interestedIn.includes(opt.value)"
-                (change)="toggleInterest(opt.value)"
-              />
-              <span>{{ opt.label }}</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- ✅ Relationship structure -->
-        <div>
-          <label class="label">Relationship structure</label>
-          <div class="segment">
-            <button
-              type="button"
-              class="segbtn"
-              *ngFor="let opt of relationshipOptions"
-              [class.active]="model.relationshipStructure === opt.value"
-              (click)="model.relationshipStructure = opt.value"
-            >
-              {{ opt.label }}
+        <!-- Gender -->
+        <div class="field">
+          <label class="label">Gender</label>
+          <div class="pills">
+            <button *ngFor="let g of genders" class="pill" [class.active]="gender === g.key" (click)="gender = g.key; mark()">
+              {{ g.label }}
             </button>
           </div>
         </div>
 
-        <div>
-          <label class="label">
-            Distance: <b>{{ model.distanceMiles }}</b> miles
-          </label>
-
-          <!-- backend enforces 15..100 -->
-          <input
-            type="range"
-            min="15"
-            max="100"
-            [(ngModel)]="model.distanceMiles"
-          />
-
-          <div class="rangeRow">
-            <span>15</span><span>100</span>
+        <!-- Pronouns -->
+        <div class="field">
+          <label class="label">Pronouns</label>
+          <div class="pills">
+            <button *ngFor="let p of pronouns" class="pill" [class.active]="pronouns_sel === p.key" (click)="pronouns_sel = p.key; mark()">
+              {{ p.label }}
+            </button>
           </div>
         </div>
 
-        <div>
-          <label class="label">
-            Preferred age range: <b>{{ model.ageMin }}</b> – <b>{{ model.ageMax }}</b>
-          </label>
-
-          <div class="grid2">
-            <div>
-              <label class="label">Min</label>
-              <input
-                class="input"
-                type="number"
-                min="18"
-                max="99"
-                [(ngModel)]="model.ageMin"
-                (blur)="normalizeAgeRange()"
-              />
-            </div>
-
-            <div>
-              <label class="label">Max</label>
-              <input
-                class="input"
-                type="number"
-                min="18"
-                max="99"
-                [(ngModel)]="model.ageMax"
-                (blur)="normalizeAgeRange()"
-              />
-            </div>
-          </div>
-
-          <div class="rangeRow">
-            <span>18</span><span>99</span>
+        <!-- Orientation (optional) -->
+        <div class="field">
+          <label class="label">Sexual orientation <span class="opt">optional</span></label>
+          <div class="pills">
+            <button *ngFor="let o of orientations" class="pill" [class.active]="orientationSet.has(o.key)" (click)="toggleSet(orientationSet, o.key)">
+              {{ o.label }}
+            </button>
           </div>
         </div>
 
-        <div *ngIf="error" class="error">{{ error }}</div>
+        <div class="divider"></div>
 
-        <button class="btn" type="button" (click)="submit()" [disabled]="saving">
-          {{ saving ? 'Saving…' : 'Continue' }}
+        <!-- Location -->
+        <div class="field">
+          <label class="label">Your city</label>
+          <input class="input" type="text" [(ngModel)]="cityText" placeholder="City, State" (input)="cityChanged()"/>
+          <div class="autocomplete" *ngIf="citySuggestions.length">
+            <button *ngFor="let s of citySuggestions" class="suggestion" (click)="selectCity(s)">{{ s.label }}</button>
+          </div>
+        </div>
+
+        <!-- Distance preference -->
+        <div class="field">
+          <label class="label">Distance — <strong class="val">{{ distanceMiles }} km</strong></label>
+          <input class="slider" type="range" [(ngModel)]="distanceMiles" min="15" max="100" step="5" (input)="mark()"/>
+          <div class="sliderRange"><span>15 km</span><span>100 km</span></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Interested in -->
+        <div class="field">
+          <label class="label">Interested in</label>
+          <div class="pills">
+            <button *ngFor="let i of interests" class="pill" [class.active]="interestedInSet.has(i.key)" (click)="toggleSet(interestedInSet, i.key)">
+              {{ i.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Looking for -->
+        <div class="field">
+          <label class="label">Looking for</label>
+          <div class="pills">
+            <button *ngFor="let l of lookingFor" class="pill" [class.active]="lookingForSet.has(l.key)" (click)="toggleSet(lookingForSet, l.key)">
+              {{ l.label }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Age range -->
+        <div class="field">
+          <label class="label">Age range — <strong class="val">{{ ageMin }}–{{ ageMax }}</strong></label>
+          <div class="ageRow">
+            <div class="ageSlider">
+              <span class="ageLabel">Min</span>
+              <input class="slider" type="range" [(ngModel)]="ageMin" min="18" [max]="ageMax - 1" step="1" (input)="mark()"/>
+            </div>
+            <div class="ageSlider">
+              <span class="ageLabel">Max</span>
+              <input class="slider" type="range" [(ngModel)]="ageMax" [min]="ageMin + 1" max="80" step="1" (input)="mark()"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="err" *ngIf="err">{{ err }}</p>
+
+        <button class="cta" (click)="next()" [disabled]="loading || !canProceed">
+          <span *ngIf="!loading">Continue →</span>
+          <span *ngIf="loading">Saving…</span>
         </button>
+
       </div>
     </woven-onboarding-shell>
-  `
+  `,
+  styles: [`
+    .stack { display: grid; gap: 22px; }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border-soft), transparent); }
+
+    .field { display: grid; gap: 8px; }
+
+    .label {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .opt { font-weight: 500; opacity: 0.6; text-transform: none; letter-spacing: 0; }
+
+    .input {
+      width: 100%;
+      padding: 13px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      color: var(--text-primary);
+      font-family: var(--font-ui);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s ease;
+      box-sizing: border-box;
+    }
+    .input::placeholder { color: var(--text-dim); }
+    .input:focus { border-color: var(--gold-400); }
+    .input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.6); }
+
+    .hint {
+      font-family: var(--font-ui);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .hint.err { color: var(--rose-300); }
+
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .pill {
+      padding: 9px 16px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 9999px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .pill:hover { border-color: var(--border-soft); color: var(--text-secondary); }
+    .pill.active {
+      border-color: var(--gold-400);
+      background: rgba(212, 160, 23, 0.10);
+      color: var(--gold-300);
+      font-weight: 600;
+    }
+
+    .autocomplete {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .suggestion {
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-family: var(--font-ui);
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .suggestion:last-child { border-bottom: none; }
+    .suggestion:hover { background: rgba(255,255,255,0.05); }
+
+    .slider {
+      width: 100%;
+      accent-color: var(--gold-400);
+      cursor: pointer;
+    }
+    .sliderRange {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-data);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .val { color: var(--gold-300); }
+
+    .ageRow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .ageSlider { display: grid; gap: 6px; }
+    .ageLabel { font-family: var(--font-ui); font-size: 11px; color: var(--text-dim); }
+
+    .cta {
+      width: 100%;
+      padding: 16px 24px;
+      border: none;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
+      color: var(--bg-base);
+      font-family: var(--font-ui);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      box-shadow: 0 4px 20px rgba(212, 160, 23, 0.28);
+    }
+    .cta:hover:not(:disabled) { opacity: 0.88; }
+    .cta:active:not(:disabled) { transform: scale(0.96); }
+    .cta:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .err { font-size: 12px; color: var(--rose-300); }
+  `],
 })
 export class BasicsOnboardingComponent {
-  saving = false;
-  error = '';
+  genders      = GENDERS;
+  interests    = INTERESTS;
+  lookingFor   = LOOKING_FOR;
+  orientations = ORIENTATIONS;
+  pronouns     = PRONOUNS;
 
-  genderOptions = [
-    { label: 'Male', value: 'male' as Gender },
-    { label: 'Female', value: 'female' as Gender },
-    { label: 'Non-binary', value: 'nonbinary' as Gender },
-    { label: 'Other', value: 'other' as Gender }
-  ];
+  firstName      = '';
+  dob            = '';
+  gender         = '';
+  pronouns_sel   = '';
+  cityText       = '';
+  distanceMiles  = 25;
+  ageMin         = 21;
+  ageMax         = 40;
 
-  interestOptions = [
-    { label: 'Women', value: 'female' as Interest },
-    { label: 'Men', value: 'male' as Interest },
-    { label: 'Non-binary', value: 'nonbinary' as Interest }
-  ];
+  orientationSet  = new Set<string>();
+  interestedInSet = new Set<string>();
+  lookingForSet   = new Set<string>();
 
-  relationshipOptions = [
-    { label: 'Open', value: 'OPEN' as RelationshipStructure },
-    { label: 'Monogamy', value: 'MONOGAMY' as RelationshipStructure },
-    { label: 'Non-monogamy', value: 'NON_MONOGAMY' as RelationshipStructure }
-  ];
+  citySuggestions: { label: string; city: string; state: string; lat: number; lng: number }[] = [];
+  selectedCity: { city: string; state: string; lat: number; lng: number } | null = null;
 
-  // ✅ STEP 0 & 1: Beta cities only with coordinates
-  cityOptions: CityOption[] = [
-    { label: 'Austin, TX (USA)', city: 'Austin', state: 'TX', country: 'USA', lat: 30.2672, lng: -97.7431 },
-    // Optional 2nd city (uncomment if needed):
-    // { label: 'New York, NY (USA)', city: 'New York', state: 'NY', country: 'USA', lat: 40.7128, lng: -74.0060 },
-  ];
+  loading = false;
+  err = '';
 
-  selectedCity: CityOption | null = null;
+  get maxDob() {
+    const d = new Date();
+    d.setFullYear(d.getFullYear() - 18);
+    return d.toISOString().split('T')[0];
+  }
 
-  model = {
-    fullName: '',
-    age: 25,
-    gender: '' as Gender | '',
-    interestedIn: [] as Interest[],
-    distanceMiles: 25,
-    ageMin: 18,
-    ageMax: 99,
-    relationshipStructure: 'OPEN' as RelationshipStructure,
-    location: { city: '', state: '', lat: 0, lng: 0 }
-  };
+  get age(): number | null {
+    if (!this.dob) return null;
+    const diff = Date.now() - new Date(this.dob).getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+  }
+
+  get canProceed(): boolean {
+    return !!(
+      this.firstName.trim() &&
+      this.dob &&
+      (this.age ?? 0) >= 18 &&
+      this.gender &&
+      this.interestedInSet.size > 0 &&
+      this.selectedCity
+    );
+  }
 
   constructor(
-    private http: HttpClient,
     private onboarding: OnboardingService,
-    private router: Router
-  ) {
-    // SSR-safe localStorage check
-    const isBrowser = typeof window !== 'undefined' && !!window.localStorage;
-    if (isBrowser) {
-      const raw = localStorage.getItem('user');
-      if (raw) {
-        try {
-          const u = JSON.parse(raw);
-          if (u?.fullName) this.model.fullName = u.fullName;
-        } catch {}
-      }
-    }
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
-    // ✅ STEP 2: Set default selection and apply coords
-    this.selectedCity = this.cityOptions[0];
-    this.applyCitySelection(this.selectedCity);
+  mark() { this.cdr.markForCheck(); }
+
+  toggleSet(set: Set<string>, key: string) {
+    set.has(key) ? set.delete(key) : set.add(key);
+    this.cdr.markForCheck();
   }
 
-  // ✅ STEP 2: Updated to write lat/lng into model
-  applyCitySelection(c: CityOption | null) {
-    if (!c) return;
-    this.model.location.city = c.city;
-    this.model.location.state = c.state;
-    this.model.location.lat = c.lat;
-    this.model.location.lng = c.lng;
+  cityChanged() {
+    const q = this.cityText.trim();
+    this.selectedCity = null;
+    if (q.length < 2) { this.citySuggestions = []; this.cdr.markForCheck(); return; }
+    // Minimal static suggestions — real implementation would call a geocoding API
+    this.citySuggestions = [
+      { label: `${q} (use this)`, city: q, state: '', lat: 0, lng: 0 },
+    ];
+    this.cdr.markForCheck();
   }
 
-  toggleInterest(v: Interest) {
-    const set = new Set(this.model.interestedIn);
-    set.has(v) ? set.delete(v) : set.add(v);
-    this.model.interestedIn = Array.from(set);
+  selectCity(s: typeof this.citySuggestions[0]) {
+    this.cityText = s.label !== `${s.city} (use this)` ? s.label : s.city;
+    this.selectedCity = { city: s.city, state: s.state, lat: s.lat, lng: s.lng };
+    this.citySuggestions = [];
+    this.cdr.markForCheck();
   }
 
-  normalizeAgeRange() {
-    const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
-
-    this.model.ageMin = clamp(Number(this.model.ageMin || 18), 18, 99);
-    this.model.ageMax = clamp(Number(this.model.ageMax || 99), 18, 99);
-
-    // ensure min <= max
-    if (this.model.ageMin > this.model.ageMax) {
-      const tmp = this.model.ageMin;
-      this.model.ageMin = this.model.ageMax;
-      this.model.ageMax = tmp;
-    }
-  }
-
-  private validate(): string | null {
-    if (!this.model.fullName?.trim()) return 'Full name is required.';
-    if (!this.model.age || this.model.age < 18) return 'Age must be 18 or above.';
-    if (!this.model.gender) return 'Please select your gender.';
-    if (!this.model.location.city?.trim() || !this.model.location.state?.trim()) return 'City and state are required.';
-    if (!this.model.interestedIn?.length) return 'Please select who you\'re interested in.';
-
-    // backend validations
-    if (this.model.distanceMiles < 15 || this.model.distanceMiles > 100) {
-      return 'Distance must be between 15 and 100 miles.';
-    }
-
-    if (this.model.ageMin < 18 || this.model.ageMax > 99) return 'Preferred age range must be between 18 and 99.';
-    if (this.model.ageMin > this.model.ageMax) return 'Preferred age min cannot be greater than max.';
-    return null;
-  }
-
-  async submit() {
-    // Normalize age range before validation
-    this.normalizeAgeRange();
-
-    const err = this.validate();
-    if (err) {
-      this.error = err;
-      return;
-    }
-
-    this.error = '';
-    this.saving = true;
-
+  async next() {
+    if (!this.canProceed || !this.selectedCity) return;
+    this.loading = true;
+    this.err = '';
+    this.cdr.markForCheck();
     try {
-      await firstValueFrom(
-        this.http.put(`${environment.apiUrl}/onboarding/basics`, {
-          fullName: this.model.fullName.trim(),
-          age: this.model.age,
-          gender: this.model.gender,
-          interestedIn: this.model.interestedIn,
-          relationshipStructure: this.model.relationshipStructure,
-          distanceMiles: this.model.distanceMiles,
-          ageMin: this.model.ageMin,
-          ageMax: this.model.ageMax,
-          // ✅ STEP 3: Stop hardcoding 0,0 - use actual coords from model
-          location: {
-            city: this.model.location.city.trim(),
-            state: this.model.location.state.trim(),
-            lat: this.model.location.lat,
-            lng: this.model.location.lng
-          }
-        })
-      );
-
-      // ✅ Force next step to Photos (frontend-only fix)
-      this.router.navigateByUrl('/onboarding/photos');
+      const res = await firstValueFrom(this.onboarding.submitBasics({
+        fullName: this.firstName.trim(),
+        dateOfBirth: this.dob,
+        gender: this.gender,
+        interestedIn: [...this.interestedInSet],
+        distanceMiles: this.distanceMiles,
+        ageMin: this.ageMin,
+        ageMax: this.ageMax,
+        city: this.selectedCity.city,
+        state: this.selectedCity.state,
+        lat: this.selectedCity.lat,
+        lng: this.selectedCity.lng,
+        pronouns: this.pronouns_sel || undefined,
+        orientation: this.orientationSet.size ? [...this.orientationSet] : undefined,
+        lookingFor: this.lookingForSet.size ? [...this.lookingForSet] : undefined,
+      }));
+      this.router.navigateByUrl(res.nextRoute || '/onboarding/photos');
     } catch {
-      this.error = 'Could not save basics. Please try again.';
+      this.err = 'Could not save. Please check your details and try again.';
     } finally {
-      this.saving = false;
+      this.loading = false;
+      this.cdr.markForCheck();
     }
   }
 }

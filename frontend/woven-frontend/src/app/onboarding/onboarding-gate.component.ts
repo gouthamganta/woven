@@ -20,11 +20,11 @@ export class OnboardingGateComponent implements OnInit {
       const state = await firstValueFrom(this.onboarding.getState());
 
       if (state.profileStatus === 'COMPLETE') {
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/moments', { replaceUrl: true });
         return;
       }
 
-      this.router.navigateByUrl(state.nextRoute || '/onboarding/start');
+      this.router.navigateByUrl(state.nextRoute || '/onboarding/start', { replaceUrl: true });
     } catch {
       // Safe localStorage usage
       localStorage.removeItem('accessToken');

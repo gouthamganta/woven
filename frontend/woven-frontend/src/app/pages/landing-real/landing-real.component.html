@@ -1,0 +1,217 @@
+<app-woven-bg></app-woven-bg>
+
+<div class="landing">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="logo">Woven</h1>
+      <p class="tagline">Energy. Intention. Chemistry.</p>
+      <div class="hero-actions">
+        <a href="https://wooven.me" class="pill pill-primary">Start Matching</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Moments Demo -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">MOMENTS</div>
+        <h2 class="section-title">Your curated daily deck</h2>
+        <p class="section-sub">5 profiles per day. Chosen by ECHO based on 16 behavioral signals.</p>
+      </div>
+
+      <div class="cards-demo">
+        <div class="demo-card" *ngFor="let card of demoCards; let i = index" [style.animation-delay.ms]="i * 70">
+          <div class="card-photo">
+            <img [src]="card.photo" [alt]="card.name" />
+            <div class="name-overlay">
+              <div class="name-row">
+                <span class="name">{{ card.name }}</span>
+                <span class="verified-badge" *ngIf="card.verified">✓</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="info-kicker">What caught our eye</div>
+            <p class="info-text">{{ card.explanation }}</p>
+            <div class="card-actions">
+              <button class="choice-btn magical" [class.active]="card.choice === 'magical'">
+                <span class="choice-icon">◈</span>
+                <span class="choice-label">Magical</span>
+              </button>
+              <button class="choice-btn resonant" [class.active]="card.choice === 'resonant'">
+                <span class="choice-icon">◇</span>
+                <span class="choice-label">Resonant</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section feature-section">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">HOW IT WORKS</div>
+        <h2 class="section-title">From swipe to real date</h2>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Balloon</h3>
+          <p class="step-text">A mutual choice creates a Balloon — a 7-day connection window. Both opening notes are revealed.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Trial Period</h3>
+          <p class="step-text">After 3 minutes of messaging, both decide: CONTINUE, END, or BLOCK. No ghosting.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Find Love</h3>
+          <p class="step-text">ECHO generates 3 personalized date ideas. Both choose one. Venue suggestions unlock.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ECHO Engine -->
+  <section class="section feature-section">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">ECHO ENGINE</div>
+        <h2 class="section-title">Behavioral ML that learns from what you do</h2>
+        <p class="section-sub">16 scoring components. 9 embedding types. Per-user weight adaptation every Sunday.</p>
+      </div>
+
+      <div class="echo-grid">
+        <div class="echo-item">
+          <div class="echo-icon">◈</div>
+          <div class="echo-label">Pillar Alignment</div>
+          <div class="echo-detail">1536-dim embedding</div>
+        </div>
+        <div class="echo-item">
+          <div class="echo-icon">🎵</div>
+          <div class="echo-label">Voice Resonance</div>
+          <div class="echo-detail">192-dim ECAPA-TDNN</div>
+        </div>
+        <div class="echo-item">
+          <div class="echo-icon">◇</div>
+          <div class="echo-label">Orbit Gravity</div>
+          <div class="echo-detail">Commons tile signals</div>
+        </div>
+        <div class="echo-item">
+          <div class="echo-icon">⚡</div>
+          <div class="echo-label">Pulse</div>
+          <div class="echo-detail">Recency-weighted engagement</div>
+        </div>
+      </div>
+
+      <div class="echo-truth">
+        <p>You never see a compatibility score. You just see better matches.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spark Economy -->
+  <section class="section feature-section">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">SPARK ECONOMY</div>
+        <h2 class="section-title">No paywalls. Just intentionality.</h2>
+      </div>
+
+      <div class="economy-grid">
+        <div class="economy-card">
+          <div class="economy-number">5</div>
+          <div class="economy-label">Sparks per day</div>
+          <p class="economy-text">Wallet max: 10. Refill daily.</p>
+        </div>
+        <div class="economy-card">
+          <div class="economy-number">1</div>
+          <div class="economy-label">Spark per Drawn action</div>
+          <p class="economy-text">Respond to someone who chose you first.</p>
+        </div>
+        <div class="economy-card">
+          <div class="economy-number">0.5</div>
+          <div class="economy-label">Ghost refund</div>
+          <p class="economy-text">If match ends with no messages.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Privacy -->
+  <section class="section feature-section">
+    <div class="container">
+      <div class="section-head">
+        <div class="kicker">PRIVACY & SECURITY</div>
+        <h2 class="section-title">Invisible AI. No performance anxiety.</h2>
+      </div>
+
+      <div class="privacy-grid">
+        <div class="privacy-item">
+          <h3 class="privacy-title">Encrypted at rest</h3>
+          <p>Email, full name, city, state, reflection sentences. AES-256-GCM at application layer.</p>
+        </div>
+        <div class="privacy-item">
+          <h3 class="privacy-title">Never shown to you</h3>
+          <p>Your compatibility score. Community ratings. AI-generated labels. Who you "missed" after expiry.</p>
+        </div>
+        <div class="privacy-item">
+          <h3 class="privacy-title">Private blob storage</h3>
+          <p>Profile photos, tile media, voice notes. SAS token access only. No public URLs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <h2 class="cta-title">Join intentional daters</h2>
+      <p class="cta-sub">Woven is live. Available on iOS and Android.</p>
+      <div class="cta-actions">
+        <a href="https://wooven.me" class="pill pill-primary pill-large">Start Matching</a>
+        <a href="/login" class="pill pill-outline pill-large">Sign In</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">
+        <h3 class="logo">Woven</h3>
+        <p class="tagline">Energy. Intention. Chemistry.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4 class="footer-kicker">PRODUCT</h4>
+          <a href="#moments">How ECHO Works</a>
+          <a href="#privacy">Privacy & Security</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-kicker">COMPANY</h4>
+          <a href="/about">About</a>
+          <a href="/careers">Careers</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-kicker">LEGAL</h4>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/data-policy">Data Policy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Built with ❤️ in India · hello@wooven.me</p>
+      </div>
+    </div>
+  </footer>
+
+</div>

@@ -69,6 +69,44 @@ export class OnboardingService {
     return this.http.get<OnboardingStateResponse>(`${environment.apiUrl}/onboarding/state`);
   }
 
+  submitWelcome() {
+    return this.http.post<{ profileStatus: string; nextRoute: string }>(
+      `${environment.apiUrl}/onboarding/welcome`, {}
+    );
+  }
+
+  submitBasics(payload: {
+    fullName: string;
+    dateOfBirth: string;
+    gender: string;
+    interestedIn: string[];
+    distanceMiles: number;
+    ageMin: number;
+    ageMax: number;
+    city: string;
+    state: string;
+    lat: number;
+    lng: number;
+    pronouns?: string;
+    orientation?: string[];
+    lookingFor?: string[];
+  }) {
+    return this.http.put<{ profileStatus: string; nextRoute: string }>(
+      `${environment.apiUrl}/onboarding/basics`, payload
+    );
+  }
+
+  submitIntent(payload: {
+    primaryIntent: string;
+    openness: string[];
+    reflectionSentence: string;
+    weeklyVibe?: string;
+  }) {
+    return this.http.put<{ profileStatus: string; nextRoute: string }>(
+      `${environment.apiUrl}/onboarding/intent`, payload
+    );
+  }
+
   // Foundational
   getFoundationalQuestions() {
     return this.http.get<FoundationalQuestionsResponse>(
@@ -99,7 +137,7 @@ export class OnboardingService {
   }
 
   // ✅ Details
-  saveDetails(payload: { bio: string; optionalFields: any[]; weeklyVibe?: string }) {
+  saveDetails(payload: { bio?: string; optionalFields: any[]; weeklyVibe?: string }) {
     return this.http.put<{ profileStatus?: string; nextRoute?: string }>(
       `${environment.apiUrl}/onboarding/details`,
       payload

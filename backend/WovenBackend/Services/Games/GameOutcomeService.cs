@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using WovenBackend.Data;
+using WovenBackend.Data.Entities;
 using WovenBackend.Data.Entities.Games;
 
 namespace WovenBackend.Services.Games;
@@ -15,11 +16,13 @@ public interface IGameOutcomeService
 public class GameOutcomeService : IGameOutcomeService
 {
     private readonly WovenDbContext _db;
+    private readonly IMatchSignalService _matchSignal;
     private readonly ILogger<GameOutcomeService> _logger;
 
-    public GameOutcomeService(WovenDbContext db, ILogger<GameOutcomeService> logger)
+    public GameOutcomeService(WovenDbContext db, IMatchSignalService matchSignal, ILogger<GameOutcomeService> logger)
     {
         _db = db;
+        _matchSignal = matchSignal;
         _logger = logger;
     }
 
@@ -83,6 +86,46 @@ public class GameOutcomeService : IGameOutcomeService
 
         _logger.LogInformation("[GameOutcome] Recorded outcome {Id} for session {SessionId}",
             gameOutcome.Id, sessionId);
+
+        // Log ECHO matchmaking signals derived from game completion
+        if (outcome.CompletedRounds > 0 && outcome.TotalRounds > 0)
+            await LogGameSignalsAsync(gameOutcome, sessionId, ct);
+    }
+
+    private async Task LogGameSignalsAsync(GameOutcome g, Guid sessionId, CancellationToken ct)
+    {
+        var depthValue = (float)g.CompletedRounds / g.TotalRounds;
+
+        if (g.GameType == "KnowMe")
+        {
+            await _matchSignal.RecordAsync(g.InitiatorUserId, g.PartnerUserId,
+                MatchSignalEventTypes.KnowMeDisclosureDepth, depthValue, ct: ct);
+            await _matchSignal.RecordAsync(g.PartnerUserId, g.InitiatorUserId,
+                MatchSignalEventTypes.KnowMeDisclosureDepth, depthValue, ct: ct);
+        }
+        else if (g.GameType == "RedGreenFlag")
+        {
+            await _matchSignal.RecordAsync(g.InitiatorUserId, g.PartnerUserId,
+                MatchSignalEventTypes.RedFlagGameDepth, depthValue, ct: ct);
+            await _matchSignal.RecordAsync(g.PartnerUserId, g.InitiatorUserId,
+                MatchSignalEventTypes.RedFlagGameDepth, depthValue, ct: ct);
+
+            // FlagAgreementRate: sum of per-round alignment scores / (3 × scored rounds)
+            var rounds = await _db.GameRounds.AsNoTracking()
+                .Where(r => r.SessionId == sessionId && r.Score.HasValue)
+                .Select(r => r.Score!.Value)
+                .ToListAsync(ct);
+
+            if (rounds.Count > 0)
+            {
+                var totalPossible = 3 * rounds.Count;
+                var agreementRate = (float)rounds.Sum() / totalPossible;
+                await _matchSignal.RecordAsync(g.InitiatorUserId, g.PartnerUserId,
+                    MatchSignalEventTypes.FlagAgreementRate, agreementRate, ct: ct);
+                await _matchSignal.RecordAsync(g.PartnerUserId, g.InitiatorUserId,
+                    MatchSignalEventTypes.FlagAgreementRate, agreementRate, ct: ct);
+            }
+        }
     }
 
     public async Task<GameAnalyticsDto> GetGameAnalyticsAsync(int userId, CancellationToken ct = default)

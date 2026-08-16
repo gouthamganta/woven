@@ -1,5 +1,3 @@
-using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 
@@ -7,19 +5,16 @@ namespace WovenBackend.Services;
 
 public class OpenAiDynamicIntakeRewriteService
 {
-    private readonly HttpClient _http;
-    private readonly IConfiguration _config;
+    private readonly IOpenAiResilientClient _ai;
     private readonly ILogger<OpenAiDynamicIntakeRewriteService> _logger;
     private readonly IAiProfileService _aiProfileService;
 
     public OpenAiDynamicIntakeRewriteService(
-        HttpClient http,
-        IConfiguration config,
+        IOpenAiResilientClient ai,
         ILogger<OpenAiDynamicIntakeRewriteService> logger,
         IAiProfileService aiProfileService)
     {
-        _http = http;
-        _config = config;
+        _ai = ai;
         _logger = logger;
         _aiProfileService = aiProfileService;
     }
@@ -33,13 +28,6 @@ public class OpenAiDynamicIntakeRewriteService
         string style,
         CancellationToken ct)
     {
-        var apiKey = _config["OpenAI:ApiKey"];
-        if (string.IsNullOrWhiteSpace(apiKey))
-        {
-            _logger.LogInformation("[OpenAI-DYN] ApiKey missing -> using base.");
-            return baseQs;
-        }
-
         // Load AiProfile for personalization
         AiProfile? aiProfile = null;
         if (ctx.UserId.HasValue && ctx.UserId.Value > 0)
@@ -49,60 +37,22 @@ public class OpenAiDynamicIntakeRewriteService
                 ctx.UserId, aiProfile?.ConversationTone ?? "unknown");
         }
 
-        var endpoint = _config["OpenAI:Endpoint"] ?? "https://api.openai.com/v1/responses";
-        var model = _config["OpenAI:Model"] ?? "gpt-4.1-mini";
-
         var systemPrompt = BuildSystemPrompt(style, aiProfile);
-
-        var payload = new
-        {
-            model,
-            input = new object[]
-            {
-                new
-                {
-                    role = "system",
-                    content = new object[]
-                    {
-                        new
-                        {
-                            type = "input_text",
-                            text = systemPrompt
-                        }
-                    }
-                },
-                new
-                {
-                    role = "user",
-                    content = new object[]
-                    {
-                        new { type = "input_text", text = BuildUserPrompt(baseQs, ctx, aiProfile) }
-                    }
-                }
-            },
-            text = new { format = new { type = "json_object" } }
-        };
-
-        using var req = new HttpRequestMessage(HttpMethod.Post, endpoint);
-        req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
-        req.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+        var userPrompt = BuildUserPrompt(baseQs, ctx, aiProfile);
 
         try
         {
-            _logger.LogInformation("[OpenAI-DYN] Calling model={Model}", model);
-            using var resp = await _http.SendAsync(req, ct);
-            var raw = await resp.Content.ReadAsStringAsync(ct);
-
-            if (!resp.IsSuccessStatusCode)
+            var content = await _ai.ExecuteWithSystemAsync("rewrite-dynamic-intake", systemPrompt, userPrompt, ct: ct);
+            if (content == null)
             {
-                _logger.LogWarning("[OpenAI-DYN] FAIL status={Status} body={Body}", (int)resp.StatusCode, Trunc(raw, 800));
+                _logger.LogWarning("[OpenAI-DYN] Resilient client returned null -> using base.");
                 return baseQs;
             }
 
-            var parsed = TryParseFromResponsesApi(raw);
+            var parsed = ParseWrapper(content);
             if (parsed == null)
             {
-                _logger.LogWarning("[OpenAI-DYN] Parse invalid -> using base. raw={Body}", Trunc(raw, 800));
+                _logger.LogWarning("[OpenAI-DYN] Parse invalid -> using base.");
                 return baseQs;
             }
 
@@ -256,41 +206,6 @@ Return ONLY the JSON object in the required shape.";
     private record ModelQuestion(string Id, string Text, ModelOption[] Options);
     private record ModelOption(string Key, string Label, string SubLabel);
 
-    private static DynamicBankQuestion[]? TryParseFromResponsesApi(string raw)
-    {
-        try
-        {
-            using var doc = JsonDocument.Parse(raw);
-
-            if (doc.RootElement.TryGetProperty("output", out var outputArr) &&
-                outputArr.ValueKind == JsonValueKind.Array)
-            {
-                foreach (var outItem in outputArr.EnumerateArray())
-                {
-                    if (!outItem.TryGetProperty("content", out var contentArr) || contentArr.ValueKind != JsonValueKind.Array)
-                        continue;
-
-                    foreach (var c in contentArr.EnumerateArray())
-                    {
-                        if (c.TryGetProperty("text", out var textEl) && textEl.ValueKind == JsonValueKind.String)
-                        {
-                            var inner = textEl.GetString();
-                            var q = ParseWrapper(inner);
-                            if (q != null) return q;
-                        }
-                    }
-                }
-            }
-
-            // Sometimes returned directly
-            return ParseWrapper(doc.RootElement.GetRawText());
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
     private static DynamicBankQuestion[]? ParseWrapper(string? json)
     {
         if (string.IsNullOrWhiteSpace(json)) return null;
@@ -316,6 +231,4 @@ Return ONLY the JSON object in the required shape.";
         }
     }
 
-    private static string Trunc(string s, int max)
-        => string.IsNullOrEmpty(s) ? "" : (s.Length <= max ? s : s.Substring(0, max) + "...");
 }

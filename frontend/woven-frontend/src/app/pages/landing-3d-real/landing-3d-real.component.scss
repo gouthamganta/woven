@@ -1,0 +1,201 @@
+/* ======================================================
+   Landing 3D — Real Three.js with Polaroid Cards
+   ====================================================== */
+
+.landing-3d {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #0E0912;
+}
+
+/* ── Canvas (fixed background) ────────────────────── */
+.webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  outline: none;
+}
+
+/* ── Content overlay ──────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 1;
+  min-height: 600vh; // Long scroll for camera travel
+  pointer-events: none;
+}
+
+section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-10);
+  pointer-events: auto;
+
+  @media (max-width: 768px) {
+    padding: var(--space-6);
+  }
+}
+
+.spacer {
+  pointer-events: none;
+}
+
+/* ── Hero ──────────────────────────────────────────── */
+.hero {
+  flex-direction: column;
+  text-align: center;
+  gap: var(--space-8);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 8rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hero__tagline {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Info sections (glassmorphic) ─────────────────── */
+.info {
+  flex-direction: column;
+  text-align: center;
+  gap: var(--space-4);
+  background: rgba(22, 13, 28, 0.7);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: var(--space-12);
+  max-width: 600px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.info__kicker {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.info__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.info__text {
+  font-family: var(--font-ui);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Pills ─────────────────────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 32px;
+  min-height: 48px;
+  border-radius: 9999px;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all var(--dur-base) var(--ease-out);
+  background: var(--rose-400);
+  color: white;
+  box-shadow: 0 4px 16px rgba(192, 57, 43, 0.4);
+
+  &:hover {
+    background: var(--rose-300);
+    box-shadow: 0 6px 24px rgba(192, 57, 43, 0.6);
+    transform: translateY(-2px);
+  }
+
+  &--large {
+    padding: 16px 40px;
+    min-height: 56px;
+    font-size: 17px;
+  }
+
+  &--outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+/* ── CTA ───────────────────────────────────────────── */
+.cta {
+  flex-direction: column;
+  gap: var(--space-10);
+  text-align: center;
+}
+
+.cta__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.cta__actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── Footer ────────────────────────────────────────── */
+.footer {
+  background: rgba(14, 9, 18, 0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: var(--space-8);
+  text-align: center;
+
+  p {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--text-dim);
+    margin: 0;
+  }
+}

@@ -199,6 +199,30 @@ variable "google_places_api_key" {
   sensitive   = true
 }
 
+variable "vapid_public_key" {
+  description = "VAPID public key for Web Push notifications. Generate with: npx web-push generate-vapid-keys"
+  type        = string
+  sensitive   = true
+}
+
+variable "vapid_private_key" {
+  description = "VAPID private key for Web Push notifications"
+  type        = string
+  sensitive   = true
+}
+
+variable "speechbrain_image_tag" {
+  description = "Docker image tag for the SpeechBrain voice embedding service (woven-speechbrain in ACR)"
+  type        = string
+  default     = "latest"
+}
+
+variable "run_migrations" {
+  description = "Set true on first production deploy to create the database schema. Set false (or remove) after first successful deploy."
+  type        = bool
+  default     = false
+}
+
 variable "tags" {
   description = "Additional tags to apply to all resources"
   type        = map(string)

@@ -1,117 +1,273 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-
 import { environment } from '../../../environments/environment';
-import { OnboardingService, OnboardingStateResponse } from '../../onboarding/onboarding.service';
-import { OnboardingShellComponent } from './onboarding-shell';
 
 @Component({
+  selector: 'woven-onboarding-start',
   standalone: true,
-  imports: [CommonModule, OnboardingShellComponent],
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <woven-onboarding-shell
-      title="Let’s start"
-      subtitle="A few quick steps. You can resume anytime."
-      [stepNumber]="1"
-      [totalSteps]="6"
-      stepLabel="Onboarding"
-    >
-      <style>
-        .startContent {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
+    <div class="celebrate">
+      <div class="bg"></div>
 
-        .btn {
-          width: 100%;
-          padding: 14px 18px;
-          border-radius: 14px;
-          border: 0;
-          background: linear-gradient(135deg, #E05490, #7D5BD0);
-          color: #fff;
-          cursor: pointer;
-          font-family: "DM Sans", system-ui, sans-serif;
-          font-weight: 600;
-          font-size: 15px;
-          letter-spacing: -0.01em;
-          transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
-                      box-shadow 380ms cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 8px 32px rgba(224, 84, 144, 0.28);
-        }
+      <div class="card">
+        <div class="shimmer"></div>
 
-        .btn:hover:not(:disabled) {
-          transform: translateY(-2px) scale(1.01);
-          box-shadow: 0 12px 40px rgba(224, 84, 144, 0.38), 0 4px 16px rgba(125, 91, 208, 0.26);
-        }
+        <div class="symbol">◈</div>
+        <h1 class="headline">You're in.</h1>
+        <p class="sub">We're putting together your first deck…</p>
 
-        .btn:active:not(:disabled) {
-          transform: translateY(0) scale(0.99);
-        }
+        <div class="pulse" [class.ready]="ready">
+          <div class="pulseRing"></div>
+          <div class="pulseRing delay1"></div>
+          <div class="pulseRing delay2"></div>
+          <span class="pulseLabel" *ngIf="!ready">Finding your matches</span>
+          <span class="pulseLabel ready" *ngIf="ready">Your deck is ready</span>
+        </div>
 
-        .btn:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .error {
-          margin-top: 4px;
-          padding: 12px 14px;
-          border-radius: 12px;
-          background: rgba(255, 112, 112, 0.10);
-          border: 1px solid rgba(255, 112, 112, 0.22);
-          color: #ff7070;
-          font-size: 13px;
-          font-weight: 500;
-          line-height: 1.4;
-        }
-      </style>
-
-      <div class="startContent">
-        <button class="btn" type="button" (click)="continue()" [disabled]="loading">
-          {{ loading ? 'Continuing...' : 'Continue' }}
+        <button class="cta" *ngIf="ready" (click)="enter()">
+          See your first deck →
         </button>
 
-        <div *ngIf="error" class="error">{{ error }}</div>
+        <p class="err" *ngIf="err">{{ err }}</p>
       </div>
-    </woven-onboarding-shell>
-  `
+
+      <!-- Canvas confetti -->
+      <canvas class="confetti" #confettiCanvas></canvas>
+    </div>
+  `,
+  styles: [`
+    .celebrate {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bg {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(212,160,23,0.08) 0%, transparent 70%),
+                  radial-gradient(ellipse 60% 40% at 30% 70%, rgba(192,57,43,0.06) 0%, transparent 60%),
+                  var(--bg-base);
+    }
+
+    .confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      width: min(440px, 100%);
+      background: rgba(34, 22, 40, 0.88);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-2xl);
+      padding: 48px 36px;
+      text-align: center;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: var(--shadow-lg), 0 0 60px rgba(212,160,23,0.08);
+    }
+
+    .shimmer {
+      position: absolute;
+      top: 0; left: 15%; right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-400), var(--rose-400), transparent);
+      border-radius: 9999px;
+    }
+
+    .symbol {
+      font-size: 48px;
+      margin-bottom: 16px;
+      animation: symbolPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes symbolPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50%       { opacity: 1;   transform: scale(1.08); }
+    }
+
+    .headline {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 300;
+      letter-spacing: -0.03em;
+      margin: 0 0 10px;
+      background: linear-gradient(135deg, var(--gold-300) 0%, var(--text-primary) 50%, var(--rose-300) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sub {
+      font-family: var(--font-ui);
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 0 0 36px;
+      line-height: 1.5;
+    }
+
+    .pulse {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .pulseRing {
+      position: absolute;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(212,160,23,0.4);
+      animation: rippleOut 2s ease-out infinite;
+    }
+    .pulseRing.delay1 { animation-delay: 0.6s; }
+    .pulseRing.delay2 { animation-delay: 1.2s; }
+
+    @keyframes rippleOut {
+      0%   { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+
+    .pulseLabel {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 44px;
+    }
+    .pulseLabel.ready { color: var(--gold-300); font-weight: 600; }
+
+    .pulse.ready .pulseRing { border-color: rgba(212,160,23,0.6); animation-duration: 1s; }
+
+    .cta {
+      width: 100%;
+      padding: 16px 24px;
+      border: none;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
+      color: var(--bg-base);
+      font-family: var(--font-ui);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      box-shadow: 0 4px 20px rgba(212,160,23,0.35);
+      animation: ctaFadeIn 0.5s ease forwards;
+    }
+    @keyframes ctaFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .cta:hover { opacity: 0.88; }
+    .cta:active { transform: scale(0.96); }
+
+    .err { font-size: 12px; color: var(--rose-300); margin-top: 12px; }
+  `],
 })
-export class StartOnboardingComponent {
-  loading = false;
-  error = '';
+export class StartOnboardingComponent implements OnInit, OnDestroy {
+  ready = false;
+  err   = '';
+  private pollTimer: any;
+  private isBrowser: boolean;
 
   constructor(
     private http: HttpClient,
-    private onboarding: OnboardingService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    @Inject(PLATFORM_ID) platformId: object,
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
-  async continue() {
-    this.error = '';
-    this.loading = true;
+  ngOnInit() {
+    if (!this.isBrowser) return;
+    this.launchConfetti();
+    this.pollStatus();
+  }
 
-    try {
-      // 1) mark welcome step done
-      await firstValueFrom(
-        this.http.post(`${environment.apiUrl}/onboarding/welcome`, {})
-      );
+  ngOnDestroy() {
+    clearInterval(this.pollTimer);
+  }
 
-      // 2) ask backend where to go next
-      const state: OnboardingStateResponse = await firstValueFrom(this.onboarding.getState());
+  private pollStatus() {
+    this.pollTimer = setInterval(async () => {
+      try {
+        const state: any = await firstValueFrom(
+          this.http.get(`${environment.apiUrl}/onboarding/state`)
+        );
+        if (state.profileStatus === 'COMPLETE') {
+          this.ready = true;
+          clearInterval(this.pollTimer);
+          this.cdr.markForCheck();
+        }
+      } catch { /* keep polling */ }
+    }, 3000);
 
-      // 3) route to next step
-      this.router.navigateByUrl(state.nextRoute);
-    } catch (e) {
-      this.error = 'Something went wrong. Please try again.';
-    } finally {
-      this.loading = false;
+    // Fallback — show ready after 15s regardless
+    setTimeout(() => {
+      if (!this.ready) { this.ready = true; this.cdr.markForCheck(); }
+    }, 15_000);
+  }
+
+  enter() { this.router.navigateByUrl('/moments'); }
+
+  private launchConfetti() {
+    const canvas = document.querySelector('.confetti') as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const colors = ['#D4A017','#C0392B','#7F77DD','#F5F0E8','#E8C35A'];
+    const particles: any[] = [];
+
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 6 + 3,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vy: Math.random() * 3 + 1.5,
+        vx: (Math.random() - 0.5) * 2,
+        rot: Math.random() * 360,
+        rSpeed: (Math.random() - 0.5) * 4,
+        alpha: 1,
+      });
     }
+
+    let frame = 0;
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      frame++;
+      for (const p of particles) {
+        p.y   += p.vy;
+        p.x   += p.vx;
+        p.rot += p.rSpeed;
+        if (frame > 120) p.alpha = Math.max(0, p.alpha - 0.01);
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot * Math.PI / 180);
+        ctx.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 1.6);
+        ctx.restore();
+      }
+      if (particles.some(p => p.alpha > 0)) requestAnimationFrame(animate);
+      else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    };
+    animate();
   }
 }
-
-
-

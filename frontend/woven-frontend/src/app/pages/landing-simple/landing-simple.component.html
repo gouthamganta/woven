@@ -1,0 +1,510 @@
+<!-- Video Intro -->
+<div class="intro" #introEl *ngIf="showIntro">
+  <video
+    #introVideo
+    class="intro-video"
+    src="login-intro.mp4"
+    muted
+    playsinline
+    preload="auto"
+    (ended)="onVideoEnd()"
+  ></video>
+  <button class="skip-btn" (click)="skipIntro()">Skip ↵</button>
+</div>
+
+<app-woven-bg></app-woven-bg>
+
+<div class="landing" *ngIf="!showIntro">
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 class="logo">Woven</h1>
+    <p class="tagline">Energy. Intention. Chemistry.</p>
+
+    <div class="hero-content">
+      <h2 class="hero-headline">Not one swipe to marriage.<br>Not a thousand swipes to nowhere.</h2>
+      <p class="hero-subheadline">
+        Woven is the space in between. Five people a day, introduced like moments — not dealt like cards.
+        One honest question: Magical, or Resonate? A matchmaker that learns who you actually fall for.
+        And a promise: no swiping, no ghosting, no conversation that starts with "hi."
+      </p>
+
+      <button class="cta-primary" routerLink="/login">Join the first circle — Hyderabad</button>
+      <p class="cta-under">Open to women first. Men, we'll call you.</p>
+    </div>
+
+    <div class="hero-visual">
+      <img src="/landing-photos/hero/belove woven title cards.png" alt="Woven Moments" class="hero-image" />
+    </div>
+  </section>
+
+  <!-- SECTION 2: THE PROBLEM -->
+  <section class="problem-section">
+    <div class="container">
+      <h2 class="section-header">You've been given two bad options.</h2>
+      <div class="problem-text">
+        <p>Arranged marriage apps want you married by the second meeting. Dating apps want you swiping until you die. One is too fast to be safe. The other is too shallow to go anywhere.</p>
+        <p>On Tinder, the average user swipes through 140 profiles to get one match. On Bumble, 92% of matches never message. On Hinge, 70% of first dates don't lead to a second. The system isn't broken — it's working exactly as designed. More swipes, more ads, more paying users who never leave.</p>
+        <p>Somewhere between "meet the family" and "hey wyd" is where real relationships actually start. Nobody built an app for that place.</p>
+        <p class="reveal-line">So we did.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: THE MOMENTS PAGE -->
+  <section class="moments-section">
+    <div class="container">
+      <h2 class="section-header">Five people a day. Introduced, not dealt.</h2>
+      <div class="section-intro">
+        <p>First, Woven asks about you. The Daily Pulse — how's your energy, what's your tone today, what are you open to. Because the right five people on a heavy Tuesday aren't the same five as a bright Saturday. Your day shapes your deck.</p>
+        <p>Then your five arrive — and each one arrives like a moment. Photos that move. A voice that introduces them: who they are, how they carry themselves, what sitting across from them might feel like. You don't scan a card in 0.8 seconds. You meet a person for thirty.</p>
+      </div>
+    </div>
+
+    <!-- Moments Cards - Polaroid Carousel (center spotlight) -->
+    <div class="polaroid-carousel">
+      <div class="carousel-track">
+        <div class="polaroid" *ngFor="let person of people; let i = index" [attr.data-index]="i">
+          <div class="polaroid-photo">
+            <img [src]="person.photo" [alt]="person.name" />
+          </div>
+          <div class="polaroid-info">
+            <h3 class="polaroid-name">{{ person.name }}, {{ person.age }}</h3>
+            <div class="polaroid-label">What caught our eye</div>
+            <p class="polaroid-explanation">{{ person.explanation }}</p>
+            <div class="polaroid-actions">
+              <button class="btn-magical"><span class="icon">◈</span> Magical</button>
+              <button class="btn-resonant"><span class="icon">◇</span> Resonate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container choice-container">
+      <div class="choice-side">
+        <div class="choice-symbol magical-symbol">◈</div>
+        <div class="choice-label">Magical</div>
+      </div>
+      <div class="choice-center">
+        <p class="choice-rule">Choose the same: a Pure match. Choose differently: an Edge match. Both are matches. There is no like, no dislike, no reject pile.</p>
+        <p class="choice-end">Five moments. Then the app is done for the day.</p>
+      </div>
+      <div class="choice-side">
+        <div class="choice-symbol resonant-symbol">◇</div>
+        <div class="choice-label">Resonate</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: THE CHAT NOTE -->
+  <section class="text-section chat-note-section">
+    <div class="container chat-note-container">
+      <div class="chat-note-text">
+        <h2 class="section-header">Say it while you feel it. They'll read it when it matters.</h2>
+        <div class="section-text">
+          <p>On every other app, you match, the moment passes, and three days later someone types "hey." The feeling that made you choose them? Gone. Every conversation starts cold.</p>
+          <p>On Woven, the instant you choose someone, you write them a note — right then, while it's real. Why them. What caught you. What you'd ask if they were standing in front of you. The note is sealed, and it waits.</p>
+          <p>Match, and the Balloon opens with both your notes pinned at the top — revealed to each other at the same moment. Before anyone types a word, you've each read why the other person chose you.</p>
+          <p class="highlight">No more "hi" to start a conversation. In Woven, choose your own icebreaker or pick a real question to start with. We tried our best to make it interesting — it's up to you now to make it count.</p>
+        </div>
+      </div>
+      <div class="chat-note-demo">
+        <div class="demo-label">How it works</div>
+
+        <!-- State 1: Modal input (writing the note) -->
+        <div class="demo-state">
+          <div class="state-label">1. Write it while you feel it</div>
+          <div class="note-modal">
+            <div class="modal-header">What book/movie/song changed you recently?</div>
+            <textarea class="note-input" placeholder="What caught your eye? Be specific — they'll see this when you match.">You said The Midnight Library made you rethink your whole career path. That's wild. Most people just say it was "good" and move on. What are you gonna do about it?</textarea>
+            <div class="char-count">142 / 150</div>
+            <button class="modal-submit">Send ◈</button>
+          </div>
+        </div>
+
+        <!-- Both revealed when you match -->
+        <div class="demo-state">
+          <div class="state-label">Both revealed when you match</div>
+          <div class="chat-notes-pinned">
+            <div class="pinned-note yours">
+              <div class="note-label">Your opening · ◈ Magical</div>
+              <div class="note-text">You said The Midnight Library made you rethink your whole career path. That's wild. Most people just say it was "good" and move on. What are you gonna do about it?</div>
+            </div>
+            <div class="pinned-note theirs">
+              <div class="note-label">Their opening · ◇ Resonate</div>
+              <div class="note-text">Your voice note about being bad at mornings but good at 2am conversations made me laugh. I'm the exact same. Do you actually function before 10am or just pretend?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: ECHO -->
+  <section class="echo-section">
+    <div class="container">
+      <h2 class="section-header">Meet ECHO. It knows the difference between your type and your person.</h2>
+      <div class="echo-text">
+        <p>Every app has an algorithm. Theirs learns which faces you swipe on. That's it.</p>
+        <p>ECHO learns something harder: the gap between what you say you want and who you actually connect with. You say "calm and settled" — but your best conversations are with the chaotic ones. You say age matters — your patterns say it doesn't. Your checklist lies to you. ECHO doesn't take it personally. It just pays attention.</p>
+        <p>It reads you across eight things that actually predict connection — your lifestyle, your energy, how you communicate, how you show care, what steadies you, what you value, what makes you curious, and your emotional rhythm. Every match, every conversation, every Pulse teaches it. Tomorrow's five are chosen better than today's.</p>
+        <p class="highlight">It's not an algorithm learning your type. It's a matchmaker learning you.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: THE BALLOON -->
+  <section class="text-section balloon-section">
+    <div class="container">
+      <h2 class="section-header">Every conversation ends honestly. That's a promise.</h2>
+
+      <div class="section-text centered">
+        <p>When you match, you get a Balloon — it opens with both your notes pinned at the top. You already said something real to each other. Start from there.</p>
+        <p>The Balloon lives for 36 hours. Both of you send real messages → 5-minute gated window opens. An intense, contained moment. Then one of you pops it — either as the natural end or as the exit ramp ("not feeling it? pop it, no explanation needed").</p>
+        <p>Pop triggers 3 minutes of reflection. Chat locks. You both sit with it. Then you both choose: Continue → Find Love unlocks (date ideas, games, the works). Exit → clean ending. No ghosting possible. Leaving well isn't rude here. It's the rule.</p>
+      </div>
+
+      <!-- Balloon States (Static) -->
+      <div class="balloon-states-grid">
+        <!-- Warming -->
+        <div class="state-card">
+          <div class="state-label">Warming</div>
+          <div class="state-content">
+            <div class="state-icon">◎</div>
+            <div class="state-desc">36h to connect</div>
+          </div>
+        </div>
+
+        <!-- Gated Window -->
+        <div class="state-card">
+          <div class="state-label">Gated Window</div>
+          <div class="state-content">
+            <div class="state-icon pulse">◎</div>
+            <div class="state-desc">5-min window</div>
+            <button class="state-action">Pop</button>
+          </div>
+        </div>
+
+        <!-- Reflection -->
+        <div class="state-card">
+          <div class="state-label">Reflection</div>
+          <div class="state-content">
+            <div class="state-title">Sit with it.</div>
+            <div class="state-choices">
+              <button class="choice-btn">Continue</button>
+              <button class="choice-btn">Exit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: FIND LOVE -->
+  <section class="text-section accent-section features-section">
+    <div class="container">
+      <h2 class="section-header">Other apps stop at the match. That's where Woven starts.</h2>
+      <div class="section-text centered">
+        <p>You both chose to continue. Now what? On every other app: nothing. Two people staring at a chat, waiting for someone to be brave.</p>
+        <p>On Woven, the moment you continue, a date idea appears — built for the two of you, from everything ECHO knows about you both. Then Plan a Date hands you three real places to make it happen. Pick one. Set it. Go.</p>
+        <p class="highlight">Other apps count matches. We count dates that actually happened.</p>
+      </div>
+
+      <!-- Features Grid (Static) -->
+      <div class="features-static-grid">
+          <!-- Know Me Game -->
+          <div class="feature-card">
+            <div class="feature-label">Know Me</div>
+            <div class="game-card-mock">
+              <div class="game-header-mock">Round 2 of 5 · You're guessing</div>
+              <div class="game-question-mock">If they had one day left in a city they love, what would they do?</div>
+              <div class="game-options-mock">
+                <button class="game-option-mock">See every landmark one last time</button>
+                <button class="game-option-mock selected">Walk their favorite quiet route, slowly</button>
+                <button class="game-option-mock">Call everyone they care about</button>
+              </div>
+              <div class="game-timer-mock">
+                <div class="timer-fill-mock" style="width: 60%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Red/Green Flag -->
+          <div class="feature-card">
+            <div class="feature-label">Red / Green Flag</div>
+            <div class="game-card-mock">
+              <div class="game-header-mock">Round 3 of 5 · You're guessing</div>
+              <div class="game-scenario-mock">"I need space when I'm processing something tough — talking too soon just makes it worse."</div>
+              <div class="flag-buttons-grid-mock">
+                <button class="flag-btn-mock green">✅ Green</button>
+                <button class="flag-btn-mock yellow">⚠️ Yellow</button>
+                <button class="flag-btn-mock red">🚩 Red</button>
+                <button class="flag-btn-mock depends">🤷 Depends</button>
+              </div>
+              <div class="game-timer-mock">
+                <div class="timer-fill-mock" style="width: 80%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Date Idea -->
+          <div class="feature-card">
+            <div class="feature-label">Date Idea</div>
+            <div class="date-idea-mock">
+              <div class="date-kicker-mock">SUGGESTED FOR YOU TWO</div>
+              <div class="date-card-mock">
+                <div class="date-text-mock">Try an Italian café in Banjara Hills, then walk around KBR Park. You both mentioned needing green spaces + good coffee.</div>
+                <button class="plan-btn-mock">Plan It</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Date Planning -->
+          <div class="feature-card">
+            <div class="feature-label">Plan a Date</div>
+            <div class="planning-mock">
+              <div class="planning-title-mock">3 best for you both:</div>
+              <div class="venue-options-mock">
+                <div class="venue-mock selected">
+                  <div class="venue-name">Dyu Art Café</div>
+                  <div class="venue-distance">1.8 km</div>
+                </div>
+                <div class="venue-mock">
+                  <div class="venue-name">Café Bahar</div>
+                  <div class="venue-distance">2.4 km</div>
+                </div>
+                <div class="venue-mock">
+                  <div class="venue-name">Olive Bistro</div>
+                  <div class="venue-distance">3.1 km</div>
+                </div>
+              </div>
+              <div class="planning-hint-mock">Pick & edit before sending</div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8: COMMONS -->
+  <section class="commons-section">
+    <div class="container commons-container">
+      <div class="commons-text">
+        <h2 class="section-header">On every other app, you don't exist until someone matches you. Not here.</h2>
+        <div class="section-text">
+          <p>Commons is Woven's anonymous space. Post a Tile — a thought, a voice note, a photo, a piece of your day. No name. No face. Just you, unperformed.</p>
+          <p>When someone's Tile resonates, you Orbit it. Not a like — a quiet pull. And when two people keep orbiting each other's way of seeing the world, Woven notices — and starts drawing them toward each other in their daily five.</p>
+          <p class="highlight">From your very first day — before any match — you have a voice here, and people quietly drawn to it. You're never alone on Woven.</p>
+        </div>
+      </div>
+
+      <!-- Commons Tiles Grid (RIGHT side, larger) -->
+      <div class="commons-grid-wrapper">
+        <div class="commons-grid">
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 210934.png" alt="Tile" /></div>
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 210944.png" alt="Tile" /></div>
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211456.png" alt="Tile" /></div>
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211503.png" alt="Tile" /></div>
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211511.png" alt="Tile" /></div>
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211649.png" alt="Tile" /></div>
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211657.png" alt="Tile" /></div>
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211704.png" alt="Tile" /></div>
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211854.png" alt="Tile" /></div>
+          <div class="grid-item"><img src="/landing-photos/commons/Screenshot 2026-07-04 211902.png" alt="Tile" /></div>
+
+      <!-- Voice Note Mockup -->
+      <div class="grid-item grid-item--voice">
+        <div class="voice-mock">
+          <div class="voice-waveform">
+            <span class="wave-bar" style="height: 40%"></span>
+            <span class="wave-bar" style="height: 70%"></span>
+            <span class="wave-bar" style="height: 55%"></span>
+            <span class="wave-bar" style="height: 85%"></span>
+            <span class="wave-bar" style="height: 60%"></span>
+            <span class="wave-bar" style="height: 45%"></span>
+            <span class="wave-bar" style="height: 75%"></span>
+            <span class="wave-bar" style="height: 50%"></span>
+          </div>
+          <div class="voice-duration">0:42</div>
+        </div>
+      </div>
+
+      <!-- Poetry/Text Mockup -->
+      <div class="grid-item grid-item--text">
+        <div class="text-mock">
+          <p class="text-content">"Sometimes I think about how we're all just looking for someone who gets the quiet parts."</p>
+        </div>
+      </div>
+
+      <!-- Music Player Mockup -->
+      <div class="grid-item grid-item--music">
+        <div class="music-mock">
+          <div class="music-art">♪</div>
+          <div class="music-info">
+            <div class="music-title">Midnight Rain</div>
+            <div class="music-artist">Current mood</div>
+          </div>
+          <div class="music-progress">
+            <div class="progress-bar" style="width: 65%"></div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- SECTION 9: FINAL CTA -->
+  <section class="final-cta">
+    <div class="container">
+      <h2 class="cta-header">Five people. One honest question. Starting in Hyderabad.</h2>
+      <p class="cta-subtext">The first circle is small on purpose. One city. Women first. Every member chosen.</p>
+
+      <form class="reg-form" *ngIf="!submitted" (ngSubmit)="onSubmitRegistration()">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Name</label>
+            <input type="text" [(ngModel)]="registration.name" name="name" required placeholder="Your name" />
+          </div>
+          <div class="form-field form-field--small">
+            <label>Age</label>
+            <input type="number" [(ngModel)]="registration.age" name="age" required placeholder="26" min="18" max="99" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Gender</label>
+            <select [(ngModel)]="registration.gender" name="gender" required>
+              <option value="" disabled selected>Select</option>
+              <option value="woman">Woman</option>
+              <option value="man">Man</option>
+              <option value="non-binary">Non-binary</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Location</label>
+            <input type="text" [(ngModel)]="registration.location" name="location" required placeholder="Hyderabad, Gachibowli..." />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="registration.email" name="email" required placeholder="you@example.com" />
+        </div>
+
+        <button type="submit" class="cta-primary cta-large">Claim your place</button>
+        <p class="cta-under">Free for founding members. Hyderabad only, for now.</p>
+      </form>
+
+      <div class="reg-success" *ngIf="submitted">
+        <div class="success-icon">✓</div>
+        <h3>You're on the list</h3>
+        <p>We'll reach out when we're ready.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 10: ABOUT CAROUSEL (Women, Founder, Security) -->
+  <section class="about-section">
+    <div class="about-carousel">
+      <div class="about-track">
+
+        <!-- Slide 1: Women First -->
+        <div class="about-slide">
+          <div class="slide-content">
+            <h2 class="slide-header">Built for women first. Not as a tagline. As the actual launch plan.</h2>
+            <div class="slide-text">
+              <p>Woven opens to women before anyone else. You build the room. Men can only apply — verified, waitlisted, and let in when the balance is right.</p>
+              <p>And once they're in, how they behave decides what they get. Men who reply, show up honestly, and end conversations with respect earn their place. Men who don't, lose it.</p>
+              <p class="slide-highlight">You don't join Woven. You get chosen.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Who Built It -->
+        <div class="about-slide">
+          <div class="slide-content">
+            <h2 class="slide-header">Built by one person who was tired of it too.</h2>
+            <div class="slide-text">
+              <p>Woven was built by a solo engineer — twelve years writing software for banks and hospitals, and too many years on dating apps that led nowhere.</p>
+              <p>No boardroom. No growth team optimizing your loneliness for ad revenue. Twelve days of building, one belief:</p>
+              <p class="slide-quote">"A dating app that works is one you eventually delete. Because it worked."</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Security & Trust -->
+        <div class="about-slide">
+          <div class="slide-content">
+            <h2 class="slide-header">Your privacy. Your safety. No compromise.</h2>
+            <div class="slide-text">
+              <p>Your profile stays invisible to your contacts. Your exits are always graceful. And you never have to explain yourself to leave.</p>
+              <p>On Woven, being decent isn't a bio claim. It's tracked, and it's worth something. Bad behavior gets you removed. Good behavior earns trust.</p>
+              <p class="slide-highlight">Safe by design. Not as a feature, as the foundation.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: Onboarding -->
+        <div class="about-slide">
+          <div class="slide-content">
+            <h2 class="slide-header">Onboarding that earns your effort.</h2>
+            <div class="slide-text">
+              <p>Google OAuth → basics → intent → preferences → photos → bio → foundational questions. Intent comes first — the "this app is different" moment happens before we ask for work.</p>
+              <p>Your photos become polaroids as you upload. Questions are scenario-based, not homework. Progress visible every screen.</p>
+              <p class="slide-highlight">Onboarding ends by delivering your first deck immediately. The reward is people, not a success screen.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 5: Three Rhythms -->
+        <div class="about-slide">
+          <div class="slide-content">
+            <h2 class="slide-header">Three clocks. One living profile.</h2>
+            <div class="slide-text">
+              <p><strong>Foundational</strong> (seasonal) — deep questions that build your 8-pillar vector. Refreshed every 45–60 days. <strong>Weekly Pulse</strong> — battery, tone, role. 30 seconds. <strong>Daily Pulse</strong> — how you're feeling today, before the deck loads.</p>
+              <p>Your profile isn't a photo of who you were at signup. It evolves.</p>
+              <p class="slide-highlight">Foundational = who you are. Weekly = where you are. Daily = how you are today.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 6: Notifications -->
+        <div class="about-slide">
+          <div class="slide-content">
+            <h2 class="slide-header">The bell is a direct action, not a list.</h2>
+            <div class="slide-text">
+              <p>Tap the bell → straight into what needs you. No notification drawer. Weekly digest card shows your week at a glance. Insights page surfaces patterns you're living but can't see.</p>
+              <p>Opinion prompts ask what you think about how the app is working. Your feedback shapes what we build next.</p>
+              <p class="slide-highlight">Built for you, not at you.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="carousel-dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">
+        <h3 class="logo">Woven</h3>
+        <p class="tagline">Energy. Intention. Chemistry.</p>
+      </div>
+      <div class="footer-bottom">
+        <p>Built in Hyderabad · hello@wooven.me</p>
+      </div>
+    </div>
+  </footer>
+
+</div>

@@ -10,6 +10,7 @@ export interface MomentExpiredEvent    { matchId: string }
 export interface GameInviteEvent       { sessionId: string; matchId: string; gameType: string; expiresAt: string }
 export interface GameStartedEvent      { sessionId: string; matchId: string; gameType: string }
 export interface GameCompletedEvent    { sessionId: string; matchId: string; gameType: string; winnerUserId: number | null }
+export interface NewChatMessageEvent   { threadId: string; messageId: string; body: string; senderUserId: number; createdAt: string }
 
 @Injectable({ providedIn: 'root' })
 export class RealtimeService {
@@ -23,6 +24,7 @@ export class RealtimeService {
   readonly gameInviteReceived$ = new Subject<GameInviteEvent>();
   readonly gameStarted$        = new Subject<GameStartedEvent>();
   readonly gameCompleted$      = new Subject<GameCompletedEvent>();
+  readonly newChatMessage$     = new Subject<NewChatMessageEvent>();
 
   /**
    * Open the SignalR connection. Call this once after the user has logged in
@@ -40,12 +42,13 @@ export class RealtimeService {
       .configureLogging(signalR.LogLevel.Warning)
       .build();
 
-    this.connection.on('DeckReady',          (e: DeckReadyEvent)      => this.deckReady$.next(e));
-    this.connection.on('MomentReceived',     (e: MomentReceivedEvent) => this.momentReceived$.next(e));
-    this.connection.on('MomentExpired',      (e: MomentExpiredEvent)  => this.momentExpired$.next(e));
-    this.connection.on('GameInviteReceived', (e: GameInviteEvent)     => this.gameInviteReceived$.next(e));
-    this.connection.on('GameStarted',        (e: GameStartedEvent)    => this.gameStarted$.next(e));
-    this.connection.on('GameCompleted',      (e: GameCompletedEvent)  => this.gameCompleted$.next(e));
+    this.connection.on('DeckReady',          (e: DeckReadyEvent)        => this.deckReady$.next(e));
+    this.connection.on('MomentReceived',     (e: MomentReceivedEvent)   => this.momentReceived$.next(e));
+    this.connection.on('MomentExpired',      (e: MomentExpiredEvent)    => this.momentExpired$.next(e));
+    this.connection.on('GameInviteReceived', (e: GameInviteEvent)       => this.gameInviteReceived$.next(e));
+    this.connection.on('GameStarted',        (e: GameStartedEvent)      => this.gameStarted$.next(e));
+    this.connection.on('GameCompleted',      (e: GameCompletedEvent)    => this.gameCompleted$.next(e));
+    this.connection.on('NewChatMessage',     (e: any)                   => this.newChatMessage$.next(e.payload ?? e));
 
     this.connection.start().catch((err) => {
       console.warn('[Realtime] Initial connection failed:', err);

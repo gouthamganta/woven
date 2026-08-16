@@ -44,6 +44,20 @@ public class UserVector
     // Null until user posts their first Tile. Updated by TileEmbeddingService after each Tile creation.
     public Vector? ExpressionEmbedding { get; set; }
 
+    // 1536-dim reception embedding: weighted mean of last 50 tile embeddings the user dwelled on (≥8s).
+    // Represents revealed interest. Null until user has qualified dwells in Commons.
+    // Updated by TileViewProcessorWorker every 30 minutes.
+    public Vector? ReceptionEmbedding { get; set; }
+
+    // 1536-dim preference embedding: text-embedding-3-small of user's last 20 ChatNote texts.
+    // Represents stated attraction patterns. Null until user has written ≥3 ChatNotes.
+    // Updated by ChatNoteEmbeddingWorker every 4 hours.
+    public Vector? PreferenceEmbedding { get; set; }
+
+    // 192-dim voice signature: running mean of user's own voice tile embeddings.
+    // Null until user posts their first voice tile. Updated by VoiceEmbeddingService after each tile.
+    public Vector? VoiceEmbedding { get; set; }
+
     // Phase 3D: enhanced embedding columns
     public Vector? IntentEmbedding { get; set; }
     public Vector? StyleEmbedding { get; set; }

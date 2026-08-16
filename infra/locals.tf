@@ -14,10 +14,13 @@ locals {
     container_env    = "${local.name_prefix}-cae"
     backend_app      = "${local.name_prefix}-backend"
     frontend_app     = "${local.name_prefix}-frontend"
+    workers_app      = "${local.name_prefix}-workers"
+    speechbrain_app  = "${local.name_prefix}-speechbrain"
     log_analytics    = "${local.name_prefix}-law"
     app_insights     = "${local.name_prefix}-ai"
     private_dns_zone = "privatelink.postgres.database.azure.com"
     redis            = "${local.name_prefix}-redis"
+    service_bus      = "${local.name_prefix}-sb"
     storage_account  = replace("${var.project_name}${var.environment}media", "-", "")
   }
 

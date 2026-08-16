@@ -142,6 +142,21 @@ resource "azurerm_container_app" "backend" {
     value = var.google_places_api_key
   }
 
+  secret {
+    name  = "service-bus-conn"
+    value = var.service_bus_connection_string
+  }
+
+  secret {
+    name  = "vapid-public-key"
+    value = var.vapid_public_key
+  }
+
+  secret {
+    name  = "vapid-private-key"
+    value = var.vapid_private_key
+  }
+
   template {
     min_replicas = 1
     max_replicas = 5
@@ -208,6 +223,21 @@ resource "azurerm_container_app" "backend" {
         secret_name = "google-places-key"
       }
 
+      env {
+        name        = "ServiceBus__ConnectionString"
+        secret_name = "service-bus-conn"
+      }
+
+      env {
+        name        = "Vapid__PublicKey"
+        secret_name = "vapid-public-key"
+      }
+
+      env {
+        name        = "Vapid__PrivateKey"
+        secret_name = "vapid-private-key"
+      }
+
       # --- Plain env vars ---
 
       # Explicit port binding. Must match EXPOSE in Dockerfile and probe ports below.
@@ -220,6 +250,18 @@ resource "azurerm_container_app" "backend" {
       env {
         name  = "ASPNETCORE_ENVIRONMENT"
         value = "Production"
+      }
+
+      # Batch workers run on the dedicated workers pod; keep API pod lean.
+      env {
+        name  = "WOVEN_DISABLE_BATCH_WORKERS"
+        value = "true"
+      }
+
+      # First-deploy migration flag. Set var.run_migrations=true once, then revert.
+      env {
+        name  = "WOVEN_RUN_MIGRATIONS"
+        value = tostring(var.run_migrations)
       }
 
       # CORS: allow the frontend Container App origin + custom domain if set.
@@ -382,4 +424,230 @@ resource "azurerm_container_app" "frontend" {
     azurerm_container_app.backend,
     azurerm_role_assignment.acr_pull,
   ]
+}
+
+# ==============================================================
+# Workers Container App — dedicated pod for heavy batch jobs
+# Same image as backend. WOVEN_DISABLE_BATCH_WORKERS is NOT set here,
+# so all nightly batch workers run. min=max=1 prevents double-writes.
+# Internal ingress only — not reachable from outside.
+# ==============================================================
+
+resource "azurerm_container_app" "workers" {
+  name                         = var.workers_app_name
+  container_app_environment_id = azurerm_container_app_environment.main.id
+  resource_group_name          = var.resource_group_name
+  revision_mode                = "Single"
+  tags                         = var.tags
+
+  identity {
+    type         = "SystemAssigned, UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.acr_pull.id]
+  }
+
+  registry {
+    server   = var.acr_login_server
+    identity = azurerm_user_assigned_identity.acr_pull.id
+  }
+
+  secret {
+    name  = "db-conn"
+    value = var.postgres_connection_string
+  }
+  secret {
+    name  = "appinsights-conn"
+    value = var.app_insights_connection_string
+  }
+  secret {
+    name  = "jwt-key"
+    value = random_password.jwt_key.result
+  }
+  secret {
+    name  = "redis-conn"
+    value = var.redis_connection_string
+  }
+  secret {
+    name  = "storage-conn"
+    value = var.storage_connection_string
+  }
+  secret {
+    name  = "service-bus-conn"
+    value = var.service_bus_connection_string
+  }
+  secret {
+    name  = "openai-api-key"
+    value = var.openai_api_key
+  }
+  secret {
+    name  = "encryption-master-key"
+    value = var.encryption_master_key
+  }
+  secret {
+    name  = "google-places-key"
+    value = var.google_places_api_key
+  }
+
+  template {
+    min_replicas = 1
+    max_replicas = 1
+
+    container {
+      name   = "workers"
+      image  = "${var.acr_login_server}/woven-backend:${var.backend_image_tag}"
+      cpu    = 1.0
+      memory = "2Gi"
+
+      env {
+        name        = "ConnectionStrings__DefaultConnection"
+        secret_name = "db-conn"
+      }
+      env {
+        name        = "APPLICATIONINSIGHTS_CONNECTION_STRING"
+        secret_name = "appinsights-conn"
+      }
+      env {
+        name        = "Jwt__Key"
+        secret_name = "jwt-key"
+      }
+      env {
+        name        = "Redis__ConnectionString"
+        secret_name = "redis-conn"
+      }
+      env {
+        name        = "Azure__Storage__ConnectionString"
+        secret_name = "storage-conn"
+      }
+      env {
+        name        = "ServiceBus__ConnectionString"
+        secret_name = "service-bus-conn"
+      }
+      env {
+        name        = "OpenAI__ApiKey"
+        secret_name = "openai-api-key"
+      }
+      env {
+        name        = "Encryption__MasterKey"
+        secret_name = "encryption-master-key"
+      }
+      env {
+        name        = "Google__PlacesApiKey"
+        secret_name = "google-places-key"
+      }
+      env {
+        name  = "ASPNETCORE_URLS"
+        value = "http://+:8080"
+      }
+      env {
+        name  = "ASPNETCORE_ENVIRONMENT"
+        value = "Production"
+      }
+      env {
+        name  = "SpeechBrain__EndpointUrl"
+        value = "http://${var.speechbrain_app_name}.internal.${azurerm_container_app_environment.main.default_domain}/embed"
+      }
+
+      liveness_probe {
+        transport               = "HTTP"
+        path                    = "/health/live"
+        port                    = 8080
+        initial_delay           = 30
+        interval_seconds        = 60
+        timeout                 = 10
+        failure_count_threshold = 3
+      }
+
+      readiness_probe {
+        transport               = "HTTP"
+        path                    = "/health/ready"
+        port                    = 8080
+        interval_seconds        = 30
+        timeout                 = 10
+        failure_count_threshold = 3
+        success_count_threshold = 1
+      }
+    }
+  }
+
+  ingress {
+    external_enabled = false
+    target_port      = 8080
+    transport        = "auto"
+
+    traffic_weight {
+      latest_revision = true
+      percentage      = 100
+    }
+  }
+
+  depends_on = [azurerm_role_assignment.acr_pull]
+}
+
+# ==============================================================
+# SpeechBrain Container App — voice embedding HTTP service
+# Runs Python FastAPI + SpeechBrain ECAPA-TDNN (192-dim speaker embeddings).
+# Internal only. Called by the workers pod for voice tile embedding.
+# Build: docker build -t woven-speechbrain ./speechbrain && push to ACR.
+# ==============================================================
+
+resource "azurerm_container_app" "speechbrain" {
+  name                         = var.speechbrain_app_name
+  container_app_environment_id = azurerm_container_app_environment.main.id
+  resource_group_name          = var.resource_group_name
+  revision_mode                = "Single"
+  tags                         = var.tags
+
+  identity {
+    type         = "SystemAssigned, UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.acr_pull.id]
+  }
+
+  registry {
+    server   = var.acr_login_server
+    identity = azurerm_user_assigned_identity.acr_pull.id
+  }
+
+  template {
+    min_replicas = 1
+    max_replicas = 1
+
+    container {
+      name   = "speechbrain"
+      image  = "${var.acr_login_server}/woven-speechbrain:${var.speechbrain_image_tag}"
+      cpu    = 1.0
+      memory = "2Gi"
+
+      liveness_probe {
+        transport               = "HTTP"
+        path                    = "/health"
+        port                    = 8000
+        initial_delay           = 60
+        interval_seconds        = 30
+        timeout                 = 10
+        failure_count_threshold = 3
+      }
+
+      readiness_probe {
+        transport               = "HTTP"
+        path                    = "/health"
+        port                    = 8000
+        interval_seconds        = 10
+        timeout                 = 10
+        failure_count_threshold = 3
+        success_count_threshold = 1
+      }
+    }
+  }
+
+  ingress {
+    external_enabled = false
+    target_port      = 8000
+    transport        = "auto"
+
+    traffic_weight {
+      latest_revision = true
+      percentage      = 100
+    }
+  }
+
+  depends_on = [azurerm_role_assignment.acr_pull]
 }

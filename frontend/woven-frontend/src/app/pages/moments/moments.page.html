@@ -1,153 +1,304 @@
 <div class="moments">
+
+  <!-- Header -->
   <div class="head">
-    <div>
-      <div class="kicker">TODAY'S VIBE</div>
-      <div class="title" *ngIf="theme">{{ headline }}</div>
-      <div class="sub" *ngIf="data">{{ microLine }}</div>
-      <div class="theme-question" *ngIf="theme?.question">
-        <p>{{ theme!.question }}</p>
+    <div class="headLeft">
+      <div class="kicker">MOMENTS</div>
+      <div class="budgetPill" *ngIf="budget && activeTab === 'today'">
+        {{ budget.totalRemaining }} / {{ budget.totalCap }} left
       </div>
     </div>
-
-    <div class="right">
-      <button class="pill" (click)="toggleCoach()">
-        {{ showCoach ? 'Hide' : 'What is this?' }}
-      </button>
-
-      <button class="pill outline" (click)="openPending()">
-        Saved <span class="badge" *ngIf="pendingCount > 0">{{ pendingCount }}</span>
+    <div class="tabs">
+      <button class="tab" [class.active]="activeTab === 'today'" (click)="switchTab('today')">Deck</button>
+      <button class="tab" [class.active]="activeTab === 'liked-you'" (click)="switchTab('liked-you')">
+        Drawn
       </button>
     </div>
   </div>
 
-  <div class="coach" *ngIf="showCoach">
-    <div class="coachTitle">Imagine you're meeting them.</div>
-    <div class="coachBody">
-      If you had one date with this person — <b>what kind would it be?</b>
-      <span class="muted">No pressure. Just instinct.</span>
+  <!-- ── TODAY TAB ─────────────────────────────────────────────────────────── -->
+  <ng-container *ngIf="activeTab === 'today'">
+
+    <div class="state" *ngIf="loading">Warming up…</div>
+    <div class="state err" *ngIf="!loading && error">{{ error }}</div>
+
+    <div class="empty" *ngIf="!loading && !error && visibleTodayCards.length === 0" [class.deckCompleted]="deckCompleted">
+      <div class="emptyGlow" *ngIf="deckCompleted"></div>
+      <div class="emptyIcon">◈</div>
+      <div class="emptyTitle">{{ deckCompleted ? 'You showed up today.' : 'That\'s everyone for today.' }}</div>
+      <div class="emptySub">{{ deckCompleted ? 'New deck arrives tomorrow.' : 'Check back tomorrow.' }}</div>
+      <button class="refreshBtn" (click)="loadToday()">Refresh</button>
     </div>
 
-    <button class="learn" (click)="toggleLearnMore()">
-      {{ showLearnMore ? 'Close' : 'How it works' }}
-    </button>
-
-    <div class="learnBox" *ngIf="showLearnMore">
-      <div class="lmRow">
-        <div class="lmQ">What am I choosing?</div>
-        <div class="lmA">Pick your side and see if they think like you. Magical (◈) = heart leads, Logical (◇) = head leads. Same pick = pure spark — different picks = edge match (still on!).</div>
-      </div>
-
-      <div class="lmRow">
-        <div class="lmQ">What if I can't decide?</div>
-        <div class="lmA">Hit "Hold" — they'll be saved for when your gut knows.</div>
-      </div>
-
-      <div class="lmRow">
-        <div class="lmQ">What happens if we match?</div>
-        <div class="lmA">A timed balloon chat opens. The clock adds intention.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="state" *ngIf="loading">Warming up…</div>
-  <div class="state err" *ngIf="!loading && error">{{ error }}</div>
-
-  <div class="empty" *ngIf="!loading && !error && (!data || data.cards.length === 0)">
-    <div class="emptyTitle">That’s it for today.</div>
-    <div class="emptySub">Come back tomorrow for a new vibe.</div>
-    <button class="pill outline" (click)="load()">Refresh</button>
-  </div>
-
-  <div class="deckWrap" *ngIf="!loading && !error && cards.length > 0">
-    <div class="deckMeta">
-      <div class="count">{{ index + 1 }} / {{ cards.length }}</div>
-      <div class="budget" *ngIf="data?.budget">{{ remainingText }}</div>
+    <div class="moodLine" *ngIf="!loading && !error && visibleTodayCards.length > 0 && moodLine">
+      {{ moodLine }}
     </div>
 
-    <div #deck class="deck" (scroll)="onDeckScroll()">
-      <div class="snap" *ngFor="let c of cards; let i = index">
-        <div class="heroCard">
-          <div class="heroStage">
-            <img class="heroImg" *ngIf="c.profilePhoto; else noHero" [src]="c.profilePhoto!" alt="profile" />
-            <ng-template #noHero>
-              <div class="heroFallback">{{ (c.fullName || 'W').slice(0,1) }}</div>
-            </ng-template>
+    <div class="feed" *ngIf="!loading && !error && visibleTodayCards.length > 0">
+      <div
+        class="card"
+        *ngFor="let c of visibleTodayCards"
+        [class.alreadyChoseYou]="c.alreadyChoseYou"
+        [class.choosingMagical]="choosingCard.get(c.userId) === 'magical'"
+        [class.choosingLogical]="choosingCard.get(c.userId) === 'logical'"
+        [class.choosingPass]="choosingCard.get(c.userId) === 'pass'"
+      >
 
-            <div class="heroTag">
-              <div class="heroName">{{ c.fullName }}</div>
-              <div class="heroSub" *ngIf="locationLine(c)">
-                {{ locationLine(c) }}
-              </div>
+        <!-- Photo -->
+        <div class="photo" [class.cinematic]="hasCinematic(c)"
+          (touchstart)="onPhotoLongPressStart(c, $event)"
+          (touchend)="onPhotoLongPressEnd()"
+          (touchmove)="onPhotoLongPressEnd()"
+          (mousedown)="onPhotoLongPressStart(c, $event)"
+          (mouseup)="onPhotoLongPressEnd()"
+          (mouseleave)="onPhotoLongPressEnd()"
+        >
+          <img
+            class="photoImg"
+            [src]="hasCinematic(c) ? getCinematicPhoto(c) : (c.profilePhoto ?? '')"
+            [alt]="c.fullName"
+            *ngIf="c.profilePhoto || hasCinematic(c); else todayFallback"
+          />
+          <ng-template #todayFallback>
+            <div class="photoFallback">{{ (c.fullName || 'W').slice(0,1) }}</div>
+          </ng-template>
+
+          <!-- Already chose you badge -->
+          <div class="cornerBadge" *ngIf="c.alreadyChoseYou">Already in your corner.</div>
+
+          <!-- Curated quote overlay (fades in after first photo cycle) -->
+          <div class="quoteOverlay" *ngIf="c.curatedQuote && quoteVisible.has(c.userId)">
+            <span class="quoteText">{{ c.curatedQuote }}</span>
+          </div>
+
+          <!-- Narration audio button -->
+          <button
+            class="narrationBtn"
+            *ngIf="c.narrationUrl"
+            (click)="toggleNarration(c, $event)"
+            [class.playing]="audioPlaying.has(c.userId)"
+            aria-label="Toggle narration"
+          >
+            <span *ngIf="!audioPlaying.has(c.userId)">▶</span>
+            <span *ngIf="audioPlaying.has(c.userId)">⏸</span>
+          </button>
+
+          <!-- Name overlay -->
+          <div class="nameOverlay">
+            <div class="nameRow">
+              <span class="name">{{ c.fullName }}</span>
+              <span class="verifiedBadge" *ngIf="c.isVerified">✓</span>
             </div>
+            <div class="location" *ngIf="locationLine(c)">{{ locationLine(c) }}</div>
+          </div>
+        </div>
 
-            <!-- Rating bar (shown when count >= 5, otherwise show "New" placeholder) -->
-            <div class="rating-bar" *ngIf="c.rating?.show">
-              <div class="bar-container">
-                <div class="red-bars">
-                  <span class="bar" [class.filled]="getRatingBarFill('red', 4, c.rating!.average)"></span>
-                  <span class="bar" [class.filled]="getRatingBarFill('red', 3, c.rating!.average)"></span>
-                  <span class="bar" [class.filled]="getRatingBarFill('red', 2, c.rating!.average)"></span>
-                  <span class="bar" [class.filled]="getRatingBarFill('red', 1, c.rating!.average)"></span>
-                </div>
-                <div class="divider"></div>
-                <div class="green-bars">
-                  <span class="bar" [class.filled]="getRatingBarFill('green', 1, c.rating!.average)"></span>
-                  <span class="bar" [class.filled]="getRatingBarFill('green', 2, c.rating!.average)"></span>
-                  <span class="bar" [class.filled]="getRatingBarFill('green', 3, c.rating!.average)"></span>
-                  <span class="bar" [class.filled]="getRatingBarFill('green', 4, c.rating!.average)"></span>
-                </div>
-              </div>
+        <!-- Info panel -->
+        <div class="info">
+
+          <div class="flagBar" *ngIf="c.rating?.show">
+            <div class="flagSide red">
+              <span class="seg" [class.lit]="getRatingBarFill('red', 4, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('red', 3, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('red', 2, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('red', 1, c.rating!.average)"></span>
             </div>
-            <!-- New user placeholder when no rating yet -->
-            <div class="rating-new" *ngIf="!c.rating?.show">
-              <div class="new-label">
-                <span class="new-dot"></span>
-                <span>New</span>
-              </div>
+            <div class="flagDivider"></div>
+            <div class="flagSide green">
+              <span class="seg" [class.lit]="getRatingBarFill('green', 1, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('green', 2, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('green', 3, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('green', 4, c.rating!.average)"></span>
             </div>
           </div>
 
-          <!-- ✅ NEW: Explanation (does not block the hero image) -->
-          <div class="why" *ngIf="c.reason">
-            <div class="whyTop">
-              <div class="whyKicker">WHY THIS FEELS RIGHT</div>
-              <div class="whyTone" *ngIf="c.reason?.tone">{{ c.reason?.tone }}</div>
-            </div>
+          <div class="newBadge" *ngIf="!c.rating?.show">
+            <span class="newDot"></span>
+            <span>New here</span>
+          </div>
 
-            <div class="whyHeadline" *ngIf="c.reason?.headline">
-              {{ c.reason.headline }}
-            </div>
-
-            <ul class="whyBullets" *ngIf="c.reason?.bullets?.length">
-              <li *ngFor="let b of c.reason.bullets">{{ b }}</li>
+          <div class="why" *ngIf="c.reason?.headline || c.reason?.bullets?.length">
+            <div class="whyKicker">what caught our eye</div>
+            <div class="whyHeadline" *ngIf="c.reason!.headline">{{ c.reason!.headline }}</div>
+            <ul class="whyBullets" *ngIf="c.reason!.bullets?.length">
+              <li *ngFor="let b of c.reason!.bullets">{{ b }}</li>
             </ul>
           </div>
 
-          <div class="actionsBar" *ngIf="theme">
-            <button class="action" (click)="choose('LEFT')">
-              <div class="emo">{{ theme.left.emoji }}</div>
-              <div class="lab">{{ theme.left.label }}</div>
-              <div class="mini">date</div>
-            </button>
+          <!-- Tiles strip (active tiles first, highlights fill) -->
+          <div class="tilesStrip" *ngIf="c.highlightedTiles?.length">
+            <div class="tileChip"
+              [class.tileActive]="t.isActive"
+              [class.tileText-chip]="t.contentType === 'text'"
+              *ngFor="let t of c.highlightedTiles">
+              <span class="tileLiveDot" *ngIf="t.isActive"></span>
+              <img class="tileThumb" *ngIf="t.contentType !== 'text' && t.mediaUrl" [src]="t.mediaUrl" alt="tile" />
+              <span class="tileText" *ngIf="t.contentType === 'text' && t.contentText">{{ t.contentText }}</span>
+            </div>
+          </div>
 
-            <button class="action hold" (click)="choose('HOLD')">
-              <div class="emo">{{ theme.mid.emoji }}</div>
-              <div class="lab">Hold</div>
-              <div class="mini">can't decide</div>
+          <!-- Actions: ◈ Magical · ◇ Resonant · ⏳ Pass -->
+          <div class="actions">
+            <button class="action magical" (click)="choose(c, 'magical')" title="Magical">
+              <span class="actionIcon">◈</span>
+              <span class="actionLabel">Magical</span>
             </button>
-
-            <button class="action" (click)="choose('RIGHT')">
-              <div class="emo">{{ theme.right.emoji }}</div>
-              <div class="lab">{{ theme.right.label }}</div>
-              <div class="mini">date</div>
+            <button class="action logical" (click)="choose(c, 'logical')" title="Resonant">
+              <span class="actionIcon">◇</span>
+              <span class="actionLabel">Resonant</span>
+            </button>
+            <button class="action pass" (click)="choose(c, 'pass')" title="Pass">
+              <span class="actionIcon">—</span>
+              <span class="actionLabel">Pass</span>
             </button>
           </div>
+
         </div>
       </div>
     </div>
 
-    <div class="hintLine">Browse first. Then spend.</div>
-  </div>
+  </ng-container>
 
+  <!-- ── LIKED YOU TAB ──────────────────────────────────────────────────────── -->
+  <ng-container *ngIf="activeTab === 'liked-you'">
+
+    <div class="state" *ngIf="loadingLikedYou">Loading…</div>
+    <div class="state err" *ngIf="!loadingLikedYou && likedYouError">{{ likedYouError }}</div>
+
+    <div class="empty" *ngIf="!loadingLikedYou && !likedYouError && visibleLikedYouCards.length === 0">
+      <div class="emptyIcon">◇</div>
+      <div class="emptyTitle">No one yet.</div>
+      <div class="emptySub">People who choose you appear here for 7 days.</div>
+    </div>
+
+    <div class="likedYouNote" *ngIf="!loadingLikedYou && visibleLikedYouCards.length > 0">
+      Each action costs 1 spark
+      <span class="sparkBalance" *ngIf="sparkBalance !== null">· ◈ {{ sparkBalance }} left</span>
+    </div>
+
+    <div class="feed" *ngIf="!loadingLikedYou && !likedYouError && visibleLikedYouCards.length > 0">
+      <div class="card likedYouCard" *ngFor="let c of visibleLikedYouCards"
+        [class.choosingMagical]="choosingCard.get(c.userId) === 'magical'"
+        [class.choosingLogical]="choosingCard.get(c.userId) === 'logical'"
+      >
+
+        <!-- Photo — same structure as Deck card -->
+        <div class="photo"
+          (touchstart)="onPhotoLongPressStart(c, $event)"
+          (touchend)="onPhotoLongPressEnd()"
+          (touchmove)="onPhotoLongPressEnd()"
+          (mousedown)="onPhotoLongPressStart(c, $event)"
+          (mouseup)="onPhotoLongPressEnd()"
+          (mouseleave)="onPhotoLongPressEnd()"
+        >
+          <img
+            class="photoImg"
+            *ngIf="c.profilePhoto; else lyFallback"
+            [src]="c.profilePhoto!"
+            [alt]="c.fullName"
+          />
+          <ng-template #lyFallback>
+            <div class="photoFallback">{{ (c.fullName || 'W').slice(0,1) }}</div>
+          </ng-template>
+
+          <!-- Expiry badge instead of cornerBadge -->
+          <div class="expiryBadge">{{ expiryLabel(c.expiresInHours) }}</div>
+
+          <!-- Name overlay -->
+          <div class="nameOverlay">
+            <div class="nameRow">
+              <span class="name">{{ c.fullName }}</span>
+              <span class="verifiedBadge" *ngIf="c.isVerified">✓</span>
+            </div>
+            <div class="location" *ngIf="locationLine(c)">{{ locationLine(c) }}</div>
+          </div>
+        </div>
+
+        <!-- Info panel — full layout matching Deck -->
+        <div class="info">
+
+          <div class="flagBar" *ngIf="c.rating?.show">
+            <div class="flagSide red">
+              <span class="seg" [class.lit]="getRatingBarFill('red', 4, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('red', 3, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('red', 2, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('red', 1, c.rating!.average)"></span>
+            </div>
+            <div class="flagDivider"></div>
+            <div class="flagSide green">
+              <span class="seg" [class.lit]="getRatingBarFill('green', 1, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('green', 2, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('green', 3, c.rating!.average)"></span>
+              <span class="seg" [class.lit]="getRatingBarFill('green', 4, c.rating!.average)"></span>
+            </div>
+          </div>
+
+          <div class="newBadge" *ngIf="!c.rating?.show">
+            <span class="newDot"></span>
+            <span>New here</span>
+          </div>
+
+          <!-- "They chose you" prompt instead of ECHO explanation -->
+          <div class="lyPrompt">They chose you. Do you feel it?</div>
+
+          <!-- Tiles strip (active tiles first, highlights fill) -->
+          <div class="tilesStrip" *ngIf="c.highlightedTiles?.length">
+            <div class="tileChip"
+              [class.tileActive]="t.isActive"
+              [class.tileText-chip]="t.contentType === 'text'"
+              *ngFor="let t of c.highlightedTiles">
+              <span class="tileLiveDot" *ngIf="t.isActive"></span>
+              <img class="tileThumb" *ngIf="t.contentType !== 'text' && t.mediaUrl" [src]="t.mediaUrl" alt="tile" />
+              <span class="tileText" *ngIf="t.contentType === 'text' && t.contentText">{{ t.contentText }}</span>
+            </div>
+          </div>
+
+          <!-- Actions: ◈ Magical · ◇ Resonant (no Pass on Drawn) -->
+          <div class="actions">
+            <button class="action magical" (click)="chooseLikedYou(c, 'magical')" title="Magical">
+              <span class="actionIcon">◈</span>
+              <span class="actionLabel">Magical</span>
+            </button>
+            <button class="action logical" (click)="chooseLikedYou(c, 'logical')" title="Resonant">
+              <span class="actionIcon">◇</span>
+              <span class="actionLabel">Resonant</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+
+  <!-- Toast -->
   <div class="toast" *ngIf="toast">{{ toast }}</div>
+
 </div>
+
+<!-- Photo gallery overlay (long-press on any card photo) -->
+<div class="galleryOverlay" *ngIf="galleryPhotos.length" (click)="closeGallery()">
+  <div class="galleryContent" (click)="$event.stopPropagation()">
+    <button class="galleryClose" (click)="closeGallery()">✕</button>
+    <img class="galleryPhoto" [src]="galleryPhotos[galleryIndex]" alt="photo" />
+    <div class="galleryDots" *ngIf="galleryPhotos.length > 1">
+      <span
+        class="galleryDot"
+        *ngFor="let p of galleryPhotos; let i = index"
+        [class.active]="i === galleryIndex"
+        (click)="setGalleryIndex(i)"
+      ></span>
+    </div>
+    <button class="galleryNav prev" *ngIf="galleryIndex > 0" (click)="setGalleryIndex(galleryIndex - 1)">‹</button>
+    <button class="galleryNav next" *ngIf="galleryIndex < galleryPhotos.length - 1" (click)="setGalleryIndex(galleryIndex + 1)">›</button>
+  </div>
+</div>
+
+<!-- ChatNote overlay — rendered outside main scroll context -->
+<woven-chat-note-overlay
+  *ngIf="overlayCard"
+  [card]="overlayCard"
+  [choice]="overlayChoice"
+  (back)="onOverlayBack()"
+  (submitted)="onOverlaySubmit($event)"
+></woven-chat-note-overlay>

@@ -1,310 +1,180 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-
-import { environment } from '../../../environments/environment';
-import { OnboardingService, OnboardingStateResponse } from '../../onboarding/onboarding.service';
+import { OnboardingService } from '../../onboarding/onboarding.service';
 import { OnboardingShellComponent } from './onboarding-shell';
 
-type Intent = 'dating' | 'relationship' | 'marriage' | 'casual' | 'not_sure';
+const INTENTS = [
+  { key: 'long_term',        label: 'Something lasting',   sub: 'You\'re here for something real' },
+  { key: 'short_term',       label: 'Casual connection',   sub: 'Open, honest, no pressure' },
+  { key: 'friendship',       label: 'Friendship first',    sub: 'Connection before anything else' },
+  { key: 'open_to_anything', label: 'Open to anything',    sub: 'Let it unfold naturally' },
+];
+
+const OPENNESS = [
+  { key: 'long_term',         label: 'Long-term' },
+  { key: 'short_term',        label: 'Short-term' },
+  { key: 'friendship',        label: 'Friendship' },
+  { key: 'open_to_anything',  label: 'Open to anything' },
+  { key: 'not_sure',          label: 'Still figuring it out' },
+];
+
 
 @Component({
+  selector: 'woven-onboarding-intent',
   standalone: true,
   imports: [CommonModule, FormsModule, OnboardingShellComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <woven-onboarding-shell
-      title="Intent"
-      subtitle="This isn’t permanent. It just helps us match with less noise."
-      [stepNumber]="3"
-      [totalSteps]="6"
-      stepLabel="Profile"
+      title="What are you here for?"
+      subtitle="Honesty here shapes everything that follows."
+      [stepNumber]="4"
+      [totalSteps]="8"
+      stepLabel="Intent"
     >
-      <style>
-        /* ===== Layout ===== */
-        .stack {
-          display: grid;
-          gap: 24px;
-        }
-
-        /* ===== Labels ===== */
-        .label {
-          font-family: "DM Sans", system-ui, sans-serif;
-          font-size: 12px;
-          font-weight: 600;
-          color: rgba(255, 215, 235, 0.55);
-          margin-bottom: 10px;
-          display: block;
-          letter-spacing: 0.01em;
-        }
-
-        /* ===== Chips ===== */
-        .chips {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-
-        .chip {
-          padding: 12px 18px;
-          min-height: 44px;
-          border-radius: 100px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          background: rgba(255, 255, 255, 0.06);
-          cursor: pointer;
-          font-family: "DM Sans", system-ui, sans-serif;
-          font-size: 13px;
-          font-weight: 600;
-          color: rgba(255, 245, 250, 0.85);
-          transition: all 0.2s ease;
-        }
-
-        .chip:hover:not(.active) {
-          border-color: rgba(255, 255, 255, 0.22);
-          background: rgba(255, 255, 255, 0.10);
-        }
-
-        .chip.active {
-          background: linear-gradient(135deg, #E05490, #7D5BD0);
-          color: #fff;
-          border-color: transparent;
-          box-shadow: 0 4px 16px rgba(224, 84, 144, 0.30);
-        }
-
-        .chip:focus-visible {
-          outline: 2px solid #E05490;
-          outline-offset: 2px;
-        }
-
-        /* ===== Helper Text ===== */
-        .helper {
-          font-size: 12px;
-          font-weight: 450;
-          color: rgba(255, 215, 235, 0.46);
-          line-height: 1.45;
-          margin-top: 10px;
-        }
-
-        /* ===== Textarea ===== */
-        .textarea {
-          width: 100%;
-          min-height: 100px;
-          resize: vertical;
-          padding: 14px;
-          border-radius: 14px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          outline: none;
-          background: rgba(44, 29, 53, 0.75);
-          font-family: "DM Sans", system-ui, sans-serif;
-          font-size: 14px;
-          font-weight: 500;
-          color: rgba(255, 245, 250, 0.92);
-          line-height: 1.5;
-          transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .textarea::placeholder {
-          color: rgba(255, 215, 235, 0.35);
-        }
-
-        .textarea:focus {
-          border-color: #E05490;
-          box-shadow: 0 0 0 3px rgba(224, 84, 144, 0.28);
-        }
-
-        /* ===== Row ===== */
-        .row {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 12px;
-          flex-wrap: wrap;
-          margin-top: 8px;
-        }
-
-        /* ===== Mini Text ===== */
-        .mini {
-          font-family: "JetBrains Mono", monospace;
-          font-size: 11px;
-          font-weight: 500;
-          color: rgba(255, 215, 235, 0.40);
-        }
-
-        /* ===== Primary Button ===== */
-        .btn {
-          width: 100%;
-          padding: 14px 18px;
-          border-radius: 14px;
-          border: 0;
-          background: linear-gradient(135deg, #E05490, #7D5BD0);
-          color: #fff;
-          cursor: pointer;
-          font-family: "DM Sans", system-ui, sans-serif;
-          font-weight: 600;
-          font-size: 15px;
-          letter-spacing: -0.01em;
-          transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
-                      box-shadow 380ms cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 8px 32px rgba(224, 84, 144, 0.28);
-        }
-
-        .btn:hover:not(:disabled) {
-          transform: translateY(-2px) scale(1.01);
-          box-shadow: 0 12px 40px rgba(224, 84, 144, 0.38);
-        }
-
-        .btn:active:not(:disabled) {
-          transform: translateY(0) scale(0.99);
-        }
-
-        .btn:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .btn:focus-visible {
-          outline: 2px solid #E05490;
-          outline-offset: 2px;
-        }
-
-        /* ===== Error ===== */
-        .error {
-          padding: 12px 14px;
-          border-radius: 12px;
-          background: rgba(255, 112, 112, 0.10);
-          border: 1px solid rgba(255, 112, 112, 0.22);
-          color: #ff7070;
-          font-size: 13px;
-          font-weight: 500;
-          line-height: 1.4;
-        }
-
-        /* ===== Mobile ===== */
-        @media (max-width: 480px) {
-          .chips {
-            gap: 8px;
-          }
-
-          .chip {
-            padding: 12px 16px;
-            min-height: 44px;
-            font-size: 13px;
-          }
-        }
-      </style>
-
       <div class="stack">
-        <!-- Primary intent -->
-        <div>
-          <label class="label">Primary intent</label>
-          <div class="chips">
-            <button class="chip" type="button" [class.active]="model.primaryIntent==='relationship'" (click)="model.primaryIntent='relationship'">Relationship</button>
-            <button class="chip" type="button" [class.active]="model.primaryIntent==='dating'" (click)="model.primaryIntent='dating'">Dating</button>
-            <button class="chip" type="button" [class.active]="model.primaryIntent==='marriage'" (click)="model.primaryIntent='marriage'">Marriage</button>
-            <button class="chip" type="button" [class.active]="model.primaryIntent==='casual'" (click)="model.primaryIntent='casual'">Casual</button>
-            <button class="chip" type="button" [class.active]="model.primaryIntent==='not_sure'" (click)="model.primaryIntent='not_sure'">Not sure</button>
+
+        <div class="field">
+          <label class="label">Your primary intent</label>
+          <div class="intentGrid">
+            <button *ngFor="let i of intents" class="intentCard" [class.active]="primaryIntent === i.key" (click)="primaryIntent = i.key; mark()">
+              <span class="intentLabel">{{ i.label }}</span>
+              <span class="intentSub">{{ i.sub }}</span>
+            </button>
           </div>
-          <div class="helper">Pick the closest one. You can adjust later.</div>
         </div>
 
-        <!-- Openness -->
-        <div>
-          <label class="label">Open to</label>
-          <div class="chips">
-            <button class="chip" type="button" [class.active]="hasOpen('long_term')" (click)="toggleOpen('long_term')">Long-term</button>
-            <button class="chip" type="button" [class.active]="hasOpen('short_term')" (click)="toggleOpen('short_term')">Short-term</button>
-            <button class="chip" type="button" [class.active]="hasOpen('friendship')" (click)="toggleOpen('friendship')">Friendship</button>
-            <button class="chip" type="button" [class.active]="hasOpen('exploring')" (click)="toggleOpen('exploring')">Exploring</button>
+        <div class="divider"></div>
+
+        <div class="field">
+          <label class="label">Also open to <span class="opt">pick all that apply</span></label>
+          <div class="pills">
+            <button *ngFor="let o of openness" class="pill" [class.active]="opennessSet.has(o.key)" (click)="toggleOpenness(o.key)">
+              {{ o.label }}
+            </button>
           </div>
-          <div class="helper">This helps us avoid mismatched expectations.</div>
         </div>
 
-        <!-- Reflection sentence -->
-        <div>
-          <label class="label">One sentence about what you want</label>
+        <div class="divider"></div>
+
+        <div class="field">
+          <label class="label">What would a meaningful connection look like for you?</label>
+          <p class="fieldNote">This shapes how we think about your matches — it's for the engine, not your profile.</p>
           <textarea
             class="textarea"
-            [(ngModel)]="model.reflectionSentence"
-            placeholder="Example: I want something calm, real, and consistent."></textarea>
-          <div class="row">
-            <div class="mini">{{ model.reflectionSentence?.length || 0 }}/160</div>
-            <div class="mini">Keep it honest. No pressure.</div>
-          </div>
+            [(ngModel)]="reflection"
+            placeholder="Write freely. A sentence or two is plenty."
+            maxlength="200"
+            rows="4"
+          ></textarea>
+          <div class="charCount" [class.warn]="reflection.length > 170">{{ reflection.length }} / 200</div>
         </div>
 
-        <div *ngIf="error" class="error">{{ error }}</div>
+        <p class="err" *ngIf="err">{{ err }}</p>
 
-        <button class="btn" type="button" [disabled]="saving" (click)="submit()">
-          {{ saving ? 'Saving…' : 'Continue' }}
+        <button class="cta" (click)="next()" [disabled]="loading || !canProceed">
+          <span *ngIf="!loading">Continue →</span>
+          <span *ngIf="loading">Saving…</span>
         </button>
+
       </div>
     </woven-onboarding-shell>
-  `
+  `,
+  styles: [`
+    .stack { display: grid; gap: 22px; }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border-soft), transparent); }
+    .field { display: grid; gap: 10px; }
+    .label { font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    .opt { font-weight: 500; opacity: 0.6; text-transform: none; letter-spacing: 0; }
+    .fieldNote { font-family: var(--font-ui); font-size: 12px; color: var(--text-dim); line-height: 1.5; margin: -4px 0 0; }
+
+    .intentGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .intentCard {
+      padding: 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg); display: grid; gap: 4px; text-align: left; cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .intentCard:hover { border-color: var(--border-soft); }
+    .intentCard.active { border-color: var(--gold-400); background: rgba(212,160,23,0.08); }
+    .intentLabel { font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .intentSub { font-family: var(--font-ui); font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+    .intentCard.active .intentLabel { color: var(--gold-300); }
+
+    .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      padding: 9px 16px; border: 1px solid var(--border-subtle); border-radius: 9999px;
+      background: transparent; color: var(--text-muted); font-family: var(--font-ui);
+      font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s ease;
+    }
+    .pill:hover { border-color: var(--border-soft); color: var(--text-secondary); }
+    .pill.active { border-color: var(--gold-400); background: rgba(212,160,23,0.10); color: var(--gold-300); font-weight: 600; }
+
+    .textarea {
+      width: 100%; padding: 14px; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle); border-radius: var(--radius-lg);
+      color: var(--text-primary); font-family: var(--font-ui); font-size: 14px;
+      line-height: 1.6; resize: vertical; outline: none; transition: border-color 0.2s ease; box-sizing: border-box;
+    }
+    .textarea::placeholder { color: var(--text-dim); }
+    .textarea:focus { border-color: var(--gold-400); }
+    .charCount { font-family: var(--font-data); font-size: 11px; color: var(--text-dim); text-align: right; transition: color 0.2s ease; }
+    .charCount.warn { color: var(--rose-300); }
+
+    .cta {
+      width: 100%; padding: 16px 24px; border: none; border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
+      color: var(--bg-base); font-family: var(--font-ui); font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: opacity 0.2s ease, transform 0.15s ease;
+      box-shadow: 0 4px 20px rgba(212,160,23,0.28);
+    }
+    .cta:hover:not(:disabled) { opacity: 0.88; }
+    .cta:active:not(:disabled) { transform: scale(0.96); }
+    .cta:disabled { opacity: 0.4; cursor: not-allowed; }
+    .err { font-size: 12px; color: var(--rose-300); }
+  `],
 })
 export class IntentOnboardingComponent {
-  saving = false;
-  error = '';
+  intents  = INTENTS;
+  openness = OPENNESS;
 
-  model: {
-    primaryIntent: Intent | '';
-    openness: string[];
-    reflectionSentence: string;
-  } = {
-    primaryIntent: '',
-    openness: [],
-    reflectionSentence: ''
-  };
+  primaryIntent = '';
+  opennessSet   = new Set<string>();
+  reflection    = '';
+  loading = false;
+  err = '';
+
+  get canProceed() { return !!this.primaryIntent && this.reflection.trim().length > 0; }
 
   constructor(
-    private http: HttpClient,
     private onboarding: OnboardingService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {}
 
-  hasOpen(v: string) {
-    return this.model.openness.includes(v);
+  mark() { this.cdr.markForCheck(); }
+
+  toggleOpenness(key: string) {
+    this.opennessSet.has(key) ? this.opennessSet.delete(key) : this.opennessSet.add(key);
+    this.cdr.markForCheck();
   }
 
-  toggleOpen(v: string) {
-    const set = new Set(this.model.openness);
-    set.has(v) ? set.delete(v) : set.add(v);
-    this.model.openness = Array.from(set);
-  }
-
-  private validate(): string | null {
-    if (!this.model.primaryIntent) return 'Please choose a primary intent.';
-    if (!this.model.openness.length) return 'Pick at least one “open to”.';
-    const text = (this.model.reflectionSentence || '').trim();
-    if (!text) return 'Add one sentence about what you want.';
-    if (text.length > 160) return 'Keep the sentence under 160 characters.';
-    return null;
-  }
-
-  async submit() {
-    const err = this.validate();
-    if (err) { this.error = err; return; }
-
-    this.error = '';
-    this.saving = true;
-
+  async next() {
+    if (!this.canProceed) return;
+    this.loading = true; this.err = ''; this.cdr.markForCheck();
     try {
-      await firstValueFrom(
-        this.http.put(`${environment.apiUrl}/onboarding/intent`, {
-          primaryIntent: this.model.primaryIntent,
-          openness: this.model.openness,
-          reflectionSentence: this.model.reflectionSentence.trim()
-        })
-      );
-
-      const state: OnboardingStateResponse = await firstValueFrom(this.onboarding.getState());
-      this.router.navigateByUrl(state.nextRoute);
+      const res = await firstValueFrom(this.onboarding.submitIntent({
+        primaryIntent: this.primaryIntent,
+        openness: [...this.opennessSet],
+        reflectionSentence: this.reflection.trim(),
+      }));
+      this.router.navigateByUrl(res.nextRoute || '/onboarding/foundational');
     } catch {
-      this.error = 'Could not save intent. Please try again.';
+      this.err = 'Could not save. Please try again.';
     } finally {
-      this.saving = false;
+      this.loading = false; this.cdr.markForCheck();
     }
   }
 }
-

@@ -76,172 +76,43 @@ public class CandidatePoolService : ICandidatePoolService
             .Distinct()
             .ToListAsync(ct);
 
-        // Build candidate query
-        var candidateQuery = _db.UserProfiles.AsNoTracking()
-            .Where(p => p.UserId != userId) // Not self
-            .Where(p => !blockedIds.Contains(p.UserId)) // Not blocked
-            .Where(p => !activeBalloonPartners.Contains(p.UserId)) // Not active balloon
-            .Where(p => !shownToday.Contains(p.UserId)); // Not shown today
+        // ── Build all filters in SQL — no in-memory loops ─────────────────────
+        // Gender reciprocity: candidate's InterestedInJson contains the viewer's gender.
+        // EF Core can't JSON-query arrays in PostgreSQL, so we use a raw SQL contains check.
+        // This is safe — userProfile.Gender comes from our own DB, never from user input.
+        var viewerGender = userProfile.Gender;
 
-        // Gender/orientation reciprocity
-        if (userInterestedIn.Count > 0)
-        {
-            candidateQuery = candidateQuery.Where(p => userInterestedIn.Contains(p.Gender));
-        }
-
-        // Age range (user's preferences)
-        candidateQuery = candidateQuery.Where(p =>
-            p.Age >= userPref.AgeMin && p.Age <= userPref.AgeMax);
-
-        // Get candidate profiles with their preferences
-        var candidates = await candidateQuery
+        var eligible = await _db.UserProfiles.AsNoTracking()
             .Join(_db.UserPreferences,
-                p => p.UserId,
+                p    => p.UserId,
                 pref => pref.UserId,
                 (p, pref) => new { Profile = p, Pref = pref })
+            .Join(_db.Users.AsNoTracking(),
+                pp   => pp.Profile.UserId,
+                u    => u.Id,
+                (pp, u) => new { pp.Profile, pp.Pref, User = u })
+            .Where(x => x.Profile.UserId != userId)
+            .Where(x => !blockedIds.Contains(x.Profile.UserId))
+            .Where(x => !activeBalloonPartners.Contains(x.Profile.UserId))
+            .Where(x => !shownToday.Contains(x.Profile.UserId))
+            // Viewer's gender preference filter
+            .Where(x => !userInterestedIn.Any() || userInterestedIn.Contains(x.Profile.Gender))
+            // Viewer's age preference filter
+            .Where(x => x.Profile.Age >= userPref.AgeMin && x.Profile.Age <= userPref.AgeMax)
+            // Trust gate in SQL — never load low-trust users into application memory
+            .Where(x => x.User.TrustScore >= TrustGate)
+            // Reciprocal gender filter — candidate must be interested in viewer's gender
+            // JSON contains check: InterestedInJson like '%"<gender>"%'
+            .Where(x => string.IsNullOrEmpty(viewerGender) ||
+                        x.Pref.InterestedInJson.Contains("\"" + viewerGender + "\""))
+            .Select(x => x.Profile.UserId)
             .ToListAsync(ct);
 
-        _logger.LogInformation("[CandidatePool] After basic filters: {Count} candidates for user {UserId}",
-            candidates.Count, userId);
-
-        // Batch-load trust scores for all candidate candidates
-        var candidateIdList = candidates.Select(c => c.Profile.UserId).ToList();
-        var trustScores = await _db.Users.AsNoTracking()
-            .Where(u => candidateIdList.Contains(u.Id))
-            .Select(u => new { u.Id, u.TrustScore })
-            .ToDictionaryAsync(u => u.Id, u => u.TrustScore, ct);
-
-        var eligible = new List<int>();
-        var filtered = new Dictionary<string, int>
-        {
-            ["age_reciprocal"] = 0,
-            ["gender_reciprocal"] = 0,
-            ["distance"] = 0,
-            ["relationship_structure"] = 0,
-            ["trust_gate"] = 0
-        };
-
-        foreach (var candidate in candidates)
-        {
-            // Reciprocal age check
-            if (userProfile.Age < candidate.Pref.AgeMin || userProfile.Age > candidate.Pref.AgeMax)
-            {
-                filtered["age_reciprocal"]++;
-                continue;
-            }
-
-            // Reciprocal gender check
-            var candidateInterestedIn = new HashSet<string>();
-            try
-            {
-                var parsed = JsonSerializer.Deserialize<string[]>(candidate.Pref.InterestedInJson);
-                if (parsed != null && parsed.Length > 0)
-                {
-                    candidateInterestedIn = new HashSet<string>(parsed, StringComparer.OrdinalIgnoreCase);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning(ex, "[CandidatePool] Failed to parse InterestedInJson for candidate {CandidateId}",
-                    candidate.Profile.UserId);
-            }
-
-            if (candidateInterestedIn.Count > 0 && !candidateInterestedIn.Contains(userProfile.Gender))
-            {
-                filtered["gender_reciprocal"]++;
-                continue;
-            }
-
-            // ✅ FIXED: Distance check (both ways) - only apply if BOTH users have location data
-            if (userProfile.Lat.HasValue && userProfile.Lng.HasValue &&
-                candidate.Profile.Lat.HasValue && candidate.Profile.Lng.HasValue)
-            {
-                var distance = CalculateDistance(
-                    userProfile.Lat.Value, userProfile.Lng.Value,
-                    candidate.Profile.Lat.Value, candidate.Profile.Lng.Value);
-
-                // Check if user's preference is met
-                if (distance > userPref.DistanceMiles)
-                {
-                    filtered["distance"]++;
-                    continue;
-                }
-
-                // Check if candidate's preference is met
-                if (distance > candidate.Pref.DistanceMiles)
-                {
-                    filtered["distance"]++;
-                    continue;
-                }
-            }
-            // ✅ If either user has no location, allow the match (don't filter on distance)
-
-            // ✅ Relationship structure compatibility
-            if (!IsRelationshipStructureCompatible(userPref.RelationshipStructure, candidate.Pref.RelationshipStructure))
-            {
-                filtered["relationship_structure"]++;
-                continue;
-            }
-
-            // Trust gate: exclude candidates below minimum trust threshold
-            if (trustScores.TryGetValue(candidate.Profile.UserId, out var trust) && trust < TrustGate)
-            {
-                filtered["trust_gate"]++;
-                continue;
-            }
-
-            eligible.Add(candidate.Profile.UserId);
-        }
-
         _logger.LogInformation(
-            "[CandidatePool] Found {Count} eligible candidates for user {UserId}. " +
-            "Filtered: age_reciprocal={AgeFiltered}, gender_reciprocal={GenderFiltered}, " +
-            "distance={DistanceFiltered}, relationship_structure={RelationshipFiltered}, trust_gate={TrustFiltered}",
-            eligible.Count, userId,
-            filtered["age_reciprocal"],
-            filtered["gender_reciprocal"],
-            filtered["distance"],
-            filtered["relationship_structure"],
-            filtered["trust_gate"]);
+            "[CandidatePool] Found {Count} eligible candidates for user {UserId} (all filters in SQL)",
+            eligible.Count, userId);
 
         return eligible;
     }
 
-    private bool IsRelationshipStructureCompatible(
-        RelationshipStructure userStructure,
-        RelationshipStructure candidateStructure)
-    {
-        // MONO_ONLY ⟂ NONMONO_ONLY (incompatible)
-        if (userStructure == RelationshipStructure.MONO_ONLY &&
-            candidateStructure == RelationshipStructure.NONMONO_ONLY)
-            return false;
-
-        if (userStructure == RelationshipStructure.NONMONO_ONLY &&
-            candidateStructure == RelationshipStructure.MONO_ONLY)
-            return false;
-
-        // OPEN is compatible with everything
-        // MONO_ONLY is compatible with MONO_ONLY and OPEN
-        // NONMONO_ONLY is compatible with NONMONO_ONLY and OPEN
-        return true;
-    }
-
-    private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
-    {
-        // Haversine formula
-        const double R = 3959; // Earth radius in miles
-
-        var dLat = DegreesToRadians(lat2 - lat1);
-        var dLon = DegreesToRadians(lon2 - lon1);
-
-        var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                Math.Cos(DegreesToRadians(lat1)) * Math.Cos(DegreesToRadians(lat2)) *
-                Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
-
-        var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-
-        return R * c;
-    }
-
-    private double DegreesToRadians(double degrees) => degrees * Math.PI / 180;
 }

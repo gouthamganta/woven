@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WovenBackend.Data;
+using WovenBackend.Data.Entities;
 using WovenBackend.data.Entities.Moments;
 using WovenBackend.Services.Analytics;
 using WovenBackend.Services.Insights;
@@ -18,6 +19,7 @@ public class DateFeedbackService : IDateFeedbackService
     private readonly ISecurityAuditService _audit;
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly IAnalyticsService _analytics;
+    private readonly IMatchSignalService _signals;
     private readonly ILogger<DateFeedbackService> _logger;
 
     public DateFeedbackService(
@@ -27,6 +29,7 @@ public class DateFeedbackService : IDateFeedbackService
         ISecurityAuditService audit,
         IServiceScopeFactory scopeFactory,
         IAnalyticsService analytics,
+        IMatchSignalService signals,
         ILogger<DateFeedbackService> logger)
     {
         _db = db;
@@ -35,6 +38,7 @@ public class DateFeedbackService : IDateFeedbackService
         _audit = audit;
         _scopeFactory = scopeFactory;
         _analytics = analytics;
+        _signals = signals;
         _logger = logger;
     }
 
@@ -101,11 +105,46 @@ public class DateFeedbackService : IDateFeedbackService
             });
         }
 
-        if (primaryMatches.Count > 0 || secondaryMatches.Count > 0)
+        // Tertiary: active thread that went silent ≥5 days (conversation faded without a date)
+        // Uses separate dedup list so these don't block the post-date prompts later.
+        var silentPromptedMatchIds = await _db.DateFeedbackPrompts.AsNoTracking()
+            .Where(p => p.TriggerType == "silent_thread")
+            .Select(p => p.MatchId)
+            .Distinct()
+            .ToListAsync(ct);
+
+        var silentCutoff = DateTimeOffset.UtcNow.AddDays(-5);
+        var silentThreadMatches = await (
+            from m in _db.Matches.AsNoTracking()
+            join t in _db.ChatThreads.AsNoTracking() on m.Id equals t.MatchId
+            where m.BalloonState == WovenBackend.data.Entities.Moments.BalloonState.ACTIVE
+               && m.BothMessagedAt != null
+               && t.LastMessageAt != null
+               && t.LastMessageAt < silentCutoff
+               && m.ClosedReason != WovenBackend.data.Entities.Moments.ClosedReason.BLOCK
+               && !silentPromptedMatchIds.Contains(m.Id)
+            select new { m.Id, m.UserAId, m.UserBId }
+        ).ToListAsync(ct);
+
+        foreach (var match in silentThreadMatches)
+        {
+            _db.DateFeedbackPrompts.Add(new DateFeedbackPrompt
+            {
+                MatchId = match.Id, UserId = match.UserAId,
+                TriggerType = "silent_thread", ScheduledFor = now
+            });
+            _db.DateFeedbackPrompts.Add(new DateFeedbackPrompt
+            {
+                MatchId = match.Id, UserId = match.UserBId,
+                TriggerType = "silent_thread", ScheduledFor = now
+            });
+        }
+
+        if (primaryMatches.Count > 0 || secondaryMatches.Count > 0 || silentThreadMatches.Count > 0)
             await _db.SaveChangesAsync(ct);
 
-        _logger.LogInformation("[FeedbackQueue] Queued {P} primary + {S} secondary match prompts",
-            primaryMatches.Count, secondaryMatches.Count);
+        _logger.LogInformation("[FeedbackQueue] Queued {P} primary + {S} secondary + {T} silent-thread match prompts",
+            primaryMatches.Count, secondaryMatches.Count, silentThreadMatches.Count);
     }
 
     public async Task SendDuePromptsAsync(CancellationToken ct = default)
@@ -217,6 +256,19 @@ public class DateFeedbackService : IDateFeedbackService
 
         prompt.RespondedAt = DateTimeOffset.UtcNow;
         await _db.SaveChangesAsync(ct);
+
+        // Fire ExplicitFeedback signal so ECHO can learn from stars rating
+        if (dto.Stars.HasValue)
+        {
+            var match0 = await _db.Matches.AsNoTracking().FirstOrDefaultAsync(m => m.Id == matchId, ct);
+            if (match0 != null)
+            {
+                var partnerId0 = match0.UserAId == userId ? match0.UserBId : match0.UserAId;
+                var normalizedRating = (dto.Stars.Value - 1) / 4f; // 1→0.0, 5→1.0
+                try { await _signals.RecordAsync(userId, partnerId0, MatchSignalEventTypes.ExplicitFeedback, normalizedRating, ct: ct); }
+                catch { /* non-critical */ }
+            }
+        }
 
         _audit.Log("pii_access", userId: userId, service: "DateFeedbackService",
             resourceType: "feedback_text", piiStripped: true);

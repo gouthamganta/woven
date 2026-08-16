@@ -9,6 +9,7 @@ public class DailyDeckResult
 {
     public List<DeckItem> Items { get; set; } = new();
     public bool Generated { get; set; } // True if freshly generated
+    public string? MoodLine { get; set; }
 }
 
 public class DeckItem
@@ -17,4 +18,10 @@ public class DeckItem
     public double Score { get; set; }
     public string Bucket { get; set; } = "";
     public int ExplanationId { get; set; }
+
+    // Cinematic intro fields (Build N+1 populates; null → silent skip)
+    public string[]? KenBurnsPhotoUrls { get; set; }
+    public string? CuratedQuote { get; set; }
+    public string? NarrationUrl { get; set; }
+    public bool NarrationExposed { get; set; } = false;
 }

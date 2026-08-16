@@ -1,36 +1,35 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
-  // ✅ Public pages can be server-rendered if you want
-  // { path: '', renderMode: RenderMode.Server },
+  // Unauthenticated — client-only (needs browser APIs)
+  { path: 'login',       renderMode: RenderMode.Client },
+  { path: 'app',         renderMode: RenderMode.Client },
+  { path: 'privacy',     renderMode: RenderMode.Client },
+  { path: 'terms',       renderMode: RenderMode.Client },
+  { path: 'data-policy', renderMode: RenderMode.Client },
 
-  // ✅ Auth/onboarding should be client-only (needs localStorage token)
-  { path: 'login', renderMode: RenderMode.Client },
-  { path: 'app', renderMode: RenderMode.Client },
-
-  // ✅ Home and its children are auth-guarded — client-only
-  { path: 'home', renderMode: RenderMode.Client },
-  { path: 'home/moments', renderMode: RenderMode.Client },
-  { path: 'home/moments/pending', renderMode: RenderMode.Client },
-  { path: 'home/chats', renderMode: RenderMode.Client },
-  { path: 'home/chats/:threadId', renderMode: RenderMode.Client },
-  { path: 'home/matches/:matchId/profile', renderMode: RenderMode.Client },
-  { path: 'home/profile', renderMode: RenderMode.Client },
-
-  { path: 'settings', renderMode: RenderMode.Client },
-
-  // ✅ Onboarding routes listed explicitly — wildcard path matching is
-  //    unreliable for flat routes and caused a 405 + hydration failure on intent.
-  { path: 'onboarding/welcome', renderMode: RenderMode.Client },
-  { path: 'onboarding/basics', renderMode: RenderMode.Client },
-  { path: 'onboarding/intent', renderMode: RenderMode.Client },
+  // Onboarding — client-only (auth-guarded, localStorage)
+  { path: 'onboarding/welcome',      renderMode: RenderMode.Client },
+  { path: 'onboarding/basics',       renderMode: RenderMode.Client },
+  { path: 'onboarding/intent',       renderMode: RenderMode.Client },
   { path: 'onboarding/foundational', renderMode: RenderMode.Client },
-  { path: 'onboarding/photos', renderMode: RenderMode.Client },
-  { path: 'onboarding/details', renderMode: RenderMode.Client },
-  { path: 'onboarding/review', renderMode: RenderMode.Client },
-  { path: 'onboarding/start', renderMode: RenderMode.Client },
+  { path: 'onboarding/photos',       renderMode: RenderMode.Client },
+  { path: 'onboarding/details',      renderMode: RenderMode.Client },
+  { path: 'onboarding/lifestyle',    renderMode: RenderMode.Client },
+  { path: 'onboarding/review',       renderMode: RenderMode.Client },
+  { path: 'onboarding/start',        renderMode: RenderMode.Client },
 
-  // ✅ Everything else
-  { path: '**', renderMode: RenderMode.Server }
+  // Main app shell children — all client-only (auth-guarded)
+  { path: '',                    renderMode: RenderMode.Client },
+  { path: 'moments',             renderMode: RenderMode.Client },
+  { path: 'commons',             renderMode: RenderMode.Client },
+  { path: 'chats',                        renderMode: RenderMode.Client },
+  { path: 'chats/:id',                    renderMode: RenderMode.Client },
+  { path: 'matches/:matchId/profile',     renderMode: RenderMode.Client },
+  { path: 'you',                          renderMode: RenderMode.Client },
+  { path: 'you/settings',                 renderMode: RenderMode.Client },
+  { path: 'you/tiles',                    renderMode: RenderMode.Client },
+
+  // Everything else — client-only (backend not available in local dev)
+  { path: '**', renderMode: RenderMode.Client },
 ];
-

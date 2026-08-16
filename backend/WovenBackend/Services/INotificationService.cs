@@ -12,6 +12,7 @@ public interface INotificationService
     Task SendFriendBridgeActivatedAsync(int userAId, int userBId, Guid bridgeId, CancellationToken ct = default);
     Task SeasonResponseSubmittedAsync(int userId, CancellationToken ct = default);
     Task NewSeasonStartedAsync(int userId, int seasonNumber, string promptText, CancellationToken ct = default);
+    Task NewChatMessageAsync(int recipientUserId, Guid threadId, Guid messageId, string body, int senderUserId, DateTimeOffset createdAt, CancellationToken ct = default);
     // General-purpose in-app push (nudges, ghost refunds, digest messages)
     Task SendPushAsync(int userId, string message, CancellationToken ct = default);
 }

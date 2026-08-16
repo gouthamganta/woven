@@ -23,32 +23,50 @@ public class CollaborativeFilteringService : ICollaborativeFilteringService
         var startTime = DateTime.UtcNow;
         _logger.LogInformation("[CF] Starting collaborative filtering batch");
 
-        // 1. Load all romantic orbits — build interaction matrix
+        // 1a. Explicit signal: romantic orbits
         var allOrbits = await _db.TileOrbits.AsNoTracking()
             .Where(o => o.RelationshipType == "romantic")
             .Select(o => new { o.OrbiterId, o.TileOwnerId, o.OrbitedAt })
             .ToListAsync(ct);
 
-        if (allOrbits.Count == 0)
+        // 1b. Implicit signal: qualifying tile dwells (≥8s) — treat dwell as implicit preference
+        var dwellCutoff = DateTimeOffset.UtcNow.AddDays(-30); // last 30 days only
+        var allDwells = await _db.TileViews.AsNoTracking()
+            .Where(v => v.DurationMs >= 8_000 && v.ViewedAt >= dwellCutoff)
+            .Join(_db.Tiles.AsNoTracking(),
+                v => v.TileId,
+                t => t.Id,
+                (v, t) => new { ViewerUserId = v.UserId, TileOwnerId = t.UserId, v.ViewedAt })
+            .Where(x => x.ViewerUserId != x.TileOwnerId)
+            .ToListAsync(ct);
+
+        if (allOrbits.Count == 0 && allDwells.Count == 0)
         {
-            _logger.LogInformation("[CF] No romantic orbits found — skipping");
+            _logger.LogInformation("[CF] No interaction data found — skipping");
             return;
         }
 
-        // orbiter → set of tile_owner_ids they orbited
+        // orbiter → set of tile_owner_ids they orbited (explicit signal)
         var orbitSets = allOrbits
             .GroupBy(o => o.OrbiterId)
             .ToDictionary(
                 g => g.Key,
                 g => g.Select(o => o.TileOwnerId).ToHashSet());
 
+        // viewer → set of tile_owner_ids they dwelled on (implicit signal)
+        var dwellSets = allDwells
+            .GroupBy(d => d.ViewerUserId)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Select(d => d.TileOwnerId).ToHashSet());
+
         // orbiter → most recent orbit time (for recency weight)
         var lastOrbitByUser = allOrbits
             .GroupBy(o => o.OrbiterId)
             .ToDictionary(g => g.Key, g => g.Max(o => o.OrbitedAt));
 
-        // Load trust scores for all orbiters
-        var userIds = orbitSets.Keys.ToList();
+        // All users in either interaction set
+        var userIds = orbitSets.Keys.Union(dwellSets.Keys).Distinct().ToList();
         var trustScores = await _db.Users.AsNoTracking()
             .Where(u => userIds.Contains(u.Id))
             .Select(u => new { u.Id, u.TrustScore })
@@ -61,20 +79,42 @@ public class CollaborativeFilteringService : ICollaborativeFilteringService
         for (int i = 0; i < userIds.Count; i++)
         {
             var userId = userIds[i];
-            var userSet = orbitSets[userId];
 
             for (int j = 0; j < userIds.Count; j++)
             {
                 if (i == j) continue;
                 var candidateId = userIds[j];
-                var candidateSet = orbitSets[candidateId];
 
-                // Jaccard — skip if no intersection
-                var intersectionCount = userSet.Count(x => candidateSet.Contains(x));
-                if (intersectionCount == 0) continue;
+                // Orbit Jaccard (explicit signal)
+                orbitSets.TryGetValue(userId, out var userOrbitSet);
+                orbitSets.TryGetValue(candidateId, out var candidateOrbitSet);
+                var orbitJaccard = 0.0;
+                if (userOrbitSet != null && candidateOrbitSet != null)
+                {
+                    var orbitIntersect = userOrbitSet.Count(x => candidateOrbitSet.Contains(x));
+                    if (orbitIntersect > 0)
+                    {
+                        var orbitUnion = userOrbitSet.Count + candidateOrbitSet.Count - orbitIntersect;
+                        orbitJaccard = (double)orbitIntersect / orbitUnion;
+                    }
+                }
 
-                var unionCount = userSet.Count + candidateSet.Count - intersectionCount;
-                var jaccard = (double)intersectionCount / unionCount;
+                // Dwell Jaccard (implicit signal — weighted less than explicit orbit)
+                dwellSets.TryGetValue(userId, out var userDwellSet);
+                dwellSets.TryGetValue(candidateId, out var candidateDwellSet);
+                var dwellJaccard = 0.0;
+                if (userDwellSet != null && candidateDwellSet != null)
+                {
+                    var dwellIntersect = userDwellSet.Count(x => candidateDwellSet.Contains(x));
+                    if (dwellIntersect > 0)
+                    {
+                        var dwellUnion = userDwellSet.Count + candidateDwellSet.Count - dwellIntersect;
+                        dwellJaccard = (double)dwellIntersect / dwellUnion;
+                    }
+                }
+
+                // Blend: explicit orbit is 2× more valuable than implicit dwell
+                var jaccard = orbitJaccard * 0.70 + dwellJaccard * 0.30;
                 if (jaccard <= JaccardThreshold) continue;
 
                 // Recency weight based on candidate's most recent orbit

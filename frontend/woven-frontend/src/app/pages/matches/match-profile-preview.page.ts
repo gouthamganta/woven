@@ -61,7 +61,7 @@ export class MatchProfilePreviewPageComponent implements OnInit {
   }
 
   back() {
-    this.router.navigateByUrl('/home/chats');
+    this.router.navigateByUrl('/chats');
   }
 
   toggleCaption(idx: number, caption?: string | null) {

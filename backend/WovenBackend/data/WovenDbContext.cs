@@ -32,8 +32,20 @@ public class WovenDbContext : DbContext
     public DbSet<UserWeeklyVibe> UserWeeklyVibes => Set<UserWeeklyVibe>();
     public DbSet<UserDynamicIntakeSet> UserDynamicIntakeSets => Set<UserDynamicIntakeSet>();
 
+    // Spark wallet
+    public DbSet<SparkWallet> SparkWallets => Set<SparkWallet>();
+
+    // Web Push subscriptions
+    public DbSet<UserPushSubscription> PushSubscriptions => Set<UserPushSubscription>();
+
+    // Idempotency records
+    public DbSet<IdempotencyRecord> IdempotencyRecords => Set<IdempotencyRecord>();
+
     // Moments tables
     public DbSet<Match> Matches => Set<Match>();
+    public DbSet<ChatNote> ChatNotes => Set<ChatNote>();
+    public DbSet<ChatNoteLoveReaction> ChatNoteLoveReactions => Set<ChatNoteLoveReaction>();
+    public DbSet<MessageLoveReaction> MessageLoveReactions => Set<MessageLoveReaction>();
     public DbSet<DailyInteraction> DailyInteractions => Set<DailyInteraction>();
     public DbSet<PendingMatch> PendingMatches => Set<PendingMatch>();
     public DbSet<Block> Blocks => Set<Block>();
@@ -42,10 +54,24 @@ public class WovenDbContext : DbContext
     public DbSet<ChatMessage> ChatMessages => Set<ChatMessage>();
     public DbSet<UserRating> UserRatings => Set<UserRating>();
 
+    // ECHO signal ledger (Phase ECHO-1) + composite connection scores (Phase ECHO-2)
+    public DbSet<MatchSignalLog> MatchSignalLogs => Set<MatchSignalLog>();
+    public DbSet<ConnectionScore> ConnectionScores => Set<ConnectionScore>();
+
+    // ECHO Phase 5: behavioural fingerprint (16-dim, no OpenAI)
+    public DbSet<UserBehavioralFingerprint> UserBehavioralFingerprints => Set<UserBehavioralFingerprint>();
+
+    // ECHO Phase 7: LinUCB bandit per-user model
+    public DbSet<LinUcbUserModel> LinUcbUserModels => Set<LinUcbUserModel>();
+
+    // Weekly coaching summaries
+    public DbSet<WovenBackend.Data.Entities.CoachingSummary> CoachingSummaries => Set<WovenBackend.Data.Entities.CoachingSummary>();
+
     // Matchmaking engine tables
     public DbSet<UserVector> UserVectors => Set<UserVector>();
     public DbSet<UserVectorTag> UserVectorTags => Set<UserVectorTag>();
     public DbSet<DailyDeck> DailyDecks => Set<DailyDeck>();
+    public DbSet<DailyDeckItem> DailyDeckItems => Set<DailyDeckItem>();
     public DbSet<MatchExplanation> MatchExplanations => Set<MatchExplanation>();
     public DbSet<MatchOutcome> MatchOutcomes => Set<MatchOutcome>();
     public DbSet<CandidateExposure> CandidateExposures => Set<CandidateExposure>();
@@ -113,11 +139,19 @@ public class WovenDbContext : DbContext
     public DbSet<AbAssignment> AbAssignments => Set<AbAssignment>();
     public DbSet<AbConversion> AbConversions => Set<AbConversion>();
 
+    // ECHO Podcast Agent
+    public DbSet<WovenBackend.data.Entities.EchoConversation> EchoConversations => Set<WovenBackend.data.Entities.EchoConversation>();
+    public DbSet<WovenBackend.data.Entities.EchoMessage> EchoMessages => Set<WovenBackend.data.Entities.EchoMessage>();
+    public DbSet<WovenBackend.data.Entities.EchoState> EchoStates => Set<WovenBackend.data.Entities.EchoState>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         // User entity configuration
+        modelBuilder.Entity<SparkWallet>()
+            .HasKey(w => w.UserId);
+
         modelBuilder.Entity<User>()
             .HasIndex(x => x.Email)
             .IsUnique();
@@ -265,6 +299,50 @@ public class WovenDbContext : DbContext
         // ===============================
         // Moments: Relationships (FKs)
         // ===============================
+
+        // ChatNoteLoveReaction: one love per (FromUserId, NoteId)
+        modelBuilder.Entity<ChatNoteLoveReaction>()
+            .HasOne(x => x.Note)
+            .WithMany()
+            .HasForeignKey(x => x.NoteId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ChatNoteLoveReaction>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.FromUserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<ChatNoteLoveReaction>()
+            .HasIndex(x => new { x.FromUserId, x.NoteId })
+            .HasDatabaseName("uq_chatnote_love_user_note")
+            .IsUnique();
+
+        modelBuilder.Entity<ChatNoteLoveReaction>()
+            .HasIndex(x => x.NoteId)
+            .HasDatabaseName("ix_chatnote_love_note_id");
+
+        // MessageLoveReaction: one love per (FromUserId, MessageId)
+        modelBuilder.Entity<MessageLoveReaction>()
+            .HasOne(x => x.Message)
+            .WithMany()
+            .HasForeignKey(x => x.MessageId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<MessageLoveReaction>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.FromUserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<MessageLoveReaction>()
+            .HasIndex(x => new { x.FromUserId, x.MessageId })
+            .HasDatabaseName("uq_message_love_user_message")
+            .IsUnique();
+
+        modelBuilder.Entity<MessageLoveReaction>()
+            .HasIndex(x => x.ThreadId)
+            .HasDatabaseName("ix_message_love_thread_id");
 
         // matches -> users
         modelBuilder.Entity<Match>()
@@ -591,6 +669,42 @@ public class WovenDbContext : DbContext
         modelBuilder.Entity<DailyDeck>()
             .HasIndex(x => new { x.UserId, x.DateUtc })
             .IsUnique();
+
+        // DailyDeckItem: normalized deck items (replaces ItemsJson)
+        modelBuilder.Entity<DailyDeckItem>()
+            .HasOne(x => x.Deck)
+            .WithMany()
+            .HasForeignKey(x => x.DeckId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<DailyDeckItem>()
+            .HasOne(x => x.Candidate)
+            .WithMany()
+            .HasForeignKey(x => x.CandidateId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<DailyDeckItem>()
+            .HasIndex(x => new { x.DeckId, x.CandidateId })
+            .IsUnique()
+            .HasDatabaseName("uq_daily_deck_item_deck_candidate");
+
+        modelBuilder.Entity<DailyDeckItem>()
+            .HasIndex(x => new { x.CandidateId, x.CreatedAt })
+            .HasDatabaseName("ix_daily_deck_item_candidate_time");
+
+        modelBuilder.Entity<DailyDeckItem>()
+            .HasIndex(x => new { x.Bucket, x.Score })
+            .HasDatabaseName("ix_daily_deck_item_bucket_score");
+
+        // IdempotencyRecord: unique key per user, auto-expire after 24h
+        modelBuilder.Entity<IdempotencyRecord>()
+            .HasIndex(x => new { x.Key, x.UserId })
+            .IsUnique()
+            .HasDatabaseName("uq_idempotency_key_user");
+
+        modelBuilder.Entity<IdempotencyRecord>()
+            .HasIndex(x => x.ExpiresAt)
+            .HasDatabaseName("ix_idempotency_expires_at");
 
         // MatchExplanation: 1:many with User
         modelBuilder.Entity<MatchExplanation>()
@@ -1180,6 +1294,11 @@ public class WovenDbContext : DbContext
             .Property(x => x.VoiceEmbedding)
             .HasColumnType("vector(192)");
 
+        // UserVector.VoiceEmbedding — 192-dim ECAPA-TDNN voice signature
+        modelBuilder.Entity<UserVector>()
+            .Property(x => x.VoiceEmbedding)
+            .HasColumnType("vector(192)");
+
         // PhotoEmbedding
         modelBuilder.Entity<PhotoEmbedding>()
             .HasOne(x => x.User)
@@ -1407,6 +1526,95 @@ public class WovenDbContext : DbContext
             .HasDefaultValue(false);
 
         // ===============================
+        // ECHO PHASE 1: MATCH SIGNAL LOG
+        // ===============================
+
+        modelBuilder.Entity<MatchSignalLog>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.ViewerId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<MatchSignalLog>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.CandidateId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // Primary lookup: all signals between a viewer-candidate pair, ordered by time
+        modelBuilder.Entity<MatchSignalLog>()
+            .HasIndex(x => new { x.ViewerId, x.CandidateId, x.OccurredAt })
+            .HasDatabaseName("ix_match_signal_log_pair_time");
+
+        // Secondary: per-user event-type queries (e.g. "all TrialRejected by this viewer")
+        modelBuilder.Entity<MatchSignalLog>()
+            .HasIndex(x => new { x.ViewerId, x.EventType, x.OccurredAt })
+            .HasDatabaseName("ix_match_signal_log_viewer_event");
+
+        // Nightly batch scan: process all recent signals
+        modelBuilder.Entity<MatchSignalLog>()
+            .HasIndex(x => x.OccurredAt)
+            .HasDatabaseName("ix_match_signal_log_occurred_at");
+
+        modelBuilder.Entity<MatchSignalLog>()
+            .ToTable(t => t.HasCheckConstraint(
+                "ck_match_signal_log_no_self",
+                "\"viewer_id\" <> \"candidate_id\""));
+
+        // ===================================
+        // ECHO PHASE 5: BEHAVIORAL FINGERPRINT
+        // ===================================
+
+        modelBuilder.Entity<UserBehavioralFingerprint>()
+            .HasKey(x => x.UserId);
+
+        modelBuilder.Entity<UserBehavioralFingerprint>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // ===============================
+        // ECHO PHASE 2: CONNECTION SCORES
+        // ===============================
+
+        modelBuilder.Entity<ConnectionScore>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.ViewerId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ConnectionScore>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.CandidateId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        // Unique: one score per (viewer, candidate) — upserted nightly
+        modelBuilder.Entity<ConnectionScore>()
+            .HasIndex(x => new { x.ViewerId, x.CandidateId })
+            .HasDatabaseName("uq_connection_score_pair")
+            .IsUnique();
+
+        // Weight learning reads all scores for a given viewer ordered by score desc
+        modelBuilder.Entity<ConnectionScore>()
+            .HasIndex(x => new { x.ViewerId, x.Score })
+            .HasDatabaseName("ix_connection_score_viewer_score");
+
+        // ===============================
+        // ECHO PHASE 7: LinUCB BANDIT
+        // ===============================
+
+        modelBuilder.Entity<LinUcbUserModel>()
+            .HasKey(x => x.UserId);
+
+        modelBuilder.Entity<LinUcbUserModel>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // ===============================
         // PHASE 5C: ANALYTICS ENGINE
         // ===============================
 
@@ -1483,5 +1691,28 @@ public class WovenDbContext : DbContext
                 .HasConversion(strConv);
 #pragma warning restore CS8620
         }
+
+        // ===============================
+        // COACHING SUMMARIES
+        // ===============================
+
+        modelBuilder.Entity<WovenBackend.Data.Entities.CoachingSummary>()
+            .ToTable("coaching_summaries")
+            .HasKey(x => x.Id);
+
+        modelBuilder.Entity<WovenBackend.Data.Entities.CoachingSummary>()
+            .HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<WovenBackend.Data.Entities.CoachingSummary>()
+            .HasIndex(x => new { x.UserId, x.WeekStartDate })
+            .HasDatabaseName("uq_coaching_summary_user_week")
+            .IsUnique();
+
+        modelBuilder.Entity<WovenBackend.Data.Entities.CoachingSummary>()
+            .HasIndex(x => new { x.UserId, x.CreatedAt })
+            .HasDatabaseName("ix_coaching_summaries_user_id");
     }
 }

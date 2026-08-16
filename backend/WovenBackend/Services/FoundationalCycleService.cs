@@ -42,7 +42,7 @@ public class FoundationalCycleService
             // ✅ Ensure questions exist (safety) — IMPORTANT: NO OpenAI call here
             if (string.IsNullOrWhiteSpace(active.QuestionsJson) || active.QuestionsJson == "[]")
             {
-                var bank = FoundationalQuestionBank.GetBaseFiveForVersion(active.Version);
+                var bank = FoundationalQuestionBank.GetQuestionsForVersion(active.Version);
 
                 active.QuestionsJson = JsonSerializer.Serialize(
                     bank.Select(q => new { id = q.Id, text = q.Text, pillars = q.Pillars })
@@ -118,7 +118,7 @@ public class FoundationalCycleService
     private async Task CreateSet(int userId, int version, CancellationToken ct)
     {
         // ✅ Bank = source of truth (stable IDs + stable meaning)
-        var bank = FoundationalQuestionBank.GetBaseFiveForVersion(version);
+        var bank = FoundationalQuestionBank.GetQuestionsForVersion(version);
 
         // ✅ Load user context from DB for personalization
         var userProfile = await _db.UserProfiles

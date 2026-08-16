@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export type GameType = 'KNOW_ME' | 'RED_GREEN_FLAG';
 
@@ -74,8 +75,7 @@ export interface RoundResultResponse extends RoundResultDto {}
 
 @Injectable({ providedIn: 'root' })
 export class GamesService {
-  // ✅ Use empty baseUrl - requests will go through the proxy
-  private readonly baseUrl = '';
+  private readonly baseUrl = `${environment.apiUrl}/`;
 
   constructor(private http: HttpClient) {}
 

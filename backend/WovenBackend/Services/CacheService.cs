@@ -132,6 +132,24 @@ public class CacheService : ICacheService
         return current <= limit;
     }
 
+    public async Task<bool> AcquireLockAsync(string lockKey, TimeSpan expiry, CancellationToken ct = default)
+    {
+        try
+        {
+            var db = _redis.GetDatabase();
+            // SET key "1" NX EX <seconds> — atomic, only sets if key doesn't exist.
+            return await db.StringSetAsync(lockKey, "1", expiry, When.NotExists);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "[Cache] AcquireLockAsync failed for {Key} — failing open", lockKey);
+            return true; // fail open: don't block workers on cache outage
+        }
+    }
+
+    public Task ReleaseLockAsync(string lockKey, CancellationToken ct = default)
+        => DeleteAsync(lockKey, ct);
+
     private static bool IsSensitiveKey(string key)
         => key.StartsWith("session:", StringComparison.Ordinal)
         || key.StartsWith("embedding:", StringComparison.Ordinal);

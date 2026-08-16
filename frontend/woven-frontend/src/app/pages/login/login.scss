@@ -1,47 +1,42 @@
 /* ======================================================
-   Woven Login — 2D Love Story + Card
-   Motion is driven by GSAP + canvas rAF (login.ts).
-   This file handles layout and static appearance only.
+   Woven Login — Video Intro + Card
    ====================================================== */
 
-/* ── Story overlay ─────────────────────────────────── */
-.story {
+/* ── Intro overlay ─────────────────────────────────── */
+.intro {
   position: fixed;
   inset: 0;
   z-index: 100;
-  pointer-events: none;
+  background: #1A0F1E;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: opacity 0.8s ease;
 }
 
-/* ── Story canvas — characters, trails, hearts ─────── */
-.story-canvas {
+.intro.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Video ─────────────────────────────────────────── */
+.intro-video {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* Fill the viewport on any screen size, never distort */
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+
+  /* Fallback — object-fit for browsers that support it */
   width: 100%;
   height: 100%;
-}
-
-/* ── Wordmark — appears at end of story ────────────── */
-.wordmark {
-  position: absolute;
-  display: flex;
-  font-family: var(--font-display);
-  font-size: 52px;
-  font-weight: 300;
-  letter-spacing: 16px;
-  text-transform: uppercase;
-  color: var(--text-primary);
-  text-indent: 16px; /* compensate for letter-spacing on last char */
-  top: 50%;
-  transform: translateY(70px); /* sits below center; GSAP adjusts */
-}
-
-.wordmark span {
-  display: inline-block;
-  opacity: 0; /* GSAP staggers each letter */
-  will-change: transform, opacity;
+  object-fit: cover;
+  object-position: center center;
 }
 
 /* ── Skip button ───────────────────────────────────── */
@@ -50,30 +45,34 @@
   bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
-  pointer-events: auto;
+  z-index: 10;
   cursor: pointer;
 
-  border: 1px solid var(--border-soft);
-  background: rgba(44, 29, 53, 0.70);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(26, 15, 30, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: var(--text-muted);
-  padding: 10px 22px;
+  color: rgba(255, 215, 235, 0.55);
+  padding: 10px 24px;
   border-radius: 9999px;
   font-family: var(--font-ui);
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
 
-  opacity: 0; /* GSAP fades in at 0.8s */
-  transition: color var(--dur-base) ease, border-color var(--dur-base) ease,
-              background var(--dur-base) ease;
+  opacity: 0;
+  animation: skipFadeIn 0.5s ease 1.5s forwards;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+@keyframes skipFadeIn {
+  to { opacity: 1; }
 }
 
 .skip-btn:hover {
-  color: var(--text-secondary);
-  border-color: var(--border-medium);
-  background: rgba(44, 29, 53, 0.90);
+  color: rgba(255, 230, 242, 0.85);
+  border-color: rgba(255, 255, 255, 0.32);
+  background: rgba(26, 15, 30, 0.92);
 }
 
 /* ── Login stage ───────────────────────────────────── */
@@ -100,31 +99,43 @@
   border: 1px solid var(--border-soft);
   box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
-  opacity: 0; /* GSAP springs it in */
+  opacity: 0;
+  transform: translateY(40px) scale(0.97);
   will-change: transform, opacity;
 
-  /* For mouse spotlight */
   --cx: 220px;
   --cy: 180px;
 }
 
-/* Top-edge shimmer sweeps once when card appears */
-.card::before {
+.card.visible {
+  animation: cardReveal 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes cardReveal {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Top-edge shimmer once on reveal */
+.card.visible::before {
   content: "";
   position: absolute;
   top: 0; left: 10%; right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--rose-400) 40%, var(--plum-400) 60%, transparent 100%);
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--gold-400) 35%,
+    var(--rose-400) 65%,
+    transparent 100%);
   background-size: 200% 100%;
-  background-position: -100% 0;
   border-radius: var(--radius-full);
-  animation: shimmerSweep 1.6s ease-out 5.0s 1 forwards;
+  animation: shimmerSweep 1.4s ease-out 0.4s 1 forwards;
+  opacity: 0;
 }
 
 @keyframes shimmerSweep {
   0%   { background-position: -100% 0; opacity: 0; }
-  10%  { opacity: 1; }
-  100% { background-position: 150% 0;  opacity: 1; }
+  8%   { opacity: 1; }
+  100% { background-position: 150% 0; opacity: 1; }
 }
 
 /* Mouse spotlight */
@@ -133,7 +144,11 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(circle 260px at var(--cx) var(--cy), rgba(224,84,144,0.07), transparent 70%);
+  background: radial-gradient(
+    circle 260px at var(--cx) var(--cy),
+    rgba(192, 57, 43, 0.08),
+    transparent 70%
+  );
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.5s ease;
@@ -149,7 +164,7 @@
   font-weight: 300;
   letter-spacing: -2px;
   margin: 0 0 var(--space-3);
-  background: linear-gradient(135deg, var(--text-primary) 40%, var(--rose-300));
+  background: linear-gradient(135deg, var(--gold-300) 0%, var(--text-primary) 45%, var(--rose-300) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -182,16 +197,102 @@
   margin: 0 0 var(--space-5);
 }
 
-.googleWrap { display: flex; justify-content: center; margin-bottom: var(--space-5); }
+/* ── Consent ───────────────────────────────────────── */
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
+  margin-bottom: var(--space-5);
+  cursor: pointer;
+  user-select: none;
+}
+
+.consent-box {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1.5px solid var(--border-soft);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.consent.checked .consent-box {
+  border-color: var(--gold-400);
+  background: rgba(212, 160, 23, 0.15);
+  color: var(--gold-300);
+}
+
+.consent-box svg {
+  width: 12px;
+  height: 12px;
+}
+
+.consent-text {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text-muted);
+
+  a {
+    color: var(--gold-300);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.15s ease;
+
+    &:hover { color: var(--gold-400); text-decoration: underline; }
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-5px); }
+  40%       { transform: translateX(5px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+.consent.shake { animation: shake 0.45s ease; }
+
+/* ── Google wrapper + lock ─────────────────────────── */
+.googleWrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  transition: opacity 0.25s ease;
+}
+
+.googleWrap.locked { opacity: 0.38; }
+
+.lock-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  cursor: not-allowed;
+  border-radius: 4px;
+}
 
 #googleBtn { width: min(360px, 90vw); min-height: 44px; }
+
+/* ── Cookie note ───────────────────────────────────── */
+.cookie-note {
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin: 0 0 var(--space-3);
+  opacity: 0.7;
+}
 
 .state { font-size: var(--text-sm); color: var(--text-muted); margin-top: var(--space-4); }
 .state.err { color: #ff7070; }
 
 /* ── Mobile ────────────────────────────────────────── */
 @media (max-width: 520px) {
-  .wordmark { font-size: 36px; letter-spacing: 10px; }
   .card { padding: var(--space-10) var(--space-6); }
   .logo { font-size: var(--text-4xl); }
 }

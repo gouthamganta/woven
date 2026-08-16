@@ -319,44 +319,44 @@ Return ONLY valid JSON:
                 new()
                 {
                     Id = "q1",
-                    Text = "Their ideal weekend morning?",
+                    Text = "How do they prefer to recharge after a long week?",
                     Options = new List<OptionData>
                     {
-                        new() { Id = "a", Text = "Sleep in until noon", IsCorrect = false },
-                        new() { Id = "b", Text = "Early workout", IsCorrect = true },
-                        new() { Id = "c", Text = "Brunch with friends", IsCorrect = false },
-                        new() { Id = "d", Text = "Farmers market", IsCorrect = false }
+                        new() { Id = "a", Text = "Solo time at home", IsCorrect = false },
+                        new() { Id = "b", Text = "Out with close friends", IsCorrect = true },
+                        new() { Id = "c", Text = "Something active outdoors", IsCorrect = false },
+                        new() { Id = "d", Text = "Doesn't need to decompress", IsCorrect = false }
                     },
                     Difficulty = "EASY",
-                    Category = "lifestyle"
+                    Category = "personality"
                 },
                 new()
                 {
                     Id = "q2",
-                    Text = "Their coffee order?",
+                    Text = "When they disagree with someone they care about, what do they do first?",
                     Options = new List<OptionData>
                     {
-                        new() { Id = "a", Text = "Black coffee", IsCorrect = false },
-                        new() { Id = "b", Text = "Latte with oat milk", IsCorrect = true },
-                        new() { Id = "c", Text = "Doesn't drink coffee", IsCorrect = false },
-                        new() { Id = "d", Text = "Iced americano", IsCorrect = false }
+                        new() { Id = "a", Text = "Talk it through right away", IsCorrect = false },
+                        new() { Id = "b", Text = "Step back and think first", IsCorrect = true },
+                        new() { Id = "c", Text = "Let it go if it's small", IsCorrect = false },
+                        new() { Id = "d", Text = "Write it out before speaking", IsCorrect = false }
                     },
                     Difficulty = "MEDIUM",
-                    Category = "preferences"
+                    Category = "communication"
                 },
                 new()
                 {
                     Id = "q3",
-                    Text = "How do they handle stress?",
+                    Text = "What does a good first date look like to them?",
                     Options = new List<OptionData>
                     {
-                        new() { Id = "a", Text = "Talk it out with friends", IsCorrect = false },
-                        new() { Id = "b", Text = "Need alone time", IsCorrect = true },
-                        new() { Id = "c", Text = "Stay busy", IsCorrect = false },
-                        new() { Id = "d", Text = "Exercise", IsCorrect = false }
+                        new() { Id = "a", Text = "Something active — walk, hike, explore", IsCorrect = false },
+                        new() { Id = "b", Text = "Sit somewhere and just talk", IsCorrect = true },
+                        new() { Id = "c", Text = "A proper dinner reservation", IsCorrect = false },
+                        new() { Id = "d", Text = "Low-pressure — coffee, easy exit", IsCorrect = false }
                     },
                     Difficulty = "HARD",
-                    Category = "personality"
+                    Category = "dating"
                 }
             },
             TimeLimit = 90

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WovenBackend.Data;
 using WovenBackend.data.Entities.Moments;
 using WovenBackend.Services.Analytics;
+using WovenBackend.Services.Queue;
 
 namespace WovenBackend.Services.Tiles;
 
@@ -14,23 +15,23 @@ public class TileService : ITileService
     private static readonly TimeSpan TileLifetime = TimeSpan.FromHours(48);
 
     private readonly WovenDbContext _db;
-    private readonly TileEmbeddingService _embeddings;
+    private readonly IEmbeddingQueue _embeddingQueue;
     private readonly IConfiguration _config;
     private readonly IAnalyticsService _analytics;
     private readonly ILogger<TileService> _logger;
 
     public TileService(
         WovenDbContext db,
-        TileEmbeddingService embeddings,
+        IEmbeddingQueue embeddingQueue,
         IConfiguration config,
         IAnalyticsService analytics,
         ILogger<TileService> logger)
     {
-        _db = db;
-        _embeddings = embeddings;
-        _config = config;
-        _analytics = analytics;
-        _logger = logger;
+        _db             = db;
+        _embeddingQueue = embeddingQueue;
+        _config         = config;
+        _analytics      = analytics;
+        _logger         = logger;
     }
 
     public async Task<CreateTileResult> CreateAsync(int userId, CreateTileRequest req, CancellationToken ct = default)
@@ -80,17 +81,15 @@ public class TileService : ITileService
         _logger.LogInformation("[TileService] Created tile {TileId} for user {UserId} (type={Type}, moderated={Mod})",
             tile.Id, userId, tile.ContentType, isModerated);
 
-        // Fire embedding pipeline without blocking the response.
-        // TileEmbeddingService is a singleton using IServiceScopeFactory — safe after request scope ends.
-        if (!string.IsNullOrEmpty(tile.ContentText))
+        // Enqueue embedding. Queue is durable (Service Bus) or in-process Channel (dev).
+        // Fire for all embeddable types: text, photo (vision→embed), video (caption embed).
+        var shouldEmbed = !string.IsNullOrEmpty(tile.ContentText)
+            || tile.ContentType is "photo" or "video";
+        if (shouldEmbed)
         {
-            var tileId = tile.Id;
-            _ = Task.Run(async () =>
-            {
-                try   { await _embeddings.EmbedTileAsync(tileId); }
-                catch (Exception ex)
-                { _logger.LogError(ex, "[TileService] Embedding failed for tile {TileId}", tileId); }
-            });
+            try { await _embeddingQueue.EnqueueAsync(tile.Id, ct); }
+            catch (Exception ex)
+            { _logger.LogError(ex, "[TileService] Failed to enqueue embedding for tile {TileId}", tile.Id); }
         }
 
         _ = _analytics.TrackAsync(userId, null, AnalyticsEvents.TilePosted,
