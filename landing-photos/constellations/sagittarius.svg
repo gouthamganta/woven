@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" fill="none">
+  <!-- Arrow shaft and head (Sagittarius is the archer) -->
+  <g stroke="#D4A017" stroke-width="2" opacity="0.5">
+    <line x1="40" y1="240" x2="260" y2="60"/>
+    <!-- Arrow head -->
+    <line x1="260" y1="60" x2="240" y2="70"/>
+    <line x1="260" y1="60" x2="250" y2="80"/>
+  </g>
+
+  <!-- Main constellation stars -->
+  <circle cx="80" cy="200" r="4" fill="#D4A017" opacity="0.95"/>
+  <circle cx="110" cy="180" r="3.5" fill="#D4A017" opacity="0.9"/>
+  <circle cx="140" cy="150" r="5" fill="#D4A017" opacity="1"/>
+  <circle cx="170" cy="130" r="3.5" fill="#D4A017" opacity="0.9"/>
+  <circle cx="200" cy="100" r="4" fill="#D4A017" opacity="0.95"/>
+  <circle cx="230" cy="80" r="3" fill="#D4A017" opacity="0.85"/>
+
+  <!-- Teapot handle stars -->
+  <circle cx="100" cy="220" r="3" fill="#D4A017" opacity="0.85"/>
+  <circle cx="120" cy="210" r="3.5" fill="#D4A017" opacity="0.9"/>
+  <circle cx="150" cy="190" r="3" fill="#D4A017" opacity="0.85"/>
+
+  <!-- Constellation lines forming teapot shape -->
+  <g stroke="#D4A017" stroke-width="1.5" opacity="0.4">
+    <line x1="80" y1="200" x2="100" y2="220"/>
+    <line x1="100" y1="220" x2="120" y2="210"/>
+    <line x1="120" y1="210" x2="110" y2="180"/>
+    <line x1="110" y1="180" x2="140" y2="150"/>
+    <line x1="140" y1="150" x2="170" y2="130"/>
+    <line x1="170" y1="130" x2="200" y2="100"/>
+    <line x1="200" y1="100" x2="230" y2="80"/>
+    <line x1="150" y1="190" x2="140" y2="150"/>
+  </g>
+
+  <!-- Smaller background stars -->
+  <circle cx="60" cy="210" r="1.5" fill="#D4A017" opacity="0.3"/>
+  <circle cx="180" cy="160" r="1.5" fill="#D4A017" opacity="0.25"/>
+  <circle cx="210" cy="120" r="1.5" fill="#D4A017" opacity="0.3"/>
+  <circle cx="130" cy="190" r="1.5" fill="#D4A017" opacity="0.25"/>
+  <circle cx="250" cy="70" r="1.5" fill="#D4A017" opacity="0.3"/>
+</svg>
