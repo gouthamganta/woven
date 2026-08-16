@@ -2123,3 +2123,808 @@
     margin: 0;
   }
 }
+
+// ========================================
+// MOBILE & TABLET RESPONSIVE
+// Section-by-section adjustments, same layout
+// ========================================
+
+// Tablet (1024px and below)
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 32px;
+  }
+}
+
+// Mobile (768px and below)
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+    max-width: 100%;
+  }
+
+  // Reduce spacing between sections
+  section {
+    padding: 50px 0; // Reduced from default (was 120px)
+  }
+
+  .hero {
+    padding: 60px 0 50px;
+  }
+
+  .problem-section,
+  .moments-section,
+  .echo-section,
+  .balloon-section,
+  .features-section,
+  .commons-section,
+  .final-cta,
+  .about-section {
+    padding: 40px 0; // Tighter section spacing
+  }
+
+  // === VIDEO INTRO ===
+  // Fix: Title at end doesn't fit
+  .intro-video {
+    object-fit: cover;
+  }
+
+  .skip-btn {
+    bottom: 30px;
+    font-size: 11px;
+    padding: 8px 20px;
+  }
+
+  // If intro has text overlay, scale it down
+  .intro {
+    h1, .intro-title {
+      font-size: 42px !important;
+      padding: 0 20px;
+    }
+  }
+
+  // === HERO SECTION ===
+  .hero {
+    min-height: auto;
+    padding: 70px 0 60px;
+
+    .logo {
+      font-size: 48px;
+      letter-spacing: 3px;
+    }
+
+    .tagline {
+      font-size: 13px;
+      letter-spacing: 1.5px;
+    }
+
+    .hero-content {
+      margin-top: 40px;
+    }
+
+    .hero-headline {
+      font-size: 32px;
+      line-height: 1.3;
+      max-width: 100%;
+    }
+
+    .hero-subheadline {
+      font-size: 16px;
+      line-height: 1.6;
+      max-width: 100%;
+    }
+
+    .cta-primary {
+      font-size: 15px;
+      padding: 14px 32px;
+    }
+
+    .cta-under {
+      font-size: 13px;
+    }
+
+    .hero-visual {
+      margin-top: 48px;
+      max-width: 90%;
+
+      .hero-image {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  // === PROBLEM SECTION ===
+  .problem-section {
+    .section-header {
+      font-size: 30px;
+      line-height: 1.3;
+    }
+
+    .problem-text p {
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .reveal-line {
+      font-size: 18px;
+    }
+  }
+
+  // === MOMENTS SECTION ===
+  .moments-section {
+    padding: 40px 0 0 !important; // No bottom padding at all
+
+    .section-header {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .section-intro {
+      margin-bottom: 20px;
+
+      p {
+        font-size: 15px;
+        margin-bottom: 12px;
+      }
+    }
+  }
+
+  // === POLAROID CAROUSEL ===
+  // Fix: Size down carousel, add dot indicators, restore center card pop
+  .polaroid-carousel {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 10px 0 10px; // Minimal padding
+    margin: 0 0 -10px 0; // Negative margin to overlap
+    position: relative;
+    scroll-snap-type: x mandatory; // Snap to cards
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .carousel-track {
+      min-width: max-content;
+      padding: 15px 0; // Minimal vertical padding
+      gap: 20px; // Space for cards to "pop"
+      display: flex;
+      align-items: center;
+    }
+
+    .polaroid {
+      width: 260px;
+      min-width: 260px;
+      scroll-snap-align: center; // Snap to center
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform: scale(0.88); // Start smaller
+      opacity: 0.7; // Dim non-center cards
+
+      // Center card pop effect (when centered in viewport)
+      &.center-card,
+      &:hover {
+        transform: scale(1); // Pop to full size
+        opacity: 1;
+        z-index: 2;
+      }
+
+      .polaroid-photo {
+        height: 300px;
+
+        img {
+          object-fit: cover;
+        }
+      }
+
+      .polaroid-name {
+        font-size: 18px;
+      }
+
+      .polaroid-label {
+        font-size: 10px;
+      }
+
+      .polaroid-explanation {
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .polaroid-actions {
+        gap: 10px;
+
+        button {
+          font-size: 13px;
+          padding: 10px 18px;
+        }
+      }
+    }
+
+    // Visible dot indicator bar (inside carousel)
+    &::after {
+      content: '⬤ ⬤ ⬤ ⬤ ⬤ ⬤ ⬤'; // Dot symbols for 7 cards
+      display: block;
+      position: absolute;
+      bottom: -10px; // Move below carousel
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 8px;
+      letter-spacing: 8px;
+      color: rgba(159, 122, 234, 0.5);
+      text-shadow: 0 0 8px rgba(159, 122, 234, 0.8);
+    }
+  }
+
+  // === CHOICE EXPLANATION ===
+  // Fix: Horizontal layout, no gap
+  .choice-container {
+    padding: 0 12px 30px !important; // No top padding
+    margin: 0 !important; // No margin
+    display: flex;
+    flex-direction: row; // Horizontal layout
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: transparent; // No background
+
+    .choice-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0; // Don't shrink
+    }
+
+    .choice-symbol {
+      font-size: 44px;
+      line-height: 1;
+    }
+
+    .choice-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .choice-center {
+      flex: 1;
+      text-align: center;
+      padding: 0 8px;
+    }
+
+    .choice-rule,
+    .choice-end {
+      font-size: 12px;
+      line-height: 1.4;
+      margin: 0 0 8px 0;
+    }
+
+    .choice-end {
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+  }
+
+  // === CHAT NOTE SECTION ===
+  .chat-note-section {
+    .section-header {
+      font-size: 30px;
+    }
+
+    .section-text p {
+      font-size: 15px;
+    }
+
+    .highlight {
+      font-size: 15px;
+    }
+  }
+
+  .chat-note-container {
+    .demo-label {
+      font-size: 11px;
+    }
+
+    .state-label {
+      font-size: 12px;
+    }
+
+    .note-modal {
+      .modal-header {
+        font-size: 13px;
+      }
+
+      .note-input {
+        font-size: 14px;
+      }
+
+      .char-count {
+        font-size: 11px;
+      }
+
+      .modal-submit {
+        font-size: 14px;
+        padding: 11px 24px;
+      }
+    }
+
+    .pinned-note {
+      .note-label {
+        font-size: 11px;
+      }
+
+      .note-text {
+        font-size: 14px;
+      }
+    }
+  }
+
+  // === ECHO SECTION ===
+  .echo-section {
+    .section-header {
+      font-size: 30px;
+    }
+
+    .echo-text p {
+      font-size: 15px;
+    }
+
+    .highlight {
+      font-size: 16px;
+    }
+  }
+
+  // === BALLOON SECTION ===
+  .balloon-section {
+    .section-header {
+      font-size: 30px;
+    }
+
+    .section-text p {
+      font-size: 15px;
+    }
+  }
+
+  .balloon-states-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+
+    .state-card {
+      padding: 24px 16px;
+    }
+
+    .state-label {
+      font-size: 11px;
+    }
+
+    .state-icon {
+      font-size: 42px;
+    }
+
+    .state-desc {
+      font-size: 13px;
+    }
+
+    .state-title {
+      font-size: 16px;
+    }
+
+    .state-action,
+    .choice-btn {
+      font-size: 13px;
+      padding: 9px 18px;
+    }
+  }
+
+  // === FEATURES SECTION ===
+  .features-section {
+    .section-header {
+      font-size: 30px;
+    }
+
+    .section-text p {
+      font-size: 15px;
+    }
+  }
+
+  // Fix: Center features grid, make it look better on mobile
+  .features-static-grid {
+    grid-template-columns: 1fr; // Single column for mobile
+    gap: 20px;
+    max-width: 400px; // Center with max-width
+    margin: 0 auto; // Center alignment
+    padding: 0 10px;
+
+    .feature-card {
+      padding: 24px 20px;
+      text-align: center; // Center content
+    }
+
+    .feature-label {
+      font-size: 11px;
+      text-align: center;
+    }
+  }
+
+  .game-card-mock {
+    .game-header-mock {
+      font-size: 11px;
+    }
+
+    .game-question-mock,
+    .game-scenario-mock {
+      font-size: 14px;
+    }
+
+    .game-option-mock,
+    .flag-btn-mock {
+      font-size: 13px;
+      padding: 10px;
+    }
+  }
+
+  .date-idea-mock {
+    .date-kicker-mock {
+      font-size: 10px;
+    }
+
+    .date-text-mock {
+      font-size: 14px;
+    }
+
+    .plan-btn-mock {
+      font-size: 13px;
+    }
+  }
+
+  .planning-mock {
+    .planning-title-mock {
+      font-size: 13px;
+    }
+
+    .venue-name {
+      font-size: 14px;
+    }
+
+    .venue-distance {
+      font-size: 11px;
+    }
+
+    .planning-hint-mock {
+      font-size: 12px;
+    }
+  }
+
+  // === COMMONS SECTION ===
+  .commons-section {
+    .section-header {
+      font-size: 30px;
+    }
+
+    .section-text p {
+      font-size: 15px;
+    }
+  }
+
+  // Fix: Better commons grid layout for mobile (2 columns, fit 2 sections in view)
+  .commons-section {
+    padding: 60px 0; // Tighter section padding
+  }
+
+  .commons-container {
+    gap: 30px; // Reduce gap
+  }
+
+  .commons-grid {
+    grid-template-columns: repeat(2, 1fr); // 2 columns for mobile
+    gap: 8px; // Tight gap for compact look
+    overflow: hidden; // Don't show all tiles
+
+    .grid-item {
+      border-radius: 10px;
+      aspect-ratio: 1; // Keep square
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    // Show first 8 items on mobile (4 rows x 2 columns)
+    .grid-item:nth-child(n+9) {
+      display: none;
+    }
+  }
+
+  // === FINAL CTA / REGISTRATION ===
+  .final-cta {
+    .cta-header {
+      font-size: 34px;
+    }
+
+    .cta-subtext {
+      font-size: 15px;
+    }
+  }
+
+  .reg-form {
+    max-width: 100%;
+
+    .form-field {
+      margin-bottom: 18px;
+
+      label {
+        font-size: 12px;
+      }
+
+      input,
+      select {
+        font-size: 15px;
+        padding: 13px 16px;
+      }
+    }
+
+    .form-row {
+      gap: 0;
+
+      .form-field {
+        flex: 1 1 100%;
+      }
+    }
+
+    .cta-large {
+      font-size: 16px;
+      padding: 15px 32px;
+    }
+
+    .cta-under {
+      font-size: 13px;
+    }
+  }
+
+  .reg-success {
+    .success-icon {
+      font-size: 52px;
+    }
+
+    h3 {
+      font-size: 26px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+  }
+
+  // === ABOUT CAROUSEL ===
+  // Fix: Make carousel smaller for mobile
+  .about-carousel {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 30px 0;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .about-track {
+      min-width: max-content;
+      padding: 10px 0;
+      gap: 16px; // Tighter gap
+    }
+
+    .about-slide {
+      width: 300px; // Smaller width (was 360px)
+      min-width: 300px;
+      padding: 32px 24px; // Tighter padding
+    }
+
+    .slide-header {
+      font-size: 20px; // Smaller (was 24px)
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+
+    .slide-text p {
+      font-size: 14px; // Smaller (was 15px)
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .slide-quote {
+      font-size: 15px; // Smaller (was 16px)
+      padding: 16px;
+      line-height: 1.5;
+    }
+
+    .slide-highlight {
+      font-size: 14px; // Smaller (was 15px)
+    }
+
+    .carousel-dots {
+      margin-top: 20px;
+
+      .dot {
+        width: 6px;
+        height: 6px;
+      }
+    }
+  }
+
+  // === FOOTER ===
+  .footer {
+    padding: 70px 0 36px;
+
+    .footer-brand {
+      .logo {
+        font-size: 36px;
+      }
+
+      .tagline {
+        font-size: 12px;
+      }
+    }
+
+    .footer-bottom p {
+      font-size: 13px;
+    }
+  }
+
+  // === STAT ROWS ===
+  .stat-row {
+    gap: 20px;
+    flex-wrap: wrap;
+
+    .stat {
+      min-width: 130px;
+
+      .stat-number {
+        font-size: 38px;
+      }
+
+      .stat-label {
+        font-size: 12px;
+      }
+    }
+  }
+
+  // === CONTENT GRIDS ===
+  .content-grid {
+    gap: 20px;
+  }
+
+  .card {
+    padding: 26px 22px;
+
+    h3 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  .highlight-box {
+    padding: 22px;
+    font-size: 14px;
+  }
+
+  .kicker {
+    font-size: 10px;
+  }
+}
+
+// Small mobile (480px and below)
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  // Note: Intro video text is baked into video - can't adjust with CSS
+  // Would need to re-render video for smaller screens
+
+  .hero {
+    .logo {
+      font-size: 38px;
+    }
+
+    .hero-headline {
+      font-size: 26px;
+    }
+
+    .hero-subheadline {
+      font-size: 14px;
+    }
+
+    .cta-primary {
+      width: 100%;
+    }
+  }
+
+  .section-header {
+    font-size: 24px !important;
+  }
+
+  // Slightly smaller for tiny screens
+  .polaroid {
+    width: 240px;
+    min-width: 240px;
+
+    .polaroid-photo {
+      height: 280px;
+    }
+
+    .polaroid-explanation {
+      font-size: 12px;
+    }
+  }
+
+  .about-slide {
+    width: 280px;
+    min-width: 280px;
+    padding: 28px 20px;
+
+    .slide-header {
+      font-size: 18px;
+    }
+
+    .slide-text p {
+      font-size: 13px;
+    }
+  }
+
+  // Keep 2 columns on small screens
+  .commons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  // Already single column, keep it
+  .features-static-grid {
+    max-width: 340px;
+  }
+
+  .balloon-states-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .stat-row .stat {
+    min-width: 110px;
+
+    .stat-number {
+      font-size: 32px;
+    }
+  }
+
+  .final-cta .cta-header {
+    font-size: 28px;
+  }
+
+  // Tighter choice section
+  .choice-container {
+    padding: 20px 12px 32px;
+    gap: 12px;
+
+    .choice-symbol {
+      font-size: 40px;
+    }
+
+    .choice-label {
+      font-size: 12px;
+    }
+
+    .choice-rule,
+    .choice-end {
+      font-size: 12px;
+    }
+  }
+}

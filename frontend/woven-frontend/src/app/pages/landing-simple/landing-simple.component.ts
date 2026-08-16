@@ -27,6 +27,7 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
   isBrowser: boolean;
   showIntro = true;
   private hideIntroTimer?: ReturnType<typeof setTimeout>;
+  introVideoSrc: string = 'login-intro.mp4'; // Default to desktop video
 
   registration: RegistrationData = {
     name: '',
@@ -88,6 +89,12 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+
+    // Set video source based on screen size
+    if (this.isBrowser) {
+      const isMobile = window.innerWidth <= 768;
+      this.introVideoSrc = isMobile ? 'login-intro-mobile.mp4' : 'login-intro.mp4';
+    }
   }
 
   ngAfterViewInit(): void {
