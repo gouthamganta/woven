@@ -1,131 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Woven — Documentation</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { 
-    background: #0d1117; 
-    color: #c9d1d9; 
-    font-family: 'Segoe UI', system-ui, sans-serif; 
-    padding: 40px 20px;
-  }
-  .container { max-width: 900px; margin: 0 auto; }
-  h1 { 
-    font-size: 32px; 
-    font-weight: 700; 
-    color: #f0f6fc; 
-    margin-bottom: 12px;
-  }
-  .subtitle { 
-    font-size: 16px; 
-    color: #8b949e; 
-    margin-bottom: 40px;
-  }
-  h2 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #f0f6fc;
-    margin-top: 40px;
-    margin-bottom: 20px;
-  }
-  .docs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-    margin-bottom: 40px;
-  }
-  .doc-card {
-    background: #161b22;
-    border: 1px solid #30363d;
-    border-radius: 8px;
-    padding: 24px;
-    transition: all 0.2s;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-  .doc-card:hover {
-    background: #0d1117;
-    border-color: #58a6ff;
-    transform: translateY(-2px);
-  }
-  .doc-card h3 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #f0f6fc;
-    margin-bottom: 8px;
-  }
-  .doc-card p {
-    font-size: 14px;
-    color: #8b949e;
-    line-height: 1.6;
-  }
-  .doc-card .arrow {
-    display: inline-block;
-    margin-top: 12px;
-    color: #58a6ff;
-    font-weight: 600;
-  }
-  .markdown-docs {
-    margin-top: 20px;
-  }
-  .markdown-docs li {
-    margin-bottom: 8px;
-    color: #8b949e;
-  }
-  .markdown-docs a {
-    color: #58a6ff;
-    text-decoration: none;
-  }
-  .markdown-docs a:hover {
-    text-decoration: underline;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Woven — Energy. Intention. Chemistry.</title>
+  <meta name="description" content="Not one swipe to marriage. Not a thousand swipes to nowhere. Five people a day, introduced like moments.">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<div class="container">
-  <h1>Woven Documentation</h1>
-  <p class="subtitle">Comprehensive guides and architectural references for the Woven platform</p>
-  
-  <h2>Interactive Maps</h2>
-  <div class="docs-grid">
-    <a href="maps/architecture-map.html" class="doc-card">
-      <h3>Architecture Map</h3>
-      <p>Interactive visualization of the Woven system architecture, including frontend, backend, data stores, and external integrations. Click any component for detailed information.</p>
-      <span class="arrow">View Map →</span>
-    </a>
-    
-    <a href="maps/product-map.html" class="doc-card">
-      <h3>Product Map</h3>
-      <p>Explore the Woven product structure, features, and user-facing capabilities across all modules and experiences.</p>
-      <span class="arrow">View Map →</span>
-    </a>
-    
-    <a href="maps/user-journey-map.html" class="doc-card">
-      <h3>User Journey Map</h3>
-      <p>Understand user flows, interactions, and key touchpoints throughout the Woven platform experience.</p>
-      <span class="arrow">View Map →</span>
-    </a>
+  <canvas id="bg-canvas"></canvas>
+  <div class="landing">
+    <section class="hero">
+      <h1 class="logo">Woven</h1>
+      <p class="tagline">Energy. Intention. Chemistry.</p>
+      <div class="hero-content">
+        <h2 class="hero-headline">Not one swipe to marriage.<br>Not a thousand swipes to nowhere.</h2>
+        <p class="hero-subheadline">Woven is the space in between. Five people a day, introduced like moments — not dealt like cards. One honest question: Magical, or Resonate? A matchmaker that learns who you actually fall for.</p>
+        <a href="#register" class="cta-primary">Join the first circle — Hyderabad</a>
+        <p class="cta-under">Open to women first. Men, we'll call you.</p>
+      </div>
+    </section>
+    <section class="problem-section">
+      <div class="container">
+        <h2 class="section-header">You've been given two bad options.</h2>
+        <div class="problem-text">
+          <p>Arranged marriage apps want you married by the second meeting. Dating apps want you swiping until you die. The system isn't broken — it's working exactly as designed.</p>
+          <p>On Tinder, the average user swipes through 140 profiles to get one match. On Bumble, 92% of matches never message. On Hinge, 70% of first dates don't lead to a second.</p>
+          <p class="reveal-line">So we built the space in between.</p>
+        </div>
+      </div>
+    </section>
+    <section class="final-cta" id="register">
+      <div class="container">
+        <h2 class="cta-header">Five people. One honest question. Starting in Hyderabad.</h2>
+        <p class="cta-subtext">The first circle is small on purpose. One city. Women first. Every member chosen.</p>
+        <form class="reg-form" id="registrationForm">
+          <div class="form-field">
+            <label>Name</label>
+            <input type="text" name="name" required placeholder="Your name" />
+          </div>
+          <div class="form-field">
+            <label>Email</label>
+            <input type="email" name="email" required placeholder="you@example.com" />
+          </div>
+          <button type="submit" class="cta-primary cta-large">Claim your place</button>
+        </form>
+        <div class="reg-success" id="successMessage" style="display: none;">
+          <h3>You're on the list</h3>
+          <p>We'll reach out when we're ready.</p>
+        </div>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="container">
+        <p class="logo">Woven</p>
+        <p>Built in Hyderabad · hello@wooven.me</p>
+      </div>
+    </footer>
   </div>
-
-  <h2>Documentation</h2>
-  <div class="markdown-docs">
-    <ul>
-      <li><a href="ARCHITECTURE.md">Architecture</a> — High-level system design and components</li>
-      <li><a href="API.md">API Reference</a> — Endpoint documentation and specifications</li>
-      <li><a href="DATA_FLOW.md">Data Flow</a> — How data moves through the system</li>
-      <li><a href="BUSINESS_RULES.md">Business Rules</a> — Core logic and constraints</li>
-      <li><a href="STATE_MACHINES.md">State Machines</a> — Complex state management workflows</li>
-      <li><a href="INFRASTRUCTURE.md">Infrastructure</a> — Deployment and operational setup</li>
-      <li><a href="GLOSSARY.md">Glossary</a> — Term definitions and concepts</li>
-      <li><a href="CONTRIBUTING.md">Contributing</a> — Development guidelines</li>
-    </ul>
-  </div>
-</div>
-
+  <script src="script.js"></script>
 </body>
 </html>
