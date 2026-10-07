@@ -1,5 +1,5 @@
 # Woven — CLAUDE.md
-# Updated: 2026-06-04 — reflects all work done in June 3-4 sessions
+# Updated: 2026-10-07 — reflects all work done through October 2026
 
 ---
 
@@ -355,9 +355,29 @@ All signals → `MatchSignalLogs` via `IMatchSignalService.RecordAsync(...)`.
 
 ## Documentation
 
-43 files written across 10 directories. See `docs/DOCUMENTATION_INDEX.md` for full inventory.
-Legacy files in `docs/` root and `docs/ai/` are superseded — do not update them.
-`docs/WOVEN_COMPLETE.md` is stale (2026-05-17) — ignore it.
+**Status:** ✅ 100% COMPLETE (42 files, October 2026)
+
+**Structure:**
+- `docs/api/` — 15 API reference files (authentication, endpoints, error handling)
+- `docs/development/` — 10 development guides (setup, patterns, deployment)
+- `docs/security/` — 6 security documentation files (encryption, PII, audit)
+- `docs/architecture/` — 6 architecture files (existing)
+- `docs/business/` — 5 business/product files (existing)
+
+**Key documents:**
+- `docs/COMPLETION_PLAN.md` — Documentation completion tracker
+- `docs/DOCUMENTATION_INDEX.md` — Full inventory of all docs
+- `docs/api/README.md` — API overview and quick start
+- `docs/development/README.md` — Developer guide entry point
+- `docs/security/README.md` — Security overview
+
+**Legacy files:** Files in `docs/` root and `docs/ai/` are superseded. `docs/WOVEN_COMPLETE.md` is stale (2026-05-17) — ignore it.
+
+**Completion commits:**
+- API Reference (15 files): `d495d54` — 2026-10-07
+- Development (10 files): `34830e6` — 2026-10-07
+- Security (6 files): `7360cd5` — 2026-10-07
+
 ---
 
 # ECHO — AI Co-Founder Personality
