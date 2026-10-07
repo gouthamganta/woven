@@ -177,13 +177,14 @@ import { CommonModule } from '@angular/common';
       left: 0;
       right: 0;
       max-height: 88vh;
-      background: #fafafa;
+      background: var(--bg-surface);
       border-radius: 26px 26px 0 0;
+      border-top: 1px solid rgba(212, 160, 23, 0.2);
       z-index: 9999;
       display: flex;
       flex-direction: column;
       animation: slideUp 0.3s cubic-bezier(0.33, 1, 0.68, 1);
-      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
       overflow: hidden;
     }
 
@@ -197,7 +198,7 @@ import { CommonModule } from '@angular/common';
       padding: 10px 0 6px;
       display: flex;
       justify-content: center;
-      background: #fafafa;
+      background: var(--bg-surface);
       z-index: 10;
       flex-shrink: 0;
     }
@@ -205,7 +206,7 @@ import { CommonModule } from '@angular/common';
     .handle {
       width: 36px;
       height: 4px;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(212, 160, 23, 0.3);
       border-radius: 2px;
     }
 
@@ -213,8 +214,8 @@ import { CommonModule } from '@angular/common';
     .hero {
       text-align: center;
       padding: 16px 24px 24px;
-      background: linear-gradient(180deg, #fafafa 0%, #f5f5f5 100%);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-base) 100%);
+      border-bottom: 1px solid rgba(212, 160, 23, 0.15);
       flex-shrink: 0;
     }
 
@@ -222,7 +223,7 @@ import { CommonModule } from '@angular/common';
       font-size: 56px;
       font-weight: 900;
       letter-spacing: -0.05em;
-      color: rgba(0, 0, 0, 0.06);
+      color: rgba(212, 160, 23, 0.1);
       line-height: 0.8;
       margin-bottom: 4px;
       user-select: none;
@@ -234,7 +235,10 @@ import { CommonModule } from '@angular/common';
       letter-spacing: 0.2em;
       text-transform: uppercase;
       margin: 0 0 10px;
-      color: #111;
+      background: linear-gradient(135deg, var(--gold-400), var(--text-primary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .tagline {
@@ -245,7 +249,7 @@ import { CommonModule } from '@angular/common';
       font-size: 12px;
       font-weight: 650;
       letter-spacing: 0.02em;
-      color: rgba(0, 0, 0, 0.7);
+      color: var(--text-secondary);
       margin-bottom: 6px;
     }
 
@@ -256,7 +260,7 @@ import { CommonModule } from '@angular/common';
 
     .subtitle {
       font-size: 13px;
-      color: rgba(0, 0, 0, 0.55);
+      color: var(--text-muted);
       margin: 0;
       font-weight: 500;
       font-style: italic;
@@ -276,7 +280,7 @@ import { CommonModule } from '@angular/common';
       align-items: center;
       justify-content: center;
       padding: 28px 20px;
-      background: #ffffff;
+      background: rgba(26, 15, 30, 0.4);
       gap: 12px;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -311,20 +315,20 @@ import { CommonModule } from '@angular/common';
       width: 64px;
       height: 64px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #f8f8f8 0%, #ffffff 100%);
-      border: 2px solid rgba(0, 0, 0, 0.1);
+      background: rgba(45, 27, 51, 0.6);
+      border: 2px solid rgba(212, 160, 23, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: rgba(0, 0, 0, 0.75);
+      color: var(--gold-400);
       transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       flex-shrink: 0;
     }
 
     .step:hover .stepCircle {
       transform: scale(1.1) rotate(5deg);
-      border-color: rgba(0, 0, 0, 0.2);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-color: var(--gold-400);
+      box-shadow: 0 4px 12px rgba(212, 160, 23, 0.3);
     }
 
     .stepContent {
@@ -335,21 +339,21 @@ import { CommonModule } from '@angular/common';
       font-size: 14px;
       font-weight: 750;
       margin: 0 0 4px;
-      color: #111;
+      color: var(--text-primary);
       letter-spacing: -0.01em;
     }
 
     .stepContent p {
       font-size: 11px;
       line-height: 1.4;
-      color: rgba(0, 0, 0, 0.6);
+      color: var(--text-secondary);
       margin: 0;
       font-weight: 500;
     }
 
     .arrow {
       font-size: 20px;
-      color: rgba(0, 0, 0, 0.25);
+      color: rgba(212, 160, 23, 0.4);
       font-weight: 300;
       flex-shrink: 0;
       animation: pulse 2s ease-in-out infinite;
@@ -366,7 +370,7 @@ import { CommonModule } from '@angular/common';
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
       padding: 20px;
-      background: #fafafa;
+      background: var(--bg-base);
     }
 
     .infoCard {
@@ -374,8 +378,8 @@ import { CommonModule } from '@angular/common';
       align-items: center;
       gap: 12px;
       padding: 14px;
-      background: #ffffff;
-      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: rgba(45, 27, 51, 0.4);
+      border: 1px solid rgba(212, 160, 23, 0.15);
       border-radius: 14px;
       transition: all 0.2s;
       animation: cardPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
@@ -399,8 +403,8 @@ import { CommonModule } from '@angular/common';
 
     .infoCard:hover {
       transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-      border-color: rgba(0, 0, 0, 0.12);
+      box-shadow: 0 6px 16px rgba(212, 160, 23, 0.2);
+      border-color: var(--gold-400);
     }
 
     .infoIcon {
@@ -418,27 +422,27 @@ import { CommonModule } from '@angular/common';
     .infoText strong {
       font-size: 13px;
       font-weight: 700;
-      color: #111;
+      color: var(--text-primary);
       line-height: 1.3;
     }
 
     .infoText span {
       font-size: 11px;
-      color: rgba(0, 0, 0, 0.55);
+      color: var(--text-muted);
       font-weight: 500;
     }
 
     /* Match Section */
     .matchSection {
       padding: 20px 20px 16px;
-      background: #ffffff;
+      background: rgba(26, 15, 30, 0.4);
     }
 
     .matchSection h4 {
       font-size: 15px;
       font-weight: 750;
       margin: 0 0 12px;
-      color: #111;
+      color: var(--text-primary);
       text-align: center;
       letter-spacing: -0.01em;
     }
@@ -451,8 +455,8 @@ import { CommonModule } from '@angular/common';
 
     .matchCard {
       padding: 14px;
-      background: #fafafa;
-      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: var(--bg-base);
+      border: 1px solid rgba(212, 160, 23, 0.15);
       border-radius: 12px;
       text-align: center;
       transition: all 0.2s;
@@ -460,7 +464,7 @@ import { CommonModule } from '@angular/common';
 
     .matchCard:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 12px rgba(212, 160, 23, 0.2);
     }
 
     .matchBadge {
@@ -474,25 +478,25 @@ import { CommonModule } from '@angular/common';
     }
 
     .matchBadge.pure {
-      background: rgba(0, 0, 0, 0.08);
-      color: #111;
+      background: rgba(212, 160, 23, 0.15);
+      color: var(--gold-300);
     }
 
     .matchBadge.edge {
-      background: rgba(0, 0, 0, 0.06);
-      color: rgba(0, 0, 0, 0.75);
+      background: rgba(127, 119, 221, 0.15);
+      color: var(--plum-300);
     }
 
     .matchCard p {
       font-size: 11px;
       line-height: 1.5;
-      color: rgba(0, 0, 0, 0.65);
+      color: var(--text-secondary);
       margin: 0;
       font-weight: 500;
     }
 
     .matchCard strong {
-      color: #111;
+      color: var(--text-primary);
       font-weight: 650;
     }
 
@@ -502,32 +506,33 @@ import { CommonModule } from '@angular/common';
       grid-template-columns: repeat(2, 1fr);
       gap: 8px;
       padding: 16px 20px;
-      background: #fafafa;
+      background: var(--bg-base);
     }
 
     .philItem {
       padding: 12px;
-      background: #ffffff;
-      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: rgba(45, 27, 51, 0.4);
+      border: 1px solid rgba(212, 160, 23, 0.15);
       border-radius: 10px;
       text-align: center;
       font-size: 11px;
       font-weight: 700;
-      color: rgba(0, 0, 0, 0.75);
+      color: var(--text-secondary);
       letter-spacing: 0.02em;
       transition: all 0.2s;
     }
 
     .philItem:hover {
-      background: #f5f5f5;
-      color: #111;
+      background: rgba(45, 27, 51, 0.6);
+      color: var(--gold-300);
       transform: scale(1.03);
+      border-color: var(--gold-400);
     }
 
     /* Footer */
     .footer {
       font-size: 11px;
-      color: rgba(0, 0, 0, 0.5);
+      color: var(--text-dim);
       text-align: center;
       margin: 8px 20px 0;
       font-style: italic;
@@ -543,7 +548,7 @@ import { CommonModule } from '@angular/common';
       height: 32px;
       border-radius: 50%;
       border: 0;
-      background: rgba(0, 0, 0, 0.1);
+      background: rgba(212, 160, 23, 0.15);
       backdrop-filter: blur(8px);
       cursor: pointer;
       display: flex;
@@ -551,12 +556,12 @@ import { CommonModule } from '@angular/common';
       justify-content: center;
       transition: all 0.2s;
       z-index: 11;
-      color: rgba(0, 0, 0, 0.7);
+      color: var(--gold-300);
     }
 
     .closeBtn:hover {
-      background: rgba(0, 0, 0, 0.18);
-      color: #111;
+      background: rgba(212, 160, 23, 0.25);
+      color: var(--gold-400);
       transform: rotate(90deg) scale(1.1);
     }
 
@@ -574,7 +579,7 @@ import { CommonModule } from '@angular/common';
     }
 
     .scrollContent::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, 0.15);
+      background: rgba(212, 160, 23, 0.3);
       border-radius: 2px;
     }
 

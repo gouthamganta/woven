@@ -1,33 +1,64 @@
 import {
   Component, ChangeDetectionStrategy, ChangeDetectorRef,
-  ElementRef, ViewChild, AfterViewChecked, Inject, PLATFORM_ID,
+  ElementRef, ViewChild, AfterViewChecked, OnInit, Inject, PLATFORM_ID,
 } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { SupportService, SupportMessage } from '../../services/support.service';
+import { PendingTaskService, PendingTask } from '../../services/pending-task.service';
+import { PulseSheetComponent } from '../../pages/home/pulse-sheet.component';
+import { CoachingCardComponent } from '../coaching-card/coaching-card.component';
 
 @Component({
   selector: 'woven-assistant',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PulseSheetComponent, CoachingCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <!-- Floating orb trigger -->
     <button
+      #orbBtn
       class="orb"
       [class.open]="isOpen"
-      (click)="toggle()"
+      [class.dragging]="isDragging"
+      [class.glow-red]="glowState === 'red'"
+      [class.glow-white]="glowState === 'white'"
+      [class.glow-gold]="glowState === 'gold'"
+      [style.left.px]="orbX"
+      [style.bottom.px]="orbY"
+      (click)="handleClick($event)"
+      (mousedown)="startDrag($event)"
+      (touchstart)="startDrag($event)"
       aria-label="Woven assistant"
-      title="Ask Woven"
+      [title]="badgeCount > 0 ? badgeCount + ' pending' : 'Ask Woven'"
     >
-      <span class="orbCore"></span>
-      <span class="orbRing r1"></span>
-      <span class="orbRing r2"></span>
+      <span class="orbCore">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </span>
+      <span class="orbBadge" *ngIf="badgeCount > 0">{{ badgeCount }}</span>
     </button>
 
+    <!-- Pending Task Modals -->
+    <app-pulse-sheet
+      *ngIf="showingPulse"
+      [state]="pulseState"
+      (saved)="onPulseSaved($event)"
+      (skipped)="onPulseSkipped()"
+      (closed)="onPulseClosed()"
+    ></app-pulse-sheet>
+
+    <woven-coaching-card
+      *ngIf="showingCoaching"
+      [summary]="coachingSummary"
+      (dismissed)="onCoachingDismissed()"
+      (skipped)="onCoachingSkipped()"
+    ></woven-coaching-card>
+
     <!-- Chat sheet -->
-    <div class="sheet" [class.visible]="isOpen" role="dialog" aria-label="Woven assistant">
+    <div class="sheet" [class.visible]="isOpen && !showingPulse && !showingCoaching" role="dialog" aria-label="Woven assistant">
 
       <!-- Handle + header -->
       <div class="sheetHead">
@@ -95,69 +126,111 @@ import { SupportService, SupportMessage } from '../../services/support.service';
     /* ── Orb trigger ──────────────────────────────────── */
     .orb {
       position: fixed;
-      bottom: 88px;
-      right: 18px;
-      width: 52px;
-      height: 52px;
+      width: 56px;
+      height: 56px;
       border: none;
       background: none;
-      cursor: pointer;
+      cursor: grab;
       padding: 0;
       z-index: 200;
       display: flex;
       align-items: center;
       justify-content: center;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      transition: transform 0.2s ease;
+    }
+
+    .orb.dragging {
+      cursor: grabbing;
+      transform: scale(1.1);
+      transition: none;
     }
 
     .orbCore {
-      position: absolute;
-      width: 44px;
-      height: 44px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
-      background: conic-gradient(
-        from 180deg,
-        var(--gold-400) 0%,
-        var(--rose-400) 50%,
-        var(--plum-400) 100%
-      );
+      background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
       box-shadow:
-        0 0 16px rgba(212,160,23,0.4),
-        0 0 32px rgba(212,160,23,0.15);
+        0 4px 20px rgba(212,160,23,0.35),
+        0 0 16px rgba(212,160,23,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bg-base);
       animation: orbBreath 3s ease-in-out infinite;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 2px solid rgba(255,255,255,0.2);
     }
 
     .orb:hover .orbCore {
-      transform: scale(1.08);
+      transform: scale(1.05);
       box-shadow:
-        0 0 20px rgba(212,160,23,0.55),
-        0 0 40px rgba(212,160,23,0.2);
+        0 6px 24px rgba(212,160,23,0.45),
+        0 0 20px rgba(212,160,23,0.35);
     }
 
     .orb.open .orbCore {
       animation: none;
-      transform: scale(0.88);
-      opacity: 0.6;
+      transform: scale(0.9);
+      opacity: 0.85;
     }
 
-    .orbRing {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid rgba(212,160,23,0.35);
-      animation: orbRipple 3s ease-out infinite;
-      pointer-events: none;
+    .orb.dragging .orbCore {
+      animation: none;
     }
-    .orbRing.r1 { width: 52px; height: 52px; animation-delay: 0s; }
-    .orbRing.r2 { width: 52px; height: 52px; animation-delay: 1.2s; }
 
     @keyframes orbBreath {
-      0%, 100% { transform: scale(1);    box-shadow: 0 0 16px rgba(212,160,23,0.4),  0 0 32px rgba(212,160,23,0.15); }
-      50%       { transform: scale(1.05); box-shadow: 0 0 22px rgba(212,160,23,0.55), 0 0 44px rgba(212,160,23,0.22); }
+      0%, 100% { box-shadow: 0 4px 20px rgba(212,160,23,0.35), 0 0 16px rgba(212,160,23,0.25); }
+      50%       { box-shadow: 0 6px 28px rgba(212,160,23,0.45), 0 0 22px rgba(212,160,23,0.35); }
     }
 
-    @keyframes orbRipple {
-      0%   { transform: scale(0.85); opacity: 0.7; }
-      100% { transform: scale(1.6);  opacity: 0; }
+    /* Glow states */
+    .orb.glow-red .orbCore {
+      box-shadow: 0 0 24px #E74C3C, 0 4px 20px rgba(231,76,60,0.5);
+      animation: pulse-red 2s ease-in-out infinite;
+    }
+    .orb.glow-white .orbCore {
+      box-shadow: 0 0 24px #E8E4F3, 0 4px 20px rgba(232,228,243,0.4);
+      animation: pulse-white 2s ease-in-out infinite;
+    }
+    .orb.glow-gold .orbCore {
+      box-shadow: 0 0 28px var(--gold-400), 0 4px 20px rgba(212,160,23,0.6);
+      animation: pulse-gold 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-red {
+      0%, 100% { box-shadow: 0 0 24px #E74C3C, 0 4px 20px rgba(231,76,60,0.5); }
+      50% { box-shadow: 0 0 32px #E74C3C, 0 6px 28px rgba(231,76,60,0.7); }
+    }
+    @keyframes pulse-white {
+      0%, 100% { box-shadow: 0 0 24px #E8E4F3, 0 4px 20px rgba(232,228,243,0.4); }
+      50% { box-shadow: 0 0 32px #E8E4F3, 0 6px 28px rgba(232,228,243,0.6); }
+    }
+    @keyframes pulse-gold {
+      0%, 100% { box-shadow: 0 0 28px var(--gold-400), 0 4px 20px rgba(212,160,23,0.6); }
+      50% { box-shadow: 0 0 36px var(--gold-400), 0 6px 28px rgba(212,160,23,0.8); }
+    }
+
+    /* Badge */
+    .orbBadge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      background: #E74C3C;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+      border: 2px solid var(--bg-base);
     }
 
     /* ── Backdrop ─────────────────────────────────────── */
@@ -229,13 +302,20 @@ import { SupportService, SupportMessage } from '../../services/support.service';
     }
 
     .headOrb {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: conic-gradient(from 180deg, var(--gold-400) 0%, var(--rose-400) 50%, var(--plum-400) 100%);
-      box-shadow: 0 0 10px rgba(212,160,23,0.3);
+      background: linear-gradient(135deg, var(--gold-500), var(--gold-400));
+      box-shadow: 0 2px 8px rgba(212,160,23,0.3);
       flex-shrink: 0;
+      color: var(--bg-base);
+      font-size: 14px;
+    }
+    .headOrb::after {
+      content: '◈';
     }
 
     .headName {
@@ -379,24 +459,51 @@ import { SupportService, SupportMessage } from '../../services/support.service';
     .sendBtn:disabled { opacity: 0.35; cursor: not-allowed; }
   `],
 })
-export class WovenAssistantComponent implements AfterViewChecked {
+export class WovenAssistantComponent implements OnInit, AfterViewChecked {
   @ViewChild('messageList') messageList?: ElementRef<HTMLDivElement>;
   @ViewChild('inputEl') inputEl?: ElementRef<HTMLInputElement>;
+  @ViewChild('orbBtn') orbBtn?: ElementRef<HTMLButtonElement>;
 
   isOpen  = false;
   draft   = '';
   thinking = false;
   history: SupportMessage[] = [];
 
+  // Pending tasks
+  pendingTasks: PendingTask[] = [];
+  badgeCount = 0;
+  glowState: 'none' | 'red' | 'white' | 'gold' = 'none';
+
+  // Modal states
+  showingPulse = false;
+  showingCoaching = false;
+  pulseState: any = null;
+  coachingSummary: any = null;
+
+  // Drag state
+  isDragging = false;
+  orbX = 18; // Initial right position
+  orbY = 88; // Initial bottom position
+  private startX = 0;
+  private startY = 0;
+  private dragMoved = false;
+
   private shouldScroll = false;
   private isBrowser: boolean;
 
   constructor(
     private support: SupportService,
+    private pendingTask: PendingTaskService,
     private cdr: ChangeDetectorRef,
     @Inject(PLATFORM_ID) platformId: object,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  async ngOnInit() {
+    if (this.isBrowser) {
+      await this.checkPendingTasks();
+    }
   }
 
   ngAfterViewChecked() {
@@ -406,15 +513,105 @@ export class WovenAssistantComponent implements AfterViewChecked {
     }
   }
 
-  toggle() {
-    this.isOpen ? this.close() : this.open();
+  startDrag(event: MouseEvent | TouchEvent) {
+    if (!this.isBrowser) return;
+    event.preventDefault();
+
+    this.isDragging = true;
+    this.dragMoved = false;
+
+    const clientX = 'touches' in event ? event.touches[0].clientX : event.clientX;
+    const clientY = 'touches' in event ? event.touches[0].clientY : event.clientY;
+
+    this.startX = clientX - this.orbX;
+    this.startY = window.innerHeight - clientY - this.orbY;
+
+    const onMove = (e: MouseEvent | TouchEvent) => this.onDrag(e);
+    const onEnd = () => this.endDrag();
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onEnd);
+    document.addEventListener('touchmove', onMove);
+    document.addEventListener('touchend', onEnd);
+
+    this.cdr.markForCheck();
   }
 
-  open() {
-    this.isOpen = true;
+  onDrag(event: MouseEvent | TouchEvent) {
+    if (!this.isDragging || !this.isBrowser) return;
+
+    this.dragMoved = true;
+
+    const clientX = 'touches' in event ? event.touches[0].clientX : event.clientX;
+    const clientY = 'touches' in event ? event.touches[0].clientY : event.clientY;
+
+    this.orbX = Math.max(0, Math.min(window.innerWidth - 56, clientX - this.startX));
+    this.orbY = Math.max(0, Math.min(window.innerHeight - 56, window.innerHeight - clientY - this.startY));
+
     this.cdr.markForCheck();
-    if (this.isBrowser) {
+  }
+
+  endDrag() {
+    if (!this.isDragging) return;
+
+    this.isDragging = false;
+
+    document.removeEventListener('mousemove', this.onDrag.bind(this));
+    document.removeEventListener('mouseup', this.endDrag.bind(this));
+    document.removeEventListener('touchmove', this.onDrag.bind(this));
+    document.removeEventListener('touchend', this.endDrag.bind(this));
+
+    this.cdr.markForCheck();
+  }
+
+  handleClick(event: MouseEvent) {
+    if (this.dragMoved) {
+      event.stopPropagation();
+      event.preventDefault();
+      return;
+    }
+    this.toggle();
+  }
+
+  async toggle() {
+    if (this.isOpen) {
+      this.close();
+    } else {
+      await this.open();
+    }
+  }
+
+  async open() {
+    this.isOpen = true;
+
+    // Check if there are pending tasks to show first
+    if (this.pendingTasks.length > 0) {
+      const highest = this.pendingTasks[0];
+      await this.showPendingTask(highest);
+    }
+
+    this.cdr.markForCheck();
+    if (this.isBrowser && !this.showingPulse && !this.showingCoaching) {
       setTimeout(() => this.inputEl?.nativeElement.focus(), 350);
+      // Log assistant opened
+      this.pendingTask.logInteraction('AssistantChatOpened', {
+        hasPendingTasks: this.pendingTasks.length > 0
+      }).subscribe();
+    }
+  }
+
+  async showPendingTask(task: PendingTask) {
+    // Implementation will fetch the actual data and show the modal
+    if (task.type === 'daily_pulse') {
+      this.showingPulse = true;
+      // Pulse state would be fetched here - simplified for now
+      this.pulseState = { cycleId: task.data.cycleId };
+    } else if (task.type === 'weekly_coaching') {
+      this.showingCoaching = true;
+      this.coachingSummary = {
+        id: task.data.summaryId,
+        summaryText: task.data.summaryText
+      };
     }
   }
 
@@ -451,5 +648,99 @@ export class WovenAssistantComponent implements AfterViewChecked {
   private scrollToBottom() {
     const el = this.messageList?.nativeElement;
     if (el) el.scrollTop = el.scrollHeight;
+  }
+
+  async checkPendingTasks() {
+    try {
+      const res = await firstValueFrom(this.pendingTask.getPendingTasks());
+      this.pendingTasks = res.tasks;
+      this.badgeCount = this.pendingTasks.length;
+      this.updateGlowState();
+      this.cdr.markForCheck();
+    } catch {
+      // Silent fail - just no badge/glow
+    }
+  }
+
+  private updateGlowState() {
+    if (this.pendingTasks.length === 0) {
+      this.glowState = 'none';
+      return;
+    }
+
+    const highest = this.pendingTasks[0];
+    switch (highest.type) {
+      case 'date_feedback':
+        this.glowState = 'red';
+        break;
+      case 'weekly_coaching':
+        this.glowState = 'gold';
+        break;
+      case 'daily_pulse':
+        this.glowState = 'white';
+        break;
+      default:
+        this.glowState = 'none';
+    }
+  }
+
+  // Pulse event handlers
+  async onPulseSaved(answers: any) {
+    this.showingPulse = false;
+    await this.pendingTask.logInteraction('DailyPulseCompleted', {
+      answers
+    }).toPromise();
+    await this.advanceToNextPendingOrChat();
+  }
+
+  async onPulseSkipped() {
+    this.showingPulse = false;
+    await this.pendingTask.logInteraction('DailyPulseSkipped', {
+      nextAction: this.pendingTasks.length > 1 ? 'opened_next_pending' : 'opened_assistant'
+    }).toPromise();
+    await this.advanceToNextPendingOrChat();
+  }
+
+  onPulseClosed() {
+    this.showingPulse = false;
+    this.close();
+  }
+
+  // Coaching event handlers
+  async onCoachingDismissed() {
+    this.showingCoaching = false;
+    await this.pendingTask.logInteraction('WeeklyCoachingDismissed', {
+      summaryId: this.coachingSummary?.id
+    }).toPromise();
+    await this.advanceToNextPendingOrChat();
+  }
+
+  async onCoachingSkipped() {
+    this.showingCoaching = false;
+    await this.pendingTask.logInteraction('WeeklyCoachingSkipped', {
+      summaryId: this.coachingSummary?.id,
+      nextAction: this.pendingTasks.length > 1 ? 'opened_next_pending' : 'opened_assistant'
+    }).toPromise();
+    await this.advanceToNextPendingOrChat();
+  }
+
+  // Auto-advance to next pending task or chat
+  async advanceToNextPendingOrChat() {
+    // Remove the completed/skipped task
+    this.pendingTasks.shift();
+    this.badgeCount = this.pendingTasks.length;
+    this.updateGlowState();
+
+    if (this.pendingTasks.length > 0) {
+      // Show next pending task
+      const next = this.pendingTasks[0];
+      await this.showPendingTask(next);
+    } else {
+      // No more pending - show chat
+      if (this.isBrowser) {
+        setTimeout(() => this.inputEl?.nativeElement.focus(), 350);
+      }
+    }
+    this.cdr.markForCheck();
   }
 }

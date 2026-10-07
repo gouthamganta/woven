@@ -2,9 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login';
 import { LegalComponent } from './pages/legal/legal.component';
 import { LandingSimpleComponent } from './pages/landing-simple/landing-simple.component';
-import { authGuard } from './core/auth/auth.guard';
-
-import { OnboardingGateComponent } from './onboarding/onboarding-gate.component';
+// import { authGuard } from './core/auth/auth.guard'; // Removed for testing
 import { HomeComponent } from './pages/home/home';
 
 import { MomentsPageComponent } from './pages/moments/moments.page';
@@ -27,35 +25,32 @@ import { FoundationalComponent } from './onboarding/foundational.component';
 import { PhotosPageComponent } from './pages/onboarding/photos/photos.page';
 
 export const routes: Routes = [
-  // Landing page (public) — exact match takes precedence
-  { path: '', component: LandingSimpleComponent, pathMatch: 'full' },
-
-  // Post-login gate — checks onboarding status, redirects accordingly
-  { path: 'app', canActivate: [authGuard], component: OnboardingGateComponent },
-
-  // Unauthenticated
+  // Public routes
+  { path: 'landing',     component: LandingSimpleComponent },
   { path: 'login',       component: LoginComponent },
+  { path: 'app',         redirectTo: 'moments', pathMatch: 'full' },
   { path: 'privacy',     component: LegalComponent },
   { path: 'terms',       component: LegalComponent },
   { path: 'data-policy', component: LegalComponent },
 
-  // Onboarding steps (auth required, rendered outside shell)
-  { path: 'onboarding/welcome',     canActivate: [authGuard], component: WelcomeOnboardingComponent },
-  { path: 'onboarding/basics',      canActivate: [authGuard], component: BasicsOnboardingComponent },
-  { path: 'onboarding/intent',      canActivate: [authGuard], component: IntentOnboardingComponent },
-  { path: 'onboarding/foundational',canActivate: [authGuard], component: FoundationalComponent },
-  { path: 'onboarding/photos',      canActivate: [authGuard], component: PhotosPageComponent },
-  { path: 'onboarding/details',     canActivate: [authGuard], component: DetailsOnboardingComponent },
-  { path: 'onboarding/lifestyle',   canActivate: [authGuard], component: LifestyleOnboardingComponent },
-  { path: 'onboarding/review',      canActivate: [authGuard], component: ReviewOnboardingComponent },
-  { path: 'onboarding/start',       canActivate: [authGuard], component: StartOnboardingComponent },
+  // Onboarding steps (no auth for testing)
+  { path: 'onboarding/welcome',     /* canActivate: [authGuard], */ component: WelcomeOnboardingComponent },
+  { path: 'onboarding/basics',      /* canActivate: [authGuard], */ component: BasicsOnboardingComponent },
+  { path: 'onboarding/intent',      /* canActivate: [authGuard], */ component: IntentOnboardingComponent },
+  { path: 'onboarding/foundational',/* canActivate: [authGuard], */ component: FoundationalComponent },
+  { path: 'onboarding/photos',      /* canActivate: [authGuard], */ component: PhotosPageComponent },
+  { path: 'onboarding/details',     /* canActivate: [authGuard], */ component: DetailsOnboardingComponent },
+  { path: 'onboarding/lifestyle',   /* canActivate: [authGuard], */ component: LifestyleOnboardingComponent },
+  { path: 'onboarding/review',      /* canActivate: [authGuard], */ component: ReviewOnboardingComponent },
+  { path: 'onboarding/start',       /* canActivate: [authGuard], */ component: StartOnboardingComponent },
 
-  // Main app shell (auth required) — wraps moments/commons/chats/you with navigation
+  // Main app shell — wraps moments/commons/chats/you with navigation
   {
     path: '',
     component: HomeComponent,
-    canActivate: [authGuard],
+    /* canActivate: [authGuard], */
     children: [
+      { path: '', redirectTo: 'moments', pathMatch: 'full' },
       { path: 'moments',                     component: MomentsPageComponent },
       { path: 'commons',                     component: CommonsPageComponent },
       { path: 'chats',                       component: ChatsListComponent },
@@ -68,5 +63,5 @@ export const routes: Routes = [
   },
 
   // Catch-all
-  { path: '**', redirectTo: '' },
+  { path: '**', redirectTo: 'moments' },
 ];

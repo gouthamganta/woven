@@ -406,6 +406,11 @@ builder.Services.AddScoped<OpenAiDynamicIntakeRewriteService>();
 builder.Services.AddScoped<DynamicIntakeCycleService>();
 
 // ----------------------------------------------------
+// INTERACTION LOG SERVICE (ECHO learning signals)
+// ----------------------------------------------------
+builder.Services.AddScoped<IInteractionLogService, InteractionLogService>();
+
+// ----------------------------------------------------
 // MATCHMAKING ENGINE SERVICES
 // ----------------------------------------------------
 
@@ -888,6 +893,7 @@ app.MapChatEndpoints();
 app.MapGameEndpoints();
 app.MapMatchesEndpoints();
 app.MapCoachingEndpoints();
+app.MapInteractionEndpoints();
 app.MapDynamicIntakeEndpoints();
 app.MapMediaEndpoints();
 app.MapTileEndpoints();

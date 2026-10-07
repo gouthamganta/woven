@@ -2458,6 +2458,110 @@ namespace WovenBackend.Migrations
                     b.ToTable("UserWeeklyVibes");
                 });
 
+            modelBuilder.Entity("WovenBackend.data.Entities.EchoConversation", b =>
+                {
+                    b.Property<Guid>("ConversationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("conversation_id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("ConversationId");
+
+                    b.ToTable("echo_conversations");
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.EchoMessage", b =>
+                {
+                    b.Property<Guid>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("message_id");
+
+                    b.Property<string>("CitationsJson")
+                        .HasColumnType("text")
+                        .HasColumnName("citations_json");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("content");
+
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("conversation_id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("EchoState")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("echo_state");
+
+                    b.Property<string>("LiveStatsJson")
+                        .HasColumnType("text")
+                        .HasColumnName("live_stats_json");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("role");
+
+                    b.Property<string>("VoiceAudioUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("voice_audio_url");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ConversationId");
+
+                    b.ToTable("echo_messages");
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.EchoState", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CurrentState")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("current_state");
+
+                    b.Property<string>("StateDescription")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("state_description");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("echo_state");
+                });
+
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.Block", b =>
                 {
                     b.Property<int>("BlockerId")
@@ -3232,6 +3336,52 @@ namespace WovenBackend.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WovenBackend.data.Entities.UserInteractionLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContextJson")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("context");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("event_type");
+
+                    b.Property<DateTimeOffset>("OccurredAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("occurred_at");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OccurredAt")
+                        .HasDatabaseName("ix_interaction_logs_occurred");
+
+                    b.HasIndex("UserId", "EventType")
+                        .HasDatabaseName("ix_interaction_logs_user_event");
+
+                    b.HasIndex("UserId", "OccurredAt")
+                        .HasDatabaseName("ix_interaction_logs_user_time");
+
+                    b.ToTable("user_interaction_logs");
+                });
+
             modelBuilder.Entity("MatchOutcome", b =>
                 {
                     b.HasOne("WovenBackend.Data.User", null)
@@ -3850,6 +4000,17 @@ namespace WovenBackend.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WovenBackend.data.Entities.EchoMessage", b =>
+                {
+                    b.HasOne("WovenBackend.data.Entities.EchoConversation", "Conversation")
+                        .WithMany("Messages")
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Conversation");
+                });
+
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.Block", b =>
                 {
                     b.HasOne("WovenBackend.Data.User", null)
@@ -4073,9 +4234,25 @@ namespace WovenBackend.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WovenBackend.data.Entities.UserInteractionLog", b =>
+                {
+                    b.HasOne("WovenBackend.Data.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("WovenBackend.Data.Entities.Season", b =>
                 {
                     b.Navigation("Responses");
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.EchoConversation", b =>
+                {
+                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }
