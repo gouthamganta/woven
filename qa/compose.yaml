@@ -1,0 +1,37 @@
+name: woven-qa
+
+# Standalone QA infrastructure. Does not inherit root compose, .env, API keys,
+# fixed container names, or existing database volumes. Backend startup is pending
+# compile repair and configuration audit.
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: woven_qa
+      POSTGRES_PASSWORD: local_qa_only_not_a_production_secret
+      POSTGRES_DB: woven_qa
+    volumes:
+      - qa_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U woven_qa -d woven_qa"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks: [qa]
+  redis:
+    image: redis:7-alpine
+    networks: [qa]
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    command: azurite-blob --blobHost 0.0.0.0
+    volumes:
+      - qa_blobs:/opt/azurite
+    networks: [qa]
+
+volumes:
+  qa_postgres:
+  qa_blobs:
+
+networks:
+  qa:
+    internal: true
