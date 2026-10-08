@@ -13,7 +13,8 @@
       "url": "https://github.com/gouthamganta/woven/issues/77",
       "role": "Codex",
       "importedStage": "Ready",
-      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA44"
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA44",
+      "syncSignature": "open|Ready|Codex|Normal"
     },
     "QA-002": {
       "number": 78,
@@ -21,7 +22,8 @@
       "url": "https://github.com/gouthamganta/woven/issues/78",
       "role": "Codex",
       "importedStage": "Ready",
-      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA50"
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA50",
+      "syncSignature": "open|Ready|Codex|High"
     },
     "QA-003": {
       "number": 79,
@@ -29,7 +31,8 @@
       "url": "https://github.com/gouthamganta/woven/issues/79",
       "role": "Codex",
       "importedStage": "Ready",
-      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA6o"
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA6o",
+      "syncSignature": "open|Ready|Codex|Normal"
     },
     "QA-004": {
       "number": 80,
@@ -37,7 +40,8 @@
       "url": "https://github.com/gouthamganta/woven/issues/80",
       "role": "Codex",
       "importedStage": "Ready",
-      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA7g"
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA7g",
+      "syncSignature": "open|Ready|Codex|High"
     },
     "QA-005": {
       "number": 81,
@@ -45,7 +49,8 @@
       "url": "https://github.com/gouthamganta/woven/issues/81",
       "role": "Codex",
       "importedStage": "Done",
-      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA8o"
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA8o",
+      "syncSignature": "closed|Done|Codex|Normal"
     },
     "QA-006": {
       "number": 82,
@@ -53,7 +58,8 @@
       "url": "https://github.com/gouthamganta/woven/issues/82",
       "role": "Codex",
       "importedStage": "Ready",
-      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA9M"
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA9M",
+      "syncSignature": "open|Ready|Codex|Normal"
     },
     "QA-007": {
       "number": 83,
@@ -61,7 +67,8 @@
       "url": "https://github.com/gouthamganta/woven/issues/83",
       "role": "Codex",
       "importedStage": "Ready",
-      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA-Q"
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA-Q",
+      "syncSignature": "open|Ready|Codex|Normal"
     },
     "QA-008": {
       "number": 84,
@@ -69,7 +76,8 @@
       "url": "https://github.com/gouthamganta/woven/issues/84",
       "role": "Codex",
       "importedStage": "Ready",
-      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA-w"
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA-w",
+      "syncSignature": "open|Ready|Codex|Normal"
     },
     "CL-001": {
       "number": 85,
@@ -77,7 +85,8 @@
       "url": "https://github.com/gouthamganta/woven/issues/85",
       "role": "Claude",
       "importedStage": "Ready",
-      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBAU"
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBAU",
+      "syncSignature": "open|Ready|Claude|Normal"
     },
     "CL-002": {
       "number": 86,
@@ -85,7 +94,8 @@
       "url": "https://github.com/gouthamganta/woven/issues/86",
       "role": "Claude",
       "importedStage": "Ready",
-      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBBA"
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBBA",
+      "syncSignature": "open|Ready|Claude|Normal"
     },
     "CL-003": {
       "number": 87,
