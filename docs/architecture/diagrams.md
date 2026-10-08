@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-10-07
 
-This document contains ASCII diagrams illustrating Woven's architecture. For interactive diagrams, see [diagrams.net export](../diagrams/) (future).
+This document contains ASCII diagrams illustrating Woven's architecture.
 
 ---
 

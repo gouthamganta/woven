@@ -154,5 +154,5 @@ Signals logged via:
 ## See Also
 
 - [CLAUDE.md](../../../CLAUDE.md#echo--ai-co-founder-personality) — ECHO persona and voice
-- [docs/architecture/](../architecture/) — System architecture
-- [docs/data-models/](../data-models/) — Entity schemas
+- [Architecture Overview](../../architecture/README.md) — System architecture
+- [Database Schema](../../architecture/database.md) — Entity schemas

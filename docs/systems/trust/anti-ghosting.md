@@ -575,7 +575,7 @@ Task UpdateGhostScoresAsync(CancellationToken ct);
 - [trust-score.md](./trust-score.md) — Trust scoring (separate from GhostScore)
 - [verification.md](./verification.md) — Verified badge (not affected by GhostScore)
 - [../matchmaking/delivery-boost.md](../matchmaking/delivery-boost.md) — GhostScore penalty implementation
-- [../sparks/refunds.md](../sparks/refunds.md) — Spark refund logic
+- [../../features/sparks/refunds.md](../../features/sparks/refunds.md) — Spark refund logic
 
 ---
 

@@ -325,4 +325,4 @@ await this.pushNotificationService.unsubscribe();
 - [service-worker.md](./service-worker.md) — Service worker implementation
 - [frontend.md](./frontend.md) — Frontend push notification service
 - [backend.md](./backend.md) — Backend services and endpoints
-- [SignalR Hub](../signalr/README.md) — Real-time communication (WovenHub)
+- [SignalR Hub](./backend.md#signalr-hub) — Real-time communication (WovenHub)

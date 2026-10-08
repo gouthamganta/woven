@@ -331,7 +331,7 @@ RefundKeyTtlDays = 3;            // Cache TTL for refund deduplication
 - [anti-ghosting.md](./anti-ghosting.md) — Ghost detection & spark refunds
 - [implementation.md](./implementation.md) — Service implementation details
 - [../matchmaking/candidate-pool.md](../matchmaking/candidate-pool.md) — Trust filtering in ECHO
-- [../sparks/refunds.md](../sparks/refunds.md) — Spark refund logic
+- [../../features/sparks/refunds.md](../../features/sparks/refunds.md) — Spark refund logic
 
 ---
 
