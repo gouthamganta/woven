@@ -10,8 +10,26 @@ http {
     include /etc/nginx/mime.types;
     default_type application/octet-stream;
 
-    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-                    '$status $body_bytes_sent "$http_referer" '
+    # --------------------
+    # Query-safe access logging
+    # Query strings can carry credentials (SignalR WebSocket access_token, OAuth
+    # callback code/state, SAS signatures), so neither the request line nor the
+    # referrer is logged with its query. $request_uri is used (not $uri) so the
+    # original path is logged even after the SPA document rewrite.
+    # --------------------
+    map $request_uri $woven_log_path {
+        default                         "-";
+        "~^(?<woven_log_path_match>[^?]*)" $woven_log_path_match;
+    }
+
+    map $http_referer $woven_log_referer {
+        default                            "-";
+        "~^(?<woven_log_referer_match>[^?#]*)" $woven_log_referer_match;
+    }
+
+    log_format main '$remote_addr - $remote_user [$time_local] '
+                    '"$request_method $woven_log_path $server_protocol" '
+                    '$status $body_bytes_sent "$woven_log_referer" '
                     '"$http_user_agent" "$http_x_forwarded_for"';
 
     access_log /var/log/nginx/access.log main;
@@ -40,6 +58,24 @@ http {
         text/javascript
         image/svg+xml;
 
+    # --------------------
+    # Browser document navigation detection
+    # A GET/HEAD whose Accept header includes text/html is a page load (address bar,
+    # refresh, deep link) and must get the Angular shell. Angular HttpClient sends
+    # Accept: application/json, text/plain, */* and SignalR never asks for text/html,
+    # so API calls (and every POST/PUT/DELETE) fall through to the backend proxy.
+    # --------------------
+    map "$request_method:$http_accept" $woven_spa_document {
+        default                  0;
+        "~*^(GET|HEAD):.*text/html" 1;
+    }
+
+    # WebSocket upgrade support for the SignalR hub
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        ''      close;
+    }
+
     server {
         listen 80;
         server_name _;
@@ -55,6 +91,8 @@ http {
 
         # --------------------
         # Security headers
+        # nginx add_header is only inherited by locations that define no add_header
+        # of their own, so any location below that adds a header must repeat these.
         # --------------------
         add_header X-Frame-Options "SAMEORIGIN" always;
         add_header X-Content-Type-Options "nosniff" always;
@@ -128,100 +166,54 @@ http {
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
-        location /onboarding/ {
-            # Browser page navigations send Accept: text/html → serve Angular SPA shell.
-            # Angular HttpClient API calls send Accept: application/json, text/plain, */*
-            # (no text/html) → proxy to backend.
-            # This distinguishes page loads from API calls even when they share the same URL
-            # (e.g. GET /onboarding/review is both a page and a backend data endpoint).
-            if ($http_accept ~* "text/html") {
-                rewrite .* /index.csr.html break;
+        # SignalR hub (Program.cs MapHub "/hubs/woven"): negotiate POST, WebSocket
+        # upgrade, SSE and long-polling all go straight to the backend. Never SPA.
+        location ^~ /hubs/ {
+            proxy_pass ${BACKEND_URL}/hubs/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
+            proxy_http_version 1.1;
+            proxy_set_header Host ${BACKEND_HOST};
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+            proxy_buffering off;
+            proxy_read_timeout 120s;
+            proxy_send_timeout 120s;
+        }
+
+        # Public legal metadata (LegalEndpoints.cs). No SPA route lives under
+        # /legal/ (the pages are /privacy, /terms, /data-policy), so always proxy.
+        location ^~ /legal/ {
+            proxy_pass ${BACKEND_URL}/legal/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
+            proxy_http_version 1.1;
+            proxy_set_header Host ${BACKEND_HOST};
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        # --------------------
+        # Backend API groups served at the root (no /api prefix) — see Program.cs
+        # and Endpoints/*.cs MapGroup/Map* prefixes. Several share paths with SPA
+        # routes (/moments, /commons, /chats, /chats/:id, /matches/:id/profile,
+        # /onboarding/*), so browser document GETs are internally rewritten to the
+        # Angular shell; everything else (JSON GETs, POST/PUT/DELETE) is proxied.
+        # Must stay ABOVE the static-asset regex so e.g. DELETE /media/.../x.jpg
+        # is proxied rather than served as a static file.
+        # Dev-only groups (/dev, /debug) are intentionally not exposed here.
+        # --------------------
+        location ~ ^/(admin|chats|coaching|commons|games|intake|matches|me|media|moments|onboarding|orbit|push-notifications|seasons|sparks|support|tiles|verification)(/|$) {
+            if ($woven_spa_document) {
+                rewrite ^ /index.csr.html last;
             }
-            proxy_pass ${BACKEND_URL}/onboarding/;
-            proxy_ssl_verify off;
-            proxy_ssl_server_name on;
-            proxy_ssl_name ${BACKEND_HOST};
-            proxy_http_version 1.1;
-            proxy_set_header Host ${BACKEND_HOST};
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        location /moments {
-            proxy_pass ${BACKEND_URL}/moments;
-            proxy_ssl_verify off;
-            proxy_ssl_server_name on;
-            proxy_ssl_name ${BACKEND_HOST};
-            proxy_http_version 1.1;
-            proxy_set_header Host ${BACKEND_HOST};
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        location /chats/ {
-            proxy_pass ${BACKEND_URL}/chats/;
-            proxy_ssl_verify off;
-            proxy_ssl_server_name on;
-            proxy_ssl_name ${BACKEND_HOST};
-            proxy_http_version 1.1;
-            proxy_set_header Host ${BACKEND_HOST};
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        location /chats {
-            proxy_pass ${BACKEND_URL}/chats;
-            proxy_ssl_verify off;
-            proxy_ssl_server_name on;
-            proxy_ssl_name ${BACKEND_HOST};
-            proxy_http_version 1.1;
-            proxy_set_header Host ${BACKEND_HOST};
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        location /games/ {
-            proxy_pass ${BACKEND_URL}/games/;
-            proxy_ssl_verify off;
-            proxy_ssl_server_name on;
-            proxy_ssl_name ${BACKEND_HOST};
-            proxy_http_version 1.1;
-            proxy_set_header Host ${BACKEND_HOST};
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        location /matches/ {
-            proxy_pass ${BACKEND_URL}/matches/;
-            proxy_ssl_verify off;
-            proxy_ssl_server_name on;
-            proxy_ssl_name ${BACKEND_HOST};
-            proxy_http_version 1.1;
-            proxy_set_header Host ${BACKEND_HOST};
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        location /matches {
-            proxy_pass ${BACKEND_URL}/matches;
-            proxy_ssl_verify off;
-            proxy_ssl_server_name on;
-            proxy_ssl_name ${BACKEND_HOST};
-            proxy_http_version 1.1;
-            proxy_set_header Host ${BACKEND_HOST};
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-
-        location /intake/ {
-            proxy_pass ${BACKEND_URL}/intake/;
+            proxy_pass ${BACKEND_URL};
             proxy_ssl_verify off;
             proxy_ssl_server_name on;
             proxy_ssl_name ${BACKEND_HOST};
@@ -238,6 +230,10 @@ http {
         location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
             expires 1y;
             add_header Cache-Control "public, immutable";
+            add_header X-Frame-Options "SAMEORIGIN" always;
+            add_header X-Content-Type-Options "nosniff" always;
+            add_header X-XSS-Protection "1; mode=block" always;
+            add_header Referrer-Policy "strict-origin-when-cross-origin" always;
         }
 
         # --------------------
@@ -246,6 +242,10 @@ http {
         location = /index.csr.html {
             expires -1;
             add_header Cache-Control "no-store, no-cache, must-revalidate";
+            add_header X-Frame-Options "SAMEORIGIN" always;
+            add_header X-Content-Type-Options "nosniff" always;
+            add_header X-XSS-Protection "1; mode=block" always;
+            add_header Referrer-Policy "strict-origin-when-cross-origin" always;
         }
 
         # --------------------
