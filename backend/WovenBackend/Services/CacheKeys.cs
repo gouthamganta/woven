@@ -6,7 +6,6 @@ public static class CacheKeys
     public static string UserSession(int userId)                   => $"session:{userId}";
     public static string PillarEmbedding(int userId)               => $"embedding:{userId}";
     public static string SparkCounter(int userId, DateOnly date)   => $"counter:spark:{userId}:{date:yyyy-MM-dd}";
-    public static string PendingCounter(int userId, DateOnly date) => $"counter:pending:{userId}:{date:yyyy-MM-dd}";
     public static string GamesCounter(int userId, DateOnly date)   => $"counter:games:{userId}:{date:yyyy-MM-dd}";
     public static string CommonsFeed(int userId, DateOnly date)    => $"commons:{userId}:{date:yyyy-MM-dd}";
     public static string HotTile(int userId)                       => $"hot-tile:{userId}";

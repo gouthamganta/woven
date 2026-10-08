@@ -18,15 +18,13 @@ public class InteractionBudgetService
     public enum SpendType
     {
         Moment = 1,   // Today deck choice — consumes total_used
-        Pending = 2,  // legacy Save — consumes total_used + pending_used (kept for old code)
         LikedYou = 3, // Liked You tab choice — consumes total_used (spark-gated)
     }
 
     public sealed record SpendResult(
         bool Allowed,
         string? DenyReason,
-        int TotalUsed,
-        int PendingUsed
+        int TotalUsed
     );
 
     public async Task<SpendResult> TrySpendAsync(int userId, SpendType type, CancellationToken ct = default)
@@ -36,18 +34,10 @@ public class InteractionBudgetService
         // Phase 1B: Redis fast-gate — reject immediately if the counter already shows cap reached.
         // Returns -1 when Redis is unavailable; in that case we skip the gate and fall through to DB.
         var totalKey   = WovenBackend.Services.CacheKeys.SparkCounter(userId, today);
-        var pendingKey = WovenBackend.Services.CacheKeys.PendingCounter(userId, today);
 
         var cachedTotal = await _cache.GetCounterAsync(totalKey, ct);
         if (cachedTotal >= 0 && cachedTotal >= MomentsRules.DailyTotalCap)
-            return new SpendResult(false, "DAILY_TOTAL_CAP_REACHED", (int)cachedTotal, 0);
-
-        if (type == SpendType.Pending)
-        {
-            var cachedPending = await _cache.GetCounterAsync(pendingKey, ct);
-            if (cachedPending >= 0 && cachedPending >= MomentsRules.DailyPendingCap)
-                return new SpendResult(false, "DAILY_PENDING_CAP_REACHED", (int)cachedTotal, (int)cachedPending);
-        }
+            return new SpendResult(false, "DAILY_TOTAL_CAP_REACHED", (int)cachedTotal);
 
         // Use a serializable transaction so two concurrent spends can't both succeed.
         await using var tx = await _db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
@@ -62,7 +52,6 @@ public class InteractionBudgetService
                 UserId = userId,
                 DateUtc = today,
                 TotalUsed = 0,
-                PendingUsed = 0,
                 UpdatedAt = MomentsRules.NowUtc()
             };
             _db.DailyInteractions.Add(row);
@@ -70,25 +59,16 @@ public class InteractionBudgetService
         }
 
         var total = row.TotalUsed;
-        var pending = row.PendingUsed;
 
         // Check caps
         if (total >= MomentsRules.DailyTotalCap)
         {
             await tx.RollbackAsync(ct);
-            return new SpendResult(false, "DAILY_TOTAL_CAP_REACHED", total, pending);
-        }
-
-        if (type == SpendType.Pending && pending >= MomentsRules.DailyPendingCap)
-        {
-            await tx.RollbackAsync(ct);
-            return new SpendResult(false, "DAILY_PENDING_CAP_REACHED", total, pending);
+            return new SpendResult(false, "DAILY_TOTAL_CAP_REACHED", total);
         }
 
         // Spend
         row.TotalUsed = (short)(row.TotalUsed + 1);
-        if (type == SpendType.Pending)
-            row.PendingUsed = (short)(row.PendingUsed + 1);
 
         row.UpdatedAt = MomentsRules.NowUtc();
 
@@ -98,10 +78,8 @@ public class InteractionBudgetService
         // Phase 1B: sync Redis counters after a successful DB commit (best-effort)
         var midnight = WovenBackend.Services.CacheTtl.UntilMidnightUtc();
         await _cache.IncrementAsync(totalKey, midnight, ct);
-        if (type == SpendType.Pending)
-            await _cache.IncrementAsync(pendingKey, midnight, ct);
 
-        return new SpendResult(true, null, row.TotalUsed, row.PendingUsed);
+        return new SpendResult(true, null, row.TotalUsed);
     }
 
     public async Task RefundSparkAsync(int userId, CancellationToken ct = default)

@@ -2,6 +2,11 @@
 
 ## Current coordination
 
+2026-10-08: #138 Saved/Pending trace found no Drawn dependency. Removed legacy
+budget/cache branches, Saved boost and stale support navigation; database
+columns, tables and enum values preserved. Branch codex-phone/138-remove-saved-pending.
+Evidence: qa/evidence/2026-10-08-138-saved-pending.md; laptop QA required.
+
 DOC-005/006 handoffs posted to GitHub #93/#94 using authenticated local CLI/API,
 so founder relay is unnecessary despite Claude MCP auth gap. Retest at 560525a
 found 9 broken-link occurrences and remaining balloon/JWT/error-overview
