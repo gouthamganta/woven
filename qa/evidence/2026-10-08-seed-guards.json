@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-08",
+  "scope": "Local QA importer safety only; no production changes",
+  "results": [
+    {
+      "name": "foreign-domain",
+      "result": "passed",
+      "exitCode": 134,
+      "usersBefore": 100,
+      "usersAfter": 100
+    },
+    {
+      "name": "duplicate-email",
+      "result": "passed",
+      "exitCode": 134,
+      "usersBefore": 100,
+      "usersAfter": 100
+    },
+    {
+      "name": "underage",
+      "result": "passed",
+      "exitCode": 134,
+      "usersBefore": 100,
+      "usersAfter": 100
+    },
+    {
+      "name": "not-synthetic",
+      "result": "passed",
+      "exitCode": 134,
+      "usersBefore": 100,
+      "usersAfter": 100
+    }
+  ]
+}

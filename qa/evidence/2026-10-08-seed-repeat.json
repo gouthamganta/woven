@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-08",
+  "scope": "Guarded local synthetic importer, not production identity resolution",
+  "first": {
+    "inserted": 1,
+    "accounts": 100
+  },
+  "second": {
+    "inserted": 0,
+    "accounts": 100
+  },
+  "result": "passed",
+  "notes": [
+    "First pass restores only designated synthetic account removed in deletion test; no database reset.",
+    "Second pass inserts zero; existing IDs preserved.",
+    "Partial matched-deletion state for actor32 not silently repaired.",
+    "Concurrent importer runs are not verified."
+  ],
+  "hashes": {
+    "first": "f161fb18f8016b13691f2d31312290eb472061d0320cace08a41fac7cc2470bb",
+    "second": "633111abb4609e88c0224b8284a809c2a5d2a78df3cb1ae8ee8ab804925f0f89"
+  }
+}

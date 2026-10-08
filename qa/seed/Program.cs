@@ -39,11 +39,17 @@ if (args.Length == 1 && args[0] == "--prepare-model-schema")
     Console.WriteLine(JsonSerializer.Serialize(new { database = parsed.Database, created, modelTables = db.Model.GetRelationalModel().Tables.Count(), warning = "Model-created QA schema; migrations and upgrades are NOT verified" }));
     return;
 }
-if (await db.Users.AnyAsync(u => !u.Email.EndsWith("@woven.invalid")))
+// Read/decrypt only this tightly guarded synthetic sandbox. Randomized encrypted
+// email columns cannot be searched with plaintext equality or suffix predicates.
+var existingUsers = await db.Users.AsNoTracking().Take(101).Select(u => new { u.Id, u.Email }).ToListAsync();
+if (existingUsers.Count > 100 || existingUsers.Any(u => !u.Email.EndsWith("@woven.invalid", StringComparison.OrdinalIgnoreCase)))
     throw new Exception("Non-fixture users exist; refusing to mix data");
+if (existingUsers.GroupBy(u => u.Email, StringComparer.OrdinalIgnoreCase).Any(group => group.Count() > 1))
+    throw new Exception("Duplicate synthetic identities exist; controlled fixture repair required");
+var existingIds = existingUsers.ToDictionary(u => u.Email, u => u.Id, StringComparer.OrdinalIgnoreCase);
 using var document = JsonDocument.Parse(await File.ReadAllTextAsync(args[0]));
 var personas = document.RootElement.GetProperty("personas").EnumerateArray().ToArray();
-if (personas.Length != 100 || personas.Any(p => !p.GetProperty("synthetic").GetBoolean() || p.GetProperty("age").GetInt32() < 18))
+if (personas.Length != 100 || personas.Any(p => !p.GetProperty("synthetic").GetBoolean() || p.GetProperty("age").GetInt32() < 18 || !p.GetProperty("email").GetString()!.EndsWith("@woven.invalid", StringComparison.OrdinalIgnoreCase)) || personas.Select(p => p.GetProperty("email").GetString()).Distinct(StringComparer.OrdinalIgnoreCase).Count() != 100)
     throw new Exception("Expected exactly 100 synthetic adult personas");
 var pillarNames = new[] { "Lifestyle", "Energy", "Values", "Communication", "Ambition", "Stability", "Curiosity", "Affection" };
 var questionIds = new[] { "QA_VALUES", "QA_LIFESTYLE", "QA_COMMUNICATION", "QA_CURIOSITY", "QA_AFFECTION" };
@@ -55,8 +61,7 @@ await using var tx = await db.Database.BeginTransactionAsync();
 for (var i = 0; i < personas.Length; i++)
 {
     var p = personas[i]; var email = p.GetProperty("email").GetString()!;
-    var existing = await db.Users.SingleOrDefaultAsync(u => u.Email == email);
-    if (existing != null) { accounts.Add(new { personaId = p.GetProperty("id").GetString(), userId = existing.Id, email }); continue; }
+    if (existingIds.TryGetValue(email, out var existingId)) { accounts.Add(new { personaId = p.GetProperty("id").GetString(), userId = existingId, email }); continue; }
     var target = p.GetProperty("targetState").GetString();
     var user = new User { Email = email, FullName = p.GetProperty("displayName").GetString(), ProfileStatus = target is "new" or "incomplete" ? ProfileStatus.INCOMPLETE : ProfileStatus.COMPLETE, TrustScore = target == "safety-review" ? 0.1f : 0.5f, LastActiveAt = DateTimeOffset.UtcNow.AddDays(target == "inactive" ? -100 : 0) };
     db.Users.Add(user); await db.SaveChangesAsync();

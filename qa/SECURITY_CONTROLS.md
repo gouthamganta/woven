@@ -8,13 +8,15 @@ The [QA report](evidence/2026-10-08-full-qa.md) states environment and limitatio
 |---|---|---|
 | API authentication | Tested anonymous denial on 10 core routes; invalid JWT variants denied | All routes, claim validation, account state, expiry boundaries |
 | Authorization | Tested ordinary-user admin denial and unrelated-user match/chat/media denial | Enumerate ownership/admin checks, nested resources, websocket groups |
+| Frontend session/origin controls | Candidate176cf74 passes51 unit/router cases and build; not deployed | Manual-auth services, refresh, full browser and server policy |
 | Deleted-account enforcement | Failed proposed fail-closed token check | Define revocation/account state policy; test all authenticated surfaces |
 | Development endpoints | Production local-login route absent | Enumerate all dev/admin helpers; production image/build checks |
 | Cookie/token handling | Generated-cookie unit contracts pass; browser/transport not validated; frontend session regressions fail | CSRF, token expiry/storage/origin restrictions and refresh/revocation |
 | CORS | Untrusted-origin GET omitted allow-origin | Trusted/preflight/credential cases and production configuration |
 | Rate limits | Repeat export 429; parallel daily cap persisted at five | Per-user/IP partitioning, Retry-After, proxy trust, abuse cases |
 | Correlation/logging | Generated ID passed; long supplied value echoed | Validate bounds/characters, prevent secret/PII logging, retention |
-| Data deletion/export | Synthetic unmatched delete and own export succeeded | Matched deletion, atomicity, full retention inventory, processor policy |
+| Data deletion/export | Unmatched delete/export pass; matched delete fails after partial data removal (#165) | Atomicity/retention, matched/blocked cases, processor policy |
+| Encrypted identity search | PostgreSQL email equality fails to find loaded synthetic user (#166) | Safe searchable identity/linkage, migration/backfill and concurrency |
 | ChatNotes | Founder allows matched-pair visibility; unrelated user denied | Reconcile docs; prove exclusion from unrelated responses and logging |
 | Media | Foreign-owner probe denied | File/type/size validation, malicious uploads, signed URL lifetime |
 | Realtime | Anonymous negotiation 401; authenticated negotiation 200 | Delivery, group isolation, reconnect and expired/revoked credentials |

@@ -502,7 +502,8 @@
       "name": "App should create the app",
       "family": "QA-COV-15-4",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -512,7 +513,8 @@
       "name": "TestApi should create",
       "family": "QA-COV-15-4",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -522,7 +524,8 @@
       "name": "Authentication navigation boundaries redirects an anonymous browser to login",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -532,7 +535,8 @@
       "name": "Authentication navigation boundaries treats an empty stored token as anonymous",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -542,7 +546,8 @@
       "name": "Authentication navigation boundaries redirects after the stored token has been removed",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -552,7 +557,8 @@
       "name": "Authentication request boundaries forwards an anonymous request without an authorization header",
       "family": "QA-COV-01-5",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -562,7 +568,8 @@
       "name": "Authentication request boundaries adds the current token to a local API request",
       "family": "QA-COV-01-5",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -572,7 +579,8 @@
       "name": "Authentication request boundaries preserves the request body and caller headers when authenticating",
       "family": "QA-COV-01-5",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -582,7 +590,8 @@
       "name": "Authentication request boundaries reads token removal before the next request",
       "family": "QA-COV-01-5",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -592,7 +601,8 @@
       "name": "Actual route configuration session boundaries allows anonymous navigation to public /login",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -602,7 +612,8 @@
       "name": "Actual route configuration session boundaries allows anonymous navigation to public /privacy",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -612,7 +623,8 @@
       "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /moments",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "failed"
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -622,7 +634,8 @@
       "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "failed"
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -632,7 +645,8 @@
       "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/settings",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "failed"
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -642,7 +656,8 @@
       "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /matches/00000000-0000-0000-0000-000000000001/profile",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "failed"
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -652,7 +667,8 @@
       "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/basics",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "failed"
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -662,7 +678,8 @@
       "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/photos",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "failed"
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -672,7 +689,8 @@
       "name": "Session security regressions allows a browser with a future-dated synthetic token payload",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -682,7 +700,8 @@
       "name": "Session security regressions redirects a browser with a expired token to login",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "failed"
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -692,7 +711,8 @@
       "name": "Session security regressions redirects a browser with a malformed token to login",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "failed"
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -702,7 +722,8 @@
       "name": "Session security regressions redirects a browser with a whitespace token to login",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "failed"
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -712,7 +733,8 @@
       "name": "Session security regressions redirects a browser with a missing-expiry token to login",
       "family": "QA-COV-01-4",
       "results": {
-        "baseline-3df9759": "failed"
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -722,7 +744,8 @@
       "name": "Session security regressions does not forward app credentials to an unrelated external origin",
       "family": "QA-COV-01-5",
       "results": {
-        "baseline-3df9759": "failed"
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -732,7 +755,8 @@
       "name": "LoginComponent should create",
       "family": "QA-COV-15-4",
       "results": {
-        "baseline-3df9759": "passed"
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -805,6 +829,359 @@
         "candidate-5461c85-model-schema": "failed"
       },
       "evidence": "qa/evidence/2026-10-08-duplicate-choice-race.json"
+    },
+    {
+      "id": "FE-ea4cf3597aa7",
+      "layer": "frontend",
+      "name": "Authentication request boundaries authenticates an absolute same-origin API URL",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-a1b29c1b2c5f",
+      "layer": "frontend",
+      "name": "Authentication request boundaries authenticates the explicitly configured development API origin",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-24d1b9a23928",
+      "layer": "frontend",
+      "name": "Authentication request boundaries does not authenticate a protocol-relative unrelated host",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-7307971de08f",
+      "layer": "frontend",
+      "name": "Authentication request boundaries does not authenticate an allowed-origin lookalike",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-0e0362ac990a",
+      "layer": "frontend",
+      "name": "Authentication request boundaries preserves unrelated caller-supplied authorization",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-7b404559a711",
+      "layer": "frontend",
+      "name": "Authentication request boundaries continues without adding credentials when storage is unavailable",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-78c91eaf2c5a",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /terms",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-362740c8227c",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /data-policy",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-4116818afa9b",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /landing",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-30434be096b2",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries rechecks expiry when navigating between protected child pages",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-45b8c265b927",
+      "layer": "frontend",
+      "name": "Session security regressions rejects a token exactly at its expiry second",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-92748e2981af",
+      "layer": "frontend",
+      "name": "Session security regressions rejects a string-valued numeric expiry",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-e2746224ebc2",
+      "layer": "frontend",
+      "name": "Session security regressions redirects instead of throwing when storage is unavailable",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-d90058fdf57f",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /commons",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-0b7b1fac1f5b",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats/00000000-0000-0000-0000-000000000001",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-d30e6df3c111",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-37f30b3497c9",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/tiles",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-7dcd0779dd0e",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/welcome",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-65d6263ae450",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/intent",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-7b21cb0d24ac",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/foundational",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-73a59ec9e4ff",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/details",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-38ff817e6132",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/lifestyle",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-629806dd6a3a",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/review",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-da5436780179",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/start",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-b524826c7dd2",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-20a8caf2c337",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /app",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-db9afc044644",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /missing-qa-page",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "IT-matched-deletion-atomic",
+      "layer": "integration",
+      "name": "Matched deletion either succeeds coherently or preserves existing state on failure",
+      "family": "QA-COV-10-2",
+      "results": {
+        "local-model-created-schema": "failed"
+      },
+      "evidence": "qa/evidence/2026-10-08-matched-deletion.json"
+    },
+    {
+      "id": "IT-encrypted-email-equality",
+      "layer": "integration",
+      "name": "Existing account is found by intended encrypted-email reuse query",
+      "family": "QA-COV-01-7",
+      "results": {
+        "local-model-created-schema": "failed"
+      },
+      "evidence": "qa/evidence/2026-10-08-email-lookup.json"
+    },
+    {
+      "id": "QA-seed-repeat",
+      "layer": "integration",
+      "name": "Repeated import reuses synthetic identities without duplicates",
+      "family": "QA-COV-16-5",
+      "results": {
+        "local-model-created-schema": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-seed-repeat.json"
+    },
+    {
+      "id": "QA-seed-foreign-domain",
+      "layer": "integration",
+      "name": "Invalid foreign-domain fixture rejected without changing database",
+      "family": "QA-COV-16-5",
+      "results": {
+        "local-model-created-schema": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-seed-guards.json"
+    },
+    {
+      "id": "QA-seed-duplicate-email",
+      "layer": "integration",
+      "name": "Invalid duplicate-email fixture rejected without changing database",
+      "family": "QA-COV-16-5",
+      "results": {
+        "local-model-created-schema": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-seed-guards.json"
+    },
+    {
+      "id": "QA-seed-underage",
+      "layer": "integration",
+      "name": "Invalid underage fixture rejected without changing database",
+      "family": "QA-COV-16-5",
+      "results": {
+        "local-model-created-schema": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-seed-guards.json"
+    },
+    {
+      "id": "QA-seed-not-synthetic",
+      "layer": "integration",
+      "name": "Invalid not-synthetic fixture rejected without changing database",
+      "family": "QA-COV-16-5",
+      "results": {
+        "local-model-created-schema": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-seed-guards.json"
     }
   ]
 }

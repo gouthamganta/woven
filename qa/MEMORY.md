@@ -2,6 +2,17 @@
 
 ## Current coordination
 
+Further fix/retest: Claude-authored client176cf74 stacked draft167(base144)
+passes same37 cases vs baseline18/37; expanded51/51 candidate tests/build pass.
+QA overlays restored. No signature verification by client decoder; SEC remains
+open. Matched deletion165 fails500 after messages1→0; SQLuserstillpresent,
+vectors0. Email equality166 readonlyprobe loads100, sameEmail query returnsnull;
+already-linked Google identity path not declared broken. Own importer fixed to
+bounded decrypted fixture map: restores1 missing synthetic, nextinsert0;100users.
+Four invalid manifests rejected with counts100→100. Actor32 partialstate not
+repaired. Fresh migrations/atomicity/proxy/deps/CI remain blockers. Report:
+2026-10-08-client-and-data-round.md and exact-scope JSON; no paid fallback.
+
 Continued PostgreSQL QA after phone reviews: duplicate-choice race on candidate
 5461c85 produced200/409/409/500 after one distinct warmup; DB total_used3 versus
 responses2/notes2. Failed duplicate consumed a slot without saved action.124

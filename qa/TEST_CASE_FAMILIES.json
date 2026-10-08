@@ -64,7 +64,28 @@
             "FE-fc1142043405",
             "FE-afead781d9a7",
             "FE-b2ff7bd05306",
-            "FE-6255f3cb3663"
+            "FE-6255f3cb3663",
+            "FE-78c91eaf2c5a",
+            "FE-362740c8227c",
+            "FE-4116818afa9b",
+            "FE-30434be096b2",
+            "FE-45b8c265b927",
+            "FE-92748e2981af",
+            "FE-e2746224ebc2",
+            "FE-d90058fdf57f",
+            "FE-0b7b1fac1f5b",
+            "FE-d30e6df3c111",
+            "FE-37f30b3497c9",
+            "FE-7dcd0779dd0e",
+            "FE-65d6263ae450",
+            "FE-7b21cb0d24ac",
+            "FE-73a59ec9e4ff",
+            "FE-38ff817e6132",
+            "FE-629806dd6a3a",
+            "FE-da5436780179",
+            "FE-b524826c7dd2",
+            "FE-20a8caf2c337",
+            "FE-db9afc044644"
           ]
         },
         {
@@ -76,7 +97,13 @@
             "FE-fd183c5d11f2",
             "FE-ed3f46affbc3",
             "FE-5422a24447e1",
-            "FE-3d6ec9660ab6"
+            "FE-3d6ec9660ab6",
+            "FE-ea4cf3597aa7",
+            "FE-a1b29c1b2c5f",
+            "FE-24d1b9a23928",
+            "FE-7307971de08f",
+            "FE-0e0362ac990a",
+            "FE-7b404559a711"
           ]
         },
         {
@@ -84,6 +111,14 @@
           "text": "Production dev helpers absent and invalid configuration fails closed",
           "status": "design-required",
           "cases": []
+        },
+        {
+          "id": "QA-COV-01-7",
+          "text": "Safe encrypted identity search, verified provider linkage, first/repeated/concurrent sign-in and duplicate-account handling",
+          "status": "partially-tested",
+          "cases": [
+            "IT-encrypted-email-equality"
+          ]
         }
       ]
     },
@@ -478,8 +513,10 @@
         {
           "id": "QA-COV-10-2",
           "text": "Delete unmatched/matched/blocked users; FK integrity, retained counterpart records and complete owned-data cleanup",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "IT-matched-deletion-atomic"
+          ]
         },
         {
           "id": "QA-COV-10-3",
@@ -787,8 +824,14 @@
         {
           "id": "QA-COV-16-5",
           "text": "Record exact commit, fixture/schema/config scope, expected/actual and private artifact hashes",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "QA-seed-repeat",
+            "QA-seed-foreign-domain",
+            "QA-seed-duplicate-email",
+            "QA-seed-underage",
+            "QA-seed-not-synthetic"
+          ]
         },
         {
           "id": "QA-COV-16-6",

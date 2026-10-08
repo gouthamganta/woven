@@ -23,7 +23,7 @@ describe('Actual route configuration session boundaries', () => {
   });
   afterEach(() => localStorage.clear());
 
-  for (const path of ['/login', '/privacy']) {
+  for (const path of ['/login', '/privacy', '/terms', '/data-policy', '/landing']) {
     it(`allows anonymous navigation to public ${path}`, async () => {
       const harness = await RouterTestingHarness.create();
       await harness.navigateByUrl(path);
@@ -31,11 +31,28 @@ describe('Actual route configuration session boundaries', () => {
     });
   }
 
-  for (const path of ['/moments', '/chats', '/you/settings', '/matches/00000000-0000-0000-0000-000000000001/profile', '/onboarding/basics', '/onboarding/photos']) {
+  for (const path of [
+    '/moments', '/commons', '/chats', '/chats/00000000-0000-0000-0000-000000000001',
+    '/you', '/you/settings', '/you/tiles', '/matches/00000000-0000-0000-0000-000000000001/profile',
+    '/onboarding/welcome', '/onboarding/basics', '/onboarding/intent', '/onboarding/foundational',
+    '/onboarding/photos', '/onboarding/details', '/onboarding/lifestyle', '/onboarding/review', '/onboarding/start',
+    '/', '/app', '/missing-qa-page',
+  ]) {
     it(`redirects anonymous navigation from protected ${path}`, async () => {
       const harness = await RouterTestingHarness.create();
       await harness.navigateByUrl(path);
       expect(TestBed.inject(Router).url).toBe('/login');
     });
   }
+
+  it('rechecks expiry when navigating between protected child pages', async () => {
+    const token = (exp:number) => `${btoa('{"alg":"HS256"}')}.${btoa(JSON.stringify({exp}))}.synthetic-signature`;
+    localStorage.setItem('accessToken', token(Math.floor(Date.now()/1000)+3600));
+    const harness=await RouterTestingHarness.create();
+    await harness.navigateByUrl('/moments');
+    expect(TestBed.inject(Router).url).toBe('/moments');
+    localStorage.setItem('accessToken', token(1));
+    await harness.navigateByUrl('/chats');
+    expect(TestBed.inject(Router).url).toBe('/login');
+  });
 });
