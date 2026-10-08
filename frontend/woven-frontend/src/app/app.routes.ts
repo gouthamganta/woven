@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login';
 import { LegalComponent } from './pages/legal/legal.component';
 import { LandingSimpleComponent } from './pages/landing-simple/landing-simple.component';
-// import { authGuard } from './core/auth/auth.guard'; // Removed for testing
+import { authGuard } from './core/auth/auth.guard';
 import { HomeComponent } from './pages/home/home';
 
 import { MomentsPageComponent } from './pages/moments/moments.page';
@@ -33,22 +33,23 @@ export const routes: Routes = [
   { path: 'terms',       component: LegalComponent },
   { path: 'data-policy', component: LegalComponent },
 
-  // Onboarding steps (no auth for testing)
-  { path: 'onboarding/welcome',     /* canActivate: [authGuard], */ component: WelcomeOnboardingComponent },
-  { path: 'onboarding/basics',      /* canActivate: [authGuard], */ component: BasicsOnboardingComponent },
-  { path: 'onboarding/intent',      /* canActivate: [authGuard], */ component: IntentOnboardingComponent },
-  { path: 'onboarding/foundational',/* canActivate: [authGuard], */ component: FoundationalComponent },
-  { path: 'onboarding/photos',      /* canActivate: [authGuard], */ component: PhotosPageComponent },
-  { path: 'onboarding/details',     /* canActivate: [authGuard], */ component: DetailsOnboardingComponent },
-  { path: 'onboarding/lifestyle',   /* canActivate: [authGuard], */ component: LifestyleOnboardingComponent },
-  { path: 'onboarding/review',      /* canActivate: [authGuard], */ component: ReviewOnboardingComponent },
-  { path: 'onboarding/start',       /* canActivate: [authGuard], */ component: StartOnboardingComponent },
+  // Onboarding steps (authenticated)
+  { path: 'onboarding/welcome',      canActivate: [authGuard], component: WelcomeOnboardingComponent },
+  { path: 'onboarding/basics',       canActivate: [authGuard], component: BasicsOnboardingComponent },
+  { path: 'onboarding/intent',       canActivate: [authGuard], component: IntentOnboardingComponent },
+  { path: 'onboarding/foundational', canActivate: [authGuard], component: FoundationalComponent },
+  { path: 'onboarding/photos',       canActivate: [authGuard], component: PhotosPageComponent },
+  { path: 'onboarding/details',      canActivate: [authGuard], component: DetailsOnboardingComponent },
+  { path: 'onboarding/lifestyle',    canActivate: [authGuard], component: LifestyleOnboardingComponent },
+  { path: 'onboarding/review',       canActivate: [authGuard], component: ReviewOnboardingComponent },
+  { path: 'onboarding/start',        canActivate: [authGuard], component: StartOnboardingComponent },
 
   // Main app shell — wraps moments/commons/chats/you with navigation
   {
     path: '',
     component: HomeComponent,
-    /* canActivate: [authGuard], */
+    canActivate: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       { path: '', redirectTo: 'moments', pathMatch: 'full' },
       { path: 'moments',                     component: MomentsPageComponent },
