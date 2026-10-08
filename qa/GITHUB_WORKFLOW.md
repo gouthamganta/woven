@@ -85,6 +85,10 @@ Initial values are historical task states; migration does not establish live
 sessions. Automatic dispatch and live session tracking are OPS-001 and OPS-003,
 not yet enabled. The board does not wake agents by itself.
 
+Execution update: a fixture-only worker completed pilot #103, with draft PR #104
+and linked evidence. See `qa/automation/README.md`. General queue pickup remains
+disabled; local state records worker phases and agent session IDs.
+
 ## Phone usage
 
 Use the GitHub Project in your phone browser to submit, inspect and decide work.
