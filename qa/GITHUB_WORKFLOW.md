@@ -2,6 +2,15 @@
 
 Repository: https://github.com/gouthamganta/woven
 
+Project: https://github.com/users/gouthamganta/projects/2
+
+Views: [Delivery](https://github.com/users/gouthamganta/projects/2/views/2),
+[Your decisions](https://github.com/users/gouthamganta/projects/2/views/3),
+[Claude](https://github.com/users/gouthamganta/projects/2/views/4),
+[Codex](https://github.com/users/gouthamganta/projects/2/views/5),
+[Blocked](https://github.com/users/gouthamganta/projects/2/views/6),
+[Completed](https://github.com/users/gouthamganta/projects/2/views/7).
+
 GitHub Issues are the task record for all laptop, phone and cloud sessions.
 `qa/github-board.json` maps the former Markdown task IDs to Issues and records
 the Project URL after creation. The Markdown board is a historical snapshot;
@@ -55,8 +64,22 @@ Next owner/action:
   repository credentials; interrupted runs reuse task markers.
 - `node qa/scripts/setup-github-project.mjs --project`: create/reuse the private
   Project, link Woven, add issues and fields. Requires GitHub project permission.
+- `node qa/scripts/sync-github-project.mjs`: add new delivery Issues and mirror
+  stage/owner labels into Project fields. `--watch` repeats every 60 seconds;
+  local computer must remain running. This sync does not launch AI sessions.
+- On Windows, `powershell -File qa/scripts/start-github-sync.ps1` starts one
+  hidden local synchronizer. Its PID and logs are under ignored `qa/.local/`.
+  It is not installed as an auto-start service. Restart after a reboot as needed.
+- `node qa/scripts/github-task.mjs handoff QA-001 "Ready for QA" Codex qa/.local/handoff.md`:
+  post a handoff and update role/stage together. Run sync afterward. Completion
+  requires an evidence reference. This helper is not a distributed session lock.
 - Credentials come from environment, authenticated GitHub CLI, or Git Credential
   Manager. They remain in memory and never appear in manifests or evidence.
+
+Edit stage/owner labels or use the handoff helper; fields mirror labels. Direct
+Project field edits are not synchronized back to Issues. Label conflicts are
+reported for triage rather than silently resolved. Only one local sync process
+should run, because it writes the mapping file.
 
 Initial values are historical task states; migration does not establish live
 sessions. Automatic dispatch and live session tracking are OPS-001 and OPS-003,

@@ -65,7 +65,7 @@ for (const task of plan.tasks) {
     console.log(`Created ${task.id}: ${issue.html_url}`);
     if (task.stage === 'Done') issue = await api(`/repos/${repository}/issues/${issue.number}`, 'PATCH', { state: 'closed', state_reason: 'completed' });
   }
-  mapping.issues[task.id] = { number: issue.number, nodeId: issue.node_id, url: issue.html_url, role: task.role, importedStage: task.stage };
+  mapping.issues[task.id] = { ...mapping.issues[task.id], number: issue.number, nodeId: issue.node_id, url: issue.html_url, role: task.role, importedStage: task.stage };
   save(); // Save after each mutation so interrupted setup can resume without duplicates.
 }
 if (mode === '--issues-only') {
@@ -95,7 +95,16 @@ async function field(name, options) {
 const stageField = await field('Stage', stages);
 const roleField = await field('Owner role', roles);
 const priorityField = await field('Priority', ['High', 'Normal']);
-const statusField = fields.find(f => f.name === 'Status');
+let statusField = fields.find(f => f.name === 'Status');
+if (statusField && stages.some(name => !statusField.options.some(o => o.name === name))) {
+  const options = stages.map(name => {
+    const old = statusField.options.find(o => o.name.toLowerCase() === name.toLowerCase() || (name === 'Ready' && o.name === 'Todo'));
+    return { ...(old ? { id: old.id } : {}), name, color: name === 'Done' ? 'GREEN' : name === 'Blocked' ? 'RED' : 'GRAY', description: name };
+  });
+  statusField = (await graphql('mutation($field:ID!,$options:[ProjectV2SingleSelectFieldOptionInput!]){updateProjectV2Field(input:{fieldId:$field,singleSelectOptions:$options}){projectV2Field{... on ProjectV2SingleSelectField{id name options{id name}}}}}', { field: statusField.id, options })).updateProjectV2Field.projectV2Field;
+  for (const issue of Object.values(mapping.issues)) delete issue.syncSignature;
+  save();
+}
 for (const task of plan.tasks) {
   const issue = mapping.issues[task.id];
   const item = (await graphql('mutation($project:ID!,$content:ID!){addProjectV2ItemById(input:{projectId:$project,contentId:$content}){item{id}}}', { project: project.id, content: issue.nodeId })).addProjectV2ItemById.item;
@@ -107,7 +116,7 @@ for (const task of plan.tasks) {
   // Imported values initialize new project items only; reruns preserve later progress.
   if (!issue.projectItemId) {
     await set(stageField, task.stage); await set(roleField, task.role); await set(priorityField, task.priority);
-    await set(statusField, task.stage === 'Done' ? 'Done' : 'Todo');
+    await set(statusField, task.stage);
   }
   issue.projectItemId = item.id; save();
 }

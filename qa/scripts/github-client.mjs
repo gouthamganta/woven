@@ -31,8 +31,9 @@ function credential() {
   if (!line) throw new Error('GitHub credential unavailable.');
   return line.slice('password='.length);
 }
-const token = credential(); // Kept in process memory only; never logged or written.
+let token; // Loaded only for API calls; kept in memory, never logged or written.
 export async function api(path, method = 'GET', body) {
+  token ||= credential();
   const url = `https://api.github.com${path}`;
   const response = await fetch(url, {
     method, signal: AbortSignal.timeout(30000),
