@@ -121,11 +121,10 @@ public class MatchScoringService : IMatchScoringService
             .ToDictionaryAsync(u => u.Id, u => (double)u.TrustScore, ct);
 
         // Preload latest voice tile per candidate to avoid N+1 queries
+        // Fetch all voice tiles then group client-side (EF GroupBy+OrderBy+First doesn't translate well)
         var candidateVoiceTilesTask = _db.Tiles.AsNoTracking()
             .Where(t => scoredIds.Contains(t.UserId) && t.VoiceEmbedding != null)
-            .GroupBy(t => t.UserId)
-            .Select(g => g.OrderByDescending(t => t.CreatedAt).First())
-            .Select(t => new { t.UserId, t.VoiceEmbedding })
+            .Select(t => new { t.UserId, t.VoiceEmbedding, t.CreatedAt })
             .ToListAsync(ct);
 
         await Task.WhenAll(cfScoreMapTask, orbitGravityTask, visualPrefTask,
@@ -144,7 +143,10 @@ public class MatchScoringService : IMatchScoringService
         var candidatePhotos = (await candidatePhotosTask).ToDictionary(p => p.UserId);
         var trustScores = await candidateTrustTask;
         var candidateVoiceTiles = (await candidateVoiceTilesTask)
-            .ToDictionary(t => t.UserId, t => t.VoiceEmbedding);
+            .GroupBy(t => t.UserId)
+            .ToDictionary(
+                g => g.Key,
+                g => g.OrderByDescending(t => t.CreatedAt).First().VoiceEmbedding);
 
         // Group candidate fields by userId
         var candidateFieldsMap = allCandidateFields
