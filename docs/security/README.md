@@ -80,9 +80,11 @@ var matches = await _db.Matches
 - Admin UI planned, not yet built
 
 **Dev Endpoints:**
-- `DevAuthEndpoints.cs` registers ONLY in Development
-- `#if DEBUG` compile guard + `IsDevelopment()` runtime check
-- Never present in production builds
+- `DevAuthEndpoints.cs` registers ONLY in Development environment
+- `app.Environment.IsDevelopment()` runtime check (no compile-time guard)
+- Protection depends on `ASPNETCORE_ENVIRONMENT` not being "Development"
+
+**Evidence:** [Program.cs](../../backend/WovenBackend/Program.cs) — search for `DevAuthEndpoints`
 
 ---
 

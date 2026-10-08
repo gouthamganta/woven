@@ -166,7 +166,7 @@ fetch('/api/moments', {
 ## JWT Token Details
 
 **Algorithm:** HS256 (HMAC with SHA-256)  
-**Expiration:** 30 days from issue  
+**Expiration:** 60 minutes (default, configurable via `Jwt:ExpiryMinutes`)  
 **Issuer:** `woven-api`
 
 **Claim Extraction:**

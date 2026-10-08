@@ -348,7 +348,7 @@ If tile receives 5+ reports → priority review (escalated to human moderator)
 - **Ghost refund:** +0.5 sparks if match ends with 0 messages
 - **Insufficient sparks:** Actions blocked (UI shows "Out of sparks")
 
-**Database field:** `SparkWallet.balance` (integer, range 0–10)
+**Database field:** `SparkWallet.balance_tenths` (integer, range 0–100, where 50 = 5.0 sparks, max 100 = 10.0 sparks)
 
 **Evidence:** [SparkWallet.cs](../../backend/WovenBackend/data/Entities/SparkWallet.cs)
 

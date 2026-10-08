@@ -21,20 +21,34 @@ All Woven API errors return structured JSON responses with correlation IDs for r
 
 ### Standard Error Response
 
+Error responses always include `correlationId` via `X-Correlation-ID` header. Body format varies by handler:
+
+**GlobalExceptionHandler (500):**
 ```json
 {
-  "error": "ERROR_CODE",
-  "message": "Human-readable error description",
+  "error": "An unexpected error occurred",
   "correlationId": "a1b2c3d4e5f67890",
   "timestamp": "2026-10-07T12:34:56Z"
 }
 ```
 
-**Fields:**
-- `error` — Machine-readable error code (uppercase snake_case)
-- `message` — Optional human-readable description
-- `correlationId` — 16-character hex request tracking ID
-- `timestamp` — ISO 8601 UTC timestamp
+**DomainExceptionHandler (422):**
+```json
+{
+  "error": "Business rule violation message",
+  "code": "ERROR_CODE",
+  "correlationId": "a1b2c3d4e5f67890"
+}
+```
+
+**Endpoint-specific errors (400, 404):**
+```json
+{
+  "error": "ERROR_CODE"
+}
+```
+
+**Note:** Not all error responses include `timestamp`. Global exceptions (500) always include it; domain exceptions (422) and endpoint-specific errors may not.
 
 ---
 

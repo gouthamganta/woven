@@ -55,7 +55,7 @@ This document defines Woven's core business rules — constraints, validations, 
 
 **Calculation:**
 ```csharp
-match.BalloonExpiresAt = match.CreatedAt.AddHours(72);
+match.BalloonExpiresAt = match.CreatedAt.AddHours(36);
 ```
 
 **Enforcement:** `BalloonExpiryWorker` scans every 60s, expires balloons past `BalloonExpiresAt`
@@ -137,7 +137,9 @@ if (match.TrialUserAOpenedAt != null && match.TrialUserBOpenedAt != null && matc
 
 **Wallet cap:** 10 sparks max (excess discarded)
 
-**Enforcement:** `SparkRefillWorker` (scheduled daily 00:00 UTC) — **not yet implemented, manual refills only**
+**Enforcement:** Lazy earning on first balance check or spend each day — `SparkWalletService.EarnDailyIfDueAsync()` adds 5 sparks if `LastEarnedDate < today`, capped at 10 total.
+
+**Evidence:** [SparkWalletService.cs:90-99](../../backend/WovenBackend/Services/Moments/SparkWalletService.cs#L90-L99)
 
 ---
 
@@ -186,12 +188,11 @@ if (match.TrialUserAOpenedAt != null && match.TrialUserBOpenedAt != null && matc
 ---
 
 ### Deck Size
-**Rule:** Each deck contains 60 candidates (3 buckets × 20).
+**Rule:** Each deck contains at most 5 candidates.
 
-**Buckets:**
-- **AFFINITY** — 20 candidates (top by personalized score)
-- **SPARK** — 20 candidates (new users prioritized)
-- **EXPLORER** — 20 candidates (diversity/serendipity)
+**Selection:** `DeckSelectionService.SelectTop5()` picks the top 5 scored candidates with bucket diversity (AFFINITY, SPARK, EXPLORER buckets are assigned based on match characteristics, not quotas).
+
+**Evidence:** [MomentsRules.cs:5](../../backend/WovenBackend/Services/Moments/MomentsRules.cs#L5) `DailyTotalCap = 5`
 
 **Enforcement:** [DeckSelectionService.cs](../../backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs)
 
@@ -230,11 +231,11 @@ if (match.TrialUserAOpenedAt != null && match.TrialUserBOpenedAt != null && matc
 ---
 
 ### Trust Filtering
-**Rule:** Users with low trust scores (<0.5) are excluded from candidate pools.
+**Rule:** Users with low trust scores (<0.25) are excluded from candidate pools.
 
-**Enforcement:** SQL WHERE clause: `trust_score >= 0.5`
+**Enforcement:** SQL WHERE clause in `CandidatePoolService` filters `trust_score >= 0.25`
 
-**Trust score calculation:** (not yet implemented — placeholder for future)
+**Evidence:** [TrustService.cs:9](../../backend/WovenBackend/Services/Trust/TrustService.cs#L9) `TrustThreshold = 0.25f`
 
 ---
 
@@ -426,11 +427,11 @@ if (match.TrialUserAOpenedAt != null && match.TrialUserBOpenedAt != null && matc
 ## Security Rules
 
 ### JWT Expiry
-**Rule:** JWT tokens expire after 7 days.
+**Rule:** JWT tokens expire after 60 minutes (default, configurable via `Jwt:ExpiryMinutes` in appsettings).
 
-**Enforcement:** `JwtTokenService` sets `exp` claim = `now + 7 days`
+**Enforcement:** `JwtTokenService.CreateAccessToken()` reads `Jwt:ExpiryMinutes` config with fallback 60, sets `exp` claim = `now + expiryMinutes`
 
-**Evidence:** [JwtTokenService.cs](../../backend/WovenBackend/Auth/JwtTokenService.cs)
+**Evidence:** [JwtTokenService.cs:23](../../backend/WovenBackend/Auth/JwtTokenService.cs#L23)
 
 ---
 
