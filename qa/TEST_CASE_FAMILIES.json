@@ -164,14 +164,29 @@
         {
           "id": "QA-COV-03-5",
           "text": "UTC rollover, daily cap, idempotency and concurrency with persisted response/note/budget checks",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "IT-duplicate-choice-concurrent-same-target"
+          ]
         },
         {
           "id": "QA-COV-03-6",
           "text": "Frontend card gestures/buttons, repeated clicks, errors, empty/loading states and rollback",
           "status": "design-required",
           "cases": []
+        },
+        {
+          "id": "QA-COV-03-7",
+          "text": "Removed Saved/Pending behavior must not influence scoring or spend; preserve historical records and current positive/Drawn behavior",
+          "status": "partially-tested",
+          "cases": [
+            "BE-882ba2aa3f0a",
+            "BE-d09261176256",
+            "BE-095918598670",
+            "BE-75bea91a5eb7",
+            "BE-8760362d1689",
+            "BE-8150fda5133c"
+          ]
         }
       ]
     },

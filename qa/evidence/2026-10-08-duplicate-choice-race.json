@@ -1,0 +1,42 @@
+﻿{
+    "applicationCandidate":  "5461c85",
+    "schemaMode":  "model-created local QA",
+    "actor":  92,
+    "target":  93,
+    "warmup":  {
+                   "status":  200,
+                   "statusCode":  "RECORDED_WAITING",
+                   "correlation":  "a98dc7225bdb48c6"
+               },
+    "requests":  [
+                     {
+                         "status":  409,
+                         "error":  "ALREADY_RESPONDED_TODAY",
+                         "correlation":  "736af3e4f9774b35"
+                     },
+                     {
+                         "status":  409,
+                         "error":  "ALREADY_RESPONDED_TODAY",
+                         "correlation":  "82e81eb9bd254a7c"
+                     },
+                     {
+                         "status":  200,
+                         "statusCode":  "RECORDED_WAITING",
+                         "correlation":  "d024a454712a44d9"
+                     },
+                     {
+                         "status":  500,
+                         "error":  "An unexpected error occurred",
+                         "correlation":  null
+                     }
+                 ],
+    "scope":  "Four identical simultaneous TODAY choices after one distinct warmup. Requires DB delta verification; reruns reuse synthetic state.",
+    "persistedVerification":  {
+                                  "notes":  2,
+                                  "method":  "Independent psql after warmup+four concurrent duplicate calls",
+                                  "totalUsed":  3,
+                                  "responses":  2
+                              },
+    "result":  "failed: failed duplicate consumed quota without saved action",
+    "rawSha256":  "83f54411270b9d36c8df14ae0a273dfe6e6912ff021ea495a88d9711812ff7cb"
+}

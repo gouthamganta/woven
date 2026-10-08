@@ -23,9 +23,12 @@ public class JwtSecurityContractTests
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
-        ValidateIssuer = true, ValidIssuer = "WovenBackend",
-        ValidateAudience = true, ValidAudience = "WovenFrontend",
-        ValidateLifetime = true, ClockSkew = TimeSpan.Zero
+        ValidateIssuer = true,
+        ValidIssuer = "WovenBackend",
+        ValidateAudience = true,
+        ValidAudience = "WovenFrontend",
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
     };
 
     [Fact]

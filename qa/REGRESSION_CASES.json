@@ -735,6 +735,76 @@
         "baseline-3df9759": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-882ba2aa3f0a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 1)",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "BE-d09261176256",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 10)",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "BE-095918598670",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: LOGICAL)",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "BE-75bea91a5eb7",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: MAGICAL)",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "BE-8760362d1689",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: YES)",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "BE-8150fda5133c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.EmptyCandidates_ReturnsEmptyBoostMap",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "IT-duplicate-choice-concurrent-same-target",
+      "layer": "integration",
+      "name": "Rejected/failed concurrent duplicate choices do not consume extra daily budget",
+      "family": "QA-COV-03-5",
+      "results": {
+        "candidate-5461c85-model-schema": "failed"
+      },
+      "evidence": "qa/evidence/2026-10-08-duplicate-choice-race.json"
     }
   ]
 }

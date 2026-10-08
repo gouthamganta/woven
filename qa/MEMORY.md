@@ -2,6 +2,27 @@
 
 ## Current coordination
 
+Continued PostgreSQL QA after phone reviews: duplicate-choice race on candidate
+5461c85 produced200/409/409/500 after one distinct warmup; DB total_used3 versus
+responses2/notes2. Failed duplicate consumed a slot without saved action.124
+returned Changes requested/Claude;108 notified missing correlation header on500.
+Actors92/93/warmupTarget97 are synthetic local-model DB only; do not rerun same
+state and assume fresh. Report2026-10-08-duplicate-choice-race.md/JSON. Six new
+SavedCleanup regressions pass on phone141, not a full PostgreSQL cap proof.
+
+Phone PR review:137 head dce8c89 passes independent12 tests +production build
++4 mocked browser checks (Deck/Drawn desktop/mobile), local merge with5461c85
+auto-merges and same12 tests pass.141 head5de72ae passes8 existing+6 new Saved
+cleanup tests, but conflicts with144 in InteractionBudgetService/MomentsRules;
+probes aborted.142 head e02b628 canonical/q6 claims match code; full unchanged
+docs not certified.140 head e387d02 is NOT draft and still contradicts ChatNote
+visibility;143 already has settled founder decision. CI gates remain red;163
+queues fmt/asset gate repairs,164 queues old PillarEmbedding128-vs1536 doc drift.
+Direct comments posted on all4 PRs +linked Issues. No other explicitly named
+claude-phone branch in open list. Evidence:2026-10-08-phone-pr-review.md.
+All views/tasks remain incomplete; no merge/deploy/reset/paid call. Browser
+fixtures were repaired rather than forcing clicks through modal overlays.
+
 Round 2: added 44 cases (30 backend, 14 frontend) on qa/full-local-audit. Baseline
 backend 41/45, candidate5461c85 backend45/45, frontend13/24. Four baseline
 failures are approved72h vs36h. Eleven frontend failures cover three gaps:
