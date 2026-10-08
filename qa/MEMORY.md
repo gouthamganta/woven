@@ -2,6 +2,15 @@
 
 ## Current coordination
 
+2026-10-08: Codex phone implemented #119 on
+`codex-phone/119-remove-rating-bar` from master `3df9759`. Removed Deck/Drawn
+ratings from API/UI, including rating-dependent New here badges. Backend build
+passed with 0 warnings/errors; production Angular build passed with the existing
+landing-simple stylesheet budget warning. Backend tests passed 12/12, including
+4 synthetic endpoint JSON regression cases; existing MSB3277 EF dependency
+warning remains. Evidence: qa/evidence/2026-10-08-119-rating-removal.md.
+Laptop Codex must verify UI and PostgreSQL behavior before Done; no merge/deploy.
+
 DOC-005/006 handoffs posted to GitHub #93/#94 using authenticated local CLI/API,
 so founder relay is unnecessary despite Claude MCP auth gap. Retest at 560525a
 found 9 broken-link occurrences and remaining balloon/JWT/error-overview

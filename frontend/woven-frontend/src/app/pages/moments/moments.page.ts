@@ -400,11 +400,6 @@ export class MomentsPageComponent implements OnInit, OnDestroy {
     return [city, state].filter(v => !!v).join(', ');
   }
 
-  getRatingBarFill(side: 'red' | 'green', barNumber: number, average: number): boolean {
-    if (side === 'red') return average < 0 && average <= -25 * barNumber;
-    return average > 0 && average >= 25 * barNumber;
-  }
-
   expiryLabel(hours: number): string {
     if (hours <= 0) return 'Expiring soon';
     if (hours < 24) return `${hours}h left`;
