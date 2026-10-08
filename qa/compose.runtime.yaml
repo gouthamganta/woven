@@ -1,0 +1,65 @@
+# Use with compose.yaml and --env-file qa/.local/full-qa-runtime/runtime.env.
+# Backend has only an internal network. Gateways expose loopback ports to testers.
+services:
+  backend:
+    image: mcr.microsoft.com/dotnet/sdk:10.0
+    working_dir: /app
+    command: ["dotnet", "WovenBackend.dll"]
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${WOVEN_QA_ENVIRONMENT:-Development}
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      WOVEN_DISABLE_BATCH_WORKERS: "true"
+      WOVEN_RUN_MIGRATIONS: ${WOVEN_QA_RUN_MIGRATIONS:-true}
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=${WOVEN_QA_DATABASE:-woven_qa};Username=woven_qa;Password=local_qa_only_not_a_production_secret
+      Redis__ConnectionString: redis:6379,abortConnect=false
+      Jwt__Key: ${WOVEN_QA_JWT_KEY:?Generate local runtime.env first}
+      Jwt__Issuer: WovenBackend
+      Jwt__Audience: WovenFrontend
+      Jwt__ExpiryMinutes: "60"
+      Encryption__MasterKey: ${WOVEN_QA_ENCRYPTION_KEY:?Generate local runtime.env first}
+      Analytics__HashSalt: ${WOVEN_QA_ANALYTICS_SALT:?Generate local runtime.env first}
+      OpenAI__ApiKey: ""
+      Replicate__ApiToken: ""
+      Google__PlacesApiKey: ""
+      ServiceBus__ConnectionString: ""
+      KeyVault__Name: ""
+      Azure__Storage__ConnectionString: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;
+      Cors__AllowedOrigins: http://localhost:5180,http://127.0.0.1:5180
+      Vapid__PublicKey: ${WOVEN_QA_VAPID_PUBLIC:?Generate local VAPID keys first}
+      Vapid__PrivateKey: ${WOVEN_QA_VAPID_PRIVATE:?Generate local VAPID keys first}
+      Vapid__Subject: mailto:qa@woven.invalid
+    volumes:
+      - ./.local/full-qa-runtime/backend:/app:ro
+      - ./.local/full-qa-runtime/seed:/qa-seed:ro
+      - ./fixtures/personas.json:/qa-personas.json:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      azurite:
+        condition: service_started
+    networks: [qa]
+  api-gateway:
+    image: woven-frontend:latest
+    entrypoint: []
+    command: ["nginx", "-g", "daemon off;"]
+    volumes:
+      - ./runtime/api-gateway.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "127.0.0.1:5181:8080"
+    depends_on: [backend]
+    networks: [qa, qa-edge]
+  frontend:
+    image: woven-frontend:latest
+    environment:
+      BACKEND_URL: http://backend:8080
+    volumes:
+      - ./.local/full-qa-runtime/frontend/browser:/usr/share/nginx/html:ro
+      - ./.local/full-qa-baseline/frontend/woven-frontend/nginx.conf.template:/etc/nginx/nginx.conf.template:ro
+    ports:
+      - "127.0.0.1:5180:80"
+    depends_on: [backend]
+    networks: [qa, qa-edge]
+networks:
+  qa-edge: {}

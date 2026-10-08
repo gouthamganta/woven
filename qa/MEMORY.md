@@ -2,6 +2,28 @@
 
 ## Current coordination
 
+2026-10-08 full QA resumed. Baseline 3df9759, Claude-authored candidate 5461c85
+published as draft PR #144 (fix/qa-startup-and-72h); no master merge/deployment.
+Local API uses separate MODEL-CREATED woven_qa_model schema because fresh
+migrations still fail (#111). Imported 100 synthetic adults; deletion probe
+removed one, so 99 remain. Root app code is unchanged; candidate alone has 72h.
+Persisted match expiry is exactly 72h. Latest targeted sets: API 34/35,
+corrected lifecycle 18/18, security 11/12. Concurrent eight choices yielded five
+successes and three cap denials; independent DB counts budget/responses/notes=5.
+Final existing backend tests 8/8 pass (542ms), EF warnings remain. Earlier
+frontend build and existing tests 3/3 passed; guest UI scope only.
+Founder clarified in Codex: show BOTH ChatNotes to the matched pair. Third-user
+chat denial passed. Correct contradictory docs via GitHub #143, not a privacy
+feature change. #126 contains this clarification. #108 has security follow-up:
+deleted-account token still receives authenticated response, unbounded
+correlation echo and readiness despite pending migrations. See
+evidence/2026-10-08-full-qa.md and SECURITY_CONTROLS.md for explicit coverage gaps.
+Continue #109 with migration/routing/auth fixes, fault injection, full feature
+journeys and retention/provider tests. No paid API fallback, general dispatcher
+still disabled. Keep public Issue summaries sanitized; private runtime secrets
+and raw synthetic conversations remain in ignored .local. Task record is
+GitHub only; do not update BOARD.md. Older checkpoint entries below are history.
+
 DOC-005/006 handoffs posted to GitHub #93/#94 using authenticated local CLI/API,
 so founder relay is unnecessary despite Claude MCP auth gap. Retest at 560525a
 found 9 broken-link occurrences and remaining balloon/JWT/error-overview

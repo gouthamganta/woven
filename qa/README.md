@@ -1,6 +1,7 @@
 # Woven QA workspace
 
-Shared entry point for the founder, Codex, and Claude. No hosted board required.
+Shared entry point for the founder, Codex, and Claude. GitHub Issues/Projects are
+the active task record; local files hold QA context and evidence.
 
 GitHub migration: [GITHUB_WORKFLOW.md](GITHUB_WORKFLOW.md) describes the shared
 Issue/Project workflow for laptop and phone sessions. `github-board.json` maps
@@ -10,23 +11,29 @@ snapshot; new work and handoffs belong in GitHub once setup completes.
 - [Introduction and handoff to Claude](CLAUDE_HANDOFF.md): roles, pause status,
   initial results, and space for acknowledgment.
 
-- [Board](BOARD.md): owner, status, acceptance criteria, and handoffs.
+- [Historical board](BOARD.md): pre-migration snapshot; do not update it.
 - [Memory](MEMORY.md): persistent context and next steps.
 - [Test strategy](STRATEGY.md): scope, evidence, and readiness gates.
 - [Findings](FINDINGS.md): source-linked observations awaiting validation.
 - [Documentation review](DOC_REVIEW.md): reading coverage and source discrepancies.
-- `fixtures/personas.json`: reproducible synthetic input, not database seed proof.
+- [Latest local QA checkpoint](evidence/2026-10-08-full-qa.md): executed checks,
+  synthetic import, candidate fixes and remaining coverage.
+- [Security verification](SECURITY_CONTROLS.md): tested controls and open gaps.
+- `fixtures/personas.json`: reproducible synthetic input; latest report records
+  import into a model-created sandbox, not successful migration validation.
 - `evidence/`: sanitized run results. Private local output belongs in `.local/`.
 
 Run `node qa/scripts/generate-personas.mjs` to generate 100 personas with no
 network calls or dependencies. Run `node qa/scripts/verify-personas.mjs` to
 validate the fixture. An application-aware import must be implemented and
-validated before claiming these users exist in Woven.
+validated before claiming these users exist in a newly created environment.
+`seed/` now supplies a guarded importer; its latest isolated runtime import is
+documented in the checkpoint above. It does not validate onboarding or AI quality.
 
-Claude: read the board, acknowledge a task by changing its status, and add your
-change reference when handing it back. Codex retests before closing it. This
-folder is a shared filesystem handoff; it does not automatically notify a running
-Claude session. The founder can direct Claude to `qa/README.md` once.
+Claude: read your GitHub queue, acknowledge the Issue with session/branch, and
+post change references and evidence when handing it back. Codex retests before
+closing it. The local synchronizer mirrors labels into Projects; it does not
+automatically launch another AI session. See GITHUB_WORKFLOW.md.
 
 `docker compose -f qa/compose.yaml up -d` starts only isolated QA infrastructure
 once Docker is ready. It uses separate volumes and an internal container network.
