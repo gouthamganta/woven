@@ -1,0 +1,181 @@
+{
+  "repository": "gouthamganta/woven",
+  "project": null,
+  "issues": {
+    "QA-001": {
+      "number": 77,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0DKA",
+      "url": "https://github.com/gouthamganta/woven/issues/77",
+      "role": "Codex",
+      "importedStage": "Ready"
+    },
+    "QA-002": {
+      "number": 78,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0DZA",
+      "url": "https://github.com/gouthamganta/woven/issues/78",
+      "role": "Codex",
+      "importedStage": "Ready"
+    },
+    "QA-003": {
+      "number": 79,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Dmw",
+      "url": "https://github.com/gouthamganta/woven/issues/79",
+      "role": "Codex",
+      "importedStage": "Ready"
+    },
+    "QA-004": {
+      "number": 80,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Dzg",
+      "url": "https://github.com/gouthamganta/woven/issues/80",
+      "role": "Codex",
+      "importedStage": "Ready"
+    },
+    "QA-005": {
+      "number": 81,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0EGw",
+      "url": "https://github.com/gouthamganta/woven/issues/81",
+      "role": "Codex",
+      "importedStage": "Done"
+    },
+    "QA-006": {
+      "number": 82,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Ezw",
+      "url": "https://github.com/gouthamganta/woven/issues/82",
+      "role": "Codex",
+      "importedStage": "Ready"
+    },
+    "QA-007": {
+      "number": 83,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0E_A",
+      "url": "https://github.com/gouthamganta/woven/issues/83",
+      "role": "Codex",
+      "importedStage": "Ready"
+    },
+    "QA-008": {
+      "number": 84,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0FPA",
+      "url": "https://github.com/gouthamganta/woven/issues/84",
+      "role": "Codex",
+      "importedStage": "Ready"
+    },
+    "CL-001": {
+      "number": 85,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Fqg",
+      "url": "https://github.com/gouthamganta/woven/issues/85",
+      "role": "Claude",
+      "importedStage": "Ready"
+    },
+    "CL-002": {
+      "number": 86,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0F3w",
+      "url": "https://github.com/gouthamganta/woven/issues/86",
+      "role": "Claude",
+      "importedStage": "Ready"
+    },
+    "CL-003": {
+      "number": 87,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0GHQ",
+      "url": "https://github.com/gouthamganta/woven/issues/87",
+      "role": "Claude",
+      "importedStage": "Done"
+    },
+    "CL-004": {
+      "number": 88,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0GuA",
+      "url": "https://github.com/gouthamganta/woven/issues/88",
+      "role": "Claude",
+      "importedStage": "Ready"
+    },
+    "DOC-001": {
+      "number": 89,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0HHA",
+      "url": "https://github.com/gouthamganta/woven/issues/89",
+      "role": "Claude",
+      "importedStage": "Done"
+    },
+    "DOC-002": {
+      "number": 90,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Hsg",
+      "url": "https://github.com/gouthamganta/woven/issues/90",
+      "role": "Claude",
+      "importedStage": "Done"
+    },
+    "DOC-003": {
+      "number": 91,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0IbQ",
+      "url": "https://github.com/gouthamganta/woven/issues/91",
+      "role": "Claude",
+      "importedStage": "Done"
+    },
+    "DOC-004": {
+      "number": 92,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0JHA",
+      "url": "https://github.com/gouthamganta/woven/issues/92",
+      "role": "Claude",
+      "importedStage": "Done"
+    },
+    "DOC-005": {
+      "number": 93,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0J5g",
+      "url": "https://github.com/gouthamganta/woven/issues/93",
+      "role": "Claude",
+      "importedStage": "Ready"
+    },
+    "DOC-006": {
+      "number": 94,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0KTg",
+      "url": "https://github.com/gouthamganta/woven/issues/94",
+      "role": "Claude",
+      "importedStage": "Ready"
+    },
+    "CL-005": {
+      "number": 95,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Kiw",
+      "url": "https://github.com/gouthamganta/woven/issues/95",
+      "role": "Claude",
+      "importedStage": "Ready"
+    },
+    "CL-006": {
+      "number": 96,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Kwg",
+      "url": "https://github.com/gouthamganta/woven/issues/96",
+      "role": "Claude",
+      "importedStage": "Ready"
+    },
+    "USER-001": {
+      "number": 97,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0K7Q",
+      "url": "https://github.com/gouthamganta/woven/issues/97",
+      "role": "Founder",
+      "importedStage": "Done"
+    },
+    "USER-002": {
+      "number": 98,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Lxw",
+      "url": "https://github.com/gouthamganta/woven/issues/98",
+      "role": "Founder",
+      "importedStage": "Needs decision"
+    },
+    "OPS-001": {
+      "number": 99,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0L9w",
+      "url": "https://github.com/gouthamganta/woven/issues/99",
+      "role": "Codex",
+      "importedStage": "Ready"
+    },
+    "OPS-002": {
+      "number": 100,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0MRg",
+      "url": "https://github.com/gouthamganta/woven/issues/100",
+      "role": "Founder",
+      "importedStage": "Needs decision"
+    },
+    "OPS-003": {
+      "number": 101,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Miw",
+      "url": "https://github.com/gouthamganta/woven/issues/101",
+      "role": "Codex",
+      "importedStage": "Ready"
+    }
+  }
+}
