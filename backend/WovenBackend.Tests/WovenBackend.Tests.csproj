@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <WovenBackendProject Condition="'$(WovenBackendProject)' == ''">../WovenBackend/WovenBackend.csproj</WovenBackendProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WovenBackend\WovenBackend.csproj" />
+    <ProjectReference Include="$(WovenBackendProject)" />
   </ItemGroup>
 
 </Project>

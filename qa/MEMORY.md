@@ -2,6 +2,18 @@
 
 ## Current coordination
 
+Round 2: added 44 cases (30 backend, 14 frontend) on qa/full-local-audit. Baseline
+backend 41/45, candidate5461c85 backend45/45, frontend13/24. Four baseline
+failures are approved72h vs36h. Eleven frontend failures cover three gaps:
+unguarded routes (six), presence-only token validation (four), credential-origin
+restriction (one); not eleven bugs or proof of backend auth bypass. Actual route
+policy tested using RouterTestingHarness with probe page components. Encryption
+and generated-cookie contracts pass; at-rest field coverage/rotation/browser
+CSRF remain unverified. REGRESSION_CASES.json maps69 named cases to partial
+families; report/evidence under evidence/2026-10-08-regressions-round2.*.
+No skips to conceal failures; default test run is red until application repairs.
+Claude owns #108/#114 fixes, Codex owns test suites. #151/#156 remain partial.
+
 Founder requested complete backend/frontend test-case coverage, not smoke-only
 QA. Codex created suite Issues #147–#162 (16 suites, 96 test-design families);
 QA-COV-01 and QA-COV-16 are in progress, others queued. Inventory

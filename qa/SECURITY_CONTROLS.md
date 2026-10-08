@@ -10,7 +10,7 @@ The [QA report](evidence/2026-10-08-full-qa.md) states environment and limitatio
 | Authorization | Tested ordinary-user admin denial and unrelated-user match/chat/media denial | Enumerate ownership/admin checks, nested resources, websocket groups |
 | Deleted-account enforcement | Failed proposed fail-closed token check | Define revocation/account state policy; test all authenticated surfaces |
 | Development endpoints | Production local-login route absent | Enumerate all dev/admin helpers; production image/build checks |
-| Cookie/token handling | Not runtime validated | HttpOnly/Secure/SameSite, CSRF, token storage and refresh/revocation |
+| Cookie/token handling | Generated-cookie unit contracts pass; browser/transport not validated; frontend session regressions fail | CSRF, token expiry/storage/origin restrictions and refresh/revocation |
 | CORS | Untrusted-origin GET omitted allow-origin | Trusted/preflight/credential cases and production configuration |
 | Rate limits | Repeat export 429; parallel daily cap persisted at five | Per-user/IP partitioning, Retry-After, proxy trust, abuse cases |
 | Correlation/logging | Generated ID passed; long supplied value echoed | Validate bounds/characters, prevent secret/PII logging, retention |
@@ -22,7 +22,7 @@ The [QA report](evidence/2026-10-08-full-qa.md) states environment and limitatio
 | Transaction integrity | Parallel cap passed; partial persistence previously observed | Fault injection, lost commit, idempotency and outbox/refund behavior |
 | Readiness | 200 despite pending migrations in non-migrating mode | Fail-closed deploy readiness with actionable health details |
 | Dependency maintenance | Frontend audit had critical/high package entries; EF warnings remain | Verify current fix branches, reachability, lockfiles and OS images |
-| Encryption/key rotation | Not independently validated | At-rest field inventory, applied rotation and recovery tests |
+| Encryption/key rotation | Encryption primitive round-trip/tamper/key/configuration regressions pass; field coverage and rotation unverified | At-rest field inventory, applied rotation and recovery tests |
 | Transport/deployment | Loopback HTTP only | Production HTTPS/HSTS/headers/proxy configuration in scoped environment |
 
 Use [OWASP ASVS](https://owasp.org/projects/asvs) as the verification framework

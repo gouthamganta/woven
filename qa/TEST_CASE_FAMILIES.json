@@ -10,8 +10,19 @@
         {
           "id": "QA-COV-01-1",
           "text": "Signed JWT accepted; bad signature, issuer, audience, algorithm, expired/missing claims denied",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-65c30bab6ae1",
+            "BE-6450b21145b3",
+            "BE-48600f58cf7b",
+            "BE-87697fd0a8f3",
+            "BE-0753d1e7827e",
+            "BE-cc76efef4be3",
+            "BE-56a8115d2f4f",
+            "BE-16e31fe202d9",
+            "BE-b6bc03e080a6",
+            "BE-93e12861b1d0"
+          ]
         },
         {
           "id": "QA-COV-01-2",
@@ -22,20 +33,51 @@
         {
           "id": "QA-COV-01-3",
           "text": "Cookie Secure/HttpOnly/SameSite, CSRF, refresh/logout/revocation, CORS preflights",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-2420aa5e7137",
+            "BE-9bb950266930",
+            "BE-6df641cb6fae",
+            "BE-544901f90303",
+            "BE-6596b0528461",
+            "BE-ba3a2f0f93a6",
+            "BE-d5417d8eec42"
+          ]
         },
         {
           "id": "QA-COV-01-4",
           "text": "Frontend protected routes, expired/malformed token, storage removal, SSR and deep links",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-75d1a56fe368",
+            "FE-062236eff379",
+            "FE-ea156ba3437c",
+            "FE-7f09af9449e2",
+            "FE-3e86136ddb75",
+            "FE-e06c9d52ba80",
+            "FE-a57e3cd713c6",
+            "FE-aab0d102fb15",
+            "FE-faa742d69368",
+            "FE-1caf23e60baf",
+            "FE-d984a0761cf5",
+            "FE-567de195a5af",
+            "FE-fc1142043405",
+            "FE-afead781d9a7",
+            "FE-b2ff7bd05306",
+            "FE-6255f3cb3663"
+          ]
         },
         {
           "id": "QA-COV-01-5",
           "text": "Interceptor request preservation and credentials restricted to approved origins; 401/403 recovery",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-183f2a4fb62f",
+            "FE-fd183c5d11f2",
+            "FE-ed3f46affbc3",
+            "FE-5422a24447e1",
+            "FE-3d6ec9660ab6"
+          ]
         },
         {
           "id": "QA-COV-01-6",
@@ -192,14 +234,23 @@
         {
           "id": "QA-COV-05-2",
           "text": "Pair normalization, duplicate active matches, simultaneous mutual choices and no half-created match",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-7c8a98ed76dc",
+            "BE-a27d38c0cc19",
+            "BE-2c198317a315"
+          ]
         },
         {
           "id": "QA-COV-05-3",
           "text": "72-hour before/at/after expiry, UTC/leap boundaries and already two-way exemption",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-e094939e166d",
+            "BE-b61c6eafa478",
+            "BE-6cb04f991c28",
+            "BE-8ff016966ec7"
+          ]
         },
         {
           "id": "QA-COV-05-4",
@@ -430,8 +481,25 @@
         {
           "id": "QA-COV-10-5",
           "text": "At-rest encrypted fields, wrong/missing key, applied key rotation and recovery",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-c02dc2b92341",
+            "BE-a55f3dd290c9",
+            "BE-979eace4acb2",
+            "BE-3d35c3b42f43",
+            "BE-df8adf2a030c",
+            "BE-bfad860a4abb",
+            "BE-c1020ad1dc97",
+            "BE-07a5501e54b9",
+            "BE-17861a0b8ee6",
+            "BE-420402290d92",
+            "BE-552cdf5c33a3",
+            "BE-789eabac3390",
+            "BE-0893f6d38f81",
+            "BE-8250688bde62",
+            "BE-877af8e20457",
+            "BE-4d3d67c91c90"
+          ]
         },
         {
           "id": "QA-COV-10-6",
@@ -518,8 +586,14 @@
         {
           "id": "QA-COV-12-5",
           "text": "Provider timeout/rate limit/malformed output with zero-cost adapters and circuit fallback",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-19bf8b374e92",
+            "BE-b7aa0f37e2b2",
+            "BE-667fd9ae3099",
+            "BE-07b1c09f568e",
+            "BE-776fb506e900"
+          ]
         },
         {
           "id": "QA-COV-12-6",
@@ -644,8 +718,12 @@
         {
           "id": "QA-COV-15-4",
           "text": "Every route/component loading/empty/error/retry and unknown/deep-link/back/reload behavior",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-dafaf4ef63f6",
+            "FE-376843b6a01b",
+            "FE-9babe27fe0d0"
+          ]
         },
         {
           "id": "QA-COV-15-5",
