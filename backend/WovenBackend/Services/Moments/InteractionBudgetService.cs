@@ -50,58 +50,68 @@ public class InteractionBudgetService
         }
 
         // Use a serializable transaction so two concurrent spends can't both succeed.
-        await using var tx = await _db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
-
-        var row = await _db.DailyInteractions
-            .SingleOrDefaultAsync(x => x.UserId == userId && x.DateUtc == today, ct);
-
-        if (row is null)
+        // Wrap in ExecutionStrategy to be compatible with EnableRetryOnFailure.
+        var strategy = _db.Database.CreateExecutionStrategy();
+        var result = await strategy.ExecuteAsync(async () =>
         {
-            row = new DailyInteraction
+            await using var tx = await _db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
+
+            var row = await _db.DailyInteractions
+                .SingleOrDefaultAsync(x => x.UserId == userId && x.DateUtc == today, ct);
+
+            if (row is null)
             {
-                UserId = userId,
-                DateUtc = today,
-                TotalUsed = 0,
-                PendingUsed = 0,
-                UpdatedAt = MomentsRules.NowUtc()
-            };
-            _db.DailyInteractions.Add(row);
+                row = new DailyInteraction
+                {
+                    UserId = userId,
+                    DateUtc = today,
+                    TotalUsed = 0,
+                    PendingUsed = 0,
+                    UpdatedAt = MomentsRules.NowUtc()
+                };
+                _db.DailyInteractions.Add(row);
+                await _db.SaveChangesAsync(ct);
+            }
+
+            var total = row.TotalUsed;
+            var pending = row.PendingUsed;
+
+            // Check caps
+            if (total >= MomentsRules.DailyTotalCap)
+            {
+                await tx.RollbackAsync(ct);
+                return new SpendResult(false, "DAILY_TOTAL_CAP_REACHED", total, pending);
+            }
+
+            if (type == SpendType.Pending && pending >= MomentsRules.DailyPendingCap)
+            {
+                await tx.RollbackAsync(ct);
+                return new SpendResult(false, "DAILY_PENDING_CAP_REACHED", total, pending);
+            }
+
+            // Spend
+            row.TotalUsed = (short)(row.TotalUsed + 1);
+            if (type == SpendType.Pending)
+                row.PendingUsed = (short)(row.PendingUsed + 1);
+
+            row.UpdatedAt = MomentsRules.NowUtc();
+
             await _db.SaveChangesAsync(ct);
-        }
+            await tx.CommitAsync(ct);
 
-        var total = row.TotalUsed;
-        var pending = row.PendingUsed;
-
-        // Check caps
-        if (total >= MomentsRules.DailyTotalCap)
-        {
-            await tx.RollbackAsync(ct);
-            return new SpendResult(false, "DAILY_TOTAL_CAP_REACHED", total, pending);
-        }
-
-        if (type == SpendType.Pending && pending >= MomentsRules.DailyPendingCap)
-        {
-            await tx.RollbackAsync(ct);
-            return new SpendResult(false, "DAILY_PENDING_CAP_REACHED", total, pending);
-        }
-
-        // Spend
-        row.TotalUsed = (short)(row.TotalUsed + 1);
-        if (type == SpendType.Pending)
-            row.PendingUsed = (short)(row.PendingUsed + 1);
-
-        row.UpdatedAt = MomentsRules.NowUtc();
-
-        await _db.SaveChangesAsync(ct);
-        await tx.CommitAsync(ct);
+            return new SpendResult(true, null, row.TotalUsed, row.PendingUsed);
+        });
 
         // Phase 1B: sync Redis counters after a successful DB commit (best-effort)
-        var midnight = WovenBackend.Services.CacheTtl.UntilMidnightUtc();
-        await _cache.IncrementAsync(totalKey, midnight, ct);
-        if (type == SpendType.Pending)
-            await _cache.IncrementAsync(pendingKey, midnight, ct);
+        if (result.Allowed)
+        {
+            var midnight = WovenBackend.Services.CacheTtl.UntilMidnightUtc();
+            await _cache.IncrementAsync(totalKey, midnight, ct);
+            if (type == SpendType.Pending)
+                await _cache.IncrementAsync(pendingKey, midnight, ct);
+        }
 
-        return new SpendResult(true, null, row.TotalUsed, row.PendingUsed);
+        return result;
     }
 
     public async Task RefundSparkAsync(int userId, CancellationToken ct = default)

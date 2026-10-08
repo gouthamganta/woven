@@ -28,45 +28,50 @@ public class SparkWalletService
     /// <summary>Attempt to spend 1 spark for a Liked You action.</summary>
     public async Task<SpendResult> TrySpendAsync(int userId, CancellationToken ct = default)
     {
-        await using var tx = await _db.Database.BeginTransactionAsync(
-            System.Data.IsolationLevel.Serializable, ct);
-
-        var today = DateOnly.FromDateTime(DateTime.UtcNow);
-
-        var wallet = await _db.SparkWallets
-            .FirstOrDefaultAsync(w => w.UserId == userId, ct);
-
-        if (wallet is null)
+        // Wrap in ExecutionStrategy to be compatible with EnableRetryOnFailure.
+        var strategy = _db.Database.CreateExecutionStrategy();
+        return await strategy.ExecuteAsync(async () =>
         {
-            wallet = new SparkWallet
+            await using var tx = await _db.Database.BeginTransactionAsync(
+                System.Data.IsolationLevel.Serializable, ct);
+
+            var today = DateOnly.FromDateTime(DateTime.UtcNow);
+
+            var wallet = await _db.SparkWallets
+                .FirstOrDefaultAsync(w => w.UserId == userId, ct);
+
+            if (wallet is null)
             {
-                UserId = userId,
-                BalanceTenths = DailyEarnTenths,
-                LastEarnedDate = today  // FIX: Set to today to prevent double-earn
-            };
-            _db.SparkWallets.Add(wallet);
+                wallet = new SparkWallet
+                {
+                    UserId = userId,
+                    BalanceTenths = DailyEarnTenths,
+                    LastEarnedDate = today  // FIX: Set to today to prevent double-earn
+                };
+                _db.SparkWallets.Add(wallet);
+                await _db.SaveChangesAsync(ct);
+            }
+
+            // Earn daily inside the transaction to prevent double-earn
+            if (wallet.LastEarnedDate == null || wallet.LastEarnedDate < today)
+            {
+                wallet.BalanceTenths = Math.Min(MaxBalanceTenths, wallet.BalanceTenths + DailyEarnTenths);
+                wallet.LastEarnedDate = today;
+            }
+
+            if (wallet.BalanceTenths < SpendTenths)
+            {
+                await tx.RollbackAsync(ct);
+                return new SpendResult(false, "INSUFFICIENT_SPARKS", wallet.BalanceTenths / 10m);
+            }
+
+            wallet.BalanceTenths -= SpendTenths;
+            wallet.UpdatedAt = DateTimeOffset.UtcNow;
             await _db.SaveChangesAsync(ct);
-        }
+            await tx.CommitAsync(ct);
 
-        // Earn daily inside the transaction to prevent double-earn
-        if (wallet.LastEarnedDate == null || wallet.LastEarnedDate < today)
-        {
-            wallet.BalanceTenths = Math.Min(MaxBalanceTenths, wallet.BalanceTenths + DailyEarnTenths);
-            wallet.LastEarnedDate = today;
-        }
-
-        if (wallet.BalanceTenths < SpendTenths)
-        {
-            await tx.RollbackAsync(ct);
-            return new SpendResult(false, "INSUFFICIENT_SPARKS", wallet.BalanceTenths / 10m);
-        }
-
-        wallet.BalanceTenths -= SpendTenths;
-        wallet.UpdatedAt = DateTimeOffset.UtcNow;
-        await _db.SaveChangesAsync(ct);
-        await tx.CommitAsync(ct);
-
-        return new SpendResult(true, null, wallet.BalanceTenths / 10m);
+            return new SpendResult(true, null, wallet.BalanceTenths / 10m);
+        });
     }
 
     /// <summary>Add 0.5 sparks — called when match ends as ghost (no messages exchanged).</summary>

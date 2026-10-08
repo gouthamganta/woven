@@ -52,36 +52,46 @@ public class MomentsMatchService
         var expires = MomentsRules.ComputeExpiresAt(now);
 
         // SERIALIZABLE prevents two concurrent creates from both passing the "exists" check.
-        await using var tx = await _db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
-
-        var exists = await _db.Matches.AnyAsync(m =>
-            m.UserAId == a &&
-            m.UserBId == b &&
-            m.BalloonState == BalloonState.ACTIVE, ct);
-
-        if (exists)
+        // Wrap in ExecutionStrategy to be compatible with EnableRetryOnFailure.
+        var strategy = _db.Database.CreateExecutionStrategy();
+        var (success, match, reason) = await strategy.ExecuteAsync(async () =>
         {
-            await tx.RollbackAsync(ct);
-            return new CreateMatchResult(false, null, "ACTIVE_MATCH_ALREADY_EXISTS");
-        }
+            await using var tx = await _db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
 
-        var match = new Match
-        {
-            UserAId = a,
-            UserBId = b,
-            MatchType = matchType,
-            EdgeOwnerId = edgeOwnerId,
-            BalloonState = BalloonState.ACTIVE,
-            ClosedReason = null,
-            CreatedAt = now,
-            ExpiresAt = expires,
-            ClosedAt = null
-        };
+            var exists = await _db.Matches.AnyAsync(m =>
+                m.UserAId == a &&
+                m.UserBId == b &&
+                m.BalloonState == BalloonState.ACTIVE, ct);
 
-        _db.Matches.Add(match);
-        await _db.SaveChangesAsync(ct);
+            if (exists)
+            {
+                await tx.RollbackAsync(ct);
+                return (false, (Match?)null, "ACTIVE_MATCH_ALREADY_EXISTS");
+            }
 
-        await tx.CommitAsync(ct);
+            var newMatch = new Match
+            {
+                UserAId = a,
+                UserBId = b,
+                MatchType = matchType,
+                EdgeOwnerId = edgeOwnerId,
+                BalloonState = BalloonState.ACTIVE,
+                ClosedReason = null,
+                CreatedAt = now,
+                ExpiresAt = expires,
+                ClosedAt = null
+            };
+
+            _db.Matches.Add(newMatch);
+            await _db.SaveChangesAsync(ct);
+
+            await tx.CommitAsync(ct);
+
+            return (true, (Match?)newMatch, (string?)null);
+        });
+
+        if (!success)
+            return new CreateMatchResult(false, null, reason);
 
         // Phase 1C: notify the recipient(s) in real-time
         if (matchType == MatchType.EDGE && edgeOwnerId.HasValue)
