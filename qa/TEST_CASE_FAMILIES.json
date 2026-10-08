@@ -1,0 +1,709 @@
+{
+  "scope": "Feature-specific family backlog, NOT executable test coverage",
+  "suites": [
+    {
+      "id": "QA-COV-01",
+      "key": "AUTH",
+      "title": "Authentication, sessions and API/client authorization",
+      "issue": "https://github.com/gouthamganta/woven/issues/147",
+      "families": [
+        {
+          "id": "QA-COV-01-1",
+          "text": "Signed JWT accepted; bad signature, issuer, audience, algorithm, expired/missing claims denied",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-01-2",
+          "text": "Anonymous/public/admin/owner/foreign/deleted/banned account policy matrix",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-01-3",
+          "text": "Cookie Secure/HttpOnly/SameSite, CSRF, refresh/logout/revocation, CORS preflights",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-01-4",
+          "text": "Frontend protected routes, expired/malformed token, storage removal, SSR and deep links",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-01-5",
+          "text": "Interceptor request preservation and credentials restricted to approved origins; 401/403 recovery",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-01-6",
+          "text": "Production dev helpers absent and invalid configuration fails closed",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-02",
+      "key": "ONBOARD",
+      "title": "Onboarding, profile/preferences and consent",
+      "issue": "https://github.com/gouthamganta/woven/issues/148",
+      "families": [
+        {
+          "id": "QA-COV-02-1",
+          "text": "Age 17/18 and max boundary, invalid dates, missing consent, required/null/blank/Unicode fields",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-02-2",
+          "text": "Preference age/distance/range boundaries and incompatible or empty candidate pools",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-02-3",
+          "text": "Resume/back/reload/double-submit and stale/out-of-order saves",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-02-4",
+          "text": "Foundational/dynamic questions: missing/duplicate/unknown answers, expiry/version and incomplete state",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-02-5",
+          "text": "Photo count/order/completion, failed upload and profile status transitions",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-02-6",
+          "text": "Frontend field errors/focus, keyboard consent, offline/retry and OAuth failure without data loss",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-03",
+      "key": "MOMENTS",
+      "title": "Moments/Drawn discovery and choice contracts",
+      "issue": "https://github.com/gouthamganta/woven/issues/149",
+      "families": [
+        {
+          "id": "QA-COV-03-1",
+          "text": "Deck size/lane allocation, empty/partial deck, deterministic fixture constraints and no public ratings",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-03-2",
+          "text": "Trust threshold below/at/above 0.25; age/distance/activity/intent and block exclusion both ways",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-03-3",
+          "text": "Choice enum/source/target/note 19/20/150/151 limits and Unicode length definition",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-03-4",
+          "text": "Duplicate/pass-upgrade/blocked/deleted target and stale daily deck",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-03-5",
+          "text": "UTC rollover, daily cap, idempotency and concurrency with persisted response/note/budget checks",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-03-6",
+          "text": "Frontend card gestures/buttons, repeated clicks, errors, empty/loading states and rollback",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-04",
+      "key": "SPARK",
+      "title": "Spark economy and daily limits",
+      "issue": "https://github.com/gouthamganta/woven/issues/150",
+      "families": [
+        {
+          "id": "QA-COV-04-1",
+          "text": "New wallet grants once; same-day repeated read/spend; UTC daily top-up and cap",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-04-2",
+          "text": "Balance zero/one/cap, tenths precision, overdraft denial and non-negative refunds",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-04-3",
+          "text": "Concurrent spends/refunds and lazy wallet creation races",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-04-4",
+          "text": "Ghost refunds exactly once, duplicate jobs and cache/DB disagreement",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-04-5",
+          "text": "Fault before/after spend and ambiguous commit; no double charge or lost spend",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-04-6",
+          "text": "Frontend displayed balance, insufficient funds and optimistic rollback",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-05",
+      "key": "LIFECYCLE",
+      "title": "Matching, profile access, 72h and First Ten/Last Call",
+      "issue": "https://github.com/gouthamganta/woven/issues/151",
+      "families": [
+        {
+          "id": "QA-COV-05-1",
+          "text": "Pure/Edge owner/non-owner profile visibility and two-way unlock",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-05-2",
+          "text": "Pair normalization, duplicate active matches, simultaneous mutual choices and no half-created match",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-05-3",
+          "text": "72-hour before/at/after expiry, UTC/leap boundaries and already two-way exemption",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-05-4",
+          "text": "First Ten before/at/after ten minutes; pop availability and no-pop automatic transition",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-05-5",
+          "text": "Last Call start when both open; three-minute hard timeout, all decision combinations and worker recovery",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-05-6",
+          "text": "Closed finality, unmatch/block/report, private Afterthought by close path and ghost refund invariants",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-06",
+      "key": "CHAT",
+      "title": "Chat messaging, voice and conversation UI",
+      "issue": "https://github.com/gouthamganta/woven/issues/152",
+      "families": [
+        {
+          "id": "QA-COV-06-1",
+          "text": "Participant/foreign/deleted/blocked actor matrix for read/send/list/start",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-06-2",
+          "text": "Empty/whitespace/oversized/Unicode text, markup escaping and attachment/voice validation",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-06-3",
+          "text": "ChatNotes shown to matched pair and never unrelated users; no public ratings",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-06-4",
+          "text": "Delivery/read/order/pagination, duplicates, concurrent messages and retry idempotency",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-06-5",
+          "text": "Closed/trial/expired match send rules and two-way persisted transition",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-06-6",
+          "text": "Frontend keyboard/focus, optimistic sends, reconnect, offline drafts and failed-send recovery",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-07",
+      "key": "CONTENT",
+      "title": "Commons, tiles, Orbit, interactions and seasons",
+      "issue": "https://github.com/gouthamganta/woven/issues/153",
+      "families": [
+        {
+          "id": "QA-COV-07-1",
+          "text": "Create/read/update/delete ownership with missing/deleted/blocked targets",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-07-2",
+          "text": "Content type/size/blank/Unicode/malicious text and output escaping",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-07-3",
+          "text": "Pagination first/last/empty/negative/overflow, stable ordering and duplicate reactions",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-07-4",
+          "text": "Tile lifetime/highlight slots/order and expired/removed media references",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-07-5",
+          "text": "Orbit/interaction/season state boundaries and duplicate/concurrent activity",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-07-6",
+          "text": "Frontend feed loading/empty/error, navigation, accessible actions and rollback",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-08",
+      "key": "MEDIA",
+      "title": "Media uploads, storage and delivery",
+      "issue": "https://github.com/gouthamganta/woven/issues/154",
+      "families": [
+        {
+          "id": "QA-COV-08-1",
+          "text": "Allowed/disallowed MIME and extension, zero/oversized files and deceptive metadata",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-08-2",
+          "text": "Owner/foreign read/write/delete, signed URL lifetime and path traversal/filename cases",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-08-3",
+          "text": "Partial upload, timeout, retry, missing blob, stale database link and cleanup",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-08-4",
+          "text": "Photo/voice transformations via fakes with explicit provider-test limitations",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-08-5",
+          "text": "Account erasure across blob containers and orphan detection",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-08-6",
+          "text": "Frontend upload cancellation/progress/retry/preview and accessible errors",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-09",
+      "key": "GAMES",
+      "title": "Games, feedback and date/venue recommendations",
+      "issue": "https://github.com/gouthamganta/woven/issues/155",
+      "families": [
+        {
+          "id": "QA-COV-09-1",
+          "text": "Participant-only game creation/answers/results; expired/closed/blocked match",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-09-2",
+          "text": "KnowMe/RedGreen validation, duplicate/unknown answers and simultaneous submissions",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-09-3",
+          "text": "Two-per-day cap and UTC boundary, exactly-once scoring/learning signal",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-09-4",
+          "text": "Date unlock time, invalid locations, no venue results, consent and provider timeout/fallback",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-09-5",
+          "text": "Feedback and Afterthought ownership, bounds, duplicate close submission and rating invisibility",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-09-6",
+          "text": "Frontend game/date flow, timeout/error recovery and keyboard/mobile interaction",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-10",
+      "key": "PRIVACY",
+      "title": "Export, deletion, encryption and retention",
+      "issue": "https://github.com/gouthamganta/woven/issues/156",
+      "families": [
+        {
+          "id": "QA-COV-10-1",
+          "text": "Export field inventory and own-only access; repeat limit and bounded error response",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-10-2",
+          "text": "Delete unmatched/matched/blocked users; FK integrity, retained counterpart records and complete owned-data cleanup",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-10-3",
+          "text": "Old tokens/cookies/realtime sessions revoked or fail account-state checks after deletion",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-10-4",
+          "text": "Partial DB/blob/provider failures and retry without partial irreversible corruption",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-10-5",
+          "text": "At-rest encrypted fields, wrong/missing key, applied key rotation and recovery",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-10-6",
+          "text": "No PII/token/private conversation leakage in logs, traces, analytics or public evidence",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-11",
+      "key": "SAFETY",
+      "title": "Trust, verification, moderation, support and admin",
+      "issue": "https://github.com/gouthamganta/woven/issues/157",
+      "families": [
+        {
+          "id": "QA-COV-11-1",
+          "text": "Bidirectional block effects on every discovery/profile/chat/media/realtime surface",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-11-2",
+          "text": "Unblock, report duplicates/invalid reason, self-target and unknown/deleted targets",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-11-3",
+          "text": "Admin role boundaries, moderation decisions/audit and unauthenticated misuse",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-11-4",
+          "text": "Trust threshold changes, verification replay/spoof, expired evidence and provider failure fakes",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-11-5",
+          "text": "Support/legal consent/version and deleted-user behavior",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-11-6",
+          "text": "Frontend safety action availability, confirmation/error recovery and accessible interaction",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-12",
+      "key": "AI",
+      "title": "ECHO signals, embeddings, coaching and assistant",
+      "issue": "https://github.com/gouthamganta/woven/issues/158",
+      "families": [
+        {
+          "id": "QA-COV-12-1",
+          "text": "Every recorded signal has valid producer/schema/consumer; no orphan/mislabelled/double-counted events",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-12-2",
+          "text": "Embedding dimension/version/NaN/null/empty/corrupt vectors and no candidate data",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-12-3",
+          "text": "Deterministic fixtures prove filters/ranking invariants; never claim romantic effectiveness",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-12-4",
+          "text": "Prompt injection, private-field isolation, redaction and tool/command boundaries",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-12-5",
+          "text": "Provider timeout/rate limit/malformed output with zero-cost adapters and circuit fallback",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-12-6",
+          "text": "Coaching consent/version/eligibility; frontend opt-in, unavailable state and no leaked scores",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-13",
+      "key": "REALTIME",
+      "title": "Notifications, push, websocket and reconnect",
+      "issue": "https://github.com/gouthamganta/woven/issues/159",
+      "families": [
+        {
+          "id": "QA-COV-13-1",
+          "text": "Negotiation/connect/group authorization including expired/deleted/blocked credentials",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-13-2",
+          "text": "Notification payload recipient isolation, order, duplication, reconnect and acknowledgement",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-13-3",
+          "text": "Push subscription owner/delete/invalid endpoints, expired cleanup and no shared-DbContext races",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-13-4",
+          "text": "Provider unavailable/fake delivery, retry/dead-letter behavior and no misleading delivered claim",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-13-5",
+          "text": "Frontend websocket reconnect/backoff, permission denial, unsupported browser and notification navigation",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-13-6",
+          "text": "Notification outbox/commit ordering and idempotency under faults",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-14",
+      "key": "OPS",
+      "title": "Migrations, jobs, cache, resilience and monitoring",
+      "issue": "https://github.com/gouthamganta/woven/issues/160",
+      "families": [
+        {
+          "id": "QA-COV-14-1",
+          "text": "Fresh and upgrade PostgreSQL migrations, model snapshot drift, indexes/checks and restore/recovery",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-14-2",
+          "text": "Readiness fails closed for unusable schema/config/dependencies; liveness distinction",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-14-3",
+          "text": "Serializable conflicts, rollback, lost commit, duplicate job and restart/cancellation recovery",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-14-4",
+          "text": "Redis absent/stale/timeout and cache partition/cap consistency",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-14-5",
+          "text": "Bounded validated correlation IDs, sanitized actionable errors and request/body/header limits",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-14-6",
+          "text": "Local named latency/load/resource workloads, nginx API/deep-link/websocket routing and dependency/OS scans",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-15",
+      "key": "UX",
+      "title": "Cross-feature browser accessibility and frontend regression",
+      "issue": "https://github.com/gouthamganta/woven/issues/161",
+      "families": [
+        {
+          "id": "QA-COV-15-1",
+          "text": "Authenticated full two-user onboarding-to-match-to-chat-to-close journey through release proxy",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-15-2",
+          "text": "Mobile/desktop/reflow/zoom, keyboard order/focus trap/return and screen-reader labels",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-15-3",
+          "text": "Contrast, target sizes, reduced motion and timed interactions",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-15-4",
+          "text": "Every route/component loading/empty/error/retry and unknown/deep-link/back/reload behavior",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-15-5",
+          "text": "Slow/out-of-order HTTP, offline/reconnect, repeated click and optimistic rollback across features",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-15-6",
+          "text": "Consent/privacy/legal links, authenticated session expiry and logout across tabs",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    },
+    {
+      "id": "QA-COV-16",
+      "key": "MEASURE",
+      "title": "Coverage tooling, traceability and release gates",
+      "issue": "https://github.com/gouthamganta/woven/issues/162",
+      "families": [
+        {
+          "id": "QA-COV-16-1",
+          "text": "Map every inventoried endpoint/route/service/worker/rule/state to named cases or justified N/A",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-16-2",
+          "text": "Collect backend line/branch coverage including application modules and unexecuted services",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-16-3",
+          "text": "Collect frontend coverage with all application files in denominator; reconcile lazy modules/templates",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-16-4",
+          "text": "Runtime endpoint enumeration reconciles static fragments/group prefixes/conditional helpers",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-16-5",
+          "text": "Record exact commit, fixture/schema/config scope, expected/actual and private artifact hashes",
+          "status": "design-required",
+          "cases": []
+        },
+        {
+          "id": "QA-COV-16-6",
+          "text": "CI/local scripts prevent silent skips/exclusions and require regression tests for each new feature/fix",
+          "status": "design-required",
+          "cases": []
+        }
+      ]
+    }
+  ]
+}

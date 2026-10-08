@@ -2,6 +2,27 @@
 
 ## Current coordination
 
+Founder requested complete backend/frontend test-case coverage, not smoke-only
+QA. Codex created suite Issues #147–#162 (16 suites, 96 test-design families);
+QA-COV-01 and QA-COV-16 are in progress, others queued. Inventory
+TEST_SURFACES.json finds 133 literal backend registrations, 26 frontend route
+entries, 159 backend service files and 21 frontend services/guards/interceptors.
+This static inventory is not a complete runtime route list or tested coverage.
+See TEST_COVERAGE_PLAN.md, TEST_CASE_FAMILIES.json and TEST_CASE_MAPPING.json.
+Added 7 backend JWT contract cases and 7 frontend guard/interceptor cases on
+qa/full-local-audit, with no application changes. Backend 15/15 and frontend
+10/10 passed. Initial backend collector measured 122/93816 lines (~0.13%) and
+15/5701 branches (~0.26%), including generated migrations; no exclusions added.
+Frontend coverage collector now runs using isolated @vitest/coverage-v8 4.0.16
+and a worktree dependency overlay; root dependencies unchanged. Report gives
+34.95% lines / 45.53% branches for LOADED FILES ONLY, not whole frontend coverage.
+Unloaded files must enter the denominator in QA-COV-16. See coverage-baseline
+Markdown/JSON under evidence/ for measured totals and remaining limitations.
+Goal: 100% enumerated requirements/states mapped and must-pass tests executed;
+never promise a finite suite proves every possible edge case absent. Preserve
+full denominator and distinguish passing mocked tests from integration/provider
+evidence. Tests do not prove auth guards are enabled in routes (#114 still open).
+
 2026-10-08 full QA resumed. Baseline 3df9759, Claude-authored candidate 5461c85
 published as draft PR #144 (fix/qa-startup-and-72h); no master merge/deployment.
 Local API uses separate MODEL-CREATED woven_qa_model schema because fresh

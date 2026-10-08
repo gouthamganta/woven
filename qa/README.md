@@ -14,6 +14,10 @@ snapshot; new work and handoffs belong in GitHub once setup completes.
 - [Historical board](BOARD.md): pre-migration snapshot; do not update it.
 - [Memory](MEMORY.md): persistent context and next steps.
 - [Test strategy](STRATEGY.md): scope, evidence, and readiness gates.
+- [Coverage contract](TEST_COVERAGE_PLAN.md): test layers and completion gates.
+- `TEST_SURFACES.json`: static source inventory, not executed coverage.
+- `TEST_CASE_FAMILIES.json`: case families linked to GitHub suite Issues.
+- `TEST_CASE_MAPPING.json`: initial concrete regression mapping and limits.
 - [Findings](FINDINGS.md): source-linked observations awaiting validation.
 - [Documentation review](DOC_REVIEW.md): reading coverage and source discrepancies.
 - [Latest local QA checkpoint](evidence/2026-10-08-full-qa.md): executed checks,

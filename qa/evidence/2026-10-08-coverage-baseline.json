@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-08",
+  "applicationBaseline": "3df9759",
+  "branch": "qa/full-local-audit",
+  "scope": "Existing baseline plus newly added tests, not candidate 5461c85; no application edits in this run.",
+  "backend": {
+    "passed": 15,
+    "failed": 0,
+    "skipped": 0,
+    "command": "dotnet test backend/WovenBackend.Tests/WovenBackend.Tests.csproj --collect:\"XPlat Code Coverage\"",
+    "applicationModule": "WovenBackend",
+    "coveredLines": 122,
+    "validLines": 93816,
+    "coveredBranches": 15,
+    "validBranches": 5701,
+    "linePercent": 0.13004178391745544,
+    "branchPercent": 0.26311173478337135,
+    "rawReportSha256": "e08eb3c76b22ff7b64659aec34516b703976c37551aeb6916185ec8b17282c2e",
+    "limitations": "Collector denominator includes generated migration code. No exclusion configuration was supplied. It is not endpoint, rule, UI or integration coverage. EF Relational assembly warnings remain."
+  },
+  "frontend": {
+    "passed": 10,
+    "failed": 0,
+    "testFiles": 5,
+    "command": "node node_modules/@angular/cli/bin/ng.js test --watch=false --coverage",
+    "collectorVersion": "@vitest/coverage-v8 4.0.16",
+    "reportedLinePercent": 34.95,
+    "reportedBranchPercent": 45.53,
+    "coverage": "Collector succeeded using isolated coverage-tools dependencies and a worktree dependency overlay; original installation unchanged. Default report only includes files loaded by these specs. These figures are NOT whole-frontend coverage. Unloaded routes/services remain absent from its denominator and must be included/reconciled in QA-COV-16.",
+    "rawReportSha256": "85dda1a8b42c19314e82c0d771883defbe69b9d4278862bfebf257c161cf4f0d"
+  },
+  "addedTests": 14,
+  "testFileSha256": {
+    "backend/WovenBackend.Tests/JwtSecurityContractTests.cs": "ad2558d25fd3275440802e85e09a2adc6790785630d7a9a2edf94da1464f8d76",
+    "frontend/woven-frontend/src/app/core/auth/auth.interceptor.spec.ts": "c7d1e9f5c20f6a6de52a0bd386ccfa9006ac7562c297bcd7c4e75ff8821c3117",
+    "frontend/woven-frontend/src/app/core/auth/auth.guard.spec.ts": "2093e8e4dfef35d642bd0d7a72aea78554244e55eb65c221504fc30d2ff1a0fe"
+  },
+  "inventory": {
+    "backendRegistrationSites": 133,
+    "frontendRouteSites": 26,
+    "backendServiceFiles": 159,
+    "frontendServiceFiles": 21,
+    "status": "Static discovery, largely unmapped; not complete runtime enumeration."
+  },
+  "backlog": {
+    "suites": 16,
+    "testDesignFamilies": 96,
+    "issueRange": "147–162",
+    "status": "Queued/in progress, not implemented or executed."
+  }
+}
