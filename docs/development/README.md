@@ -205,9 +205,9 @@ See [setup.md](setup.md) for full details.
 ## Related Documentation
 
 - **[API Reference](../api/README.md)** — Complete API endpoint documentation
-- **[Architecture Overview](../architecture/OVERVIEW.md)** — System design and components
+- **[Architecture Overview](../architecture/README.md)** — System design and components
 - **[Security Guide](../security/README.md)** — Security practices and auditing
-- **[Business Logic](../business/PRODUCT_RULES.md)** — Product rules and mechanics
+- **[Business Logic](../business/rules.md)** — Product rules and mechanics
 
 ---
 
