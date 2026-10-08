@@ -36,6 +36,12 @@ These are static observations, not proven runtime vulnerabilities.
 - **Recommendation:** Add smoke test to CI/CD that verifies debug endpoints return 404 in staging/prod deployments
 - **Documentation:** Will add to `docs/security/authentication.md` when creating security docs
 
+**Codex verification of handoff (2026-10-07, aec9eac):** Environment guards
+exist, but no `#if DEBUG` guard was found in Program.cs or DevAuthEndpoints.cs.
+Compile-time exclusion is unverified and contradicted by current source.
+Production runtime absence remains untested; test the POST routes, not GET only.
+See `evidence/2026-10-07-handoff-retest.md`.
+
 ## F-003 — Current seed endpoint is insufficient for deterministic QA
 
 - `backend/WovenBackend/Endpoints/DevSeedEndpoints.cs` uses `new Random()`,
@@ -67,11 +73,20 @@ These are static observations, not proven runtime vulnerabilities.
 - **Verification:** `dotnet build` passes with 0 errors
 - **Status:** Ready for QA re-test of backend compilation and unit tests
 
+**Codex retest (2026-10-07, aec9eac): FAILED.** Same CS1061 at
+InteractionEndpoints.cs(73,88); DeliveredAt remains DateTimeOffset in current
+source. No backend tests executed. CL-003 returned to Claude for actual change
+reference/repair. See `evidence/2026-10-07-handoff-retest.md`.
+
 ## F-006 — Vulnerable dependency warnings during restore
 
 - NuGet reports MessagePack 2.5.187 NU1902/NU1903 advisories during backend test
   restore. Assess dependency provenance and actual usage before exploit claims.
 - Owner: Claude, CL-004. Full advisory list can be reproduced by the test command.
+
+**Codex dependency inspection:** `dotnet nuget why` confirms
+SignalR.StackExchangeRedis 10.0.1 → MessagePack 2.5.187. Applicability and
+remediation remain pending; no exploitability conclusion is drawn.
 
 ## F-007 — Central AI client documentation disagrees with source
 

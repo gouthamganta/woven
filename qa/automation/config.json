@@ -1,0 +1,13 @@
+{
+  "enabled": false,
+  "pollSeconds": 60,
+  "maxAttempts": 2,
+  "agentTimeoutSeconds": 300,
+  "allowedIssues": [
+    103
+  ],
+  "allowedPaths": [
+    "qa/fixtures/pipeline-pilot.json"
+  ],
+  "scope": "Fixture-only pilot. General application development is not enabled."
+}
