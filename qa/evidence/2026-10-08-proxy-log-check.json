@@ -1,0 +1,8 @@
+{
+  "date": "2026-10-08",
+  "scope": "Actual local nginx custom access-log query/referrer redaction, artificial marker not a real credential",
+  "status": 200,
+  "healthLinePresent": true,
+  "markerPresent": false,
+  "result": "passed"
+}

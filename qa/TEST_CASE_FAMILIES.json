@@ -664,8 +664,10 @@
         {
           "id": "QA-COV-13-1",
           "text": "Negotiation/connect/group authorization including expired/deleted/blocked credentials",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "IT-proxy-websocket-handshake"
+          ]
         },
         {
           "id": "QA-COV-13-2",
@@ -738,8 +740,26 @@
         {
           "id": "QA-COV-14-6",
           "text": "Local named latency/load/resource workloads, nginx API/deep-link/websocket routing and dependency/OS scans",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "PX-830585a5abe7",
+            "PX-67885f953b25",
+            "PX-6d878e4389ef",
+            "PX-1739c464324d",
+            "PX-b1dc126e16de",
+            "PX-e70e1dfd27b8",
+            "PX-b6252fdeb8ca",
+            "PX-80a5da8cba85",
+            "PX-c62da8ab9756",
+            "PX-a12e10ec19cd",
+            "PX-1608545af97e",
+            "PX-e467bfe327d6",
+            "PX-7dedffb49f67",
+            "PX-425489edc746",
+            "PX-80922b21186c",
+            "PX-53af2599e748",
+            "IT-nginx-query-log-redaction"
+          ]
         }
       ]
     },
@@ -752,8 +772,11 @@
         {
           "id": "QA-COV-15-1",
           "text": "Authenticated full two-user onboarding-to-match-to-chat-to-close journey through release proxy",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BR-local-anonymous-core",
+            "BR-local-signed-core"
+          ]
         },
         {
           "id": "QA-COV-15-2",

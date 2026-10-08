@@ -2,6 +2,16 @@
 
 ## Current coordination
 
+Proxy/real-browser repair loop: Claude proxyc6b090c stacked draft168(base167)
+passesnginx-t and16/16 actual contracts vs baseline3/16. Local frontend5180 now
+mounts auth176cf74 build +candidate nginx via privateproxy.env; backend5461c85
+unchanged, original containers untouched. Real mobile anonymous→login and signed
+synthetic→moments/API200 checks pass without fake backend responses. Actual hub
+websocket handshake succeeds; delivery/isolation/reconnect not proved. Query/
+referrer artificial marker absent from real logs. Local ordinary-user launcher
+http://127.0.0.1:5180/qa-access.html lasts1h, Git-ignored; regenerate via script.
+Report2026-10-08-proxy-and-browser.md/JSON; no cloud deploy/paid fallback/main merge.
+
 Further fix/retest: Claude-authored client176cf74 stacked draft167(base144)
 passes same37 cases vs baseline18/37; expanded51/51 candidate tests/build pass.
 QA overlays restored. No signature verification by client decoder; SEC remains

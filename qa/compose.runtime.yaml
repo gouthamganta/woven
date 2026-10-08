@@ -55,8 +55,8 @@ services:
     environment:
       BACKEND_URL: http://backend:8080
     volumes:
-      - ./.local/full-qa-runtime/frontend/browser:/usr/share/nginx/html:ro
-      - ./.local/full-qa-baseline/frontend/woven-frontend/nginx.conf.template:/etc/nginx/nginx.conf.template:ro
+      - ${WOVEN_QA_FRONTEND_ARTIFACTS:-./.local/full-qa-runtime/frontend/browser}:/usr/share/nginx/html:ro
+      - ${WOVEN_QA_FRONTEND_TEMPLATE:-./.local/full-qa-baseline/frontend/woven-frontend/nginx.conf.template}:/etc/nginx/nginx.conf.template:ro
     ports:
       - "127.0.0.1:5180:80"
     depends_on: [backend]

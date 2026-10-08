@@ -1182,6 +1182,222 @@
         "local-model-created-schema": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-seed-guards.json"
+    },
+    {
+      "id": "PX-830585a5abe7",
+      "layer": "integration",
+      "name": "API-/me/data-summary",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-67885f953b25",
+      "layer": "integration",
+      "name": "API-/me/accessibility",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-6d878e4389ef",
+      "layer": "integration",
+      "name": "API-/commons?page=1",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-1739c464324d",
+      "layer": "integration",
+      "name": "API-/tiles/mine",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-b1dc126e16de",
+      "layer": "integration",
+      "name": "API-/sparks/balance",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-e70e1dfd27b8",
+      "layer": "integration",
+      "name": "API-/moments",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "passed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-b6252fdeb8ca",
+      "layer": "integration",
+      "name": "API-/chats",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "passed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-80a5da8cba85",
+      "layer": "integration",
+      "name": "API-/matches",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "passed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-c62da8ab9756",
+      "layer": "integration",
+      "name": "API-COACHING",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-a12e10ec19cd",
+      "layer": "integration",
+      "name": "DOCUMENT-/moments",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-1608545af97e",
+      "layer": "integration",
+      "name": "DOCUMENT-/chats",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-e467bfe327d6",
+      "layer": "integration",
+      "name": "DOCUMENT-/matches/00000000-0000-0000-0000-000000000001/profile",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-7dedffb49f67",
+      "layer": "integration",
+      "name": "DOCUMENT-/onboarding/basics",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-425489edc746",
+      "layer": "integration",
+      "name": "ANONYMOUS-API",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-80922b21186c",
+      "layer": "integration",
+      "name": "SIGNALR-ANONYMOUS",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-53af2599e748",
+      "layer": "integration",
+      "name": "SIGNALR-AUTH",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "BR-local-anonymous-core",
+      "layer": "integration",
+      "name": "Actual mobile browser redirects anonymous protected navigation",
+      "family": "QA-COV-15-1",
+      "results": {
+        "local-repaired-proxy": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "BR-local-signed-core",
+      "layer": "integration",
+      "name": "Actual mobile browser loads authenticated core API through real proxy",
+      "family": "QA-COV-15-1",
+      "results": {
+        "local-repaired-proxy": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "IT-proxy-websocket-handshake",
+      "layer": "integration",
+      "name": "Actual browser SignalR handshake through repaired frontend",
+      "family": "QA-COV-13-1",
+      "results": {
+        "local-repaired-proxy": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "IT-nginx-query-log-redaction",
+      "layer": "integration",
+      "name": "Artificial query/referrer credential marker absent from real access log",
+      "family": "QA-COV-14-6",
+      "results": {
+        "local-repaired-proxy": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
     }
   ]
 }
