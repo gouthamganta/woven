@@ -10,6 +10,18 @@ and the gap.
 
 ---
 
+## 0. Names (founder, 2026-10-08)
+
+| Concept | Name | Visual |
+|---|---|---|
+| A match | **Thread** | Existing balloon (unchanged) |
+| 10-min window after two-way | **First Ten** | Existing balloon timer |
+| Pop action | **Pop** | Existing balloon pop |
+| 3-min trial | **Last Call** | — |
+| Find Love | **Knot** | "You two tied a Knot" |
+| Private close rating | **Afterthought** | — |
+| Waitlist game | **Woven** | — |
+
 ## 1. Matching
 
 | ID | Rule | Code today | Gap |
