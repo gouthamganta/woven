@@ -158,7 +158,7 @@
       "role": "Claude",
       "importedStage": "Ready",
       "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBIE",
-      "syncSignature": "open|Changes requested|Claude|Normal"
+      "syncSignature": "open|Ready for QA|Claude|Normal"
     },
     "DOC-006": {
       "number": 94,
@@ -167,7 +167,7 @@
       "role": "Claude",
       "importedStage": "Ready",
       "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBI0",
-      "syncSignature": "open|Changes requested|Claude|High"
+      "syncSignature": "open|Ready for QA|Claude|High"
     },
     "CL-005": {
       "number": 95,
