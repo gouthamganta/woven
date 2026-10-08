@@ -197,7 +197,7 @@ if (budgetRow != null && budgetRow.TotalUsed >= MomentsRules.DailyTotalCap)
 **Refund on Match Close:**
 - 0.5 ghost sparks if match ends with 0 messages exchanged
 
-**Source:** Referenced in [`SparkWalletService.cs`](../../backend/WovenBackend/Services/SparkWalletService.cs)
+**Source:** Referenced in [`SparkWalletService.cs`](../../backend/WovenBackend/Services/Moments/SparkWalletService.cs)
 
 ---
 

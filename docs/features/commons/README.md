@@ -222,7 +222,7 @@ Tapping the refresh button clears `sessionStorage`, calls `POST /commons/refresh
 
 ## Next Steps
 
-See [CLAUDE.md Product Gaps](../../CLAUDE.md#product-gaps-updated-2026-06-04):
+See [CLAUDE.md Product Gaps](../../../CLAUDE.md#product-gaps-updated-2026-06-04):
 - **PreferenceEmbedding from ChatNotes** — worker stub exists, not wired
 - **Voice embedding matching** — VoiceEmbeddingService exists, not used in feed ranking yet
 

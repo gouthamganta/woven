@@ -133,15 +133,15 @@ All services registered in [Program.cs](../../backend/WovenBackend/Program.cs) w
 |--------|---------|-------|
 | [User.cs](../../backend/WovenBackend/data/Entities/User.cs) | User profiles, encrypted PII | `users` |
 | [Match.cs](../../backend/WovenBackend/data/Entities/Moments/Match.cs) | Matches (balloon state, trial timestamps) | `matches` |
-| [ChatThread.cs](../../backend/WovenBackend/data/Entities/ChatThread.cs) | Chat threads between matched users | `chat_threads` |
-| [Message.cs](../../backend/WovenBackend/data/Entities/Message.cs) | Chat messages (text, voice, game invites) | `messages` |
+| [ChatThread.cs](../../backend/WovenBackend/data/Entities/Moments/ChatThread.cs) | Chat threads between matched users | `chat_threads` |
+| [ChatMessage.cs](../../backend/WovenBackend/data/Entities/Moments/ChatMessage.cs) | Chat messages (text, voice, game invites) | `messages` |
 | [DailyDeck.cs](../../backend/WovenBackend/data/Entities/DailyDeck.cs) | Daily deck snapshots (ItemsJson + DailyDeckItems rows) | `daily_decks` |
 | [DailyDeckItem.cs](../../backend/WovenBackend/data/Entities/DailyDeckItem.cs) | Normalized deck items (candidate + bucket + score) | `daily_deck_items` |
 | [ConnectionScore.cs](../../backend/WovenBackend/data/Entities/ConnectionScore.cs) | Aggregated behavioral signals per match | `connection_scores` |
 | [CfScore.cs](../../backend/WovenBackend/data/Entities/CfScore.cs) | Collaborative filtering scores (Jaccard similarity) | `cf_scores` |
 | [MatchSignalLog.cs](../../backend/WovenBackend/data/Entities/MatchSignalLog.cs) | Raw behavioral signals (message speed, voice exchanges, trial decisions) | `match_signal_logs` |
 | [CoachingSummary.cs](../../backend/WovenBackend/data/Entities/CoachingSummary.cs) | Weekly coaching summaries | `coaching_summaries` |
-| [GameSession.cs](../../backend/WovenBackend/data/Entities/Games/GameSession.cs) | Game sessions (KnowMe, RedGreenFlag) | `game_sessions` |
+| [GameEntities.cs](../../backend/WovenBackend/data/Entities/Games/GameEntities.cs) | Game sessions (KnowMe, RedGreenFlag) | `game_sessions` |
 | [IdempotencyRecord.cs](../../backend/WovenBackend/data/Entities/IdempotencyRecord.cs) | Idempotency keys (24h TTL) | `idempotency_records` |
 
 **Encrypted fields:**  

@@ -189,7 +189,7 @@ No Prometheus/Grafana yet — all metrics in Azure Monitor.
 
 **Source:** GitHub (private repo: `gouthamganta/woven`)
 
-**Workflow:** [.github/workflows/deploy-prod.yml](../../.github/workflows/deploy-prod.yml)
+**Workflow:** [.github/workflows/deploy.yml](../../.github/workflows/deploy.yml)
 
 **Trigger:** Push to `master` branch
 
@@ -203,7 +203,7 @@ No Prometheus/Grafana yet — all metrics in Azure Monitor.
 Azure OIDC (Workload Identity Federation) — no long-lived credentials, GitHub Actions gets short-lived tokens via OIDC.
 
 **Terraform:**  
-Infrastructure changes deployed via separate workflow ([.github/workflows/terraform-apply.yml](../../.github/workflows/terraform-apply.yml)).
+Infrastructure changes deployed via separate workflow ([.github/workflows/terraform.yml](../../.github/workflows/terraform.yml)).
 
 ---
 

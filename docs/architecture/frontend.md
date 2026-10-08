@@ -197,10 +197,10 @@ export class MomentsService {
 
 **Registered interceptors:**
 
-| Interceptor | Purpose | File |
-|-------------|---------|------|
-| **AuthInterceptor** | Adds `Authorization: Bearer <token>` header to all API requests | [core/interceptors/auth.interceptor.ts](../../frontend/woven-frontend/src/app/core/interceptors/auth.interceptor.ts) |
-| **CorrelationIdInterceptor** | Generates `X-Correlation-ID` header (16-char hex) per request | [core/interceptors/correlation-id.interceptor.ts](../../frontend/woven-frontend/src/app/core/interceptors/correlation-id.interceptor.ts) |
+| Interceptor | Purpose |
+|-------------|---------|
+| **AuthInterceptor** | Adds `Authorization: Bearer <token>` header to all API requests |
+| **CorrelationIdInterceptor** | Generates `X-Correlation-ID` header (16-char hex) per request |
 
 **Example:**
 ```typescript
