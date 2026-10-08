@@ -73,77 +73,72 @@ public class MatchScoringService : IMatchScoringService
 
         var scoredIds = candidateVectors.Select(v => v.UserId).ToList();
 
-        // Batch load all auxiliary data in parallel
-        var cfScoreMapTask = _db.CfScores.AsNoTracking()
+        // Batch load all auxiliary data. Queries run sequentially: _db is the
+        // request-scoped DbContext, which does not support concurrent operations.
+        var cfScoreMap = await _db.CfScores.AsNoTracking()
             .Where(c => c.UserId == userId && scoredIds.Contains(c.CandidateId))
             .ToDictionaryAsync(c => c.CandidateId, c => c.Score, ct);
 
-        var orbitGravityTask = _db.OrbitGravities.AsNoTracking()
+        var orbitGravities = await _db.OrbitGravities.AsNoTracking()
             .Where(g => scoredIds.Contains(g.UserId) && g.CandidateId == userId)
             .Select(g => new { g.UserId, g.Score, g.LastOrbitAt })
             .ToListAsync(ct);
 
-        var visualPrefTask = _db.UserVisualPreferences.AsNoTracking()
+        var visualPref = await _db.UserVisualPreferences.AsNoTracking()
             .Where(p => p.UserId == userId)
             .FirstOrDefaultAsync(ct);
 
-        var voicePrefTask = _db.UserVoicePreferences.AsNoTracking()
+        var voicePref = await _db.UserVoicePreferences.AsNoTracking()
             .Where(p => p.UserId == userId)
             .FirstOrDefaultAsync(ct);
 
-        var userOptionalTask = _db.UserOptionalFields.AsNoTracking()
+        var userFields = await _db.UserOptionalFields.AsNoTracking()
             .Where(f => f.UserId == userId)
             .ToDictionaryAsync(f => f.Key, f => f.Value, ct);
 
-        var learnedWeightsTask = _db.UserMatchingWeights.AsNoTracking()
+        var learnedWeightMap = await _db.UserMatchingWeights.AsNoTracking()
             .Where(w => w.UserId == userId && w.SampleCount >= 5)
             .ToDictionaryAsync(w => w.Component, w => (double)w.LearnedWeight, ct);
 
-        var seasonTask = _db.UserSeasonResponses.AsNoTracking()
+        var hasSeasonResponse = await _db.UserSeasonResponses.AsNoTracking()
             .AnyAsync(r => r.UserId == userId, ct);
 
         // Batch load candidate optional fields
-        var candidateOptionalTask = _db.UserOptionalFields.AsNoTracking()
+        var allCandidateFields = await _db.UserOptionalFields.AsNoTracking()
             .Where(f => scoredIds.Contains(f.UserId))
             .ToListAsync(ct);
 
         // Batch load candidate photo embeddings (primary photo per candidate)
-        var candidatePhotosTask = _db.PhotoEmbeddings.AsNoTracking()
+        var candidatePhotos = (await _db.PhotoEmbeddings.AsNoTracking()
             .Where(p => scoredIds.Contains(p.UserId))
             .GroupBy(p => p.UserId)
             .Select(g => g.OrderBy(p => p.EmbeddedAt).First())
-            .ToListAsync(ct);
+            .ToListAsync(ct))
+            .ToDictionary(p => p.UserId);
 
         // Batch load candidate trust scores
-        var candidateTrustTask = _db.Users.AsNoTracking()
+        var trustScores = await _db.Users.AsNoTracking()
             .Where(u => scoredIds.Contains(u.Id))
             .Select(u => new { u.Id, u.TrustScore })
             .ToDictionaryAsync(u => u.Id, u => (double)u.TrustScore, ct);
 
-        // Preload latest voice tile per candidate to avoid N+1 queries
-        var candidateVoiceTilesTask = _db.Tiles.AsNoTracking()
-            .Where(t => scoredIds.Contains(t.UserId) && t.VoiceEmbedding != null)
-            .GroupBy(t => t.UserId)
-            .Select(g => g.OrderByDescending(t => t.CreatedAt).First())
-            .Select(t => new { t.UserId, t.VoiceEmbedding })
-            .ToListAsync(ct);
-
-        await Task.WhenAll(cfScoreMapTask, orbitGravityTask, visualPrefTask,
-            voicePrefTask, userOptionalTask, learnedWeightsTask, seasonTask,
-            candidateOptionalTask, candidatePhotosTask, candidateTrustTask,
-            candidateVoiceTilesTask);
-
-        var cfScoreMap = await cfScoreMapTask;
-        var orbitGravities = await orbitGravityTask;
-        var visualPref = await visualPrefTask;
-        var voicePref = await voicePrefTask;
-        var userFields = await userOptionalTask;
-        var learnedWeightMap = await learnedWeightsTask;
-        var hasSeasonResponse = await seasonTask;
-        var allCandidateFields = await candidateOptionalTask;
-        var candidatePhotos = (await candidatePhotosTask).ToDictionary(p => p.UserId);
-        var trustScores = await candidateTrustTask;
-        var candidateVoiceTiles = (await candidateVoiceTilesTask)
+        // Preload latest voice tile embedding per candidate to avoid N+1 queries.
+        // Correlated LIMIT 1 subquery per candidate (GroupBy→First→Select projection
+        // fails EF translation with EmptyProjectionMember). Id breaks CreatedAt ties.
+        var candidateVoiceTiles = (await _db.Users.AsNoTracking()
+            .Where(u => scoredIds.Contains(u.Id))
+            .Select(u => new
+            {
+                UserId = u.Id,
+                VoiceEmbedding = _db.Tiles
+                    .Where(t => t.UserId == u.Id && t.VoiceEmbedding != null)
+                    .OrderByDescending(t => t.CreatedAt)
+                    .ThenByDescending(t => t.Id)
+                    .Select(t => t.VoiceEmbedding)
+                    .FirstOrDefault()
+            })
+            .ToListAsync(ct))
+            .Where(t => t.VoiceEmbedding != null)
             .ToDictionary(t => t.UserId, t => t.VoiceEmbedding);
 
         // Group candidate fields by userId

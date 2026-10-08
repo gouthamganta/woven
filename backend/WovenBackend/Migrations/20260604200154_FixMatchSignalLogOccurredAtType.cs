@@ -12,14 +12,22 @@ namespace WovenBackend.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<bool>(
-                name: "CoachingOptedOut",
-                table: "Users",
-                type: "boolean",
-                nullable: false,
-                oldClrType: typeof(bool),
-                oldType: "boolean",
-                oldDefaultValue: false);
+            // The scaffolded step here was an AlterColumn (drop the false default) that assumed
+            // "Users"."CoachingOptedOut" already existed. That column is only added by the manual
+            // 20260604000001_AddCoachingSummaries migration, which has no [Migration]/[DbContext]
+            // metadata, so EF never discovers or applies it. On a fresh database the column is
+            // missing and the AlterColumn fails; on databases where it was added out-of-band it
+            // exists. We deliberately don't register the manual migration, since it would create a
+            // duplicate snake_case coaching_summaries table alongside the one created below.
+            //
+            // ADD COLUMN IF NOT EXISTS is a no-op when the column exists, so existing values and
+            // type are kept. When it's missing, the false default backfills existing rows to
+            // satisfy NOT NULL. Dropping the default afterwards gives the same end state as the
+            // original AlterColumn: boolean NOT NULL, no database default.
+            migrationBuilder.Sql("""
+                ALTER TABLE "Users" ADD COLUMN IF NOT EXISTS "CoachingOptedOut" boolean NOT NULL DEFAULT FALSE;
+                ALTER TABLE "Users" ALTER COLUMN "CoachingOptedOut" DROP DEFAULT;
+                """);
 
             migrationBuilder.CreateTable(
                 name: "coaching_summaries",

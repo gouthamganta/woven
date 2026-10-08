@@ -110,6 +110,7 @@ This document visualizes Woven's key state machines — how entities transition 
 - `ACTIVE` → `CLOSED` (one-way)
 - `CLOSED` is immutable (never transitions back to `ACTIVE`)
 - Balloon can be popped by EITHER user (first to pop wins)
+- `BalloonExpiresAt` = creation time + 72h (`MomentsRules.BalloonLifetime`). Applies to newly created balloons; existing persisted `BalloonExpiresAt` values (set under the previous 36h rule) are not rewritten. The 3-minute trial window is separate and unchanged.
 
 **Database field:** `BalloonState` enum (`ACTIVE` | `CLOSED`)
 

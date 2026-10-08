@@ -625,17 +625,20 @@ namespace WovenBackend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.AddCheckConstraint(
+            // These three check constraints are already created inline by the raw-SQL
+            // AddTilesAndHighlights migration (which has no Designer snapshot, so EF re-scaffolded
+            // them here). Add each only if the catalog doesn't already have it on that table.
+            AddCheckConstraintIfMissing(migrationBuilder,
                 name: "ck_tiles_content_type",
                 table: "tiles",
                 sql: "\"content_type\" IN ('text','photo','video','voice')");
 
-            migrationBuilder.AddCheckConstraint(
+            AddCheckConstraintIfMissing(migrationBuilder,
                 name: "ck_tiles_expires_after_created",
                 table: "tiles",
                 sql: "\"expires_at\" > \"created_at\"");
 
-            migrationBuilder.AddCheckConstraint(
+            AddCheckConstraintIfMissing(migrationBuilder,
                 name: "ck_highlights_slot_range",
                 table: "highlights",
                 sql: "\"slot_number\" >= 1 AND \"slot_number\" <= 9");
@@ -912,20 +915,12 @@ namespace WovenBackend.Migrations
                 name: "PK_tiles",
                 table: "tiles");
 
-            migrationBuilder.DropCheckConstraint(
-                name: "ck_tiles_content_type",
-                table: "tiles");
-
-            migrationBuilder.DropCheckConstraint(
-                name: "ck_tiles_expires_after_created",
-                table: "tiles");
+            // ck_tiles_content_type, ck_tiles_expires_after_created and ck_highlights_slot_range
+            // are owned by AddTilesAndHighlights; leave them in place so rolling back to that
+            // migration keeps its schema intact. Its own Down drops the tables.
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_highlights",
-                table: "highlights");
-
-            migrationBuilder.DropCheckConstraint(
-                name: "ck_highlights_slot_range",
                 table: "highlights");
 
             migrationBuilder.DropColumn(
@@ -1039,6 +1034,25 @@ namespace WovenBackend.Migrations
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
+        }
+
+        // Catalog-checked equivalent of AddCheckConstraint. An existing check constraint with the
+        // same name on the same table is preserved as-is; anything else surfaces as a migration error.
+        private static void AddCheckConstraintIfMissing(MigrationBuilder migrationBuilder, string name, string table, string sql)
+        {
+            migrationBuilder.Sql($"""
+                DO $$
+                BEGIN
+                    IF NOT EXISTS (
+                        SELECT 1 FROM pg_constraint
+                        WHERE conname = '{name}'
+                          AND conrelid = '"{table}"'::regclass
+                          AND contype = 'c'
+                    ) THEN
+                        ALTER TABLE "{table}" ADD CONSTRAINT "{name}" CHECK ({sql});
+                    END IF;
+                END $$;
+                """);
         }
     }
 }

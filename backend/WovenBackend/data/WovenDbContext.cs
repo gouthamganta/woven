@@ -1563,7 +1563,7 @@ public class WovenDbContext : DbContext
         modelBuilder.Entity<MatchSignalLog>()
             .ToTable(t => t.HasCheckConstraint(
                 "ck_match_signal_log_no_self",
-                "\"viewer_id\" <> \"candidate_id\""));
+                "\"ViewerId\" <> \"CandidateId\""));
 
         // ===================================
         // ECHO PHASE 5: BEHAVIORAL FINGERPRINT

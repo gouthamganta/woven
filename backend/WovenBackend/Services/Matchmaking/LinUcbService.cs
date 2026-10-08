@@ -57,11 +57,16 @@ public class LinUcbService : ILinUcbService
         var (aInv, b) = LoadOrInitModel(model);
         var theta     = MatVec(aInv, b);
 
-        // Load candidate pillar embeddings and fingerprints in batch
+        // Load candidate pillar embeddings and fingerprints in batch.
+        // Latest non-null embedding per candidate: keep a row only if no newer row
+        // (higher Version, then higher Id as tie-break) exists for the same user.
+        // Translates to NOT EXISTS, so at most one row per candidate is returned.
         var pillarVecs = await _db.UserVectors.AsNoTracking()
             .Where(v => candidateIds.Contains(v.UserId) && v.PillarEmbedding != null)
-            .GroupBy(v => v.UserId)
-            .Select(g => g.OrderByDescending(x => x.Version).First())
+            .Where(v => !_db.UserVectors.Any(o =>
+                o.UserId == v.UserId &&
+                o.PillarEmbedding != null &&
+                (o.Version > v.Version || (o.Version == v.Version && o.Id > v.Id))))
             .Select(v => new { v.UserId, v.PillarEmbedding })
             .ToListAsync(ct);
 
