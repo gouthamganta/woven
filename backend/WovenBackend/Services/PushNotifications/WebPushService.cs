@@ -2,12 +2,15 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using WebPush;
 using WovenBackend.Data;
+using WovenBackend.Data.Entities;
 
 namespace WovenBackend.Services.PushNotifications;
 
+// Registered as a singleton (consumed by singleton NotificationService), so it must not
+// capture a scoped WovenDbContext. Each DB operation creates its own scope instead.
 public class WebPushService : IWebPushService
 {
-    private readonly WovenDbContext _db;
+    private readonly IServiceScopeFactory _scopeFactory;
     private readonly IConfiguration _config;
     private readonly ILogger<WebPushService> _logger;
     private readonly WebPushClient _client;
@@ -16,11 +19,11 @@ public class WebPushService : IWebPushService
     private readonly string _subject;
 
     public WebPushService(
-        WovenDbContext db,
+        IServiceScopeFactory scopeFactory,
         IConfiguration config,
         ILogger<WebPushService> logger)
     {
-        _db = db;
+        _scopeFactory = scopeFactory;
         _config = config;
         _logger = logger;
 
@@ -44,9 +47,15 @@ public class WebPushService : IWebPushService
         string? data = null,
         CancellationToken ct = default)
     {
-        var subscriptions = await _db.PushSubscriptions
-            .Where(s => s.UserId == userId)
-            .ToListAsync(ct);
+        List<UserPushSubscription> subscriptions;
+        using (var scope = _scopeFactory.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+            subscriptions = await db.PushSubscriptions
+                .AsNoTracking()
+                .Where(s => s.UserId == userId)
+                .ToListAsync(ct);
+        }
 
         if (subscriptions.Count == 0)
         {
@@ -62,6 +71,10 @@ public class WebPushService : IWebPushService
             url = url ?? "/",
             data
         });
+
+        // Sends run concurrently, so expired subscriptions are collected here and removed
+        // afterwards in a single dedicated scope (a DbContext is not safe for concurrent use).
+        var expiredIds = new System.Collections.Concurrent.ConcurrentBag<Guid>();
 
         var tasks = subscriptions.Select(async sub =>
         {
@@ -84,10 +97,7 @@ public class WebPushService : IWebPushService
                 if (ex.StatusCode == System.Net.HttpStatusCode.Gone ||
                     ex.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    _db.PushSubscriptions.Remove(sub);
-                    await _db.SaveChangesAsync(ct);
-                    _logger.LogInformation("[WebPush] Removed expired subscription | Id={Id} UserId={UserId}",
-                        sub.Id, userId);
+                    expiredIds.Add(sub.Id);
                 }
             }
             catch (Exception ex)
@@ -97,6 +107,25 @@ public class WebPushService : IWebPushService
         });
 
         await Task.WhenAll(tasks);
+
+        if (!expiredIds.IsEmpty)
+        {
+            var ids = expiredIds.ToList();
+            using var scope = _scopeFactory.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+            var expired = await db.PushSubscriptions
+                .Where(s => ids.Contains(s.Id))
+                .ToListAsync(ct);
+
+            db.PushSubscriptions.RemoveRange(expired);
+            await db.SaveChangesAsync(ct);
+
+            foreach (var sub in expired)
+            {
+                _logger.LogInformation("[WebPush] Removed expired subscription | Id={Id} UserId={UserId}",
+                    sub.Id, userId);
+            }
+        }
 
         _logger.LogInformation("[WebPush] Sent notification to {Count} subscriptions | UserId={UserId}",
             subscriptions.Count, userId);

@@ -480,7 +480,9 @@ builder.Services.AddSignalR()
         opts => { opts.Configuration.AbortOnConnectFail = false; });
 
 builder.Services.AddSingleton<INotificationService, NotificationService>();
-builder.Services.AddScoped<WovenBackend.Services.PushNotifications.IWebPushService, WovenBackend.Services.PushNotifications.WebPushService>();
+// Singleton: consumed by singleton NotificationService. WebPushService creates its own
+// per-operation DB scopes via IServiceScopeFactory, so it holds no scoped dependencies.
+builder.Services.AddSingleton<WovenBackend.Services.PushNotifications.IWebPushService, WovenBackend.Services.PushNotifications.WebPushService>();
 
 // ECHO Phase 1: match signal ledger
 builder.Services.AddScoped<IMatchSignalService, MatchSignalService>();
@@ -753,6 +755,8 @@ if (runMigrations)
     catch (Exception ex)
     {
         logger.LogError(ex, "Failed to apply database migrations.");
+        // Fail closed: never serve traffic against a partially migrated schema.
+        throw;
     }
 }
 else

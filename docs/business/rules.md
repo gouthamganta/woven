@@ -55,10 +55,13 @@ This document defines Woven's core business rules — constraints, validations, 
 
 **Calculation:**
 ```csharp
-match.BalloonExpiresAt = match.CreatedAt.AddHours(36);
+// MomentsRules.BalloonLifetime = TimeSpan.FromHours(72) (canonical constant)
+match.BalloonExpiresAt = MomentsRules.ComputeExpiresAt(now); // now + 72h
 ```
 
 **Enforcement:** `BalloonExpiryWorker` scans every 60s, expires balloons past `BalloonExpiresAt`
+
+**Scope of change (2026-10-08, 36h → 72h):** The 72-hour lifetime applies to balloons created after this change is deployed. Already-persisted `BalloonExpiresAt` (`expires_at`) values are not rewritten; balloons created under the previous 36-hour rule keep their original expiry. This is independent of the trial length (3 minutes), which is unchanged.
 
 ---
 

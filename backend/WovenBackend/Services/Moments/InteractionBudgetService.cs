@@ -50,58 +50,91 @@ public class InteractionBudgetService
         }
 
         // Use a serializable transaction so two concurrent spends can't both succeed.
-        await using var tx = await _db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
-
-        var row = await _db.DailyInteractions
-            .SingleOrDefaultAsync(x => x.UserId == userId && x.DateUtc == today, ct);
-
-        if (row is null)
+        // The whole transaction runs inside the execution strategy so a transient failure
+        // (including a serialization conflict) retries the full read-check-write unit.
+        var strategy = _db.Database.CreateExecutionStrategy();
+        var result = await strategy.ExecuteAsync(async () =>
         {
-            row = new DailyInteraction
+            // Drop any tracked row for today — left over from a failed attempt or loaded
+            // earlier in the request — so the read below sees committed DB values.
+            DetachDailyRow(userId, today);
+
+            await using var tx = await _db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
+            try
             {
-                UserId = userId,
-                DateUtc = today,
-                TotalUsed = 0,
-                PendingUsed = 0,
-                UpdatedAt = MomentsRules.NowUtc()
-            };
-            _db.DailyInteractions.Add(row);
-            await _db.SaveChangesAsync(ct);
-        }
+                var row = await _db.DailyInteractions
+                    .SingleOrDefaultAsync(x => x.UserId == userId && x.DateUtc == today, ct);
 
-        var total = row.TotalUsed;
-        var pending = row.PendingUsed;
+                if (row is null)
+                {
+                    row = new DailyInteraction
+                    {
+                        UserId = userId,
+                        DateUtc = today,
+                        TotalUsed = 0,
+                        PendingUsed = 0,
+                        UpdatedAt = MomentsRules.NowUtc()
+                    };
+                    _db.DailyInteractions.Add(row);
+                    await _db.SaveChangesAsync(ct);
+                }
 
-        // Check caps
-        if (total >= MomentsRules.DailyTotalCap)
+                var total = row.TotalUsed;
+                var pending = row.PendingUsed;
+
+                // Check caps
+                if (total >= MomentsRules.DailyTotalCap)
+                {
+                    await tx.RollbackAsync(ct);
+                    DetachDailyRow(userId, today);
+                    return new SpendResult(false, "DAILY_TOTAL_CAP_REACHED", total, pending);
+                }
+
+                if (type == SpendType.Pending && pending >= MomentsRules.DailyPendingCap)
+                {
+                    await tx.RollbackAsync(ct);
+                    DetachDailyRow(userId, today);
+                    return new SpendResult(false, "DAILY_PENDING_CAP_REACHED", total, pending);
+                }
+
+                // Spend
+                row.TotalUsed = (short)(row.TotalUsed + 1);
+                if (type == SpendType.Pending)
+                    row.PendingUsed = (short)(row.PendingUsed + 1);
+
+                row.UpdatedAt = MomentsRules.NowUtc();
+
+                await _db.SaveChangesAsync(ct);
+                await tx.CommitAsync(ct);
+
+                return new SpendResult(true, null, row.TotalUsed, row.PendingUsed);
+            }
+            catch
+            {
+                // Don't carry Added/Modified state from a failed attempt into the retry.
+                DetachDailyRow(userId, today);
+                throw;
+            }
+        });
+
+        // Phase 1B: sync Redis counters once, after the committed unit (best-effort)
+        if (result.Allowed)
         {
-            await tx.RollbackAsync(ct);
-            return new SpendResult(false, "DAILY_TOTAL_CAP_REACHED", total, pending);
+            var midnight = WovenBackend.Services.CacheTtl.UntilMidnightUtc();
+            await _cache.IncrementAsync(totalKey, midnight, ct);
+            if (type == SpendType.Pending)
+                await _cache.IncrementAsync(pendingKey, midnight, ct);
         }
 
-        if (type == SpendType.Pending && pending >= MomentsRules.DailyPendingCap)
-        {
-            await tx.RollbackAsync(ct);
-            return new SpendResult(false, "DAILY_PENDING_CAP_REACHED", total, pending);
-        }
+        return result;
+    }
 
-        // Spend
-        row.TotalUsed = (short)(row.TotalUsed + 1);
-        if (type == SpendType.Pending)
-            row.PendingUsed = (short)(row.PendingUsed + 1);
-
-        row.UpdatedAt = MomentsRules.NowUtc();
-
-        await _db.SaveChangesAsync(ct);
-        await tx.CommitAsync(ct);
-
-        // Phase 1B: sync Redis counters after a successful DB commit (best-effort)
-        var midnight = WovenBackend.Services.CacheTtl.UntilMidnightUtc();
-        await _cache.IncrementAsync(totalKey, midnight, ct);
-        if (type == SpendType.Pending)
-            await _cache.IncrementAsync(pendingKey, midnight, ct);
-
-        return new SpendResult(true, null, row.TotalUsed, row.PendingUsed);
+    private void DetachDailyRow(int userId, DateOnly today)
+    {
+        foreach (var entry in _db.ChangeTracker.Entries<DailyInteraction>()
+                     .Where(e => e.Entity.UserId == userId && e.Entity.DateUtc == today)
+                     .ToList())
+            entry.State = EntityState.Detached;
     }
 
     public async Task RefundSparkAsync(int userId, CancellationToken ct = default)

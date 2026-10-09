@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using WovenBackend.Data;
@@ -77,15 +78,18 @@ public static class MomentsEndpoints
 
             var candidateIds = filteredItems.Select(i => i.CandidateId).ToList();
 
+            // Queries below run sequentially: db is the request-scoped DbContext,
+            // which does not support concurrent operations.
+
             // All photos per candidate (for gallery + per-viewer best photo selection)
-            var allPhotosTask = db.UserPhotos.AsNoTracking()
+            var allPhotos = await db.UserPhotos.AsNoTracking()
                 .Where(p => candidateIds.Contains(p.UserId))
                 .OrderBy(p => p.UserId).ThenBy(p => p.SortOrder)
                 .Select(p => new { p.UserId, p.Url })
                 .ToListAsync(ct);
 
             // Active tiles (live in Commons, not expired, moderated/visible)
-            var activeTilesTask = db.Tiles.AsNoTracking()
+            var activeTiles = await db.Tiles.AsNoTracking()
                 .Where(t => candidateIds.Contains(t.UserId) && !t.IsExpired && t.IsModerated)
                 .OrderBy(t => t.UserId).ThenByDescending(t => t.CreatedAt)
                 .Select(t => new
@@ -100,7 +104,7 @@ public static class MomentsEndpoints
                 .ToListAsync(ct);
 
             // Highlighted tiles per candidate (slot order) — fallback when active < 3
-            var highlightedTilesTask = db.Highlights.AsNoTracking()
+            var highlightedTiles = await db.Highlights.AsNoTracking()
                 .Where(h => candidateIds.Contains(h.UserId))
                 .OrderBy(h => h.UserId).ThenBy(h => h.SlotNumber)
                 .Select(h => new
@@ -116,7 +120,8 @@ public static class MomentsEndpoints
 
             // Check which candidates have already chosen the viewer
             var theyChoseMe = await db.MomentResponses.AsNoTracking()
-                .Where(r => candidateIds.Contains(r.FromUserId) && r.ToUserId == userId && IsPositiveExpression(r.Choice))
+                .Where(r => candidateIds.Contains(r.FromUserId) && r.ToUserId == userId)
+                .Where(IsPositiveResponse)
                 .Select(r => r.FromUserId)
                 .ToListAsync(ct);
             var theyChoseMeSet = new HashSet<int>(theyChoseMe);
@@ -153,17 +158,16 @@ public static class MomentsEndpoints
             var explanationMap = explanations.ToDictionary(e => e.Id, e => e);
             var candidateMap = candidates.ToDictionary(c => c.userId, c => c);
 
-            // Photos + tiles (all tasks started earlier)
-            await Task.WhenAll(allPhotosTask, activeTilesTask, highlightedTilesTask);
-            var allPhotosByUser = (await allPhotosTask)
+            // Photos + tiles (loaded earlier)
+            var allPhotosByUser = allPhotos
                 .GroupBy(p => p.UserId)
                 .ToDictionary(g => g.Key, g => g.Select(p => p.Url).ToList());
 
             // Merge: active tiles first (newest first), fill remaining slots from highlights
-            var activeByUser = (await activeTilesTask)
+            var activeByUser = activeTiles
                 .GroupBy(t => t.UserId)
                 .ToDictionary(g => g.Key, g => g.ToList());
-            var highlightByUser = (await highlightedTilesTask)
+            var highlightByUser = highlightedTiles
                 .GroupBy(h => h.UserId)
                 .ToDictionary(g => g.Key, g => g.ToList());
 
@@ -186,11 +190,11 @@ public static class MomentsEndpoints
                     }).ToList<object>();
                 });
 
-            // Per-viewer photo selection — best CLIP match, fallback to sortOrder 0
-            var bestPhotoTasks = candidateIds.Select(async cid =>
-                (cid, url: await visualPreference.GetBestPhotoUrlAsync(userId, cid, ct)));
-            var bestPhotoResults = await Task.WhenAll(bestPhotoTasks);
-            var bestPhotoMap = bestPhotoResults.ToDictionary(x => x.cid, x => x.url);
+            // Per-viewer photo selection — best CLIP match, fallback to sortOrder 0.
+            // Sequential: visualPreference shares this request's scoped DbContext.
+            var bestPhotoMap = new Dictionary<int, string?>(candidateIds.Count);
+            foreach (var cid in candidateIds)
+                bestPhotoMap[cid] = await visualPreference.GetBestPhotoUrlAsync(userId, cid, ct);
 
             var cards = filteredItems
                 .Where(i => candidateMap.ContainsKey(i.CandidateId))
@@ -288,11 +292,11 @@ public static class MomentsEndpoints
             var whoLikedMe = await db.MomentResponses.AsNoTracking()
                 .Where(r =>
                     r.ToUserId == me &&
-                    IsPositiveExpression(r.Choice) &&
                     r.CreatedAt >= cutoff &&
                     !blockedSet.Contains(r.FromUserId) &&
                     !matchedSet.Contains(r.FromUserId) &&
                     !todayDeckSet.Contains(r.FromUserId))
+                .Where(IsPositiveResponse)
                 .OrderByDescending(r => r.CreatedAt)
                 .Select(r => new { r.FromUserId, r.CreatedAt })
                 .ToListAsync(ct);
@@ -603,18 +607,20 @@ public static class MomentsEndpoints
             if (isFromLikedYou)
             {
                 other = await db.MomentResponses.AsNoTracking()
-                    .Where(r => r.FromUserId == req.TargetUserId && r.ToUserId == me && IsPositiveExpression(r.Choice))
+                    .Where(r => r.FromUserId == req.TargetUserId && r.ToUserId == me)
+                    .Where(IsPositiveResponse)
                     .OrderByDescending(r => r.CreatedAt)
                     .FirstOrDefaultAsync(ct);
             }
             else
             {
                 other = await db.MomentResponses.AsNoTracking()
-                    .FirstOrDefaultAsync(r =>
+                    .Where(r =>
                         r.DateUtc == today &&
                         r.FromUserId == req.TargetUserId &&
-                        r.ToUserId == me &&
-                        IsPositiveExpression(r.Choice), ct);
+                        r.ToUserId == me)
+                    .Where(IsPositiveResponse)
+                    .FirstOrDefaultAsync(ct);
             }
 
             if (other is null)
@@ -808,18 +814,20 @@ public static class MomentsEndpoints
             if (isFromLikedYou)
             {
                 otherResponse = await db.MomentResponses.AsNoTracking()
-                    .Where(r => r.FromUserId == req.TargetUserId && r.ToUserId == me && IsPositiveExpression(r.Choice))
+                    .Where(r => r.FromUserId == req.TargetUserId && r.ToUserId == me)
+                    .Where(IsPositiveResponse)
                     .OrderByDescending(r => r.CreatedAt)
                     .FirstOrDefaultAsync(ct);
             }
             else
             {
                 otherResponse = await db.MomentResponses.AsNoTracking()
-                    .FirstOrDefaultAsync(r =>
+                    .Where(r =>
                         r.DateUtc == today &&
                         r.FromUserId == req.TargetUserId &&
-                        r.ToUserId == me &&
-                        IsPositiveExpression(r.Choice), ct);
+                        r.ToUserId == me)
+                    .Where(IsPositiveResponse)
+                    .FirstOrDefaultAsync(ct);
             }
 
             // No counterpart response yet — wait
@@ -871,9 +879,10 @@ public static class MomentsEndpoints
         });
     }
 
-    // EF can't translate instance methods in LINQ — use a static expression helper
-    private static bool IsPositiveExpression(MomentChoice c) =>
-        c is MomentChoice.MAGICAL or MomentChoice.LOGICAL or MomentChoice.YES;
+    // EF can't translate CLR method calls inside predicates — keep this as an expression tree
+    // so it is inlined into SQL. Must stay in sync with IsPositive above.
+    private static readonly Expression<Func<MomentResponse, bool>> IsPositiveResponse = r =>
+        r.Choice == MomentChoice.MAGICAL || r.Choice == MomentChoice.LOGICAL || r.Choice == MomentChoice.YES;
 
     private static int GetUserId(ClaimsPrincipal user)
     {

@@ -271,8 +271,9 @@ public static class PushEndpoints
         });
 
         // DELETE /me/push-subscription — unregister (on toggle off or logout)
+        // DELETE disallows an inferred body; the frontend sends { endpoint } as JSON, so bind explicitly.
         group.MapDelete("/push-subscription", async (
-            PushUnsubscribeRequest req,
+            [Microsoft.AspNetCore.Mvc.FromBody] PushUnsubscribeRequest req,
             ClaimsPrincipal principal,
             WovenDbContext db,
             CancellationToken ct) =>
