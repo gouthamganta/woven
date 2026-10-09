@@ -102,7 +102,21 @@
             "FE-da5436780179",
             "FE-b524826c7dd2",
             "FE-20a8caf2c337",
-            "FE-db9afc044644"
+            "FE-db9afc044644",
+            "FE-9f9bf9b6ac60",
+            "FE-ab1da3c84107",
+            "FE-5a1875679912",
+            "FE-e6d7b489388b",
+            "FE-1004e29681da",
+            "FE-a0b917872b08",
+            "FE-57d83cbc72ae",
+            "FE-caaf6f197711",
+            "FE-904c8ce8bbcd",
+            "FE-37e8c41b342b",
+            "FE-f5c62af5cecc",
+            "FE-c0dda9f5ce1f",
+            "FE-4419cb5a6851",
+            "FE-1d28f807b8f3"
           ]
         },
         {
@@ -214,8 +228,16 @@
         {
           "id": "QA-COV-02-5",
           "text": "Photo count/order/completion, failed upload and profile status transitions",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-ff5650aeebf2",
+            "FE-d7740775941d",
+            "FE-b6ce71fb7e45",
+            "FE-8cec070d5e7b",
+            "FE-51c37a4bb956",
+            "FE-a3f7920acc5b",
+            "FE-d0d6717917ec"
+          ]
         },
         {
           "id": "QA-COV-02-6",
@@ -294,8 +316,17 @@
         {
           "id": "QA-COV-03-6",
           "text": "Frontend card gestures/buttons, repeated clicks, errors, empty/loading states and rollback",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-9092131d306e",
+            "FE-1debf6693ecd",
+            "FE-631f252454a8",
+            "FE-ed05453d86e5",
+            "FE-9db43f073b57",
+            "FE-070953c82a39",
+            "FE-d3304d15b854",
+            "FE-fed020e34d14"
+          ]
         },
         {
           "id": "QA-COV-03-7",
@@ -416,8 +447,20 @@
         {
           "id": "QA-COV-05-4",
           "text": "First Ten before/at/after ten minutes; pop availability and no-pop automatic transition",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-d216fe2fce3e",
+            "FE-c05076c625a6",
+            "FE-75bd1e98c35f",
+            "FE-a9497c5f6907",
+            "FE-c44ef2011d97",
+            "FE-a954d5faa5ab",
+            "FE-dcbbb62db0bd",
+            "FE-f5d9c8e17d6e",
+            "FE-f18e83631acb",
+            "FE-cdc1e0fb438d",
+            "FE-1fc56dab6738"
+          ]
         },
         {
           "id": "QA-COV-05-5",
@@ -598,8 +641,22 @@
         {
           "id": "QA-COV-07-6",
           "text": "Frontend feed loading/empty/error, navigation, accessible actions and rollback",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-e55bb148e907",
+            "FE-e56110f583de",
+            "FE-cb7f956f0770",
+            "FE-b262386a0d8d",
+            "FE-2f3f95765649",
+            "FE-764c0362ed6d",
+            "FE-da255d921704",
+            "FE-d5b82b012678",
+            "FE-265349fbde82",
+            "FE-29f03b0dbff0",
+            "FE-4aafab8bd90e",
+            "FE-37655c748777",
+            "FE-f9e1cd546c8e"
+          ]
         }
       ]
     },
@@ -755,8 +812,15 @@
         {
           "id": "QA-COV-09-6",
           "text": "Frontend game/date flow, timeout/error recovery and keyboard/mobile interaction",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-ce4e54e82d82",
+            "FE-4af4bccfd444",
+            "FE-1d519cff57f7",
+            "FE-521ea2d36b06",
+            "FE-a1f99431a1c7",
+            "FE-f94034e4e76a"
+          ]
         }
       ]
     },
@@ -1077,8 +1141,25 @@
         {
           "id": "QA-COV-13-5",
           "text": "Frontend websocket reconnect/backoff, permission denial, unsupported browser and notification navigation",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-731bdd39fed5",
+            "FE-cc3c526c31b8",
+            "FE-8ee3ef14e5c2",
+            "FE-718da8ca6655",
+            "FE-0d07090caa00",
+            "FE-b986eb8bb630",
+            "FE-1704a28370ee",
+            "FE-2bc0ea81f190",
+            "FE-bce1bd95468d",
+            "FE-3f9705fe3df6",
+            "FE-5e1a118f0b6d",
+            "FE-1472d92654c8",
+            "FE-c52acb1b64c8",
+            "FE-0a3b9044835c",
+            "FE-413074773fb0",
+            "FE-f2841082bcce"
+          ]
         },
         {
           "id": "QA-COV-13-6",
@@ -1321,7 +1402,31 @@
             "FE-5a56c95b3150",
             "FE-0d7134446cee",
             "FE-9228e2199765",
-            "FE-ed9c765033a1"
+            "FE-ed9c765033a1",
+            "FE-f103fd9c6b43",
+            "FE-b52dfa2cd1a5",
+            "FE-e6769f837f62",
+            "FE-b570d152ceba",
+            "FE-886bf97dfa17",
+            "FE-ca9ca4ae329c",
+            "FE-dc9646defeea",
+            "FE-8776d7ba2d77",
+            "FE-e473c4d6e5c4",
+            "FE-7274d1be13c5",
+            "FE-d1e328224fbb",
+            "FE-312131e40a8f",
+            "FE-2195ce51871b",
+            "FE-c3e29427db46",
+            "FE-79f8d33a6e59",
+            "FE-4f060afd19f8",
+            "FE-442df4109baa",
+            "FE-ce833613f553",
+            "FE-31511e70473a",
+            "FE-e2ba48b668cd",
+            "FE-05e1baccddd9",
+            "FE-ff35e0796843",
+            "FE-4575dd275c05",
+            "FE-65245763e01e"
           ]
         },
         {

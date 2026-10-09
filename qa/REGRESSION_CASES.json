@@ -7273,6 +7273,996 @@
         "coverage-resume-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-resume-cases.json"
+    },
+    {
+      "id": "FE-9092131d306e",
+      "layer": "frontend",
+      "name": "Rendered ChatNote controls renders nothing when no card is selected",
+      "family": "QA-COV-03-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-1debf6693ecd",
+      "layer": "frontend",
+      "name": "Rendered ChatNote controls renders MAGICAL identity and emits the valid note from a real Send click",
+      "family": "QA-COV-03-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-631f252454a8",
+      "layer": "frontend",
+      "name": "Rendered ChatNote controls renders LOGICAL identity and emits the valid note from a real Send click",
+      "family": "QA-COV-03-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-ed05453d86e5",
+      "layer": "frontend",
+      "name": "Rendered ChatNote controls shows the fallback initial and keeps short notes disabled with a remaining-length hint",
+      "family": "QA-COV-03-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-9db43f073b57",
+      "layer": "frontend",
+      "name": "Rendered ChatNote controls opens starter choices, applies a starter, and closes the dropdown",
+      "family": "QA-COV-03-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-070953c82a39",
+      "layer": "frontend",
+      "name": "Rendered ChatNote controls applies the suggested bridge question from its button",
+      "family": "QA-COV-03-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-d3304d15b854",
+      "layer": "frontend",
+      "name": "Rendered ChatNote controls warns near the character limit and disables the button during submission",
+      "family": "QA-COV-03-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-fed020e34d14",
+      "layer": "frontend",
+      "name": "Rendered ChatNote controls emits Back and clears the note through the accessible Back button",
+      "family": "QA-COV-03-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-ce4e54e82d82",
+      "layer": "frontend",
+      "name": "Rendered inline game controls shows preparation while the round response is pending",
+      "family": "QA-COV-09-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-4af4bccfd444",
+      "layer": "frontend",
+      "name": "Rendered inline game controls renders the guesser role and submits the selected option through the actual button",
+      "family": "QA-COV-09-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-1d519cff57f7",
+      "layer": "frontend",
+      "name": "Rendered inline game controls renders the target role and submits the selected option through the actual button",
+      "family": "QA-COV-09-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-521ea2d36b06",
+      "layer": "frontend",
+      "name": "Rendered inline game controls renders a failure and invokes loadRound from the retry control",
+      "family": "QA-COV-09-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-a1f99431a1c7",
+      "layer": "frontend",
+      "name": "Rendered inline game controls shows the waiting state after the other player is required",
+      "family": "QA-COV-09-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-f94034e4e76a",
+      "layer": "frontend",
+      "name": "Rendered inline game controls keeps modal clicks inside and emits close from the overlay",
+      "family": "QA-COV-09-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-731bdd39fed5",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts fails locally when subscribing before service-worker registration",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-cc3c526c31b8",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts returns false for browsers without PushManager without requesting permission",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-8ee3ef14e5c2",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts returns false when service-worker registration fails",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-718da8ca6655",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts does not subscribe when notification permission is denied",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-0d07090caa00",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts does not subscribe when notification permission is default",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-b986eb8bb630",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts decodes the VAPID key and sends endpoint and both encoded subscription keys",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-1704a28370ee",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts returns false when the VAPID endpoint fails during initialization",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-2bc0ea81f190",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts propagates subscription-provider failures without saving a nonexistent subscription",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-bce1bd95468d",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts propagates a rejected backend subscription save",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-3f9705fe3df6",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts reports no subscription before registration and safely ignores unsubscribe",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-5e1a118f0b6d",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts ignores unsubscribe when the browser has no subscription",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-1472d92654c8",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts removes the backend subscription before removing the browser subscription",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-c52acb1b64c8",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts retains the browser subscription when the backend unsubscribe fails",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-0a3b9044835c",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts propagates browser unsubscribe failures after a successful backend response",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-413074773fb0",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts reports supported browser features and the current permission value",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-f2841082bcce",
+      "layer": "frontend",
+      "name": "Legacy push registration and subscription contracts converts URL-safe base64 key bytes without changing the binary values",
+      "family": "QA-COV-13-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-f103fd9c6b43",
+      "layer": "frontend",
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock avoids canvas and frame access on the server",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-b52dfa2cd1a5",
+      "layer": "frontend",
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock sizes the canvas to the viewport and bounds the particle density",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-e6769f837f62",
+      "layer": "frontend",
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock applies pointer offsets to drawing and resizes the backing canvas",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-b570d152ceba",
+      "layer": "frontend",
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock respawns particles below the viewport after they drift off the top",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-886bf97dfa17",
+      "layer": "frontend",
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock cancels the animation and removes pointer and resize listeners on destruction",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-ca9ca4ae329c",
+      "layer": "frontend",
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock coalesces scroll events into one frame and writes bounded scroll progress",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-dc9646defeea",
+      "layer": "frontend",
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock clamps progress at one for scroll beyond the document height",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-8776d7ba2d77",
+      "layer": "frontend",
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock clamps progress at zero for negative overscroll",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-d216fe2fce3e",
+      "layer": "frontend",
+      "name": "Balloon list timing and action contracts loads the returned matches and uses singular and plural count text",
+      "family": "QA-COV-05-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-c05076c625a6",
+      "layer": "frontend",
+      "name": "Balloon list timing and action contracts accepts an empty payload as an empty match list",
+      "family": "QA-COV-05-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-75bd1e98c35f",
+      "layer": "frontend",
+      "name": "Balloon list timing and action contracts clears a load error after a successful retry",
+      "family": "QA-COV-05-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-a9497c5f6907",
+      "layer": "frontend",
+      "name": "Balloon list timing and action contracts shows waiting state before the first reply and falls back to Someone without a profile",
+      "family": "QA-COV-05-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-c44ef2011d97",
+      "layer": "frontend",
+      "name": "Balloon list timing and action contracts counts down to opening and opens at the exact threshold",
+      "family": "QA-COV-05-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-a954d5faa5ab",
+      "layer": "frontend",
+      "name": "Balloon list timing and action contracts updates time once per second and stops the clock at destruction",
+      "family": "QA-COV-05-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-dcbbb62db0bd",
+      "layer": "frontend",
+      "name": "Balloon list timing and action contracts starts the selected chat and routes to the returned thread",
+      "family": "QA-COV-05-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-f5d9c8e17d6e",
+      "layer": "frontend",
+      "name": "Balloon list timing and action contracts does not navigate when chat startup fails",
+      "family": "QA-COV-05-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-f18e83631acb",
+      "layer": "frontend",
+      "name": "Balloon list timing and action contracts prevents duplicate pop actions while pending and reloads after success",
+      "family": "QA-COV-05-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-cdc1e0fb438d",
+      "layer": "frontend",
+      "name": "Balloon list timing and action contracts releases the action lock and shows an error when popping fails",
+      "family": "QA-COV-05-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-1fc56dab6738",
+      "layer": "frontend",
+      "name": "Balloon list timing and action contracts stops event bubbling and routes profile inspection to the selected match",
+      "family": "QA-COV-05-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-e55bb148e907",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls renders the empty feed and disables posting below the minimum length",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-e56110f583de",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls renders loading while the feed response is pending",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-cb7f956f0770",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls renders the daily limit response without empty-feed messaging",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-b262386a0d8d",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls renders the load error response without empty-feed messaging",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-2f3f95765649",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls renders a text tile and opens its matching drawer content",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-764c0362ed6d",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls renders a photo tile and opens its matching drawer content",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-da255d921704",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls renders a video tile and opens its matching drawer content",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-d5b82b012678",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls posts a valid note through the compose control and displays confirmation",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-265349fbde82",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls offers load more for a full page and hides it after an empty following page",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-29f03b0dbff0",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls shows pending pagination and prevents a second load-more request",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-4aafab8bd90e",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls disables the orbit control while its response is pending and preserves modal clicks",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-37655c748777",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls warns near the text limit and prevents a second post while saving",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-f9e1cd546c8e",
+      "layer": "frontend",
+      "name": "Rendered Commons feed and drawer controls animates the refresh control until the replacement feed has loaded",
+      "family": "QA-COV-07-6",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-e473c4d6e5c4",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent leaves an incomplete name submission unconfirmed",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-7274d1be13c5",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent leaves an incomplete age submission unconfirmed",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-d1e328224fbb",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent leaves an incomplete gender submission unconfirmed",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-312131e40a8f",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent leaves an incomplete email submission unconfirmed",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-2195ce51871b",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent leaves an incomplete location submission unconfirmed",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-c3e29427db46",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent acknowledges a complete local demo form without proving account creation",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-79f8d33a6e59",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent does not initialize browser graphics during server lifecycle",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-4f060afd19f8",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent leaves an incomplete name submission unconfirmed",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-442df4109baa",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent leaves an incomplete age submission unconfirmed",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-ce833613f553",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent leaves an incomplete gender submission unconfirmed",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-31511e70473a",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent leaves an incomplete email submission unconfirmed",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-e2ba48b668cd",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent leaves an incomplete location submission unconfirmed",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-05e1baccddd9",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent acknowledges a complete local demo form without proving account creation",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-ff35e0796843",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent does not initialize browser graphics during server lifecycle",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-4575dd275c05",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts does not initialize the clean landing renderer before the canvas is available",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-65245763e01e",
+      "layer": "frontend",
+      "name": "Landing prototype registration and server safety contracts keeps the real 3D landing server lifecycle free of renderer creation",
+      "family": "QA-COV-15-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-9f9bf9b6ac60",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access rejects missing credential locally without sending an authentication request",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-ab1da3c84107",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access posts the credential, stores the authenticated identity, and replaces login in history",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-5a1875679912",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access clears pending state and displays a retry message when authentication is rejected",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-e6d7b489388b",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access reports an unavailable Google SDK without trying to render a button",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-1004e29681da",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access initializes the configured client and routes the SDK callback through credential validation",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-a0b917872b08",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access does not render into a missing button host",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-57d83cbc72ae",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access toggles consent and removes the locked-click attention animation after 500ms",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-caaf6f197711",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access skips the intro immediately and updates the card spotlight until destruction",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-904c8ce8bbcd",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access fades the intro when the video ends and renders the sign-in button after the transition",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-37e8c41b342b",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access plays ready video muted from the beginning",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-f5c62af5cecc",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access waits for canplay and keeps the fallback available when autoplay is rejected",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-c0dda9f5ce1f",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access reveals the card if the video reference is absent",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-4419cb5a6851",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access uses the 13-second fallback when a video never becomes playable",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-1d28f807b8f3",
+      "layer": "frontend",
+      "name": "Login credential and intro contracts without Google network access avoids intro timers on the server and tolerates missing visual references",
+      "family": "QA-COV-01-4",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-ff5650aeebf2",
+      "layer": "frontend",
+      "name": "Onboarding preparation polling contracts does not start browser polling during server rendering",
+      "family": "QA-COV-02-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-d7740775941d",
+      "layer": "frontend",
+      "name": "Onboarding preparation polling contracts waits for COMPLETE before showing ready and stops subsequent polls",
+      "family": "QA-COV-02-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-b6ce71fb7e45",
+      "layer": "frontend",
+      "name": "Onboarding preparation polling contracts retries after a failed poll without claiming the profile is complete",
+      "family": "QA-COV-02-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-8cec070d5e7b",
+      "layer": "frontend",
+      "name": "Onboarding preparation polling contracts cycles all four preparation messages while waiting",
+      "family": "QA-COV-02-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-51c37a4bb956",
+      "layer": "frontend",
+      "name": "Onboarding preparation polling contracts records the current 15-second readiness fallback separately from verified completion",
+      "family": "QA-COV-02-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-a3f7920acc5b",
+      "layer": "frontend",
+      "name": "Onboarding preparation polling contracts stops intervals when destroyed before the next poll",
+      "family": "QA-COV-02-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "FE-d0d6717917ec",
+      "layer": "frontend",
+      "name": "Onboarding preparation polling contracts routes the entry action to Moments",
+      "family": "QA-COV-02-5",
+      "results": {
+        "candidate-176cf74-client80": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
     }
   ]
 }
