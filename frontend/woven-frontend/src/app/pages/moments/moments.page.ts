@@ -275,6 +275,7 @@ export class MomentsPageComponent implements OnInit, OnDestroy {
   }
 
   private async sendPass(card: MomentsCard) {
+    const wasCompleted = this.deckCompleted;
     this.respondedUserIds.add(card.userId);
     this.checkDeckCompletion();
     this.cdr.markForCheck();
@@ -290,6 +291,7 @@ export class MomentsPageComponent implements OnInit, OnDestroy {
       );
     } catch {
       this.respondedUserIds.delete(card.userId);
+      if (!wasCompleted) this.deckCompleted = false;
       this.showToast('Something went wrong. Try again.');
     } finally {
       this.cdr.markForCheck();
