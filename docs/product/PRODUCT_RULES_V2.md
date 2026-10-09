@@ -101,8 +101,8 @@ PROPOSED per close path:
 - **Trust:** candidates below 0.25 trust are excluded; blocks are excluded both ways.
 - **Games:** Know Me and Red/Green Flag, max 2 per day per match.
 - **Date idea:** unlocks after 10 minutes in Find Love.
-- **No paywalls, no ages on deck cards, no community ratings, ChatNotes are
-  background signal only.**
+- **No paywalls, no ages on deck cards, no community ratings, both ChatNotes are
+  visible to the matched pair in chat and also inform background matching signals.**
 
 ## 5b. Launch & platform decisions (founder, 2026-10-08)
 
