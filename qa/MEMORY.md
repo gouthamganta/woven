@@ -1,3 +1,7 @@
+## Current checkpoint ? 2026-10-08
+
+GitHub Issues/Projects are authoritative; the older board instructions below are historical. QA branch `qa/full-local-audit`, draft PR146; application candidates PR144/167/168 are separate and unmerged. Latest coverage and scope: `qa/evidence/2026-10-08-coverage-by-module.md` and JSON. Backend 50/51 tests pass (pending Saved cleanup fails one); frontend auth candidate 51/51 pass. Backend line coverage 1.55% with generated migrations, 6.51% excluding them; frontend loaded-file line coverage 4.12%, whole frontend unknown. Selected external runtime probes are separate from these collectors. Controlled choice failure deterministically leaves budget charged without response/note (#124); account deletion and encrypted email reuse defects #165/#166 remain. Claude atomicity attempt exited without edits; no repair claimed. Local sandbox uses EnsureCreated model database, not a proven migration path. 100 synthetic adults exist; no paid API calls or main merge/deployment. Remaining QA/review checklist lives in #109; do not call partial suites complete.
+
 # QA memory
 
 ## Current coordination
