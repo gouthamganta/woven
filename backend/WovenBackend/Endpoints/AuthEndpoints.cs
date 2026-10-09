@@ -21,6 +21,7 @@ public static class AuthEndpoints
             JwtTokenService jwt,
             ITrustService trust,
             ICacheService cache,
+            IEncryptionService enc,
             ILogger<Program> logger,
             IAnalyticsService analytics,
             HttpContext http,
@@ -69,11 +70,13 @@ public static class AuthEndpoints
             }
             else
             {
-                // 2) Create or reuse user by email (prevents duplicates)
-                user = await db.Users.FirstOrDefaultAsync(u => u.Email == googleUser.Email, ct)
+                // 2) Create or reuse user by EmailHash (prevents duplicates without decryption)
+                var emailHash = enc.ComputeEmailHash(googleUser.Email);
+                user = await db.Users.FirstOrDefaultAsync(u => u.EmailHash == emailHash, ct)
                        ?? new User
                        {
                            Email = googleUser.Email,
+                           EmailHash = emailHash,
                            FullName = googleUser.Name,
                            ProfilePhoto = googleUser.Picture,
                            PasswordHash = null,

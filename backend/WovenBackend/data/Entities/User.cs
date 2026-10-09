@@ -6,6 +6,10 @@ public class User
 
     public required string Email { get; set; }
 
+    // HMAC-SHA256 of email (lowercase) for searchable identity without decryption
+    // Allows safe account reuse without scanning all users or comparing encrypted values
+    public string? EmailHash { get; set; }
+
     // OAuth-first MVP
     public string? PasswordHash { get; set; }
     public string? FullName { get; set; }

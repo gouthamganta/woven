@@ -354,6 +354,14 @@ builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
 builder.Services.AddSingleton<ISecurityAuditService, SecurityAuditService>();
 if (!batchWorkersDisabled) builder.Services.AddHostedService<SecurityAuditCleanupWorker>();
 
+// EmailHashBackfillWorker: one-time worker to populate EmailHash for existing users
+// Set EMAIL_HASH_BACKFILL=true env var to enable on first deployment of this change
+var runEmailHashBackfill = builder.Configuration.GetValue<bool>("EMAIL_HASH_BACKFILL");
+if (runEmailHashBackfill)
+{
+    builder.Services.AddHostedService<WovenBackend.Services.Security.EmailHashBackfillWorker>();
+}
+
 // KeyRotationWorker registered as singleton so AdminSecurityEndpoints can resolve it directly.
 builder.Services.AddSingleton<KeyRotationWorker>();
 builder.Services.AddHostedService(sp => sp.GetRequiredService<KeyRotationWorker>());

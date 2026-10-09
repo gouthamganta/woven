@@ -74,4 +74,24 @@ public class EncryptionService : IEncryptionService
             info: Encoding.UTF8.GetBytes(purpose));
         return Convert.ToBase64String(derived);
     }
+
+    public string ComputeEmailHash(string email)
+    {
+        // Normalize: lowercase + trim
+        var normalized = email.Trim().ToLowerInvariant();
+
+        // Derive purpose-scoped key for email hashing
+        var keyBytes = HKDF.DeriveKey(
+            HashAlgorithmName.SHA256,
+            _masterKey,
+            outputLength: 32,
+            salt: [],
+            info: Encoding.UTF8.GetBytes("email-hash-v1"));
+
+        // Compute HMAC-SHA256
+        var emailBytes = Encoding.UTF8.GetBytes(normalized);
+        var hash = HMACSHA256.HashData(keyBytes, emailBytes);
+
+        return Convert.ToHexString(hash).ToLowerInvariant();
+    }
 }
