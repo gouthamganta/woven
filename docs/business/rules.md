@@ -389,9 +389,11 @@ if (match.TrialUserAOpenedAt != null && match.TrialUserBOpenedAt != null && matc
 ---
 
 ### ChatNote Privacy
-**Rule:** ChatNotes are NEVER shown to users (background signal only).
+**Rule:** ChatNotes are shown ONLY to the matched pair (both participants in the match).
 
-**Enforcement:** No API endpoint returns `ChatNote` data (platform-only table).
+**Enforcement:** ChatEndpoints returns ChatNote data to match participants only. Third-party users are denied access.
+
+**Founder Decision (2026-10-08):** "Show both ChatNotes to the matched pair" — overrides earlier background-only guidance.
 
 ---
 
