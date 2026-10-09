@@ -268,7 +268,7 @@ resource "azurerm_container_app" "backend" {
       # Constructed from the environment default domain to avoid circular dependency
       # (frontend depends_on backend, so backend cannot reference frontend resource).
       env {
-        name = "Cors__AllowedOrigins"
+        name  = "Cors__AllowedOrigins"
         value = var.custom_domain != "" ? "https://${var.frontend_app_name}.${azurerm_container_app_environment.main.default_domain},https://${var.custom_domain}" : "https://${var.frontend_app_name}.${azurerm_container_app_environment.main.default_domain}"
       }
 

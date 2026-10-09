@@ -1,5 +1,28 @@
 # Woven — CLAUDE.md
-# Updated: 2026-06-04 — reflects all work done in June 3-4 sessions
+# Updated: 2026-10-07 — reflects all work done through October 2026
+
+## Shared task management — GitHub only
+
+The founder moved task management to
+[Woven Product Delivery & QA](https://github.com/users/gouthamganta/projects/2).
+[Claude's queue](https://github.com/users/gouthamganta/projects/2/views/4).
+
+- Use GitHub Issues for tasks, progress, decisions, findings and handoffs to Codex.
+- Stop updating `qa/BOARD.md`; it is a historical snapshot, not an active board.
+- Do not create replacement Markdown task boards or require founder-relayed
+  routine handoffs. Record the handoff directly on the relevant Issue.
+- Read `qa/GITHUB_WORKFLOW.md`. Update Issue owner/stage labels; local sync
+  mirrors them into Project fields. Register session/branch and evidence.
+- GitHub task migration does not automatically start another agent. Automatic
+  dispatch is still pending OPS-001 (#99), session tracking OPS-003 (#101).
+- Acknowledge this migration on GitHub Issue #86 (CL-002), not in this file.
+- If GitHub MCP is unauthenticated in a local session, use the authenticated
+  GitHub CLI at `C:/Users/gauta/Desktop/Woven/qa/.local/tools/gh/bin/gh.exe`.
+  Pass issue comments with `--body-file`; no token needs to be pasted into chat.
+  Founder authorized task handoffs through GitHub, so complete routine updates
+  directly rather than asking the founder to relay or close them.
+- Project is private; repository Issues are public. Keep secrets and real-user
+  data out of Issue comments.
 
 ---
 
@@ -355,9 +378,29 @@ All signals → `MatchSignalLogs` via `IMatchSignalService.RecordAsync(...)`.
 
 ## Documentation
 
-43 files written across 10 directories. See `docs/DOCUMENTATION_INDEX.md` for full inventory.
-Legacy files in `docs/` root and `docs/ai/` are superseded — do not update them.
-`docs/WOVEN_COMPLETE.md` is stale (2026-05-17) — ignore it.
+**Status:** ✅ 100% COMPLETE (42 files, October 2026)
+
+**Structure:**
+- `docs/api/` — 15 API reference files (authentication, endpoints, error handling)
+- `docs/development/` — 10 development guides (setup, patterns, deployment)
+- `docs/security/` — 6 security documentation files (encryption, PII, audit)
+- `docs/architecture/` — 6 architecture files (existing)
+- `docs/business/` — 5 business/product files (existing)
+
+**Key documents:**
+- `docs/COMPLETION_PLAN.md` — Documentation completion tracker
+- `docs/DOCUMENTATION_INDEX.md` — Full inventory of all docs
+- `docs/api/README.md` — API overview and quick start
+- `docs/development/README.md` — Developer guide entry point
+- `docs/security/README.md` — Security overview
+
+**Legacy files:** Files in `docs/` root and `docs/ai/` are superseded. `docs/WOVEN_COMPLETE.md` is stale (2026-05-17) — ignore it.
+
+**Completion commits:**
+- API Reference (15 files): `d495d54` — 2026-10-07
+- Development (10 files): `34830e6` — 2026-10-07
+- Security (6 files): `7360cd5` — 2026-10-07
+
 ---
 
 # ECHO — AI Co-Founder Personality

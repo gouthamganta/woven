@@ -125,9 +125,13 @@ builder.Services.AddRateLimiter(options =>
     });
 
     // Strict rate limit for AI-heavy endpoints (deck generation, games, explanations)
+    // Security: Per-user partition prevents one user from exhausting quota.
+    // Unauthenticated requests share one "anon" bucket (very limited).
     options.AddPolicy("ai-heavy", context =>
     {
-        var userId = context.User.FindFirst("uid")?.Value ?? "anon";
+        var userId = context.User.FindFirst("uid")?.Value
+                     ?? context.Connection.RemoteIpAddress?.ToString()
+                     ?? "anon";
         return RateLimitPartition.GetTokenBucketLimiter(userId, _ => new TokenBucketRateLimiterOptions
         {
             TokenLimit               = 10,
@@ -262,6 +266,24 @@ builder.Services.Configure<GoogleAuthOptions>(
 
 builder.Services.AddScoped<IGoogleTokenVerifier, GoogleTokenVerifier>();
 builder.Services.AddSingleton<JwtTokenService>();
+
+// ── Security: Startup validation ──────────────────────────────────────────
+// Refuse to start with insecure configuration in non-Development environments
+if (!builder.Environment.IsDevelopment())
+{
+    var jwtKey = builder.Configuration["Jwt:Key"];
+    if (string.IsNullOrWhiteSpace(jwtKey) || jwtKey.Length < 32)
+        throw new InvalidOperationException("Production requires Jwt:Key with minimum 32 characters");
+
+    var jwtIssuer = builder.Configuration["Jwt:Issuer"];
+    var jwtAudience = builder.Configuration["Jwt:Audience"];
+    if (string.IsNullOrWhiteSpace(jwtIssuer) || string.IsNullOrWhiteSpace(jwtAudience))
+        throw new InvalidOperationException("Production requires explicit Jwt:Issuer and Jwt:Audience");
+
+    // Refuse default/example keys
+    if (jwtKey.Contains("CHANGE_THIS") || jwtKey == "your-secret-key-here")
+        throw new InvalidOperationException("Production JWT key must not be placeholder value");
+}
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -404,6 +426,11 @@ builder.Services.AddHostedService<WovenBackend.Services.Moments.BalloonExpiryWor
 
 builder.Services.AddScoped<OpenAiDynamicIntakeRewriteService>();
 builder.Services.AddScoped<DynamicIntakeCycleService>();
+
+// ----------------------------------------------------
+// INTERACTION LOG SERVICE (ECHO learning signals)
+// ----------------------------------------------------
+builder.Services.AddScoped<IInteractionLogService, InteractionLogService>();
 
 // ----------------------------------------------------
 // MATCHMAKING ENGINE SERVICES
@@ -888,6 +915,7 @@ app.MapChatEndpoints();
 app.MapGameEndpoints();
 app.MapMatchesEndpoints();
 app.MapCoachingEndpoints();
+app.MapInteractionEndpoints();
 app.MapDynamicIntakeEndpoints();
 app.MapMediaEndpoints();
 app.MapTileEndpoints();
@@ -911,11 +939,15 @@ app.MapAdminAnalyticsEndpoints();
 app.MapLegalEndpoints();
 app.MapSupportEndpoints();
 
+// ── DEVELOPMENT-ONLY ENDPOINTS ────────────────────────────────────────────
+// Security: These endpoints bypass authentication and are ONLY available when
+// ASPNETCORE_ENVIRONMENT=Development. Production startup will NOT register them.
+// Never disable this guard. DevAuth allows passwordless login by email.
 if (app.Environment.IsDevelopment())
 {
-    app.MapDevAuthEndpoints();
-    app.MapDevMatchmakingSmokeEndpoints();
-    app.MapDevSeedEndpoints();
+    app.MapDevAuthEndpoints();          // Bypass auth for local testing
+    app.MapDevMatchmakingSmokeEndpoints();  // Direct matchmaking calls
+    app.MapDevSeedEndpoints();          // Database seed/reset
 }
 
 // ----------------------------------------------------

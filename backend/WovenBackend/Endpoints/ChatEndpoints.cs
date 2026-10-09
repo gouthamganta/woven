@@ -18,7 +18,7 @@ public static class ChatEndpoints
 {
     public record StartChatRequest(Guid MatchId);
     public record SendMessageRequest(string Body);
-    public record TrialDecisionRequest(string Decision, string? EndReason);
+    public record TrialDecisionRequest(string Decision, string? EndReason, int? Rating);
     public record VoiceMessageRequest(string AudioUrl, int DurationSecs);
 
     private static readonly TimeSpan ReflectionWindow = TimeSpan.FromMinutes(5);
@@ -699,6 +699,19 @@ public static class ChatEndpoints
                 if (!alreadyBlocked)
                     db.Blocks.Add(new WovenBackend.data.Entities.Moments.Block { BlockerId = me, BlockedId = otherUserId, CreatedAt = now });
 
+                // Save Afterthought rating if provided
+                if (req.Rating != null && req.Rating >= -100 && req.Rating <= 100)
+                {
+                    db.UserRatings.Add(new UserRating
+                    {
+                        RatedUserId = otherUserId,
+                        RaterUserId = me,
+                        MatchId = match.Id,
+                        RatingValue = req.Rating.Value,
+                        CreatedAt = now
+                    });
+                }
+
                 match.BalloonState = BalloonState.CLOSED;
                 match.ClosedReason = ClosedReason.BLOCK;
                 match.ClosedAt = now;
@@ -732,6 +745,19 @@ public static class ChatEndpoints
                 else
                 {
                     var noMessages = match.BothMessagedAt == null;
+
+                    // Save Afterthought rating if provided (current user only)
+                    if (req.Rating != null && req.Rating >= -100 && req.Rating <= 100)
+                    {
+                        db.UserRatings.Add(new UserRating
+                        {
+                            RatedUserId = otherUserId,
+                            RaterUserId = me,
+                            MatchId = match.Id,
+                            RatingValue = req.Rating.Value,
+                            CreatedAt = now
+                        });
+                    }
 
                     match.BalloonState = BalloonState.CLOSED;
                     match.ClosedReason = ClosedReason.UNMATCH;
