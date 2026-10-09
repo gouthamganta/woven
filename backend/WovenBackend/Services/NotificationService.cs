@@ -11,20 +11,20 @@ namespace WovenBackend.Services;
 public class NotificationService : INotificationService
 {
     private readonly IHubContext<WovenHub> _hub;
-    private readonly IWebPushService _webPush;
+    private readonly IServiceProvider _services;
     private readonly ISecurityAuditService _audit;
     private readonly ILogger<NotificationService> _logger;
     private readonly byte[] _signingKey;
 
     public NotificationService(
         IHubContext<WovenHub> hub,
-        IWebPushService webPush,
+        IServiceProvider services,
         IEncryptionService enc,
         ISecurityAuditService audit,
         ILogger<NotificationService> logger)
     {
         _hub = hub;
-        _webPush = webPush;
+        _services = services;
         _audit = audit;
         _logger = logger;
         _signingKey = Convert.FromBase64String(enc.DeriveKey("signing-v1"));
@@ -51,6 +51,13 @@ public class NotificationService : INotificationService
         await client.SendAsync(method, Sign(payload), ct);
     }
 
+    private async Task SendWebPushAsync(int userId, string title, string body, string? url = null, CancellationToken ct = default)
+    {
+        using var scope = _services.CreateScope();
+        var webPush = scope.ServiceProvider.GetRequiredService<IWebPushService>();
+        await webPush.SendToUserAsync(userId, title, body, icon: null, url: url, data: null, ct: ct);
+    }
+
     // ── INotificationService implementation ──────────────────────────────────
 
     public async Task DeckReadyAsync(int userId, DateOnly date, CancellationToken ct = default)
@@ -73,7 +80,7 @@ public class NotificationService : INotificationService
             await Send(_hub.Clients.Group(WovenHub.UserGroup(recipientUserId)), "MomentReceived",
                 new { matchId, fromUserId }, ct);
 
-            _ = _webPush.SendToUserAsync(recipientUserId,
+            _ = SendWebPushAsync(recipientUserId,
                 title: "You have a new match! 🎉",
                 body: "Someone chose you — open Woven to see who.",
                 url: "/moments",
@@ -108,7 +115,7 @@ public class NotificationService : INotificationService
             await Send(_hub.Clients.Group(WovenHub.UserGroup(recipientUserId)), "NewChatMessage",
                 new { threadId, messageId, body, senderUserId, createdAt }, ct);
 
-            _ = _webPush.SendToUserAsync(recipientUserId,
+            _ = SendWebPushAsync(recipientUserId,
                 title: "New message",
                 body: body.Length > 80 ? body[..80] + "…" : body,
                 url: $"/chats/{threadId}",
@@ -229,7 +236,7 @@ public class NotificationService : INotificationService
             await Send(_hub.Clients.Group(WovenHub.UserGroup(userId)), "Push",
                 new { message }, ct);
 
-            _ = _webPush.SendToUserAsync(userId,
+            _ = SendWebPushAsync(userId,
                 title: "Woven",
                 body: message,
                 url: "/",
