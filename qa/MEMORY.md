@@ -1,3 +1,7 @@
+## Finding classification correction - 2026-10-09
+
+Latest5 failed assertions are3 reproduced frontend component/service defects (170/171/172),1 pending PR141 expectation (Saved behavior absent from tested5461c85),1 proposed correlation-ID security requirement (108). Do not call all5 confirmed product defects, or call isolated component/service tests browser verification. Preserve failed results; distinguish intended pending change/proposed requirement from established-contract regression. Reporter correction in2026-10-09 coverage evidence.
+
 ## Primary80% coverage campaign - 2026-10-09
 
 Target>=80% lines AND branches per layer, not reached. Backend combined same-binary unit+realHTTP union31.33%lines/14.71%branches;frontend72/72TS21.59%/27.64%;21externalHTML separately unmeasured. Added119tests since instruction (40BE+79FE); BE90/91pass (Saved known), FE138/141pass (170storage,171mediaHTTP,172PASS); realHTTP34/35pass (108correlation). Gates fail nonzero. Reusable Docker API collector verified with fresh synthetic DB clone+ownRedis, stopped owncontainers, private appcopy restored. EF QA testRelational10.0.12 alignment removes prior warning. Evidence qa/evidence/2026-10-09-coverage-delivery.md; largestremainingBEgaps chat/onboarding/games/insights/AI;continue tests, do not claim complete.

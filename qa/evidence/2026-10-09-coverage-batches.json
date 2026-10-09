@@ -961,5 +961,43 @@
     "failedPassDeckState": 172
   },
   "coverageGateMet": false,
-  "scope": "Executed local unit/component state-machine tests; not full browser or PostgreSQL transactions. Real API collector is being established separately."
+  "scope": "Executed local unit/component state-machine tests; not full browser or PostgreSQL transactions. Real API collector is being established separately.",
+  "failedAssertionClassification": {
+    "total": 5,
+    "reproducedComponentOrServiceDefects": 3,
+    "pendingChangeExpectations": 1,
+    "proposedSecurityRequirements": 1,
+    "entries": [
+      {
+        "issue": 170,
+        "classification": "reproduced-component-service-defect",
+        "observation": "Storage cleanup exception replaces original401 and prevents login navigation",
+        "verification": "Isolated interceptor test; full browser verification pending"
+      },
+      {
+        "issue": 171,
+        "classification": "reproduced-component-service-defect",
+        "observation": "Failed blob PUT HTTP response is followed by confirmation and successful return",
+        "verification": "Service test with controlled HTTP/fetch responses; live blob-failure browser test pending"
+      },
+      {
+        "issue": 172,
+        "classification": "reproduced-component-service-defect",
+        "observation": "Rejected PASS restores the card but leaves deckCompleted true",
+        "verification": "Component state-machine test; full browser verification pending"
+      },
+      {
+        "issue": 138,
+        "classification": "pending-change-expectation",
+        "observation": "Saved-removal contract is run against5461c85 which does not include PR141 cleanup",
+        "verification": "Failed expectation for an unintegrated change; not evidence of a new regression in that candidate"
+      },
+      {
+        "issue": 108,
+        "classification": "proposed-security-requirement",
+        "observation": "Bounded correlation-ID check specifies proposed validation",
+        "verification": "Current behavior measured; not a confirmed breach of an established length contract"
+      }
+    ]
+  }
 }
