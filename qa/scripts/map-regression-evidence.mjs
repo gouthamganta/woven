@@ -1,11 +1,14 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const read = path => JSON.parse(readFileSync(`${root}/${path}`, 'utf8').replace(/^\uFEFF/, ''));
 const evidence = read('qa/evidence/2026-10-08-regressions-round2.json');
 const catalog = read('qa/TEST_CASE_FAMILIES.json');
-const mappings = [];
+// Preserve later runtime/client cases when refreshing the original baseline.
+const mappings = existsSync(`${root}/qa/REGRESSION_CASES.json`)
+  ? read('qa/REGRESSION_CASES.json').cases
+  : [];
 function add(layer, name, result, variant) {
   const id = `${layer === 'backend' ? 'BE' : 'FE'}-${createHash('sha256').update(name).digest('hex').slice(0, 12)}`;
   let family;

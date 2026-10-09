@@ -1398,6 +1398,116 @@
         "local-repaired-proxy": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "FE-a1ca9ee7cdfb",
+      "layer": "frontend",
+      "name": "Request tracing adds a usable trace identifier without changing request data or caller headers",
+      "family": "QA-COV-14-6",
+      "results": {
+        "candidate-176cf74-error-paths": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
+    },
+    {
+      "id": "FE-0411a1af5edf",
+      "layer": "frontend",
+      "name": "Request tracing creates separate traces for separate outgoing attempts",
+      "family": "QA-COV-14-6",
+      "results": {
+        "candidate-176cf74-error-paths": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
+    },
+    {
+      "id": "FE-9ba57b98063b",
+      "layer": "frontend",
+      "name": "HTTP failure and session recovery clears expired credentials and navigates to login while preserving the server failure",
+      "family": "QA-COV-01-3",
+      "results": {
+        "candidate-176cf74-error-paths": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
+    },
+    {
+      "id": "FE-f00b01326422",
+      "layer": "frontend",
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 0",
+      "family": "QA-COV-01-3",
+      "results": {
+        "candidate-176cf74-error-paths": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
+    },
+    {
+      "id": "FE-ebb8880fc79c",
+      "layer": "frontend",
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 403",
+      "family": "QA-COV-01-3",
+      "results": {
+        "candidate-176cf74-error-paths": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
+    },
+    {
+      "id": "FE-40ad023fe8c0",
+      "layer": "frontend",
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 409",
+      "family": "QA-COV-01-3",
+      "results": {
+        "candidate-176cf74-error-paths": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
+    },
+    {
+      "id": "FE-f68fe395a192",
+      "layer": "frontend",
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 429",
+      "family": "QA-COV-01-3",
+      "results": {
+        "candidate-176cf74-error-paths": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
+    },
+    {
+      "id": "FE-98d9a084b8bf",
+      "layer": "frontend",
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 500",
+      "family": "QA-COV-01-3",
+      "results": {
+        "candidate-176cf74-error-paths": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
+    },
+    {
+      "id": "FE-96ffa67b322a",
+      "layer": "frontend",
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 503",
+      "family": "QA-COV-01-3",
+      "results": {
+        "candidate-176cf74-error-paths": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
+    },
+    {
+      "id": "FE-5ca1c6850421",
+      "layer": "frontend",
+      "name": "HTTP failure and session recovery passes a successful response through without logging the user out",
+      "family": "QA-COV-01-3",
+      "results": {
+        "candidate-176cf74-error-paths": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
+    },
+    {
+      "id": "FE-d43fb0748d59",
+      "layer": "frontend",
+      "name": "HTTP failure and session recovery still redirects and preserves the 401 when browser storage denies cleanup",
+      "family": "QA-COV-01-3",
+      "results": {
+        "candidate-176cf74-error-paths": "failed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     }
   ]
 }

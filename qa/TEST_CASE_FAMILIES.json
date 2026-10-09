@@ -41,7 +41,16 @@
             "BE-544901f90303",
             "BE-6596b0528461",
             "BE-ba3a2f0f93a6",
-            "BE-d5417d8eec42"
+            "BE-d5417d8eec42",
+            "FE-9ba57b98063b",
+            "FE-f00b01326422",
+            "FE-ebb8880fc79c",
+            "FE-40ad023fe8c0",
+            "FE-f68fe395a192",
+            "FE-98d9a084b8bf",
+            "FE-96ffa67b322a",
+            "FE-5ca1c6850421",
+            "FE-d43fb0748d59"
           ]
         },
         {
@@ -758,7 +767,9 @@
             "PX-425489edc746",
             "PX-80922b21186c",
             "PX-53af2599e748",
-            "IT-nginx-query-log-redaction"
+            "IT-nginx-query-log-redaction",
+            "FE-a1ca9ee7cdfb",
+            "FE-0411a1af5edf"
           ]
         }
       ]
