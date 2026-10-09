@@ -160,6 +160,90 @@ http {
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
+        location /me/ {
+            proxy_pass ${BACKEND_URL}/me/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
+            proxy_http_version 1.1;
+            proxy_set_header Host ${BACKEND_HOST};
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location /commons/ {
+            proxy_pass ${BACKEND_URL}/commons/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
+            proxy_http_version 1.1;
+            proxy_set_header Host ${BACKEND_HOST};
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location /tiles/ {
+            proxy_pass ${BACKEND_URL}/tiles/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
+            proxy_http_version 1.1;
+            proxy_set_header Host ${BACKEND_HOST};
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location /media/ {
+            proxy_pass ${BACKEND_URL}/media/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
+            proxy_http_version 1.1;
+            proxy_set_header Host ${BACKEND_HOST};
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location /coaching/ {
+            proxy_pass ${BACKEND_URL}/coaching/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
+            proxy_http_version 1.1;
+            proxy_set_header Host ${BACKEND_HOST};
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location /push-notifications/ {
+            proxy_pass ${BACKEND_URL}/push-notifications/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
+            proxy_http_version 1.1;
+            proxy_set_header Host ${BACKEND_HOST};
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        location /sparks/ {
+            proxy_pass ${BACKEND_URL}/sparks/;
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name ${BACKEND_HOST};
+            proxy_http_version 1.1;
+            proxy_set_header Host ${BACKEND_HOST};
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
         location /chats/ {
             proxy_pass ${BACKEND_URL}/chats/;
             proxy_ssl_verify off;
