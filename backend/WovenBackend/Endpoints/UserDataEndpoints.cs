@@ -184,6 +184,7 @@ public static class UserDataEndpoints
             WovenDbContext db,
             IMediaService media,
             ISecurityAuditService audit,
+            ILogger<Program> logger,
             CancellationToken ct) =>
         {
             var userId = GetUserId(principal);
@@ -191,27 +192,49 @@ public static class UserDataEndpoints
             // Log before delete so we still have an audit trail.
             audit.Log("account_deletion", userId: userId, resourceType: "User", resourceId: userId.ToString());
 
-            // Delete all blobs across all containers.
-            await media.DeleteAllForUserAsync(userId, ct);
+            // All database operations in one atomic transaction via ExecutionStrategy
+            var strategy = db.Database.CreateExecutionStrategy();
+            await strategy.ExecuteAsync(async () =>
+            {
+                await using var tx = await db.Database.BeginTransactionAsync(ct);
 
-            // Anonymize matches: preserve the record for the other participant.
-            var matchesAsA = await db.Matches.Where(m => m.UserAId == userId).ToListAsync(ct);
-            var matchesAsB = await db.Matches.Where(m => m.UserBId == userId).ToListAsync(ct);
-            foreach (var m in matchesAsA) m.UserAId = 0;
-            foreach (var m in matchesAsB) m.UserBId = 0;
+                // 1) Anonymize matches first: preserve records for counterparts
+                var matchesAsA = await db.Matches.Where(m => m.UserAId == userId).ToListAsync(ct);
+                var matchesAsB = await db.Matches.Where(m => m.UserBId == userId).ToListAsync(ct);
+                foreach (var m in matchesAsA) m.UserAId = 0;
+                foreach (var m in matchesAsB) m.UserBId = 0;
 
-            // Bulk-delete owned data before removing the user row.
-            await db.Tiles.Where(t => t.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.ChatMessages.Where(m => m.SenderUserId == userId).ExecuteDeleteAsync(ct);
-            await db.PhotoEmbeddings.Where(p => p.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.UserVisualDecisions.Where(d => d.ViewerUserId == userId).ExecuteDeleteAsync(ct);
-            await db.UserVectors.Where(v => v.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.UserVisualPreferences.Where(p => p.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.UserVoicePreferences.Where(p => p.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.UserMatchingWeights.Where(w => w.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.Users.Where(u => u.Id == userId).ExecuteDeleteAsync(ct);
+                // Save match anonymization before bulk deletes
+                await db.SaveChangesAsync(ct);
 
-            await db.SaveChangesAsync(ct);
+                // 2) Bulk-delete owned data (bypasses change tracking, executes immediately)
+                await db.Tiles.Where(t => t.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.ChatMessages.Where(m => m.SenderUserId == userId).ExecuteDeleteAsync(ct);
+                await db.PhotoEmbeddings.Where(p => p.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserVisualDecisions.Where(d => d.ViewerUserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserVectors.Where(v => v.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserVisualPreferences.Where(p => p.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserVoicePreferences.Where(p => p.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserMatchingWeights.Where(w => w.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.PushSubscriptions.Where(s => s.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.AuthIdentities.Where(a => a.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // 3) Finally delete user row
+                await db.Users.Where(u => u.Id == userId).ExecuteDeleteAsync(ct);
+
+                await tx.CommitAsync(ct);
+            });
+
+            // 4) Media deletion outside transaction: best-effort, log failures
+            // Blobs can be orphaned and cleaned up later; don't fail the account deletion
+            try
+            {
+                await media.DeleteAllForUserAsync(userId, ct);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "[AccountDeletion] Media cleanup failed for user {UserId}, will retry in background", userId);
+            }
 
             return Results.Ok(new
             {
