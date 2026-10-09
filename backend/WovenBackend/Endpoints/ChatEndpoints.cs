@@ -21,7 +21,7 @@ public static class ChatEndpoints
     public record TrialDecisionRequest(string Decision, string? EndReason);
     public record VoiceMessageRequest(string AudioUrl, int DurationSecs);
 
-    private static readonly TimeSpan ReflectionWindow = TimeSpan.FromMinutes(5);
+    private static readonly TimeSpan ReflectionWindow = TimeSpan.FromMinutes(10);
 
     public static void MapChatEndpoints(this WebApplication app)
     {
@@ -488,7 +488,8 @@ public static class ChatEndpoints
             catch { /* non-critical */ }
             _ = notify.NewChatMessageAsync(otherUserId, threadId, msg.Id, body, me, now, ct);
 
-            // ✅ Set BothMessagedAt + FindLoveAt ONCE when both users have messaged
+            // ✅ Set BothMessagedAt ONCE when both users have messaged
+            // FindLoveAt is NOT set here — it gets set after trial ends successfully
             if (match.BothMessagedAt == null)
             {
 
@@ -498,16 +499,7 @@ public static class ChatEndpoints
                 if (otherHasMessaged)
                 {
                     match.BothMessagedAt = now;
-
-                    // Reflection unlock after 5 minutes
-                    if (match.FindLoveAt == null)
-                        match.FindLoveAt = now.Add(ReflectionWindow);
-
                     await db.SaveChangesAsync(ct);
-
-                    var otherUserIdForUnlock = match.UserAId == me ? match.UserBId : match.UserAId;
-                    _ = analytics.TrackAsync(me, null, AnalyticsEvents.FindLoveUnlocked, null);
-                    _ = analytics.TrackAsync(otherUserIdForUnlock, null, AnalyticsEvents.FindLoveUnlocked, null);
                 }
             }
 
@@ -719,7 +711,7 @@ public static class ChatEndpoints
                 if (match.UserADecision == "CONTINUE" && match.UserBDecision == "CONTINUE")
                 {
                     match.IsTrial = false;
-                    match.FindLoveAt = now;
+                    match.FindLoveAt = now.Add(ReflectionWindow); // First Ten countdown (10 min)
                     await db.SaveChangesAsync(ct);
 
                     var continueResponse = new { status = "MATCH_CONTINUES", findLoveAt = match.FindLoveAt };

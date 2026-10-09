@@ -343,6 +343,7 @@ builder.Services.AddAuthorization(options =>
 // 18:00 Wed  — CoachingSummaryWorker (weekly Wed)
 // 08:00       — FeedbackTriggerWorker (daily)
 // Every 1min  — BalloonExpiryWorker (continuous)
+// Every 1min  — TrialTimeoutWorker (continuous)
 // Every 6h    — GhostDetectionWorker (silent threads)
 // ============================================
 
@@ -401,6 +402,7 @@ builder.Services.AddScoped<WovenBackend.Services.Moments.InteractionBudgetServic
 builder.Services.AddScoped<WovenBackend.Services.Moments.SparkWalletService>();
 builder.Services.AddScoped<WovenBackend.Services.Moments.MomentsMatchService>();
 builder.Services.AddHostedService<WovenBackend.Services.Moments.BalloonExpiryWorker>();
+builder.Services.AddHostedService<WovenBackend.Services.Moments.TrialTimeoutWorker>();
 
 builder.Services.AddScoped<OpenAiDynamicIntakeRewriteService>();
 builder.Services.AddScoped<DynamicIntakeCycleService>();

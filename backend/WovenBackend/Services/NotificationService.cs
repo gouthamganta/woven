@@ -100,6 +100,21 @@ public class NotificationService : INotificationService
         }
     }
 
+    public async Task TrialTimeoutAsync(int userAId, int userBId, Guid matchId, CancellationToken ct = default)
+    {
+        try
+        {
+            var envelope = Sign(new { matchId });
+            await Task.WhenAll(
+                _hub.Clients.Group(WovenHub.UserGroup(userAId)).SendAsync("TrialTimeout", envelope, ct),
+                _hub.Clients.Group(WovenHub.UserGroup(userBId)).SendAsync("TrialTimeout", envelope, ct));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "[Notify] TrialTimeout failed for match {MatchId}", matchId);
+        }
+    }
+
     public async Task NewChatMessageAsync(int recipientUserId, Guid threadId, Guid messageId,
         string body, int senderUserId, DateTimeOffset createdAt, CancellationToken ct = default)
     {

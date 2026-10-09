@@ -24,6 +24,7 @@ public static class AnalyticsEvents
     public const string MatchCreated                = "match_created";
     public const string MatchExpired                = "match_expired";
     public const string MatchUnmatched              = "match_unmatched";
+    public const string TrialTimedOut               = "trial_timed_out";
     public const string BalloonTimerStarted         = "balloon_timer_started";
     public const string FindLoveUnlocked            = "find_love_unlocked";
 
