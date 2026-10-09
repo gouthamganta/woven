@@ -57,7 +57,7 @@ import { PulseAnswers, PulseQuestion, PulseState } from '../../services/pulse.se
           </div>
 
           <div class="actions">
-            <button class="btn ghost" (click)="close()">Not now</button>
+            <button class="btn ghost" (click)="skip()">Skip</button>
             <button class="btn primary" [disabled]="readonly || !complete" (click)="save()">
               Save
             </button>
@@ -281,6 +281,7 @@ export class PulseSheetComponent {
 
   @Output() closed = new EventEmitter<void>();
   @Output() saved = new EventEmitter<PulseAnswers>();
+  @Output() skipped = new EventEmitter<void>();
 
   draft: Partial<PulseAnswers> = {};
 
@@ -316,6 +317,10 @@ export class PulseSheetComponent {
   save(){
     if (!this.complete) return;
     this.saved.emit(this.draft as PulseAnswers);
+  }
+
+  skip(){
+    this.skipped.emit();
   }
 
   /* ✅ graded style mapping */

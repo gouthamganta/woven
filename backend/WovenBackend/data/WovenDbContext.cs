@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WovenBackend.Data.Converters;
 using WovenBackend.Data.Entities;
+using WovenBackend.data.Entities;
 using WovenBackend.data.Entities.Moments;
 using WovenBackend.Data.Entities.Games;
 using WovenBackend.Services.Security;
@@ -66,6 +67,9 @@ public class WovenDbContext : DbContext
 
     // Weekly coaching summaries
     public DbSet<WovenBackend.Data.Entities.CoachingSummary> CoachingSummaries => Set<WovenBackend.Data.Entities.CoachingSummary>();
+
+    // User interaction logs for ECHO learning
+    public DbSet<UserInteractionLog> UserInteractionLogs => Set<UserInteractionLog>();
 
     // Matchmaking engine tables
     public DbSet<UserVector> UserVectors => Set<UserVector>();
@@ -1714,5 +1718,24 @@ public class WovenDbContext : DbContext
         modelBuilder.Entity<WovenBackend.Data.Entities.CoachingSummary>()
             .HasIndex(x => new { x.UserId, x.CreatedAt })
             .HasDatabaseName("ix_coaching_summaries_user_id");
+
+        // UserInteractionLog: track all user interactions for ECHO learning
+        modelBuilder.Entity<UserInteractionLog>()
+            .HasOne(x => x.User)
+            .WithMany()
+            .HasForeignKey(x => x.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<UserInteractionLog>()
+            .HasIndex(x => new { x.UserId, x.EventType })
+            .HasDatabaseName("ix_interaction_logs_user_event");
+
+        modelBuilder.Entity<UserInteractionLog>()
+            .HasIndex(x => x.OccurredAt)
+            .HasDatabaseName("ix_interaction_logs_occurred");
+
+        modelBuilder.Entity<UserInteractionLog>()
+            .HasIndex(x => new { x.UserId, x.OccurredAt })
+            .HasDatabaseName("ix_interaction_logs_user_time");
     }
 }

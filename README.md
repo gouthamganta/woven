@@ -5,6 +5,7 @@ A modern matchmaking and social interaction platform with AI-powered games, dyna
 ## Table of Contents
 
 - [Overview](#overview)
+- [Documentation](#documentation)
 - [Architecture](#architecture)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
@@ -28,6 +29,25 @@ Woven is a matchmaking platform that takes a fresh approach to online connection
 - **AI-Powered Games**: Interactive games (Know Me, Red/Green Flag) to break the ice
 - **Rating System**: Community-driven quality signals for better matching
 - **Find Love Stage**: Unlocked after mutual engagement with personalized date ideas
+
+---
+
+## Documentation
+
+**📖 [Complete Documentation →](docs/INDEX.md)**
+
+All documentation is organized by feature and system for easy navigation:
+- **[Features](docs/INDEX.md#-features-what-users-see)** (Moments, Chats, Games, etc.) - What users see and interact with
+- **[Systems](docs/INDEX.md#%EF%B8%8F-systems-how-it-works)** (ECHO, Auth, Embeddings, etc.) - How it works under the hood
+- **[Architecture](docs/INDEX.md#%EF%B8%8F-architecture)** - Technical design and patterns
+- **[API Reference](docs/INDEX.md#-api-reference)** - Endpoint documentation
+- **[Development](docs/INDEX.md#-development)** - Setup, testing, deployment guides
+
+**Quick Links:**
+- [Quickstart Guide](docs/QUICKSTART.md) - Get started in 5 minutes
+- [Local Setup](docs/development/setup.md) - Development environment setup
+- [Architecture Overview](docs/architecture/README.md) - System design and patterns
+- [CLAUDE.md](CLAUDE.md) - Project context for AI assistants
 
 ---
 

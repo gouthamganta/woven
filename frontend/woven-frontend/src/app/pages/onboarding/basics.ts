@@ -72,7 +72,20 @@ const PRONOUNS = [
         <!-- Date of birth -->
         <div class="field">
           <label class="label">Date of birth</label>
-          <input class="input" type="date" [(ngModel)]="dob" [max]="maxDob"/>
+          <div class="dateRow">
+            <select class="dateSelect" [(ngModel)]="dobMonth" (change)="updateDob()">
+              <option value="">Month</option>
+              <option *ngFor="let m of months" [value]="m.val">{{ m.label }}</option>
+            </select>
+            <select class="dateSelect" [(ngModel)]="dobDay" (change)="updateDob()">
+              <option value="">Day</option>
+              <option *ngFor="let d of days" [value]="d">{{ d }}</option>
+            </select>
+            <select class="dateSelect" [(ngModel)]="dobYear" (change)="updateDob()">
+              <option value="">Year</option>
+              <option *ngFor="let y of years" [value]="y">{{ y }}</option>
+            </select>
+          </div>
           <span class="hint" *ngIf="age !== null">{{ age }} years old</span>
           <span class="hint err" *ngIf="age !== null && age < 18">You must be 18 or older to join Woven.</span>
         </div>
@@ -114,10 +127,10 @@ const PRONOUNS = [
         <!-- Location -->
         <div class="field">
           <label class="label">Your city</label>
-          <input class="input" type="text" [(ngModel)]="cityText" placeholder="City, State" (input)="cityChanged()"/>
-          <div class="autocomplete" *ngIf="citySuggestions.length">
-            <button *ngFor="let s of citySuggestions" class="suggestion" (click)="selectCity(s)">{{ s.label }}</button>
-          </div>
+          <select class="input" [(ngModel)]="cityText" (change)="citySelectionChanged()">
+            <option value="">Select city</option>
+            <option value="Hyderabad">Hyderabad</option>
+          </select>
         </div>
 
         <!-- Distance preference -->
@@ -151,15 +164,23 @@ const PRONOUNS = [
 
         <!-- Age range -->
         <div class="field">
-          <label class="label">Age range — <strong class="val">{{ ageMin }}–{{ ageMax }}</strong></label>
+          <label class="label">Age range</label>
           <div class="ageRow">
-            <div class="ageSlider">
-              <span class="ageLabel">Min</span>
-              <input class="slider" type="range" [(ngModel)]="ageMin" min="18" [max]="ageMax - 1" step="1" (input)="mark()"/>
+            <div class="ageInput">
+              <label class="ageLabel">Min</label>
+              <div class="numberControl">
+                <button class="numBtn" (click)="adjustAge('min', -1)">−</button>
+                <input class="numInput" type="number" [(ngModel)]="ageMin" min="18" [max]="ageMax - 1" (input)="mark()"/>
+                <button class="numBtn" (click)="adjustAge('min', 1)">+</button>
+              </div>
             </div>
-            <div class="ageSlider">
-              <span class="ageLabel">Max</span>
-              <input class="slider" type="range" [(ngModel)]="ageMax" [min]="ageMin + 1" max="80" step="1" (input)="mark()"/>
+            <div class="ageInput">
+              <label class="ageLabel">Max</label>
+              <div class="numberControl">
+                <button class="numBtn" (click)="adjustAge('max', -1)">−</button>
+                <input class="numInput" type="number" [(ngModel)]="ageMax" [min]="ageMin + 1" max="80" (input)="mark()"/>
+                <button class="numBtn" (click)="adjustAge('max', 1)">+</button>
+              </div>
             </div>
           </div>
         </div>
@@ -238,27 +259,27 @@ const PRONOUNS = [
       font-weight: 600;
     }
 
-    .autocomplete {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
+    .dateRow {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.2fr;
+      gap: 10px;
     }
-    .suggestion {
+
+    .dateSelect {
       width: 100%;
-      text-align: left;
-      padding: 12px 14px;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
+      padding: 13px 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      color: var(--text-primary);
       font-family: var(--font-ui);
-      font-size: 14px;
+      font-size: 15px;
+      outline: none;
       cursor: pointer;
-      transition: background 0.15s ease;
+      transition: border-color 0.2s ease;
     }
-    .suggestion:last-child { border-bottom: none; }
-    .suggestion:hover { background: rgba(255,255,255,0.05); }
+    .dateSelect:focus { border-color: var(--gold-400); }
+    .dateSelect option { background: var(--bg-surface); color: var(--text-primary); }
 
     .slider {
       width: 100%;
@@ -274,9 +295,70 @@ const PRONOUNS = [
     }
     .val { color: var(--gold-300); }
 
-    .ageRow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .ageSlider { display: grid; gap: 6px; }
-    .ageLabel { font-family: var(--font-ui); font-size: 11px; color: var(--text-dim); }
+    .ageRow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .ageInput {
+      display: grid;
+      gap: 8px;
+    }
+
+    .ageLabel {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .numberControl {
+      display: grid;
+      grid-template-columns: 40px 1fr 40px;
+      align-items: center;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .numBtn {
+      height: 45px;
+      background: transparent;
+      border: none;
+      color: var(--gold-400);
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .numBtn:hover { background: rgba(255,255,255,0.05); }
+    .numBtn:active { background: rgba(255,255,255,0.08); }
+
+    .numInput {
+      width: 100%;
+      padding: 13px 8px;
+      background: transparent;
+      border: none;
+      border-left: 1px solid var(--border-subtle);
+      border-right: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      font-family: var(--font-data);
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      outline: none;
+    }
+    .numInput::-webkit-inner-spin-button,
+    .numInput::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
 
     .cta {
       width: 100%;
@@ -306,8 +388,21 @@ export class BasicsOnboardingComponent {
   orientations = ORIENTATIONS;
   pronouns     = PRONOUNS;
 
+  // Date dropdowns
+  months = [
+    { val: '01', label: 'January' }, { val: '02', label: 'February' }, { val: '03', label: 'March' },
+    { val: '04', label: 'April' }, { val: '05', label: 'May' }, { val: '06', label: 'June' },
+    { val: '07', label: 'July' }, { val: '08', label: 'August' }, { val: '09', label: 'September' },
+    { val: '10', label: 'October' }, { val: '11', label: 'November' }, { val: '12', label: 'December' }
+  ];
+  days = Array.from({length: 31}, (_, i) => i + 1);
+  years = Array.from({length: 83}, (_, i) => new Date().getFullYear() - 18 - i);
+
   firstName      = '';
   dob            = '';
+  dobMonth       = '';
+  dobDay         = '';
+  dobYear        = '';
   gender         = '';
   pronouns_sel   = '';
   cityText       = '';
@@ -319,17 +414,10 @@ export class BasicsOnboardingComponent {
   interestedInSet = new Set<string>();
   lookingForSet   = new Set<string>();
 
-  citySuggestions: { label: string; city: string; state: string; lat: number; lng: number }[] = [];
   selectedCity: { city: string; state: string; lat: number; lng: number } | null = null;
 
   loading = false;
   err = '';
-
-  get maxDob() {
-    const d = new Date();
-    d.setFullYear(d.getFullYear() - 18);
-    return d.toISOString().split('T')[0];
-  }
 
   get age(): number | null {
     if (!this.dob) return null;
@@ -361,21 +449,36 @@ export class BasicsOnboardingComponent {
     this.cdr.markForCheck();
   }
 
-  cityChanged() {
-    const q = this.cityText.trim();
-    this.selectedCity = null;
-    if (q.length < 2) { this.citySuggestions = []; this.cdr.markForCheck(); return; }
-    // Minimal static suggestions — real implementation would call a geocoding API
-    this.citySuggestions = [
-      { label: `${q} (use this)`, city: q, state: '', lat: 0, lng: 0 },
-    ];
+  updateDob() {
+    if (this.dobYear && this.dobMonth && this.dobDay) {
+      this.dob = `${this.dobYear}-${this.dobMonth}-${this.dobDay.toString().padStart(2, '0')}`;
+    } else {
+      this.dob = '';
+    }
     this.cdr.markForCheck();
   }
 
-  selectCity(s: typeof this.citySuggestions[0]) {
-    this.cityText = s.label !== `${s.city} (use this)` ? s.label : s.city;
-    this.selectedCity = { city: s.city, state: s.state, lat: s.lat, lng: s.lng };
-    this.citySuggestions = [];
+  citySelectionChanged() {
+    if (this.cityText === 'Hyderabad') {
+      this.selectedCity = { city: 'Hyderabad', state: 'Telangana', lat: 17.385, lng: 78.4867 };
+    } else {
+      this.selectedCity = null;
+    }
+    this.cdr.markForCheck();
+  }
+
+  adjustAge(type: 'min' | 'max', delta: number) {
+    if (type === 'min') {
+      const newMin = this.ageMin + delta;
+      if (newMin >= 18 && newMin < this.ageMax) {
+        this.ageMin = newMin;
+      }
+    } else {
+      const newMax = this.ageMax + delta;
+      if (newMax > this.ageMin && newMax <= 80) {
+        this.ageMax = newMax;
+      }
+    }
     this.cdr.markForCheck();
   }
 

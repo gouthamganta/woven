@@ -1,8 +1,10 @@
+
+
 # Dating App Personalization Refactor - Implementation Log
 
 **Started:** 2026-01-25
-**Last Updated:** 2026-01-25
-**Status:** COMPLETED
+**Last Updated:** 2026-10-07
+**Status:** IN_PROGRESS
 
 ---
 
@@ -31,12 +33,12 @@
   - [x] Task 5.2: Update WovenDbContext.cs
   - [x] Task 5.3: Create GameOutcomeService.cs
   - [x] Task 5.4: Create database migration
-- [x] Security Audit & Fixes (implemented in AiProfileService)
-- [x] Recommendations Document (RECOMMENDATIONS.md created)
-- [x] Wire up GameOutcomeService to GameService
-- [x] Compilation fixes (FirstName -> FullName mapping)
+- [ ] Security Audit & Fixes
+- [ ] Performance Optimizations
+- [ ] Feedback Loops Implementation
+- [ ] Recommendations Document
 
-**Total Progress:** 22/22 core tasks completed
+**Total Progress:** 18/25+ tasks completed
 
 ---
 
@@ -471,64 +473,113 @@
 
 ## Known Issues / Tech Debt
 
-1. ~~**Missing using statement in IGameAgent.cs**~~ ✅ FIXED
-   - Added `using WovenBackend.Services;` at top of file
+1. **Missing using statement in IGameAgent.cs**
+   - `PairContext` class needs to be imported
+   - **Priority:** HIGH
+   - **Fix:** Add `using WovenBackend.Services;` at top
 
-2. ~~**GameOutcome not recorded on game completion**~~ ✅ FIXED
-   - Wired up `IGameOutcomeService.RecordOutcomeAsync()` in `CompleteGameAsync`
-   - Injected `IGameOutcomeService` into `GameService`
-
-3. **No rate limiting on debug endpoints** (Remaining)
-   - Recommendation added to RECOMMENDATIONS.md
-   - **Priority:** LOW (dev only)
-
-4. **No GameExpiryWorker for abandoned sessions** (Remaining)
-   - Active games that timeout are not auto-expired
-   - Recommendation added to RECOMMENDATIONS.md
+2. **GameOutcome not recorded on game completion**
+   - `CompleteGameAsync` and `AbandonSessionAsync` need to call `IGameOutcomeService`
    - **Priority:** MEDIUM
+   - **TODO:** Wire up outcome recording
 
-5. ~~**FirstName property mismatch**~~ ✅ FIXED
-   - `UserProfile` doesn't have `FirstName`, it's `FullName` on `User` entity
-   - Fixed in `AiProfileService`, `DynamicIntakeCycleService`, `FoundationalCycleService`
-   - Added `ExtractFirstName()` helper methods
-
----
-
-## Final Compilation Status
-
-```
-Build succeeded.
-    0 Warning(s)
-    0 Error(s)
-```
+3. **No rate limiting on debug endpoints**
+   - Could be scraped in development
+   - **Priority:** LOW (dev only)
+   - **TODO:** Add rate limiting middleware
 
 ---
 
-## Deliverables Created
+## Next Steps (If Session Expired)
 
-1. **IMPLEMENTATION_LOG.md** - This file, tracking all changes
-2. **RECOMMENDATIONS.md** - Future improvements and next steps
+**To resume from where we left off:**
 
----
+1. Review this log to see what's completed (✅) vs in-progress
+2. Check "Known Issues" section for blockers
+3. Run `dotnet build` to check for compilation errors
+4. Fix any missing imports or type errors
+5. Continue with Security Audit & Performance sections
+6. Create RECOMMENDATIONS.md
 
-## Summary
-
-All core personalization tasks have been completed:
-- Foundation Layer: AiProfileService, pillar fixes, scoring fixes, debug endpoints
-- AI Grounding: Context injection in OpenAI services
-- Match Explanations: PairContext integration
-- Game Personalization: Difficulty, tone, bucket computation
-- Outcome Tracking: GameOutcome entity and service
-
-The codebase now:
-- Uses rich user context in all AI prompts
-- Prevents generic outputs via banned phrase detection
-- Tracks game outcomes for analytics
-- Sanitizes PII before AI calls
-- Protects against prompt injection
-
-**Status:** ✅ IMPLEMENTATION COMPLETE
+**Current resumption point:** Compilation check and remaining tasks
 
 ---
 
 **End of Log**
+
+---
+
+## Documentation Updates
+
+### 2026-10-07: Queue System Documentation
+**Status:** ✅ COMPLETED
+
+**Files Created:**
+- `docs/systems/queue/README.md` (6.9 KB) - Queue system overview
+- `docs/systems/queue/service-bus.md` (15 KB) - Azure Service Bus integration
+- `docs/systems/queue/workers.md` (19 KB) - All 13 batch workers documentation
+- `docs/systems/queue/scheduling.md` (16 KB) - Cron schedules, pod topology, WOVEN_DISABLE_BATCH_WORKERS
+- `docs/systems/queue/implementation.md` (26 KB) - Code patterns, error handling, testing
+
+**What Was Documented:**
+
+1. **System Architecture:**
+   - Pod topology (API pods vs workers pod)
+   - WOVEN_DISABLE_BATCH_WORKERS flag mechanics
+   - Redis distributed locking pattern
+   - Azure Service Bus integration
+
+2. **All 13 Workers:**
+   - TrustBatchWorker (02:00 UTC daily)
+   - EmbeddingBatchWorker (02:30 UTC daily)
+   - CfBatchWorker (03:00 UTC daily)
+   - SelfDisclosureBatchWorker (03:45 UTC daily)
+   - ConnectionScoreBatchWorker (03:50 UTC daily)
+   - WeightLearningBatchWorker (Sunday 04:00 UTC)
+   - PreferenceDriftBatchWorker (04:15 UTC daily)
+   - LinUcbBatchWorker (04:20 UTC daily)
+   - InsightBatchWorker (04:30 UTC daily)
+   - CfScoreBatchWorker (05:00 UTC daily - marked as duplicate)
+   - CoachingSummaryWorker (Wednesday 18:00 UTC)
+   - ServiceBusEmbeddingWorker (real-time)
+   - TileViewProcessorWorker (real-time, every 5 min)
+
+3. **Implementation Patterns:**
+   - BackgroundService template
+   - Dependency injection (IServiceScopeFactory)
+   - Distributed locking (Redis)
+   - Schedule calculation (daily, weekly, polling)
+   - Cancellation handling
+   - Error handling (per-user vs batch-level)
+   - Structured logging with correlation IDs
+   - Memory management (streaming, chunking)
+   - Database transactions
+   - Service Bus queue processing
+
+4. **Production Details:**
+   - Azure Container Apps deployment
+   - Terraform configuration
+   - Monitoring & observability (Log Analytics, App Insights)
+   - Disaster recovery scenarios
+   - Cost analysis (~$2/month for Service Bus, ~$25/night for embeddings)
+
+5. **Testing & Performance:**
+   - Unit test patterns (mocking)
+   - Integration test patterns (real DB + Redis)
+   - Load test patterns (10M signals)
+   - Performance optimizations (batch SQL, parallel processing, Redis pipelining)
+
+**Cross-References:**
+- Links to ECHO pipeline docs
+- Links to embeddings system docs
+- Links to trust & safety docs
+- Links to matchmaking docs
+
+**Total Documentation:** ~83 KB across 5 files
+
+**Impact:**
+- Comprehensive reference for all background job processing
+- Onboarding guide for new developers
+- Troubleshooting runbook for production issues
+- Foundation for future improvements (observability, graceful shutdown, multi-replica workers)
+
