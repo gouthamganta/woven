@@ -1,0 +1,965 @@
+{
+  "date": "2026-10-09",
+  "primaryTarget": "At least80% line and branch coverage independently for each application layer",
+  "frontend": {
+    "source": "176cf74 auth/routes overlay, restored afterward",
+    "total": 141,
+    "passed": 138,
+    "failed": 3,
+    "cases": [
+      {
+        "name": "App should create the app",
+        "status": "passed"
+      },
+      {
+        "name": "Request tracing adds a usable trace identifier without changing request data or caller headers",
+        "status": "passed"
+      },
+      {
+        "name": "Request tracing creates separate traces for separate outgoing attempts",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery clears expired credentials and navigates to login while preserving the server failure",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 0",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 403",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 409",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 429",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 500",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 503",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery passes a successful response through without logging the user out",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery still redirects and preserves the 401 when browser storage denies cleanup",
+        "status": "failed"
+      },
+      {
+        "name": "TestApi should create",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts loads an empty chat list without manufacturing conversations",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts starts the selected match and preserves the returned thread identifier",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts preserves both partner ChatNotes and chronological messages in a thread response",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts rejects a 0-character invalid message before network access",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts rejects a 3-character invalid message before network access",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts rejects a 2-character invalid message before network access",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts rejects a 1001-character invalid message before network access",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts sends a trimmed message at the 1-character boundary",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts sends a trimmed message at the 1000-character boundary",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts submits CONTINUE without silently changing the trial decision",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts submits END without silently changing the trial decision",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts submits BLOCK without silently changing the trial decision",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts includes an explicitly supplied end reason",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts preserves server rejection instead of inventing a successful send or retry",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts submits a chosen date idea with its index and text",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts sends an uploaded voice reference and duration",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts records listening on the selected message only",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries uploads audio/ogg and returns the confirmed URL",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries uploads audio/mp4 and returns the confirmed URL",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries uploads audio/webm and returns the confirmed URL",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries uploads untyped audio and returns the confirmed URL",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries does not upload or confirm when authorization for the upload is denied",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries does not confirm after a network failure uploading the blob",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries rejects an HTTP-denied blob upload rather than reporting a confirmed voice note",
+        "status": "failed"
+      },
+      {
+        "name": "Voice upload failure boundaries preserves confirmation failure rather than returning the provisional URL",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries redirects an anonymous browser to login",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries treats an empty stored token as anonymous",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries redirects after the stored token has been removed",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries forwards an anonymous request without an authorization header",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries adds the current token to a local API request",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries preserves the request body and caller headers when authenticating",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries reads token removal before the next request",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries authenticates an absolute same-origin API URL",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries authenticates the explicitly configured development API origin",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries does not authenticate a protocol-relative unrelated host",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries does not authenticate an allowed-origin lookalike",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries preserves unrelated caller-supplied authorization",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries continues without adding credentials when storage is unavailable",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /login",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /privacy",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /terms",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /data-policy",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /landing",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /moments",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /commons",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats/00000000-0000-0000-0000-000000000001",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/settings",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/tiles",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /matches/00000000-0000-0000-0000-000000000001/profile",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/welcome",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/basics",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/intent",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/foundational",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/photos",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/details",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/lifestyle",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/review",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/start",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /app",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /missing-qa-page",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries rechecks expiry when navigating between protected child pages",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions allows a browser with a future-dated synthetic token payload",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions rejects a token exactly at its expiry second",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions rejects a string-valued numeric expiry",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions redirects instead of throwing when storage is unavailable",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a expired token to login",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a malformed token to login",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a whitespace token to login",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a missing-expiry token to login",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions does not forward app credentials to an unrelated external origin",
+        "status": "passed"
+      },
+      {
+        "name": "LoginComponent should create",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine loads the deck, budget and balance and clears previous response visibility",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine renders an empty response without stale cards or budget",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine leaves loading state and exposes a retryable deck error on failure",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine loads Drawn once and reuses it when switching tabs",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine allows retry after a Drawn loading failure",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine handles an empty Drawn response",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine opens a MAGICAL note after the animation and prevents competing clicks",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine opens a Drawn MAGICAL note without inventing time-on-card",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine opens a LOGICAL note after the animation and prevents competing clicks",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine opens a Drawn LOGICAL note without inventing time-on-card",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine backs out of a note without spending or hiding the candidate",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine ignores a submission with no selected note/card",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine sends PASS after the animation with measured dwell and completes the deck",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine restores the card and incomplete deck when PASS fails",
+        "status": "failed"
+      },
+      {
+        "name": "Moments interaction state machine restores TODAY visibility after a rejected note",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine restores LIKED_YOU visibility after a rejected note",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine starts the thread after PURE_MATCH_CREATED",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine starts the thread after EDGE_MATCH_CREATED",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine records MAGICAL/WAITING_FOR_OTHER_NOTE without starting a chat early",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine records MAGICAL/CHOICE_RECORDED without starting a chat early",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine records LOGICAL/WAITING_FOR_OTHER_NOTE without starting a chat early",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine records LOGICAL/CHOICE_RECORDED without starting a chat early",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine exposes chat-start failure without navigating to an invented thread",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine opens the photo gallery only after a held press and supports closing",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine cancels an interrupted hold and tolerates profiles without photos",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine falls back to the profile photo and formats optional location and expiry boundaries",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine cycles cinematic photos and stops its repeating timer on destruction",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery does not submit incomplete basics or an underage profile",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery builds and clears a date when dropdown selection changes",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery toggles selections and invalidates an unsupported city",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery keeps preferred age bounds adult, ordered, and at most 80",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery submits valid basics with omitted optional identity fields",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery submits valid basics with selected optional identity fields",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery keeps basics editable after a rejected save and accepts the backend next route",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery requires intent and a nonblank reflection, and supports deselection",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery saves a trimmed intent reflection, recovers failure and follows the server route",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery omits empty details and keeps height matching-only",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery does not navigate after details failure and allows skipping the bio",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery caps hobbies at ten while allowing removal and replacement",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery preserves matching-only lifestyle visibility when saving selected fields",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery recovers lifestyle save failures and lets a user skip without making a save request",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery supports review response shapes without exposing absent sections",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery formats array, JSON and plain-text optional values safely",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery exposes review loading/confirmation failures and recovers on retry",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery recovers welcome submission failure and honors server or fallback routes",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _BasicsOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _DetailsOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _IntentOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _LifestyleOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _ReviewOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _WelcomeOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls keeps the basics Continue control disabled until adult identity and location are supplied",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls displays a save error and re-enables intent editing after the actual Continue click fails",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls shows the adult name, photo and intent in the actual review template",
+        "status": "passed"
+      }
+    ],
+    "testReportSha256": "1a2fc921a343f637ae02e9844559b9727f791629291f6f3d667f77226a0a33ab",
+    "renderedOnboardingCases": 9,
+    "newCasesSincePrimaryTarget": 79
+  },
+  "backend": {
+    "source": "5461c85",
+    "total": 91,
+    "passed": 90,
+    "failed": 1,
+    "newCases": 40,
+    "newCasesPassed": 40,
+    "knownFailure": "HistoricalSavedRecord(ageDays:1), pending PR141 integration",
+    "collector": "Coverlet6.0.4; generated migrations separate",
+    "cases": [
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.AdminToken_HasExplicitRoleAndSignedIdentity",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.NewWallet_ReceivesFiveSparksOnceAndPersistsDailyStamp",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-12-31T23:59:59Z\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-10-08T23:59:59+05:30\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"1\", expectedMinutes: 1)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_ThreeFailures_OpensCircuit",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.CombinedIdentifiers_AreAllRemovedWithoutDiscardingHarmlessContext",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentSigningKey",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.Logout_ExpiresBothCookiesWithSecureFlags",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555-123-4567\", identifier: \"555-123-4567\", replacement: \"[phone]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"invalid base64!\", expectedException: typeof(System.FormatException))",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: True)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"45\", expectedMinutes: 45)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.EmptyCandidates_ReturnsEmptyBoostMap",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Contact synthetic.person@example.invalid\", identifier: \"synthetic.person@example.invalid\", replacement: \"[email]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: True, name: \"woven_refresh_token\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Meet at 123 Synthetic Street\", identifier: \"123 Synthetic Street\", replacement: \"their area\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 28)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 123, second: 7)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 10)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 0, expectedCached: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: null, expectedMinutes: 60)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [1, 2, 3])",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_DoesNotCreateUsageOrMakeZeroNegative",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: null, expectedException: typeof(System.InvalidOperationException))",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2028-02-28T23:59:59Z\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 2147483647, second: 1)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_SuccessfulCall_ReturnsClosed",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.Reset_AfterOpen_ClosesCircuit",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [137, 80, 78, 71])",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.JpegMetadataSegment_RemovesApp1AndPreservesOtherSegments",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555 123 4567\", identifier: \"555 123 4567\", replacement: \"[phone]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-03-08T01:30:00-05:00\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.AuditHash_IsStableSaltSensitiveAndNeverTheRawIdentifier",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: False, name: \"woven_access_token\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 100, after: 100)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Find @synthetic_handle\", identifier: \"@synthetic_handle\", replacement: \"[handle]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.CachedTotalCap_RejectsWithoutWritingOrIncrementing(count: 5)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 0, after: 50)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.GetState_UnknownCircuit_ReturnsClosed",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 5, expectedCached: 4)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 7)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 1)",
+        "status": "Failed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.LegacyUnstampedWallet_EarnsExactlyOnce",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.PurposeScopedKeys_AreStableAndDistinct",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"   \")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 12)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.CachedLegacyPendingCap_RejectsWithoutWriting",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.JpegRestartMarkers_ArePreserved",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.SamePlaintext_UsesDistinctCiphertexts",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 95, after: 100)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: LOGICAL)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: YES)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [])",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: False)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 0, after: 5)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"❤️ తెలుగు\\nline two\\0\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_OpenCircuit_ThrowsCircuitBreakerOpenException",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentAudience",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.CachedTotalCap_RejectsWithoutWritingOrIncrementing(count: 6)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: MAGICAL)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_DifferentUsers_ProduceDifferentTokens",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: -1, expectedCached: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555.123.4567\", identifier: \"555.123.4567\", replacement: \"[phone]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.BinaryRoundTrip_PreservesAllByteValues",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Email synthetic+tag@example.invalid please\", identifier: \"synthetic+tag@example.invalid\", replacement: \"[email]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ReturnsNonEmptyJwt",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ContainsExpectedClaims",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 20, after: 70)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 1, expectedCached: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.DifferentMasterKey_CannotDecrypt",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_CreatesOnlyTheRequestedUsersWallet",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: False, expectedName: \"woven_access_token\", minutes: 60)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"Synthetic private note\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 12)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Meet at 42 Synthetic rd\", identifier: \"42 Synthetic rd\", replacement: \"their area\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 75, after: 100)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: True, expectedName: \"woven_refresh_token\", minutes: 43200)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 1, second: 2)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 100, after: 100)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 1)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"AA==\", expectedException: typeof(System.InvalidOperationException))",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 27)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_IsCryptographicallyValidAndHasNoAdminRole",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"We both enjoy walking and reading.\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 98, after: 100)",
+        "status": "Passed"
+      }
+    ],
+    "testReportSha256": "eaff723cc63d889f4a77916031e8c30788a18fd32ca68189f0b137ccf2400dae",
+    "newCasesSincePrimaryTarget": 40,
+    "efTestVersionAlignment": "Explicit Relational10.0.12; final build emitted no prior MSB3277 assembly conflict."
+  },
+  "newFindings": {
+    "storageDenied401": 170,
+    "voiceUploadHttpFailure": 171,
+    "failedPassDeckState": 172
+  },
+  "coverageGateMet": false,
+  "scope": "Executed local unit/component state-machine tests; not full browser or PostgreSQL transactions. Real API collector is being established separately."
+}

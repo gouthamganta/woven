@@ -1,0 +1,19 @@
+{
+  "layer": "backend-combined",
+  "target": {
+    "lines": 80,
+    "branches": 80
+  },
+  "lines": 31.33,
+  "branches": 14.71,
+  "generatedMigrations": {
+    "lines": 71529,
+    "separatelyReported": true
+  },
+  "passed": false,
+  "reasons": [
+    "lines: 31.33% below 80%.",
+    "branches: 14.71% below 80%."
+  ],
+  "inputSha256": "0dc8a6b17305a4309b87b5851c64e482fdef75a5b4429c41316d54d21d1f1703"
+}

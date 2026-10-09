@@ -1,0 +1,15 @@
+{
+  "minimum": { "lines": 80, "branches": 80 },
+  "backend": {
+    "assembly": "WovenBackend",
+    "acceptanceCoverage": "Union of unit and integration counters for the identical application binary; individual collectors are diagnostic scopes.",
+    "generatedMigrationPolicy": "Report generated migrations separately; include every other application source file.",
+    "requiredSeparateEvidence": "Fresh PostgreSQL migrations and schema compatibility remain release obligations."
+  },
+  "frontend": {
+    "include": "All src/app/**/*.ts except test files",
+    "missingFilesAllowed": 0,
+    "requiredSeparateEvidence": "HTML templates, browser journeys and accessibility remain release obligations."
+  },
+  "scope": "80% is required independently for backend and frontend, not a combined average or test pass rate. No unrelated application exclusions."
+}

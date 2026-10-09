@@ -1,3 +1,7 @@
+## Primary80% coverage campaign - 2026-10-09
+
+Target>=80% lines AND branches per layer, not reached. Backend combined same-binary unit+realHTTP union31.33%lines/14.71%branches;frontend72/72TS21.59%/27.64%;21externalHTML separately unmeasured. Added119tests since instruction (40BE+79FE); BE90/91pass (Saved known), FE138/141pass (170storage,171mediaHTTP,172PASS); realHTTP34/35pass (108correlation). Gates fail nonzero. Reusable Docker API collector verified with fresh synthetic DB clone+ownRedis, stopped owncontainers, private appcopy restored. EF QA testRelational10.0.12 alignment removes prior warning. Evidence qa/evidence/2026-10-09-coverage-delivery.md; largestremainingBEgaps chat/onboarding/games/insights/AI;continue tests, do not claim complete.
+
 ## Executed delivery checkpoint - 2026-10-08
 
 Added 11 frontend HTTP recovery/tracing contracts; final auth candidate176cf74 run61/62 pass, sole new failure storage-denied401 (#170). Added all-TypeScript coverage config, single-worker runner with overlay restoration and denominator verifier:72/72 appTS included, line4.12%/branch14.80%;21HTML templates separately unmeasured. Registry141 named cases, families still partial. Independent security125 production audit0 vulnerabilities on4e421ee; installed versions match lock core21.2.25/build21.2.26. Independent development browser/server build passed in46.088s; production build and functional regressions remain pending. Evidence: qa/evidence/2026-10-08-frontend-delivery.md.

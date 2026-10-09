@@ -1,0 +1,249 @@
+{
+  "date": "2026-10-09",
+  "source": "5461c85 Debug application binary",
+  "runId": "20261009043238_c2938a",
+  "database": "woven_qa_cov80_20261009043238_c2938a",
+  "sourceDatabase": "woven_qa_model",
+  "users": 100,
+  "sourceBinarySha256": "a624e3b3dbc4aa97463da48f43b0d8893665120fb233d119a9d83a92891c7717",
+  "copyRestored": true,
+  "internalNetwork": true,
+  "isolatedRedis": true,
+  "smokeExitCode": 1,
+  "freshMigrationProof": false,
+  "cases": [
+    {
+      "id": "OPS-READINESS",
+      "path": "/health/ready",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/moments",
+      "path": "/moments",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/chats",
+      "path": "/chats",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/matches",
+      "path": "/matches",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/commons",
+      "path": "/commons",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/tiles/mine",
+      "path": "/tiles/mine",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/me/data-summary",
+      "path": "/me/data-summary",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/me/accessibility",
+      "path": "/me/accessibility",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/sparks/balance",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/coaching/current-summary",
+      "path": "/coaching/current-summary",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/admin/moderation/queue",
+      "path": "/admin/moderation/queue",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-MALFORMED",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-WRONG-SIGNATURE",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-EXPIRED",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-WRONG-AUDIENCE",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "AUTH-ADMIN-ESCALATION",
+      "path": "/admin/moderation/queue",
+      "result": "passed",
+      "status": 403
+    },
+    {
+      "id": "SPARK-INITIAL-GRANT",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "SPARK-NO-DOUBLE-GRANT",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "DATA-OWN-SUMMARY",
+      "path": "/me/data-summary",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "PROFILE-ACCESSIBILITY",
+      "path": "/me/accessibility",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "MOMENTS-SELF-TARGET",
+      "path": "/moments/respond",
+      "result": "passed",
+      "status": 400
+    },
+    {
+      "id": "MOMENTS-UNKNOWN-TARGET",
+      "path": "/moments/respond",
+      "result": "passed",
+      "status": 400
+    },
+    {
+      "id": "MOMENTS-BAD-CHOICE",
+      "path": "/moments/respond",
+      "result": "passed",
+      "status": 400
+    },
+    {
+      "id": "MEDIA-OTHER-OWNER",
+      "path": "/media/confirm",
+      "result": "passed",
+      "status": 403
+    },
+    {
+      "id": "PUSH-DELETE-ANONYMOUS",
+      "path": "/me/push-subscription",
+      "result": "passed",
+      "status": 401
+    },
+    {
+      "id": "PUSH-DELETE-OWN-NONEXISTENT",
+      "path": "/me/push-subscription",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "CHATS-UNKNOWN-THREAD",
+      "path": "/chats/2c9e73b0-d552-41de-8c80-7b28acfe50c2",
+      "result": "passed",
+      "status": 404
+    },
+    {
+      "id": "CORRELATION-GENERATED",
+      "path": "/health/live",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "CORRELATION-BOUNDED-PROPOSED-SECURITY",
+      "path": "/health/live",
+      "result": "failed",
+      "status": 200
+    },
+    {
+      "id": "USER-A-MATCHES",
+      "path": "/matches",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "USER-A-CHATS",
+      "path": "/chats",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "USER-A-COMMONS",
+      "path": "/commons?page=1",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "USER-A-DECK",
+      "path": "/moments",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "USER-C-PROFILE",
+      "path": "/onboarding/state",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "USER-B-Sparks",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 200
+    }
+  ],
+  "passed": 34,
+  "failed": 1,
+  "coverageGate": {
+    "layer": "backend",
+    "target": {
+      "lines": 80,
+      "branches": 80
+    },
+    "lines": 27.34,
+    "branches": 10.09,
+    "generatedMigrations": {
+      "lines": 71529,
+      "coveredLines": 0
+    },
+    "passed": false,
+    "reasons": [
+      "lines: 27.34% below 80%.",
+      "branches: 10.09% below 80%."
+    ],
+    "inputSha256": "61bf63b8feb787ccf12a731c594cd47ae3bd6cf84f2304977e2f6c763340964e"
+  },
+  "rawApiResultsSha256": "02a8e1f4d2ac8b0e6ced0494f624387cff18d961f31a181339883d1a71ae053d",
+  "scope": "Reusable local runner verified with own database clone and fresh isolated Redis. Original QA app and database remain running; coverage-only containers stopped. Earlier startup timeout preserved privately and readiness allowance corrected. Not fresh migration proof, not full API requirements coverage."
+}

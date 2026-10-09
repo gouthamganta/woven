@@ -140,8 +140,36 @@
         {
           "id": "QA-COV-02-1",
           "text": "Age 17/18 and max boundary, invalid dates, missing consent, required/null/blank/Unicode fields",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-e4df7fe935fd",
+            "FE-442e40b46e6a",
+            "FE-89820e0a758a",
+            "FE-ebe20fb7ba5c",
+            "FE-6f464acfda9a",
+            "FE-54e7d9e17556",
+            "FE-c0b2bef13a82",
+            "FE-262c8481e2a8",
+            "FE-769566ae8a6b",
+            "FE-dcea65b0d0ad",
+            "FE-c04a1db86c38",
+            "FE-55d75acdbdb2",
+            "FE-c79afe03cca2",
+            "FE-55782df7117c",
+            "FE-45d5b7ce2d3e",
+            "FE-02d34e1ffcdd",
+            "FE-1a57b261775f",
+            "FE-34884af3e442",
+            "FE-3ff11f6ea971",
+            "FE-99992328115a",
+            "FE-3caa84ad4e04",
+            "FE-f0b59babc39f",
+            "FE-187c29e33023",
+            "FE-ba957d9556bc",
+            "FE-ee1f12a27290",
+            "FE-941b132505ff",
+            "FE-927440eb3859"
+          ]
         },
         {
           "id": "QA-COV-02-2",
@@ -184,8 +212,36 @@
         {
           "id": "QA-COV-03-1",
           "text": "Deck size/lane allocation, empty/partial deck, deterministic fixture constraints and no public ratings",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-73ce091fa3bf",
+            "FE-4bedebc6c500",
+            "FE-bd9ad524d9c9",
+            "FE-0dfede57ce7b",
+            "FE-18fc0189f8ac",
+            "FE-4640a5ef267e",
+            "FE-06a4ec02d720",
+            "FE-fa1662351a0b",
+            "FE-cb15920fcd52",
+            "FE-ac21434ec119",
+            "FE-a0d0f565970b",
+            "FE-29ad30b0365e",
+            "FE-43a119a85cfe",
+            "FE-0fd819668036",
+            "FE-d17b9a286df6",
+            "FE-eccc42e523b5",
+            "FE-9038168ca482",
+            "FE-0cd29dc64925",
+            "FE-0623730a2403",
+            "FE-aea41adf2eed",
+            "FE-86585504ade4",
+            "FE-834a5f48742a",
+            "FE-02f3fd3c42fa",
+            "FE-d9231c453380",
+            "FE-50d3cf3416e3",
+            "FE-6ab3452f9a7c",
+            "FE-7335ff73b54b"
+          ]
         },
         {
           "id": "QA-COV-03-2",
@@ -243,14 +299,38 @@
         {
           "id": "QA-COV-04-1",
           "text": "New wallet grants once; same-day repeated read/spend; UTC daily top-up and cap",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-2f02a934190e",
+            "BE-b5144cc07ae5",
+            "BE-8239a296785e",
+            "BE-91403d0aa5ae",
+            "BE-99ed0a97023f",
+            "BE-10adaa9611ed",
+            "BE-804555dcfbf7",
+            "BE-dd277f387a06",
+            "BE-ca38ade274d5",
+            "BE-181f62d5f951",
+            "BE-7dc8cdc1959e",
+            "BE-dc0d71aeada2",
+            "BE-ba4deb6876f9",
+            "BE-f195c705f3eb"
+          ]
         },
         {
           "id": "QA-COV-04-2",
           "text": "Balance zero/one/cap, tenths precision, overdraft denial and non-negative refunds",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-dd8db0e57660",
+            "BE-63f1e8ef23df",
+            "BE-1ece198806f6",
+            "BE-93c409da3429",
+            "BE-c2cd9a79795b",
+            "BE-8416a1157d7c",
+            "BE-d6d3c728c7dc",
+            "BE-f0df8ec26e11"
+          ]
         },
         {
           "id": "QA-COV-04-3",
@@ -340,8 +420,26 @@
         {
           "id": "QA-COV-06-1",
           "text": "Participant/foreign/deleted/blocked actor matrix for read/send/list/start",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-807b265a7289",
+            "FE-31d13f427c89",
+            "FE-ead12a912eed",
+            "FE-d1c3f968a89e",
+            "FE-c3340440d609",
+            "FE-9d7b511487d8",
+            "FE-81764de82066",
+            "FE-624f8f476d4f",
+            "FE-a9db951a74d3",
+            "FE-b1e4317e0238",
+            "FE-136348a4fd10",
+            "FE-2b90c95d9d1a",
+            "FE-5c66b1275a57",
+            "FE-25ace919b122",
+            "FE-1644cdf7dabc",
+            "FE-8b837f011fd2",
+            "FE-0fa9bd769081"
+          ]
         },
         {
           "id": "QA-COV-06-2",
@@ -428,8 +526,17 @@
         {
           "id": "QA-COV-08-1",
           "text": "Allowed/disallowed MIME and extension, zero/oversized files and deceptive metadata",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "FE-4d5f63f9bd9d",
+            "FE-4437ce1ad713",
+            "FE-563db96bc1da",
+            "FE-e2b609ae2ce4",
+            "FE-34120e32a755",
+            "FE-b03c4a48eb2d",
+            "FE-d537148de2a7",
+            "FE-dfb99a0109db"
+          ]
         },
         {
           "id": "QA-COV-08-2",
@@ -559,7 +666,25 @@
             "BE-0893f6d38f81",
             "BE-8250688bde62",
             "BE-877af8e20457",
-            "BE-4d3d67c91c90"
+            "BE-4d3d67c91c90",
+            "BE-f36e64587e15",
+            "BE-0a9d50c7abb4",
+            "BE-b54327e6da67",
+            "BE-f24460dadf23",
+            "BE-b043f1352476",
+            "BE-ab54158e730f",
+            "BE-27b6f03d58cd",
+            "BE-2cfdc0ba6127",
+            "BE-b0d9fad7a239",
+            "BE-821c44219996",
+            "BE-2e1dac485ae5",
+            "BE-511ae62a1507",
+            "BE-2aaf5b1ac02d",
+            "BE-797a20bca8ba",
+            "BE-5f4f5ae7e014",
+            "BE-957fcde02846",
+            "BE-52c120cfefbf",
+            "BE-97d895709f18"
           ]
         },
         {

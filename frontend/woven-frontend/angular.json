@@ -87,6 +87,10 @@
           "configurations": {
             "qa": {
               "coverage": true,
+              "coverageThresholds": {
+                "lines": 80,
+                "branches": 80
+              },
               "coverageInclude": [
                 "src/app/**/*.ts"
               ],

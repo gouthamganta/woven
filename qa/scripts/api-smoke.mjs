@@ -1,9 +1,16 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { createHmac, randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-const directory = fileURLToPath(new URL('../.local/full-qa-runtime/', import.meta.url));
+import { resolve, relative, isAbsolute } from 'node:path';
+const workspace = process.argv[2] ? resolve(process.argv[2]) : fileURLToPath(new URL('../..', import.meta.url));
+const directory = resolve(workspace, 'qa/.local/full-qa-runtime');
+const output = process.env.WOVEN_QA_RESULTS_DIRECTORY ? resolve(process.env.WOVEN_QA_RESULTS_DIRECTORY) : directory;
+const privatePath = relative(resolve(workspace, 'qa/.local'), output);
+if (privatePath.startsWith('..') || isAbsolute(privatePath)) throw new Error('Raw results must stay in the private QA directory.');
 const config = Object.fromEntries(readFileSync(`${directory}/runtime.env`, 'utf8').split(/\r?\n/).filter(Boolean).map(l => { const i = l.indexOf('='); return [l.slice(0, i), l.slice(i + 1)]; }));
-const base = 'http://127.0.0.1:5181';
+const base = process.env.WOVEN_QA_API_BASE || 'http://127.0.0.1:5181';
+const local = new URL(base);
+if (local.protocol !== 'http:' || !['localhost', '127.0.0.1'].includes(local.hostname) || !['5181', '5182'].includes(local.port)) throw new Error('Only verified loopback QA API ports are allowed.');
 const records = [];
 async function call(path, { method = 'GET', token, body, headers = {} } = {}) {
   const started = performance.now();
@@ -26,7 +33,7 @@ function token(userId, extra = {}, secret = config.WOVEN_QA_JWT_KEY) {
   return `${head}.${payload}.${createHmac('sha256', secret).update(`${head}.${payload}`).digest('base64url')}`;
 }
 const ready = await check('OPS-READINESS', '/health/ready', {}, [200]);
-if (!ready || ready.status !== 200) { writeFileSync(`${directory}/api-results.json`, JSON.stringify(records, null, 2)); process.exit(2); }
+if (!ready || ready.status !== 200) { writeFileSync(`${output}/api-results.json`, JSON.stringify(records, null, 2)); process.exit(2); }
 const accounts = JSON.parse(readFileSync(`${directory}/seed-accounts.json`, 'utf8')).accounts;
 const a = accounts[0].userId, b = accounts[1].userId, c = accounts[2].userId;
 const ta = token(a), tb = token(b), tc = token(c);
@@ -55,5 +62,6 @@ await check('USER-A-COMMONS', '/commons?page=1', { token: ta }, [200]);
 await check('USER-A-DECK', '/moments', { token: ta }, [200]);
 await check('USER-C-PROFILE', '/onboarding/state', { token: tc }, [200]);
 await check('USER-B-Sparks', '/sparks/balance', { token: tb }, [200]);
-writeFileSync(`${directory}/api-results.json`, JSON.stringify({ scope: 'Local candidate API smoke; synthetic data. Not full lifecycle/security coverage.', records }, null, 2));
+writeFileSync(`${output}/api-results.json`, JSON.stringify({ scope: 'Local candidate API smoke; synthetic data. Not full lifecycle/security coverage.', records }, null, 2));
 console.log(JSON.stringify({ passed: records.filter(r => r.result === 'passed').length, failed: records.filter(r => r.result === 'failed').length, blocked: records.filter(r => r.result === 'blocked').length }));
+if (records.some(record => record.result !== 'passed')) process.exitCode = 1;
