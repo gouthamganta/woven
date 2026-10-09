@@ -2,6 +2,12 @@
 
 Owner: Codex. Execution tracking lives in GitHub, not a Markdown board.
 
+Founder sequencing (2026-10-09): executable code/feature suites and >=80%
+backend/frontend application line and branch coverage come first, together with
+scoped coding-agent PR/QA review. Full sandbox/persona testing and consolidated
+bug/cause campaigns come afterward. Earlier runtime evidence stays archived;
+it does not authorize further sandbox campaigns during this phase.
+
 The target is **100% of inventoried requirements, routes, rules and states mapped
 to explicit test cases**, with every case showing automated/manual/provider-blocked
 status and evidence. This is a coverage target, not a claim already achieved.

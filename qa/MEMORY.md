@@ -1,3 +1,7 @@
+## Founder sequencing and coverage-first checkpoint - 2026-10-09
+
+Coverage/feature test suites primary; >=80% lines and branches remains unmet. Sandbox/persona/performance/full bug-cause campaigns deferred. Added219 new tests in this phase, all219passed: backend173total172pass (Saved unmerged expectation), frontend278total275pass (3known contracts). Frontend72/72TS55.62%lines/59.98%branches,21externalHTMLseparate. Backendunit16.18%/11.68%;same-binary archivedHTTP+unitunion35.55%/19.16% (no newHTTP/sandboxrun). Scoped documentationQA139 closed against142e02b628b per acceptance requiringdraftPR+handoff; PR142stillopen/draft/unmerged, sharedCIissue163separate. Preservelatestuserordering. Newcode in AiProfile/Game/Endpoint tests and account/chat/game/Commons/onboarding specs. Evidence2026-10-09-coverage-first-cases.json. Continue with remaining Home/assistant/landing/services and backend handler/service gaps.
+
 ## Finding classification correction - 2026-10-09
 
 Latest5 failed assertions are3 reproduced frontend component/service defects (170/171/172),1 pending PR141 expectation (Saved behavior absent from tested5461c85),1 proposed correlation-ID security requirement (108). Do not call all5 confirmed product defects, or call isolated component/service tests browser verification. Preserve failed results; distinguish intended pending change/proposed requirement from established-contract regression. Reporter correction in2026-10-09 coverage evidence.

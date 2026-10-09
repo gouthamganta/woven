@@ -9,7 +9,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -21,7 +22,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -33,7 +35,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -45,7 +48,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -57,7 +61,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -69,7 +74,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -81,7 +87,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -93,7 +100,8 @@
       "results": {
         "baseline-3df9759": "Failed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -105,7 +113,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -117,7 +126,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -129,7 +139,8 @@
       "results": {
         "baseline-3df9759": "Failed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -141,7 +152,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -153,7 +165,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -165,7 +178,8 @@
       "results": {
         "baseline-3df9759": "Failed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -177,7 +191,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -189,7 +204,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -201,7 +217,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -213,7 +230,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -225,7 +243,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -237,7 +256,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -249,7 +269,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -261,7 +282,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -273,7 +295,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -285,7 +308,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -297,7 +321,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -309,7 +334,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -321,7 +347,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -333,7 +360,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -345,7 +373,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -357,7 +386,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -369,7 +399,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -381,7 +412,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -393,7 +425,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -405,7 +438,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -417,7 +451,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -429,7 +464,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -441,7 +477,8 @@
       "results": {
         "baseline-3df9759": "Failed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -453,7 +490,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -465,7 +503,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -477,7 +516,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -489,7 +529,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -501,7 +542,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -513,7 +555,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -525,7 +568,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -537,7 +581,8 @@
       "results": {
         "baseline-3df9759": "Passed",
         "candidate-5461c85": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -550,7 +595,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -563,7 +609,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -576,7 +623,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -589,7 +637,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -602,7 +651,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -615,7 +665,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -628,7 +679,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -641,7 +693,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -654,7 +707,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -667,7 +721,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -680,7 +735,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -693,7 +749,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -706,7 +763,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -719,7 +777,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -732,7 +791,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -745,7 +805,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -758,7 +819,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -771,7 +833,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -784,7 +847,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -797,7 +861,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -810,7 +875,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -823,7 +889,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -836,7 +903,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -849,7 +917,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
     },
@@ -860,7 +929,8 @@
       "family": "QA-COV-03-7",
       "results": {
         "phone-pr141-5de72ae": "Passed",
-        "candidate-5461c85-80-batch2": "Failed"
+        "candidate-5461c85-80-batch2": "Failed",
+        "coverage-first-20261009": "Failed"
       },
       "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
     },
@@ -871,7 +941,8 @@
       "family": "QA-COV-03-7",
       "results": {
         "phone-pr141-5de72ae": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
     },
@@ -882,7 +953,8 @@
       "family": "QA-COV-03-7",
       "results": {
         "phone-pr141-5de72ae": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
     },
@@ -893,7 +965,8 @@
       "family": "QA-COV-03-7",
       "results": {
         "phone-pr141-5de72ae": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
     },
@@ -904,7 +977,8 @@
       "family": "QA-COV-03-7",
       "results": {
         "phone-pr141-5de72ae": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
     },
@@ -915,7 +989,8 @@
       "family": "QA-COV-03-7",
       "results": {
         "phone-pr141-5de72ae": "Passed",
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
     },
@@ -938,7 +1013,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -951,7 +1027,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -964,7 +1041,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -977,7 +1055,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -990,7 +1069,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1003,7 +1083,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1016,7 +1097,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1029,7 +1111,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1042,7 +1125,8 @@
         "baseline-3df9759": "passed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1055,7 +1139,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1068,7 +1153,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1081,7 +1167,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1094,7 +1181,8 @@
         "baseline-3df9759": "failed",
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1106,7 +1194,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1118,7 +1207,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1130,7 +1220,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1142,7 +1233,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1154,7 +1246,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1166,7 +1259,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1178,7 +1272,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1190,7 +1285,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1202,7 +1298,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1214,7 +1311,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1226,7 +1324,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1238,7 +1337,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1250,7 +1350,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1262,7 +1363,8 @@
       "results": {
         "client-176cf74": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
     },
@@ -1560,7 +1662,8 @@
       "results": {
         "candidate-176cf74-error-paths": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     },
@@ -1572,7 +1675,8 @@
       "results": {
         "candidate-176cf74-error-paths": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     },
@@ -1584,7 +1688,8 @@
       "results": {
         "candidate-176cf74-error-paths": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     },
@@ -1596,7 +1701,8 @@
       "results": {
         "candidate-176cf74-error-paths": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     },
@@ -1608,7 +1714,8 @@
       "results": {
         "candidate-176cf74-error-paths": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     },
@@ -1620,7 +1727,8 @@
       "results": {
         "candidate-176cf74-error-paths": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     },
@@ -1632,7 +1740,8 @@
       "results": {
         "candidate-176cf74-error-paths": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     },
@@ -1644,7 +1753,8 @@
       "results": {
         "candidate-176cf74-error-paths": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     },
@@ -1656,7 +1766,8 @@
       "results": {
         "candidate-176cf74-error-paths": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     },
@@ -1668,7 +1779,8 @@
       "results": {
         "candidate-176cf74-error-paths": "passed",
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     },
@@ -1680,7 +1792,8 @@
       "results": {
         "candidate-176cf74-error-paths": "failed",
         "candidate-176cf74-80-batch2": "failed",
-        "candidate-176cf74-80-batch3": "failed"
+        "candidate-176cf74-80-batch3": "failed",
+        "coverage-first-20261009": "failed"
       },
       "evidence": "qa/evidence/2026-10-08-frontend-error-paths.json"
     },
@@ -1691,7 +1804,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1702,7 +1816,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1713,7 +1828,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1724,7 +1840,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1735,7 +1852,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1746,7 +1864,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1757,7 +1876,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1768,7 +1888,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1779,7 +1900,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1790,7 +1912,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1801,7 +1924,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1812,7 +1936,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1823,7 +1948,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1834,7 +1960,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1845,7 +1972,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1856,7 +1984,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1867,7 +1996,8 @@
       "family": "QA-COV-06-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1878,7 +2008,8 @@
       "family": "QA-COV-08-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1889,7 +2020,8 @@
       "family": "QA-COV-08-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1900,7 +2032,8 @@
       "family": "QA-COV-08-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1911,7 +2044,8 @@
       "family": "QA-COV-08-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1922,7 +2056,8 @@
       "family": "QA-COV-08-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1933,7 +2068,8 @@
       "family": "QA-COV-08-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1944,7 +2080,8 @@
       "family": "QA-COV-08-1",
       "results": {
         "candidate-176cf74-80-batch2": "failed",
-        "candidate-176cf74-80-batch3": "failed"
+        "candidate-176cf74-80-batch3": "failed",
+        "coverage-first-20261009": "failed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1955,7 +2092,8 @@
       "family": "QA-COV-08-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1966,7 +2104,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1977,7 +2116,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1988,7 +2128,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -1999,7 +2140,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2010,7 +2152,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2021,7 +2164,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2032,7 +2176,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2043,7 +2188,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2054,7 +2200,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2065,7 +2212,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2076,7 +2224,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2087,7 +2236,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2098,7 +2248,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2109,7 +2260,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "failed",
-        "candidate-176cf74-80-batch3": "failed"
+        "candidate-176cf74-80-batch3": "failed",
+        "coverage-first-20261009": "failed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2120,7 +2272,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2131,7 +2284,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2142,7 +2296,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2153,7 +2308,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2164,7 +2320,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2175,7 +2332,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2186,7 +2344,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2197,7 +2356,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2208,7 +2368,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2219,7 +2380,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2230,7 +2392,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2241,7 +2404,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2252,7 +2416,8 @@
       "family": "QA-COV-03-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2263,7 +2428,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2274,7 +2440,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2285,7 +2452,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2296,7 +2464,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2307,7 +2476,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2318,7 +2488,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2329,7 +2500,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2340,7 +2512,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2351,7 +2524,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2362,7 +2536,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2373,7 +2548,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2384,7 +2560,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2395,7 +2572,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2406,7 +2584,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2417,7 +2596,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2428,7 +2608,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2439,7 +2620,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2450,7 +2632,8 @@
       "family": "QA-COV-02-1",
       "results": {
         "candidate-176cf74-80-batch2": "passed",
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2460,7 +2643,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.NewWallet_ReceivesFiveSparksOnceAndPersistsDailyStamp",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2470,7 +2654,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.CombinedIdentifiers_AreAllRemovedWithoutDiscardingHarmlessContext",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2480,7 +2665,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555-123-4567\", identifier: \"555-123-4567\", replacement: \"[phone]\")",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2490,7 +2676,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Contact synthetic.person@example.invalid\", identifier: \"synthetic.person@example.invalid\", replacement: \"[email]\")",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2500,7 +2687,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Meet at 123 Synthetic Street\", identifier: \"123 Synthetic Street\", replacement: \"their area\")",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2510,7 +2698,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"\")",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2520,7 +2709,8 @@
       "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 0, expectedCached: 0)",
       "family": "QA-COV-04-2",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2530,7 +2720,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [1, 2, 3])",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2540,7 +2731,8 @@
       "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_DoesNotCreateUsageOrMakeZeroNegative",
       "family": "QA-COV-04-2",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2550,7 +2742,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [137, 80, 78, 71])",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2560,7 +2753,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.JpegMetadataSegment_RemovesApp1AndPreservesOtherSegments",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2570,7 +2764,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555 123 4567\", identifier: \"555 123 4567\", replacement: \"[phone]\")",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2580,7 +2775,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.AuditHash_IsStableSaltSensitiveAndNeverTheRawIdentifier",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2590,7 +2786,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 100, after: 100)",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2600,7 +2797,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Find @synthetic_handle\", identifier: \"@synthetic_handle\", replacement: \"[handle]\")",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2610,7 +2808,8 @@
       "name": "WovenBackend.Tests.InteractionBudgetContractTests.CachedTotalCap_RejectsWithoutWritingOrIncrementing(count: 5)",
       "family": "QA-COV-04-2",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2620,7 +2819,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 0, after: 50)",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2630,7 +2830,8 @@
       "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 5, expectedCached: 4)",
       "family": "QA-COV-04-2",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2640,7 +2841,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 7)",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2650,7 +2852,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.LegacyUnstampedWallet_EarnsExactlyOnce",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2660,7 +2863,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"   \")",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2670,7 +2874,8 @@
       "name": "WovenBackend.Tests.InteractionBudgetContractTests.CachedLegacyPendingCap_RejectsWithoutWriting",
       "family": "QA-COV-04-2",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2680,7 +2885,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.JpegRestartMarkers_ArePreserved",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2690,7 +2896,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 95, after: 100)",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2700,7 +2907,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [])",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2710,7 +2918,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 0, after: 5)",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2720,7 +2929,8 @@
       "name": "WovenBackend.Tests.InteractionBudgetContractTests.CachedTotalCap_RejectsWithoutWritingOrIncrementing(count: 6)",
       "family": "QA-COV-04-2",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2730,7 +2940,8 @@
       "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: -1, expectedCached: 0)",
       "family": "QA-COV-04-2",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2740,7 +2951,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555.123.4567\", identifier: \"555.123.4567\", replacement: \"[phone]\")",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2750,7 +2962,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Email synthetic+tag@example.invalid please\", identifier: \"synthetic+tag@example.invalid\", replacement: \"[email]\")",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2760,7 +2973,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 20, after: 70)",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2770,7 +2984,8 @@
       "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 1, expectedCached: 0)",
       "family": "QA-COV-04-2",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2780,7 +2995,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_CreatesOnlyTheRequestedUsersWallet",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2790,7 +3006,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Meet at 42 Synthetic rd\", identifier: \"42 Synthetic rd\", replacement: \"their area\")",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2800,7 +3017,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 75, after: 100)",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2810,7 +3028,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 100, after: 100)",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2820,7 +3039,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 1)",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2830,7 +3050,8 @@
       "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"We both enjoy walking and reading.\")",
       "family": "QA-COV-10-5",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2840,7 +3061,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 0)",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2850,7 +3072,8 @@
       "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 98, after: 100)",
       "family": "QA-COV-04-1",
       "results": {
-        "candidate-5461c85-80-batch2": "Passed"
+        "candidate-5461c85-80-batch2": "Passed",
+        "coverage-first-20261009": "Passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2860,7 +3083,8 @@
       "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _BasicsOnboardingComponent",
       "family": "QA-COV-02-1",
       "results": {
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2870,7 +3094,8 @@
       "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _DetailsOnboardingComponent",
       "family": "QA-COV-02-1",
       "results": {
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2880,7 +3105,8 @@
       "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _IntentOnboardingComponent",
       "family": "QA-COV-02-1",
       "results": {
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2890,7 +3116,8 @@
       "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _LifestyleOnboardingComponent",
       "family": "QA-COV-02-1",
       "results": {
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2900,7 +3127,8 @@
       "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _ReviewOnboardingComponent",
       "family": "QA-COV-02-1",
       "results": {
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2910,7 +3138,8 @@
       "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _WelcomeOnboardingComponent",
       "family": "QA-COV-02-1",
       "results": {
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2920,7 +3149,8 @@
       "name": "Rendered onboarding controls keeps the basics Continue control disabled until adult identity and location are supplied",
       "family": "QA-COV-02-1",
       "results": {
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2930,7 +3160,8 @@
       "name": "Rendered onboarding controls displays a save error and re-enables intent editing after the actual Continue click fails",
       "family": "QA-COV-02-1",
       "results": {
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
     },
@@ -2940,9 +3171,2200 @@
       "name": "Rendered onboarding controls shows the adult name, photo and intent in the actual review template",
       "family": "QA-COV-02-1",
       "results": {
-        "candidate-176cf74-80-batch3": "passed"
+        "candidate-176cf74-80-batch3": "passed",
+        "coverage-first-20261009": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-coverage-batches.json"
+    },
+    {
+      "id": "BE-fdc96df3dd69",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: null, second: \"relationship\", expected: 0.5)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-8e283b130988",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 1, firstTone: \"balanced\", secondTone: \"balanced\", pillar: \"Other\", intent: 0.5, difficulty: \"MEDIUM\", tone: \"BALANCED\", bucket: \"CONVERSATION_FIT\")",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-2aacca746026",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.CoachingSummary_ReturnsLatestOwnUnreadRecordWithoutForeignOrDismissedContent",
+      "family": "QA-COV-12-4",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-829617d648f6",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 0, firstTone: \"playful\", secondTone: \"playful\", pillar: \"Other\", intent: 0.5, difficulty: \"EASY\", tone: \"PLAYFUL\", bucket: \"EXPLORER\")",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-7d7dd97ce96f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.TwoRoundGame_FlipsRolesScoresAndCompletesWithTheCorrectWinner(firstScore: 2, secondScore: 0, winner: 1)",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-73f825a7100c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"not-json\", pillars: \"not-json\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-74cbe27c7a36",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 0, pending: False, allowed: True, remaining: 2, reason: null)",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-623a5bf9df86",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesToneRelationships(first: \"{\\\"pulse\\\":{\\\"banter\\\":0.2,\\\"depth\\\":0.9}}\", second: \"{\\\"pulse\\\":{\\\"banter\\\":0.9,\\\"socialCapacity\\\":0.9}\"···, expected: \"different\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-f1b92945f0f1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.CoachingDismiss_ChangesOnlyTheRequestedOwnRecord(id: 9, status: 404)",
+      "family": "QA-COV-12-4",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-c15b49622de3",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 0, pending: True, allowed: False, remaining: 2, reason: \"PENDING_GAME\")",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-65a88c35dc73",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"null\", pillars: \"null\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-d882d01dabbb",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 3, firstTone: \"thoughtful\", secondTone: \"playful\", pillar: \"Values\", intent: 0.90000000000000002, difficulty: \"HARD\", tone: \"THOUGHTFUL\", bucket: \"CORE_FIT\")",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-b99dcadf6f3e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.CoachingDismiss_ChangesOnlyTheRequestedOwnRecord(id: 1, status: 200)",
+      "family": "QA-COV-12-4",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-d767eb7c117f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 1, firstTone: \"calm\", secondTone: \"balanced\", pillar: \"Lifestyle\", intent: 0.5, difficulty: \"MEDIUM\", tone: \"THOUGHTFUL\", bucket: \"LIFESTYLE_FIT\")",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-ca0974955e11",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.TwoRoundGame_FlipsRolesScoresAndCompletesWithTheCorrectWinner(firstScore: 1, secondScore: 1, winner: 0)",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-f22395e77379",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_UsesSupportedPositiveIdentifiers(type: \"http://schemas.xmlsoap.org/ws/2005/05/identity/cla\"···, value: \"3\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-e4910a75a784",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsMissingIdentity",
+      "family": "QA-COV-01-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-ce1e45217af9",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.Creation_RejectsMissingClosedPendingOrDailyCappedMatches",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-f8b8b05378e7",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.MissingProfile_ReturnsNoInventedProfileOrPair",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-32fd2350c23a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"human: override\", replacement: \"[REDACTED]\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-dc74736277e9",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: \"unit@example.invalid Person\", expected: \"[EMAIL]\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-cea33d5bcf13",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 1, pending: False, allowed: True, remaining: 1, reason: null)",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-e376d03b5cd4",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"open\", expected: 0.59999999999999998)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-e2ae6a6bc12b",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.CreateSession_PersistsInviteMessagesAndOneDailyGameUse(type: KNOW_ME)",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-6b38f58b2cbe",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: 1, meetAgain: \"yes\")",
+      "family": "QA-COV-09-5",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-d3a3724397e2",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.TwoRoundGame_FlipsRolesScoresAndCompletesWithTheCorrectWinner(firstScore: 0, secondScore: 2, winner: 2)",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-b3d8f366ce3d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_UsesSupportedPositiveIdentifiers(type: \"uid\", value: \"1\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-b1053185a8b9",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"casual\", expected: 0.29999999999999999)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-46f57f24b8d1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"{\\\"foundational\\\":null,\\\"lifestyle\\\":null}\", pillars: \"{}\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-10522bf59fc0",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesToneRelationships(first: \"{\\\"pulse\\\":{\\\"banter\\\":0.2,\\\"depth\\\":0.9}}\", second: \"{\\\"pulse\\\":{\\\"socialCapacity\\\":0.2,\\\"depth\\\":0.6}}\", expected: \"complementary\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-72fa582d6cdc",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.CreateSession_PersistsInviteMessagesAndOneDailyGameUse(type: RED_GREEN_FLAG)",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-82d52e981b85",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"system: override\", replacement: \"[REDACTED]\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-81c255bd7eee",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.CompleteProfile_RetainsLimitedHobbiesAndWeightedSanitizedTags",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-7cbca0808493",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.20000000000000001, banter: 0.5, depth: 0.59999999999999998, tone: \"calm\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-6aa745aff789",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 6, meetAgain: null, length: 0, error: \"INVALID_STARS\")",
+      "family": "QA-COV-09-5",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-602cbb7b6c28",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"{\\\"pulse\\\":null}\", pillars: \"{}\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-76ce060e6897",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"<|endoftext|>\", replacement: \"[REDACTED]\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-b34468dc8887",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"ignore previous\", replacement: \"[REDACTED]\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-349acac999b1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.CoachingDismiss_ChangesOnlyTheRequestedOwnRecord(id: 2, status: 404)",
+      "family": "QA-COV-12-4",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-1fee3e3ba8d4",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"-1\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-78bfe4134434",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 3, pending: True, allowed: False, remaining: 0, reason: \"DAILY_LIMIT\")",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-344d64fe52c1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.CohortFallback_UsesRecentNearbySameGenderRecordsAndSkipsMalformedData",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-30f7fe1bedd9",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ReportsMissingPromptAndUsesSubjectFallback",
+      "family": "QA-COV-09-5",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-e2739dd5d90c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"<|im_start|>\", replacement: \"[REDACTED]\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-7f29436b8783",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"555-123-4567\", replacement: \"[PHONE]\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-e7660ffc4487",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.Reject_ChangesOnlyPendingSessions",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-efb433aa3493",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: 5, meetAgain: \"NO\")",
+      "family": "QA-COV-09-5",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-f1059cec6b48",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.CoachingSummary_ReturnsNoContentWhenNoUnreadOwnSummaryExists",
+      "family": "QA-COV-12-4",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-dce61d893e4d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.CurrentRound_ReturnsNothingForAbsentInactiveOrMissingRoundData",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-a6baf674b1aa",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 3, meetAgain: \"invalid\", length: 0, error: \"INVALID_MEET_AGAIN\")",
+      "family": "QA-COV-09-5",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-447aa5a5ad61",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"assistant: override\", replacement: \"[REDACTED]\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-cdbd8a1b2aed",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.AnswerSubmission_RejectsInactiveAndMissingRoundStates",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-3d8617bd7900",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"marriage\", expected: 0.84999999999999998)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-4fb8521fb249",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.FinalResult_HandlesMissingResultMissingMatchAndNullableFields",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-b7769bdd23d1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"friendship\", second: \"relationship\", expected: 0.5)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-fcc5771e1576",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: \"   \", expected: null)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-f4acfbf5d7b1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"casual\", second: \"relationship\", expected: 0.29999999999999999)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-a33022c8dc1e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_UsesSupportedPositiveIdentifiers(type: \"sub\", value: \"2\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-684112d1f119",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"2147483648\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-0827e9df918d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 3, meetAgain: \"yes\", length: 301, error: \"TEXT_TOO_LONG\")",
+      "family": "QA-COV-09-5",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-e793f62b90f3",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.80000000000000004, banter: 0.80000000000000004, depth: 0.20000000000000001, tone: \"playful\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-457fb4691ea3",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: null, meetAgain: \"maybe\")",
+      "family": "QA-COV-09-5",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-a17b7d149391",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: \"  Synthetic Adult  \", expected: \"Synthetic\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-0abd8704250a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesToneRelationships(first: \"{\\\"pulse\\\":{\\\"banter\\\":0.9,\\\"socialCapacity\\\":0.9}\"···, second: \"{}\", expected: \"complementary\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-46540030395a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 2, pending: False, allowed: False, remaining: 0, reason: \"DAILY_LIMIT\")",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-96a018c1e154",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"casual\", second: \"fun\", expected: 0.84999999999999998)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-02f6f70845d5",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.5, banter: 0.20000000000000001, depth: 0.80000000000000004, tone: \"thoughtful\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-68f3652bd7e5",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"[[INST]]\", replacement: \"[REDACTED]\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-429068dbb706",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.GameFeatureContractTests.Accept_RejectsMissingInactiveExpiredForeignAndOrphanedSessions",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-a661506f6500",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"bad\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-dd33f94ac3d5",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"synthetic@example.invalid\", replacement: \"[EMAIL]\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-35e9ed480cf1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.5, banter: 0.5, depth: 0.5, tone: \"balanced\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-2a96ada6d6d9",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: null, expected: null)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-77afb445674d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.BlankAndOversizedTags_AreBoundedInContext",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-e4e2ebad2b27",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"exploring\", second: \"relationship\", expected: 0.59999999999999998)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-a6ed171d760f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"0\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-05aa2075b90d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"RELATIONSHIP\", expected: 1)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-0b52e941f46b",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: null, meetAgain: null)",
+      "family": "QA-COV-09-5",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-742d685d14c6",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 0, meetAgain: null, length: 0, error: \"INVALID_STARS\")",
+      "family": "QA-COV-09-5",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-b62aa76f46df",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.LatestVector_IsUsedAndMeaningfulTopPillarsAreLimitedToThree",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-966e135e26e2",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"<|im_end|>\", replacement: \"[REDACTED]\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "BE-22ab1d4b2a0e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_LimitsCaseInsensitiveSharedHobbiesTagsAndPillars",
+      "family": "QA-COV-12-1",
+      "results": {
+        "coverage-first-20261009": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-ebd70716cd1b",
+      "layer": "frontend",
+      "name": "Game and decision control contracts emits CONTINUE only once and prevents competing trial decisions",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-8c00869a430a",
+      "layer": "frontend",
+      "name": "Game and decision control contracts emits BLOCK only once and prevents competing trial decisions",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-ba6fe858efa9",
+      "layer": "frontend",
+      "name": "Game and decision control contracts submits an optional end reason after the countdown and stops on destruction",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-3a866283b4fb",
+      "layer": "frontend",
+      "name": "Game and decision control contracts sends the selected reason before timeout without later duplicate emissions",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-b5bb059b1156",
+      "layer": "frontend",
+      "name": "Game and decision control contracts preserves the private -100 unmatch rating and supports skip/cancel",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-4147cba47ee3",
+      "layer": "frontend",
+      "name": "Game and decision control contracts preserves the private 0 unmatch rating and supports skip/cancel",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-e8010f299405",
+      "layer": "frontend",
+      "name": "Game and decision control contracts preserves the private 100 unmatch rating and supports skip/cancel",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-cbb4d8ceaa49",
+      "layer": "frontend",
+      "name": "Game and decision control contracts requires trimmed note length and a nonbusy state before emitting a ChatNote",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-8ce3b66de5f1",
+      "layer": "frontend",
+      "name": "Game and decision control contracts supports note starters, bridge suggestions and cancellation without submitting",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-ea2539d8c1a6",
+      "layer": "frontend",
+      "name": "Game and decision control contracts shows correct PENDING controls for the receiver",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-baebfdb4b40e",
+      "layer": "frontend",
+      "name": "Game and decision control contracts shows correct PENDING controls for the initiator",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-6b54add45bb5",
+      "layer": "frontend",
+      "name": "Game and decision control contracts shows correct ACTIVE controls for the receiver",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-6fb3fb6b87f2",
+      "layer": "frontend",
+      "name": "Game and decision control contracts shows correct ACTIVE controls for the initiator",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-e87c75987f1c",
+      "layer": "frontend",
+      "name": "Game and decision control contracts shows correct COMPLETED controls for the receiver",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-0958c6e495ed",
+      "layer": "frontend",
+      "name": "Game and decision control contracts shows correct COMPLETED controls for the initiator",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-e18100bf05df",
+      "layer": "frontend",
+      "name": "Game and decision control contracts suppresses expired/missing-session actions and emits identifiers for selected game actions",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-8f946de7c9b5",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player loads questions and requires every answer while supporting string and object options",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-078af385e921",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player uses second-person questions for the target and preserves guesser wording",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-333f5eb23757",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player handles WAITING_FOR_TARGET when answering as target",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-06b770ddce48",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player handles NEXT_ROUND when answering as target",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-143b878b902c",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player handles GAME_COMPLETE when answering as target",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-94f7c9d5851d",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player handles WAITING_FOR_TARGET when guessing",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-003ed9ff7d7a",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player handles NEXT_ROUND when guessing",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-597b278df1f8",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player handles GAME_COMPLETE when guessing",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-3e14ca359c8e",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player rejects incomplete submissions and exposes request failure without staying busy",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-629c45195b14",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player polls an answered round and reloads after the round changes",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-20f355ef824f",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player handles polling status400 without inventing completed games on transient errors",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-c98d026a2b77",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player handles polling status404 without inventing completed games on transient errors",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-b387e278ac89",
+      "layer": "frontend",
+      "name": "Game and decision control contracts Inline game player handles polling status500 without inventing completed games on transient errors",
+      "family": "QA-COV-09-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-156cc26a9936",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own profile sorts photos and highlights, excludes expired recent content and limits the recent list",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-49d5c5e2a7fe",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own profile handles the self review response without inventing photos",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-5360fcc5b606",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own profile handles the flat review response without inventing photos",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-6cc328e94a1c",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own profile handles the empty review response without inventing photos",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-74960bc32251",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own profile surfaces profile failure and leaves the loading state",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-433937908ba9",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own profile formats supplied public chips and opens the requested edit/settings destinations",
+      "family": "QA-COV-10-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-84e9a242dfdd",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Account settings initializes notification state when browser support is false",
+      "family": "QA-COV-10-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-22da9c47c312",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Account settings initializes notification state when browser support is true",
+      "family": "QA-COV-10-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-b7ba08184201",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Account settings loads blocks once, preserves the current token header and unblocks only the selected user",
+      "family": "QA-COV-10-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-e1cb96553979",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Account settings clears busy indicators without removing a block after a rejected request",
+      "family": "QA-COV-10-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-e79ec0218a0f",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Account settings toggles coaching only after successful saves and ignores competing changes",
+      "family": "QA-COV-10-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-ff597a586505",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Account settings registers and unregisters notifications, respects unsupported/pending state and recovers rejection",
+      "family": "QA-COV-10-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-c005c7e6e4a1",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Account settings keeps the session after account deletion fails and logs out only after confirmed success",
+      "family": "QA-COV-10-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-26f16923de84",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Account settings performs explicit logout and back navigation",
+      "family": "QA-COV-10-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-0766096f68c0",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own tiles separates active/expired/highlighted content and aggregates orbit counts per tile",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-58ae521d5cb3",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own tiles tolerates unavailable orbit counts but exposes tile-loading failure",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-22664c082363",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own tiles does not post invalid 0-character content",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-3c5f6c022f15",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own tiles does not post invalid 9-character content",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-b9ab90caf1e8",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own tiles does not post invalid 151-character content",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-98022ba4c7fb",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own tiles posts trimmed 10-character content and refreshes the list",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-875a4f70bf99",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own tiles posts trimmed 150-character content and refreshes the list",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-7e84697ed275",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own tiles preserves the draft on failed posting and prevents overlapping submissions",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-fde2e201b782",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own tiles pins only the chosen tile/slot, closes the picker and permits unpinning",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-28b92c266d17",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own tiles recovers rejected pin/unpin operations and does not overlap a working operation",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-9b962b55dc6d",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Own tiles formats expiry boundaries and opens the own-profile destination",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-37789b2a662f",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Match profile preview rejects a missing route identifier before requesting a profile",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-5e2f07282854",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Match profile preview loads the selected match and clears prior caption state",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-ec2f468e41c2",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Match profile preview surfaces a {\"error\":{\"error\":\"ACCESS_DENIED\"}} failure without staying in loading",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-0d528b165eb8",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Match profile preview surfaces a {\"error\":{\"message\":\"Synthetic message\"}} failure without staying in loading",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-32dfb999c50b",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Match profile preview surfaces a {\"message\":\"Synthetic failure\"} failure without staying in loading",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-84cc90203426",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Match profile preview surfaces a {} failure without staying in loading",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-f97981ae28bc",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Match profile preview supports empty preview data, caption toggling, field labels and access hints",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-9eba92b37758",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Match profile preview normalizes supplied preview fields and sorted valid photos without inventing missing values",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-d0d0da3c9449",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Conversation list reorders a known thread on a realtime message and unsubscribes on destruction",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-b1d7c6f0a775",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Conversation list handles empty responses and recovers loading errors",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-8c085691f449",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Conversation list formats trial and Find Love states with countdown boundaries",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-cb4844a5706a",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Conversation list distinguishes own/partner turns, fallback names and recent presence boundaries",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-5b720fb205f0",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Conversation list pops the selected eligible match, ignores invalid identifiers and recovers failure",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-371ece0b7efe",
+      "layer": "frontend",
+      "name": "Account and discovery view contracts Conversation list ignores overlapping pop requests while the current operation is unresolved",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-be38a5c67470",
+      "layer": "frontend",
+      "name": "Rendered account and tile controls renders profile fallback initials without inventing a photo",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-4ac504d11a38",
+      "layer": "frontend",
+      "name": "Rendered account and tile controls renders supplied photos, highlights, pronouns, intent and public details",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-873b6d257e62",
+      "layer": "frontend",
+      "name": "Rendered account and tile controls renders the actual profile error state after a rejected load",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-2c5c44d3e063",
+      "layer": "frontend",
+      "name": "Rendered account and tile controls renders settings and disables notification registration for an unsupported browser",
+      "family": "QA-COV-10-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-5f8cfa0e36d1",
+      "layer": "frontend",
+      "name": "Rendered account and tile controls opens and cancels deletion through the actual rendered buttons without sending a deletion request",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-a4d006979ef0",
+      "layer": "frontend",
+      "name": "Rendered account and tile controls renders block placeholders, busy unblocking and both privacy-safe avatar states",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-3f8c442394e5",
+      "layer": "frontend",
+      "name": "Rendered account and tile controls renders the empty tile state and enables posting only for a valid draft",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-fec30353b48c",
+      "layer": "frontend",
+      "name": "Rendered account and tile controls renders highlighted, active and expired tiles and the pin-slot picker",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-12f7287bab4f",
+      "layer": "frontend",
+      "name": "Rendered account and tile controls shows tile loading controls while the request is unresolved",
+      "family": "QA-COV-15-4",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-ade42e4bd425",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons loads and persists a reusable feed session with pagination state",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-f3c12e08ede8",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons appends subsequent pages and ignores overlapping or completed pagination",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-4cd0002ffc38",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons handles feed status429 without leaving loading indicators active",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-0ddb2b154eed",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons handles feed status500 without leaving loading indicators active",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-1d04609409d7",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons refreshes once, clears old session/energy state and tolerates refresh rejection",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-0c8fa3beef9a",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons records controlled dwell on close or destruction and tolerates view-write rejection",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-71c371559449",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons records a one-way orbit only once",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-6b1c366a362f",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons records a mutual orbit only once",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-e5cb2ea2f94b",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons clears orbit busy state on {\"error\":{\"error\":\"ALREADY_ORBITED\"}}",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-b22e1210423a",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons clears orbit busy state on {\"status\":429}",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-ea189b66a91e",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons clears orbit busy state on {\"error\":{\"error\":\"CANNOT_ORBIT_OWN_TILE\"}}",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-2847c9136110",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons clears orbit busy state on {}",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-8223c6453928",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons guards an unresolved orbit and validates post lengths before forwarding trimmed content",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-c43234c54449",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Commons keeps failed post content and formats age, resonance and energy boundaries",
+      "family": "QA-COV-07-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-a7266c79fa7d",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Foundational answers loads a due set and aligns five answer identifiers while retaining skip policy",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-944341ca52d8",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Foundational answers requires the first onboarding set and exposes loading failures",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-4438493c3c7d",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Foundational answers enforces a 0-character answer at navigation and submission",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-a1f94ff488ac",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Foundational answers enforces a 29-character answer at navigation and submission",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-7450a4f596e6",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Foundational answers enforces a 30-character answer at navigation and submission",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-6349413e41b4",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Foundational answers enforces a 400-character answer at navigation and submission",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-0f4e462ce921",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Foundational answers enforces a 401-character answer at navigation and submission",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-3f9208969ad7",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Foundational answers rejects missing answer sets and duplicate identifiers",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-13d1405ff7ee",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Foundational answers submits trimmed answers, uses backend or fallback routes and recovers save failure",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-cd879981f6ee",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Foundational answers defers only when permitted and recovers rejection",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-f67b7ba483b4",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Photo selection requires the first three photos, supports optional skip and bounds navigation",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-6459e6244e2e",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Photo selection clears only the selected photo and uses browser history on the first step",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-8d3ea35b5868",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Photo selection rejects missing/nonimage files before reading and handles controlled file-reader callbacks",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-05e48a930124",
+      "layer": "frontend",
+      "name": "Commons and onboarding code contracts Photo selection submits three ordered url/caption fields and recovers server failure",
+      "family": "QA-COV-02-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-de6d6fe109ec",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts loads a nested route once and subscribes/unsubscribes to navigation and messages",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-24253e9189b1",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts rejects an absent route identifier without requesting a thread",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-f69baa806388",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts accepts only current-thread realtime events and deduplicates message identifiers",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-b9711d54c635",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts exposes load failure and supports a silent refresh using the route identifier",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-fa984a99efde",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles absent data and formats basic labels, roles and message types",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-10cb6e9f058f",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts keeps date ideas hidden until Find Love and the local ten-minute delay have elapsed",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-76c44dde7ec4",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles malformed persisted date-idea timestamps and countdown urgency boundaries",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-81fff5447a7e",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts transitions the balloon and unlock animation on scheduled time boundaries",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-0ffae012227f",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts opens an undecided trial decision for userB only",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-ca9f5b80ef71",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts opens an undecided trial decision for userA only",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-5f32c546a3de",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles a MATCH_BLOCKED trial outcome without making up a server decision",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-3dd57353d140",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles a MATCH_ENDED trial outcome without making up a server decision",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-055b7640d6b9",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles a MATCH_CONTINUES trial outcome without making up a server decision",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-419fc32cefdc",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles a WAITING trial outcome without making up a server decision",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-8dfc37b01350",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts ignores absent trial data and keeps failed decisions visibly unsuccessful",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-bf55fd353199",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts does not send without a thread, blank text or while a send is in progress",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-c3584f6b33dd",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts sends trimmed text optimistically then refreshes the server message list",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-3d36604d003e",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts removes a rejected optimistic send and re-enables sending",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-da264837a867",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles TRIAL_STARTED pop results after the animation",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-d891a007691d",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles POPPED pop results after the animation",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-9ce305454a1d",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts does not pop absent data or a missing match and exposes rejection",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-d62f8c10659b",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts shows and cancels unmatch confirmation before issuing any request",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-47a973054618",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts clears unmatch busy state after confirmed success",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-ed3e8b5f53a0",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts clears unmatch busy state after rejection",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-42e2cf504c68",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles block success without overlapping requests",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-7df8e74854ca",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles block rejection without overlapping requests",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-8f1983bf12cd",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts toggles menus, handles outside clicks and supports valid game event shapes",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-6aec9bbe9d71",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles game create/accept/reject/result successes locally",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-22913911f671",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts handles game create/accept/reject/result failures locally",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-c26565051ba6",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts ignores game creation without a selected match and guards duplicate date-interest submissions",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-3ffd49d9180d",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts records partner voice listening once and ignores own or unidentified messages",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
+    },
+    {
+      "id": "FE-aee273dc9ee8",
+      "layer": "frontend",
+      "name": "Chat thread feature contracts recovers microphone denial and ignores redundant stop requests",
+      "family": "QA-COV-06-1",
+      "results": {
+        "coverage-first-20261009": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-coverage-first-cases.json"
     }
   ]
 }
