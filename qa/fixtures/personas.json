@@ -1,0 +1,3564 @@
+{
+  "schemaVersion": 1,
+  "generatorVersion": 1,
+  "seed": "woven-qa-v1",
+  "note": "Fixture vocabulary requires schema mapping before import. No real people or provider calls.",
+  "personas": [
+    {
+      "id": "qa-001",
+      "email": "qa001@woven.invalid",
+      "displayName": "QA Persona 1",
+      "synthetic": true,
+      "age": 18,
+      "gender": "female",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-0"
+      ]
+    },
+    {
+      "id": "qa-002",
+      "email": "qa002@woven.invalid",
+      "displayName": "QA Persona 2",
+      "synthetic": true,
+      "age": 18,
+      "gender": "male",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Time to reflect before talking.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-0"
+      ]
+    },
+    {
+      "id": "qa-003",
+      "email": "qa003@woven.invalid",
+      "displayName": "QA Persona 3",
+      "synthetic": true,
+      "age": 18,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Regular check-ins.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-0"
+      ]
+    },
+    {
+      "id": "qa-004",
+      "email": "qa004@woven.invalid",
+      "displayName": "QA Persona 4",
+      "synthetic": true,
+      "age": 18,
+      "gender": "female",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-0"
+      ]
+    },
+    {
+      "id": "qa-005",
+      "email": "qa005@woven.invalid",
+      "displayName": "QA Persona 5",
+      "synthetic": true,
+      "age": 21,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-1"
+      ]
+    },
+    {
+      "id": "qa-006",
+      "email": "qa006@woven.invalid",
+      "displayName": "QA Persona 6",
+      "synthetic": true,
+      "age": 21,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Regular check-ins.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-1"
+      ]
+    },
+    {
+      "id": "qa-007",
+      "email": "qa007@woven.invalid",
+      "displayName": "QA Persona 7",
+      "synthetic": true,
+      "age": 21,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Direct and kind conversation.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-1"
+      ]
+    },
+    {
+      "id": "qa-008",
+      "email": "qa008@woven.invalid",
+      "displayName": "QA Persona 8",
+      "synthetic": true,
+      "age": 21,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-1"
+      ]
+    },
+    {
+      "id": "qa-009",
+      "email": "qa009@woven.invalid",
+      "displayName": "QA Persona 9",
+      "synthetic": true,
+      "age": 25,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-2"
+      ]
+    },
+    {
+      "id": "qa-010",
+      "email": "qa010@woven.invalid",
+      "displayName": "QA Persona 10",
+      "synthetic": true,
+      "age": 25,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Direct and kind conversation.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-2"
+      ]
+    },
+    {
+      "id": "qa-011",
+      "email": "qa011@woven.invalid",
+      "displayName": "QA Persona 11",
+      "synthetic": true,
+      "age": 25,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Time to reflect before talking.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-2"
+      ]
+    },
+    {
+      "id": "qa-012",
+      "email": "qa012@woven.invalid",
+      "displayName": "QA Persona 12",
+      "synthetic": true,
+      "age": 25,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-2"
+      ]
+    },
+    {
+      "id": "qa-013",
+      "email": "qa013@woven.invalid",
+      "displayName": "QA Persona 13",
+      "synthetic": true,
+      "age": 30,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-3"
+      ]
+    },
+    {
+      "id": "qa-014",
+      "email": "qa014@woven.invalid",
+      "displayName": "QA Persona 14",
+      "synthetic": true,
+      "age": 30,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Time to reflect before talking.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-3"
+      ]
+    },
+    {
+      "id": "qa-015",
+      "email": "qa015@woven.invalid",
+      "displayName": "QA Persona 15",
+      "synthetic": true,
+      "age": 30,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Regular check-ins.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-3"
+      ]
+    },
+    {
+      "id": "qa-016",
+      "email": "qa016@woven.invalid",
+      "displayName": "QA Persona 16",
+      "synthetic": true,
+      "age": 30,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-3"
+      ]
+    },
+    {
+      "id": "qa-017",
+      "email": "qa017@woven.invalid",
+      "displayName": "QA Persona 17",
+      "synthetic": true,
+      "age": 35,
+      "gender": "male",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-4"
+      ]
+    },
+    {
+      "id": "qa-018",
+      "email": "qa018@woven.invalid",
+      "displayName": "QA Persona 18",
+      "synthetic": true,
+      "age": 35,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Regular check-ins.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-4"
+      ]
+    },
+    {
+      "id": "qa-019",
+      "email": "qa019@woven.invalid",
+      "displayName": "QA Persona 19",
+      "synthetic": true,
+      "age": 35,
+      "gender": "female",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Direct and kind conversation.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-4"
+      ]
+    },
+    {
+      "id": "qa-020",
+      "email": "qa020@woven.invalid",
+      "displayName": "QA Persona 20",
+      "synthetic": true,
+      "age": 35,
+      "gender": "male",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-4"
+      ]
+    },
+    {
+      "id": "qa-021",
+      "email": "qa021@woven.invalid",
+      "displayName": "QA Persona 21",
+      "synthetic": true,
+      "age": 45,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-5"
+      ]
+    },
+    {
+      "id": "qa-022",
+      "email": "qa022@woven.invalid",
+      "displayName": "QA Persona 22",
+      "synthetic": true,
+      "age": 45,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Direct and kind conversation.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-5"
+      ]
+    },
+    {
+      "id": "qa-023",
+      "email": "qa023@woven.invalid",
+      "displayName": "QA Persona 23",
+      "synthetic": true,
+      "age": 45,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Time to reflect before talking.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-5"
+      ]
+    },
+    {
+      "id": "qa-024",
+      "email": "qa024@woven.invalid",
+      "displayName": "QA Persona 24",
+      "synthetic": true,
+      "age": 45,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-5"
+      ]
+    },
+    {
+      "id": "qa-025",
+      "email": "qa025@woven.invalid",
+      "displayName": "QA Persona 25",
+      "synthetic": true,
+      "age": 60,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-6"
+      ]
+    },
+    {
+      "id": "qa-026",
+      "email": "qa026@woven.invalid",
+      "displayName": "QA Persona 26",
+      "synthetic": true,
+      "age": 60,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Time to reflect before talking.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-6"
+      ]
+    },
+    {
+      "id": "qa-027",
+      "email": "qa027@woven.invalid",
+      "displayName": "QA Persona 27",
+      "synthetic": true,
+      "age": 60,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Regular check-ins.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-6"
+      ]
+    },
+    {
+      "id": "qa-028",
+      "email": "qa028@woven.invalid",
+      "displayName": "QA Persona 28",
+      "synthetic": true,
+      "age": 60,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-6"
+      ]
+    },
+    {
+      "id": "qa-029",
+      "email": "qa029@woven.invalid",
+      "displayName": "QA Persona 29",
+      "synthetic": true,
+      "age": 18,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-7"
+      ]
+    },
+    {
+      "id": "qa-030",
+      "email": "qa030@woven.invalid",
+      "displayName": "QA Persona 30",
+      "synthetic": true,
+      "age": 18,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Regular check-ins.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-7"
+      ]
+    },
+    {
+      "id": "qa-031",
+      "email": "qa031@woven.invalid",
+      "displayName": "QA Persona 31",
+      "synthetic": true,
+      "age": 18,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Direct and kind conversation.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-7"
+      ]
+    },
+    {
+      "id": "qa-032",
+      "email": "qa032@woven.invalid",
+      "displayName": "QA Persona 32",
+      "synthetic": true,
+      "age": 18,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-7"
+      ]
+    },
+    {
+      "id": "qa-033",
+      "email": "qa033@woven.invalid",
+      "displayName": "QA Persona 33",
+      "synthetic": true,
+      "age": 21,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-8"
+      ]
+    },
+    {
+      "id": "qa-034",
+      "email": "qa034@woven.invalid",
+      "displayName": "QA Persona 34",
+      "synthetic": true,
+      "age": 21,
+      "gender": "female",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Direct and kind conversation.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-8"
+      ]
+    },
+    {
+      "id": "qa-035",
+      "email": "qa035@woven.invalid",
+      "displayName": "QA Persona 35",
+      "synthetic": true,
+      "age": 21,
+      "gender": "male",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Time to reflect before talking.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-8"
+      ]
+    },
+    {
+      "id": "qa-036",
+      "email": "qa036@woven.invalid",
+      "displayName": "QA Persona 36",
+      "synthetic": true,
+      "age": 21,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-8"
+      ]
+    },
+    {
+      "id": "qa-037",
+      "email": "qa037@woven.invalid",
+      "displayName": "QA Persona 37",
+      "synthetic": true,
+      "age": 25,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-9"
+      ]
+    },
+    {
+      "id": "qa-038",
+      "email": "qa038@woven.invalid",
+      "displayName": "QA Persona 38",
+      "synthetic": true,
+      "age": 25,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Time to reflect before talking.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-9"
+      ]
+    },
+    {
+      "id": "qa-039",
+      "email": "qa039@woven.invalid",
+      "displayName": "QA Persona 39",
+      "synthetic": true,
+      "age": 25,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Regular check-ins.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-9"
+      ]
+    },
+    {
+      "id": "qa-040",
+      "email": "qa040@woven.invalid",
+      "displayName": "QA Persona 40",
+      "synthetic": true,
+      "age": 25,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-9"
+      ]
+    },
+    {
+      "id": "qa-041",
+      "email": "qa041@woven.invalid",
+      "displayName": "QA Persona 41",
+      "synthetic": true,
+      "age": 30,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-10"
+      ]
+    },
+    {
+      "id": "qa-042",
+      "email": "qa042@woven.invalid",
+      "displayName": "QA Persona 42",
+      "synthetic": true,
+      "age": 30,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Regular check-ins.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-10"
+      ]
+    },
+    {
+      "id": "qa-043",
+      "email": "qa043@woven.invalid",
+      "displayName": "QA Persona 43",
+      "synthetic": true,
+      "age": 30,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Direct and kind conversation.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-10"
+      ]
+    },
+    {
+      "id": "qa-044",
+      "email": "qa044@woven.invalid",
+      "displayName": "QA Persona 44",
+      "synthetic": true,
+      "age": 30,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-10"
+      ]
+    },
+    {
+      "id": "qa-045",
+      "email": "qa045@woven.invalid",
+      "displayName": "QA Persona 45",
+      "synthetic": true,
+      "age": 35,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-11"
+      ]
+    },
+    {
+      "id": "qa-046",
+      "email": "qa046@woven.invalid",
+      "displayName": "QA Persona 46",
+      "synthetic": true,
+      "age": 35,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Direct and kind conversation.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-11"
+      ]
+    },
+    {
+      "id": "qa-047",
+      "email": "qa047@woven.invalid",
+      "displayName": "QA Persona 47",
+      "synthetic": true,
+      "age": 35,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Time to reflect before talking.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-11"
+      ]
+    },
+    {
+      "id": "qa-048",
+      "email": "qa048@woven.invalid",
+      "displayName": "QA Persona 48",
+      "synthetic": true,
+      "age": 35,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-11"
+      ]
+    },
+    {
+      "id": "qa-049",
+      "email": "qa049@woven.invalid",
+      "displayName": "QA Persona 49",
+      "synthetic": true,
+      "age": 45,
+      "gender": "female",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-12"
+      ]
+    },
+    {
+      "id": "qa-050",
+      "email": "qa050@woven.invalid",
+      "displayName": "QA Persona 50",
+      "synthetic": true,
+      "age": 45,
+      "gender": "male",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Time to reflect before talking.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-12"
+      ]
+    },
+    {
+      "id": "qa-051",
+      "email": "qa051@woven.invalid",
+      "displayName": "QA Persona 51",
+      "synthetic": true,
+      "age": 45,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Regular check-ins.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-12"
+      ]
+    },
+    {
+      "id": "qa-052",
+      "email": "qa052@woven.invalid",
+      "displayName": "QA Persona 52",
+      "synthetic": true,
+      "age": 45,
+      "gender": "female",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-12"
+      ]
+    },
+    {
+      "id": "qa-053",
+      "email": "qa053@woven.invalid",
+      "displayName": "QA Persona 53",
+      "synthetic": true,
+      "age": 60,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-13"
+      ]
+    },
+    {
+      "id": "qa-054",
+      "email": "qa054@woven.invalid",
+      "displayName": "QA Persona 54",
+      "synthetic": true,
+      "age": 60,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Regular check-ins.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-13"
+      ]
+    },
+    {
+      "id": "qa-055",
+      "email": "qa055@woven.invalid",
+      "displayName": "QA Persona 55",
+      "synthetic": true,
+      "age": 60,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Direct and kind conversation.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-13"
+      ]
+    },
+    {
+      "id": "qa-056",
+      "email": "qa056@woven.invalid",
+      "displayName": "QA Persona 56",
+      "synthetic": true,
+      "age": 60,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-13"
+      ]
+    },
+    {
+      "id": "qa-057",
+      "email": "qa057@woven.invalid",
+      "displayName": "QA Persona 57",
+      "synthetic": true,
+      "age": 18,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-14"
+      ]
+    },
+    {
+      "id": "qa-058",
+      "email": "qa058@woven.invalid",
+      "displayName": "QA Persona 58",
+      "synthetic": true,
+      "age": 18,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Direct and kind conversation.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-14"
+      ]
+    },
+    {
+      "id": "qa-059",
+      "email": "qa059@woven.invalid",
+      "displayName": "QA Persona 59",
+      "synthetic": true,
+      "age": 18,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Time to reflect before talking.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-14"
+      ]
+    },
+    {
+      "id": "qa-060",
+      "email": "qa060@woven.invalid",
+      "displayName": "QA Persona 60",
+      "synthetic": true,
+      "age": 18,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-14"
+      ]
+    },
+    {
+      "id": "qa-061",
+      "email": "qa061@woven.invalid",
+      "displayName": "QA Persona 61",
+      "synthetic": true,
+      "age": 21,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-15"
+      ]
+    },
+    {
+      "id": "qa-062",
+      "email": "qa062@woven.invalid",
+      "displayName": "QA Persona 62",
+      "synthetic": true,
+      "age": 21,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Time to reflect before talking.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-15"
+      ]
+    },
+    {
+      "id": "qa-063",
+      "email": "qa063@woven.invalid",
+      "displayName": "QA Persona 63",
+      "synthetic": true,
+      "age": 21,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Regular check-ins.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-15"
+      ]
+    },
+    {
+      "id": "qa-064",
+      "email": "qa064@woven.invalid",
+      "displayName": "QA Persona 64",
+      "synthetic": true,
+      "age": 21,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-15"
+      ]
+    },
+    {
+      "id": "qa-065",
+      "email": "qa065@woven.invalid",
+      "displayName": "QA Persona 65",
+      "synthetic": true,
+      "age": 25,
+      "gender": "male",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-16"
+      ]
+    },
+    {
+      "id": "qa-066",
+      "email": "qa066@woven.invalid",
+      "displayName": "QA Persona 66",
+      "synthetic": true,
+      "age": 25,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Regular check-ins.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-16"
+      ]
+    },
+    {
+      "id": "qa-067",
+      "email": "qa067@woven.invalid",
+      "displayName": "QA Persona 67",
+      "synthetic": true,
+      "age": 25,
+      "gender": "female",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Direct and kind conversation.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-16"
+      ]
+    },
+    {
+      "id": "qa-068",
+      "email": "qa068@woven.invalid",
+      "displayName": "QA Persona 68",
+      "synthetic": true,
+      "age": 25,
+      "gender": "male",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-16"
+      ]
+    },
+    {
+      "id": "qa-069",
+      "email": "qa069@woven.invalid",
+      "displayName": "QA Persona 69",
+      "synthetic": true,
+      "age": 30,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-17"
+      ]
+    },
+    {
+      "id": "qa-070",
+      "email": "qa070@woven.invalid",
+      "displayName": "QA Persona 70",
+      "synthetic": true,
+      "age": 30,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Direct and kind conversation.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-17"
+      ]
+    },
+    {
+      "id": "qa-071",
+      "email": "qa071@woven.invalid",
+      "displayName": "QA Persona 71",
+      "synthetic": true,
+      "age": 30,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Time to reflect before talking.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-17"
+      ]
+    },
+    {
+      "id": "qa-072",
+      "email": "qa072@woven.invalid",
+      "displayName": "QA Persona 72",
+      "synthetic": true,
+      "age": 30,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-17"
+      ]
+    },
+    {
+      "id": "qa-073",
+      "email": "qa073@woven.invalid",
+      "displayName": "QA Persona 73",
+      "synthetic": true,
+      "age": 35,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-18"
+      ]
+    },
+    {
+      "id": "qa-074",
+      "email": "qa074@woven.invalid",
+      "displayName": "QA Persona 74",
+      "synthetic": true,
+      "age": 35,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Time to reflect before talking.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-18"
+      ]
+    },
+    {
+      "id": "qa-075",
+      "email": "qa075@woven.invalid",
+      "displayName": "QA Persona 75",
+      "synthetic": true,
+      "age": 35,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Regular check-ins.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-18"
+      ]
+    },
+    {
+      "id": "qa-076",
+      "email": "qa076@woven.invalid",
+      "displayName": "QA Persona 76",
+      "synthetic": true,
+      "age": 35,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-18"
+      ]
+    },
+    {
+      "id": "qa-077",
+      "email": "qa077@woven.invalid",
+      "displayName": "QA Persona 77",
+      "synthetic": true,
+      "age": 45,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-19"
+      ]
+    },
+    {
+      "id": "qa-078",
+      "email": "qa078@woven.invalid",
+      "displayName": "QA Persona 78",
+      "synthetic": true,
+      "age": 45,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Regular check-ins.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-19"
+      ]
+    },
+    {
+      "id": "qa-079",
+      "email": "qa079@woven.invalid",
+      "displayName": "QA Persona 79",
+      "synthetic": true,
+      "age": 45,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Direct and kind conversation.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-19"
+      ]
+    },
+    {
+      "id": "qa-080",
+      "email": "qa080@woven.invalid",
+      "displayName": "QA Persona 80",
+      "synthetic": true,
+      "age": 45,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-19"
+      ]
+    },
+    {
+      "id": "qa-081",
+      "email": "qa081@woven.invalid",
+      "displayName": "QA Persona 81",
+      "synthetic": true,
+      "age": 60,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-20"
+      ]
+    },
+    {
+      "id": "qa-082",
+      "email": "qa082@woven.invalid",
+      "displayName": "QA Persona 82",
+      "synthetic": true,
+      "age": 60,
+      "gender": "female",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Direct and kind conversation.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-20"
+      ]
+    },
+    {
+      "id": "qa-083",
+      "email": "qa083@woven.invalid",
+      "displayName": "QA Persona 83",
+      "synthetic": true,
+      "age": 60,
+      "gender": "male",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Time to reflect before talking.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-20"
+      ]
+    },
+    {
+      "id": "qa-084",
+      "email": "qa084@woven.invalid",
+      "displayName": "QA Persona 84",
+      "synthetic": true,
+      "age": 60,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "consistent",
+      "targetState": "complete",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-20"
+      ]
+    },
+    {
+      "id": "qa-085",
+      "email": "qa085@woven.invalid",
+      "displayName": "QA Persona 85",
+      "synthetic": true,
+      "age": 18,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-21"
+      ]
+    },
+    {
+      "id": "qa-086",
+      "email": "qa086@woven.invalid",
+      "displayName": "QA Persona 86",
+      "synthetic": true,
+      "age": 18,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Time to reflect before talking.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-21"
+      ]
+    },
+    {
+      "id": "qa-087",
+      "email": "qa087@woven.invalid",
+      "displayName": "QA Persona 87",
+      "synthetic": true,
+      "age": 18,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Regular check-ins.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-21"
+      ]
+    },
+    {
+      "id": "qa-088",
+      "email": "qa088@woven.invalid",
+      "displayName": "QA Persona 88",
+      "synthetic": true,
+      "age": 18,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "quiet",
+      "targetState": "new",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-21"
+      ]
+    },
+    {
+      "id": "qa-089",
+      "email": "qa089@woven.invalid",
+      "displayName": "QA Persona 89",
+      "synthetic": true,
+      "age": 21,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-22"
+      ]
+    },
+    {
+      "id": "qa-090",
+      "email": "qa090@woven.invalid",
+      "displayName": "QA Persona 90",
+      "synthetic": true,
+      "age": 21,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Regular check-ins.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-22"
+      ]
+    },
+    {
+      "id": "qa-091",
+      "email": "qa091@woven.invalid",
+      "displayName": "QA Persona 91",
+      "synthetic": true,
+      "age": 21,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Direct and kind conversation.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-22"
+      ]
+    },
+    {
+      "id": "qa-092",
+      "email": "qa092@woven.invalid",
+      "displayName": "QA Persona 92",
+      "synthetic": true,
+      "age": 21,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "relationship",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 25
+      },
+      "behavior": "fast-responder",
+      "targetState": "incomplete",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Cooking with friends.",
+        "communication": "Time to reflect before talking.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-22"
+      ]
+    },
+    {
+      "id": "qa-093",
+      "email": "qa093@woven.invalid",
+      "displayName": "QA Persona 93",
+      "synthetic": true,
+      "age": 25,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-23"
+      ]
+    },
+    {
+      "id": "qa-094",
+      "email": "qa094@woven.invalid",
+      "displayName": "QA Persona 94",
+      "synthetic": true,
+      "age": 25,
+      "gender": "female",
+      "interestedIn": [
+        "male"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Direct and kind conversation.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-23"
+      ]
+    },
+    {
+      "id": "qa-095",
+      "email": "qa095@woven.invalid",
+      "displayName": "QA Persona 95",
+      "synthetic": true,
+      "age": 25,
+      "gender": "male",
+      "interestedIn": [
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Time to reflect before talking.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-23"
+      ]
+    },
+    {
+      "id": "qa-096",
+      "email": "qa096@woven.invalid",
+      "displayName": "QA Persona 96",
+      "synthetic": true,
+      "age": 25,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "exploring",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 100
+      },
+      "behavior": "slow-responder",
+      "targetState": "inactive",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "Exploring a new place.",
+        "communication": "Regular check-ins.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-23"
+      ]
+    },
+    {
+      "id": "qa-097",
+      "email": "qa097@woven.invalid",
+      "displayName": "QA Persona 97",
+      "synthetic": true,
+      "age": 30,
+      "gender": "female",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Indianapolis",
+        "lat": 39.7684,
+        "lng": -86.1581
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 0,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-24"
+      ]
+    },
+    {
+      "id": "qa-098",
+      "email": "qa098@woven.invalid",
+      "displayName": "QA Persona 98",
+      "synthetic": true,
+      "age": 30,
+      "gender": "male",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Austin",
+        "lat": 30.2672,
+        "lng": -97.7431
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 1,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Time to reflect before talking.",
+        "values": "Curiosity and shared learning."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-24"
+      ]
+    },
+    {
+      "id": "qa-099",
+      "email": "qa099@woven.invalid",
+      "displayName": "QA Persona 99",
+      "synthetic": true,
+      "age": 30,
+      "gender": "nonbinary",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Hyderabad",
+        "lat": 17.385,
+        "lng": 78.4867
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 5,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Regular check-ins.",
+        "values": "Independence and mutual respect."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-24"
+      ]
+    },
+    {
+      "id": "qa-100",
+      "email": "qa100@woven.invalid",
+      "displayName": "QA Persona 100",
+      "synthetic": true,
+      "age": 30,
+      "gender": "female",
+      "interestedIn": [
+        "female",
+        "male",
+        "nonbinary"
+      ],
+      "location": {
+        "city": "Bengaluru",
+        "lat": 12.9716,
+        "lng": 77.5946
+      },
+      "intent": "long_term",
+      "preferences": {
+        "ageMin": 18,
+        "ageMax": 65,
+        "distanceMiles": 5
+      },
+      "behavior": "returns-after-gap",
+      "targetState": "safety-review",
+      "sparkBalance": 10,
+      "foundationalAnswers": {
+        "evening": "A quiet walk and a book.",
+        "communication": "Direct and kind conversation.",
+        "values": "Consistency and care."
+      },
+      "tags": [
+        "synthetic",
+        "adult",
+        "cohort-24"
+      ]
+    }
+  ]
+}

@@ -8,7 +8,7 @@ public class CoachingSummary
     public DateOnly WeekStartDate { get; set; }
     public string SummaryText { get; set; } = "";
     public string InterpretedNarrative { get; set; } = "";
-    public DateTimeOffset DeliveredAt { get; set; }
+    public DateTimeOffset? DeliveredAt { get; set; }
     public DateTimeOffset? DismissedAt { get; set; }
     public DateTimeOffset? OptedOutAt { get; set; }
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;

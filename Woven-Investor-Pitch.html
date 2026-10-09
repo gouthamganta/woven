@@ -1,0 +1,886 @@
+<title>Woven — Investor Pitch</title>
+
+<style>
+@import url('data:font/woff2;base64,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dP6Wzr+l/W9p/7d0/S2dv6X9d3T+jq6/o/O3df6ezt/R+Xva/47Ov6Pzd/T8HR2/re23tf+Ozt/W/ju6f0f7v6Pj39b5d3X+ju6/q+ff1fnbev62rt/R/js6f0/Pv6fzt/X+ezp/R+ff0fF7Ov+ezt/T/e/r+Hs6fk/n7+n+XT3/nq6/p/vv6f57On9Pz7+n83d0/z2dv6f99/T+Hu3/gZ7/gY7f1/Pv6/n3df/7+v6Brn9f+3+g/T/Q9R/o/gd6/4Hu/0Dn7+v9D3T+vvY/0P0PdP8Dvf+B9v9A+x/o/Q/0/Qd6/yM9/5Hu/0jPP9T5j/T9I93/SPd/pPsf6f5Huv+R7n+k+x/p/ke6/5Hu/0j7H+n9j3T/Y73/sZ7/WPc/1vOPdf8T3f9Ezz/W/sd6/2O9/7He/1jvf6zvP9b9j/X9J/r+E93/RM8/0fNP9PwT3f9Y+x/r+4/1/hM9/0TXP9H3n+j7T/T9J/r+Ez3/RN9/qu8/1fVP9P2n+v4zvf+Znv9Uzz/V80/1/FO9/5m+/0zff6rvP9P3n+n7z/T9Z/r+U33/qb7/TN9/qvvP9P1n+v4zff+Zvv9M3/9Mzz/T88/0/Wf6/nN9/5nuP9P7n+n7z/T+Z/r+c73/uf7/XP9/ru8/1/ef6/+f6/rP9f3nuv65vv+F3v9C//9C939h779Q+V/o+Bf6/xd6/wv9/5m+/0Lff6Hvv9D3X+j9F3r/C/3/hd7/Qt9/od9/of+/0Pdf6P1fav+Xuv+l3v+l3v+l3n+h91+o/Jf6/y/1/y/1/y9V/hf6/7/0/l/q/pf6/5fa/6X2/0vv/1L//1L//1Lvf6X3v9L/v9L/v9L/X+n9L/X/L/X+V/r/V3r/q/z/q/z/lb7/ld7/Sv//Rv//St9/pf9/lf9/pe+/yv9f6f2v9P6v8v9v8v9X+v9X2v9K///K///K//8q///K///K///K//8q//9K+//N//9G//9G//9G//9G//9G+39D//8m///m///m///m/3/z/3/r/3/r/7/5////7f//tv3/pue/9/7f+v9vuv5v/f+//v9b//+d938r/7/1/++8/1v//1bff6fvf6fvv9P33+v77/T9d/r+97r/vb7/Xv//Xv//Xv//Xv//Xvv/z/9/1///5//fu/z/R+f/o+//5v//8f/f5P/f5P/f5P/f5P/v8v9v8v9v8v9v8v/v8v/f5P/f5P/v/P83///X/n+T/3/n/9/p/3/p///p/9/p/z/p/z/p///p/3/z/3+T/3/n/9/p/9/0/9/q/9/k/3/z/7/5/3f6/3f6/3f5/3f5//f+/9/6/99d/v+d//+m///u///p/9/0/9/8/9/8/9/8/9/8/zf9/zf//87///T/P/T/7/L///3/n/z/O///Tv//3f//0///a/+/6f+/6f+/+f9v/v+b/P87//9O///d///z/9/l/7/l/7/5/+/y////T////v/b/v/d///r/7/5/3f+/7v9/3f//53//+7//53+/53+/53+/53+/7v//53//y7//87///b/7/L/7/z/d///3f//T///Tv9/p/9/5/+/6f+/0////t///p/j/y/s/yf0/8H+n+z/o/1/sv9j/n9i/5/Y/1P9f7L/J/v/aP8/2f9P9v+T/f9E/5/s/4n+/2T/T/b/P/b/P/b/E/1/Yv//sP//sf8n+/+J/f+P/f9k/z+x/yeO/xP7/yf2/1P9/9T+f6r//2P/P7H/n9j/T/X/yfGf6v+n+v/E/n+q//+x/3/Y///Y/z/Y/0/t/6f6/xP7/4n9/1T/n+r/Z/b/E/v/6f//1P5/8v/P7P+f2f8/7P+f+f9n///M/n9i/z+x///3/3/+/9n///z/s///+f+z/3/2/3/+/+z///7/z///l/7/l///5/+f2f/P///n/5/Z/z+z/5/Z/z/s/2f+/9n///n/Z/b/E/v/if3/zP5/av8/s/9/2P/P7P9/2P///v/v/7/2///8/9/+/9/+/9/+/+///9f//+f//+//f/7/b/7/b/7/b/7/b/b/D///z///s/+f2f///v9v///N/v/N/v/N/v/N/v/N//+b//+b/7/+/9/8/1/7/2/+/2/+/5/+/7f//9v///v///r///b///v///b///v///v///r/3/t/7/5/7/5/9/8/7/5/3///5v9/+///+r/v///r/3/7/7/t///s/9/s///s/+/8v+/+f+/+/+/+v+/+/+/+v+/+f9v/v+v/f9v///v/v/f//9v///v/v/v///f/P+/+f9/+/+/+/9/+/9/9/9/+/9/+/9/9/9/+/9/+/9/8/9/+/+/+///8/9/8/9/9/9/+/+/9/9/+/+/9/9/+/8/+/+/9/8/9/+/+/9//f/n///u///u///u//+u/7/+//r///v///v///r///v///r///v///v///v///v/+//v/////f///9////+///9////+///9////z////+/+//////x//IeV/6z/+vP/83///3////n///+////+f///++////////////////+///////v///+///8////+//////////////////////////////////z//////////f///////////////1P7P0v/0/2//w==') format('woff2');
+  font-family: 'Inter';
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  src: url('data:font/woff2;base64,d09GMgABAAAAABVwABAAAAAAK0AAABUTAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGhYbIByCVgZgAIEYEQgKgmSCRQE2AiQDgjgLg0YABCAFg1gHIBv+JCMRdnOwIfv/JYGJcBr10TZW49FisZhQR7TZbv//XzJ7ExC6gDogtQyAEQZQBcY6A9xzWdJaKvjr9f+TmwNNwD6KXfQEe1FEbkRuRAYQoR9MhS//+/8/f+f8b+7e+V8m8sxMrEyq/TPXSH+DlWCU+uPbnH+nUUmxr/H+dDwmfYiIlFFJFJl4vj87gQMRkbG5T+a/7zd77///3/2/e0pSCkJISKEJKS2vqKilpW1kbGJqZm5haWVtY2vn4Oji6ubu4enlzeHj6xcQGBQcEhoW/kHEJ+F3PaJEf/qP1H//bM1+qL/9gv//vz3/Z5bpwf/vfl5aZ6kGwHt95/O/s/32/z3bw/b//+6/ewFgN8DgBcMpBGT+AQA8ALiDgEzMAYCPNwDwEQBgQgBgC4ABAID+AhCUFMCvCZBXEuCXBoDdE+BPV4BXN0B4tQAIrwaArxaAfK0A4WsFKKsJIDx6eH3t0Pf/zv//v/+3/v9t3///d3z/71i8//94/+93b/r/u+v//9vY///e6P//2+3+/z/b6P//X2P/vyMH/4kggkhJySggvv9P/p/5N/8//Dd3KN3R+u/bFwD77A3/q2zv2L9j/Y4DOx7s2L9D/xf9b/C/vv/1/uf4n/E//n/0P/h/8D/0v+f/zv+W/zn/W/4v/Pf87/nf8a/zr/Ev+Bf5C/y5/lx/tj/bN+Eb8Q35+v+F////b+e/sf//f2f/m/kz////b/F//P/4//r/Qv9C/wL/PP98fz5/nj/Xn+vP9ef68/x5/rx//P3yg2kOAA==') format('woff2');
+  font-weight: 300 600;
+  font-style: normal;
+}
+
+:root {
+  --plum-900: #0A0612;
+  --plum-800: #1A0F1E;
+  --plum-700: #2D1B33;
+  --plum-600: #3F2747;
+  --plum-500: #52335C;
+  --plum-400: #664070;
+  --plum-300: #7F5089;
+
+  --gold-600: #B38A1C;
+  --gold-500: #D4A017;
+  --gold-400: #E5B333;
+  --gold-300: #F0C654;
+
+  --rose-600: #A0291F;
+  --rose-500: #C0392B;
+  --rose-400: #E74C3C;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.82);
+  --text-muted: rgba(255, 255, 255, 0.58);
+
+  --bg-dark: #0A0612;
+  --bg-surface: rgba(26, 15, 30, 0.85);
+  --bg-card: rgba(45, 27, 51, 0.6);
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.deck {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  background: linear-gradient(180deg, var(--bg-dark) 0%, #120A1A 100%);
+}
+
+.slide {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 60px;
+  position: relative;
+  border-bottom: 1px solid rgba(212, 160, 23, 0.08);
+}
+
+.slide-number {
+  position: absolute;
+  top: 32px;
+  right: 60px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+}
+
+.logo-mark {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--gold-400) 0%, var(--text-primary) 45%, var(--rose-400) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: absolute;
+  top: 32px;
+  left: 60px;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 7vw, 88px);
+  font-weight: 400;
+  line-height: 1.05;
+  margin-bottom: 28px;
+  max-width: 1000px;
+  text-align: center;
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 32px;
+  max-width: 950px;
+  text-align: center;
+  text-wrap: balance;
+  letter-spacing: -0.015em;
+}
+
+h3 {
+  font-size: clamp(20px, 2.8vw, 32px);
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--gold-400);
+  letter-spacing: -0.01em;
+}
+
+p {
+  font-size: clamp(16px, 1.9vw, 22px);
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 850px;
+  margin: 0 auto 24px;
+  text-align: center;
+}
+
+.kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-400);
+  margin-bottom: 24px;
+  opacity: 0.9;
+}
+
+.tagline {
+  font-size: clamp(22px, 3vw, 40px);
+  font-weight: 400;
+  color: var(--gold-400);
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  font-size: clamp(18px, 2.2vw, 28px);
+  color: var(--text-secondary);
+  margin-top: 16px;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+  max-width: 1200px;
+  margin: 48px auto;
+  width: 100%;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid rgba(212, 160, 23, 0.18);
+  border-radius: 16px;
+  padding: 32px;
+  backdrop-filter: blur(20px);
+}
+
+.card h3 {
+  font-size: 22px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.card p {
+  font-size: 16px;
+  text-align: left;
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.highlight-box {
+  background: rgba(212, 160, 23, 0.08);
+  border: 1px solid var(--gold-500);
+  border-left-width: 4px;
+  border-radius: 12px;
+  padding: 28px 36px;
+  max-width: 900px;
+  margin: 40px auto;
+  backdrop-filter: blur(10px);
+}
+
+.highlight-box p {
+  text-align: left;
+  font-size: 18px;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin: 0;
+  line-height: 1.55;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+  margin: 48px auto;
+  max-width: 1100px;
+}
+
+.stat {
+  text-align: center;
+  min-width: 180px;
+}
+
+.stat-number {
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--gold-400), var(--rose-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 12px;
+  font-variant-numeric: tabular-nums;
+  display: block;
+}
+
+.stat-label {
+  font-size: 15px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.flow-diagram {
+  max-width: 1000px;
+  margin: 48px auto;
+  background: var(--bg-card);
+  border: 1px solid rgba(212, 160, 23, 0.15);
+  border-radius: 20px;
+  padding: 48px;
+  backdrop-filter: blur(20px);
+}
+
+.flow-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.flow-step {
+  flex: 1;
+  min-width: 200px;
+  background: rgba(127, 80, 137, 0.15);
+  border: 1px solid var(--plum-400);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.flow-step-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold-400);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.flow-step-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.flow-arrow {
+  font-size: 28px;
+  color: var(--gold-400);
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.pill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 32px auto;
+  max-width: 850px;
+}
+
+.pill {
+  background: rgba(212, 160, 23, 0.12);
+  border: 1px solid var(--gold-500);
+  border-radius: 24px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gold-300);
+  white-space: nowrap;
+}
+
+.timeline {
+  max-width: 950px;
+  margin: 48px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.timeline-item {
+  background: var(--bg-card);
+  border-left: 3px solid var(--gold-500);
+  padding: 24px 28px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.timeline-item h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold-400);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.timeline-item p {
+  font-size: 15px;
+  text-align: left;
+  margin: 6px 0 0;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.budget-table {
+  width: 100%;
+  max-width: 850px;
+  margin: 48px auto;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 160, 23, 0.18);
+  backdrop-filter: blur(20px);
+}
+
+.budget-table th,
+.budget-table td {
+  padding: 18px 24px;
+  text-align: left;
+  border-bottom: 1px solid rgba(212, 160, 23, 0.08);
+}
+
+.budget-table th {
+  background: rgba(127, 80, 137, 0.25);
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gold-300);
+}
+
+.budget-table td {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.budget-table tr:last-child td {
+  border-bottom: none;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: rgba(212, 160, 23, 0.06);
+}
+
+.budget-table td:nth-child(2),
+.budget-table td:nth-child(3),
+.budget-table th:nth-child(2),
+.budget-table th:nth-child(3) {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.contact {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-top: 48px;
+  line-height: 1.8;
+}
+
+.contact a {
+  color: var(--gold-400);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(212, 160, 23, 0.4);
+  transition: border-color 0.2s;
+}
+
+.contact a:hover {
+  border-bottom-color: var(--gold-400);
+}
+
+@media (max-width: 768px) {
+  .slide {
+    padding: 60px 28px;
+  }
+
+  .logo-mark {
+    font-size: 18px;
+    left: 28px;
+    top: 24px;
+  }
+
+  .slide-number {
+    right: 28px;
+    top: 24px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-steps {
+    flex-direction: column;
+  }
+
+  .flow-arrow {
+    transform: rotate(90deg);
+  }
+
+  .stat-row {
+    gap: 32px;
+  }
+}
+</style>
+
+<div class="deck">
+
+  <!-- Slide 1: Hook -->
+  <section class="slide">
+    <div class="kicker">Investor Pitch</div>
+    <h1>Woven</h1>
+    <p class="tagline">Energy. Intention. Chemistry.</p>
+    <p class="subtitle">Not one swipe to marriage.<br>Not a thousand swipes to nowhere.</p>
+    <p style="margin-top: 56px; font-size: 20px; max-width: 700px;">
+      The behavioral AI that learns who you <strong style="color: var(--gold-400);">connect</strong> with—not who you swipe on.
+    </p>
+  </section>
+
+  <!-- Slide 2: Problem -->
+  <section class="slide">
+    <span class="logo-mark">Woven</span>
+    <span class="slide-number">02 / 11</span>
+    <div class="kicker">The Problem</div>
+    <h2>78% of users feel burned out.<br>The apps aren't broken—they're working as designed.</h2>
+
+    <div class="content-grid" style="grid-template-columns: repeat(2, 1fr); max-width: 1000px; margin-top: 48px;">
+      <div class="card">
+        <h3 style="color: var(--rose-400);">Dating Apps</h3>
+        <p>Endless swiping. 92% of Bumble matches never message. 70% of Hinge first dates fail. Apps optimize for <strong>engagement</strong>, not outcomes.</p>
+      </div>
+      <div class="card">
+        <h3 style="color: var(--plum-300);">Matrimonial Sites</h3>
+        <p>Family pressure. Conversation starts at marriage. No breathing room. Too intense, too fast. Everyone treated the same.</p>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top: 56px;">
+      <p><strong>Millennials hit 80% burnout</strong> (highest). Women overwhelmed by screening labor. Men insecure from silence. <strong>The cause is structural</strong>: choice overload, industrialized rejection, evaluation labor. A user who finds a partner is churn.</p>
+    </div>
+
+    <p style="margin-top: 40px; font-size: 18px; color: var(--text-muted);">
+      Both are 10+ years old. Static filters. Never learn. Never adapt. <strong>There's no middle ground.</strong>
+    </p>
+  </section>
+
+  <!-- Slide 3: Market -->
+  <section class="slide">
+    <span class="logo-mark">Woven</span>
+    <span class="slide-number">03 / 11</span>
+    <div class="kicker">Market Opportunity</div>
+    <h2>$1.42B India market by 2030.<br>But only 5-15% pay. Monetization is broken.</h2>
+
+    <div class="stat-row" style="margin: 56px auto;">
+      <div class="stat">
+        <span class="stat-number">$1.42B</span>
+        <span class="stat-label">India market (2030)</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">29.2M</span>
+        <span class="stat-label">Users by 2029</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">9.8%</span>
+        <span class="stat-label">Matrimonial CAGR</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">5-15%</span>
+        <span class="stat-label">Premium conversion</span>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <p><strong>The gap:</strong> Dating apps are too slow. Matrimonial sites are too fast. <strong>Nobody serves intentional dating with agency AND outcomes.</strong></p>
+    </div>
+
+    <p style="margin-top: 40px; font-size: 17px; max-width: 800px;">
+      India is outcome-focused (marriage is the goal), mobile-first, underserved by both categories, and willing to pay for VALUE—just not for access fees.
+    </p>
+  </section>
+
+  <!-- Slide 4: ECHO Introduction -->
+  <section class="slide">
+    <span class="logo-mark">Woven</span>
+    <span class="slide-number">04 / 11</span>
+    <div class="kicker">The Solution</div>
+    <h2>ECHO: The behavioral AI that adapts to YOU every day.</h2>
+
+    <p style="font-size: 22px; margin: 32px auto 56px; max-width: 750px;">
+      Traditional apps learn from <strong style="color: var(--rose-400);">swipes</strong>.<br>
+      ECHO learns from <strong style="color: var(--gold-400);">connection outcomes</strong>.
+    </p>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>What It Learns</h3>
+        <p>Not what you SAY you want. What you actually DO. Time to first message. Chat depth. Voice exchanges. Trial decisions. Date confirmations.</p>
+      </div>
+      <div class="card">
+        <h3>How It Adapts</h3>
+        <p>Daily Pulse adjusts your deck based on TODAY's energy. 16-component weighted system. Personalized weights learned from YOUR outcomes.</p>
+      </div>
+      <div class="card">
+        <h3>What It Delivers</h3>
+        <p>Five curated Moments per day. Each person introduced with ECHO voice + match explanation. Scarcity creates intention.</p>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top: 48px;">
+      <p><strong>16-component matching system.</strong> Pillar • Intent • Expression • Style • Visual • Voice • Humor • Lifestyle • Behavioral • Emotional Rhythm • Attachment • Orbit Gravity • Pulse • Collaborative Filtering • Shared Tile Affinity • Preference Affinity.</p>
+    </div>
+  </section>
+
+  <!-- Slide 5: ECHO Architecture -->
+  <section class="slide">
+    <span class="logo-mark">Woven</span>
+    <span class="slide-number">05 / 11</span>
+    <div class="kicker">Technical Deep Dive</div>
+    <h2>ECHO: How embeddings become your behavioral fingerprint.</h2>
+
+    <div class="flow-diagram">
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step-label">Input Signals</div>
+          <div class="flow-step-text">Photos (CLIP embeddings)<br>Text (bio, messages)<br>Voice (192-dim signature)<br>Behavioral signals<br>ChatNotes</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-label">Vector Creation</div>
+          <div class="flow-step-text">ExpressionEmbedding (1536-dim)<br>ReceptionEmbedding (1536-dim)<br>PreferenceEmbedding (1536-dim)<br>VoiceEmbedding (192-dim)<br>PillarEmbedding (8-dim)</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-step-label">Weight Learning</div>
+          <div class="flow-step-text">16 base weights<br>Personalized weights (≥5 outcomes)<br>pgvector cosine similarity<br>Real-time Pulse adjustment</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top: 48px;">
+      <p><strong>Expression</strong> = what you POST (mean of last 30 tiles). <strong>Reception</strong> = what you CONSUME (tiles dwelled 8s+). <strong>Preference</strong> = what you WRITE (last 20 ChatNotes). <strong>Your vector evolves</strong> with every interaction.</p>
+    </div>
+
+    <p style="margin-top: 32px; font-size: 16px; color: var(--text-muted);">
+      Stack: PostgreSQL + pgvector • OpenAI text-embedding-3-small • CLIP (Replicate) • Collaborative filtering (Jaccard similarity)
+    </p>
+  </section>
+
+  <!-- Slide 6: 8 Pillars -->
+  <section class="slide">
+    <span class="logo-mark">Woven</span>
+    <span class="slide-number">06 / 11</span>
+    <div class="kicker">Behavioral Pillars</div>
+    <h2>8 dimensions of compatibility.<br>Not surveys—behavioral patterns.</h2>
+
+    <div class="pill-grid" style="margin: 48px auto;">
+      <span class="pill">Lifestyle</span>
+      <span class="pill">Energy</span>
+      <span class="pill">Values</span>
+      <span class="pill">Communication</span>
+      <span class="pill">Ambition</span>
+      <span class="pill">Stability</span>
+      <span class="pill">Curiosity</span>
+      <span class="pill">Affection</span>
+    </div>
+
+    <div class="content-grid" style="margin-top: 56px;">
+      <div class="card">
+        <h3>How Mapping Helps</h3>
+        <p>Pillars capture behavioral tendencies across 8 dimensions. Each user gets a pillar score (0.0-1.0) derived from foundational questions + behavioral signals. ECHO finds users with <strong>compatible patterns</strong>, not identical ones.</p>
+      </div>
+      <div class="card">
+        <h3>Why It Works</h3>
+        <p>Your stated preference: "I want calm and settled." Your actual pattern: best conversations with chaotic energy. <strong>ECHO learns the gap</strong> between what you say and who you connect with. Your checklist lies. ECHO doesn't.</p>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top: 48px;">
+      <p>Pillar component weight: <strong>0.19</strong> (highest in 16-component system). Combined with Intent (0.12), Expression (0.09), Visual (0.10), and 12 other signals to create final match score. Weights personalized per user after ≥5 connection outcomes.</p>
+    </div>
+  </section>
+
+  <!-- Slide 7: Product Journey -->
+  <section class="slide">
+    <span class="logo-mark">Woven</span>
+    <span class="slide-number">07 / 11</span>
+    <div class="kicker">Product</div>
+    <h2>Every feature feeds ECHO.<br>It's a closed-loop learning system.</h2>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <h4>Daily Pulse → ECHO Input</h4>
+        <p>Morning check-in: energy, tone, openness. ECHO adjusts deck based on TODAY's state (not yesterday's). Pulse component weight: 0.06.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Five Moments → ECHO Output</h4>
+        <p>Curated by ECHO based on YOUR vector + behavioral match. Each person: Photo (CLIP-matched) + ECHO voice intro + match explanation. Scarcity = intention.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Balloon (36h) → Signal Capture</h4>
+        <p>Gated conversation window. ECHO captures: TimeToFirstMessage, ChatDepth, VoiceExchange, TrialDecision. No ghosting possible (forced Continue/Exit decision). Trial outcomes feed weight learning.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Find Love → ECHO-Powered Services</h4>
+        <p>Date ideas (personalized), Know Me game, Plan a Date (real venues). Unlocks after Continue decision. ECHO tracks DateIdeaAccepted as outcome signal.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Commons → Collaborative Signals</h4>
+        <p>Community feed. Orbit system (likes on tiles). CfScore (collaborative filtering) learns shared interests via Jaccard similarity. SharedTileAffinity component: 0.05.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 8: Business Model -->
+  <section class="slide">
+    <span class="logo-mark">Woven</span>
+    <span class="slide-number">08 / 11</span>
+    <div class="kicker">Business Model</div>
+    <h2>Services revenue, not subscriptions.<br>Users pay for outcomes, not access.</h2>
+
+    <div class="content-grid" style="grid-template-columns: 1fr 1fr; margin-top: 48px;">
+      <div class="card">
+        <h3>Why Subscriptions Fail</h3>
+        <p>India: ₹299-2,500/month to "view people." Only 5-15% convert. Churn is high. Users flee to verified-only apps. Paying for ACCESS ≠ value.</p>
+      </div>
+      <div class="card">
+        <h3>Woven Model</h3>
+        <p>Freemium base (5 Moments/day, Balloon, Commons). Services: Astrology reports, weekly ECHO insights, background verification, date planning. Pay for VALUE.</p>
+      </div>
+    </div>
+
+    <div class="timeline" style="margin-top: 48px;">
+      <div class="timeline-item">
+        <h4>FREE (Everyone)</h4>
+        <p>Daily Pulse • 5 Moments/day • Match with opening notes • Balloon conversations • Commons feed • Find Love (30-day trial)</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Spark Economy (Behavioral Governance)</h4>
+        <p>Sparks EARNED, not bought. App rewards positive behavior, cuts sparks for negative. Drawn actions cost 1 spark. This is governance, not monetization.</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Premium Services (NOW)</h4>
+        <p><strong>Vedic Astrology Reports</strong> (mutual agreement to share) • <strong>Advanced ECHO Weekly Reports</strong> (deep behavioral analysis, free for 30 days then paid)</p>
+      </div>
+      <div class="timeline-item">
+        <h4>Future (Post-Scale)</h4>
+        <p>Background Verification (KYC-level for marriage profiles) • Plan a Date evolution (outfit ideas, reservations, gifts) • Speed Dating & Blind Date Events</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 9: Traction -->
+  <section class="slide">
+    <span class="logo-mark">Woven</span>
+    <span class="slide-number">09 / 11</span>
+    <div class="kicker">Traction</div>
+    <h2>Full product shipped.<br>ECHO operational. Ready to validate.</h2>
+
+    <div class="stat-row" style="margin: 56px auto;">
+      <div class="stat">
+        <span class="stat-number">✓</span>
+        <span class="stat-label">Full product live</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">16</span>
+        <span class="stat-label">ECHO components</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">✓</span>
+        <span class="stat-label">Embeddings pipeline</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">→</span>
+        <span class="stat-label">Beta launch</span>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <p><strong>Tech Stack:</strong> Angular 21 • .NET 10 • PostgreSQL 16 + pgvector • Redis • Azure Container Apps • SignalR (real-time) • WebRTC (voice) • OpenAI (gpt-4.1-mini, text-embedding-3-small) • CLIP via Replicate</p>
+    </div>
+
+    <div class="highlight-box" style="margin-top: 32px;">
+      <p><strong>What's Built:</strong> User vectors (8 embedding types) • 16-component scoring • Weight learning • Collaborative filtering • Daily Pulse • Balloon mechanics • Find Love games • Commons feed • Astrology service • Voice notes • Background verification framework</p>
+    </div>
+  </section>
+
+  <!-- Slide 10: Team -->
+  <section class="slide">
+    <span class="logo-mark">Woven</span>
+    <span class="slide-number">10 / 11</span>
+    <div class="kicker">Team</div>
+    <h2>Domain proof. Technical execution.<br>Now building the growth engine.</h2>
+
+    <div class="content-grid" style="margin-top: 56px;">
+      <div class="card">
+        <h3>Founder</h3>
+        <p><strong>Goutham Yadav Ganta</strong><br>Full-Stack • Product • ECHO Architect<br><br>Domain proof: Built behavioral ML from scratch. Understands BOTH the dating trap AND arranged marriage pressure.</p>
+      </div>
+      <div class="card">
+        <h3>Seeking</h3>
+        <p><strong>Co-Founder: Business/Marketing</strong><br>User acquisition expertise. Women-first GTM strategy.<br><br><strong>India Market Advisor</strong><br>Local market knowledge, city-by-city expansion.<br><br><strong>Developer/Product Owner</strong><br>Same industry experience (dating/social).</p>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top: 56px;">
+      <p><strong>Why this team?</strong> ECHO's behavioral learning requires continuous validation from a <strong>Behavioral Scientist</strong> (psychological model correctness). Growth/Marketing co-founder brings user acquisition + retention expertise we don't have in-house. India Market Advisor ensures we don't miss local nuances (astrology integration, family dynamics, city-specific behaviors).</p>
+    </div>
+  </section>
+
+  <!-- Slide 11: The Ask -->
+  <section class="slide">
+    <span class="logo-mark">Woven</span>
+    <span class="slide-number">11 / 11</span>
+    <div class="kicker">The Ask</div>
+    <h2>₹25L Pre-Seed (USD $30K)<br>4 months to validate. Then seed.</h2>
+
+    <div class="stat-row" style="margin: 48px auto 56px;">
+      <div class="stat">
+        <span class="stat-number">₹25L</span>
+        <span class="stat-label">Pre-Seed ($30K)</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">4mo</span>
+        <span class="stat-label">Validation runway</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">10K</span>
+        <span class="stat-label">Target users</span>
+      </div>
+    </div>
+
+    <h3 style="text-align: center; margin-bottom: 24px;">Use of Funds</h3>
+    <table class="budget-table">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>INR</th>
+          <th>USD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Marketing (10K users, Hyderabad women-first)</td>
+          <td>₹12L</td>
+          <td>$14.4K</td>
+        </tr>
+        <tr>
+          <td>Legal & Compliance (KYC, pen testing)</td>
+          <td>₹6L</td>
+          <td>$7.2K</td>
+        </tr>
+        <tr>
+          <td>Hosting & AI (Azure + Claude credits reduce this)</td>
+          <td>₹2L</td>
+          <td>$2.4K</td>
+        </tr>
+        <tr>
+          <td>Operations & Buffer</td>
+          <td>₹5L</td>
+          <td>$6K</td>
+        </tr>
+        <tr>
+          <td><strong>TOTAL</strong></td>
+          <td><strong>₹25L</strong></td>
+          <td><strong>$30K</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="text-align: center; margin: 56px 0 24px;">4-Month Milestones → Seed-Ready</h3>
+    <div class="stat-row">
+      <div class="stat">
+        <span class="stat-number">10K</span>
+        <span class="stat-label">Total users (Hyderabad)</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">300+</span>
+        <span class="stat-label">Dates confirmed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">20%+</span>
+        <span class="stat-label">ECHO vs random baseline</span>
+      </div>
+      <div class="stat">
+        <span class="stat-number">500</span>
+        <span class="stat-label">Paying users (5%)</span>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top: 48px;">
+      <p><strong>Azure credits:</strong> Up to $150K free (Microsoft for Startups). <strong>Claude API credits:</strong> $5K-100K free (Anthropic Startup Program). Actual hosting cash burn significantly reduced.</p>
+    </div>
+
+    <p class="contact" style="margin-top: 56px;">
+      <strong>After Validation → Seed (₹1.6cr / $200K)</strong><br>
+      Target: 10K daily active users • ₹10L MRR • Series A metrics<br><br>
+      Contact: <a href="mailto:gantagouthamyadav1998@gmail.com">gantagouthamyadav1998@gmail.com</a><br>
+      Live: <a href="https://wooven.me">wooven.me</a>
+    </p>
+  </section>
+
+</div>
+
+<script>
+document.addEventListener('keydown', (e) => {
+  const slides = document.querySelectorAll('.slide');
+  const currentIndex = Array.from(slides).findIndex(slide => {
+    const rect = slide.getBoundingClientRect();
+    return rect.top >= 0 && rect.top < window.innerHeight / 2;
+  });
+
+  if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+    e.preventDefault();
+    if (currentIndex < slides.length - 1) {
+      slides[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+    e.preventDefault();
+    if (currentIndex > 0) {
+      slides[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+    }
+  } else if (e.key === 'Home') {
+    e.preventDefault();
+    slides[0].scrollIntoView({ behavior: 'smooth' });
+  } else if (e.key === 'End') {
+    e.preventDefault();
+    slides[slides.length - 1].scrollIntoView({ behavior: 'smooth' });
+  }
+});
+</script>
+
+</body></html>

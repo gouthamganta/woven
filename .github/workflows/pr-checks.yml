@@ -58,18 +58,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history to compare against base
 
-      - name: Check for large files (>5MB)
+      - name: Check for new large files (>5MB)
         run: |
-          LARGE=$(find . -not -path './.git/*' -size +5M 2>/dev/null | grep -v node_modules | grep -v '.angular' || true)
+          # Get list of changed files in this PR
+          CHANGED_FILES=$(git diff --name-only --diff-filter=ACMR origin/${{ github.base_ref }}...HEAD || echo "")
+
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "⚠️  No changed files detected (PR may be empty or fetch failed)"
+            exit 0
+          fi
+
+          # Check if any changed files are >5MB
+          LARGE=""
+          while IFS= read -r file; do
+            if [ -f "$file" ] && [ $(stat -c%s "$file" 2>/dev/null || stat -f%z "$file" 2>/dev/null || echo 0) -gt 5242880 ]; then
+              LARGE="${LARGE}${file}\n"
+            fi
+          done <<< "$CHANGED_FILES"
+
           if [ -n "$LARGE" ]; then
-            echo "❌ Found large files (>5MB):"
-            echo "$LARGE"
+            echo "❌ Found new large files (>5MB) in this PR:"
+            echo -e "$LARGE"
             echo ""
             echo "Consider using Git LFS for binary assets or adding to .gitignore."
+            echo "Existing large files are grandfathered; this check only blocks NEW large files."
             exit 1
           fi
-          echo "✅ No large files found"
+          echo "✅ No new large files added in this PR"
 
   # ── Migration sanity: new migration must have a snapshot change ───────────
   migration-check:

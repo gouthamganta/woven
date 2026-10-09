@@ -1,0 +1,41 @@
+name: Woven delivery task
+description: Submit work to the shared founder, Claude, and Codex pipeline
+title: "[TASK] "
+labels: ["woven:delivery", "stage:intake"]
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe the user problem and the behavior you want.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: What observable result would make this task done?
+    validations:
+      required: true
+  - type: dropdown
+    id: work_type
+    attributes:
+      label: Work type
+      options: [Bug fix, QA or investigation, Documentation, Product change, Operations]
+    validations:
+      required: true
+  - type: dropdown
+    id: role
+    attributes:
+      label: Suggested owner
+      options: [Needs triage, Claude, Codex, Founder]
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and evidence
+      description: Link related issues, commits, reproduction steps, or sanitized screenshots. Do not include secrets or real-user data.
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Constraints and decisions
+      value: "Local execution. No paid API fallback or cloud deployment. Meaningful product changes require founder decision."

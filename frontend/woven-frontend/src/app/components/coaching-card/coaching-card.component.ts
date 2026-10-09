@@ -21,8 +21,8 @@ import { CoachingService, CoachingSummary } from '../../services/coaching.servic
           <button class="gotIt" (click)="dismiss()" [disabled]="busy">
             {{ busy ? '…' : 'Got it' }}
           </button>
-          <button class="turnOff" (click)="optOut()" [disabled]="busy">
-            Turn this off
+          <button class="skip" (click)="skip()" [disabled]="busy">
+            Skip
           </button>
         </div>
 
@@ -73,7 +73,7 @@ import { CoachingService, CoachingSummary } from '../../services/coaching.servic
     .gotIt:active:not(:disabled) { transform: scale(0.96); }
     .gotIt:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .turnOff {
+    .skip {
       width: 100%; padding: 14px 24px;
       border: 1px solid var(--border-subtle); border-radius: var(--radius-xl);
       background: transparent;
@@ -82,8 +82,8 @@ import { CoachingService, CoachingSummary } from '../../services/coaching.servic
       cursor: pointer;
       transition: all 0.2s ease;
     }
-    .turnOff:hover:not(:disabled) { color: var(--text-muted); border-color: var(--border-soft); }
-    .turnOff:disabled { opacity: 0.4; cursor: not-allowed; }
+    .skip:hover:not(:disabled) { color: var(--text-muted); border-color: var(--border-soft); }
+    .skip:disabled { opacity: 0.4; cursor: not-allowed; }
 
     .confirming {
       font-size: 12px; color: var(--text-dim); text-align: center;
@@ -95,6 +95,7 @@ import { CoachingService, CoachingSummary } from '../../services/coaching.servic
 export class CoachingCardComponent {
   @Input() summary: CoachingSummary | null = null;
   @Output() dismissed = new EventEmitter<void>();
+  @Output() skipped = new EventEmitter<void>();
 
   busy = false;
   confirming = false;
@@ -126,5 +127,9 @@ export class CoachingCardComponent {
       await new Promise(r => setTimeout(r, 1800));
     } catch { /* non-critical */ }
     this.dismissed.emit();
+  }
+
+  skip() {
+    this.skipped.emit();
   }
 }

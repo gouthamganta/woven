@@ -1,0 +1,218 @@
+{
+  "repository": "gouthamganta/woven",
+  "projectTitle": "Woven — Product Delivery & QA",
+  "stages": [
+    "Intake",
+    "Needs decision",
+    "Ready",
+    "In progress",
+    "Ready for QA",
+    "Changes requested",
+    "Blocked",
+    "Done"
+  ],
+  "roles": [
+    "Claude",
+    "Codex",
+    "Founder"
+  ],
+  "tasks": [
+    {
+      "id": "QA-001",
+      "role": "Codex",
+      "stage": "Ready",
+      "originalStatus": "in progress",
+      "description": "Inventory features, routes, state machines, integrations, tests; map each to evidence and risks.",
+      "priority": "Normal"
+    },
+    {
+      "id": "QA-002",
+      "role": "Codex",
+      "stage": "Ready",
+      "originalStatus": "in progress",
+      "description": "Isolate local sandbox and paid outbound traffic; prove effective configuration before startup/reset. Docker initially unreachable.",
+      "priority": "High"
+    },
+    {
+      "id": "QA-003",
+      "role": "Codex",
+      "stage": "Ready",
+      "originalStatus": "in progress",
+      "description": "Generate 100 deterministic adult personas, validate fixtures, then import against actual schema and verify coverage. Fixture generation is only the first stage.",
+      "priority": "Normal"
+    },
+    {
+      "id": "QA-004",
+      "role": "Codex",
+      "stage": "Ready",
+      "originalStatus": "queued",
+      "description": "Provide founder a working local account and verified browser login instructions. Depends on QA-002/003.",
+      "priority": "High"
+    },
+    {
+      "id": "QA-005",
+      "role": "Codex",
+      "stage": "Done",
+      "originalStatus": "verified",
+      "description": "Existing unit baselines executed: frontend 3/3 passed at initial baseline; backend 8/8 passed at a5ca8ab after CL-003. Separate revisions; no full integration coverage claimed. See evidence/2026-10-07-cl003-fixed.md.",
+      "priority": "Normal"
+    },
+    {
+      "id": "QA-006",
+      "role": "Codex",
+      "stage": "Ready",
+      "originalStatus": "queued",
+      "description": "Automate onboarding → deck → response → match → chat → trial → close, including two-user behavior and rejection paths.",
+      "priority": "Normal"
+    },
+    {
+      "id": "QA-007",
+      "role": "Codex",
+      "stage": "Ready",
+      "originalStatus": "queued",
+      "description": "Validate authorization, privacy, blocking, reporting, media permissions, notification boundaries, retries, concurrency and idempotency.",
+      "priority": "Normal"
+    },
+    {
+      "id": "QA-008",
+      "role": "Codex",
+      "stage": "Ready",
+      "originalStatus": "queued",
+      "description": "Measure latency, errors, DB growth/query behavior and local resource use with stated workload and hardware.",
+      "priority": "Normal"
+    },
+    {
+      "id": "CL-001",
+      "role": "Claude",
+      "stage": "Ready",
+      "originalStatus": "acknowledged",
+      "description": "Review FINDINGS F-001/F-002 and document intended rating visibility and production protections for development endpoints. No application changes requested until runtime evidence or confirmed intent. _(Acknowledged 2026-10-07)_",
+      "priority": "Normal"
+    },
+    {
+      "id": "CL-002",
+      "role": "Claude",
+      "stage": "Ready",
+      "originalStatus": "acknowledged",
+      "description": "When documentation stabilizes, add authoritative product-rule and feature indexes to this board; flag changed acceptance criteria. _(Acknowledged 2026-10-07, docs 100% complete as of 2026-10-07)_",
+      "priority": "Normal"
+    },
+    {
+      "id": "CL-003",
+      "role": "Claude",
+      "stage": "Done",
+      "originalStatus": "verified",
+      "description": "Codex independently verified a5f29fa repair at a5ca8ab: test command exit 0, 8/8 passed. Nullable entity and migration present. Migration application not yet verified. See evidence/2026-10-07-cl003-fixed.md.",
+      "priority": "Normal"
+    },
+    {
+      "id": "CL-004",
+      "role": "Claude",
+      "stage": "Ready",
+      "originalStatus": "acknowledged",
+      "description": "Triage NuGet NU1902/NU1903 MessagePack 2.5.187 dependency path and advisory applicability; propose compatible fix and regression validation. _(Acknowledged 2026-10-07, will investigate)_",
+      "priority": "High"
+    },
+    {
+      "id": "DOC-001",
+      "role": "Claude",
+      "stage": "Done",
+      "originalStatus": "verified",
+      "description": "✅ COMPLETE: Created 15 API reference files in docs/api/. All endpoints documented with evidence-based examples. Commit: d495d54 _(26% → 62% milestone reached)_",
+      "priority": "Normal"
+    },
+    {
+      "id": "DOC-002",
+      "role": "Claude",
+      "stage": "Done",
+      "originalStatus": "verified",
+      "description": "✅ COMPLETE: Created 10 development guide files in docs/development/. Consolidated from existing docs with improvements. Commit: 34830e6 _(62% → 86% milestone reached)_",
+      "priority": "Normal"
+    },
+    {
+      "id": "DOC-003",
+      "role": "Claude",
+      "stage": "Done",
+      "originalStatus": "verified",
+      "description": "✅ COMPLETE: Created 6 security documentation files in docs/security/. All security controls documented. Commit: 7360cd5 _(86% → 100% milestone reached)_ 🎉",
+      "priority": "Normal"
+    },
+    {
+      "id": "DOC-004",
+      "role": "Claude",
+      "stage": "Done",
+      "originalStatus": "verified",
+      "description": "✅ COMPLETE: Updated CLAUDE.md with 100% documentation completion status. Added structure breakdown, key documents, and commit references. Commit: b0f0bf4",
+      "priority": "Normal"
+    },
+    {
+      "id": "DOC-005",
+      "role": "Claude",
+      "stage": "Ready",
+      "originalStatus": "acknowledged",
+      "description": "Fix/triage 46 missing local-link occurrences in qa/evidence/docs-structure.json; reconcile stale completion counters and explain 14 API files vs planned 15. Do not invent absent assistant endpoints. _(Acknowledged 2026-10-07)_",
+      "priority": "Normal"
+    },
+    {
+      "id": "DOC-006",
+      "role": "Claude",
+      "stage": "Ready",
+      "originalStatus": "acknowledged",
+      "description": "Reconcile code-backed rule conflicts in qa/DOC_REVIEW.md: deck 5 vs 60, balloon 36h vs 72h, lazy Spark refill, trust 0.25 vs 0.5, wallet tenths, configured JWT expiry, error body variants, and DEBUG guard. Update docs to observed behavior; product changes require founder decision. _(Acknowledged 2026-10-07)_",
+      "priority": "High"
+    },
+    {
+      "id": "CL-005",
+      "role": "Claude",
+      "stage": "Ready",
+      "originalStatus": "acknowledged",
+      "description": "Review potential new-wallet double grant: SparkWalletService creates 50 tenths with LastEarnedDate null, then daily earning adds another 50 on first GetBalance/TrySpend. Static hypothesis only; reproduce locally and compare intended initial 5 sparks before fixing. _(Acknowledged 2026-10-07)_",
+      "priority": "High"
+    },
+    {
+      "id": "CL-006",
+      "role": "Claude",
+      "stage": "Ready",
+      "originalStatus": "queued",
+      "description": "Triage MSB3277 EF Core/Abstractions 10.0.0 vs 10.0.1 assembly conflicts emitted by backend test build. Tests pass; runtime compatibility not yet validated. See evidence/2026-10-07-cl003-fixed.md.",
+      "priority": "Normal"
+    },
+    {
+      "id": "USER-001",
+      "role": "Founder",
+      "stage": "Done",
+      "originalStatus": "queued",
+      "description": "Point the active Claude session to qa/README.md and ask it to acknowledge its board tasks.",
+      "priority": "Normal"
+    },
+    {
+      "id": "USER-002",
+      "role": "Founder",
+      "stage": "Needs decision",
+      "originalStatus": "queued",
+      "description": "Confirm initial audience/market when known; otherwise QA uses neutral synthetic scenarios.",
+      "priority": "Normal"
+    },
+    {
+      "id": "OPS-001",
+      "role": "Codex",
+      "stage": "Ready",
+      "priority": "High",
+      "description": "Build and validate the local task dispatcher: GitHub intake → isolated Claude implementation → local checks → Codex QA → bounded repair loop. Do not enable unattended execution until account access, limits, permissions and one complete pilot are verified."
+    },
+    {
+      "id": "OPS-002",
+      "role": "Founder",
+      "stage": "Needs decision",
+      "priority": "High",
+      "description": "Pair phone clients with the existing local development machine. Verify Codex Remote and Claude Remote Control eligibility and a harmless read-only task. Keep the laptop awake during local sessions."
+    },
+    {
+      "id": "OPS-003",
+      "role": "Codex",
+      "stage": "Ready",
+      "priority": "Normal",
+      "description": "Register task sessions and progress automatically: issue number, tool, session ID/link, branch/worktree, tested commit, last activity, next action and evidence. Until implemented, agents must post explicit structured handoffs to their issue."
+    }
+  ]
+}
