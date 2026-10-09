@@ -290,6 +290,7 @@ export class MomentsPageComponent implements OnInit, OnDestroy {
       );
     } catch {
       this.respondedUserIds.delete(card.userId);
+      this.deckCompleted = false;
       this.showToast('Something went wrong. Try again.');
     } finally {
       this.cdr.markForCheck();
@@ -384,8 +385,12 @@ export class MomentsPageComponent implements OnInit, OnDestroy {
         this.showToast(choice === 'MAGICAL' ? '◈ Sent' : '◇ Sent');
       }
     } catch {
-      if (source === 'TODAY') this.respondedUserIds.delete(userId);
-      else this.respondedLikedYouIds.delete(userId);
+      if (source === 'TODAY') {
+        this.respondedUserIds.delete(userId);
+        this.deckCompleted = false;
+      } else {
+        this.respondedLikedYouIds.delete(userId);
+      }
       this.showToast('Something went wrong. Try again.');
     } finally {
       this.cdr.markForCheck();
