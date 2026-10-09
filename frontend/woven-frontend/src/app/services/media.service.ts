@@ -30,11 +30,14 @@ export class MediaService {
       })
     );
 
-    await fetch(token.uploadUrl, {
+    const uploadResponse = await fetch(token.uploadUrl, {
       method: 'PUT',
       headers: { 'x-ms-blob-type': 'BlockBlob', 'Content-Type': blob.type || 'audio/webm' },
       body: blob,
     });
+    if (!uploadResponse.ok) {
+      throw new Error(`Voice note upload failed with HTTP ${uploadResponse.status}`);
+    }
 
     const confirmed = await firstValueFrom(
       this.http.post<ConfirmResponse>(`${environment.apiUrl}/media/confirm`, {
