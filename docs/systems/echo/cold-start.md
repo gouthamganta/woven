@@ -21,7 +21,7 @@ How ECHO works on day 1 — before behavioral signals, learned weights, and full
 ### Day 1 (Onboarding Exit)
 
 **Available embeddings:**
-- ✓ **PillarEmbedding** (128-dim) — from foundational questions
+- ✓ **PillarEmbedding** (`vector(1536)` column; see embeddings.md) — from foundational questions
 - ✓ **PillarScores** (8-dim) — raw scores, used as fallback
 
 **Missing embeddings:**

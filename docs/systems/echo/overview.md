@@ -84,7 +84,7 @@ This keeps compatibility clean: a low-trust user doesn't get matched *because* t
 │ Layer 2: EMBEDDING GENERATION (nightly 02:30 UTC)              │
 │ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ │
 │ EmbeddingBatchWorker runs 9 embedding services:                │
-│ 1. PillarEmbedding (8-dim pillar scores → 128-dim OpenAI)      │
+│ 1. PillarEmbedding (8-dim pillar scores → stored in vector(1536) column; see embeddings.md)      │
 │ 2. ExpressionEmbedding (text tiles → 128-dim OpenAI)           │
 │ 3. StyleEmbedding (writing style from tiles → 128-dim)         │
 │ 4. HumorEmbedding (humor sense from answers → 128-dim)         │
