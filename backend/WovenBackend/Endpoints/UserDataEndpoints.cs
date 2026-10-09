@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WovenBackend.Data;
 using WovenBackend.Data.Entities;
@@ -272,7 +273,7 @@ public static class PushEndpoints
 
         // DELETE /me/push-subscription — unregister (on toggle off or logout)
         group.MapDelete("/push-subscription", async (
-            PushUnsubscribeRequest req,
+            [FromBody] PushUnsubscribeRequest req,
             ClaimsPrincipal principal,
             WovenDbContext db,
             CancellationToken ct) =>
