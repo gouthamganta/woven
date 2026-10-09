@@ -415,7 +415,7 @@ public static class MatchesEndpoints
         .WithName("MatchUnmatch");
 
         // POST /matches/{matchId}/block
-        group.MapPost("/{matchId:guid}/block", async (Guid matchId, WovenDbContext db, HttpContext http, CancellationToken ct) =>
+        group.MapPost("/{matchId:guid}/block", async (Guid matchId, UnmatchRequest? req, WovenDbContext db, HttpContext http, CancellationToken ct) =>
         {
             var me = GetUserId(http.User);
 
@@ -433,6 +433,19 @@ public static class MatchesEndpoints
                 {
                     BlockerId = me,
                     BlockedId = otherId,
+                    CreatedAt = now
+                });
+            }
+
+            // Save Afterthought rating if provided
+            if (req?.Rating != null && req.Rating >= -100 && req.Rating <= 100)
+            {
+                db.UserRatings.Add(new UserRating
+                {
+                    RatedUserId = otherId,
+                    RaterUserId = me,
+                    MatchId = matchId,
+                    RatingValue = req.Rating.Value,
                     CreatedAt = now
                 });
             }

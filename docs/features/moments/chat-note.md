@@ -6,7 +6,7 @@
 
 ## Overview
 
-The ChatNote overlay appears after a user chooses Magical ◈ or Resonant ◇ (not Pass). It requires a 20-150 character opening note before the choice is submitted. This note is a **background signal only** — it's never shown to the other user, only fed to ECHO for preference learning.
+The ChatNote overlay appears after a user chooses Magical ◈ or Resonant ◇ (not Pass). It requires a 20-150 character opening note before the choice is submitted. **Both ChatNotes are shown to the matched pair** after the match is created (founder decision 2026-10-08).
 
 ## When shown
 
@@ -350,13 +350,18 @@ public class ChatNote
 
 ## Privacy note
 
-**ChatNotes are background signals only.** They are:
-- Never displayed to the other user
-- Never displayed in chat thread
-- Used only for ECHO preference learning (future feature)
-- Stored in DB for potential future analysis
+**ChatNotes are shown to matched pairs only.** (Founder decision 2026-10-08)
 
-**Rationale:** Users write more honestly when they know the note won't be shown verbatim. The goal is to capture *why* they're interested (e.g., "love your hiking photos" → ECHO learns viewer values outdoor lifestyle), not to create a messaging burden.
+**Visibility:**
+- Both ChatNotes are shown to the matched pair after match creation
+- Third-party users are denied access (authentication + match-participant authorization enforced)
+- Notes are never displayed to unrelated users
+
+**Also used for:**
+- ECHO preference learning (future feature)
+- Potential future analysis
+
+**Rationale:** Sharing opening notes helps matched pairs understand initial attraction context and start conversations with authentic mutual interest.
 
 ## Related files
 

@@ -2,6 +2,11 @@
 
 Shared entry point for the founder, Codex, and Claude. No hosted board required.
 
+GitHub migration: [GITHUB_WORKFLOW.md](GITHUB_WORKFLOW.md) describes the shared
+Issue/Project workflow for laptop and phone sessions. `github-board.json` maps
+task IDs to Issues and the Project. The Markdown board is the pre-migration
+snapshot; new work and handoffs belong in GitHub once setup completes.
+
 - [Introduction and handoff to Claude](CLAUDE_HANDOFF.md): roles, pause status,
   initial results, and space for acknowledgment.
 
@@ -9,6 +14,7 @@ Shared entry point for the founder, Codex, and Claude. No hosted board required.
 - [Memory](MEMORY.md): persistent context and next steps.
 - [Test strategy](STRATEGY.md): scope, evidence, and readiness gates.
 - [Findings](FINDINGS.md): source-linked observations awaiting validation.
+- [Documentation review](DOC_REVIEW.md): reading coverage and source discrepancies.
 - `fixtures/personas.json`: reproducible synthetic input, not database seed proof.
 - `evidence/`: sanitized run results. Private local output belongs in `.local/`.
 

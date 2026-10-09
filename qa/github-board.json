@@ -1,0 +1,404 @@
+{
+  "repository": "gouthamganta/woven",
+  "project": {
+    "id": "PVT_kwHODAzB4M4BmIxZ",
+    "number": 2,
+    "title": "Woven — Product Delivery & QA",
+    "url": "https://github.com/users/gouthamganta/projects/2"
+  },
+  "issues": {
+    "QA-001": {
+      "number": 77,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0DKA",
+      "url": "https://github.com/gouthamganta/woven/issues/77",
+      "role": "Codex",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA44",
+      "syncSignature": "open|Ready|Codex|Normal"
+    },
+    "QA-002": {
+      "number": 78,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0DZA",
+      "url": "https://github.com/gouthamganta/woven/issues/78",
+      "role": "Codex",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA50",
+      "syncSignature": "open|Ready|Codex|High"
+    },
+    "QA-003": {
+      "number": 79,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Dmw",
+      "url": "https://github.com/gouthamganta/woven/issues/79",
+      "role": "Codex",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA6o",
+      "syncSignature": "open|Ready|Codex|Normal"
+    },
+    "QA-004": {
+      "number": 80,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Dzg",
+      "url": "https://github.com/gouthamganta/woven/issues/80",
+      "role": "Codex",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA7g",
+      "syncSignature": "open|Ready|Codex|High"
+    },
+    "QA-005": {
+      "number": 81,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0EGw",
+      "url": "https://github.com/gouthamganta/woven/issues/81",
+      "role": "Codex",
+      "importedStage": "Done",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA8o",
+      "syncSignature": "closed|Done|Codex|Normal"
+    },
+    "QA-006": {
+      "number": 82,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Ezw",
+      "url": "https://github.com/gouthamganta/woven/issues/82",
+      "role": "Codex",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA9M",
+      "syncSignature": "open|Ready|Codex|Normal"
+    },
+    "QA-007": {
+      "number": 83,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0E_A",
+      "url": "https://github.com/gouthamganta/woven/issues/83",
+      "role": "Codex",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA-Q",
+      "syncSignature": "open|Ready|Codex|Normal"
+    },
+    "QA-008": {
+      "number": 84,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0FPA",
+      "url": "https://github.com/gouthamganta/woven/issues/84",
+      "role": "Codex",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SA-w",
+      "syncSignature": "open|Ready|Codex|Normal"
+    },
+    "CL-001": {
+      "number": 85,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Fqg",
+      "url": "https://github.com/gouthamganta/woven/issues/85",
+      "role": "Claude",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBAU",
+      "syncSignature": "open|Ready|Claude|Normal"
+    },
+    "CL-002": {
+      "number": 86,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0F3w",
+      "url": "https://github.com/gouthamganta/woven/issues/86",
+      "role": "Claude",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBBA",
+      "syncSignature": "open|Ready|Claude|Normal"
+    },
+    "CL-003": {
+      "number": 87,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0GHQ",
+      "url": "https://github.com/gouthamganta/woven/issues/87",
+      "role": "Claude",
+      "importedStage": "Done",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBBw",
+      "syncSignature": "closed|Done|Claude|Normal"
+    },
+    "CL-004": {
+      "number": 88,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0GuA",
+      "url": "https://github.com/gouthamganta/woven/issues/88",
+      "role": "Claude",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBDM",
+      "syncSignature": "open|Ready for QA|Claude|High"
+    },
+    "DOC-001": {
+      "number": 89,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0HHA",
+      "url": "https://github.com/gouthamganta/woven/issues/89",
+      "role": "Claude",
+      "importedStage": "Done",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBEY",
+      "syncSignature": "closed|Done|Claude|Normal"
+    },
+    "DOC-002": {
+      "number": 90,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Hsg",
+      "url": "https://github.com/gouthamganta/woven/issues/90",
+      "role": "Claude",
+      "importedStage": "Done",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBE8",
+      "syncSignature": "closed|Done|Claude|Normal"
+    },
+    "DOC-003": {
+      "number": 91,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0IbQ",
+      "url": "https://github.com/gouthamganta/woven/issues/91",
+      "role": "Claude",
+      "importedStage": "Done",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBGQ",
+      "syncSignature": "closed|Done|Claude|Normal"
+    },
+    "DOC-004": {
+      "number": 92,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0JHA",
+      "url": "https://github.com/gouthamganta/woven/issues/92",
+      "role": "Claude",
+      "importedStage": "Done",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBHQ",
+      "syncSignature": "closed|Done|Claude|Normal"
+    },
+    "DOC-005": {
+      "number": 93,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0J5g",
+      "url": "https://github.com/gouthamganta/woven/issues/93",
+      "role": "Claude",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBIE",
+      "syncSignature": "open|Ready for QA|Claude|Normal"
+    },
+    "DOC-006": {
+      "number": 94,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0KTg",
+      "url": "https://github.com/gouthamganta/woven/issues/94",
+      "role": "Claude",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBI0",
+      "syncSignature": "open|Ready for QA|Claude|High"
+    },
+    "CL-005": {
+      "number": 95,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Kiw",
+      "url": "https://github.com/gouthamganta/woven/issues/95",
+      "role": "Claude",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBJs",
+      "syncSignature": "open|Ready for QA|Claude|High"
+    },
+    "CL-006": {
+      "number": 96,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Kwg",
+      "url": "https://github.com/gouthamganta/woven/issues/96",
+      "role": "Claude",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBK0",
+      "syncSignature": "open|Ready|Claude|Normal"
+    },
+    "USER-001": {
+      "number": 97,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0K7Q",
+      "url": "https://github.com/gouthamganta/woven/issues/97",
+      "role": "Founder",
+      "importedStage": "Done",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBLw",
+      "syncSignature": "closed|Done|Founder|Normal"
+    },
+    "USER-002": {
+      "number": 98,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Lxw",
+      "url": "https://github.com/gouthamganta/woven/issues/98",
+      "role": "Founder",
+      "importedStage": "Needs decision",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBNA",
+      "syncSignature": "open|Needs decision|Founder|Normal"
+    },
+    "OPS-001": {
+      "number": 99,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0L9w",
+      "url": "https://github.com/gouthamganta/woven/issues/99",
+      "role": "Codex",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBN8",
+      "syncSignature": "open|In progress|Codex|High"
+    },
+    "OPS-002": {
+      "number": 100,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0MRg",
+      "url": "https://github.com/gouthamganta/woven/issues/100",
+      "role": "Founder",
+      "importedStage": "Needs decision",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBOw",
+      "syncSignature": "open|Needs decision|Founder|High"
+    },
+    "OPS-003": {
+      "number": 101,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVv0Miw",
+      "url": "https://github.com/gouthamganta/woven/issues/101",
+      "role": "Codex",
+      "importedStage": "Ready",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_SBP0",
+      "syncSignature": "open|Ready|Codex|Normal"
+    },
+    "OPS-004": {
+      "number": 103,
+      "nodeId": "I_kwDOQ3m2XM8AAAABVwcFAQ",
+      "url": "https://github.com/gouthamganta/woven/issues/103",
+      "role": "Codex",
+      "projectItemId": "PVTI_lAHODAzB4M4BmIxZzg_Sm_s",
+      "syncSignature": "closed|Done|Codex|Normal"
+    }
+  },
+  "fields": {
+    "stage": {
+      "id": "PVTSSF_lAHODAzB4M4BmIxZzhky9zM",
+      "name": "Stage",
+      "options": [
+        {
+          "id": "5ea1f4d7",
+          "name": "Intake"
+        },
+        {
+          "id": "edeb104d",
+          "name": "Needs decision"
+        },
+        {
+          "id": "c641b730",
+          "name": "Ready"
+        },
+        {
+          "id": "437b88b3",
+          "name": "In progress"
+        },
+        {
+          "id": "cffa8110",
+          "name": "Ready for QA"
+        },
+        {
+          "id": "c8063222",
+          "name": "Changes requested"
+        },
+        {
+          "id": "79c15cc7",
+          "name": "Blocked"
+        },
+        {
+          "id": "f943527c",
+          "name": "Done"
+        }
+      ]
+    },
+    "role": {
+      "id": "PVTSSF_lAHODAzB4M4BmIxZzhky9zQ",
+      "name": "Owner role",
+      "options": [
+        {
+          "id": "90f30484",
+          "name": "Claude"
+        },
+        {
+          "id": "89f65ed5",
+          "name": "Codex"
+        },
+        {
+          "id": "338e5e3d",
+          "name": "Founder"
+        }
+      ]
+    },
+    "priority": {
+      "id": "PVTSSF_lAHODAzB4M4BmIxZzhky9zU",
+      "name": "Priority",
+      "options": [
+        {
+          "id": "279f82d2",
+          "name": "High"
+        },
+        {
+          "id": "36c5611b",
+          "name": "Normal"
+        }
+      ]
+    },
+    "status": {
+      "id": "PVTSSF_lAHODAzB4M4BmIxZzhky9xk",
+      "name": "Status",
+      "options": [
+        {
+          "id": "ab8921b0",
+          "name": "Intake"
+        },
+        {
+          "id": "ef6fe8c6",
+          "name": "Needs decision"
+        },
+        {
+          "id": "f75ad846",
+          "name": "Ready"
+        },
+        {
+          "id": "47fc9ee4",
+          "name": "In progress"
+        },
+        {
+          "id": "bab34b66",
+          "name": "Ready for QA"
+        },
+        {
+          "id": "455249c2",
+          "name": "Changes requested"
+        },
+        {
+          "id": "c5e7fb3a",
+          "name": "Blocked"
+        },
+        {
+          "id": "98236657",
+          "name": "Done"
+        }
+      ]
+    }
+  },
+  "views": [
+    {
+      "id": "PVTV_lAHODAzB4M4BmIxZzgL9qIE",
+      "name": "Delivery board",
+      "number": 2,
+      "layout": "BOARD_LAYOUT",
+      "filter": "",
+      "url": "https://github.com/users/gouthamganta/projects/2/views/2"
+    },
+    {
+      "id": "PVTV_lAHODAzB4M4BmIxZzgL9qIM",
+      "name": "Founder decisions",
+      "number": 3,
+      "layout": "TABLE_LAYOUT",
+      "filter": "is:open label:owner:founder",
+      "url": "https://github.com/users/gouthamganta/projects/2/views/3"
+    },
+    {
+      "id": "PVTV_lAHODAzB4M4BmIxZzgL9qIU",
+      "name": "Claude queue",
+      "number": 4,
+      "layout": "TABLE_LAYOUT",
+      "filter": "is:open label:owner:claude",
+      "url": "https://github.com/users/gouthamganta/projects/2/views/4"
+    },
+    {
+      "id": "PVTV_lAHODAzB4M4BmIxZzgL9qIY",
+      "name": "Codex QA",
+      "number": 5,
+      "layout": "TABLE_LAYOUT",
+      "filter": "is:open label:owner:codex",
+      "url": "https://github.com/users/gouthamganta/projects/2/views/5"
+    },
+    {
+      "id": "PVTV_lAHODAzB4M4BmIxZzgL9qIc",
+      "name": "Blocked work",
+      "number": 6,
+      "layout": "TABLE_LAYOUT",
+      "filter": "is:open label:stage:blocked",
+      "url": "https://github.com/users/gouthamganta/projects/2/views/6"
+    },
+    {
+      "id": "PVTV_lAHODAzB4M4BmIxZzgL9qIk",
+      "name": "Completed evidence",
+      "number": 7,
+      "layout": "TABLE_LAYOUT",
+      "filter": "is:closed",
+      "url": "https://github.com/users/gouthamganta/projects/2/views/7"
+    }
+  ]
+}

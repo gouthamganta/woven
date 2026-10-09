@@ -31,18 +31,24 @@ public class SparkWalletService
         await using var tx = await _db.Database.BeginTransactionAsync(
             System.Data.IsolationLevel.Serializable, ct);
 
+        var today = DateOnly.FromDateTime(DateTime.UtcNow);
+
         var wallet = await _db.SparkWallets
             .FirstOrDefaultAsync(w => w.UserId == userId, ct);
 
         if (wallet is null)
         {
-            wallet = new SparkWallet { UserId = userId, BalanceTenths = DailyEarnTenths };
+            wallet = new SparkWallet
+            {
+                UserId = userId,
+                BalanceTenths = DailyEarnTenths,
+                LastEarnedDate = today  // FIX: Set to today to prevent double-earn
+            };
             _db.SparkWallets.Add(wallet);
             await _db.SaveChangesAsync(ct);
         }
 
         // Earn daily inside the transaction to prevent double-earn
-        var today = DateOnly.FromDateTime(DateTime.UtcNow);
         if (wallet.LastEarnedDate == null || wallet.LastEarnedDate < today)
         {
             wallet.BalanceTenths = Math.Min(MaxBalanceTenths, wallet.BalanceTenths + DailyEarnTenths);
@@ -79,7 +85,13 @@ public class SparkWalletService
 
         if (wallet is null)
         {
-            wallet = new SparkWallet { UserId = userId, BalanceTenths = DailyEarnTenths };
+            var today = DateOnly.FromDateTime(DateTime.UtcNow);
+            wallet = new SparkWallet
+            {
+                UserId = userId,
+                BalanceTenths = DailyEarnTenths,
+                LastEarnedDate = today  // FIX: Set to today to prevent double-earn
+            };
             _db.SparkWallets.Add(wallet);
             await _db.SaveChangesAsync(ct);
         }

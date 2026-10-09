@@ -1,6 +1,29 @@
 # Woven — CLAUDE.md
 # Updated: 2026-10-07 — reflects all work done through October 2026
 
+## Shared task management — GitHub only
+
+The founder moved task management to
+[Woven Product Delivery & QA](https://github.com/users/gouthamganta/projects/2).
+[Claude's queue](https://github.com/users/gouthamganta/projects/2/views/4).
+
+- Use GitHub Issues for tasks, progress, decisions, findings and handoffs to Codex.
+- Stop updating `qa/BOARD.md`; it is a historical snapshot, not an active board.
+- Do not create replacement Markdown task boards or require founder-relayed
+  routine handoffs. Record the handoff directly on the relevant Issue.
+- Read `qa/GITHUB_WORKFLOW.md`. Update Issue owner/stage labels; local sync
+  mirrors them into Project fields. Register session/branch and evidence.
+- GitHub task migration does not automatically start another agent. Automatic
+  dispatch is still pending OPS-001 (#99), session tracking OPS-003 (#101).
+- Acknowledge this migration on GitHub Issue #86 (CL-002), not in this file.
+- If GitHub MCP is unauthenticated in a local session, use the authenticated
+  GitHub CLI at `C:/Users/gauta/Desktop/Woven/qa/.local/tools/gh/bin/gh.exe`.
+  Pass issue comments with `--body-file`; no token needs to be pasted into chat.
+  Founder authorized task handoffs through GitHub, so complete routine updates
+  directly rather than asking the founder to relay or close them.
+- Project is private; repository Issues are public. Keep secrets and real-user
+  data out of Issue comments.
+
 ---
 
 ## What this app is

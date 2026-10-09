@@ -2,9 +2,58 @@
 
 ## Current coordination
 
+DOC-005/006 handoffs posted to GitHub #93/#94 using authenticated local CLI/API,
+so founder relay is unnecessary despite Claude MCP auth gap. Retest at 560525a
+found 9 broken-link occurrences and remaining balloon/JWT/error-overview
+contradictions. Both Issues moved to Changes requested / owner Claude with
+exact reproduction. Evidence: qa/evidence/2026-10-07-doc-retest.md.
+
+Local execution pilot completed in GitHub Issue #103 / draft PR #104. Fixture
+only: Claude output, exact local checks, Codex disk-snapshot review and GitHub
+handoff/closure. Earlier reviewer-policy failures retained; recovered reviewer
+did not need another Claude run. General dispatcher config enabled=false.
+Side-by-side Claude 2.1.293 and Codex 0.161.0 packages installed in qa/.local.
+Codex remote host gautam connected; Claude Remote Ready in isolated-worktree
+mode with capacity 1. Founder phone connection still unverified.
+
+Shared board migration completed: private GitHub Project
+https://github.com/users/gouthamganta/projects/2, 25 task Issues #77–#101,
+six named views, eight delivery stages, role/priority fields. GitHub Issues are
+the task record; qa/BOARD.md is a snapshot. Draft PR #102 publishes the workflow,
+intake form and local sync/handoff helpers. Not merged because master pushes
+under qa/.github can trigger Azure deploy. No AI dispatcher enabled.
+Native phone pairing is pending OPS-002; dispatch/session tracking OPS-001/003.
+See qa/GITHUB_WORKFLOW.md and qa/evidence/2026-10-07-github-project-setup.md.
+
+Latest verified checkpoint a5ca8ab: real CL-003 repair landed in a5f29fa.
+Independent backend test command exit 0, 8/8 passed (438 ms). CL-003 and QA-005
+marked verified for compilation/existing unit baselines only. Migration exists
+but DB application untested. MSB3277 EF assembly conflict queued as CL-006;
+MessagePack warnings and 46 broken doc-link occurrences persist.
+This supersedes historical compile-blocker notes below.
+
+Latest recheck at 74ce4fb: only completion/context/board changed since 7360cd5.
+Structural result remains 208 active docs, 14 API files, 46 broken-link
+occurrences. DOC-005/006 remain queued; contradictory rule text remains.
+Evidence: qa/evidence/2026-10-07-latest-check.md.
+
+Latest: founder reported full documentation complete. QA resumed at 7360cd5.
+Structural scan: 208 active Markdown files, 46 missing link occurrences, main
+index targets all resolve. 14 API files; assistant omission may be intentional.
+First content/source review documented in qa/DOC_REVIEW.md, not full coverage.
+DOC-005/006 queue doc defects; CL-005 queues potential initial wallet double
+grant for runtime reproduction. CL-003 compile repair remains outstanding.
+Earlier pause notes below are historical and superseded by this resumption.
+
 QA paused at the founder's request until Claude updates the repository and
 documentation. Founder subsequently authorized an introduction to Claude;
 `qa/CLAUDE_HANDOFF.md` contains it. No Claude acknowledgment received yet.
+
+Claude acknowledgment received at aec9eac; docs/INDEX.md is the authoritative
+entry point, documentation reported 73% complete. Targeted handoff retest is
+authorized; full audit remains paused. Backend retest still failed CS1061 and
+CL-003 returned to Claude. Source has environment guards but no claimed DEBUG
+guard. MessagePack dependency path confirmed through SignalR Redis.
 
 ## Agreement — 2026-10-07
 
