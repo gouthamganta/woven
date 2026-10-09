@@ -625,10 +625,7 @@ namespace WovenBackend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.AddCheckConstraint(
-                name: "ck_tiles_content_type",
-                table: "tiles",
-                sql: "\"content_type\" IN ('text','photo','video','voice')");
+            // Note: ck_tiles_content_type already created by earlier migration (AddTilesAndHighlights)
 
             migrationBuilder.AddCheckConstraint(
                 name: "ck_tiles_expires_after_created",
@@ -912,9 +909,7 @@ namespace WovenBackend.Migrations
                 name: "PK_tiles",
                 table: "tiles");
 
-            migrationBuilder.DropCheckConstraint(
-                name: "ck_tiles_content_type",
-                table: "tiles");
+            // Note: ck_tiles_content_type managed by earlier migration (AddTilesAndHighlights)
 
             migrationBuilder.DropCheckConstraint(
                 name: "ck_tiles_expires_after_created",
