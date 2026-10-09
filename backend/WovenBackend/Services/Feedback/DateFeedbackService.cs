@@ -66,13 +66,17 @@ public class DateFeedbackService : IDateFeedbackService
         {
             _db.DateFeedbackPrompts.Add(new DateFeedbackPrompt
             {
-                MatchId = match.Id, UserId = match.UserAId,
-                TriggerType = "interested_both", ScheduledFor = now
+                MatchId = match.Id,
+                UserId = match.UserAId,
+                TriggerType = "interested_both",
+                ScheduledFor = now
             });
             _db.DateFeedbackPrompts.Add(new DateFeedbackPrompt
             {
-                MatchId = match.Id, UserId = match.UserBId,
-                TriggerType = "interested_both", ScheduledFor = now
+                MatchId = match.Id,
+                UserId = match.UserBId,
+                TriggerType = "interested_both",
+                ScheduledFor = now
             });
         }
 
@@ -95,13 +99,17 @@ public class DateFeedbackService : IDateFeedbackService
         {
             _db.DateFeedbackPrompts.Add(new DateFeedbackPrompt
             {
-                MatchId = match.Id, UserId = match.UserAId,
-                TriggerType = "deep_chat", ScheduledFor = now
+                MatchId = match.Id,
+                UserId = match.UserAId,
+                TriggerType = "deep_chat",
+                ScheduledFor = now
             });
             _db.DateFeedbackPrompts.Add(new DateFeedbackPrompt
             {
-                MatchId = match.Id, UserId = match.UserBId,
-                TriggerType = "deep_chat", ScheduledFor = now
+                MatchId = match.Id,
+                UserId = match.UserBId,
+                TriggerType = "deep_chat",
+                ScheduledFor = now
             });
         }
 
@@ -130,13 +138,17 @@ public class DateFeedbackService : IDateFeedbackService
         {
             _db.DateFeedbackPrompts.Add(new DateFeedbackPrompt
             {
-                MatchId = match.Id, UserId = match.UserAId,
-                TriggerType = "silent_thread", ScheduledFor = now
+                MatchId = match.Id,
+                UserId = match.UserAId,
+                TriggerType = "silent_thread",
+                ScheduledFor = now
             });
             _db.DateFeedbackPrompts.Add(new DateFeedbackPrompt
             {
-                MatchId = match.Id, UserId = match.UserBId,
-                TriggerType = "silent_thread", ScheduledFor = now
+                MatchId = match.Id,
+                UserId = match.UserBId,
+                TriggerType = "silent_thread",
+                ScheduledFor = now
             });
         }
 

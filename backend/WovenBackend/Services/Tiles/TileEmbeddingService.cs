@@ -12,27 +12,27 @@ namespace WovenBackend.Services.Tiles;
 public class TileEmbeddingService
 {
     private const string EmbeddingEndpoint = "https://api.openai.com/v1/embeddings";
-    private const string ChatEndpoint      = "https://api.openai.com/v1/chat/completions";
-    private const string EmbeddingModel    = "text-embedding-3-small";
-    private const string VisionModel       = "gpt-4o-mini";
-    private const int    EmbeddingDims     = 1536;
-    private const int    LastNTiles        = 30;
+    private const string ChatEndpoint = "https://api.openai.com/v1/chat/completions";
+    private const string EmbeddingModel = "text-embedding-3-small";
+    private const string VisionModel = "gpt-4o-mini";
+    private const int EmbeddingDims = 1536;
+    private const int LastNTiles = 30;
 
     private readonly IServiceScopeFactory _scopeFactory;
-    private readonly IHttpClientFactory   _httpFactory;
-    private readonly IConfiguration       _config;
+    private readonly IHttpClientFactory _httpFactory;
+    private readonly IConfiguration _config;
     private readonly ILogger<TileEmbeddingService> _logger;
 
     public TileEmbeddingService(
         IServiceScopeFactory scopeFactory,
-        IHttpClientFactory   httpFactory,
-        IConfiguration       config,
+        IHttpClientFactory httpFactory,
+        IConfiguration config,
         ILogger<TileEmbeddingService> logger)
     {
         _scopeFactory = scopeFactory;
-        _httpFactory  = httpFactory;
-        _config       = config;
-        _logger       = logger;
+        _httpFactory = httpFactory;
+        _config = config;
+        _logger = logger;
     }
 
     public async Task EmbedTileAsync(Guid tileId, CancellationToken ct = default)
@@ -47,7 +47,7 @@ public class TileEmbeddingService
         {
             "photo" => await EmbedPhotoTileAsync(tile.MediaUrl, tile.ContentText, ct),
             "video" => await EmbedVideoTileAsync(tile.ContentText, ct),
-            _       => await EmbedTextAsync(tile.ContentText, ct)   // "text" + fallback
+            _ => await EmbedTextAsync(tile.ContentText, ct)   // "text" + fallback
         };
 
         if (embedding is null)
@@ -119,7 +119,7 @@ public class TileEmbeddingService
                 max_tokens = 150
             });
 
-            using var http    = _httpFactory.CreateClient();
+            using var http = _httpFactory.CreateClient();
             using var request = new HttpRequestMessage(HttpMethod.Post, ChatEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             request.Content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -159,12 +159,12 @@ public class TileEmbeddingService
         {
             var body = JsonSerializer.Serialize(new
             {
-                model      = EmbeddingModel,
-                input      = text,
+                model = EmbeddingModel,
+                input = text,
                 dimensions = EmbeddingDims
             });
 
-            using var http    = _httpFactory.CreateClient();
+            using var http = _httpFactory.CreateClient();
             using var request = new HttpRequestMessage(HttpMethod.Post, EmbeddingEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             request.Content = new StringContent(body, Encoding.UTF8, "application/json");
