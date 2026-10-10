@@ -11,18 +11,18 @@ namespace WovenBackend.Services.Embeddings;
 public class VoiceEmbeddingService : IVoiceEmbeddingService
 {
     private readonly WovenDbContext _db;
-    private readonly HttpClient     _http;
+    private readonly HttpClient _http;
     private readonly IConfiguration _config;
     private readonly ILogger<VoiceEmbeddingService> _logger;
 
     public VoiceEmbeddingService(
         WovenDbContext db,
-        HttpClient     http,
+        HttpClient http,
         IConfiguration config,
         ILogger<VoiceEmbeddingService> logger)
     {
-        _db     = db;
-        _http   = http;
+        _db = db;
+        _http = http;
         _config = config;
         _logger = logger;
     }
@@ -105,8 +105,8 @@ public class VoiceEmbeddingService : IVoiceEmbeddingService
             var psi = new ProcessStartInfo("python3", $"\"{scriptPath}\" \"{tempPath}\"")
             {
                 RedirectStandardOutput = true,
-                RedirectStandardError  = true,
-                UseShellExecute        = false
+                RedirectStandardError = true,
+                UseShellExecute = false
             };
 
             using var proc = Process.Start(psi);

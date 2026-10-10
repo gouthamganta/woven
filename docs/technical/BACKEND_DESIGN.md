@@ -617,7 +617,6 @@ flowchart TD
 | CfScore batch job | `CollaborativeFilteringService` exists; no worker runs it |
 | SharedTileAffinity matchmaking component | Depends on CfScore data |
 | PreferenceEmbedding from ChatNotes | Worker stub exists, not wired |
-| Ambition pillar coverage | No foundational question covers this pillar |
 | `ChatMessages.Body` encryption | Blocked by CHECK constraint on message length |
 | "Your Turn" chat list indicator | Designed, not built |
 | Active/online indicator | Designed, not built |

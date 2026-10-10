@@ -48,9 +48,9 @@ public class ModerationService : IModerationService
 
         _db.ModerationQueues.Add(new ModerationQueue
         {
-            TileId    = tileId,
-            UserId    = userId,
-            QueuedAt  = DateTimeOffset.UtcNow
+            TileId = tileId,
+            UserId = userId,
+            QueuedAt = DateTimeOffset.UtcNow
         });
         await _db.SaveChangesAsync(ct);
 
@@ -83,7 +83,7 @@ public class ModerationService : IModerationService
             foreach (var item in pending)
             {
                 item.ReviewedAt = now;
-                item.Decision   = "approved";
+                item.Decision = "approved";
             }
 
             await _db.SaveChangesAsync(ct);
@@ -110,14 +110,14 @@ public class ModerationService : IModerationService
 
                 if (flagged)
                 {
-                    item.Decision        = "rejected";
-                    item.RejectReason    = "openai_moderation_flagged";
-                    item.Tile.IsExpired  = true;
+                    item.Decision = "rejected";
+                    item.RejectReason = "openai_moderation_flagged";
+                    item.Tile.IsExpired = true;
                     _logger.LogWarning("[Moderation] Tile {TileId} flagged by OpenAI moderation", item.TileId);
                 }
                 else
                 {
-                    item.Decision         = "approved";
+                    item.Decision = "approved";
                     item.Tile.IsModerated = true;
                     _logger.LogDebug("[Moderation] Tile {TileId} approved by OpenAI moderation", item.TileId);
                 }
@@ -141,7 +141,7 @@ public class ModerationService : IModerationService
 
         item.ReviewedAt = DateTimeOffset.UtcNow;
         item.ReviewerId = reviewerId;
-        item.Decision   = "approved";
+        item.Decision = "approved";
         item.Tile.IsModerated = true;
 
         await _db.SaveChangesAsync(ct);
@@ -157,9 +157,9 @@ public class ModerationService : IModerationService
 
         if (item is null || item.ReviewedAt is not null) return false;
 
-        item.ReviewedAt   = DateTimeOffset.UtcNow;
-        item.ReviewerId   = reviewerId;
-        item.Decision     = "rejected";
+        item.ReviewedAt = DateTimeOffset.UtcNow;
+        item.ReviewerId = reviewerId;
+        item.Decision = "rejected";
         item.RejectReason = reason[..Math.Min(reason.Length, 200)];
 
         // Soft-expire the tile so it's hidden and blob-cleaned

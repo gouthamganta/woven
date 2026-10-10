@@ -54,10 +54,10 @@ public class CoachingSummaryWorker : BackgroundService
         ILogger<CoachingSummaryWorker> logger)
     {
         _scopeFactory = scopeFactory;
-        _httpFactory  = httpFactory;
-        _config       = config;
-        _cache        = cache;
-        _logger       = logger;
+        _httpFactory = httpFactory;
+        _config = config;
+        _cache = cache;
+        _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken ct)
@@ -101,8 +101,8 @@ public class CoachingSummaryWorker : BackgroundService
         using var scope = _scopeFactory.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
 
-        var now        = DateTimeOffset.UtcNow;
-        var weekStart  = DateOnly.FromDateTime(now.DateTime).AddDays(-(int)now.DayOfWeek);
+        var now = DateTimeOffset.UtcNow;
+        var weekStart = DateOnly.FromDateTime(now.DateTime).AddDays(-(int)now.DayOfWeek);
         var cutoffDate = now.AddDays(-MinAccountAgeDays);
         var signalFrom = now.AddDays(-7);
 
@@ -195,11 +195,11 @@ public class CoachingSummaryWorker : BackgroundService
 
         db.CoachingSummaries.Add(new CoachingSummary
         {
-            UserId               = userId,
-            WeekStartDate        = weekStart,
-            SummaryText          = summaryText.Trim(),
+            UserId = userId,
+            WeekStartDate = weekStart,
+            SummaryText = summaryText.Trim(),
             InterpretedNarrative = narrative,
-            DeliveredAt          = now
+            DeliveredAt = now
         });
         await db.SaveChangesAsync(ct);
         return true;
@@ -266,10 +266,10 @@ public class CoachingSummaryWorker : BackgroundService
     {
         var body = JsonSerializer.Serialize(new
         {
-            model       = Model,
+            model = Model,
             temperature = Temperature,
-            max_tokens  = 200,
-            messages    = new[]
+            max_tokens = 200,
+            messages = new[]
             {
                 new { role = "system", content = SystemPrompt },
                 new { role = "user",   content = narrative }
@@ -278,7 +278,7 @@ public class CoachingSummaryWorker : BackgroundService
 
         try
         {
-            using var http    = _httpFactory.CreateClient();
+            using var http = _httpFactory.CreateClient();
             using var request = new HttpRequestMessage(HttpMethod.Post, OpenAiEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             request.Content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -305,11 +305,11 @@ public class CoachingSummaryWorker : BackgroundService
 
     private static async Task SleepUntilWednesdayAsync(CancellationToken ct)
     {
-        var now      = DateTime.UtcNow;
+        var now = DateTime.UtcNow;
         var daysUntilWed = ((int)DayOfWeek.Wednesday - (int)now.DayOfWeek + 7) % 7;
         if (daysUntilWed == 0 && now.Hour >= 18) daysUntilWed = 7;
-        var nextRun  = now.Date.AddDays(daysUntilWed).AddHours(18);
-        var delay    = nextRun - now;
+        var nextRun = now.Date.AddDays(daysUntilWed).AddHours(18);
+        var delay = nextRun - now;
         if (delay > TimeSpan.Zero)
             await Task.Delay(delay, ct);
     }
