@@ -427,61 +427,6 @@
   background: var(--bg-surface);
 }
 
-/* ── Flag bar ───────────────────────────────────────── */
-.flagBar {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.flagSide { display: flex; gap: 3px; }
-
-.seg {
-  display: block;
-  width: 22px;
-  height: 6px;
-  border-radius: 3px;
-  background: rgba(255,255,255,0.07);
-  transition: background 0.2s ease;
-}
-
-.flagSide.red   .seg.lit { background: var(--rose-400); }
-.flagSide.green .seg.lit { background: #4ade80; }
-
-.flagDivider {
-  width: 1px;
-  height: 14px;
-  background: var(--border-soft);
-  margin: 0 6px;
-  flex-shrink: 0;
-}
-
-/* ── New badge ──────────────────────────────────────── */
-.newBadge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: var(--font-ui);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-
-.newDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--plum-300);
-  animation: pulseDot 2s ease-in-out infinite;
-}
-
-@keyframes pulseDot {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50%       { opacity: 1;   transform: scale(1.28); }
-}
-
 /* ── Match explanation ──────────────────────────────── */
 .why { display: grid; gap: 7px; }
 

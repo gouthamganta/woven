@@ -71,9 +71,9 @@ public class EmotionalRhythmService : IEmotionalRhythmService
         if (messages.Count > 0)
         {
             // Feature 8: morning chat fraction
-            features[8]  = (float)messages.Count(m => m.CreatedAt.Hour >= 6 && m.CreatedAt.Hour < 12) / messages.Count;
+            features[8] = (float)messages.Count(m => m.CreatedAt.Hour >= 6 && m.CreatedAt.Hour < 12) / messages.Count;
             // Feature 9: evening chat fraction
-            features[9]  = (float)messages.Count(m => m.CreatedAt.Hour >= 18 && m.CreatedAt.Hour < 24) / messages.Count;
+            features[9] = (float)messages.Count(m => m.CreatedAt.Hour >= 18 && m.CreatedAt.Hour < 24) / messages.Count;
             // Feature 10: night chat fraction
             features[10] = (float)messages.Count(m => m.CreatedAt.Hour >= 0 && m.CreatedAt.Hour < 6) / messages.Count;
 

@@ -49,8 +49,8 @@ public static class DynamicQuestionBank
         return questionId switch
         {
             "d1_battery" => new HashSet<string>(new[] { "high", "medium", "low" }),
-            "d2_tone"    => new HashSet<string>(new[] { "playful", "serious", "calm" }),
-            "d3_role"    => new HashSet<string>(new[] { "driver", "copilot", "passenger" }),
+            "d2_tone" => new HashSet<string>(new[] { "playful", "serious", "calm" }),
+            "d3_role" => new HashSet<string>(new[] { "driver", "copilot", "passenger" }),
             _ => new HashSet<string>()
         };
     }

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "synthetic": true,
+  "stages": [
+    "Intake",
+    "Needs decision",
+    "Ready",
+    "In progress",
+    "Ready for QA",
+    "Changes requested",
+    "Blocked",
+    "Done"
+  ],
+  "note": "Local automation pilot; not product test coverage."
+}

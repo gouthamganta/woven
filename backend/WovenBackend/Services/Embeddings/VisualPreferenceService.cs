@@ -117,7 +117,7 @@ public class VisualPreferenceService : IVisualPreferenceService
         int len = Math.Min(a.Length, b.Length);
         for (int i = 0; i < len; i++)
         {
-            dot   += a[i] * b[i];
+            dot += a[i] * b[i];
             normA += a[i] * a[i];
             normB += b[i] * b[i];
         }
