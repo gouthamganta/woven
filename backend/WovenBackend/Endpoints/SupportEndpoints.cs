@@ -59,7 +59,7 @@ public static class SupportEndpoints
             }
 
             var endpoint = config["OpenAI:Endpoint"] ?? "https://api.openai.com/v1/chat/completions";
-            var model    = config["OpenAI:Model"]    ?? "gpt-4o-mini";
+            var model = config["OpenAI:Model"] ?? "gpt-4o-mini";
 
             var messages = new List<object>
             {
@@ -72,7 +72,7 @@ public static class SupportEndpoints
                 model,
                 messages,
                 temperature = 0.75,
-                max_tokens  = 300,
+                max_tokens = 300,
             });
 
             using var http = httpFactory.CreateClient();

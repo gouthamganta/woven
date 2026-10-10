@@ -34,7 +34,7 @@ Each component contributes to a weighted similarity score. If a component is una
 
 **Pillar Scores (8 dimensions):**
 ```
-Lifestyle | Energy | Communication | Affection | Stability | Values | Curiosity | Emotional Rhythm
+Lifestyle | Energy | Values | Communication | Ambition | Stability | Curiosity | Affection
 ```
 
 **Why these weights?**

@@ -17,11 +17,11 @@ namespace WovenBackend.Services.Validation;
 /// </summary>
 public class PersonaValidationService : IPersonaValidationService
 {
-    private const float DefaultPillarWeight      = 0.60f;
+    private const float DefaultPillarWeight = 0.60f;
     private const float DefaultFingerprintWeight = 0.40f;
-    private const float LearningRate             = 0.05f;
-    private const float L2Lambda                 = 0.01f;
-    private const int   SimulationEpochs         = 100;
+    private const float LearningRate = 0.05f;
+    private const float L2Lambda = 0.01f;
+    private const int SimulationEpochs = 100;
 
     // ---------------------------------------------------------------
     // Step 17: NDCG validation
@@ -46,11 +46,11 @@ public class PersonaValidationService : IPersonaValidationService
         return new ValidationReport(
             PersonaCount: personas.Count,
             Clusters: 5,
-            NdcgAt5_Initial:  Math.Round(ndcg5Init,  4),
+            NdcgAt5_Initial: Math.Round(ndcg5Init, 4),
             NdcgAt10_Initial: Math.Round(ndcg10Init, 4),
-            NdcgAt5_Final:    Math.Round(ndcg5Final,  4),
-            NdcgAt10_Final:   Math.Round(ndcg10Final, 4),
-            LearnedPillarWeight:      Math.Round(wPFinal, 4),
+            NdcgAt5_Final: Math.Round(ndcg5Final, 4),
+            NdcgAt10_Final: Math.Round(ndcg10Final, 4),
+            LearnedPillarWeight: Math.Round(wPFinal, 4),
             LearnedFingerprintWeight: Math.Round(wFFinal, 4),
             ConvergenceCurve: SampleConvergenceCurve(personas, convergence),
             ClusterCompatibility: clusterReport,
@@ -90,8 +90,8 @@ public class PersonaValidationService : IPersonaValidationService
             foreach (var (cp, cf, label) in obs)
             {
                 var score = wP * cp + wF * cf;
-                var pred  = Sigmoid(score);
-                var err   = pred - label;
+                var pred = Sigmoid(score);
+                var err = pred - label;
                 gradP += err * cp;
                 gradF += err * cf;
             }
@@ -142,7 +142,7 @@ public class PersonaValidationService : IPersonaValidationService
                 .Select(p => p.Id)
                 .ToList();
 
-            sum5  += NdcgAt(engineRanked, idealRanked, oracleScores, 5);
+            sum5 += NdcgAt(engineRanked, idealRanked, oracleScores, 5);
             sum10 += NdcgAt(engineRanked, idealRanked, oracleScores, 10);
             count++;
         }
@@ -156,13 +156,13 @@ public class PersonaValidationService : IPersonaValidationService
         Dictionary<int, float> oracleScores,
         int k)
     {
-        double dcg  = 0;
+        double dcg = 0;
         double idcg = 0;
 
         for (int i = 0; i < Math.Min(k, engineRanked.Count); i++)
         {
             var gain = (double)oracleScores[engineRanked[i]];
-            dcg  += gain / Math.Log2(i + 2);
+            dcg += gain / Math.Log2(i + 2);
         }
 
         for (int i = 0; i < Math.Min(k, idealRanked.Count); i++)
@@ -201,9 +201,9 @@ public class PersonaValidationService : IPersonaValidationService
             var fromPersonas = personas.Where(p => p.Cluster == from).ToList();
             foreach (var to in clusters)
             {
-                var toPersonas   = personas.Where(p => p.Cluster == to).ToList();
-                var oracleMean   = fromPersonas.SelectMany(a => toPersonas.Select(b => a.Id == b.Id ? 0f : PersonaOracle.Compatibility(a, b))).Where(s => s > 0).Average();
-                var engineMean   = fromPersonas.SelectMany(a => toPersonas.Select(b => a.Id != b.Id
+                var toPersonas = personas.Where(p => p.Cluster == to).ToList();
+                var oracleMean = fromPersonas.SelectMany(a => toPersonas.Select(b => a.Id == b.Id ? 0f : PersonaOracle.Compatibility(a, b))).Where(s => s > 0).Average();
+                var engineMean = fromPersonas.SelectMany(a => toPersonas.Select(b => a.Id != b.Id
                     ? DefaultPillarWeight * CosinePillar(a, b) + DefaultFingerprintWeight * CosineFingerprint(a, b)
                     : 0f)).Where(s => s > 0).Average();
                 rows.Add(new ClusterCompatRow(from.ToString(), to.ToString(), Math.Round(oracleMean, 3), Math.Round(engineMean, 3)));
@@ -235,8 +235,8 @@ public class PersonaValidationService : IPersonaValidationService
         for (int i = 0; i < Math.Min(a.Length, b.Length); i++)
         {
             dot += a[i] * b[i];
-            na  += a[i] * a[i];
-            nb  += b[i] * b[i];
+            na += a[i] * a[i];
+            nb += b[i] * b[i];
         }
         var denom = Math.Sqrt(na) * Math.Sqrt(nb);
         return denom < 1e-10 ? 0f : (float)(dot / denom);

@@ -16,8 +16,8 @@ namespace WovenBackend.Infrastructure;
 /// </summary>
 public class CorrelationIdMiddleware
 {
-    public const string HeaderName  = "X-Correlation-ID";
-    public const string ItemsKey    = "CorrelationId";
+    public const string HeaderName = "X-Correlation-ID";
+    public const string ItemsKey = "CorrelationId";
 
     private readonly RequestDelegate _next;
 
@@ -34,7 +34,7 @@ public class CorrelationIdMiddleware
 
         // Push into Serilog's ambient context — every log in this request gets CorrelationId
         using (LogContext.PushProperty("CorrelationId", correlationId))
-        using (LogContext.PushProperty("RequestPath",   context.Request.Path))
+        using (LogContext.PushProperty("RequestPath", context.Request.Path))
         using (LogContext.PushProperty("RequestMethod", context.Request.Method))
         {
             await _next(context);
