@@ -48,8 +48,11 @@ public class MomentsRatingPrivacyTests
             new User { Id = 2, Email = "candidate@example.test", FullName = "Synthetic Candidate" });
         db.MomentResponses.Add(new MomentResponse
         {
-            FromUserId = 2, ToUserId = 1, Choice = MomentChoice.MAGICAL,
-            DateUtc = MomentsRules.UtcToday(), CreatedAt = DateTimeOffset.UtcNow
+            FromUserId = 2,
+            ToUserId = 1,
+            Choice = MomentChoice.MAGICAL,
+            DateUtc = MomentsRules.UtcToday(),
+            CreatedAt = DateTimeOffset.UtcNow
         });
         for (var i = 0; i < ratingCount; i++)
             db.UserRatings.Add(new UserRating { RatedUserId = 2, RaterUserId = 10 + i, RatingValue = 100 });
