@@ -212,7 +212,7 @@ public class DeliveryBoostService : IDeliveryBoostService
             .Join(
                 _db.Tiles.Where(t => t.UserId == viewerId),
                 tv => tv.TileId,
-                t  => t.Id,
+                t => t.Id,
                 (tv, _) => tv.UserId)
             .GroupBy(uid => uid)
             .Select(g => new { CandidateId = g.Key, DwellCount = g.Count() })
