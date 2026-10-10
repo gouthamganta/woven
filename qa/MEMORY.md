@@ -2,6 +2,11 @@
 
 ## Current coordination
 
+2026-10-08: #138 Saved/Pending trace found no Drawn dependency. Removed legacy
+budget/cache branches, Saved boost and stale support navigation; database
+columns, tables and enum values preserved. Branch codex-phone/138-remove-saved-pending.
+Evidence: qa/evidence/2026-10-08-138-saved-pending.md; laptop QA required.
+
 2026-10-08: Codex phone implemented #119 on
 `codex-phone/119-remove-rating-bar` from master `3df9759`. Removed Deck/Drawn
 ratings from API/UI, including rating-dependent New here badges. Backend build

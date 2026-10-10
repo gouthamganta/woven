@@ -3,7 +3,6 @@ namespace WovenBackend.Services.Moments;
 public static class MomentsRules
 {
     public const int DailyTotalCap = 5;
-    public const int DailyPendingCap = 2;
     public static readonly TimeSpan BalloonLifetime = TimeSpan.FromHours(72);
 
     public static DateOnly UtcToday() => DateOnly.FromDateTime(DateTime.UtcNow);
