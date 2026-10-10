@@ -23,11 +23,24 @@ public class CorrelationIdMiddleware
 
     public CorrelationIdMiddleware(RequestDelegate next) => _next = next;
 
+    private static bool IsValidCorrelationId(string? id)
+    {
+        if (string.IsNullOrWhiteSpace(id)) return false;
+        if (id.Length > 64) return false;
+        // Allow alphanumeric, dash, underscore — reject everything else (prevent log injection)
+        return id.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_');
+    }
+
     public async Task InvokeAsync(HttpContext context)
     {
-        var correlationId = context.Request.Headers[HeaderName].FirstOrDefault()
-            ?? context.Request.Headers["X-Request-ID"].FirstOrDefault()
-            ?? Guid.NewGuid().ToString("N")[..16];   // 16-char hex — short but collision-proof at scale
+        var incoming = context.Request.Headers[HeaderName].FirstOrDefault()
+            ?? context.Request.Headers["X-Request-ID"].FirstOrDefault();
+
+        // Validate incoming correlation ID: <= 64 chars, alphanumeric + dash/underscore only
+        // Invalid or missing → generate a new one
+        var correlationId = IsValidCorrelationId(incoming)
+            ? incoming!
+            : Guid.NewGuid().ToString("N")[..16];   // 16-char hex — short but collision-proof at scale
 
         context.Items[ItemsKey] = correlationId;
         context.Response.Headers[HeaderName] = correlationId;

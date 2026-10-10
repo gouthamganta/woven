@@ -891,13 +891,39 @@ app.MapGet("/health/ready", async (WovenDbContext db) =>
 {
     try
     {
-        await db.Database.CanConnectAsync();
-        return Results.Ok(new { status = "ready", database = "connected" });
+        // Check database connectivity
+        var canConnect = await db.Database.CanConnectAsync();
+        if (!canConnect)
+        {
+            return Results.Json(
+                new { status = "not_ready", database = "unavailable", reason = "Cannot connect to database" },
+                statusCode: 503
+            );
+        }
+
+        // Check for pending migrations (fail-closed readiness)
+        var pendingMigrations = await db.Database.GetPendingMigrationsAsync();
+        if (pendingMigrations.Any())
+        {
+            return Results.Json(
+                new
+                {
+                    status = "not_ready",
+                    database = "connected",
+                    reason = "pending_migrations",
+                    pending_count = pendingMigrations.Count(),
+                    action = "Run migrations before accepting traffic"
+                },
+                statusCode: 503
+            );
+        }
+
+        return Results.Ok(new { status = "ready", database = "connected", migrations = "current" });
     }
     catch (Exception ex)
     {
         return Results.Json(
-            new { status = "not_ready", database = "unavailable", error = ex.Message },
+            new { status = "not_ready", database = "error", error = ex.Message },
             statusCode: 503
         );
     }
