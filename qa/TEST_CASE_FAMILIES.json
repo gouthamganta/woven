@@ -29,14 +29,41 @@
             "BE-a33022c8dc1e",
             "BE-684112d1f119",
             "BE-a661506f6500",
-            "BE-a6ed171d760f"
+            "BE-a6ed171d760f",
+            "BE-07a4472ec1a5",
+            "BE-a613a963123d",
+            "BE-bdc2adea964a",
+            "BE-24ae797ce17c",
+            "BE-9c7d48b3674e",
+            "BE-8f3250704da8",
+            "BE-85ce73f2ef32",
+            "BE-35a6e2651393",
+            "BE-1ff515fc112c",
+            "BE-8ef7a46ff70c",
+            "BE-40ab5d129874",
+            "BE-a9f7a27641c5",
+            "BE-baa1f674cb11",
+            "BE-c056c29ebbbe",
+            "BE-28f0053b9b22",
+            "BE-1f9f55509f34",
+            "BE-760c42cf94a3",
+            "BE-1f4ccc6efd3c",
+            "BE-2280391dc82e",
+            "BE-45f32e6f0516",
+            "BE-fff872f249cd",
+            "BE-05d424e84d8a"
           ]
         },
         {
           "id": "QA-COV-01-2",
           "text": "Anonymous/public/admin/owner/foreign/deleted/banned account policy matrix",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-2af59823dc14",
+            "BE-6dfbf00ff85d",
+            "BE-48cd04ff766c",
+            "BE-c1d793a30d33"
+          ]
         },
         {
           "id": "QA-COV-01-3",
@@ -284,14 +311,39 @@
             "FE-d9231c453380",
             "FE-50d3cf3416e3",
             "FE-6ab3452f9a7c",
-            "FE-7335ff73b54b"
+            "FE-7335ff73b54b",
+            "BE-2052f7851fee",
+            "BE-e4272ccf9eec",
+            "BE-d0034b28f950",
+            "BE-32554ea1e175",
+            "BE-a588d9f8c4e6",
+            "BE-75fbef8c89fd",
+            "BE-b68aca13c649",
+            "BE-d27044d56bc7",
+            "BE-6d3e749e7f93"
           ]
         },
         {
           "id": "QA-COV-03-2",
           "text": "Trust threshold below/at/above 0.25; age/distance/activity/intent and block exclusion both ways",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-799f540ece78",
+            "BE-2af168e1bb61",
+            "BE-8b1920201f53",
+            "BE-c2a50f1e9cf5",
+            "BE-1bf7379ba82d",
+            "BE-a44e58184053",
+            "BE-e335dfec0429",
+            "BE-a87563388b4f",
+            "BE-30a90a447783",
+            "BE-897ec7bf2f1d",
+            "BE-3f559964d0fb",
+            "BE-183adebdcc63",
+            "BE-43c1b90a7224",
+            "BE-082be3ffab75",
+            "BE-870c5fe5aee9"
+          ]
         },
         {
           "id": "QA-COV-03-3",
@@ -465,14 +517,32 @@
         {
           "id": "QA-COV-05-5",
           "text": "Last Call start when both open; three-minute hard timeout, all decision combinations and worker recovery",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-4e95f93d5c32",
+            "BE-20d6b5ef1a95",
+            "BE-6b8cc4fdf613",
+            "BE-4563ba3924a5",
+            "BE-1d3dac405a45",
+            "BE-5a740479110b",
+            "BE-c89ae4be6513"
+          ]
         },
         {
           "id": "QA-COV-05-6",
           "text": "Closed finality, unmatch/block/report, private Afterthought by close path and ghost refund invariants",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-00d3fc3102d7",
+            "BE-4bae6507cbf1",
+            "BE-eac8dfc21747",
+            "BE-8be99bc720ab",
+            "BE-ecfcf9566af3",
+            "BE-602bae217e30",
+            "BE-06d5a484f25d",
+            "BE-feb810f243a8",
+            "BE-f830d7b99da1"
+          ]
         }
       ]
     },
@@ -541,32 +611,99 @@
             "FE-22913911f671",
             "FE-c26565051ba6",
             "FE-3ffd49d9180d",
-            "FE-aee273dc9ee8"
+            "FE-aee273dc9ee8",
+            "BE-9ec5eb17ebf4",
+            "BE-b24d6da5feac",
+            "BE-c4dd86021475",
+            "BE-a0a2d6b1696b",
+            "BE-aaef9b36907a",
+            "BE-fd11326462fa",
+            "BE-b38429659ab6",
+            "BE-3df44dba795c",
+            "BE-8556472e4842",
+            "BE-2dae1c2f160d",
+            "BE-67ab9c7b2b48",
+            "BE-be9912cd505b",
+            "BE-413b199fa48e",
+            "BE-d401095c7589",
+            "BE-eec90605b064",
+            "BE-77829fe2e47f",
+            "BE-700fcb586c70",
+            "BE-e2839fe10c8e",
+            "BE-57f4666abb00",
+            "BE-104900c5e58c",
+            "BE-87ce2b461fc1",
+            "BE-93b11d5e326d",
+            "BE-cf2ddeb24ca6",
+            "BE-f617e0edd61e",
+            "BE-b925169d7170",
+            "BE-56bbd0af1d4e",
+            "BE-1f139d160ec7",
+            "BE-e4bb3228f19a",
+            "BE-b4fbeb971a58",
+            "BE-76b2996fd133",
+            "BE-9a43c525338e",
+            "BE-ba0e2db434e9",
+            "BE-7d467b6aad6e",
+            "BE-c96c753bd64a"
           ]
         },
         {
           "id": "QA-COV-06-2",
           "text": "Empty/whitespace/oversized/Unicode text, markup escaping and attachment/voice validation",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-a092e5a8b821",
+            "BE-8b6845835163",
+            "BE-dbaa1ff85b98",
+            "BE-a6ea79547d20",
+            "BE-a2625d79831a",
+            "BE-7c826e246546",
+            "BE-f91f19b771b5",
+            "BE-ae6598903b6e",
+            "BE-8ad26959e1cc",
+            "BE-5af170255068",
+            "BE-df3dfb042fbe",
+            "BE-350cb5873458",
+            "BE-38a6a1c46397",
+            "BE-d6a0b451e085",
+            "BE-ea169c2fb47d"
+          ]
         },
         {
           "id": "QA-COV-06-3",
           "text": "ChatNotes shown to matched pair and never unrelated users; no public ratings",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-725a29404300",
+            "BE-bed00b6d88d5",
+            "BE-f42f0bb827e2",
+            "BE-b82d747e25da",
+            "BE-59cce0f97921",
+            "BE-b2db44a7b7c2",
+            "BE-52c3916f3b63"
+          ]
         },
         {
           "id": "QA-COV-06-4",
           "text": "Delivery/read/order/pagination, duplicates, concurrent messages and retry idempotency",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-756b2f31bd1c",
+            "BE-272689ca8e2a",
+            "BE-fadd2bfb9f36",
+            "BE-3e05a26b3577",
+            "BE-fdfd957f57b0",
+            "BE-419ef046441f"
+          ]
         },
         {
           "id": "QA-COV-06-5",
           "text": "Closed/trial/expired match send rules and two-way persisted transition",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-85e538185d7f"
+          ]
         },
         {
           "id": "QA-COV-06-6",
@@ -844,7 +981,11 @@
             "FE-ff597a586505",
             "FE-c005c7e6e4a1",
             "FE-26f16923de84",
-            "FE-2c5c44d3e063"
+            "FE-2c5c44d3e063",
+            "BE-07fdf36c318f",
+            "BE-8931d27a30a1",
+            "BE-b87819ddffa8",
+            "BE-1c351daa603a"
           ]
         },
         {
@@ -864,8 +1005,11 @@
         {
           "id": "QA-COV-10-4",
           "text": "Partial DB/blob/provider failures and retry without partial irreversible corruption",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-341563cd3d86",
+            "BE-3a4b7b555ef2"
+          ]
         },
         {
           "id": "QA-COV-10-5",
@@ -911,8 +1055,12 @@
         {
           "id": "QA-COV-10-6",
           "text": "No PII/token/private conversation leakage in logs, traces, analytics or public evidence",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-bdf7d6beb5a6",
+            "BE-217d39484189",
+            "BE-62d96eab3ff8"
+          ]
         }
       ]
     },
@@ -931,8 +1079,10 @@
         {
           "id": "QA-COV-11-2",
           "text": "Unblock, report duplicates/invalid reason, self-target and unknown/deleted targets",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-81643eac177c"
+          ]
         },
         {
           "id": "QA-COV-11-3",
@@ -943,8 +1093,22 @@
         {
           "id": "QA-COV-11-4",
           "text": "Trust threshold changes, verification replay/spoof, expired evidence and provider failure fakes",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-8290afa24f40",
+            "BE-aa24f1c99a0a",
+            "BE-d66404741535",
+            "BE-4e868d2de39e",
+            "BE-0500099565bc",
+            "BE-3c4f1b1f1a0d",
+            "BE-550e69111564",
+            "BE-3f23c69f17cf",
+            "BE-22fa6f8df4ce",
+            "BE-fe65d1a2399f",
+            "BE-19c92cf52c0f",
+            "BE-ef9ba23684b3",
+            "BE-dcb778fff90c"
+          ]
         },
         {
           "id": "QA-COV-11-5",
@@ -1010,7 +1174,13 @@
             "BE-05aa2075b90d",
             "BE-b62aa76f46df",
             "BE-966e135e26e2",
-            "BE-22ab1d4b2a0e"
+            "BE-22ab1d4b2a0e",
+            "BE-6f93f5024929",
+            "BE-df0ae715a02c",
+            "BE-0be5c7cd98ed",
+            "BE-e96c65130a26",
+            "BE-bf921b0bd89c",
+            "BE-72308949041b"
           ]
         },
         {
@@ -1022,8 +1192,52 @@
         {
           "id": "QA-COV-12-3",
           "text": "Deterministic fixtures prove filters/ranking invariants; never claim romantic effectiveness",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-0ba92436193f",
+            "BE-8a1961ebfb3b",
+            "BE-7d950b4dac6f",
+            "BE-25bab93bb74e",
+            "BE-be36bde99de7",
+            "BE-3d5eff42248a",
+            "BE-985865fb8342",
+            "BE-a1cb98e1eccb",
+            "BE-9e2e329a130c",
+            "BE-efa06fb0cf65",
+            "BE-382d7568320e",
+            "BE-e2e322aa278a",
+            "BE-0318471598ff",
+            "BE-da211389e108",
+            "BE-6827afdd598b",
+            "BE-85545b47312f",
+            "BE-c3a876fcdecf",
+            "BE-476913170b63",
+            "BE-af110124394e",
+            "BE-251e45ddb14c",
+            "BE-f2a3d741499e",
+            "BE-6b3fe5fa550b",
+            "BE-4091ce6f0744",
+            "BE-5b1d38bb0779",
+            "BE-f0ad86a9dfa2",
+            "BE-8c341bbd7f99",
+            "BE-820b01c08e6d",
+            "BE-761e9983bf9a",
+            "BE-cf138d5515de",
+            "BE-f40a3269cfb2",
+            "BE-932a818945a1",
+            "BE-fce2471b6f63",
+            "BE-60841235c1bd",
+            "BE-c5d31e61326c",
+            "BE-434b73b4a5e7",
+            "BE-667bfb1a8593",
+            "BE-75ff8cfa2541",
+            "BE-c195ecf6ba7e",
+            "BE-c6513076c998",
+            "BE-7009568fca77",
+            "BE-f1ba36109533",
+            "BE-0d72b97a67a7",
+            "BE-87bdac633b1c"
+          ]
         },
         {
           "id": "QA-COV-12-4",
@@ -1202,8 +1416,17 @@
         {
           "id": "QA-COV-14-5",
           "text": "Bounded validated correlation IDs, sanitized actionable errors and request/body/header limits",
-          "status": "design-required",
-          "cases": []
+          "status": "partially-tested",
+          "cases": [
+            "BE-c2d02e174689",
+            "BE-0eb8883dbda8",
+            "BE-c10c0dbfdb77",
+            "BE-ef265d8cfd02",
+            "BE-09e4a052a75c",
+            "BE-0bc3b8a8f1d9",
+            "BE-ce879f534bc6",
+            "BE-7d92e78d0b55"
+          ]
         },
         {
           "id": "QA-COV-14-6",
