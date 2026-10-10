@@ -24,17 +24,10 @@ public class InteractionBudgetContractTests
     }
 
     [Fact]
-    public async Task CachedLegacyPendingCap_RejectsWithoutWriting()
+    public void RemovedPendingContracts_AreNotExposed()
     {
-        await using var db = QaMemoryContext.Create();
-        var cache = new QaCache();
-        var today = MomentsRules.UtcToday();
-        cache.Values[CacheKeys.SparkCounter(1, today)] = 1L;
-        cache.Values[CacheKeys.PendingCounter(1, today)] = 2L;
-        var result = await new InteractionBudgetService(db, cache).TrySpendAsync(1, InteractionBudgetService.SpendType.Pending);
-        Assert.False(result.Allowed);
-        Assert.Equal("DAILY_PENDING_CAP_REACHED", result.DenyReason);
-        Assert.Empty(await db.DailyInteractions.ToListAsync());
+        Assert.DoesNotContain("Pending", Enum.GetNames<InteractionBudgetService.SpendType>());
+        Assert.Null(typeof(CacheKeys).GetMethod("PendingCounter"));
     }
 
     [Theory]
