@@ -6,6 +6,10 @@ public class User
 
     public required string Email { get; set; }
 
+    // SHA-256 hash of lowercase email for searchable identity lookup
+    // Allows finding users by email without decrypting all rows
+    public required string EmailHash { get; set; }
+
     // OAuth-first MVP
     public string? PasswordHash { get; set; }
     public string? FullName { get; set; }

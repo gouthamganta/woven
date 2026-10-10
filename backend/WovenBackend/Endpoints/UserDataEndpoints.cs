@@ -184,6 +184,7 @@ public static class UserDataEndpoints
             WovenDbContext db,
             IMediaService media,
             ISecurityAuditService audit,
+            ILogger<Program> logger,
             CancellationToken ct) =>
         {
             var userId = GetUserId(principal);
@@ -191,33 +192,128 @@ public static class UserDataEndpoints
             // Log before delete so we still have an audit trail.
             audit.Log("account_deletion", userId: userId, resourceType: "User", resourceId: userId.ToString());
 
-            // Delete all blobs across all containers.
-            await media.DeleteAllForUserAsync(userId, ct);
-
-            // Anonymize matches: preserve the record for the other participant.
-            var matchesAsA = await db.Matches.Where(m => m.UserAId == userId).ToListAsync(ct);
-            var matchesAsB = await db.Matches.Where(m => m.UserBId == userId).ToListAsync(ct);
-            foreach (var m in matchesAsA) m.UserAId = 0;
-            foreach (var m in matchesAsB) m.UserBId = 0;
-
-            // Bulk-delete owned data before removing the user row.
-            await db.Tiles.Where(t => t.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.ChatMessages.Where(m => m.SenderUserId == userId).ExecuteDeleteAsync(ct);
-            await db.PhotoEmbeddings.Where(p => p.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.UserVisualDecisions.Where(d => d.ViewerUserId == userId).ExecuteDeleteAsync(ct);
-            await db.UserVectors.Where(v => v.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.UserVisualPreferences.Where(p => p.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.UserVoicePreferences.Where(p => p.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.UserMatchingWeights.Where(w => w.UserId == userId).ExecuteDeleteAsync(ct);
-            await db.Users.Where(u => u.Id == userId).ExecuteDeleteAsync(ct);
-
-            await db.SaveChangesAsync(ct);
-
-            return Results.Ok(new
+            // Wrap all database operations in a transaction
+            // Blobs deleted AFTER DB commits to avoid orphaned data on DB failure
+            using var transaction = await db.Database.BeginTransactionAsync(ct);
+            try
             {
-                deleted = true,
-                note = "AI processors (OpenAI, Replicate) may retain embeddings per their own retention policies. Contact support to submit deletion requests to those providers."
-            });
+                // 1. Anonymize matches: preserve the record for the other participant
+                // Save immediately so changes aren't lost if bulk deletes fail
+                var matchesAsA = await db.Matches.Where(m => m.UserAId == userId).ToListAsync(ct);
+                var matchesAsB = await db.Matches.Where(m => m.UserBId == userId).ToListAsync(ct);
+                foreach (var m in matchesAsA) m.UserAId = 0;
+                foreach (var m in matchesAsB) m.UserBId = 0;
+                await db.SaveChangesAsync(ct);
+
+                // 2. Bulk-delete owned data in dependency order (children before parents)
+                // Auth & Identity
+                await db.AuthIdentities.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.PushSubscriptions.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.IdempotencyRecords.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // Profile & Onboarding
+                await db.UserProfiles.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserPreferences.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserIntents.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserPhotos.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserOptionalFields.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserWeeklyVibes.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // Foundational & Dynamic Intake
+                await db.UserFoundationalQuestionSets.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserFoundationalV1s.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserDynamicIntakeSets.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // Verification & Trust
+                await db.UserVerifications.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // Sparks & Wallets
+                await db.SparkWallets.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // Moments & Matches
+                await db.DailyDecks.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.DailyInteractions.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.MomentResponses.Where(x => x.FromUserId == userId || x.ToUserId == userId).ExecuteDeleteAsync(ct);
+                await db.PendingMatches.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.MatchExplanations.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.MatchOutcomes.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.DateFeedbacks.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.DateFeedbackPrompts.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.ChatAvailabilitySignals.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // Commons & Content
+                await db.Tiles.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.Highlights.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.TileViews.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.TileEngagements.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.OrbitGravities.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserEnergyMeters.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // Chat & Messages
+                await db.ChatMessages.Where(x => x.SenderUserId == userId).ExecuteDeleteAsync(ct);
+
+                // Ratings (user is the rater)
+                await db.UserRatings.Where(x => x.RaterUserId == userId).ExecuteDeleteAsync(ct);
+
+                // ECHO & Matching
+                await db.UserVectors.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserVectorTags.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserMatchingWeights.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserBehavioralFingerprints.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.CfScores.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.LinUcbUserModels.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // Embeddings & Preferences
+                await db.PhotoEmbeddings.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserVisualPreferences.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserVoicePreferences.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserVisualDecisions.Where(x => x.ViewerUserId == userId).ExecuteDeleteAsync(ct);
+
+                // Insights & Analytics
+                await db.UserInsights.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserInteractionLogs.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // Coaching & Seasons
+                await db.CoachingSummaries.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.UserSeasonResponses.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // A/B Testing
+                await db.AbAssignments.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+                await db.AbConversions.Where(x => x.UserId == userId).ExecuteDeleteAsync(ct);
+
+                // Moderation (user as reporter or subject - keep for audit trail)
+                // NOT deleted: ModerationQueue items where user is flagged/reporter
+
+                // Finally, delete the user row
+                await db.Users.Where(u => u.Id == userId).ExecuteDeleteAsync(ct);
+
+                // Commit database transaction
+                await transaction.CommitAsync(ct);
+
+                // Only after DB commit succeeds, delete blobs
+                // If this throws, DB is already committed but blobs remain (acceptable orphan)
+                try
+                {
+                    await media.DeleteAllForUserAsync(userId, ct);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "[UserData] Blob deletion failed after account deletion for UserId={UserId}. Database deleted, blobs orphaned.", userId);
+                    // Don't fail the request - account is deleted from DB
+                }
+
+                return Results.Ok(new
+                {
+                    deleted = true,
+                    note = "AI processors (OpenAI, Replicate) may retain embeddings per their own retention policies. Contact support to submit deletion requests to those providers."
+                });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "[UserData] Account deletion failed for UserId={UserId}", userId);
+                await transaction.RollbackAsync(ct);
+                throw; // 500 with global exception handler
+            }
         });
     }
 
