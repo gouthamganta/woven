@@ -96,27 +96,6 @@
         <!-- Info panel -->
         <div class="info">
 
-          <div class="flagBar" *ngIf="c.rating?.show">
-            <div class="flagSide red">
-              <span class="seg" [class.lit]="getRatingBarFill('red', 4, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('red', 3, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('red', 2, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('red', 1, c.rating!.average)"></span>
-            </div>
-            <div class="flagDivider"></div>
-            <div class="flagSide green">
-              <span class="seg" [class.lit]="getRatingBarFill('green', 1, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('green', 2, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('green', 3, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('green', 4, c.rating!.average)"></span>
-            </div>
-          </div>
-
-          <div class="newBadge" *ngIf="!c.rating?.show">
-            <span class="newDot"></span>
-            <span>New here</span>
-          </div>
-
           <div class="why" *ngIf="c.reason?.headline || c.reason?.bullets?.length">
             <div class="whyKicker">what caught our eye</div>
             <div class="whyHeadline" *ngIf="c.reason!.headline">{{ c.reason!.headline }}</div>
@@ -216,27 +195,6 @@
 
         <!-- Info panel — full layout matching Deck -->
         <div class="info">
-
-          <div class="flagBar" *ngIf="c.rating?.show">
-            <div class="flagSide red">
-              <span class="seg" [class.lit]="getRatingBarFill('red', 4, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('red', 3, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('red', 2, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('red', 1, c.rating!.average)"></span>
-            </div>
-            <div class="flagDivider"></div>
-            <div class="flagSide green">
-              <span class="seg" [class.lit]="getRatingBarFill('green', 1, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('green', 2, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('green', 3, c.rating!.average)"></span>
-              <span class="seg" [class.lit]="getRatingBarFill('green', 4, c.rating!.average)"></span>
-            </div>
-          </div>
-
-          <div class="newBadge" *ngIf="!c.rating?.show">
-            <span class="newDot"></span>
-            <span>New here</span>
-          </div>
 
           <!-- "They chose you" prompt instead of ECHO explanation -->
           <div class="lyPrompt">They chose you. Do you feel it?</div>

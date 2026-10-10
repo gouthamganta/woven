@@ -7,6 +7,15 @@ budget/cache branches, Saved boost and stale support navigation; database
 columns, tables and enum values preserved. Branch codex-phone/138-remove-saved-pending.
 Evidence: qa/evidence/2026-10-08-138-saved-pending.md; laptop QA required.
 
+2026-10-08: Codex phone implemented #119 on
+`codex-phone/119-remove-rating-bar` from master `3df9759`. Removed Deck/Drawn
+ratings from API/UI, including rating-dependent New here badges. Backend build
+passed with 0 warnings/errors; production Angular build passed with the existing
+landing-simple stylesheet budget warning. Backend tests passed 12/12, including
+4 synthetic endpoint JSON regression cases; existing MSB3277 EF dependency
+warning remains. Evidence: qa/evidence/2026-10-08-119-rating-removal.md.
+Laptop Codex must verify UI and PostgreSQL behavior before Done; no merge/deploy.
+
 2026-10-08: #139 canonical pillar docs corrected on
 codex-phone/139-fix-canonical-pillars. Code q6 covers Ambition, so false
 no-question gaps removed; separate least-coverage note and #123 remain.

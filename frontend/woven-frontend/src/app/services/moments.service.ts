@@ -35,7 +35,6 @@ export type MomentsCard = {
   bucket?: string | null;
   alreadyChoseYou?: boolean;
   reason?: MatchReason | null;
-  rating?: { average: number; count: number; show: boolean } | null;
   photos?: string[] | null;
   highlightedTiles?: HighlightedTile[] | null;
   // Cinematic intro (null until Build N+1 populates)
@@ -55,7 +54,6 @@ export type LikedYouCard = {
   expiresInHours: number;
   photos?: string[] | null;
   highlightedTiles?: HighlightedTile[] | null;
-  rating?: { average: number; count: number; show: boolean } | null;
 };
 
 export type MomentsBudget = {

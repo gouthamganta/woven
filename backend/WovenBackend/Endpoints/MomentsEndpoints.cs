@@ -140,13 +140,6 @@ public static class MomentsEndpoints
                 })
                 .ToListAsync(ct);
 
-            var ratings = await db.UserRatings
-                .Where(r => candidateIds.Contains(r.RatedUserId))
-                .GroupBy(r => r.RatedUserId)
-                .Select(g => new { userId = g.Key, average = g.Average(r => r.RatingValue), count = g.Count() })
-                .ToListAsync(ct);
-            var ratingMap = ratings.ToDictionary(r => r.userId, r => r);
-
             var explanationIds = filteredItems.Select(i => i.ExplanationId).ToList();
             var explanations = await db.MatchExplanations.AsNoTracking()
                 .Where(e => explanationIds.Contains(e.Id)).ToListAsync(ct);
@@ -205,10 +198,6 @@ public static class MomentsEndpoints
                         catch { }
                     }
 
-                    object? rating = null;
-                    if (ratingMap.TryGetValue(candidate.userId, out var r) && r.count >= 5)
-                        rating = new { average = (int)Math.Round(r.average), count = r.count, show = true };
-
                     return new
                     {
                         candidate.userId,
@@ -236,8 +225,7 @@ public static class MomentsEndpoints
                             bullets,
                             tone = explanation.Tone,
                             bridgeQuestion = explanation.BridgeQuestion
-                        },
-                        rating
+                        }
                     };
                 })
                 .ToList();
@@ -386,14 +374,6 @@ public static class MomentsEndpoints
                     }).ToList<object>();
                 });
 
-            // Ratings
-            var lyRatings = await db.UserRatings
-                .Where(r => userIds.Contains(r.RatedUserId))
-                .GroupBy(r => r.RatedUserId)
-                .Select(g => new { userId = g.Key, average = g.Average(r => r.RatingValue), count = g.Count() })
-                .ToListAsync(ct);
-            var lyRatingMap = lyRatings.ToDictionary(r => r.userId, r => r);
-
             var userMap = users.ToDictionary(u => u.userId, u => u);
 
             var likedCutoff = DateTimeOffset.UtcNow;
@@ -405,10 +385,6 @@ public static class MomentsEndpoints
                     var expiresAt = r.CreatedAt.AddDays(7);
                     var hoursLeft = (int)Math.Max(0, (expiresAt - likedCutoff).TotalHours);
 
-                    object? rating = null;
-                    if (lyRatingMap.TryGetValue(u.userId, out var rat) && rat.count >= 5)
-                        rating = new { average = (int)Math.Round(rat.average), count = rat.count, show = true };
-
                     return new
                     {
                         u.userId,
@@ -418,7 +394,6 @@ public static class MomentsEndpoints
                         u.profilePhoto,
                         photos = lyPhotosByUser.GetValueOrDefault(u.userId),
                         highlightedTiles = lyTilesByUser.GetValueOrDefault(u.userId),
-                        rating,
                         likedAt = r.CreatedAt,
                         expiresInHours = hoursLeft
                     };
