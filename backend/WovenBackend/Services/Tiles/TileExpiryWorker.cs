@@ -36,7 +36,7 @@ public class TileExpiryWorker : BackgroundService
     private async Task ExpireOnce(CancellationToken ct)
     {
         using var scope = _scopeFactory.CreateScope();
-        var db  = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+        var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
         var now = DateTimeOffset.UtcNow;
 
         var expired = await db.Tiles

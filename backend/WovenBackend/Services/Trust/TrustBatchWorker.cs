@@ -15,8 +15,8 @@ public class TrustBatchWorker : BackgroundService
     public TrustBatchWorker(IServiceScopeFactory scopeFactory, ICacheService cache, ILogger<TrustBatchWorker> logger)
     {
         _scopeFactory = scopeFactory;
-        _cache        = cache;
-        _logger       = logger;
+        _cache = cache;
+        _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -64,7 +64,7 @@ public class TrustBatchWorker : BackgroundService
     {
         using var scope = _scopeFactory.CreateScope();
         var trust = scope.ServiceProvider.GetRequiredService<ITrustService>();
-        var db    = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+        var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
 
         // Process users active in the last 30 days
         var cutoff = DateTime.UtcNow.AddDays(-30);

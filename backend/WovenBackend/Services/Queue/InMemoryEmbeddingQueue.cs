@@ -9,7 +9,7 @@ public sealed class InMemoryEmbeddingQueue : IEmbeddingQueue
     internal readonly Channel<Guid> Channel = System.Threading.Channels.Channel.CreateBounded<Guid>(
         new BoundedChannelOptions(2000)
         {
-            FullMode    = BoundedChannelFullMode.DropOldest,
+            FullMode = BoundedChannelFullMode.DropOldest,
             SingleReader = true
         });
 
@@ -21,7 +21,7 @@ public sealed class InMemoryEmbeddingQueue : IEmbeddingQueue
 public sealed class InMemoryEmbeddingWorker : BackgroundService
 {
     private readonly InMemoryEmbeddingQueue _queue;
-    private readonly TileEmbeddingService  _embeddings;
+    private readonly TileEmbeddingService _embeddings;
     private readonly ILogger<InMemoryEmbeddingWorker> _logger;
 
     public InMemoryEmbeddingWorker(
@@ -29,9 +29,9 @@ public sealed class InMemoryEmbeddingWorker : BackgroundService
         TileEmbeddingService embeddings,
         ILogger<InMemoryEmbeddingWorker> logger)
     {
-        _queue      = queue;
+        _queue = queue;
         _embeddings = embeddings;
-        _logger     = logger;
+        _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken ct)

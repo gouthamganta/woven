@@ -469,15 +469,12 @@ HNSW indexes are created via raw SQL in migrations because EF Core's fluent API 
 | SharedTileAffinity computation | Part of `MatchScoringService` | Stub — requires populated `CfScores` |
 | PreferenceEmbedding from ChatNotes | Worker stub | Not wired to any schedule |
 | LinUCB bandit integration | `LinUcbUserModel` table | Table exists, not integrated into scoring or deck generation |
-| Ambition pillar coverage | Onboarding questions | No question covers this pillar — `PillarEmbedding` is incomplete |
 
 ### Impact of Missing Components
 
 **CfScore = 0:** The `cf` component (weight 0.03) and `shared_tile_affinity` (weight 0.05) are effectively dead weight in all current scoring — 8% of the weight budget contributes nothing.
 
 **LinUCB not integrated:** Deck generation has no exploration mechanism. Candidates who score well statically are always shown; candidates with uncertain fit are not surfaced for data collection.
-
-**Ambition pillar gap:** The `pillar` component (highest weight at 0.19) embeds concatenated pillar answers. Missing ambition data means the pillar embedding is structurally incomplete for all users.
 
 ---
 

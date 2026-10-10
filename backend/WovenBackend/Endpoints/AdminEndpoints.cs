@@ -82,10 +82,10 @@ public static class AdminEndpoints
 
             return Results.Ok(new
             {
-                userId      = user.Id,
-                email       = user.Email,
-                trustScore  = user.TrustScore,
-                updatedAt   = user.TrustUpdatedAt
+                userId = user.Id,
+                email = user.Email,
+                trustScore = user.TrustScore,
+                updatedAt = user.TrustUpdatedAt
             });
         });
 
@@ -99,7 +99,7 @@ public static class AdminEndpoints
             if (user is null)
                 return Results.NotFound(new { error = "USER_NOT_FOUND" });
 
-            user.TrustScore     = 0.5f;
+            user.TrustScore = 0.5f;
             user.TrustUpdatedAt = DateTime.UtcNow;
             await db.SaveChangesAsync(ct);
 

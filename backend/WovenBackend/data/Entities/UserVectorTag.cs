@@ -1,5 +1,6 @@
 namespace WovenBackend.Data.Entities;
-using WovenBackend.Data; 
+
+using WovenBackend.Data;
 public class UserVectorTag
 {
     public int Id { get; set; }

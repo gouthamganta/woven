@@ -27,11 +27,11 @@ public class TileService : ITileService
         IAnalyticsService analytics,
         ILogger<TileService> logger)
     {
-        _db             = db;
+        _db = db;
         _embeddingQueue = embeddingQueue;
-        _config         = config;
-        _analytics      = analytics;
-        _logger         = logger;
+        _config = config;
+        _analytics = analytics;
+        _logger = logger;
     }
 
     public async Task<CreateTileResult> CreateAsync(int userId, CreateTileRequest req, CancellationToken ct = default)
@@ -64,13 +64,13 @@ public class TileService : ITileService
 
         var tile = new Tile
         {
-            UserId      = userId,
+            UserId = userId,
             ContentType = req.ContentType.ToLowerInvariant(),
             ContentText = req.ContentText?.Trim(),
-            MediaUrl    = req.MediaUrl,
-            CreatedAt   = now,
-            ExpiresAt   = now + TileLifetime,
-            IsExpired   = false,
+            MediaUrl = req.MediaUrl,
+            CreatedAt = now,
+            ExpiresAt = now + TileLifetime,
+            IsExpired = false,
             IsHighlighted = false,
             IsModerated = isModerated
         };
@@ -160,16 +160,16 @@ public class TileService : ITileService
         if (existing is not null)
         {
             existing.SlotNumber = slot;
-            existing.PinnedAt   = DateTimeOffset.UtcNow;
+            existing.PinnedAt = DateTimeOffset.UtcNow;
         }
         else
         {
             _db.Highlights.Add(new Highlight
             {
-                UserId     = userId,
-                TileId     = tileId,
+                UserId = userId,
+                TileId = tileId,
                 SlotNumber = slot,
-                PinnedAt   = DateTimeOffset.UtcNow
+                PinnedAt = DateTimeOffset.UtcNow
             });
         }
 
@@ -217,7 +217,7 @@ public class TileService : ITileService
         var tile = await _db.Tiles
             .FirstOrDefaultAsync(t => t.Id == tileId && t.UserId == userId, ct);
 
-        if (tile is null)   return false;
+        if (tile is null) return false;
         if (tile.IsExpired) return false;       // already gone
         if (tile.IsHighlighted) return false;   // must unhighlight first
 
