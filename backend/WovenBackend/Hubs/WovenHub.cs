@@ -62,7 +62,7 @@ public class WovenHub : Hub
         // "uid" is an explicit custom claim in JwtTokenService.
         // Fall back to ClaimTypes.NameIdentifier which JWT bearer maps "sub" to by default.
         var user = Context.User ?? throw new InvalidOperationException("No authenticated user on hub connection");
-        var raw  = user.FindFirstValue("uid")
+        var raw = user.FindFirstValue("uid")
                 ?? user.FindFirstValue(ClaimTypes.NameIdentifier)
                 ?? throw new InvalidOperationException("No user ID claim on hub connection");
         return int.Parse(raw);

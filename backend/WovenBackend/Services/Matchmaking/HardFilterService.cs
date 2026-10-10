@@ -51,7 +51,7 @@ public class HardFilterService : IHardFilterService
             {
                 var dist = Haversine(
                     userProfile.Lat.Value, userProfile.Lng.Value,
-                    c.Profile.Lat.Value,  c.Profile.Lng.Value);
+                    c.Profile.Lat.Value, c.Profile.Lng.Value);
 
                 if (dist > userPref.DistanceMiles || dist > c.Pref.DistanceMiles)
                 {
