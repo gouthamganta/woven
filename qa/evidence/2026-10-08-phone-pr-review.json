@@ -1,0 +1,270 @@
+﻿{
+    "pr141":  {
+                  "integration":  "conflicts against5461c85 in InteractionBudgetService.cs and MomentsRules.cs; aborted",
+                  "baseline":  {
+                                   "total":  8,
+                                   "artifactSha256":  "7896f8951c0a73e4d78ab2a5c9dd00050b779093406be26206157805be14ea6a",
+                                   "cases":  [
+                                                 {
+                                                     "result":  "Passed",
+                                                     "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.GetState_UnknownCircuit_ReturnsClosed"
+                                                 },
+                                                 {
+                                                     "result":  "Passed",
+                                                     "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_ThreeFailures_OpensCircuit"
+                                                 },
+                                                 {
+                                                     "result":  "Passed",
+                                                     "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_SuccessfulCall_ReturnsClosed"
+                                                 },
+                                                 {
+                                                     "result":  "Passed",
+                                                     "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_OpenCircuit_ThrowsCircuitBreakerOpenException"
+                                                 },
+                                                 {
+                                                     "result":  "Passed",
+                                                     "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ReturnsNonEmptyJwt"
+                                                 },
+                                                 {
+                                                     "result":  "Passed",
+                                                     "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ContainsExpectedClaims"
+                                                 },
+                                                 {
+                                                     "result":  "Passed",
+                                                     "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_DifferentUsers_ProduceDifferentTokens"
+                                                 },
+                                                 {
+                                                     "result":  "Passed",
+                                                     "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.Reset_AfterOpen_ClosesCircuit"
+                                                 }
+                                             ],
+                                   "failed":  0,
+                                   "passed":  8
+                               },
+                  "cleanupRegressions":  {
+                                             "total":  6,
+                                             "artifactSha256":  "6ded1e90d4a2172711d0dd70ea33fe4198fcee4f2d33b3f09b538a7c28910c39",
+                                             "cases":  [
+                                                           {
+                                                               "result":  "Passed",
+                                                               "name":  "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 1)"
+                                                           },
+                                                           {
+                                                               "result":  "Passed",
+                                                               "name":  "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 10)"
+                                                           },
+                                                           {
+                                                               "result":  "Passed",
+                                                               "name":  "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: LOGICAL)"
+                                                           },
+                                                           {
+                                                               "result":  "Passed",
+                                                               "name":  "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: MAGICAL)"
+                                                           },
+                                                           {
+                                                               "result":  "Passed",
+                                                               "name":  "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: YES)"
+                                                           },
+                                                           {
+                                                               "result":  "Passed",
+                                                               "name":  "WovenBackend.Tests.SavedCleanupContractTests.EmptyCandidates_ReturnsEmptyBoostMap"
+                                                           }
+                                                       ],
+                                             "failed":  0,
+                                             "passed":  6
+                                         }
+              },
+    "pr137":  {
+                  "browser":  {
+                                  "source":  "PR137 dce8c89 production build; cache disabled for local build recovery",
+                                  "scope":  "Actual built browser UI with intercepted synthetic API payloads, including legacy rating fields. No real API/proxy/provider authentication validated.",
+                                  "results":  [
+                                                  {
+                                                      "viewport":  1366,
+                                                      "tab":  "Deck",
+                                                      "result":  "passed",
+                                                      "ratingElements":  0,
+                                                      "cardVisible":  true
+                                                  },
+                                                  {
+                                                      "viewport":  1366,
+                                                      "tab":  "Drawn",
+                                                      "result":  "passed",
+                                                      "ratingElements":  0,
+                                                      "cardVisible":  true
+                                                  },
+                                                  {
+                                                      "viewport":  1366,
+                                                      "pageErrors":  [
+
+                                                                     ]
+                                                  },
+                                                  {
+                                                      "viewport":  390,
+                                                      "tab":  "Deck",
+                                                      "result":  "passed",
+                                                      "ratingElements":  0,
+                                                      "cardVisible":  true
+                                                  },
+                                                  {
+                                                      "viewport":  390,
+                                                      "tab":  "Drawn",
+                                                      "result":  "passed",
+                                                      "ratingElements":  0,
+                                                      "cardVisible":  true
+                                                  },
+                                                  {
+                                                      "viewport":  390,
+                                                      "pageErrors":  [
+
+                                                                     ]
+                                                  }
+                                              ]
+                              },
+                  "backend":  {
+                                  "total":  12,
+                                  "artifactSha256":  "437119d5d51447cf0eba5b7284b10dee88610220cff2d6bf81e6a196c9de8e8c",
+                                  "cases":  [
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ContainsExpectedClaims"
+                                                },
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.GetState_UnknownCircuit_ReturnsClosed"
+                                                },
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_OpenCircuit_ThrowsCircuitBreakerOpenException"
+                                                },
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments/liked-you\", ratingCount: 5)"
+                                                },
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ReturnsNonEmptyJwt"
+                                                },
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_ThreeFailures_OpensCircuit"
+                                                },
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments\", ratingCount: 5)"
+                                                },
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments/liked-you\", ratingCount: 0)"
+                                                },
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_SuccessfulCall_ReturnsClosed"
+                                                },
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments\", ratingCount: 0)"
+                                                },
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.Reset_AfterOpen_ClosesCircuit"
+                                                },
+                                                {
+                                                    "result":  "Passed",
+                                                    "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_DifferentUsers_ProduceDifferentTokens"
+                                                }
+                                            ],
+                                  "failed":  0,
+                                  "passed":  12
+                              },
+                  "browserSha256":  "c29bdf98d795255844628bbe16e9a047b67437160d1d95853acf1228fddea202",
+                  "productionBuild":  "passed after cache-disabled local recovery; existing stylesheet warning",
+                  "integratedBackend":  {
+                                            "total":  12,
+                                            "artifactSha256":  "9affeafb4291e0787b0415cb4dddb4ea2c32c54dd3fa22c9d90edc860bed0a69",
+                                            "cases":  [
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_DifferentUsers_ProduceDifferentTokens"
+                                                          },
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_OpenCircuit_ThrowsCircuitBreakerOpenException"
+                                                          },
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_SuccessfulCall_ReturnsClosed"
+                                                          },
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ReturnsNonEmptyJwt"
+                                                          },
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments/liked-you\", ratingCount: 5)"
+                                                          },
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments\", ratingCount: 0)"
+                                                          },
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments/liked-you\", ratingCount: 0)"
+                                                          },
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_ThreeFailures_OpensCircuit"
+                                                          },
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.GetState_UnknownCircuit_ReturnsClosed"
+                                                          },
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ContainsExpectedClaims"
+                                                          },
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.Reset_AfterOpen_ClosesCircuit"
+                                                          },
+                                                          {
+                                                              "result":  "Passed",
+                                                              "name":  "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments\", ratingCount: 5)"
+                                                          }
+                                                      ],
+                                            "failed":  0,
+                                            "passed":  12
+                                        }
+              },
+    "heads":  {
+                  "pr141":  "5de72ae75a659750e1866a002d082186fe1faaa9",
+                  "pr137":  "dce8c896a0593ddea50f0ce834bd125ef0815cd2",
+                  "pr142":  "e02b628b20b2e31a7832a56a4784b594e42ad019",
+                  "pr140":  "e387d029875c6ac1ca7ce4d01bd2e8ae3c9160c8"
+              },
+    "pr142":  {
+                  "broaderDocs":  "not approved; independent dimension drift164",
+                  "targetedClaims":  "canonical pillars and q6 match source; all12 changed application/doc files inspected"
+              },
+    "pr140":  {
+                  "result":  "changes required: ChatNote contradiction; founder decision already settled in126/143",
+                  "draft":  false
+              },
+    "sharedCi":  {
+                     "representativeRuns":  [
+                                                "37799786484",
+                                                "37799786380"
+                                            ],
+                     "followup":  163,
+                     "newRatingTestWhitespaceLines":  3,
+                     "terraform":  "fmt failure on modules/container_apps/main.tf, before init/validate",
+                     "largeFiles":  "existing intro videos; whole-checkout gate",
+                     "state":  "failed gates on all four heads",
+                     "formatErrorLines":  531
+                 },
+    "noDeployment":  true,
+    "date":  "2026-10-08",
+    "noMerge":  true,
+    "scope":  "Independent targeted phone PR review; not full product or deployment sign-off",
+    "noPaidCalls":  true
+}

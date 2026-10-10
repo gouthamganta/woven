@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-08",
+  "candidate": "4e421eec4e6cbcdb8333a6673de88b0c0a82aa34",
+  "productionAudit": {
+    "command": "npm audit --omit=dev --json",
+    "exitCode": 0,
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    }
+  },
+  "installedObserved": {
+    "core": "21.2.25",
+    "build": "21.2.26"
+  },
+  "lockObserved": {
+    "core": "21.2.25",
+    "build": "21.2.26"
+  },
+  "lockSha256": "937777a8555c1fa3a06d091463859fe810cc25876967c37f021d4e06881c04c5",
+  "scope": "Fresh production dependency audit, installed/lock version inspection and independent development browser/server build. Excludes dev audit, clean-install reproducibility, production build budgets, functional regression and exploit validation. No acceptance/merge/deploy.",
+  "developmentBuild": {
+    "command": "node node_modules/@angular/cli/bin/ng.js build --configuration development",
+    "exitCode": 0,
+    "result": "passed",
+    "durationSeconds": 46.088
+  }
+}

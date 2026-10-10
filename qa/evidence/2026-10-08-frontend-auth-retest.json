@@ -1,0 +1,541 @@
+{
+  "date": "2026-10-08",
+  "baseline": "3df9759",
+  "candidate": "176cf74",
+  "draft": "https://github.com/gouthamganta/woven/pull/167",
+  "claudeSession": "0e33b21d-068e-49e5-b873-168f24078006",
+  "scope": "Same37 frontend cases; candidate consists of three Claude-authored files over5461c85, copied temporarily into isolated QA worktree for test and restored afterward.",
+  "baselineResults": {
+    "passed": 18,
+    "failed": 19,
+    "total": 37,
+    "cases": [
+      {
+        "name": "App should create the app",
+        "result": "passed"
+      },
+      {
+        "name": "TestApi should create",
+        "result": "passed"
+      },
+      {
+        "name": "LoginComponent should create",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries redirects an anonymous browser to login",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries treats an empty stored token as anonymous",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries redirects after the stored token has been removed",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries forwards an anonymous request without an authorization header",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries adds the current token to a local API request",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries preserves the request body and caller headers when authenticating",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries reads token removal before the next request",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries authenticates an absolute same-origin API URL",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries authenticates the explicitly configured development API origin",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries does not authenticate a protocol-relative unrelated host",
+        "result": "failed"
+      },
+      {
+        "name": "Authentication request boundaries does not authenticate an allowed-origin lookalike",
+        "result": "failed"
+      },
+      {
+        "name": "Authentication request boundaries preserves unrelated caller-supplied authorization",
+        "result": "failed"
+      },
+      {
+        "name": "Authentication request boundaries continues without adding credentials when storage is unavailable",
+        "result": "failed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /login",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /privacy",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /terms",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /data-policy",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /landing",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /moments",
+        "result": "failed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats",
+        "result": "failed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/settings",
+        "result": "failed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /matches/00000000-0000-0000-0000-000000000001/profile",
+        "result": "failed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/basics",
+        "result": "failed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/photos",
+        "result": "failed"
+      },
+      {
+        "name": "Actual route configuration session boundaries rechecks expiry when navigating between protected child pages",
+        "result": "failed"
+      },
+      {
+        "name": "Session security regressions allows a browser with a future-dated synthetic token payload",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions rejects a token exactly at its expiry second",
+        "result": "failed"
+      },
+      {
+        "name": "Session security regressions rejects a string-valued numeric expiry",
+        "result": "failed"
+      },
+      {
+        "name": "Session security regressions redirects instead of throwing when storage is unavailable",
+        "result": "failed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a expired token to login",
+        "result": "failed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a malformed token to login",
+        "result": "failed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a whitespace token to login",
+        "result": "failed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a missing-expiry token to login",
+        "result": "failed"
+      },
+      {
+        "name": "Session security regressions does not forward app credentials to an unrelated external origin",
+        "result": "failed"
+      }
+    ]
+  },
+  "candidateResults": {
+    "passed": 37,
+    "failed": 0,
+    "total": 37,
+    "cases": [
+      {
+        "name": "App should create the app",
+        "result": "passed"
+      },
+      {
+        "name": "TestApi should create",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries redirects an anonymous browser to login",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries treats an empty stored token as anonymous",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries redirects after the stored token has been removed",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries forwards an anonymous request without an authorization header",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries adds the current token to a local API request",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries preserves the request body and caller headers when authenticating",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries reads token removal before the next request",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries authenticates an absolute same-origin API URL",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries authenticates the explicitly configured development API origin",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries does not authenticate a protocol-relative unrelated host",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries does not authenticate an allowed-origin lookalike",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries preserves unrelated caller-supplied authorization",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries continues without adding credentials when storage is unavailable",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /login",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /privacy",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /terms",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /data-policy",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /landing",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /moments",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/settings",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /matches/00000000-0000-0000-0000-000000000001/profile",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/basics",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/photos",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries rechecks expiry when navigating between protected child pages",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions allows a browser with a future-dated synthetic token payload",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions rejects a token exactly at its expiry second",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions rejects a string-valued numeric expiry",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions redirects instead of throwing when storage is unavailable",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a expired token to login",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a malformed token to login",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a whitespace token to login",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a missing-expiry token to login",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions does not forward app credentials to an unrelated external origin",
+        "result": "passed"
+      },
+      {
+        "name": "LoginComponent should create",
+        "result": "passed"
+      }
+    ]
+  },
+  "productionBuild": "passed; cache disabled/two workers/existing stylesheet warning",
+  "hashes": {
+    "baseline": "8bd696f2b7b3accdb75013b5a8e5995920a0723970f5e81522a580962544c849",
+    "candidate": "8aef845f92adbcbc63a048d10e3a087f968ecfc611b106f44df006b2f76aecb7",
+    "expanded": "e95c35653d1397fe0d3d35062e61c4872a903f607d6d75ae1d4fc014e22a2219"
+  },
+  "limitations": [
+    "Client navigation/automatic credential policy only, not signature verification or server account-state enforcement.",
+    "Existing manually authenticated services, refresh/revocation, real browser/provider and broad SSR coverage remain open.",
+    "No paid API fallback, deployment or main merge.",
+    "Expanded51 candidate cases cover all current protected paths and redirects; full51 baseline not run."
+  ],
+  "expandedCandidateResults": {
+    "passed": 51,
+    "failed": 0,
+    "total": 51,
+    "cases": [
+      {
+        "name": "App should create the app",
+        "result": "passed"
+      },
+      {
+        "name": "TestApi should create",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries redirects an anonymous browser to login",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries treats an empty stored token as anonymous",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries redirects after the stored token has been removed",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries forwards an anonymous request without an authorization header",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries adds the current token to a local API request",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries preserves the request body and caller headers when authenticating",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries reads token removal before the next request",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries authenticates an absolute same-origin API URL",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries authenticates the explicitly configured development API origin",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries does not authenticate a protocol-relative unrelated host",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries does not authenticate an allowed-origin lookalike",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries preserves unrelated caller-supplied authorization",
+        "result": "passed"
+      },
+      {
+        "name": "Authentication request boundaries continues without adding credentials when storage is unavailable",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /login",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /privacy",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /terms",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /data-policy",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /landing",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /moments",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /commons",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats/00000000-0000-0000-0000-000000000001",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/settings",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/tiles",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /matches/00000000-0000-0000-0000-000000000001/profile",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/welcome",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/basics",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/intent",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/foundational",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/photos",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/details",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/lifestyle",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/review",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/start",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /app",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /missing-qa-page",
+        "result": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries rechecks expiry when navigating between protected child pages",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions allows a browser with a future-dated synthetic token payload",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions rejects a token exactly at its expiry second",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions rejects a string-valued numeric expiry",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions redirects instead of throwing when storage is unavailable",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a expired token to login",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a malformed token to login",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a whitespace token to login",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a missing-expiry token to login",
+        "result": "passed"
+      },
+      {
+        "name": "Session security regressions does not forward app credentials to an unrelated external origin",
+        "result": "passed"
+      },
+      {
+        "name": "LoginComponent should create",
+        "result": "passed"
+      }
+    ]
+  }
+}

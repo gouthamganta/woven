@@ -1,6 +1,135 @@
+## PR queue priority checkpoint - 2026-10-09
+
+Founder parked new testcase/coverage work until pending PRs/commits are reviewed. Reviewed 21 original PRs, 8 local Claude fix branches, 5 newer master commits. Checkpoint: 14 merged, 10 superseded/incompatible closed, QA146 awaiting final CI, migration144 unaccepted. Current master42bb309 application plus existing suites: BE177/177, FE540/540; final full npm audit0; production build passed with existing stylesheet warning; 3/3 isolated startup-key rejection checks pass. Current BE unit collector18.42%lines/12.11%branches; do not join older HTTP binary. No frontend coverage rerun, no new persona/performance campaign. Current80%objective unfinished and remains parked per founder sequencing. Metadata/peer dependency fixes and two existing harness assertions adapted; no new test-case campaign. CodeQL50/51 false-positive triage recorded, note457 remains open. SourceFlowAfterthought120 not complete in trial/block UI, static gap handed to Claude; broader108/124/165/166 not closed. Fresh empty PostgreSQL migration144 fails PendingModelChangesWarning;43EFmigrations discovered, manualAddMatchSignalLog absent. Do not suppress warnings/useEnsureCreated as proof. Approved72h split177 and auth/proxy176 landed without blocked schema changes. Deploy workflow234665844 disabled to prevent cloud spending; do not re-enable without founder deployment authorization. Root shared edits/original Docker services preserved; do not regenerate unwanted test-access launcher. Evidence qa/evidence/2026-10-09-pr-queue.md and .json; update final merge status from GitHub.
+
+## Frontend line and branch gate reached - 2026-10-09
+
+Added 99 client tests, all 99 pass. Final 540 total, 537 pass, 3 known failures (#170/#171/#172); no failed suite loads. All 72/72 app TS files included: 83.09% lines, 80.44% branches, 80.87% statements, 73.34% functions. Only the configured line/branch gate passes; functions remain below 80 and full feature/browser/accessibility/security completion is not claimed. 21 external HTML templates separately unmeasured. Angular/V8 mapping counters changed when additional prototype modules loaded (4355 valid lines, 2189 branches); no app exclusions or threshold changes. Backend unchanged: unit 16.18% lines/11.68% branches; archived identical-binary union 35.55%/19.16%. Backend coverage is the next primary gap. Tests include login, onboarding polling, legacy push, Balloon timing/actions, canvas/scroll lifecycle, rendered ChatNote/game/Commons and prototype form/server guards. Initial DOM timing and missing matchMedia errors corrected; only final verified run is acceptance evidence. Candidate auth/routes overlay restored. No app fixes, new sandbox/persona/provider/performance run, master merge or deployment. GitHub authoritative; QA branch qa/full-local-audit, draft PR146. Evidence: 2026-10-09-client-80-*.json and .md.
+
+## Coverage resumed after founder challenged stopping - 2026-10-09
+
+Added163 more frontend cases; final441total438pass,3knowncontracts unchanged. Frontend72/72TS70.93%lines/72.21%branches;target80unmet. Backendlatest173total172pass,unit16.18/11.68%;archivedsamebinaryunion35.55/19.16%. No newbackend/sandbox/persona/provider/performancecampaign in this continuation. Added Home/assistant,92transportcases,legal/Pulse-sheet,push,realtime,landing media/motion tests. SignalR modulemock did not intercept bundled source; replaced with actual builder-prototype stubs and verified11cases. Initial mock failures excluded from product findings, finalall163newcasespass. Source files/auth overlays restored. Continue primarycoverage, no checkpoint-completion claim. Evidence2026-10-09-coverage-resume-*.json.
+
+## Founder sequencing and coverage-first checkpoint - 2026-10-09
+
+Coverage/feature test suites primary; >=80% lines and branches remains unmet. Sandbox/persona/performance/full bug-cause campaigns deferred. Added219 new tests in this phase, all219passed: backend173total172pass (Saved unmerged expectation), frontend278total275pass (3known contracts). Frontend72/72TS55.62%lines/59.98%branches,21externalHTMLseparate. Backendunit16.18%/11.68%;same-binary archivedHTTP+unitunion35.55%/19.16% (no newHTTP/sandboxrun). Scoped documentationQA139 closed against142e02b628b per acceptance requiringdraftPR+handoff; PR142stillopen/draft/unmerged, sharedCIissue163separate. Preservelatestuserordering. Newcode in AiProfile/Game/Endpoint tests and account/chat/game/Commons/onboarding specs. Evidence2026-10-09-coverage-first-cases.json. Continue with remaining Home/assistant/landing/services and backend handler/service gaps.
+
+## Finding classification correction - 2026-10-09
+
+Latest5 failed assertions are3 reproduced frontend component/service defects (170/171/172),1 pending PR141 expectation (Saved behavior absent from tested5461c85),1 proposed correlation-ID security requirement (108). Do not call all5 confirmed product defects, or call isolated component/service tests browser verification. Preserve failed results; distinguish intended pending change/proposed requirement from established-contract regression. Reporter correction in2026-10-09 coverage evidence.
+
+## Primary80% coverage campaign - 2026-10-09
+
+Target>=80% lines AND branches per layer, not reached. Backend combined same-binary unit+realHTTP union31.33%lines/14.71%branches;frontend72/72TS21.59%/27.64%;21externalHTML separately unmeasured. Added119tests since instruction (40BE+79FE); BE90/91pass (Saved known), FE138/141pass (170storage,171mediaHTTP,172PASS); realHTTP34/35pass (108correlation). Gates fail nonzero. Reusable Docker API collector verified with fresh synthetic DB clone+ownRedis, stopped owncontainers, private appcopy restored. EF QA testRelational10.0.12 alignment removes prior warning. Evidence qa/evidence/2026-10-09-coverage-delivery.md; largestremainingBEgaps chat/onboarding/games/insights/AI;continue tests, do not claim complete.
+
+## Executed delivery checkpoint - 2026-10-08
+
+Added 11 frontend HTTP recovery/tracing contracts; final auth candidate176cf74 run61/62 pass, sole new failure storage-denied401 (#170). Added all-TypeScript coverage config, single-worker runner with overlay restoration and denominator verifier:72/72 appTS included, line4.12%/branch14.80%;21HTML templates separately unmeasured. Registry141 named cases, families still partial. Independent security125 production audit0 vulnerabilities on4e421ee; installed versions match lock core21.2.25/build21.2.26. Independent development browser/server build passed in46.088s; production build and functional regressions remain pending. Evidence: qa/evidence/2026-10-08-frontend-delivery.md.
+
+## Current checkpoint ? 2026-10-08
+
+GitHub Issues/Projects are authoritative; the older board instructions below are historical. QA branch `qa/full-local-audit`, draft PR146; application candidates PR144/167/168 are separate and unmerged. Latest coverage and scope: `qa/evidence/2026-10-08-coverage-by-module.md` and JSON. Backend 50/51 tests pass (pending Saved cleanup fails one); frontend auth candidate 51/51 pass. Backend line coverage 1.55% with generated migrations, 6.51% excluding them; frontend loaded-file line coverage 4.12%, whole frontend unknown. Selected external runtime probes are separate from these collectors. Controlled choice failure deterministically leaves budget charged without response/note (#124); account deletion and encrypted email reuse defects #165/#166 remain. Claude atomicity attempt exited without edits; no repair claimed. Local sandbox uses EnsureCreated model database, not a proven migration path. 100 synthetic adults exist; no paid API calls or main merge/deployment. Remaining QA/review checklist lives in #109; do not call partial suites complete.
+
 # QA memory
 
 ## Current coordination
+
+Proxy/real-browser repair loop: Claude proxyc6b090c stacked draft168(base167)
+passesnginx-t and16/16 actual contracts vs baseline3/16. Local frontend5180 now
+mounts auth176cf74 build +candidate nginx via privateproxy.env; backend5461c85
+unchanged, original containers untouched. Real mobile anonymous→login and signed
+synthetic→moments/API200 checks pass without fake backend responses. Actual hub
+websocket handshake succeeds; delivery/isolation/reconnect not proved. Query/
+referrer artificial marker absent from real logs. Local ordinary-user launcher
+http://127.0.0.1:5180/qa-access.html lasts1h, Git-ignored; regenerate via script.
+Report2026-10-08-proxy-and-browser.md/JSON; no cloud deploy/paid fallback/main merge.
+
+Further fix/retest: Claude-authored client176cf74 stacked draft167(base144)
+passes same37 cases vs baseline18/37; expanded51/51 candidate tests/build pass.
+QA overlays restored. No signature verification by client decoder; SEC remains
+open. Matched deletion165 fails500 after messages1→0; SQLuserstillpresent,
+vectors0. Email equality166 readonlyprobe loads100, sameEmail query returnsnull;
+already-linked Google identity path not declared broken. Own importer fixed to
+bounded decrypted fixture map: restores1 missing synthetic, nextinsert0;100users.
+Four invalid manifests rejected with counts100→100. Actor32 partialstate not
+repaired. Fresh migrations/atomicity/proxy/deps/CI remain blockers. Report:
+2026-10-08-client-and-data-round.md and exact-scope JSON; no paid fallback.
+
+Continued PostgreSQL QA after phone reviews: duplicate-choice race on candidate
+5461c85 produced200/409/409/500 after one distinct warmup; DB total_used3 versus
+responses2/notes2. Failed duplicate consumed a slot without saved action.124
+returned Changes requested/Claude;108 notified missing correlation header on500.
+Actors92/93/warmupTarget97 are synthetic local-model DB only; do not rerun same
+state and assume fresh. Report2026-10-08-duplicate-choice-race.md/JSON. Six new
+SavedCleanup regressions pass on phone141, not a full PostgreSQL cap proof.
+
+Phone PR review:137 head dce8c89 passes independent12 tests +production build
++4 mocked browser checks (Deck/Drawn desktop/mobile), local merge with5461c85
+auto-merges and same12 tests pass.141 head5de72ae passes8 existing+6 new Saved
+cleanup tests, but conflicts with144 in InteractionBudgetService/MomentsRules;
+probes aborted.142 head e02b628 canonical/q6 claims match code; full unchanged
+docs not certified.140 head e387d02 is NOT draft and still contradicts ChatNote
+visibility;143 already has settled founder decision. CI gates remain red;163
+queues fmt/asset gate repairs,164 queues old PillarEmbedding128-vs1536 doc drift.
+Direct comments posted on all4 PRs +linked Issues. No other explicitly named
+claude-phone branch in open list. Evidence:2026-10-08-phone-pr-review.md.
+All views/tasks remain incomplete; no merge/deploy/reset/paid call. Browser
+fixtures were repaired rather than forcing clicks through modal overlays.
+
+Round 2: added 44 cases (30 backend, 14 frontend) on qa/full-local-audit. Baseline
+backend 41/45, candidate5461c85 backend45/45, frontend13/24. Four baseline
+failures are approved72h vs36h. Eleven frontend failures cover three gaps:
+unguarded routes (six), presence-only token validation (four), credential-origin
+restriction (one); not eleven bugs or proof of backend auth bypass. Actual route
+policy tested using RouterTestingHarness with probe page components. Encryption
+and generated-cookie contracts pass; at-rest field coverage/rotation/browser
+CSRF remain unverified. REGRESSION_CASES.json maps69 named cases to partial
+families; report/evidence under evidence/2026-10-08-regressions-round2.*.
+No skips to conceal failures; default test run is red until application repairs.
+Claude owns #108/#114 fixes, Codex owns test suites. #151/#156 remain partial.
+
+Founder requested complete backend/frontend test-case coverage, not smoke-only
+QA. Codex created suite Issues #147–#162 (16 suites, 96 test-design families);
+QA-COV-01 and QA-COV-16 are in progress, others queued. Inventory
+TEST_SURFACES.json finds 133 literal backend registrations, 26 frontend route
+entries, 159 backend service files and 21 frontend services/guards/interceptors.
+This static inventory is not a complete runtime route list or tested coverage.
+See TEST_COVERAGE_PLAN.md, TEST_CASE_FAMILIES.json and TEST_CASE_MAPPING.json.
+Added 7 backend JWT contract cases and 7 frontend guard/interceptor cases on
+qa/full-local-audit, with no application changes. Backend 15/15 and frontend
+10/10 passed. Initial backend collector measured 122/93816 lines (~0.13%) and
+15/5701 branches (~0.26%), including generated migrations; no exclusions added.
+Frontend coverage collector now runs using isolated @vitest/coverage-v8 4.0.16
+and a worktree dependency overlay; root dependencies unchanged. Report gives
+34.95% lines / 45.53% branches for LOADED FILES ONLY, not whole frontend coverage.
+Unloaded files must enter the denominator in QA-COV-16. See coverage-baseline
+Markdown/JSON under evidence/ for measured totals and remaining limitations.
+Goal: 100% enumerated requirements/states mapped and must-pass tests executed;
+never promise a finite suite proves every possible edge case absent. Preserve
+full denominator and distinguish passing mocked tests from integration/provider
+evidence. Tests do not prove auth guards are enabled in routes (#114 still open).
+
+2026-10-08 full QA resumed. Baseline 3df9759, Claude-authored candidate 5461c85
+published as draft PR #144 (fix/qa-startup-and-72h); no master merge/deployment.
+Local API uses separate MODEL-CREATED woven_qa_model schema because fresh
+migrations still fail (#111). Imported 100 synthetic adults; deletion probe
+removed one, so 99 remain. Root app code is unchanged; candidate alone has 72h.
+Persisted match expiry is exactly 72h. Latest targeted sets: API 34/35,
+corrected lifecycle 18/18, security 11/12. Concurrent eight choices yielded five
+successes and three cap denials; independent DB counts budget/responses/notes=5.
+Final existing backend tests 8/8 pass (542ms), EF warnings remain. Earlier
+frontend build and existing tests 3/3 passed; guest UI scope only.
+Founder clarified in Codex: show BOTH ChatNotes to the matched pair. Third-user
+chat denial passed. Correct contradictory docs via GitHub #143, not a privacy
+feature change. #126 contains this clarification. #108 has security follow-up:
+deleted-account token still receives authenticated response, unbounded
+correlation echo and readiness despite pending migrations. See
+evidence/2026-10-08-full-qa.md and SECURITY_CONTROLS.md for explicit coverage gaps.
+Continue #109 with migration/routing/auth fixes, fault injection, full feature
+journeys and retention/provider tests. No paid API fallback, general dispatcher
+still disabled. Keep public Issue summaries sanitized; private runtime secrets
+and raw synthetic conversations remain in ignored .local. Task record is
+GitHub only; do not update BOARD.md. Older checkpoint entries below are history.
 
 2026-10-08: #138 Saved/Pending trace found no Drawn dependency. Removed legacy
 budget/cache branches, Saved boost and stale support navigation; database

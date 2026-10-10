@@ -1,0 +1,19 @@
+{
+  "label": "baseline5461c85",
+  "actorOffset": 76,
+  "scope": "Controlled note-write failure in verified local synthetic-only model database; trigger removed in finally. Not a production-safe script.",
+  "before": {
+    "budget": 0,
+    "responses": 0,
+    "notes": 0
+  },
+  "responseStatus": 500,
+  "after": {
+    "budget": 1,
+    "responses": 0,
+    "notes": 0
+  },
+  "result": "failed",
+  "triggerRemoved": true,
+  "rawSha256": "c09d05da884ddea461cd62a3b003e0cc8f770dc5c00cfc1a785d06f74ed13096"
+}

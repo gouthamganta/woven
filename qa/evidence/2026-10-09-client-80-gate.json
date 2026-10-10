@@ -1,0 +1,12 @@
+{
+  "layer": "frontend",
+  "target": {
+    "lines": 80,
+    "branches": 80
+  },
+  "lines": 83.09,
+  "branches": 80.44,
+  "passed": true,
+  "reasons": [],
+  "inputSha256": "701d0e65c3761c74c71e5b943e93e5d99ba0a162396d8f8062ded52bcf09c47e"
+}

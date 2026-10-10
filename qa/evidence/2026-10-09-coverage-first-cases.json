@@ -1,0 +1,1836 @@
+{
+  "date": "2026-10-09",
+  "sequence": "Coverage/feature suites first; sandbox/persona/full bug-cause campaigns deferred by founder.",
+  "backend": {
+    "source": "5461c85",
+    "total": 173,
+    "passed": 172,
+    "failed": 1,
+    "cases": [
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: True, expectedName: \"woven_refresh_token\", minutes: 43200)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_SuccessfulCall_ReturnsClosed",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: null, second: \"relationship\", expected: 0.5)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.JpegRestartMarkers_ArePreserved",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 1, firstTone: \"balanced\", secondTone: \"balanced\", pillar: \"Other\", intent: 0.5, difficulty: \"MEDIUM\", tone: \"BALANCED\", bucket: \"CONVERSATION_FIT\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 12)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.CoachingSummary_ReturnsLatestOwnUnreadRecordWithoutForeignOrDismissedContent",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 0, firstTone: \"playful\", secondTone: \"playful\", pillar: \"Other\", intent: 0.5, difficulty: \"EASY\", tone: \"PLAYFUL\", bucket: \"EXPLORER\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.TwoRoundGame_FlipsRolesScoresAndCompletesWithTheCorrectWinner(firstScore: 2, secondScore: 0, winner: 1)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Find @synthetic_handle\", identifier: \"@synthetic_handle\", replacement: \"[handle]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"not-json\", pillars: \"not-json\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 0, pending: False, allowed: True, remaining: 2, reason: null)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 1)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesToneRelationships(first: \"{\\\"pulse\\\":{\\\"banter\\\":0.2,\\\"depth\\\":0.9}}\", second: \"{\\\"pulse\\\":{\\\"banter\\\":0.9,\\\"socialCapacity\\\":0.9}\"···, expected: \"different\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"   \")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.CoachingDismiss_ChangesOnlyTheRequestedOwnRecord(id: 9, status: 404)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 0, pending: True, allowed: False, remaining: 2, reason: \"PENDING_GAME\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"null\", pillars: \"null\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 3, firstTone: \"thoughtful\", secondTone: \"playful\", pillar: \"Values\", intent: 0.90000000000000002, difficulty: \"HARD\", tone: \"THOUGHTFUL\", bucket: \"CORE_FIT\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.CoachingDismiss_ChangesOnlyTheRequestedOwnRecord(id: 1, status: 200)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 1, firstTone: \"calm\", secondTone: \"balanced\", pillar: \"Lifestyle\", intent: 0.5, difficulty: \"MEDIUM\", tone: \"THOUGHTFUL\", bucket: \"LIFESTYLE_FIT\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.Reset_AfterOpen_ClosesCircuit",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.JpegMetadataSegment_RemovesApp1AndPreservesOtherSegments",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.TwoRoundGame_FlipsRolesScoresAndCompletesWithTheCorrectWinner(firstScore: 1, secondScore: 1, winner: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [])",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 100, after: 100)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentAudience",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 0, expectedCached: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_UsesSupportedPositiveIdentifiers(type: \"http://schemas.xmlsoap.org/ws/2005/05/identity/cla\"···, value: \"3\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: MAGICAL)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555-123-4567\", identifier: \"555-123-4567\", replacement: \"[phone]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsMissingIdentity",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Creation_RejectsMissingClosedPendingOrDailyCappedMatches",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.CachedLegacyPendingCap_RejectsWithoutWriting",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.MissingProfile_ReturnsNoInventedProfileOrPair",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"human: override\", replacement: \"[REDACTED]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555 123 4567\", identifier: \"555 123 4567\", replacement: \"[phone]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: null, expectedException: typeof(System.InvalidOperationException))",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: \"unit@example.invalid Person\", expected: \"[EMAIL]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 1, pending: False, allowed: True, remaining: 1, reason: null)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: True, name: \"woven_refresh_token\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 20, after: 70)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 7)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"open\", expected: 0.59999999999999998)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.CreateSession_PersistsInviteMessagesAndOneDailyGameUse(type: KNOW_ME)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: 1, meetAgain: \"yes\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.TwoRoundGame_FlipsRolesScoresAndCompletesWithTheCorrectWinner(firstScore: 0, secondScore: 2, winner: 2)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 1, expectedCached: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: True)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-10-08T23:59:59+05:30\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_UsesSupportedPositiveIdentifiers(type: \"uid\", value: \"1\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"casual\", expected: 0.29999999999999999)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"{\\\"foundational\\\":null,\\\"lifestyle\\\":null}\", pillars: \"{}\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesToneRelationships(first: \"{\\\"pulse\\\":{\\\"banter\\\":0.2,\\\"depth\\\":0.9}}\", second: \"{\\\"pulse\\\":{\\\"socialCapacity\\\":0.2,\\\"depth\\\":0.6}}\", expected: \"complementary\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ContainsExpectedClaims",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.CreateSession_PersistsInviteMessagesAndOneDailyGameUse(type: RED_GREEN_FLAG)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 10)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-12-31T23:59:59Z\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 1)",
+        "status": "Failed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-03-08T01:30:00-05:00\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_CreatesOnlyTheRequestedUsersWallet",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 95, after: 100)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"AA==\", expectedException: typeof(System.InvalidOperationException))",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: null, expectedMinutes: 60)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"system: override\", replacement: \"[REDACTED]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.CompleteProfile_RetainsLimitedHobbiesAndWeightedSanitizedTags",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: YES)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: LOGICAL)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_OpenCircuit_ThrowsCircuitBreakerOpenException",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.20000000000000001, banter: 0.5, depth: 0.59999999999999998, tone: \"calm\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"❤️ తెలుగు\\nline two\\0\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Meet at 42 Synthetic rd\", identifier: \"42 Synthetic rd\", replacement: \"their area\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 6, meetAgain: null, length: 0, error: \"INVALID_STARS\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [1, 2, 3])",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"{\\\"pulse\\\":null}\", pillars: \"{}\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"<|endoftext|>\", replacement: \"[REDACTED]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: -1, expectedCached: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"ignore previous\", replacement: \"[REDACTED]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 100, after: 100)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.CoachingDismiss_ChangesOnlyTheRequestedOwnRecord(id: 2, status: 404)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 0, after: 50)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 75, after: 100)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_ThreeFailures_OpensCircuit",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"-1\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 3, pending: True, allowed: False, remaining: 0, reason: \"DAILY_LIMIT\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.CohortFallback_UsesRecentNearbySameGenderRecordsAndSkipsMalformedData",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_IsCryptographicallyValidAndHasNoAdminRole",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ReportsMissingPromptAndUsesSubjectFallback",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 12)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.CombinedIdentifiers_AreAllRemovedWithoutDiscardingHarmlessContext",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_DifferentUsers_ProduceDifferentTokens",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"<|im_start|>\", replacement: \"[REDACTED]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Meet at 123 Synthetic Street\", identifier: \"123 Synthetic Street\", replacement: \"their area\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.CachedTotalCap_RejectsWithoutWritingOrIncrementing(count: 6)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"555-123-4567\", replacement: \"[PHONE]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Reject_ChangesOnlyPendingSessions",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: 5, meetAgain: \"NO\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.CoachingSummary_ReturnsNoContentWhenNoUnreadOwnSummaryExists",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.CurrentRound_ReturnsNothingForAbsentInactiveOrMissingRoundData",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 3, meetAgain: \"invalid\", length: 0, error: \"INVALID_MEET_AGAIN\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"invalid base64!\", expectedException: typeof(System.FormatException))",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.NewWallet_ReceivesFiveSparksOnceAndPersistsDailyStamp",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"assistant: override\", replacement: \"[REDACTED]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.AnswerSubmission_RejectsInactiveAndMissingRoundStates",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.AdminToken_HasExplicitRoleAndSignedIdentity",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_DoesNotCreateUsageOrMakeZeroNegative",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Email synthetic+tag@example.invalid please\", identifier: \"synthetic+tag@example.invalid\", replacement: \"[email]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2028-02-28T23:59:59Z\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.EmptyCandidates_ReturnsEmptyBoostMap",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"marriage\", expected: 0.84999999999999998)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.FinalResult_HandlesMissingResultMissingMatchAndNullableFields",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 123, second: 7)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"friendship\", second: \"relationship\", expected: 0.5)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: \"   \", expected: null)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: False)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"casual\", second: \"relationship\", expected: 0.29999999999999999)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.GetState_UnknownCircuit_ReturnsClosed",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_UsesSupportedPositiveIdentifiers(type: \"sub\", value: \"2\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"2147483648\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 28)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.BinaryRoundTrip_PreservesAllByteValues",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 3, meetAgain: \"yes\", length: 301, error: \"TEXT_TOO_LONG\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [137, 80, 78, 71])",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.AuditHash_IsStableSaltSensitiveAndNeverTheRawIdentifier",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.80000000000000004, banter: 0.80000000000000004, depth: 0.20000000000000001, tone: \"playful\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 0, after: 5)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.PurposeScopedKeys_AreStableAndDistinct",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: null, meetAgain: \"maybe\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: \"  Synthetic Adult  \", expected: \"Synthetic\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesToneRelationships(first: \"{\\\"pulse\\\":{\\\"banter\\\":0.9,\\\"socialCapacity\\\":0.9}\"···, second: \"{}\", expected: \"complementary\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.SamePlaintext_UsesDistinctCiphertexts",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: False, expectedName: \"woven_access_token\", minutes: 60)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.Logout_ExpiresBothCookiesWithSecureFlags",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"45\", expectedMinutes: 45)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.LegacyUnstampedWallet_EarnsExactlyOnce",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 5, expectedCached: 4)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 2, pending: False, allowed: False, remaining: 0, reason: \"DAILY_LIMIT\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"casual\", second: \"fun\", expected: 0.84999999999999998)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.5, banter: 0.20000000000000001, depth: 0.80000000000000004, tone: \"thoughtful\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.CachedTotalCap_RejectsWithoutWritingOrIncrementing(count: 5)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 27)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"[[INST]]\", replacement: \"[REDACTED]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.DifferentMasterKey_CannotDecrypt",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Accept_RejectsMissingInactiveExpiredForeignAndOrphanedSessions",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"We both enjoy walking and reading.\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"bad\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 0)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Contact synthetic.person@example.invalid\", identifier: \"synthetic.person@example.invalid\", replacement: \"[email]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 98, after: 100)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentSigningKey",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"synthetic@example.invalid\", replacement: \"[EMAIL]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.5, banter: 0.5, depth: 0.5, tone: \"balanced\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ReturnsNonEmptyJwt",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: null, expected: null)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555.123.4567\", identifier: \"555.123.4567\", replacement: \"[phone]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.BlankAndOversizedTags_AreBoundedInContext",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 2147483647, second: 1)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"exploring\", second: \"relationship\", expected: 0.59999999999999998)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"0\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"Synthetic private note\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"RELATIONSHIP\", expected: 1)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: null, meetAgain: null)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 0, meetAgain: null, length: 0, error: \"INVALID_STARS\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.LatestVector_IsUsedAndMeaningfulTopPillarsAreLimitedToThree",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"<|im_end|>\", replacement: \"[REDACTED]\")",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_LimitsCaseInsensitiveSharedHobbiesTagsAndPillars",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"1\", expectedMinutes: 1)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 1, second: 2)",
+        "status": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: False, name: \"woven_access_token\")",
+        "status": "Passed"
+      }
+    ],
+    "scope": "Local in-memory domain and registered-handler tests; no listener/container/provider. Middleware auth/PostgreSQL semantics are separate obligations.",
+    "rawReportSha256": "b3db129add4088c0608a9bc9b9cd088a652ba3a28558339f8e4f8a2c99f1ded7"
+  },
+  "frontend": {
+    "source": "176cf74 auth/routes overlay restored afterward",
+    "total": 278,
+    "passed": 275,
+    "failed": 3,
+    "cases": [
+      {
+        "name": "App should create the app",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts emits CONTINUE only once and prevents competing trial decisions",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts emits BLOCK only once and prevents competing trial decisions",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts submits an optional end reason after the countdown and stops on destruction",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts sends the selected reason before timeout without later duplicate emissions",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts preserves the private -100 unmatch rating and supports skip/cancel",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts preserves the private 0 unmatch rating and supports skip/cancel",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts preserves the private 100 unmatch rating and supports skip/cancel",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts requires trimmed note length and a nonbusy state before emitting a ChatNote",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts supports note starters, bridge suggestions and cancellation without submitting",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts shows correct PENDING controls for the receiver",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts shows correct PENDING controls for the initiator",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts shows correct ACTIVE controls for the receiver",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts shows correct ACTIVE controls for the initiator",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts shows correct COMPLETED controls for the receiver",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts shows correct COMPLETED controls for the initiator",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts suppresses expired/missing-session actions and emits identifiers for selected game actions",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player loads questions and requires every answer while supporting string and object options",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player uses second-person questions for the target and preserves guesser wording",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player handles WAITING_FOR_TARGET when answering as target",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player handles NEXT_ROUND when answering as target",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player handles GAME_COMPLETE when answering as target",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player handles WAITING_FOR_TARGET when guessing",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player handles NEXT_ROUND when guessing",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player handles GAME_COMPLETE when guessing",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player rejects incomplete submissions and exposes request failure without staying busy",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player polls an answered round and reloads after the round changes",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player handles polling status400 without inventing completed games on transient errors",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player handles polling status404 without inventing completed games on transient errors",
+        "status": "passed"
+      },
+      {
+        "name": "Game and decision control contracts Inline game player handles polling status500 without inventing completed games on transient errors",
+        "status": "passed"
+      },
+      {
+        "name": "Request tracing adds a usable trace identifier without changing request data or caller headers",
+        "status": "passed"
+      },
+      {
+        "name": "Request tracing creates separate traces for separate outgoing attempts",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery clears expired credentials and navigates to login while preserving the server failure",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 0",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 403",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 409",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 429",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 500",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 503",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery passes a successful response through without logging the user out",
+        "status": "passed"
+      },
+      {
+        "name": "HTTP failure and session recovery still redirects and preserves the 401 when browser storage denies cleanup",
+        "status": "failed"
+      },
+      {
+        "name": "Account and discovery view contracts Own profile sorts photos and highlights, excludes expired recent content and limits the recent list",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own profile handles the self review response without inventing photos",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own profile handles the flat review response without inventing photos",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own profile handles the empty review response without inventing photos",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own profile surfaces profile failure and leaves the loading state",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own profile formats supplied public chips and opens the requested edit/settings destinations",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Account settings initializes notification state when browser support is false",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Account settings initializes notification state when browser support is true",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Account settings loads blocks once, preserves the current token header and unblocks only the selected user",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Account settings clears busy indicators without removing a block after a rejected request",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Account settings toggles coaching only after successful saves and ignores competing changes",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Account settings registers and unregisters notifications, respects unsupported/pending state and recovers rejection",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Account settings keeps the session after account deletion fails and logs out only after confirmed success",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Account settings performs explicit logout and back navigation",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own tiles separates active/expired/highlighted content and aggregates orbit counts per tile",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own tiles tolerates unavailable orbit counts but exposes tile-loading failure",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own tiles does not post invalid 0-character content",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own tiles does not post invalid 9-character content",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own tiles does not post invalid 151-character content",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own tiles posts trimmed 10-character content and refreshes the list",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own tiles posts trimmed 150-character content and refreshes the list",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own tiles preserves the draft on failed posting and prevents overlapping submissions",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own tiles pins only the chosen tile/slot, closes the picker and permits unpinning",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own tiles recovers rejected pin/unpin operations and does not overlap a working operation",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Own tiles formats expiry boundaries and opens the own-profile destination",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Match profile preview rejects a missing route identifier before requesting a profile",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Match profile preview loads the selected match and clears prior caption state",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Match profile preview surfaces a {\"error\":{\"error\":\"ACCESS_DENIED\"}} failure without staying in loading",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Match profile preview surfaces a {\"error\":{\"message\":\"Synthetic message\"}} failure without staying in loading",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Match profile preview surfaces a {\"message\":\"Synthetic failure\"} failure without staying in loading",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Match profile preview surfaces a {} failure without staying in loading",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Match profile preview supports empty preview data, caption toggling, field labels and access hints",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Match profile preview normalizes supplied preview fields and sorted valid photos without inventing missing values",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Conversation list reorders a known thread on a realtime message and unsubscribes on destruction",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Conversation list handles empty responses and recovers loading errors",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Conversation list formats trial and Find Love states with countdown boundaries",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Conversation list distinguishes own/partner turns, fallback names and recent presence boundaries",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Conversation list pops the selected eligible match, ignores invalid identifiers and recovers failure",
+        "status": "passed"
+      },
+      {
+        "name": "Account and discovery view contracts Conversation list ignores overlapping pop requests while the current operation is unresolved",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered account and tile controls renders profile fallback initials without inventing a photo",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered account and tile controls renders supplied photos, highlights, pronouns, intent and public details",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered account and tile controls renders the actual profile error state after a rejected load",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered account and tile controls renders settings and disables notification registration for an unsupported browser",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered account and tile controls opens and cancels deletion through the actual rendered buttons without sending a deletion request",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered account and tile controls renders block placeholders, busy unblocking and both privacy-safe avatar states",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered account and tile controls renders the empty tile state and enables posting only for a valid draft",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered account and tile controls renders highlighted, active and expired tiles and the pin-slot picker",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered account and tile controls shows tile loading controls while the request is unresolved",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons loads and persists a reusable feed session with pagination state",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons appends subsequent pages and ignores overlapping or completed pagination",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons handles feed status429 without leaving loading indicators active",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons handles feed status500 without leaving loading indicators active",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons refreshes once, clears old session/energy state and tolerates refresh rejection",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons records controlled dwell on close or destruction and tolerates view-write rejection",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons records a one-way orbit only once",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons records a mutual orbit only once",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons clears orbit busy state on {\"error\":{\"error\":\"ALREADY_ORBITED\"}}",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons clears orbit busy state on {\"status\":429}",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons clears orbit busy state on {\"error\":{\"error\":\"CANNOT_ORBIT_OWN_TILE\"}}",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons clears orbit busy state on {}",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons guards an unresolved orbit and validates post lengths before forwarding trimmed content",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Commons keeps failed post content and formats age, resonance and energy boundaries",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Foundational answers loads a due set and aligns five answer identifiers while retaining skip policy",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Foundational answers requires the first onboarding set and exposes loading failures",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Foundational answers enforces a 0-character answer at navigation and submission",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Foundational answers enforces a 29-character answer at navigation and submission",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Foundational answers enforces a 30-character answer at navigation and submission",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Foundational answers enforces a 400-character answer at navigation and submission",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Foundational answers enforces a 401-character answer at navigation and submission",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Foundational answers rejects missing answer sets and duplicate identifiers",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Foundational answers submits trimmed answers, uses backend or fallback routes and recovers save failure",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Foundational answers defers only when permitted and recovers rejection",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Photo selection requires the first three photos, supports optional skip and bounds navigation",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Photo selection clears only the selected photo and uses browser history on the first step",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Photo selection rejects missing/nonimage files before reading and handles controlled file-reader callbacks",
+        "status": "passed"
+      },
+      {
+        "name": "Commons and onboarding code contracts Photo selection submits three ordered url/caption fields and recovers server failure",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts loads an empty chat list without manufacturing conversations",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts starts the selected match and preserves the returned thread identifier",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts preserves both partner ChatNotes and chronological messages in a thread response",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts rejects a 0-character invalid message before network access",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts rejects a 3-character invalid message before network access",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts rejects a 2-character invalid message before network access",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts rejects a 1001-character invalid message before network access",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts sends a trimmed message at the 1-character boundary",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts sends a trimmed message at the 1000-character boundary",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts submits CONTINUE without silently changing the trial decision",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts submits END without silently changing the trial decision",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts submits BLOCK without silently changing the trial decision",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts includes an explicitly supplied end reason",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts preserves server rejection instead of inventing a successful send or retry",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts submits a chosen date idea with its index and text",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts sends an uploaded voice reference and duration",
+        "status": "passed"
+      },
+      {
+        "name": "Chat client contracts records listening on the selected message only",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries uploads audio/ogg and returns the confirmed URL",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries uploads audio/mp4 and returns the confirmed URL",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries uploads audio/webm and returns the confirmed URL",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries uploads untyped audio and returns the confirmed URL",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries does not upload or confirm when authorization for the upload is denied",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries does not confirm after a network failure uploading the blob",
+        "status": "passed"
+      },
+      {
+        "name": "Voice upload failure boundaries rejects an HTTP-denied blob upload rather than reporting a confirmed voice note",
+        "status": "failed"
+      },
+      {
+        "name": "Voice upload failure boundaries preserves confirmation failure rather than returning the provisional URL",
+        "status": "passed"
+      },
+      {
+        "name": "TestApi should create",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries redirects an anonymous browser to login",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries treats an empty stored token as anonymous",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication navigation boundaries redirects after the stored token has been removed",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries forwards an anonymous request without an authorization header",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries adds the current token to a local API request",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries preserves the request body and caller headers when authenticating",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries reads token removal before the next request",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries authenticates an absolute same-origin API URL",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries authenticates the explicitly configured development API origin",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries does not authenticate a protocol-relative unrelated host",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries does not authenticate an allowed-origin lookalike",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries preserves unrelated caller-supplied authorization",
+        "status": "passed"
+      },
+      {
+        "name": "Authentication request boundaries continues without adding credentials when storage is unavailable",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /login",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /privacy",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /terms",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /data-policy",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries allows anonymous navigation to public /landing",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /moments",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /commons",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats/00000000-0000-0000-0000-000000000001",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/settings",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/tiles",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /matches/00000000-0000-0000-0000-000000000001/profile",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/welcome",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/basics",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/intent",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/foundational",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/photos",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/details",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/lifestyle",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/review",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/start",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /app",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /missing-qa-page",
+        "status": "passed"
+      },
+      {
+        "name": "Actual route configuration session boundaries rechecks expiry when navigating between protected child pages",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions allows a browser with a future-dated synthetic token payload",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions rejects a token exactly at its expiry second",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions rejects a string-valued numeric expiry",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions redirects instead of throwing when storage is unavailable",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a expired token to login",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a malformed token to login",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a whitespace token to login",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions redirects a browser with a missing-expiry token to login",
+        "status": "passed"
+      },
+      {
+        "name": "Session security regressions does not forward app credentials to an unrelated external origin",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts loads a nested route once and subscribes/unsubscribes to navigation and messages",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts rejects an absent route identifier without requesting a thread",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts accepts only current-thread realtime events and deduplicates message identifiers",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts exposes load failure and supports a silent refresh using the route identifier",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles absent data and formats basic labels, roles and message types",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts keeps date ideas hidden until Find Love and the local ten-minute delay have elapsed",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles malformed persisted date-idea timestamps and countdown urgency boundaries",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts transitions the balloon and unlock animation on scheduled time boundaries",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts opens an undecided trial decision for userB only",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts opens an undecided trial decision for userA only",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles a MATCH_BLOCKED trial outcome without making up a server decision",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles a MATCH_ENDED trial outcome without making up a server decision",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles a MATCH_CONTINUES trial outcome without making up a server decision",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles a WAITING trial outcome without making up a server decision",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts ignores absent trial data and keeps failed decisions visibly unsuccessful",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts does not send without a thread, blank text or while a send is in progress",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts sends trimmed text optimistically then refreshes the server message list",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts removes a rejected optimistic send and re-enables sending",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles TRIAL_STARTED pop results after the animation",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles POPPED pop results after the animation",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts does not pop absent data or a missing match and exposes rejection",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts shows and cancels unmatch confirmation before issuing any request",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts clears unmatch busy state after confirmed success",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts clears unmatch busy state after rejection",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles block success without overlapping requests",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles block rejection without overlapping requests",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts toggles menus, handles outside clicks and supports valid game event shapes",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles game create/accept/reject/result successes locally",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts handles game create/accept/reject/result failures locally",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts ignores game creation without a selected match and guards duplicate date-interest submissions",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts records partner voice listening once and ignores own or unidentified messages",
+        "status": "passed"
+      },
+      {
+        "name": "Chat thread feature contracts recovers microphone denial and ignores redundant stop requests",
+        "status": "passed"
+      },
+      {
+        "name": "LoginComponent should create",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine loads the deck, budget and balance and clears previous response visibility",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine renders an empty response without stale cards or budget",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine leaves loading state and exposes a retryable deck error on failure",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine loads Drawn once and reuses it when switching tabs",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine allows retry after a Drawn loading failure",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine handles an empty Drawn response",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine opens a MAGICAL note after the animation and prevents competing clicks",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine opens a Drawn MAGICAL note without inventing time-on-card",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine opens a LOGICAL note after the animation and prevents competing clicks",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine opens a Drawn LOGICAL note without inventing time-on-card",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine backs out of a note without spending or hiding the candidate",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine ignores a submission with no selected note/card",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine sends PASS after the animation with measured dwell and completes the deck",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine restores the card and incomplete deck when PASS fails",
+        "status": "failed"
+      },
+      {
+        "name": "Moments interaction state machine restores TODAY visibility after a rejected note",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine restores LIKED_YOU visibility after a rejected note",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine starts the thread after PURE_MATCH_CREATED",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine starts the thread after EDGE_MATCH_CREATED",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine records MAGICAL/WAITING_FOR_OTHER_NOTE without starting a chat early",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine records MAGICAL/CHOICE_RECORDED without starting a chat early",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine records LOGICAL/WAITING_FOR_OTHER_NOTE without starting a chat early",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine records LOGICAL/CHOICE_RECORDED without starting a chat early",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine exposes chat-start failure without navigating to an invented thread",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine opens the photo gallery only after a held press and supports closing",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine cancels an interrupted hold and tolerates profiles without photos",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine falls back to the profile photo and formats optional location and expiry boundaries",
+        "status": "passed"
+      },
+      {
+        "name": "Moments interaction state machine cycles cinematic photos and stops its repeating timer on destruction",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery does not submit incomplete basics or an underage profile",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery builds and clears a date when dropdown selection changes",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery toggles selections and invalidates an unsupported city",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery keeps preferred age bounds adult, ordered, and at most 80",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery submits valid basics with omitted optional identity fields",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery submits valid basics with selected optional identity fields",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery keeps basics editable after a rejected save and accepts the backend next route",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery requires intent and a nonblank reflection, and supports deselection",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery saves a trimmed intent reflection, recovers failure and follows the server route",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery omits empty details and keeps height matching-only",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery does not navigate after details failure and allows skipping the bio",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery caps hobbies at ten while allowing removal and replacement",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery preserves matching-only lifestyle visibility when saving selected fields",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery recovers lifestyle save failures and lets a user skip without making a save request",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery supports review response shapes without exposing absent sections",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery formats array, JSON and plain-text optional values safely",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery exposes review loading/confirmation failures and recovers on retry",
+        "status": "passed"
+      },
+      {
+        "name": "Onboarding validation and save recovery recovers welcome submission failure and honors server or fallback routes",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _BasicsOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _DetailsOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _IntentOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _LifestyleOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _ReviewOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _WelcomeOnboardingComponent",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls keeps the basics Continue control disabled until adult identity and location are supplied",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls displays a save error and re-enables intent editing after the actual Continue click fails",
+        "status": "passed"
+      },
+      {
+        "name": "Rendered onboarding controls shows the adult name, photo and intent in the actual review template",
+        "status": "passed"
+      }
+    ],
+    "scope": "Service/component/rendered-control code tests with controlled doubles; no persona/live-provider campaign.",
+    "rawReportSha256": "ab5026aa2d1907b077a479810e60bf215edbc550f73a446ee025af82ff3804cb"
+  },
+  "newTests": 219,
+  "newTestsPassed": 219,
+  "knownFailures": "Saved expectation targets unmergedPR141; frontend3 known component/service contracts remain. No new full-scale bug campaign.",
+  "review": {
+    "issue139": "closed: scoped documentation QA accepted againstPR142 e02b628b",
+    "pr142": "open/draft; not merged; deployment not authorized"
+  },
+  "previousRuntimeCoverage": "Combined backend reuses only existing archived HTTP counters for the identical binary; no new sandbox run."
+}
