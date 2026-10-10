@@ -26,15 +26,17 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
 
 ## 1. Pillar Embedding (Foundational AI Profile)
 
-**Source:** Foundational question answers → 8 pillar scores  
-**Dimensions:** 128 (OpenAI text-embedding-3-small)  
+**Source:** Foundational question answers → 8 pillar scores → text summary → embedding  
+**Dimensions:** 1536 (OpenAI text-embedding-3-small, default output)  
 **When computed:** Onboarding exit (after user completes foundational questions)  
-**Storage:** `UserVectors.PillarEmbedding`
+**Storage:** `UserVectors.PillarEmbedding` — `vector(1536)` column
+
+**Note:** The 8 scalar pillar scores are intermediate values [0,1]. The final stored embedding is 1536-dimensional.
 
 ### Algorithm
 1. User answers foundational questions → `PillarScores` (8-dim vector [0,1])
    ```
-   Lifestyle, Energy, Communication, Affection, Stability, Values, Curiosity, Emotional Rhythm
+   Lifestyle, Energy, Values, Communication, Ambition, Stability, Curiosity, Affection
    ```
 2. Pillar scores serialized to JSON text:
    ```json
@@ -46,10 +48,10 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
      "Stability": 0.62,
      "Values": 0.80,
      "Curiosity": 0.90,
-     "Emotional Rhythm": 0.55
+     "Ambition": 0.55
    }
    ```
-3. Text embedded via OpenAI `text-embedding-3-small` → 128-dim vector
+3. Text embedded via OpenAI `text-embedding-3-small` → **1536-dim vector** (default output)
 4. Stored as `Pgvector.Vector` in PostgreSQL (pgvector extension)
 
 ### Scoring Component
@@ -63,14 +65,14 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
 ## 2. Expression Embedding
 
 **Source:** User's text tiles (what they post)  
-**Dimensions:** 128 (OpenAI text-embedding-3-small)  
+**Dimensions:** 1536 (OpenAI text-embedding-3-small)  
 **When computed:** After first text tile posted, updated nightly  
-**Storage:** `UserVectors.ExpressionEmbedding`
+**Storage:** `UserVectors.ExpressionEmbedding` — `vector(1536)` column
 
 ### Algorithm
 1. Collect all text tiles authored by user
 2. Concatenate text (up to 2000 chars, newest first)
-3. Embed via OpenAI → 128-dim vector
+3. Embed via OpenAI → **1536-dim vector**
 4. Store in UserVectors
 
 ### Scoring Component
@@ -84,7 +86,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
 ## 3. Style Embedding
 
 **Source:** Writing style from text tiles + bio  
-**Dimensions:** 128 (OpenAI text-embedding-3-small)  
+**Dimensions:** 1536 (OpenAI text-embedding-3-small)  
 **When computed:** Nightly batch (02:30 UTC)  
 **File:** `backend/WovenBackend/Services/Embeddings/StyleEmbeddingService.cs`
 
@@ -103,7 +105,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
    "This person writes in short, punchy sentences with moderate emoji use. 
    Tone is casual and conversational."
    ```
-4. Embed description via OpenAI → 128-dim vector
+4. Embed description via OpenAI → 1536-dim vector
 
 ### Scoring Component
 **Component #4:** StyleScore (weight 0.09)  
@@ -116,7 +118,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
 ## 4. Humor Embedding
 
 **Source:** Humor sense from foundational answers + tiles  
-**Dimensions:** 128 (OpenAI text-embedding-3-small)  
+**Dimensions:** 1536 (OpenAI text-embedding-3-small)  
 **When computed:** Nightly batch (02:30 UTC)  
 **File:** `backend/WovenBackend/Services/Embeddings/HumorEmbeddingService.cs`
 
@@ -129,7 +131,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
    ```
    "Dry wit, sarcasm, absurdist humor. Laughs at wordplay and observational comedy."
    ```
-3. Embed via OpenAI → 128-dim vector
+3. Embed via OpenAI → 1536-dim vector
 
 ### Scoring Component
 **Component #7:** HumorScore (weight 0.07)  
@@ -142,7 +144,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
 ## 5. Lifestyle Embedding
 
 **Source:** Optional lifestyle fields (diet, workout, smoking, drinking, etc.)  
-**Dimensions:** 128 (OpenAI text-embedding-3-small)  
+**Dimensions:** 1536 (OpenAI text-embedding-3-small)  
 **When computed:** Nightly batch (02:30 UTC)  
 **File:** `backend/WovenBackend/Services/Embeddings/LifestyleEmbeddingService.cs`
 
@@ -160,7 +162,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
    "Diet: vegetarian. Workout: 3-4x/week. Smoking: never. Drinking: socially. 
    Religion: spiritual but not religious."
    ```
-3. Embed via OpenAI → 128-dim vector
+3. Embed via OpenAI → 1536-dim vector
 
 ### Scoring Component
 **Component #8:** LifestyleScore (weight 0.08)
@@ -183,7 +185,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
 ## 6. Emotional Rhythm Embedding
 
 **Source:** Emotional expression patterns from foundational answers  
-**Dimensions:** 128 (OpenAI text-embedding-3-small)  
+**Dimensions:** 1536 (OpenAI text-embedding-3-small)  
 **When computed:** Nightly batch (02:30 UTC)  
 **File:** `backend/WovenBackend/Services/Embeddings/EmotionalRhythmService.cs`
 
@@ -198,7 +200,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
    "High emotional awareness. Expresses feelings clearly and variably. 
    Comfortable with vulnerability."
    ```
-3. Embed via OpenAI → 128-dim vector
+3. Embed via OpenAI → 1536-dim vector
 
 ### Scoring Component
 **Component #10:** EmotionalRhythmScore (weight 0.04)  
@@ -211,7 +213,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
 ## 7. Attachment Proxy Embedding
 
 **Source:** Behavioral fingerprint (app usage patterns)  
-**Dimensions:** 128 (OpenAI text-embedding-3-small)  
+**Dimensions:** 1536 (OpenAI text-embedding-3-small)  
 **When computed:** Nightly batch (02:30 UTC), **after** BehavioralFingerprint computed  
 **File:** `backend/WovenBackend/Services/Embeddings/AttachmentProxyService.cs`
 
@@ -228,7 +230,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
    "Consistent engagement, moderate response latency, high re-engagement. 
    Suggests secure attachment patterns."
    ```
-3. Embed description via OpenAI → 128-dim vector
+3. Embed description via OpenAI → 1536-dim vector
 
 ### Scoring Component
 **Component #11:** AttachmentScore (weight 0.04)  
@@ -351,14 +353,14 @@ var score = (similarity + 1.0) / 2.0 * 100.0; // [-1,1] → [0,100]
 ### 11. Reception Embedding (Content Consumption)
 
 **Source:** Tiles the user dwelled on (≥8s)  
-**Dimensions:** 128 (OpenAI text-embedding-3-small)  
+**Dimensions:** 1536 (OpenAI text-embedding-3-small)  
 **When computed:** By `TileViewProcessorWorker` every 30min  
 **Storage:** `UserVectors.ReceptionEmbedding`
 
 ### Algorithm
 1. Load tiles user dwelled on (≥8s) in past 90 days
 2. Extract tile text → concat
-3. Embed via OpenAI → 128-dim vector
+3. Embed via OpenAI → 1536-dim vector
 4. Exponentially-weighted mean (more recent = higher weight)
 5. Store in UserVectors
 
@@ -382,7 +384,7 @@ var similarity = CosineSimilarity(viewerReception, candidateReception);
 ### 12. Preference Embedding (Stated Interests from ChatNotes)
 
 **Source:** ChatNotes (private notes users write about matches)  
-**Dimensions:** 128 (OpenAI text-embedding-3-small)  
+**Dimensions:** 1536 (OpenAI text-embedding-3-small)  
 **When computed:** By `ChatNoteEmbeddingWorker` (nightly, future)  
 **Storage:** `UserVectors.PreferenceEmbedding`
 
@@ -425,20 +427,20 @@ CREATE TABLE UserVectors (
     UserId INT NOT NULL,
     Version INT NOT NULL,  -- Increments on each recompute
     
-    -- Core 9 embeddings
-    PillarEmbedding vector(128),
-    ExpressionEmbedding vector(128),
-    StyleEmbedding vector(128),
-    HumorEmbedding vector(128),
-    LifestyleEmbedding vector(128),
-    EmotionalRhythmEmbedding vector(128),
-    AttachmentProxyEmbedding vector(128),
+    -- Core 9 embeddings (all 1536-dim from text-embedding-3-small)
+    PillarEmbedding vector(1536),
+    ExpressionEmbedding vector(1536),
+    StyleEmbedding vector(1536),
+    HumorEmbedding vector(1536),
+    LifestyleEmbedding vector(1536),
+    EmotionalRhythmEmbedding vector(1536),
+    AttachmentProxyEmbedding vector(1536),
     -- VisualPreference stored in separate table (UserVisualPreferences)
     -- VoiceEmbedding stored in Tiles table
     
-    -- Auxiliary embeddings
-    ReceptionEmbedding vector(128),
-    PreferenceEmbedding vector(128),
+    -- Auxiliary embeddings (also 1536-dim)
+    ReceptionEmbedding vector(1536),
+    PreferenceEmbedding vector(1536),
     
     -- Pillar scores (8-dim, for fallback)
     PillarScoresJson TEXT,
@@ -509,7 +511,7 @@ CREATE INDEX idx_uservectors_userid_latest ON UserVectors (UserId, Version DESC)
 ## Performance
 
 **Embedding generation cost (per user):**
-- OpenAI API: ~$0.0001 per embedding (128-dim)
+- OpenAI API: ~$0.0001 per embedding (1536-dim)
 - 9 embeddings × 1000 users = $0.90/night
 - ECAPA-TDNN: free (self-hosted or cached HTTP endpoint)
 
@@ -518,8 +520,8 @@ CREATE INDEX idx_uservectors_userid_latest ON UserVectors (UserId, Version DESC)
 - On-demand voice embedding: 200–500ms (ECAPA-TDNN inference)
 
 **Storage:**
-- 128-dim vector = 512 bytes (pgvector)
-- 9 embeddings × 10k users = ~46 MB (negligible)
+- 1536-dim vector = 6144 bytes / 6 KB (pgvector, 4 bytes per float)
+- 9 embeddings × 10k users = ~550 MB (manageable)
 
 ---
 

@@ -218,14 +218,14 @@ public class CommonsFeedService : ICommonsFeedService
         //   preference (0.12) — viewer's ChatNote preferences vs tile content (stated attraction patterns)
         //   intent (0.10)     — intent tag Jaccard; kept low so gender-correlated tags can't dominate
         var viewerPillarScores = ParsePillarScores(viewerVector?.PillarScoresJson);
-        var viewerIntentTags   = ExtractIntentTags(viewerVector?.VectorJson);
+        var viewerIntentTags = ExtractIntentTags(viewerVector?.VectorJson);
 
         var scored = new List<(CommonsFeedTile Tile, double CombinedScore, double CfScore)>(tiles.Count);
         foreach (var t in tiles)
         {
             ownerVectors.TryGetValue(t.UserId, out var owner);
             var ownerPillarScores = ParsePillarScores(owner?.PillarScoresJson);
-            var ownerIntentTags   = ExtractIntentTags(owner?.VectorJson);
+            var ownerIntentTags = ExtractIntentTags(owner?.VectorJson);
 
             double sim = 0, totalW = 0;
 

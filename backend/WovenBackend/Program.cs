@@ -68,7 +68,7 @@ builder.Host.UseSerilog((context, services, config) =>
         .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command",
             isProduction ? LogEventLevel.Warning : LogEventLevel.Information)
         .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
-        .MinimumLevel.Override("Microsoft.AspNetCore.Mvc",     LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
         .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning);
 
     if (isProduction)
@@ -116,26 +116,30 @@ builder.Services.AddRateLimiter(options =>
         var userId = context.User.FindFirst("uid")?.Value ?? context.Connection.RemoteIpAddress?.ToString() ?? "anon";
         return RateLimitPartition.GetSlidingWindowLimiter(userId, _ => new SlidingWindowRateLimiterOptions
         {
-            PermitLimit          = 120,
-            Window               = TimeSpan.FromSeconds(60),
-            SegmentsPerWindow    = 6,
+            PermitLimit = 120,
+            Window = TimeSpan.FromSeconds(60),
+            SegmentsPerWindow = 6,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-            QueueLimit           = 0
+            QueueLimit = 0
         });
     });
 
     // Strict rate limit for AI-heavy endpoints (deck generation, games, explanations)
+    // Security: Per-user partition prevents one user from exhausting quota.
+    // Unauthenticated requests share one "anon" bucket (very limited).
     options.AddPolicy("ai-heavy", context =>
     {
-        var userId = context.User.FindFirst("uid")?.Value ?? "anon";
+        var userId = context.User.FindFirst("uid")?.Value
+                     ?? context.Connection.RemoteIpAddress?.ToString()
+                     ?? "anon";
         return RateLimitPartition.GetTokenBucketLimiter(userId, _ => new TokenBucketRateLimiterOptions
         {
-            TokenLimit               = 10,
-            QueueProcessingOrder     = QueueProcessingOrder.OldestFirst,
-            QueueLimit               = 0,
-            ReplenishmentPeriod      = TimeSpan.FromSeconds(60),
-            TokensPerPeriod          = 10,
-            AutoReplenishment        = true
+            TokenLimit = 10,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            QueueLimit = 0,
+            ReplenishmentPeriod = TimeSpan.FromSeconds(60),
+            TokensPerPeriod = 10,
+            AutoReplenishment = true
         });
     });
 
@@ -143,8 +147,8 @@ builder.Services.AddRateLimiter(options =>
     options.AddPolicy("openai-global", _ =>
         RateLimitPartition.GetConcurrencyLimiter("openai", _ => new ConcurrencyLimiterOptions
         {
-            PermitLimit  = 5,
-            QueueLimit   = 20,
+            PermitLimit = 5,
+            QueueLimit = 20,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst
         }));
 });
@@ -262,6 +266,24 @@ builder.Services.Configure<GoogleAuthOptions>(
 
 builder.Services.AddScoped<IGoogleTokenVerifier, GoogleTokenVerifier>();
 builder.Services.AddSingleton<JwtTokenService>();
+
+// ── Security: Startup validation ──────────────────────────────────────────
+// Refuse to start with insecure configuration in non-Development environments
+if (!builder.Environment.IsDevelopment())
+{
+    var jwtKey = builder.Configuration["Jwt:Key"];
+    if (string.IsNullOrWhiteSpace(jwtKey) || jwtKey.Length < 32)
+        throw new InvalidOperationException("Production requires Jwt:Key with minimum 32 characters");
+
+    var jwtIssuer = builder.Configuration["Jwt:Issuer"];
+    var jwtAudience = builder.Configuration["Jwt:Audience"];
+    if (string.IsNullOrWhiteSpace(jwtIssuer) || string.IsNullOrWhiteSpace(jwtAudience))
+        throw new InvalidOperationException("Production requires explicit Jwt:Issuer and Jwt:Audience");
+
+    // Refuse default/example keys
+    if (jwtKey.Contains("CHANGE_THIS") || jwtKey == "your-secret-key-here")
+        throw new InvalidOperationException("Production JWT key must not be placeholder value");
+}
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -769,8 +791,8 @@ app.UseSerilogRequestLogging(options =>
     options.EnrichDiagnosticContext = (diag, context) =>
     {
         diag.Set("CorrelationId", context.Items[CorrelationIdMiddleware.ItemsKey] ?? "?");
-        diag.Set("UserId",        context.User.FindFirst("uid")?.Value ?? "anon");
-        diag.Set("UserAgent",     context.Request.Headers.UserAgent.ToString());
+        diag.Set("UserId", context.User.FindFirst("uid")?.Value ?? "anon");
+        diag.Set("UserAgent", context.Request.Headers.UserAgent.ToString());
     };
 });
 
@@ -917,11 +939,15 @@ app.MapAdminAnalyticsEndpoints();
 app.MapLegalEndpoints();
 app.MapSupportEndpoints();
 
+// ── DEVELOPMENT-ONLY ENDPOINTS ────────────────────────────────────────────
+// Security: These endpoints bypass authentication and are ONLY available when
+// ASPNETCORE_ENVIRONMENT=Development. Production startup will NOT register them.
+// Never disable this guard. DevAuth allows passwordless login by email.
 if (app.Environment.IsDevelopment())
 {
-    app.MapDevAuthEndpoints();
-    app.MapDevMatchmakingSmokeEndpoints();
-    app.MapDevSeedEndpoints();
+    app.MapDevAuthEndpoints();          // Bypass auth for local testing
+    app.MapDevMatchmakingSmokeEndpoints();  // Direct matchmaking calls
+    app.MapDevSeedEndpoints();          // Database seed/reset
 }
 
 // ----------------------------------------------------

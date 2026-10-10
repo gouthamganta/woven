@@ -18,7 +18,7 @@ public static class ChatEndpoints
 {
     public record StartChatRequest(Guid MatchId);
     public record SendMessageRequest(string Body);
-    public record TrialDecisionRequest(string Decision, string? EndReason);
+    public record TrialDecisionRequest(string Decision, string? EndReason, int? Rating);
     public record VoiceMessageRequest(string AudioUrl, int DurationSecs);
 
     private static readonly TimeSpan ReflectionWindow = TimeSpan.FromMinutes(5);
@@ -682,10 +682,10 @@ public static class ChatEndpoints
 
                 var reasonSignal = endReason switch
                 {
-                    "no_spark"     => MatchSignalEventTypes.TrialEndedNoSpark,
+                    "no_spark" => MatchSignalEventTypes.TrialEndedNoSpark,
                     "wrong_timing" => MatchSignalEventTypes.TrialEndedWrongTiming,
-                    "not_my_type"  => MatchSignalEventTypes.TrialEndedNotMyType,
-                    _              => null
+                    "not_my_type" => MatchSignalEventTypes.TrialEndedNotMyType,
+                    _ => null
                 };
                 if (reasonSignal != null)
                     await signals.RecordAsync(me, otherUserId, reasonSignal, 1f, ct: ct);
@@ -698,6 +698,19 @@ public static class ChatEndpoints
                 var alreadyBlocked = await db.Blocks.AnyAsync(b => b.BlockerId == me && b.BlockedId == otherUserId, ct);
                 if (!alreadyBlocked)
                     db.Blocks.Add(new WovenBackend.data.Entities.Moments.Block { BlockerId = me, BlockedId = otherUserId, CreatedAt = now });
+
+                // Save Afterthought rating if provided
+                if (req.Rating != null && req.Rating >= -100 && req.Rating <= 100)
+                {
+                    db.UserRatings.Add(new UserRating
+                    {
+                        RatedUserId = otherUserId,
+                        RaterUserId = me,
+                        MatchId = match.Id,
+                        RatingValue = req.Rating.Value,
+                        CreatedAt = now
+                    });
+                }
 
                 match.BalloonState = BalloonState.CLOSED;
                 match.ClosedReason = ClosedReason.BLOCK;
@@ -732,6 +745,19 @@ public static class ChatEndpoints
                 else
                 {
                     var noMessages = match.BothMessagedAt == null;
+
+                    // Save Afterthought rating if provided (current user only)
+                    if (req.Rating != null && req.Rating >= -100 && req.Rating <= 100)
+                    {
+                        db.UserRatings.Add(new UserRating
+                        {
+                            RatedUserId = otherUserId,
+                            RaterUserId = me,
+                            MatchId = match.Id,
+                            RatingValue = req.Rating.Value,
+                            CreatedAt = now
+                        });
+                    }
 
                     match.BalloonState = BalloonState.CLOSED;
                     match.ClosedReason = ClosedReason.UNMATCH;
@@ -810,18 +836,18 @@ public static class ChatEndpoints
 
             var metaJson = JsonSerializer.Serialize(new
             {
-                audioUrl    = req.AudioUrl,
+                audioUrl = req.AudioUrl,
                 durationSecs = req.DurationSecs
             });
 
             var msg = new ChatMessage
             {
-                ThreadId    = threadId,
+                ThreadId = threadId,
                 SenderUserId = me,
-                Body        = "",
+                Body = "",
                 MessageType = "VOICE",
-                MetaJson    = metaJson,
-                CreatedAt   = now
+                MetaJson = metaJson,
+                CreatedAt = now
             };
 
             db.ChatMessages.Add(msg);
@@ -851,7 +877,7 @@ public static class ChatEndpoints
 
             return Results.Ok(new
             {
-                status    = "SENT",
+                status = "SENT",
                 messageId = msg.Id,
                 createdAt = msg.CreatedAt
             });

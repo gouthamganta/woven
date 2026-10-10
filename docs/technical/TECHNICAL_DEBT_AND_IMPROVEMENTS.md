@@ -25,13 +25,6 @@ This document catalogs known gaps, deferred work, and intentional tradeoffs in t
 - **Impact**: An entire signal dimension (revealed preferences inferred from in-chat note patterns) is missing from the embedding layer.
 - **To close**: Wire the stub worker to the Service Bus queue or a scheduled trigger. Verify the output vector is stored and consumed by `UserVectorBuilder`.
 
-### Ambition Pillar Not Covered by Any Foundational Question
-
-- **What exists**: `AiProfileService` scores 8 pillars. `FoundationalQuestionBank` provides the questions used to generate pillar signals.
-- **What's missing**: No foundational question currently covers the Ambition pillar. The pillar exists in the scoring model but has no foundational question input.
-- **Impact**: Ambition pillar scores are generated from limited signal. Matches where ambition alignment is a key factor may be scored inaccurately.
-- **To close**: Add one or more foundational questions targeting the Ambition pillar and register them in `FoundationalQuestionBank`.
-
 ---
 
 ## UX / Product Gaps

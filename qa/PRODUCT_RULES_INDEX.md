@@ -97,7 +97,7 @@
 | PRIVACY-001 | **NO community ratings shown to users** | Platform-only signals | ⏳ Pending |
 | PRIVACY-002 | NO raw compatibility scores shown | ECHO outputs explanations, not numbers | ⏳ Pending |
 | PRIVACY-003 | NO age on Moments cards | Card shows: name, badge, explanation, actions only | ⏳ Pending |
-| PRIVACY-004 | ChatNote data is background signal only | Never shown to users | ⏳ Pending |
+| PRIVACY-004 | ChatNote data shown to matched pairs only | Visible to match participants, denied to third parties (auth enforced) | ⏳ Pending |
 
 **Source:** CLAUDE.md "Hard design rules" section (non-negotiable)
 
@@ -151,6 +151,7 @@
 
 | Date | Rule ID | Change | Reason | Approval |
 |------|---------|--------|--------|----------|
+| 2026-10-09 | PRIVACY-004 | Changed: background-only → visible to matched pairs | DOC-QA-001 (#143), founder decision 2026-10-08 | Founder ✓ |
 | 2026-10-07 | BALLOON-001 | Corrected: 72h → 36h | DOC-006 fix, code evidence | Founder ✓ |
 | 2026-10-07 | DECK-001 | Corrected: 60 → 5 | DOC-006 fix, code evidence | Founder ✓ |
 | 2026-10-07 | TRUST-001 | Corrected: 0.5 → 0.25 | DOC-006 fix, code evidence | Founder ✓ |

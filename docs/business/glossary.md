@@ -89,7 +89,7 @@ This glossary defines Woven's feature names, UI labels, and internal terminology
 | User-Facing Term | Internal ID | Definition |
 |------------------|-------------|------------|
 | **ECHO** | — | AI matchmaking pipeline (learns from behavioral signals) |
-| **AI Profile** | — | 8-pillar embedding (Lifestyle, Energy, Communication, Affection, Stability, Values, Curiosity, Emotional Rhythm) |
+| **AI Profile** | — | 8-pillar embedding (Lifestyle, Energy, Values, Communication, Ambition, Stability, Curiosity, Affection) |
 | **Behavioral Fingerprint** | `UserBehavioralFingerprint` | 16-dim behavioral embedding (no OpenAI, platform-generated) |
 | **Connection Score** | `ConnectionScore` | Aggregated match outcome score (success prediction) |
 

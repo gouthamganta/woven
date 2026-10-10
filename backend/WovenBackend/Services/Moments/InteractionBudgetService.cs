@@ -35,7 +35,7 @@ public class InteractionBudgetService
 
         // Phase 1B: Redis fast-gate — reject immediately if the counter already shows cap reached.
         // Returns -1 when Redis is unavailable; in that case we skip the gate and fall through to DB.
-        var totalKey   = WovenBackend.Services.CacheKeys.SparkCounter(userId, today);
+        var totalKey = WovenBackend.Services.CacheKeys.SparkCounter(userId, today);
         var pendingKey = WovenBackend.Services.CacheKeys.PendingCounter(userId, today);
 
         var cachedTotal = await _cache.GetCounterAsync(totalKey, ct);
