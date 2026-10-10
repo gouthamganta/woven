@@ -5,6 +5,7 @@ using WovenBackend.Data;
 using WovenBackend.Data.Entities;
 using WovenBackend.Services.Matchmaking;
 using WovenBackend.Services.Moments;
+using WovenBackend.Services.Security;
 
 namespace WovenBackend.Endpoints;
 
@@ -21,6 +22,7 @@ public static class DevSeedEndpoints
             bool seedPulse,
             WovenDbContext db,
             IUserVectorBuilder vectorBuilder,
+            IEncryptionService encryption,
             CancellationToken ct) =>
         {
             count = Math.Clamp(count <= 0 ? 20 : count, 1, 200);
@@ -36,10 +38,12 @@ public static class DevSeedEndpoints
             for (int i = 0; i < count; i++)
             {
                 var idHint = nextId + i;
+                var email = $"seed{idHint}@woven.dev";
 
                 var user = new User
                 {
-                    Email = $"seed{idHint}@woven.dev",
+                    Email = email,
+                    EmailHash = encryption.ComputeEmailHash(email),
 
                     // IMPORTANT: set to whatever lets them use the app
                     // Use safe parsing or use DETAILS_DONE if that exists in your enum
