@@ -146,8 +146,16 @@ public class AiProfileContractTests
         const string pillars = "{\"Values\":0.9,\"Energy\":0.8,\"Ambition\":0.9,\"Curiosity\":0.8}";
         AddVector(db, 1, "{\"lifestyle\":{\"hobbies\":\"Reading,Walking,Music,Art\"}}", pillars);
         AddVector(db, 2, "{\"lifestyle\":{\"hobbies\":\"reading,walking,music,art\"}}", pillars);
-        foreach (var user in new[] { 1, 2 }) foreach (var category in new[] { "values", "lifestyle", "communication" })
-                for (var i = 0; i < 3; i++) db.UserVectorTags.Add(new UserVectorTag { UserId = user, Version = 1, TagType = category, Tag = $"shared{i}" });
+        foreach (var user in new[] { 1, 2 })
+        {
+            foreach (var category in new[] { "values", "lifestyle", "communication" })
+            {
+                for (var i = 0; i < 3; i++)
+                {
+                    db.UserVectorTags.Add(new UserVectorTag { UserId = user, Version = 1, TagType = category, Tag = $"shared{i}" });
+                }
+            }
+        }
         await db.SaveChangesAsync(); var pair = await Service(db).GetPairContextAsync(1, 2);
         Assert.NotNull(pair); Assert.Equal(3, pair.SharedHobbies.Count); Assert.Equal(6, pair.SharedTags.Count); Assert.Equal(3, pair.AlignedPillars.Count);
     }
