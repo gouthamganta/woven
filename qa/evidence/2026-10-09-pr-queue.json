@@ -1,0 +1,407 @@
+{
+  "date": "2026-10-09 America/Indianapolis",
+  "master": "42bb3096c858a95f7ed1271c064c1c2fa5c360c0",
+  "queueScope": "21 original open PRs, 8 local Claude fix branches, and 5 recent master commits; no new test-case campaign",
+  "prs": [
+    {
+      "number": 168,
+      "title": "fix: proxy API routes and secure shared SPA routing logs",
+      "state": "closed",
+      "merged": false,
+      "draft": true,
+      "head": "c6b090cc79751322097110829235ed77802731e3",
+      "base": "fix/qa-frontend-auth",
+      "mergeCommit": "f5a17aae77cce8eb6a2fc3a29ded8e2305f632b5",
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/168"
+    },
+    {
+      "number": 167,
+      "title": "fix: restore frontend route and token-origin checks",
+      "state": "closed",
+      "merged": false,
+      "draft": true,
+      "head": "176cf74cabffa8159d9108ead4cb6639f7035366",
+      "base": "fix/qa-startup-and-72h",
+      "mergeCommit": "280a0c4d6dad83cf14f946b5fb06459f07897f43",
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/167"
+    },
+    {
+      "number": 146,
+      "title": "test: expand backend/frontend regressions and coverage evidence",
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "head": "14dcfb4c4377a9c099bf6d069a5abf6303fafbde",
+      "base": "master",
+      "mergeCommit": null,
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/146"
+    },
+    {
+      "number": 144,
+      "title": "fix: local QA candidate startup, PostgreSQL matching and 72h lifetime",
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "head": "687d2515be921e180d2d1a70ed9b65ee70db96f0",
+      "base": "master",
+      "mergeCommit": null,
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/144"
+    },
+    {
+      "number": 142,
+      "title": "docs: correct canonical pillars and Ambition coverage",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "2e0ecd3cf54c5182e7e26757d63ff7264a57f92b",
+      "base": "master",
+      "mergeCommit": "28c54d1af75a3f4cac985d483b4a43f0383d73fe",
+      "mergedAt": "2026-10-09T23:45:27Z",
+      "url": "https://github.com/gouthamganta/woven/pull/142"
+    },
+    {
+      "number": 141,
+      "title": "chore: remove unused Saved/Pending code paths",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "7e4adbe5f5a8c5e65ec4f7e9b2eed8407a643ee9",
+      "base": "master",
+      "mergeCommit": "562977066360ffeff8cd1fae41aed326d9da3a91",
+      "mergedAt": "2026-10-10T00:57:27Z",
+      "url": "https://github.com/gouthamganta/woven/pull/141"
+    },
+    {
+      "number": 140,
+      "title": "docs: add Product Rules v2 (founder-approved source of truth)",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "137720400d672e6a6bb4692ef1a7252d4818db88",
+      "base": "master",
+      "mergeCommit": "fdbd827973c98b0cd5256069ffff4ceae33e0242",
+      "mergedAt": "2026-10-09T23:54:47Z",
+      "url": "https://github.com/gouthamganta/woven/pull/140"
+    },
+    {
+      "number": 137,
+      "title": "fix: remove community ratings from Deck and Drawn cards",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "3492ff587f2d3ff4ec09e6f6bbefecea94f8bbb3",
+      "base": "master",
+      "mergeCommit": "5c2bdde2477fc5e4e124018d5a736c01e9db60db",
+      "mergedAt": "2026-10-10T00:40:51Z",
+      "url": "https://github.com/gouthamganta/woven/pull/137"
+    },
+    {
+      "number": 106,
+      "title": "chore(deps): Bump Microsoft.AspNetCore.Authentication.JwtBearer from 10.0.1 to 10.0.12",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "8f5ed61fabaca609b95147b0f161a22f0c14e2da",
+      "base": "master",
+      "mergeCommit": "cafabcf5677c286d552c9caa2e555734db5c369f",
+      "mergedAt": "2026-10-10T00:40:54Z",
+      "url": "https://github.com/gouthamganta/woven/pull/106"
+    },
+    {
+      "number": 105,
+      "title": "chore(deps): Bump Npgsql.EntityFrameworkCore.PostgreSQL from 10.0.1 to 10.0.3",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "63cf7694cd6302f4e9c90f0dde46b911e646e219",
+      "base": "master",
+      "mergeCommit": "0ca07206028bf26e72a340f476a4263dd9a46bd8",
+      "mergedAt": "2026-10-10T00:17:05Z",
+      "url": "https://github.com/gouthamganta/woven/pull/105"
+    },
+    {
+      "number": 104,
+      "title": "test: record verified local handoff pilot (#103)",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "867c2cfd3241b883506af9aa669fb1fb25f17208",
+      "base": "master",
+      "mergeCommit": "ad152b2421932e37406f00cc1c4bbdce8e9cc9c0",
+      "mergedAt": "2026-10-09T23:47:23Z",
+      "url": "https://github.com/gouthamganta/woven/pull/104"
+    },
+    {
+      "number": 102,
+      "title": "Set up shared Woven task intake and GitHub delivery workflow",
+      "state": "closed",
+      "merged": false,
+      "draft": true,
+      "head": "f6b2f99ffe18b13ec7e7ed2370fc09b096a2d1be",
+      "base": "master",
+      "mergeCommit": null,
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/102"
+    },
+    {
+      "number": 76,
+      "title": "chore(deps): Bump dotnet-ef from 10.0.1 to 10.0.12",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "579aec50550a17613422a0fa2c6357ceef419b3c",
+      "base": "master",
+      "mergeCommit": "cf4839d110d7ee5f8f723cd9852db0369aa6b594",
+      "mergedAt": "2026-10-10T00:21:07Z",
+      "url": "https://github.com/gouthamganta/woven/pull/76"
+    },
+    {
+      "number": 74,
+      "title": "chore(deps): Bump Azure.Messaging.ServiceBus from 7.20.1 to 7.21.0",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "9e054c7bd7f474efc388e4a33b5671c39ed527cc",
+      "base": "master",
+      "mergeCommit": "d1daceaa0efa48844111be51a9566bbc55d18690",
+      "mergedAt": "2026-10-10T00:21:02Z",
+      "url": "https://github.com/gouthamganta/woven/pull/74"
+    },
+    {
+      "number": 73,
+      "title": "chore(deps): bump three from 0.184.0 to 0.186.1 in /frontend/woven-frontend",
+      "state": "closed",
+      "merged": false,
+      "draft": false,
+      "head": "89594abe1d3ab0b8fb200ccc018a3b384dff1e4c",
+      "base": "master",
+      "mergeCommit": "c289766273a713c9f040e7d5e03bda914ba14d16",
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/73"
+    },
+    {
+      "number": 72,
+      "title": "chore(deps): bump jsdom from 27.3.0 to 30.1.1 in /frontend/woven-frontend",
+      "state": "closed",
+      "merged": false,
+      "draft": false,
+      "head": "cc0a7549511a1d8f8671c719d10d966288110874",
+      "base": "master",
+      "mergeCommit": null,
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/72"
+    },
+    {
+      "number": 70,
+      "title": "chore(deps): Bump the efcore group with 2 updates",
+      "state": "closed",
+      "merged": false,
+      "draft": false,
+      "head": "dc03310e688a56834861c1670b14a1fccb934b48",
+      "base": "master",
+      "mergeCommit": null,
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/70"
+    },
+    {
+      "number": 69,
+      "title": "chore(deps): Bump the aspnetcore group with 2 updates",
+      "state": "closed",
+      "merged": false,
+      "draft": false,
+      "head": "8fc6e3a36f039543bb81a988a21d01cdf7dda562",
+      "base": "master",
+      "mergeCommit": null,
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/69"
+    },
+    {
+      "number": 63,
+      "title": "chore(deps): bump the angular group across 1 directory with 12 updates",
+      "state": "closed",
+      "merged": false,
+      "draft": false,
+      "head": "09ca68979dbfc8a0dd2e97f806fb11bdcc9fa288",
+      "base": "master",
+      "mergeCommit": "e08f3cf2ac206683718f70c7dc790a3cb221a5cc",
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/63"
+    },
+    {
+      "number": 46,
+      "title": "chore(deps): bump the primeng group across 1 directory with 2 updates",
+      "state": "closed",
+      "merged": false,
+      "draft": false,
+      "head": "68eeae8f5499c6af16b3306dbd4e9e05d3ca5e12",
+      "base": "master",
+      "mergeCommit": "1c1f81e1f6361f4e0fc0e8cfe44ed04911d6cf31",
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/46"
+    },
+    {
+      "number": 13,
+      "title": "chore(deps): bump the testing group across 1 directory with 2 updates",
+      "state": "closed",
+      "merged": false,
+      "draft": false,
+      "head": "8d9cd30a7337d59f08ce9f1e972313053c110909",
+      "base": "master",
+      "mergeCommit": "a4ef4ed0fa54f0b4f9e90ac9cde6f83d9c27a9b8",
+      "mergedAt": null,
+      "url": "https://github.com/gouthamganta/woven/pull/13"
+    },
+    {
+      "number": 173,
+      "title": "style: normalize existing CSharp formatting for CI",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "5be2d6e2ece8f415ebce3d498ebb26b4081b7d70",
+      "base": "master",
+      "mergeCommit": "3b0f3797837d9aa15f5ce71ea8e42effea89553b",
+      "mergedAt": "2026-10-10T00:11:02Z",
+      "url": "https://github.com/gouthamganta/woven/pull/173"
+    },
+    {
+      "number": 174,
+      "title": "fix: preserve login recovery when browser storage is denied",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "a027ca25db1bd3cb2d899faf044b728074db760b",
+      "base": "master",
+      "mergeCommit": "c89802d2cc461ff519c0b8cb2c3aad8362c1073a",
+      "mergedAt": "2026-10-10T00:17:01Z",
+      "url": "https://github.com/gouthamganta/woven/pull/174"
+    },
+    {
+      "number": 175,
+      "title": "fix(deps): integrate validated frontend dependency updates",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "d4f63393cb390248e055c912a2a42ec86b2a1212",
+      "base": "master",
+      "mergeCommit": "7e4bd17146a46c37103981a9425dd42e7bf538e5",
+      "mergedAt": "2026-10-10T00:40:58Z",
+      "url": "https://github.com/gouthamganta/woven/pull/175"
+    },
+    {
+      "number": 176,
+      "title": "fix: integrate reviewed frontend auth and proxy routing",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "7672b57d430b6ac25a7cd43b46903231613ca432",
+      "base": "master",
+      "mergeCommit": "59926bafe1c0570a344305714f4249ce5ff77eec",
+      "mergedAt": "2026-10-10T00:41:02Z",
+      "url": "https://github.com/gouthamganta/woven/pull/176"
+    },
+    {
+      "number": 177,
+      "title": "fix: apply approved 72-hour Balloon lifetime",
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "04c9bd3a2aa96110957594f195eb3351b1da3729",
+      "base": "master",
+      "mergeCommit": "42bb3096c858a95f7ed1271c064c1c2fa5c360c0",
+      "mergedAt": "2026-10-10T01:06:36Z",
+      "url": "https://github.com/gouthamganta/woven/pull/177"
+    }
+  ],
+  "frontend": {
+    "total": 540,
+    "passed": 540,
+    "failed": 0,
+    "suiteLoadFailures": 0,
+    "rawSha256": "1c02fb61e6969d347d55a65c1d048d6379a0c74313fc5ee7bb7cf4a517d17945",
+    "coverageCollected": false
+  },
+  "backend": {
+    "total": 177,
+    "executed": 177,
+    "passed": 177,
+    "failed": 0,
+    "error": 0,
+    "timeout": 0,
+    "aborted": 0,
+    "inconclusive": 0,
+    "passedButRunAborted": 0,
+    "notRunnable": 0,
+    "notExecuted": 0,
+    "disconnected": 0,
+    "warning": 0,
+    "completed": 0,
+    "inProgress": 0,
+    "pending": 0,
+    "rawTrxSha256": "d29ee786d19877a19f3a4df576b7cf3e35cb9db5a75f89c530429e0cd7a0ece3",
+    "scope": "177 existing tests against merged master application plus QA suites; diagnostic collector, 80% target remains unmet"
+  },
+  "dependencyAudit": {
+    "counts": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "rawSha256": "bf53b54147bf404b4203256de035cea78ff8ba31ef893d9ccd2a1538bec53e35"
+  },
+  "startupSecurity": {
+    "executed": 3,
+    "passed": 3,
+    "cases": [
+      "short JWT key",
+      "missing issuer",
+      "known placeholder key"
+    ],
+    "externalNetwork": "none",
+    "scope": "compiled current guard; no full security acceptance"
+  },
+  "migration": {
+    "status": "failed",
+    "scope": "fresh empty local PostgreSQL on internal QA network",
+    "database": "woven_qa_prqueue_20261009",
+    "error": "PendingModelChangesWarning",
+    "discoveredMigrations": 43,
+    "matchSignalManualMigrationDiscovered": false,
+    "usersSeeded": 0,
+    "containerRemoved": true
+  },
+  "recentMaster": {
+    "cb96d078": "PASS rollback and voice HTTP rejection pass; issues171/172 closed",
+    "d59655ad": "shared gate repair completed with formatting173; issue163 closed",
+    "470aaf43": "notification scope boundary source reviewed; whole startup constrained by migration issue",
+    "659fea19": "Afterthought backend support added, client trial/block ratings not wired; static gap recorded120",
+    "4c75d8aa": "three isolated production startup rejection probes pass; full security scope108 remains open"
+  },
+  "codeql": {
+    "falsePositivesDismissed": [
+      50,
+      51
+    ],
+    "reason": "JWT authorization and claim resolution precede coordinate validation; invalid coordinates return400",
+    "performanceNote457": "left open"
+  },
+  "deployment": {
+    "workflowId": 234665844,
+    "state": "disabled_manually",
+    "reason": "prevent cloud spending during authorized merges",
+    "cloudDeployed": false
+  },
+  "limitations": [
+    "PR144 migration acceptance fails and remains with Claude",
+    "Afterthought120 requires client wiring; no browser failure claimed",
+    "Backend80 coverage unfinished; archived HTTP counters not merged with changed binary",
+    "No new persona/performance campaign or paid provider calls",
+    "Root shared checkout and original Docker services preserved"
+  ]
+}
