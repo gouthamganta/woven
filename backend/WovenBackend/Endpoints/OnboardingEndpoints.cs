@@ -227,7 +227,7 @@ public static class OnboardingEndpoints
                 return Results.BadRequest(new { error = "Invalid location coordinates." });
 
             // Reject impossible ranges
-            if (req.Location.Lat < -90 || req.Location.Lat > 90 || 
+            if (req.Location.Lat < -90 || req.Location.Lat > 90 ||
                 req.Location.Lng < -180 || req.Location.Lng > 180)
                 return Results.BadRequest(new { error = "Invalid location coordinates." });
 

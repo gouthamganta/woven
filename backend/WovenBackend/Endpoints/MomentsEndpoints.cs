@@ -91,11 +91,11 @@ public static class MomentsEndpoints
                 .Select(t => new
                 {
                     t.UserId,
-                    tileId      = t.Id,
+                    tileId = t.Id,
                     contentType = t.ContentType,
                     contentText = t.ContentText,
-                    mediaUrl    = t.MediaUrl,
-                    isActive    = true
+                    mediaUrl = t.MediaUrl,
+                    isActive = true
                 })
                 .ToListAsync(ct);
 
@@ -106,11 +106,11 @@ public static class MomentsEndpoints
                 .Select(h => new
                 {
                     h.UserId,
-                    tileId      = h.TileId,
+                    tileId = h.TileId,
                     contentType = h.Tile.ContentType,
                     contentText = h.Tile.ContentText,
-                    mediaUrl    = h.Tile.MediaUrl,
-                    isActive    = false
+                    mediaUrl = h.Tile.MediaUrl,
+                    isActive = false
                 })
                 .ToListAsync(ct);
 
@@ -171,18 +171,18 @@ public static class MomentsEndpoints
                 cid => cid,
                 cid =>
                 {
-                    var active    = activeByUser.GetValueOrDefault(cid) ?? new();
+                    var active = activeByUser.GetValueOrDefault(cid) ?? new();
                     var highlight = highlightByUser.GetValueOrDefault(cid) ?? new();
-                    var merged    = active.Take(3).ToList();
+                    var merged = active.Take(3).ToList();
                     if (merged.Count < 3)
                         merged.AddRange(highlight.Take(3 - merged.Count));
                     return merged.Select(t => new
                     {
-                        id          = t.tileId,
+                        id = t.tileId,
                         contentType = t.contentType,
                         contentText = t.contentText,
-                        mediaUrl    = t.mediaUrl,
-                        isActive    = t.isActive
+                        mediaUrl = t.mediaUrl,
+                        isActive = t.isActive
                     }).ToList<object>();
                 });
 
@@ -342,11 +342,11 @@ public static class MomentsEndpoints
                 .Select(t => new
                 {
                     t.UserId,
-                    tileId      = t.Id,
+                    tileId = t.Id,
                     contentType = t.ContentType,
                     contentText = t.ContentText,
-                    mediaUrl    = t.MediaUrl,
-                    isActive    = true
+                    mediaUrl = t.MediaUrl,
+                    isActive = true
                 })
                 .ToListAsync(ct);
             var lyActiveByUser = lyActiveTiles.GroupBy(t => t.UserId).ToDictionary(g => g.Key, g => g.ToList());
@@ -358,11 +358,11 @@ public static class MomentsEndpoints
                 .Select(h => new
                 {
                     h.UserId,
-                    tileId      = h.TileId,
+                    tileId = h.TileId,
                     contentType = h.Tile.ContentType,
                     contentText = h.Tile.ContentText,
-                    mediaUrl    = h.Tile.MediaUrl,
-                    isActive    = false
+                    mediaUrl = h.Tile.MediaUrl,
+                    isActive = false
                 })
                 .ToListAsync(ct);
             var lyHighlightByUser = lyHighlights.GroupBy(h => h.UserId).ToDictionary(g => g.Key, g => g.ToList());
@@ -371,18 +371,18 @@ public static class MomentsEndpoints
                 uid => uid,
                 uid =>
                 {
-                    var active    = lyActiveByUser.GetValueOrDefault(uid) ?? new();
+                    var active = lyActiveByUser.GetValueOrDefault(uid) ?? new();
                     var highlight = lyHighlightByUser.GetValueOrDefault(uid) ?? new();
-                    var merged    = active.Take(3).ToList();
+                    var merged = active.Take(3).ToList();
                     if (merged.Count < 3)
                         merged.AddRange(highlight.Take(3 - merged.Count));
                     return merged.Select(t => new
                     {
-                        id          = t.tileId,
+                        id = t.tileId,
                         contentType = t.contentType,
                         contentText = t.contentText,
-                        mediaUrl    = t.mediaUrl,
-                        isActive    = t.isActive
+                        mediaUrl = t.mediaUrl,
+                        isActive = t.isActive
                     }).ToList<object>();
                 });
 
@@ -416,11 +416,11 @@ public static class MomentsEndpoints
                         u.isVerified,
                         u.location,
                         u.profilePhoto,
-                        photos          = lyPhotosByUser.GetValueOrDefault(u.userId),
+                        photos = lyPhotosByUser.GetValueOrDefault(u.userId),
                         highlightedTiles = lyTilesByUser.GetValueOrDefault(u.userId),
                         rating,
-                        likedAt         = r.CreatedAt,
-                        expiresInHours  = hoursLeft
+                        likedAt = r.CreatedAt,
+                        expiresInHours = hoursLeft
                     };
                 })
                 .ToList();
@@ -478,10 +478,10 @@ public static class MomentsEndpoints
             {
                 "MAGICAL" => (MomentChoice?)MomentChoice.MAGICAL,
                 "LOGICAL" => (MomentChoice?)MomentChoice.LOGICAL,
-                "PASS"    => (MomentChoice?)MomentChoice.PASS,
+                "PASS" => (MomentChoice?)MomentChoice.PASS,
                 // Legacy support
-                "YES"     => (MomentChoice?)MomentChoice.MAGICAL,
-                "NO"      => (MomentChoice?)MomentChoice.LOGICAL,
+                "YES" => (MomentChoice?)MomentChoice.MAGICAL,
+                "NO" => (MomentChoice?)MomentChoice.LOGICAL,
                 _ => null
             };
 

@@ -192,17 +192,17 @@ public class TileViewProcessorWorker : BackgroundService
         {
             db.UserVoicePreferences.Add(new UserVoicePreference
             {
-                UserId              = userId,
+                UserId = userId,
                 PreferenceEmbedding = new Vector(mean),
-                YesSampleCount      = ordered.Count,
-                UpdatedAt           = DateTimeOffset.UtcNow
+                YesSampleCount = ordered.Count,
+                UpdatedAt = DateTimeOffset.UtcNow
             });
         }
         else
         {
             pref.PreferenceEmbedding = new Vector(mean);
-            pref.YesSampleCount      = ordered.Count;
-            pref.UpdatedAt           = DateTimeOffset.UtcNow;
+            pref.YesSampleCount = ordered.Count;
+            pref.UpdatedAt = DateTimeOffset.UtcNow;
         }
 
         await db.SaveChangesAsync(ct);

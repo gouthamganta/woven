@@ -284,7 +284,9 @@ All signals → `MatchSignalLogs` via `IMatchSignalService.RecordAsync(...)`.
 - `WeightLearningBatchWorker` — Sun 04:00
 
 ### AI Profile — 8 Pillars
-`Lifestyle | Energy | Communication | Affection | Stability | Values | Curiosity | Emotional Rhythm`
+`Lifestyle | Energy | Values | Communication | Ambition | Stability | Curiosity | Affection`
+
+Emotional Rhythm is a separate behavioral scoring component, not a pillar.
 
 ---
 
@@ -369,7 +371,6 @@ All signals → `MatchSignalLogs` via `IMatchSignalService.RecordAsync(...)`.
 | CfScore batch job | `CollaborativeFilteringService` exists, no worker runs it |
 | SharedTileAffinity matchmaking component | Needs CfScore data (blocked) |
 | PreferenceEmbedding from ChatNotes | Worker stub exists, not wired |
-| Ambition pillar coverage | No foundational question covers this pillar |
 | "Your Turn" chat list indicator | Designed, not built |
 | Active/online indicator | Designed, not built |
 | Horoscope onboarding field | Designed, not built |
