@@ -197,7 +197,7 @@ public class GameService : IGameService
 
         if (session == null || session.Status != GameSessionStatus.PENDING.ToString())
         {
-            _logger.LogWarning("[Game] Session {SessionId} not found or not pending. Status: {Status}", 
+            _logger.LogWarning("[Game] Session {SessionId} not found or not pending. Status: {Status}",
                 sessionId, session?.Status ?? "NULL");
             return false;
         }
@@ -205,7 +205,7 @@ public class GameService : IGameService
         // ✅ FIX #2: Add 30-second grace period for accepting
         if (DateTimeOffset.UtcNow > session.ExpiresAt.AddSeconds(30))
         {
-            _logger.LogWarning("[Game] Session {SessionId} expired. ExpiresAt: {ExpiresAt}, Now: {Now}", 
+            _logger.LogWarning("[Game] Session {SessionId} expired. ExpiresAt: {ExpiresAt}, Now: {Now}",
                 sessionId, session.ExpiresAt, DateTimeOffset.UtcNow);
             session.Status = GameSessionStatus.EXPIRED.ToString();
             session.UpdatedAt = DateTimeOffset.UtcNow;
@@ -218,7 +218,7 @@ public class GameService : IGameService
 
         if (match == null)
         {
-            _logger.LogWarning("[Game] Match {MatchId} not found for session {SessionId}", 
+            _logger.LogWarning("[Game] Match {MatchId} not found for session {SessionId}",
                 session.MatchId, sessionId);
             return false;
         }

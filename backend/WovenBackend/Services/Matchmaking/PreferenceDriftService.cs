@@ -21,17 +21,17 @@ namespace WovenBackend.Services.Matchmaking;
 /// </summary>
 public class PreferenceDriftService : IPreferenceDriftService
 {
-    private const float MinScore    = 0.15f;
-    private const float DriftScale  = 0.10f;
+    private const float MinScore = 0.15f;
+    private const float DriftScale = 0.10f;
     private const float MaxDriftRate = 0.05f;
-    private const int   TopN        = 20;
+    private const int TopN = 20;
 
     private readonly WovenDbContext _db;
     private readonly ILogger<PreferenceDriftService> _logger;
 
     public PreferenceDriftService(WovenDbContext db, ILogger<PreferenceDriftService> logger)
     {
-        _db     = db;
+        _db = db;
         _logger = logger;
     }
 
@@ -50,7 +50,7 @@ public class PreferenceDriftService : IPreferenceDriftService
         var candidateIds = topPairs.Select(p => p.CandidateId).ToList();
 
         // Load viewer preferences (with tracking for update)
-        var voicePref  = await _db.UserVoicePreferences
+        var voicePref = await _db.UserVoicePreferences
             .FirstOrDefaultAsync(p => p.UserId == userId, ct);
         var visualPref = await _db.UserVisualPreferences
             .FirstOrDefaultAsync(p => p.UserId == userId, ct);
@@ -139,9 +139,9 @@ public class PreferenceDriftService : IPreferenceDriftService
     // new_pref[j] = (1 − α) × old[j] + α × target[j]
     internal static float[] Ema(float[] old, float[] target, float alpha)
     {
-        var len    = Math.Min(old.Length, target.Length);
+        var len = Math.Min(old.Length, target.Length);
         var result = new float[len];
-        var keep   = 1f - alpha;
+        var keep = 1f - alpha;
         for (int j = 0; j < len; j++)
             result[j] = keep * old[j] + alpha * target[j];
         return result;

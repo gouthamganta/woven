@@ -151,7 +151,7 @@ public class WeightLearningService : IWeightLearningService
             for (int i = 0; i < n; i++)
             {
                 var predicted = Sigmoid(Dot(w, X[i]));
-                var residual  = y[i] - predicted;
+                var residual = y[i] - predicted;
                 for (int j = 0; j < Components.Length; j++)
                     grad[j] += residual * X[i][j];
             }
@@ -160,7 +160,7 @@ public class WeightLearningService : IWeightLearningService
             for (int j = 0; j < Components.Length; j++)
             {
                 w[j] += LearningRate * (grad[j] / n - 2 * L2Lambda * w[j]);
-                w[j]  = Math.Clamp(w[j], MinWeight, MaxWeight);
+                w[j] = Math.Clamp(w[j], MinWeight, MaxWeight);
             }
         }
 
@@ -178,24 +178,24 @@ public class WeightLearningService : IWeightLearningService
 
         for (int j = 0; j < Components.Length; j++)
         {
-            var comp   = Components[j];
+            var comp = Components[j];
             var learned = (float)w[j];
 
             if (dbWeights.TryGetValue(comp, out var row))
             {
                 row.LearnedWeight = learned;
-                row.SampleCount   = n;
-                row.UpdatedAt     = now;
+                row.SampleCount = n;
+                row.UpdatedAt = now;
             }
             else
             {
                 _db.UserMatchingWeights.Add(new UserMatchingWeight
                 {
-                    UserId        = userId,
-                    Component     = comp,
+                    UserId = userId,
+                    Component = comp,
                     LearnedWeight = learned,
-                    SampleCount   = n,
-                    UpdatedAt     = now
+                    SampleCount = n,
+                    UpdatedAt = now
                 });
             }
         }
@@ -203,7 +203,7 @@ public class WeightLearningService : IWeightLearningService
         await _db.SaveChangesAsync(ct);
 
         // Log which component got the highest learned weight for analytics
-        var topIdx       = Array.IndexOf(w, w.Max());
+        var topIdx = Array.IndexOf(w, w.Max());
         var topComponent = Components[topIdx];
 
         _logger.LogInformation(
