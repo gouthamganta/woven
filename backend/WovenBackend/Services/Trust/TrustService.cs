@@ -6,22 +6,22 @@ namespace WovenBackend.Services.Trust;
 
 public class TrustService : ITrustService
 {
-    private const float TrustThreshold   = 0.25f;
-    private const float DefaultTrust     = 0.50f;
-    private const float MinTrust         = 0.00f;
-    private const float MaxTrust         = 1.00f;
+    private const float TrustThreshold = 0.25f;
+    private const float DefaultTrust = 0.50f;
+    private const float MinTrust = 0.00f;
+    private const float MaxTrust = 1.00f;
 
     // Velocity: >10 tiles/hour is suspicious
-    private const int   VelocityTileLimit = 10;
-    private const float VelocityPenalty   = 0.10f;
+    private const int VelocityTileLimit = 10;
+    private const float VelocityPenalty = 0.10f;
 
     // Multi-account: same device fingerprint used by two different accounts
     private const float MultiAccountPenalty = 0.20f;
 
     // Bot detection rewards: points toward a healthy 0.8 score
     private const float ProfileCompletionBonus = 0.15f;
-    private const float AnsweredQuestionsBonus  = 0.10f;
-    private const float HasPhotoBonus           = 0.05f;
+    private const float AnsweredQuestionsBonus = 0.10f;
+    private const float HasPhotoBonus = 0.05f;
 
     private readonly WovenDbContext _db;
     private readonly ICacheService _cache;
@@ -79,7 +79,7 @@ public class TrustService : ITrustService
         var user = await _db.Users.FirstOrDefaultAsync(u => u.Id == userId, ct);
         if (user is null) return;
 
-        user.TrustScore    = Math.Max(MinTrust, user.TrustScore - VelocityPenalty);
+        user.TrustScore = Math.Max(MinTrust, user.TrustScore - VelocityPenalty);
         user.TrustUpdatedAt = DateTime.UtcNow;
         await _db.SaveChangesAsync(ct);
 
@@ -104,7 +104,7 @@ public class TrustService : ITrustService
         var hasPhoto = await _db.UserPhotos.AnyAsync(p => p.UserId == userId, ct);
         if (hasPhoto) score += HasPhotoBonus;
 
-        user.TrustScore     = Math.Clamp(score, MinTrust, MaxTrust);
+        user.TrustScore = Math.Clamp(score, MinTrust, MaxTrust);
         user.TrustUpdatedAt = DateTime.UtcNow;
         await _db.SaveChangesAsync(ct);
 

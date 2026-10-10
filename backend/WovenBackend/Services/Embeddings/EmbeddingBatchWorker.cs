@@ -15,8 +15,8 @@ public class EmbeddingBatchWorker : BackgroundService
     public EmbeddingBatchWorker(IServiceScopeFactory scopeFactory, ICacheService cache, ILogger<EmbeddingBatchWorker> logger)
     {
         _scopeFactory = scopeFactory;
-        _cache        = cache;
-        _logger       = logger;
+        _cache = cache;
+        _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken ct)

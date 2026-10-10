@@ -60,7 +60,7 @@ public class PreferenceDriftBatchWorker : BackgroundService
 
     private static async Task WaitForNextRunAsync(CancellationToken ct)
     {
-        var now  = DateTime.UtcNow;
+        var now = DateTime.UtcNow;
         var next = now.Date.AddHours(4).AddMinutes(15);
         if (now >= next) next = next.AddDays(1);
         await Task.Delay(next - now, ct);
@@ -69,7 +69,7 @@ public class PreferenceDriftBatchWorker : BackgroundService
     private async Task RunBatchAsync(CancellationToken ct)
     {
         using var scope = _scopeFactory.CreateScope();
-        var db    = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+        var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
 
         // Only drift for users who have at least one qualifying ConnectionScore
         var userIds = await db.ConnectionScores.AsNoTracking()
