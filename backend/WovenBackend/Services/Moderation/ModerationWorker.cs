@@ -3,7 +3,7 @@ namespace WovenBackend.Services.Moderation;
 public class ModerationWorker : BackgroundService
 {
     private const string LockKey = "lock:moderation-pass";
-    private static readonly TimeSpan Interval   = TimeSpan.FromMinutes(5);
+    private static readonly TimeSpan Interval = TimeSpan.FromMinutes(5);
     private static readonly TimeSpan LockExpiry = TimeSpan.FromMinutes(4); // shorter than interval
 
     private readonly IServiceScopeFactory _scopeFactory;
@@ -13,8 +13,8 @@ public class ModerationWorker : BackgroundService
     public ModerationWorker(IServiceScopeFactory scopeFactory, ICacheService cache, ILogger<ModerationWorker> logger)
     {
         _scopeFactory = scopeFactory;
-        _cache        = cache;
-        _logger       = logger;
+        _cache = cache;
+        _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

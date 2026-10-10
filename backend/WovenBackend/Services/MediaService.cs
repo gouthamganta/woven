@@ -31,22 +31,22 @@ public class MediaService : IMediaService
         string contentType,
         CancellationToken ct = default)
     {
-        var ext       = Path.GetExtension(fileName).ToLowerInvariant();
-        var blobPath  = $"{userId}/{Guid.NewGuid()}{ext}";
+        var ext = Path.GetExtension(fileName).ToLowerInvariant();
+        var blobPath = $"{userId}/{Guid.NewGuid()}{ext}";
         var containerName = ContainerName(container);
 
         var containerClient = _blobService.GetBlobContainerClient(containerName);
         await containerClient.CreateIfNotExistsAsync(cancellationToken: ct);
 
         var blobClient = containerClient.GetBlobClient(blobPath);
-        var expiresAt  = DateTimeOffset.UtcNow.AddMinutes(15);
+        var expiresAt = DateTimeOffset.UtcNow.AddMinutes(15);
 
         var sasBuilder = new BlobSasBuilder
         {
             BlobContainerName = containerName,
-            BlobName          = blobPath,
-            Resource          = "b",
-            ExpiresOn         = expiresAt
+            BlobName = blobPath,
+            Resource = "b",
+            ExpiresOn = expiresAt
         };
         sasBuilder.SetPermissions(BlobSasPermissions.Write | BlobSasPermissions.Create);
 
@@ -55,8 +55,8 @@ public class MediaService : IMediaService
         _logger.LogInformation("[Media] SAS token issued for {BlobPath} (expires {ExpiresAt})", blobPath, expiresAt);
 
         return new UploadTokenResult(
-            SasToken:  sasUri.Query.TrimStart('?'),
-            BlobPath:  blobPath,
+            SasToken: sasUri.Query.TrimStart('?'),
+            BlobPath: blobPath,
             UploadUrl: sasUri.ToString(),
             ExpiresAt: expiresAt);
     }
@@ -173,8 +173,8 @@ public class MediaService : IMediaService
     private static string ContainerName(MediaContainerType type) => type switch
     {
         MediaContainerType.ProfilePhoto => "profile-photos",
-        MediaContainerType.TileMedia    => "tile-media",
-        MediaContainerType.VoiceNote    => "voice-notes",
+        MediaContainerType.TileMedia => "tile-media",
+        MediaContainerType.VoiceNote => "voice-notes",
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
     };
 }

@@ -26,12 +26,12 @@ public class MatchSignalService : IMatchSignalService
 
         _db.MatchSignalLogs.Add(new MatchSignalLog
         {
-            ViewerId      = viewerId,
-            CandidateId   = candidateId,
-            EventType     = eventType,
-            EventValue    = eventValue,
-            MetadataJson  = metadataJson,
-            OccurredAt    = DateTime.UtcNow
+            ViewerId = viewerId,
+            CandidateId = candidateId,
+            EventType = eventType,
+            EventValue = eventValue,
+            MetadataJson = metadataJson,
+            OccurredAt = DateTime.UtcNow
         });
 
         await _db.SaveChangesAsync(ct);

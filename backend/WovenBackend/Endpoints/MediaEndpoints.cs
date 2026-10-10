@@ -17,9 +17,9 @@ public static class MediaEndpoints
     private static MediaContainerType? ParseContainer(string s) => s switch
     {
         "profile-photo" => MediaContainerType.ProfilePhoto,
-        "tile-media"    => MediaContainerType.TileMedia,
-        "voice-note"    => MediaContainerType.VoiceNote,
-        _               => null
+        "tile-media" => MediaContainerType.TileMedia,
+        "voice-note" => MediaContainerType.VoiceNote,
+        _ => null
     };
 
     public static void MapMediaEndpoints(this WebApplication app)
@@ -60,8 +60,8 @@ public static class MediaEndpoints
 
             return Results.Ok(new
             {
-                sasToken  = result.SasToken,
-                blobPath  = result.BlobPath,
+                sasToken = result.SasToken,
+                blobPath = result.BlobPath,
                 uploadUrl = result.UploadUrl,
                 expiresAt = result.ExpiresAt
             });

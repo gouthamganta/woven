@@ -153,10 +153,10 @@ public static class UserDataEndpoints
                     u => u.Id,
                     (b, u) => new
                     {
-                        userId      = u.Id,
-                        name        = u.FullName ?? "Unknown",
-                        photo       = u.ProfilePhoto,
-                        blockedAt   = b.CreatedAt
+                        userId = u.Id,
+                        name = u.FullName ?? "Unknown",
+                        photo = u.ProfilePhoto,
+                        blockedAt = b.CreatedAt
                     })
                 .OrderByDescending(x => x.blockedAt)
                 .ToListAsync(ct);
@@ -258,10 +258,10 @@ public static class PushEndpoints
             {
                 db.PushSubscriptions.Add(new WovenBackend.Data.Entities.UserPushSubscription
                 {
-                    UserId    = userId,
-                    Endpoint  = req.Endpoint,
-                    P256dh    = req.P256dh,
-                    Auth      = req.Auth,
+                    UserId = userId,
+                    Endpoint = req.Endpoint,
+                    P256dh = req.P256dh,
+                    Auth = req.Auth,
                     UserAgent = req.UserAgent,
                 });
                 await db.SaveChangesAsync(ct);

@@ -16,8 +16,8 @@ public class WeightLearningBatchWorker : BackgroundService
     public WeightLearningBatchWorker(IServiceScopeFactory scopeFactory, ICacheService cache, ILogger<WeightLearningBatchWorker> logger)
     {
         _scopeFactory = scopeFactory;
-        _cache        = cache;
-        _logger       = logger;
+        _cache = cache;
+        _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken ct)

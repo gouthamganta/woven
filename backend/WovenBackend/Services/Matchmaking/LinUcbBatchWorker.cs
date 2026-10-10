@@ -24,15 +24,15 @@ public class LinUcbBatchWorker : BackgroundService
         ILogger<LinUcbBatchWorker> logger)
     {
         _scopeFactory = scopeFactory;
-        _cache        = cache;
-        _logger       = logger;
+        _cache = cache;
+        _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            var now    = DateTime.UtcNow;
+            var now = DateTime.UtcNow;
             var target = DateTime.UtcNow.Date.AddHours(4).AddMinutes(20);
             if (target <= now) target = target.AddDays(1);
 
@@ -56,8 +56,8 @@ public class LinUcbBatchWorker : BackgroundService
             _logger.LogInformation("[LinUCBBatch] Starting LinUCB model update pass");
 
             using var scope = _scopeFactory.CreateScope();
-            var db          = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
-            var linUcb      = scope.ServiceProvider.GetRequiredService<ILinUcbService>();
+            var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+            var linUcb = scope.ServiceProvider.GetRequiredService<ILinUcbService>();
             var fingerprints = scope.ServiceProvider.GetRequiredService<IBehavioralFingerprintService>();
 
             // All distinct viewer IDs that have at least one connection score
@@ -129,7 +129,7 @@ public class LinUcbBatchWorker : BackgroundService
             .ToListAsync(ct);
 
         var pillarMap = pillarVecs.ToDictionary(v => v.UserId, v => v.PillarEmbedding!.ToArray());
-        var fpMap     = fpRows.ToDictionary(
+        var fpMap = fpRows.ToDictionary(
             f => f.UserId,
             f => DeserializeFloats(f.VectorJson));
 
