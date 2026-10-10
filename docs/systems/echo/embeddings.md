@@ -36,7 +36,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
 ### Algorithm
 1. User answers foundational questions → `PillarScores` (8-dim vector [0,1])
    ```
-   Lifestyle, Energy, Communication, Affection, Stability, Values, Curiosity, Emotional Rhythm
+   Lifestyle, Energy, Values, Communication, Ambition, Stability, Curiosity, Affection
    ```
 2. Pillar scores serialized to JSON text:
    ```json
@@ -48,7 +48,7 @@ ECHO uses **9 core embedding modalities** to represent users in vector space, pl
      "Stability": 0.62,
      "Values": 0.80,
      "Curiosity": 0.90,
-     "Emotional Rhythm": 0.55
+     "Ambition": 0.55
    }
    ```
 3. Text embedded via OpenAI `text-embedding-3-small` → **1536-dim vector** (default output)

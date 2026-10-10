@@ -54,18 +54,18 @@ public class BehavioralFingerprintService : IBehavioralFingerprintService
             .FirstOrDefaultAsync(x => x.UserId == userId, ct);
 
         var json = JsonSerializer.Serialize(fp);
-        var now  = DateTime.UtcNow;
+        var now = DateTime.UtcNow;
 
         if (existing != null)
         {
-            existing.VectorJson  = json;
-            existing.ComputedAt  = now;
+            existing.VectorJson = json;
+            existing.ComputedAt = now;
         }
         else
         {
             _db.UserBehavioralFingerprints.Add(new UserBehavioralFingerprint
             {
-                UserId     = userId,
+                UserId = userId,
                 VectorJson = json,
                 ComputedAt = now
             });
@@ -97,7 +97,7 @@ public class BehavioralFingerprintService : IBehavioralFingerprintService
             .ToDictionary(g => g.Key, g => g.ToList());
 
         var allCandidates = signals.Select(s => s.CandidateId).Distinct().Count();
-        var totalSignals  = signals.Count;
+        var totalSignals = signals.Count;
 
         return new[]
         {
@@ -218,7 +218,7 @@ public class BehavioralFingerprintService : IBehavioralFingerprintService
     {
         var accepted = byType.TryGetValue(MatchSignalEventTypes.TrialAccepted, out var ra) ? ra.Count : 0;
         var rejected = byType.TryGetValue(MatchSignalEventTypes.TrialRejected, out var rr) ? rr.Count : 0;
-        var total    = accepted + rejected;
+        var total = accepted + rejected;
         return total == 0 ? 0.5f : (float)accepted / total;
     }
 

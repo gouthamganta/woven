@@ -11,6 +11,12 @@ landing-simple stylesheet budget warning. Backend tests passed 12/12, including
 warning remains. Evidence: qa/evidence/2026-10-08-119-rating-removal.md.
 Laptop Codex must verify UI and PostgreSQL behavior before Done; no merge/deploy.
 
+2026-10-08: #139 canonical pillar docs corrected on
+codex-phone/139-fix-canonical-pillars. Code q6 covers Ambition, so false
+no-question gaps removed; separate least-coverage note and #123 remain.
+Evidence and full changed-file list: qa/evidence/2026-10-08-139-canonical-pillars.md.
+Docs only; laptop Codex to verify.
+
 DOC-005/006 handoffs posted to GitHub #93/#94 using authenticated local CLI/API,
 so founder relay is unnecessary despite Claude MCP auth gap. Retest at 560525a
 found 9 broken-link occurrences and remaining balloon/JWT/error-overview

@@ -114,7 +114,7 @@ public class DailyDeckOrchestrator : IDailyDeckOrchestrator
         // ucbBoostMap:      LinUCB exploration bonus (0–10)
         // Both are additive on TotalScore (0–100); combined cap is ~20 which biases but does not override.
         var deliveryBoostMap = await _deliveryBoost.GetBoostMapAsync(userId, candidateIds, dateUtc, ct);
-        var ucbBoostMap      = await _linUcb.GetBoostMapAsync(userId, candidateIds, ct: ct);
+        var ucbBoostMap = await _linUcb.GetBoostMapAsync(userId, candidateIds, ct: ct);
 
         var boostMap = new Dictionary<int, double>(candidateIds.Count);
         foreach (var cid in candidateIds)
@@ -166,9 +166,9 @@ public class DailyDeckOrchestrator : IDailyDeckOrchestrator
                 {
                     var result = await _narrator.BuildNarratorFieldsAsync(item.CandidateId, dateUtc, ct);
                     item.KenBurnsPhotoUrls = result.KenBurnsPhotoUrls;
-                    item.CuratedQuote      = result.CuratedQuote;
-                    item.NarrationUrl      = result.NarrationUrl;
-                    item.NarrationExposed  = result.NarrationExposed;
+                    item.CuratedQuote = result.CuratedQuote;
+                    item.NarrationUrl = result.NarrationUrl;
+                    item.NarrationExposed = result.NarrationExposed;
                 }
                 catch (Exception ex)
                 {
