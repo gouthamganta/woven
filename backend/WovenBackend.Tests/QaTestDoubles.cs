@@ -26,6 +26,8 @@ internal sealed class QaCache : ICacheService
     public List<string> Deleted { get; } = [];
     public List<string> Incremented { get; } = [];
     public long MissingCounter { get; set; } = -1;
+    public bool? RateLimitAllowed { get; set; }
+    public List<(string Key, int Limit, TimeSpan Ttl)> RateLimitChecks { get; } = [];
     public Task<T?> GetAsync<T>(string key, CancellationToken ct = default) => Task.FromResult(Values.TryGetValue(key, out var value) ? (T?)value : default);
     public Task SetAsync<T>(string key, T value, TimeSpan ttl, CancellationToken ct = default) { Values[key] = value!; return Task.CompletedTask; }
     public Task DeleteAsync(string key, CancellationToken ct = default) { Deleted.Add(key); Values.Remove(key); return Task.CompletedTask; }
@@ -37,7 +39,12 @@ internal sealed class QaCache : ICacheService
         Values[key] = value;
         return Task.FromResult(value);
     }
-    public Task<bool> CheckRateLimitAsync(string key, int limit, TimeSpan ttl, CancellationToken ct = default) => throw new NotSupportedException("This test double does not model distributed rate limiting.");
+    public Task<bool> CheckRateLimitAsync(string key, int limit, TimeSpan ttl, CancellationToken ct = default)
+    {
+        RateLimitChecks.Add((key, limit, ttl));
+        return RateLimitAllowed.HasValue ? Task.FromResult(RateLimitAllowed.Value)
+            : throw new NotSupportedException("This test double does not model distributed rate limiting.");
+    }
     public Task<bool> AcquireLockAsync(string lockKey, TimeSpan expiry, CancellationToken ct = default) => throw new NotSupportedException("This test double does not model distributed locks.");
     public Task ReleaseLockAsync(string lockKey, CancellationToken ct = default) => throw new NotSupportedException("This test double does not model distributed locks.");
 }

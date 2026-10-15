@@ -1,0 +1,3810 @@
+{
+  "date": "2026-10-09 America/Indianapolis",
+  "applicationCommit": "20a630ed4bdbdcb9c0a2db95081347e6bc091dad",
+  "branch": "qa/backend-coverage-20261009",
+  "applicationSourceUnchanged": true,
+  "applicationBinarySha256": "24d23492ddecad16b001dd0a0a50939a61b4ad1104af3dac3148bfd20da4462d",
+  "hashes": {
+    "cobertura": "014dbdc56e2c2e64b59ce855f1635169f3a49284e23eb53e7f6cdcc17446356c",
+    "rawCoverage": "0f4f07e94014f8bffd36f14fd0ef3282efbdf708d3d5ee58c68b07dc13a5ec3b",
+    "trx": "25c2b20279210832e7477ea18e3114c24a7084055f5614da551511d08d6c2e1e"
+  },
+  "tests": {
+    "total": 386,
+    "passed": 386,
+    "failed": 0,
+    "skipped": 0,
+    "added": 209
+  },
+  "coverage": {
+    "lines": 22307,
+    "coveredLines": 6064,
+    "branches": 5715,
+    "coveredBranches": 1151,
+    "linePercent": 27.18,
+    "branchPercent": 20.14,
+    "passed": false,
+    "scope": "Current-master WovenBackend unit, registered-handler and loopback HTTP tests. Generated Migrations/**/*.cs excluded by existing policy; all other application sources included. No archived-binary union."
+  },
+  "methods": "Meaningful response, persisted state and recipient/signal assertions; controlled provider/cache doubles. Loopback host exercises real JWT/auth middleware with explicit test configuration, not full Program startup.",
+  "limitations": [
+    "80% backend line and branch target remains unfinished.",
+    "EF InMemory does not prove PostgreSQL constraints, SQL translation, transactional concurrency, or deletion integrity.",
+    "No account-deletion success claim; #165 and fresh migrations #111/#144 remain separate obligations.",
+    "Cookie/CSRF/CORS, banned/deleted tokens, realtime, provider behavior and full Program wiring not certified by these tests.",
+    "Frontend remeasurement and gaps remain queued after backend priority.",
+    "No sandbox/persona campaign, paid calls, deployment or application edits."
+  ],
+  "pr144": {
+    "head": "687d2515be921e180d2d1a70ed9b65ee70db96f0",
+    "status": "Draft, unchanged since failed migration acceptance; no completed repair handoff to retest. Not merged."
+  },
+  "testFiles": [
+    {
+      "path": "backend/WovenBackend.Tests/AuthenticatedChatHttpContractTests.cs",
+      "sha256": "c5b92d5dfec31a9f5d11a32f0cea89c11598db6ede1286b96c47dc43f47bea60"
+    },
+    {
+      "path": "backend/WovenBackend.Tests/ChatActionsContractTests.cs",
+      "sha256": "65abbdb9098aa10470f9f5fc4ee73505379b40e1e1c9b40729f769a6382ae145"
+    },
+    {
+      "path": "backend/WovenBackend.Tests/ChatLifecycleContractTests.cs",
+      "sha256": "1b59dab7168f77d5e2524307cab12ed150095d9b45c2680d9029fc0aecb05df0"
+    },
+    {
+      "path": "backend/WovenBackend.Tests/JwtRejectionContractTests.cs",
+      "sha256": "4ff005e18c588b681c2c62bc6f786a34e65b94931e55d439e7c150ecd44fe61a"
+    },
+    {
+      "path": "backend/WovenBackend.Tests/MatchHistoryContractTests.cs",
+      "sha256": "f38deb686e04567c5985182369c526409b069dc0b741e17af89e3441f3ee9203"
+    },
+    {
+      "path": "backend/WovenBackend.Tests/MatchingSelectionContractTests.cs",
+      "sha256": "bb681812d8fa5c413ea58f3743f55326d41e23f0d6c4d4459e3b3b8d5f67871a"
+    },
+    {
+      "path": "backend/WovenBackend.Tests/RequestDataBoundaryContractTests.cs",
+      "sha256": "ea7e2453d9fddbe52a84060a1151df3edc0c099df0af746614818ab51e7c6c7d"
+    },
+    {
+      "path": "backend/WovenBackend.Tests/UserDataIsolationContractTests.cs",
+      "sha256": "d0daec88d7ef11abddfcee1391b1dca0d71d889f778eb1b6987b32154f05fdd6"
+    },
+    {
+      "path": "backend/WovenBackend.Tests/QaTestDoubles.cs",
+      "sha256": "5bbe0c54c12e1addc194cbf8ee4b63f05404c46287ab8358e912c8bfdd1abadd"
+    }
+  ],
+  "cases": [
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/date-interest\", method: \"POST\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.4325942",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: null, lat2: 0, lng2: 1, miles1: 0, miles2: 0, expected: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0383624",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Availability_EnforcesTextBoundaryPersistsActorAndNotifiesOnlyPartner(length: 200, status: 204, error: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.2161979",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.Trust_ThresholdIsInclusiveAndMissingAccountsAreNotTrusted(score: 1, expected: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0500464",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: 0, lng2: null, miles1: 0, miles2: 0, expected: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0305740",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Correlation_RequestResponseAndDownstreamShareOneIdentity(correlation: null, request: null, expected: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0082802",
+      "family": "QA-COV-14-5",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Venues_RequiresBothParticipantsInterestBeforeCallingProvider(a: True, b: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.2062931",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/venue-suggestions\", method: \"GET\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2406843",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authorization_ValidTokenStillRequiresPairMembershipEvenForAdmin(actor: 2, admin: False, status: 200)",
+      "outcome": "Passed",
+      "duration": "00:00:09.2151079",
+      "family": "QA-COV-01-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.BotDetection_UsesOwnProfileAndPhotoAndIsRepeatable(profile: False, photo: True, expected: 0.550000012)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0439387",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BlockClosesImmediatelyAndOnlyStoresValidPrivateRating(actor: 1, rating: -100)",
+      "outcome": "Passed",
+      "duration": "00:00:00.2825005",
+      "family": "QA-COV-05-6",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Start_DeniesForeignOrClosedMatchWithoutCreatingThread(actor: 1, closed: True, status: 400, error: \"BALLOON_NOT_ACTIVE\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0890901",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Read_ForeignUserCannotSeeNotesOrStartTrialTimer",
+      "outcome": "Passed",
+      "duration": "00:00:00.1044094",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 25)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0010802",
+      "family": "QA-COV-03-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.GlobalHandler_RedactsExceptionAndReturnsTimestampAndCorrelation(hasCorrelation: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0369192",
+      "family": "QA-COV-14-5",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_ReciprocalAgeIncludesExactLimits(age: 25, min: 25, max: 35, expected: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0032605",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Venues_RequiresBothParticipantsInterestBeforeCallingProvider(a: True, b: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1293501",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: EXPIRE, ageDays: 1, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0276016",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Outcome_BlockLinksLatestPairMatchOrRecordsWithoutMatch(hasMatch: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1062236",
+      "family": "QA-COV-12-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Outcome_BlockLinksLatestPairMatchOrRecordsWithoutMatch(hasMatch: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0024744",
+      "family": "QA-COV-12-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_ClampsTrustAndRedistributesOnlyAvailableWeights(trust: 0.5, expected: 35)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0214107",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.BotDetection_UsesOwnProfileAndPhotoAndIsRepeatable(profile: True, photo: True, expected: 0.699999988)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1196923",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Voice_ValidatesDurationAndPersistsTypedMetadata(durationSecs: 1, audioUrl: \"\", status: 400, error: \"AUDIO_URL_REQUIRED\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2391233",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/close-gracefully\", method: \"POST\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2206963",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_ClampsTrustAndRedistributesOnlyAvailableWeights(trust: 0, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000844",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_SignalFailureDoesNotLoseSavedMessage(actor: 2)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1886780",
+      "family": "QA-COV-06-4",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_RateLimitReturnsRetryAndDoesNotWrite(route: \"/messages\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1190333",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.Velocity_OnlyRecentOwnTilesBeyondThresholdReduceTrust(count: 11, expected: 0.400000006)",
+      "outcome": "Passed",
+      "duration": "00:00:00.6756070",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0004954",
+      "family": "QA-COV-03-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_RejectsInvalidStateOrInputWithoutRecording(trial: False, minutes: null, decision: \"CONTINUE\", error: \"NOT_IN_TRIAL\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.3205147",
+      "family": "QA-COV-05-5",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 40, bucket: \"OK\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000206",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_RejectsInvalidStateOrInputWithoutRecording(trial: True, minutes: 5, decision: \"CONTINUE\", error: \"TRIAL_NOT_ENDED\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.3600014",
+      "family": "QA-COV-05-5",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsMalformedToken(token: \"\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0268243",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authorization_ValidTokenStillRequiresPairMembershipEvenForAdmin(actor: 3, admin: True, status: 403)",
+      "outcome": "Passed",
+      "duration": "00:00:00.4449909",
+      "family": "QA-COV-01-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 60, bucket: \"GOOD\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000121",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Venues_RequiresBothParticipantsInterestBeforeCallingProvider(a: False, b: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1756485",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.Export_ReturnsOwnProfileMessagesAndRateLimitsOnlyThatUser(actor: 1, email: \"one@unit.invalid\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.9120157",
+      "family": "QA-COV-10-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsExpiredForeignPrematureAndUnsignedTokens(issuer: \"foreign-issuer\", audience: \"WovenFrontend\", expiry: 5, start: -10, signed: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1802035",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/venue-suggestions\", method: \"GET\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2063802",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 179.90000000000001, lat2: 0, lng2: -179.90000000000001, miles1: 15, miles2: 15, expected: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0414592",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_NoPositiveAvailableWeightUsesNeutralFallback(available: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0013346",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.GlobalHandler_RedactsExceptionAndReturnsTimestampAndCorrelation(hasCorrelation: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0011698",
+      "family": "QA-COV-14-5",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ReciprocalExposureBoostEndsAfterViewerSeesCandidate(seen: False, expected: 18)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0290419",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Read_ShowsBothOpeningNotesToEitherParticipantAndExcludesUnrelatedNotes(actor: 2)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0945138",
+      "family": "QA-COV-06-3",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Voice_ValidatesDurationAndPersistsTypedMetadata(durationSecs: 180, audioUrl: \"https://unit.invalid/audio\", status: 200, error: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.4865937",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsExpiredForeignPrematureAndUnsignedTokens(issuer: \"WovenBackend\", audience: \"WovenFrontend\", expiry: 5, start: -10, signed: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0023283",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Voice_ValidatesDurationAndPersistsTypedMetadata(durationSecs: 0, audioUrl: \"https://unit.invalid/audio\", status: 400, error: \"INVALID_DURATION\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2253834",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsExpiredForeignPrematureAndUnsignedTokens(issuer: \"WovenBackend\", audience: \"foreign-audience\", expiry: 5, start: -10, signed: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0022268",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.VoicePreferenceReset_RemovesOnlyOwnRecordAndIsRepeatable(exists: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.8749062",
+      "family": "QA-COV-10-4",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_EndAfterOtherContinueClosesWithoutCreatingBlock(reason: \"not_my_type\", signal: \"TrialEndedNotMyType\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0929778",
+      "family": "QA-COV-05-6",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: 0, lng2: 1, miles1: 60, miles2: 70, expected: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0027680",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 79.998999999999995, bucket: \"GOOD\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000088",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authorization_ValidTokenStillRequiresPairMembershipEvenForAdmin(actor: 3, admin: False, status: 403)",
+      "outcome": "Passed",
+      "duration": "00:00:00.4318825",
+      "family": "QA-COV-01-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.Velocity_OnlyRecentOwnTilesBeyondThresholdReduceTrust(count: 10, expected: 0.5)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0201754",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Outbound_RemovesRawIdentityKeepsRequestAndAuditsWithoutQueryData(identityHeader: \"x-userid\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0005112",
+      "family": "QA-COV-10-6",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.VoicePreferenceReset_RemovesOnlyOwnRecordAndIsRepeatable(exists: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.6940673",
+      "family": "QA-COV-10-4",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.Export_ReturnsOwnProfileMessagesAndRateLimitsOnlyThatUser(actor: 2, email: \"two@unit.invalid\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.8148482",
+      "family": "QA-COV-10-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 1, ghost: 1, verified: False, expected: 10)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0054810",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Voice_ValidatesDurationAndPersistsTypedMetadata(durationSecs: 181, audioUrl: \"https://unit.invalid/audio\", status: 400, error: \"INVALID_DURATION\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2718818",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Correlation_RequestResponseAndDownstreamShareOneIdentity(correlation: \"client-id\", request: \"alternate-id\", expected: \"client-id\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0002604",
+      "family": "QA-COV-14-5",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: 0, lng2: 1, miles1: 70, miles2: 70, expected: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0066497",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BlockClosesImmediatelyAndOnlyStoresValidPrivateRating(actor: 2, rating: 100)",
+      "outcome": "Passed",
+      "duration": "00:00:00.3821937",
+      "family": "QA-COV-05-6",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_RejectsInvalidStateOrInputWithoutRecording(trial: True, minutes: -5, decision: \"unknown\", error: \"INVALID_DECISION\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.4045138",
+      "family": "QA-COV-05-5",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_FatigueStartsAtSecondExposureAndUsesSevenDayWindow(exposures: 0, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.4012865",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 0.5, ghost: 1, verified: False, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0042031",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"malformed\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.9052264",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.Fingerprint_HashesDeviceAndOnlyPenalizesDifferentAccount",
+      "outcome": "Passed",
+      "duration": "00:00:00.0950676",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_DepthAndSeasonBonusesAreBounded(extra: 6, season: False, expected: 65)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000578",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsAlternateAlgorithmEvenWithSameKeyAndValidSignature",
+      "outcome": "Passed",
+      "duration": "00:00:00.0487278",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Outcome_RepeatEventsUpdateOwnSameDayRecordAndPreserveHistory(action: \"chat\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1446545",
+      "family": "QA-COV-12-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.DateInterest_NotifiesOtherOnceThenMutualNotifiesBoth(firstActor: 1)",
+      "outcome": "Passed",
+      "duration": "00:00:00.2541027",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsTamperedPayload",
+      "outcome": "Passed",
+      "duration": "00:00:00.0682615",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_DeniesForeignOrClosedThreadWithoutSideEffects(actor: 3, closed: False, status: 403)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1423329",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_EnforcesTrimmedLengthBoundary(length: 1001, status: 400)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0984889",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_ExcludesUnrequestedAndIncompleteCandidates",
+      "outcome": "Passed",
+      "duration": "00:00:00.0412671",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 4)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0009903",
+      "family": "QA-COV-03-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: null, lng1: 0, lat2: 0, lng2: 1, miles1: 0, miles2: 0, expected: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0378151",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_IdempotencyReplayDoesNotRepeatSignalsOrRating",
+      "outcome": "Passed",
+      "duration": "00:00:00.2131698",
+      "family": "QA-COV-05-5",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: null, lng2: 1, miles1: 0, miles2: 0, expected: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0162423",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_DepthAndSeasonBonusesAreBounded(extra: 1, season: False, expected: 52.5)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1010843",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BothContinueUnlocksImmediatelyAfterWaitingForOther",
+      "outcome": "Passed",
+      "duration": "00:00:00.2000545",
+      "family": "QA-COV-05-5",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.VoiceListen_ValidatesRecipientAndRecordsMutualVoiceOnlyWhenBothSent(actor: 2, type: \"VOICE\", mutual: False, status: 200, error: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1622890",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"issuer\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.4054472",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_EmptyCandidatesOrMissingViewerDataReturnsEmpty",
+      "outcome": "Passed",
+      "duration": "00:00:00.0263195",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.Fingerprint_EmptyInputLeavesCacheAndTrustUntouched(fingerprint: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0624576",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 100, bucket: \"STRONG\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0016774",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Availability_EnforcesTextBoundaryPersistsActorAndNotifiesOnlyPartner(length: 201, status: 400, error: \"SIGNAL_TEXT_TOO_LONG\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2006665",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_ReciprocalAgeIncludesExactLimits(age: 35, min: 25, max: 35, expected: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0245544",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Outbound_RemovesRawIdentityKeepsRequestAndAuditsWithoutQueryData(identityHeader: \"User-Id\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0607368",
+      "family": "QA-COV-10-6",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsMalformedToken(token: \"a.b.c\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0012234",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_DeniesForeignOrClosedThreadWithoutSideEffects(actor: 1, closed: True, status: 400)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1601451",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_FatigueStartsAtSecondExposureAndUsesSevenDayWindow(exposures: 1, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0447875",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Signal_SelfEventsAreIgnoredAndForeignPairKeepsPayloadAndTimestamp",
+      "outcome": "Passed",
+      "duration": "00:00:00.0957771",
+      "family": "QA-COV-12-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.MessageLove_ParticipantCanReactToOtherSenderOnce(actor: 1, status: 400, error: \"CANNOT_LOVE_OWN_MESSAGE\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.6569847",
+      "family": "QA-COV-06-4",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authorization_ValidTokenStillRequiresPairMembershipEvenForAdmin(actor: 1, admin: False, status: 200)",
+      "outcome": "Passed",
+      "duration": "00:00:00.6805463",
+      "family": "QA-COV-01-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Outbound_RemovesRawIdentityKeepsRequestAndAuditsWithoutQueryData(identityHeader: \"X-User-Id\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0027970",
+      "family": "QA-COV-10-6",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 1)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0757321",
+      "family": "QA-COV-03-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.VoiceListen_ValidatesRecipientAndRecordsMutualVoiceOnlyWhenBothSent(actor: 2, type: \"VOICE\", mutual: True, status: 200, error: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.2090799",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Outcome_RepeatEventsUpdateOwnSameDayRecordAndPreserveHistory(action: \"unmatch\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0094709",
+      "family": "QA-COV-12-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/voice-message\", method: \"POST\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.5734282",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_DepthAndSeasonBonusesAreBounded(extra: 0, season: False, expected: 50)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000985",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.GracefulClose_PersistsTerminalStateNotifiesPairAndCannotCloseAgain",
+      "outcome": "Passed",
+      "duration": "00:00:00.2144038",
+      "family": "QA-COV-05-6",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsMalformedToken(token: \"not-a-jwt\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1180197",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.Export_MissingAccountDoesNotConsumeQuotaOrProduceAudit",
+      "outcome": "Passed",
+      "duration": "00:00:00.2900217",
+      "family": "QA-COV-10-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 80, bucket: \"STRONG\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0065535",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Start_IsParticipantOnlyAndReusesExistingThread(actor: 2)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1927748",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_AnonymousReadCannotObtainOpeningNotes",
+      "outcome": "Passed",
+      "duration": "00:00:00.4555242",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 0, ghost: 1, verified: False, expected: -10)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0045762",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Trial_TimerStartsOnlyAfterSecondParticipantOpensAndDoesNotRestart",
+      "outcome": "Passed",
+      "duration": "00:00:00.4719104",
+      "family": "QA-COV-05-5",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.Fingerprint_EmptyInputLeavesCacheAndTrustUntouched(fingerprint: \"\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0004941",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Voice_ValidatesDurationAndPersistsTypedMetadata(durationSecs: 1, audioUrl: \"https://unit.invalid/audio\", status: 200, error: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.3475326",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"signature\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2754766",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: POP, ageDays: 31, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0071282",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 59.999000000000002, bucket: \"OK\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000361",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.AuthHandler_HandlesOnlyAuthorizationErrorsAndNeverReturnsInternalDetails(kind: \"Unauthorized\", handled: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.2282349",
+      "family": "QA-COV-14-5",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_RejectsEmptyBodyWithoutPersisting(body: null, error: \"EMPTY_MESSAGE\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1555923",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_RejectsEmptyBodyWithoutPersisting(body: \"\", error: \"EMPTY_MESSAGE\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1523374",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_RejectsEmptyBodyWithoutPersisting(body: \"   \", error: \"EMPTY_MESSAGE\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1782750",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_DepthAndSeasonBonusesAreBounded(extra: 14, season: False, expected: 65)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0675893",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.List_ContainsOnlyOwnActiveThreadsAndLatestMessage",
+      "outcome": "Passed",
+      "duration": "00:00:00.2370534",
+      "family": "QA-COV-06-4",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BlockClosesImmediatelyAndOnlyStoresValidPrivateRating(actor: 2, rating: -101)",
+      "outcome": "Passed",
+      "duration": "00:00:00.3905337",
+      "family": "QA-COV-05-6",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Start_DeniesForeignOrClosedMatchWithoutCreatingThread(actor: 3, closed: False, status: 403, error: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0860508",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.DateInterest_NotifiesOtherOnceThenMutualNotifiesBoth(firstActor: 2)",
+      "outcome": "Passed",
+      "duration": "00:00:00.2305686",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/voice-message\", method: \"POST\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1083154",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_RejectsInvalidStateOrInputWithoutRecording(trial: True, minutes: null, decision: \"CONTINUE\", error: \"TRIAL_NOT_ENDED\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2165069",
+      "family": "QA-COV-05-5",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.Fingerprint_EmptyInputLeavesCacheAndTrustUntouched(fingerprint: \" \")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0012996",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/trial-decision\", method: \"POST\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1217532",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/availability\", method: \"POST\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1885231",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Venues_RequiresBothParticipantsInterestBeforeCallingProvider(a: False, b: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1324172",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.MessageLove_ParticipantCanReactToOtherSenderOnce(actor: 3, status: 403, error: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.2429194",
+      "family": "QA-COV-06-4",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"unsigned\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.3389989",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_DepthAndSeasonBonusesAreBounded(extra: 14, season: True, expected: 70)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0009159",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Correlation_RequestResponseAndDownstreamShareOneIdentity(correlation: null, request: \"alternate-id\", expected: \"alternate-id\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.4011620",
+      "family": "QA-COV-14-5",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.NoteLove_EnforcesOwnershipLinkAndActiveMatchThenDeduplicates(actor: 3, linked: True, active: True, status: 403, error: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.2034484",
+      "family": "QA-COV-06-3",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.Summary_CountsOnlyTheCallersData",
+      "outcome": "Passed",
+      "duration": "00:00:00.6642871",
+      "family": "QA-COV-10-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.MessageLove_ParticipantCanReactToOtherSenderOnce(actor: 2, status: 200, error: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.7807547",
+      "family": "QA-COV-06-4",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.VoiceListen_ValidatesRecipientAndRecordsMutualVoiceOnlyWhenBothSent(actor: 3, type: \"VOICE\", mutual: False, status: 403, error: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1345947",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_ReciprocalAgeIncludesExactLimits(age: 24, min: 25, max: 35, expected: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0081709",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 39.999000000000002, bucket: \"EXPLORER\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000270",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.NoteLove_EnforcesOwnershipLinkAndActiveMatchThenDeduplicates(actor: 2, linked: False, active: True, status: 400, error: \"NOTE_NOT_LINKED_TO_MATCH\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2098185",
+      "family": "QA-COV-06-3",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.Blocks_ListIncludesOnlyOutboundBlocksAndNoForeignOrIncomingRecords",
+      "outcome": "Passed",
+      "duration": "00:00:00.9772903",
+      "family": "QA-COV-11-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Availability_EnforcesTextBoundaryPersistsActorAndNotifiesOnlyPartner(length: 0, status: 400, error: \"SIGNAL_TEXT_REQUIRED\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1677841",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_FatigueStartsAtSecondExposureAndUsesSevenDayWindow(exposures: 2, expected: -5)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0040610",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_FatigueStartsAtSecondExposureAndUsesSevenDayWindow(exposures: 3, expected: -5)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0103110",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: 0, lng2: 1, miles1: 70, miles2: 60, expected: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.5807785",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_MutualMessagesUnlockReflectionOnceAndNotifyOnlyOtherParticipant",
+      "outcome": "Passed",
+      "duration": "00:00:00.3552760",
+      "family": "QA-COV-06-5",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_ClampsTrustAndRedistributesOnlyAvailableWeights(trust: 1, expected: 70)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0251821",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_ClampsTrustAndRedistributesOnlyAvailableWeights(trust: -1, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0000212",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/date-interest\", method: \"POST\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2696678",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.NoteLove_EnforcesOwnershipLinkAndActiveMatchThenDeduplicates(actor: 2, linked: True, active: True, status: 200, error: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.4979018",
+      "family": "QA-COV-06-3",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 1, ghost: 0.5, verified: False, expected: 5)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0953920",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_RateLimitReturnsRetryAndDoesNotWrite(route: \"/voice-message\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1295669",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/availability\", method: \"POST\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.3364885",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"\", method: \"GET\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2616726",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Read_ShowsBothOpeningNotesToEitherParticipantAndExcludesUnrelatedNotes(actor: 1)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1139339",
+      "family": "QA-COV-06-3",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 3)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0001198",
+      "family": "QA-COV-03-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Start_IsParticipantOnlyAndReusesExistingThread(actor: 1)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1940190",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ReciprocalExposureBoostEndsAfterViewerSeesCandidate(seen: True, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0106244",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_SelectsDiverseBucketsAndExplorerFromHighQualityPool",
+      "outcome": "Passed",
+      "duration": "00:00:00.0146933",
+      "family": "QA-COV-03-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.Trust_ThresholdIsInclusiveAndMissingAccountsAreNotTrusted(score: 0.25, expected: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0463563",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_EnforcesTrimmedLengthBoundary(length: 1000, status: 200)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1029468",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.NoteLove_EnforcesOwnershipLinkAndActiveMatchThenDeduplicates(actor: 2, linked: True, active: False, status: 400, error: \"MATCH_NOT_ACTIVE\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2013561",
+      "family": "QA-COV-06-3",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: 0, lng2: 0, miles1: 0, miles2: 0, expected: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0053235",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/close-gracefully\", method: \"POST\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2316202",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_EndAfterOtherContinueClosesWithoutCreatingBlock(reason: \"no_spark\", signal: \"TrialEndedNoSpark\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0942862",
+      "family": "QA-COV-05-6",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 1, ghost: 1, verified: True, expected: 10.5)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0052775",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_FatigueStartsAtSecondExposureAndUsesSevenDayWindow(exposures: 4, expected: -12)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0052079",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"expired\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.6002469",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"audience\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.7342362",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.TokenCreation_InvalidConfigurationFailsInsteadOfIssuingUsableToken(key: \"short\", expiry: \"60\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0007682",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Start_MissingMatchReturns404",
+      "outcome": "Passed",
+      "duration": "00:00:00.1671487",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 2)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0043356",
+      "family": "QA-COV-03-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.Trust_ThresholdIsInclusiveAndMissingAccountsAreNotTrusted(score: 0.248999998, expected: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0013140",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.AuthHandler_HandlesOnlyAuthorizationErrorsAndNeverReturnsInternalDetails(kind: \"Unexpected\", handled: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.2714807",
+      "family": "QA-COV-14-5",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsExpiredForeignPrematureAndUnsignedTokens(issuer: \"WovenBackend\", audience: \"WovenFrontend\", expiry: -1, start: -10, signed: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0357914",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_PositiveChoiceHasOneBoostAndDoesNotCountOldOrWrongDirection(choice: LOGICAL, expected: 12)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0110768",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Nudge_UsesActorAndThreadAndDismissalCacheIsActorSpecific",
+      "outcome": "Passed",
+      "duration": "00:00:00.2440811",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: BLOCK, ageDays: 1, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0297267",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_SignalFailureDoesNotLoseSavedMessage(actor: 1)",
+      "outcome": "Passed",
+      "duration": "00:00:00.2614361",
+      "family": "QA-COV-06-4",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.BotDetection_UsesOwnProfileAndPhotoAndIsRepeatable(profile: False, photo: False, expected: 0.5)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0183381",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_PositiveChoiceHasOneBoostAndDoesNotCountOldOrWrongDirection(choice: NO, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0170569",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 1, ghost: 0, verified: False, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0039667",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.TokenCreation_InvalidConfigurationFailsInsteadOfIssuingUsableToken(key: null, expiry: \"60\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0021908",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_EndAfterOtherContinueClosesWithoutCreatingBlock(reason: \"wrong_timing\", signal: \"TrialEndedWrongTiming\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1320084",
+      "family": "QA-COV-05-6",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_PositiveChoiceHasOneBoostAndDoesNotCountOldOrWrongDirection(choice: MAGICAL, expected: 12)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0057795",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_NoPositiveAvailableWeightUsesNeutralFallback(available: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0004560",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.DomainHandler_Uses422ForKnownBusinessErrorsAndLeavesOtherErrorsUnhandled",
+      "outcome": "Passed",
+      "duration": "00:00:00.0130335",
+      "family": "QA-COV-14-5",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: POP, ageDays: 29, expected: -10)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0453121",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_ClampsTrustAndRedistributesOnlyAvailableWeights(trust: 2, expected: 70)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0001184",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/trial-decision\", method: \"POST\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2699004",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: UNMATCH, ageDays: 91, expected: 0)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0117252",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BlockClosesImmediatelyAndOnlyStoresValidPrivateRating(actor: 1, rating: null)",
+      "outcome": "Passed",
+      "duration": "00:00:00.3291220",
+      "family": "QA-COV-05-6",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.SignedTokenWithoutIdentityCannotResolveApplicationUser",
+      "outcome": "Passed",
+      "duration": "00:00:00.0037984",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.TokenCreation_InvalidConfigurationFailsInsteadOfIssuingUsableToken(key: \"LocalSyntheticJwtKeyOnly01234567890123456789012345\"···, expiry: \"bad\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0024200",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/messages\", method: \"POST\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.5769566",
+      "family": "QA-COV-06-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"anonymous\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.2422206",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.VoiceListen_ValidatesRecipientAndRecordsMutualVoiceOnlyWhenBothSent(actor: 2, type: \"TEXT\", mutual: False, status: 404, error: \"MESSAGE_NOT_FOUND\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1265670",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BlockClosesImmediatelyAndOnlyStoresValidPrivateRating(actor: 1, rating: 101)",
+      "outcome": "Passed",
+      "duration": "00:00:00.3699930",
+      "family": "QA-COV-05-6",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.NoteLove_EnforcesOwnershipLinkAndActiveMatchThenDeduplicates(actor: 1, linked: True, active: True, status: 400, error: \"CANNOT_LOVE_OWN_NOTE\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1862124",
+      "family": "QA-COV-06-3",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_PositiveChoiceHasOneBoostAndDoesNotCountOldOrWrongDirection(choice: YES, expected: 12)",
+      "outcome": "Passed",
+      "duration": "00:00:00.1065712",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_ReciprocalAgeIncludesExactLimits(age: 36, min: 25, max: 35, expected: False)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0038809",
+      "family": "QA-COV-03-2",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: UNMATCH, ageDays: 89, expected: -18)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0270168",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 5)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0001583",
+      "family": "QA-COV-03-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.VoiceListen_ValidatesRecipientAndRecordsMutualVoiceOnlyWhenBothSent(actor: 1, type: \"VOICE\", mutual: False, status: 400, error: \"CANNOT_LISTEN_OWN_NOTE\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.1489225",
+      "family": "QA-COV-06-2",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_DeliveryBoostCanChangeCoreSelectionWithoutDuplicatingCandidate",
+      "outcome": "Passed",
+      "duration": "00:00:00.0093078",
+      "family": "QA-COV-03-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsExpiredForeignPrematureAndUnsignedTokens(issuer: \"WovenBackend\", audience: \"WovenFrontend\", expiry: 5, start: 1, signed: True)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0038603",
+      "family": "QA-COV-01-1",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Outcome_RepeatEventsUpdateOwnSameDayRecordAndPreserveHistory(action: \"expire\")",
+      "outcome": "Passed",
+      "duration": "00:00:00.0075210",
+      "family": "QA-COV-12-1",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.TrustContractTests.BotDetection_UsesOwnProfileAndPhotoAndIsRepeatable(profile: True, photo: False, expected: 0.649999976)",
+      "outcome": "Passed",
+      "duration": "00:00:00.0061219",
+      "family": "QA-COV-11-4",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_LearnedWeightsOverrideBaseAndFinalMultiplierCannotExceedOneHundred",
+      "outcome": "Passed",
+      "duration": "00:00:00.0024231",
+      "family": "QA-COV-12-3",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "source": "backend/WovenBackend/Auth/CookieAuthHelper.cs",
+      "lines": 42,
+      "coveredLines": 42,
+      "branches": 4,
+      "coveredBranches": 4
+    },
+    {
+      "source": "backend/WovenBackend/Auth/GoogleTokenVerifier.cs",
+      "lines": 62,
+      "coveredLines": 0,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Auth/JwtTokenService.cs",
+      "lines": 48,
+      "coveredLines": 48,
+      "branches": 2,
+      "coveredBranches": 2
+    },
+    {
+      "source": "backend/WovenBackend/data/Converters/EncryptedBytesConverter.cs",
+      "lines": 4,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Converters/EncryptedStringConverter.cs",
+      "lines": 4,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/AbAssignment.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/AbConversion.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/AbExperiment.cs",
+      "lines": 4,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/AnalyticsEvent.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/AuthIdentity.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/CandidateExposure.cs",
+      "lines": 8,
+      "coveredLines": 5,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/CandidateSignal.cs",
+      "lines": 8,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/CfScore.cs",
+      "lines": 4,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/CoachingSummary.cs",
+      "lines": 10,
+      "coveredLines": 10,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/ConnectionScore.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/DailyDeck.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/DailyDeckItem.cs",
+      "lines": 9,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/EchoConversation.cs",
+      "lines": 19,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/FriendBridge.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Games/GameEntities.cs",
+      "lines": 43,
+      "coveredLines": 40,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Games/GameOutcome.cs",
+      "lines": 22,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/IdempotencyRecord.cs",
+      "lines": 8,
+      "coveredLines": 7,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/LinUcbUserModel.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/MatchExplanation.cs",
+      "lines": 23,
+      "coveredLines": 0,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/MatchOutcome.cs",
+      "lines": 12,
+      "coveredLines": 11,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/MatchSignalLog.cs",
+      "lines": 7,
+      "coveredLines": 6,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/ModerationQueue.cs",
+      "lines": 9,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/Block.cs",
+      "lines": 3,
+      "coveredLines": 3,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/ChatAvailabilitySignal.cs",
+      "lines": 5,
+      "coveredLines": 5,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/ChatMessage.cs",
+      "lines": 7,
+      "coveredLines": 7,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/ChatNote.cs",
+      "lines": 8,
+      "coveredLines": 7,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/ChatNoteLoveReaction.cs",
+      "lines": 6,
+      "coveredLines": 5,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/ChatThread.cs",
+      "lines": 7,
+      "coveredLines": 7,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/DailyInteraction.cs",
+      "lines": 7,
+      "coveredLines": 7,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/DateFeedback.cs",
+      "lines": 9,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/DateFeedbackPrompt.cs",
+      "lines": 8,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/Highlight.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/Match.cs",
+      "lines": 24,
+      "coveredLines": 22,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/MessageLoveReaction.cs",
+      "lines": 7,
+      "coveredLines": 6,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/MomentResponse.cs",
+      "lines": 8,
+      "coveredLines": 6,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/PendingMatch.cs",
+      "lines": 4,
+      "coveredLines": 4,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/Tile.cs",
+      "lines": 12,
+      "coveredLines": 4,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Moments/UserRating.cs",
+      "lines": 6,
+      "coveredLines": 6,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/OrbitGravity.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/PhotoEmbedding.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/ReferencePhotoEmbedding.cs",
+      "lines": 4,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/Season.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/SecurityAuditLog.cs",
+      "lines": 9,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/SparkWallet.cs",
+      "lines": 4,
+      "coveredLines": 4,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/TileEngagement.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/TileOrbit.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/TileReport.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/TileView.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/User.cs",
+      "lines": 16,
+      "coveredLines": 11,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserBehavioralFingerprint.cs",
+      "lines": 3,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserDynamicIntakeSet.cs",
+      "lines": 15,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserEnergyMeter.cs",
+      "lines": 3,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserFoundationalQuestionSet.cs",
+      "lines": 15,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserFoundationalV1.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserInsight.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserIntent.cs",
+      "lines": 8,
+      "coveredLines": 7,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserInteractionLog.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserMatchingWeight.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserOptionalField.cs",
+      "lines": 8,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserPhoto.cs",
+      "lines": 7,
+      "coveredLines": 5,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserPreference.cs",
+      "lines": 13,
+      "coveredLines": 11,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserProfile.cs",
+      "lines": 12,
+      "coveredLines": 10,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserPushSubscription.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserSeasonResponse.cs",
+      "lines": 8,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserVector.cs",
+      "lines": 20,
+      "coveredLines": 7,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserVectorTag.cs",
+      "lines": 7,
+      "coveredLines": 6,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserVerification.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserVisualDecision.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserVisualPreference.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserVoicePreference.cs",
+      "lines": 5,
+      "coveredLines": 4,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/Entities/UserWeeklyVibe.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/data/WovenDbContext.cs",
+      "lines": 1184,
+      "coveredLines": 1123,
+      "branches": 2,
+      "coveredBranches": 1
+    },
+    {
+      "source": "backend/WovenBackend/data/WovenDbContextFactory.cs",
+      "lines": 19,
+      "coveredLines": 0,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/AdminAnalyticsEndpoints.cs",
+      "lines": 196,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/AdminEndpoints.cs",
+      "lines": 90,
+      "coveredLines": 0,
+      "branches": 16,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/AdminSecurityEndpoints.cs",
+      "lines": 14,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/AdminValidationEndpoints.cs",
+      "lines": 48,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/AuthEndpoints.cs",
+      "lines": 136,
+      "coveredLines": 0,
+      "branches": 16,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/ChatEndpoints.cs",
+      "lines": 1199,
+      "coveredLines": 1112,
+      "branches": 386,
+      "coveredBranches": 305
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/CoachingEndpoints.cs",
+      "lines": 78,
+      "coveredLines": 60,
+      "branches": 4,
+      "coveredBranches": 4
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/CommonsEndpoints.cs",
+      "lines": 57,
+      "coveredLines": 0,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/DevAuthEndpoints.cs",
+      "lines": 48,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/DevMatchmakingSmokeEndpoints.cs",
+      "lines": 131,
+      "coveredLines": 0,
+      "branches": 22,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/DevSeedEndpoints.cs",
+      "lines": 298,
+      "coveredLines": 0,
+      "branches": 42,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/DynamicIntakeEndpoints.cs",
+      "lines": 162,
+      "coveredLines": 0,
+      "branches": 34,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/EndpointHelper.cs",
+      "lines": 7,
+      "coveredLines": 7,
+      "branches": 8,
+      "coveredBranches": 8
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/FeedbackEndpoints.cs",
+      "lines": 86,
+      "coveredLines": 68,
+      "branches": 32,
+      "coveredBranches": 22
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/GameEndpoints.cs",
+      "lines": 229,
+      "coveredLines": 0,
+      "branches": 30,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/InteractionEndpoints.cs",
+      "lines": 86,
+      "coveredLines": 0,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/LegalEndpoints.cs",
+      "lines": 50,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/MatchesEndpoints.cs",
+      "lines": 507,
+      "coveredLines": 0,
+      "branches": 214,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/MediaEndpoints.cs",
+      "lines": 105,
+      "coveredLines": 0,
+      "branches": 32,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/MeEndpoints.cs",
+      "lines": 124,
+      "coveredLines": 0,
+      "branches": 42,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/MomentsEndpoints.cs",
+      "lines": 824,
+      "coveredLines": 475,
+      "branches": 204,
+      "coveredBranches": 26
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/OnboardingEndpoints.cs",
+      "lines": 1060,
+      "coveredLines": 0,
+      "branches": 350,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/OrbitEndpoints.cs",
+      "lines": 121,
+      "coveredLines": 0,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/PushNotificationEndpoints.cs",
+      "lines": 56,
+      "coveredLines": 0,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/SeasonEndpoints.cs",
+      "lines": 57,
+      "coveredLines": 0,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/SparkEndpoints.cs",
+      "lines": 19,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/SupportEndpoints.cs",
+      "lines": 74,
+      "coveredLines": 0,
+      "branches": 14,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/TileEndpoints.cs",
+      "lines": 71,
+      "coveredLines": 0,
+      "branches": 14,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/UserDataEndpoints.cs",
+      "lines": 254,
+      "coveredLines": 160,
+      "branches": 24,
+      "coveredBranches": 8
+    },
+    {
+      "source": "backend/WovenBackend/Endpoints/VerificationEndpoints.cs",
+      "lines": 73,
+      "coveredLines": 0,
+      "branches": 14,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Hubs/WovenHub.cs",
+      "lines": 39,
+      "coveredLines": 0,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+      "lines": 12,
+      "coveredLines": 12,
+      "branches": 4,
+      "coveredBranches": 3
+    },
+    {
+      "source": "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+      "lines": 17,
+      "coveredLines": 17,
+      "branches": 8,
+      "coveredBranches": 8
+    },
+    {
+      "source": "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+      "lines": 35,
+      "coveredLines": 35,
+      "branches": 10,
+      "coveredBranches": 8
+    },
+    {
+      "source": "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs",
+      "lines": 26,
+      "coveredLines": 26,
+      "branches": 8,
+      "coveredBranches": 6
+    },
+    {
+      "source": "backend/WovenBackend/obj/Debug/net10.0/System.Text.RegularExpressions.Generator/System.Text.RegularExpressions.Generator.RegexGenerator/RegexGenerator.g.cs",
+      "lines": 995,
+      "coveredLines": 613,
+      "branches": 440,
+      "coveredBranches": 197
+    },
+    {
+      "source": "backend/WovenBackend/Program.cs",
+      "lines": 856,
+      "coveredLines": 0,
+      "branches": 252,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/AiProfileService.cs",
+      "lines": 530,
+      "coveredLines": 501,
+      "branches": 202,
+      "coveredBranches": 181
+    },
+    {
+      "source": "backend/WovenBackend/Services/Analytics/AnalyticsRetentionWorker.cs",
+      "lines": 44,
+      "coveredLines": 0,
+      "branches": 4,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Analytics/AnalyticsService.cs",
+      "lines": 111,
+      "coveredLines": 0,
+      "branches": 22,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Analytics/NullAnalyticsService.cs",
+      "lines": 3,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/AntiGhosting/GhostDetectionService.cs",
+      "lines": 121,
+      "coveredLines": 0,
+      "branches": 38,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/AntiGhosting/GhostDetectionWorker.cs",
+      "lines": 31,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/CacheKeys.cs",
+      "lines": 17,
+      "coveredLines": 7,
+      "branches": 2,
+      "coveredBranches": 1
+    },
+    {
+      "source": "backend/WovenBackend/Services/CacheService.cs",
+      "lines": 98,
+      "coveredLines": 0,
+      "branches": 16,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/CircuitBreakerService.cs",
+      "lines": 108,
+      "coveredLines": 74,
+      "branches": 18,
+      "coveredBranches": 13
+    },
+    {
+      "source": "backend/WovenBackend/Services/Coaching/CoachingSummaryWorker.cs",
+      "lines": 186,
+      "coveredLines": 0,
+      "branches": 48,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Commons/CommonsFeedService.cs",
+      "lines": 268,
+      "coveredLines": 0,
+      "branches": 112,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Commons/ICommonsFeedService.cs",
+      "lines": 10,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Commons/TileViewProcessorWorker.cs",
+      "lines": 137,
+      "coveredLines": 0,
+      "branches": 48,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/DynamicIntakeCycleService.cs",
+      "lines": 166,
+      "coveredLines": 0,
+      "branches": 76,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/DynamicQuestionBank.cs",
+      "lines": 47,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Embeddings/AttachmentProxyService.cs",
+      "lines": 50,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Embeddings/BehavioralFingerprintService.cs",
+      "lines": 138,
+      "coveredLines": 0,
+      "branches": 36,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Embeddings/ChatNoteEmbeddingWorker.cs",
+      "lines": 114,
+      "coveredLines": 0,
+      "branches": 18,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Embeddings/EmbeddingBatchWorker.cs",
+      "lines": 72,
+      "coveredLines": 0,
+      "branches": 28,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Embeddings/EmotionalRhythmService.cs",
+      "lines": 77,
+      "coveredLines": 0,
+      "branches": 32,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Embeddings/HumorEmbeddingService.cs",
+      "lines": 61,
+      "coveredLines": 0,
+      "branches": 18,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Embeddings/LifestyleEmbeddingService.cs",
+      "lines": 76,
+      "coveredLines": 0,
+      "branches": 26,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Embeddings/PhotoEmbeddingService.cs",
+      "lines": 106,
+      "coveredLines": 0,
+      "branches": 26,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Embeddings/StyleEmbeddingService.cs",
+      "lines": 81,
+      "coveredLines": 0,
+      "branches": 26,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Embeddings/VisualPreferenceService.cs",
+      "lines": 103,
+      "coveredLines": 0,
+      "branches": 38,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Embeddings/VoiceEmbeddingService.cs",
+      "lines": 100,
+      "coveredLines": 0,
+      "branches": 22,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Feedback/DateFeedbackService.cs",
+      "lines": 280,
+      "coveredLines": 0,
+      "branches": 56,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Feedback/FeedbackInsightService.cs",
+      "lines": 89,
+      "coveredLines": 0,
+      "branches": 28,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Feedback/FeedbackTriggerWorker.cs",
+      "lines": 32,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Feedback/IDateFeedbackService.cs",
+      "lines": 6,
+      "coveredLines": 4,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/FoundationalCycleService.cs",
+      "lines": 112,
+      "coveredLines": 0,
+      "branches": 30,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/FoundationalQuestionBank.cs",
+      "lines": 41,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Games/GameAgentFactory.cs",
+      "lines": 15,
+      "coveredLines": 0,
+      "branches": 4,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Games/GameOutcomeService.cs",
+      "lines": 176,
+      "coveredLines": 6,
+      "branches": 44,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Games/GameService.cs",
+      "lines": 615,
+      "coveredLines": 614,
+      "branches": 172,
+      "coveredBranches": 152
+    },
+    {
+      "source": "backend/WovenBackend/Services/Games/IGameAgent.cs",
+      "lines": 38,
+      "coveredLines": 31,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Games/KnowMeAgent.cs",
+      "lines": 288,
+      "coveredLines": 0,
+      "branches": 108,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Games/RedGreenFlagAgent.cs",
+      "lines": 249,
+      "coveredLines": 0,
+      "branches": 98,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/IdempotencyService.cs",
+      "lines": 46,
+      "coveredLines": 36,
+      "branches": 2,
+      "coveredBranches": 2
+    },
+    {
+      "source": "backend/WovenBackend/Services/IIdempotencyService.cs",
+      "lines": 1,
+      "coveredLines": 1,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/IInteractionLogService.cs",
+      "lines": 31,
+      "coveredLines": 0,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/IMediaService.cs",
+      "lines": 9,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Insights/IInsightService.cs",
+      "lines": 1,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Insights/InsightBatchWorker.cs",
+      "lines": 53,
+      "coveredLines": 0,
+      "branches": 16,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Insights/InsightService.cs",
+      "lines": 299,
+      "coveredLines": 0,
+      "branches": 116,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Insights/WeeklyDigestWorker.cs",
+      "lines": 106,
+      "coveredLines": 0,
+      "branches": 30,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/CandidatePoolService.cs",
+      "lines": 74,
+      "coveredLines": 0,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/CfScoreBatchWorker.cs",
+      "lines": 47,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/ConnectionScoreBatchWorker.cs",
+      "lines": 154,
+      "coveredLines": 0,
+      "branches": 46,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/DailyDeckOrchestrator.cs",
+      "lines": 195,
+      "coveredLines": 0,
+      "branches": 38,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+      "lines": 102,
+      "coveredLines": 85,
+      "branches": 32,
+      "coveredBranches": 21
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+      "lines": 169,
+      "coveredLines": 151,
+      "branches": 62,
+      "coveredBranches": 53
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+      "lines": 54,
+      "coveredLines": 54,
+      "branches": 24,
+      "coveredBranches": 24
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/IDailyDeckOrchestrator.cs",
+      "lines": 11,
+      "coveredLines": 10,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/IntentMetadata.cs",
+      "lines": 4,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/LinUcbBatchWorker.cs",
+      "lines": 94,
+      "coveredLines": 0,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/LinUcbService.cs",
+      "lines": 148,
+      "coveredLines": 0,
+      "branches": 68,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/MatchExplanationService.cs",
+      "lines": 383,
+      "coveredLines": 0,
+      "branches": 97,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/MatchNarratorService.cs",
+      "lines": 110,
+      "coveredLines": 0,
+      "branches": 26,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+      "lines": 137,
+      "coveredLines": 137,
+      "branches": 8,
+      "coveredBranches": 8
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/MatchScore.cs",
+      "lines": 57,
+      "coveredLines": 57,
+      "branches": 20,
+      "coveredBranches": 20
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/MatchScoringService.cs",
+      "lines": 390,
+      "coveredLines": 0,
+      "branches": 206,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/OpenAiTaggingService.cs",
+      "lines": 118,
+      "coveredLines": 0,
+      "branches": 24,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/PillarScores.cs",
+      "lines": 47,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/PreferenceDriftBatchWorker.cs",
+      "lines": 70,
+      "coveredLines": 0,
+      "branches": 14,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/PreferenceDriftService.cs",
+      "lines": 103,
+      "coveredLines": 0,
+      "branches": 36,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/UserVectorBuilder.cs",
+      "lines": 202,
+      "coveredLines": 0,
+      "branches": 50,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/UserVectorDto.cs",
+      "lines": 39,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/VectorSearchService.cs",
+      "lines": 82,
+      "coveredLines": 0,
+      "branches": 24,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/WeightLearningBatchWorker.cs",
+      "lines": 62,
+      "coveredLines": 0,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Matchmaking/WeightLearningService.cs",
+      "lines": 135,
+      "coveredLines": 0,
+      "branches": 32,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/MatchSignalService.cs",
+      "lines": 20,
+      "coveredLines": 20,
+      "branches": 2,
+      "coveredBranches": 2
+    },
+    {
+      "source": "backend/WovenBackend/Services/Media/MediaLifecycleWorker.cs",
+      "lines": 49,
+      "coveredLines": 0,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/MediaService.cs",
+      "lines": 121,
+      "coveredLines": 0,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Moderation/IModerationService.cs",
+      "lines": 14,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Moderation/ModerationService.cs",
+      "lines": 187,
+      "coveredLines": 0,
+      "branches": 40,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Moderation/ModerationWorker.cs",
+      "lines": 30,
+      "coveredLines": 0,
+      "branches": 4,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Moments/BalloonExpiryWorker.cs",
+      "lines": 71,
+      "coveredLines": 0,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Moments/InteractionBudgetService.cs",
+      "lines": 59,
+      "coveredLines": 32,
+      "branches": 14,
+      "coveredBranches": 8
+    },
+    {
+      "source": "backend/WovenBackend/Services/Moments/MomentsMatchService.cs",
+      "lines": 65,
+      "coveredLines": 0,
+      "branches": 26,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Moments/MomentsRules.cs",
+      "lines": 5,
+      "coveredLines": 5,
+      "branches": 2,
+      "coveredBranches": 2
+    },
+    {
+      "source": "backend/WovenBackend/Services/Moments/SelfDisclosureBatchWorker.cs",
+      "lines": 86,
+      "coveredLines": 0,
+      "branches": 24,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Moments/SparkWalletService.cs",
+      "lines": 70,
+      "coveredLines": 37,
+      "branches": 18,
+      "coveredBranches": 7
+    },
+    {
+      "source": "backend/WovenBackend/Services/NotificationService.cs",
+      "lines": 176,
+      "coveredLines": 0,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Nudges/INudgeService.cs",
+      "lines": 1,
+      "coveredLines": 1,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Nudges/NudgeService.cs",
+      "lines": 85,
+      "coveredLines": 0,
+      "branches": 52,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/OpenAiClient.cs",
+      "lines": 162,
+      "coveredLines": 0,
+      "branches": 22,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/OpenAiCostTracker.cs",
+      "lines": 121,
+      "coveredLines": 0,
+      "branches": 14,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/OpenAiDynamicIntakeRewriteService.cs",
+      "lines": 174,
+      "coveredLines": 0,
+      "branches": 62,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/OpenAiResilientClient.cs",
+      "lines": 136,
+      "coveredLines": 0,
+      "branches": 36,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/OpenAiRewriteService.cs",
+      "lines": 141,
+      "coveredLines": 0,
+      "branches": 52,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Orbit/FriendBridgeService.cs",
+      "lines": 49,
+      "coveredLines": 0,
+      "branches": 32,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Orbit/IOrbitService.cs",
+      "lines": 1,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Orbit/OrbitService.cs",
+      "lines": 167,
+      "coveredLines": 0,
+      "branches": 42,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/PushNotifications/WebPushService.cs",
+      "lines": 68,
+      "coveredLines": 0,
+      "branches": 16,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Queue/InMemoryEmbeddingQueue.cs",
+      "lines": 28,
+      "coveredLines": 0,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Queue/ServiceBusEmbeddingQueue.cs",
+      "lines": 54,
+      "coveredLines": 0,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Recommendations/CfBatchWorker.cs",
+      "lines": 33,
+      "coveredLines": 0,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Recommendations/CollaborativeFilteringService.cs",
+      "lines": 122,
+      "coveredLines": 0,
+      "branches": 34,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Seasons/ISeasonService.cs",
+      "lines": 3,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Seasons/SeasonService.cs",
+      "lines": 86,
+      "coveredLines": 0,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Seasons/SeasonTransitionWorker.cs",
+      "lines": 78,
+      "coveredLines": 0,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Security/EncryptionService.cs",
+      "lines": 48,
+      "coveredLines": 48,
+      "branches": 6,
+      "coveredBranches": 6
+    },
+    {
+      "source": "backend/WovenBackend/Services/Security/KeyRotationWorker.cs",
+      "lines": 48,
+      "coveredLines": 0,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Security/PiiSanitizer.cs",
+      "lines": 48,
+      "coveredLines": 48,
+      "branches": 32,
+      "coveredBranches": 29
+    },
+    {
+      "source": "backend/WovenBackend/Services/Security/SecurityAuditCleanupWorker.cs",
+      "lines": 37,
+      "coveredLines": 0,
+      "branches": 10,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Security/SecurityAuditService.cs",
+      "lines": 49,
+      "coveredLines": 0,
+      "branches": 16,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Tiles/ITileService.cs",
+      "lines": 17,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Tiles/TileEmbeddingService.cs",
+      "lines": 148,
+      "coveredLines": 0,
+      "branches": 34,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Tiles/TileExpiryWorker.cs",
+      "lines": 32,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Tiles/TileService.cs",
+      "lines": 155,
+      "coveredLines": 0,
+      "branches": 52,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Trust/CatfishDetectionService.cs",
+      "lines": 85,
+      "coveredLines": 0,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Trust/TrustBatchWorker.cs",
+      "lines": 60,
+      "coveredLines": 0,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Trust/TrustService.cs",
+      "lines": 78,
+      "coveredLines": 68,
+      "branches": 24,
+      "coveredBranches": 20
+    },
+    {
+      "source": "backend/WovenBackend/Services/Validation/PersonaOracle.cs",
+      "lines": 24,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Validation/PersonaValidationService.cs",
+      "lines": 168,
+      "coveredLines": 0,
+      "branches": 34,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Validation/SyntheticPersonas.cs",
+      "lines": 87,
+      "coveredLines": 0,
+      "branches": 10,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Venues/IVenueService.cs",
+      "lines": 6,
+      "coveredLines": 6,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Venues/VenueService.cs",
+      "lines": 95,
+      "coveredLines": 0,
+      "branches": 60,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Verification/IVerificationService.cs",
+      "lines": 13,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "source": "backend/WovenBackend/Services/Verification/VerificationService.cs",
+      "lines": 95,
+      "coveredLines": 0,
+      "branches": 16,
+      "coveredBranches": 0
+    }
+  ]
+}

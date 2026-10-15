@@ -8263,6 +8263,2916 @@
         "candidate-176cf74-client80": "passed"
       },
       "evidence": "qa/evidence/2026-10-09-client-80-cases.json"
+    },
+    {
+      "id": "BE-9ec5eb17ebf4",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/date-interest\", method: \"POST\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-799f540ece78",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: null, lat2: 0, lng2: 1, miles1: 0, miles2: 0, expected: True)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-b24d6da5feac",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Availability_EnforcesTextBoundaryPersistsActorAndNotifiesOnlyPartner(length: 200, status: 204, error: null)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-8290afa24f40",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.Trust_ThresholdIsInclusiveAndMissingAccountsAreNotTrusted(score: 1, expected: True)",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-2af168e1bb61",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: 0, lng2: null, miles1: 0, miles2: 0, expected: True)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-c2d02e174689",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Correlation_RequestResponseAndDownstreamShareOneIdentity(correlation: null, request: null, expected: null)",
+      "family": "QA-COV-14-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "id": "BE-c4dd86021475",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Venues_RequiresBothParticipantsInterestBeforeCallingProvider(a: True, b: True)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-a0a2d6b1696b",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/venue-suggestions\", method: \"GET\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-2af59823dc14",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authorization_ValidTokenStillRequiresPairMembershipEvenForAdmin(actor: 2, admin: False, status: 200)",
+      "family": "QA-COV-01-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-aa24f1c99a0a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.BotDetection_UsesOwnProfileAndPhotoAndIsRepeatable(profile: False, photo: True, expected: 0.550000012)",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-00d3fc3102d7",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BlockClosesImmediatelyAndOnlyStoresValidPrivateRating(actor: 1, rating: -100)",
+      "family": "QA-COV-05-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-aaef9b36907a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Start_DeniesForeignOrClosedMatchWithoutCreatingThread(actor: 1, closed: True, status: 400, error: \"BALLOON_NOT_ACTIVE\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-fd11326462fa",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Read_ForeignUserCannotSeeNotesOrStartTrialTimer",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-2052f7851fee",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 25)",
+      "family": "QA-COV-03-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-0eb8883dbda8",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.GlobalHandler_RedactsExceptionAndReturnsTimestampAndCorrelation(hasCorrelation: False)",
+      "family": "QA-COV-14-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "id": "BE-8b1920201f53",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_ReciprocalAgeIncludesExactLimits(age: 25, min: 25, max: 35, expected: True)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-b38429659ab6",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Venues_RequiresBothParticipantsInterestBeforeCallingProvider(a: True, b: False)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-0ba92436193f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: EXPIRE, ageDays: 1, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-6f93f5024929",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Outcome_BlockLinksLatestPairMatchOrRecordsWithoutMatch(hasMatch: True)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-df0ae715a02c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Outcome_BlockLinksLatestPairMatchOrRecordsWithoutMatch(hasMatch: False)",
+      "family": "QA-COV-12-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-8a1961ebfb3b",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_ClampsTrustAndRedistributesOnlyAvailableWeights(trust: 0.5, expected: 35)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-d66404741535",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.BotDetection_UsesOwnProfileAndPhotoAndIsRepeatable(profile: True, photo: True, expected: 0.699999988)",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-a092e5a8b821",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Voice_ValidatesDurationAndPersistsTypedMetadata(durationSecs: 1, audioUrl: \"\", status: 400, error: \"AUDIO_URL_REQUIRED\")",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-3df44dba795c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/close-gracefully\", method: \"POST\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-7d950b4dac6f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_ClampsTrustAndRedistributesOnlyAvailableWeights(trust: 0, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-756b2f31bd1c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_SignalFailureDoesNotLoseSavedMessage(actor: 2)",
+      "family": "QA-COV-06-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-8556472e4842",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_RateLimitReturnsRetryAndDoesNotWrite(route: \"/messages\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-4e868d2de39e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.Velocity_OnlyRecentOwnTilesBeyondThresholdReduceTrust(count: 11, expected: 0.400000006)",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-e4272ccf9eec",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 0)",
+      "family": "QA-COV-03-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-4e95f93d5c32",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_RejectsInvalidStateOrInputWithoutRecording(trial: False, minutes: null, decision: \"CONTINUE\", error: \"NOT_IN_TRIAL\")",
+      "family": "QA-COV-05-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-25bab93bb74e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 40, bucket: \"OK\")",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-20d6b5ef1a95",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_RejectsInvalidStateOrInputWithoutRecording(trial: True, minutes: 5, decision: \"CONTINUE\", error: \"TRIAL_NOT_ENDED\")",
+      "family": "QA-COV-05-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-07a4472ec1a5",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsMalformedToken(token: \"\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-6dfbf00ff85d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authorization_ValidTokenStillRequiresPairMembershipEvenForAdmin(actor: 3, admin: True, status: 403)",
+      "family": "QA-COV-01-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-be36bde99de7",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 60, bucket: \"GOOD\")",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-2dae1c2f160d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Venues_RequiresBothParticipantsInterestBeforeCallingProvider(a: False, b: False)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-07fdf36c318f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.Export_ReturnsOwnProfileMessagesAndRateLimitsOnlyThatUser(actor: 1, email: \"one@unit.invalid\")",
+      "family": "QA-COV-10-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-a613a963123d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsExpiredForeignPrematureAndUnsignedTokens(issuer: \"foreign-issuer\", audience: \"WovenFrontend\", expiry: 5, start: -10, signed: True)",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-67ab9c7b2b48",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/venue-suggestions\", method: \"GET\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-c2a50f1e9cf5",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 179.90000000000001, lat2: 0, lng2: -179.90000000000001, miles1: 15, miles2: 15, expected: True)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-3d5eff42248a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_NoPositiveAvailableWeightUsesNeutralFallback(available: False)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-c10c0dbfdb77",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.GlobalHandler_RedactsExceptionAndReturnsTimestampAndCorrelation(hasCorrelation: True)",
+      "family": "QA-COV-14-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "id": "BE-985865fb8342",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ReciprocalExposureBoostEndsAfterViewerSeesCandidate(seen: False, expected: 18)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-725a29404300",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Read_ShowsBothOpeningNotesToEitherParticipantAndExcludesUnrelatedNotes(actor: 2)",
+      "family": "QA-COV-06-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-8b6845835163",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Voice_ValidatesDurationAndPersistsTypedMetadata(durationSecs: 180, audioUrl: \"https://unit.invalid/audio\", status: 200, error: null)",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-bdc2adea964a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsExpiredForeignPrematureAndUnsignedTokens(issuer: \"WovenBackend\", audience: \"WovenFrontend\", expiry: 5, start: -10, signed: False)",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-dbaa1ff85b98",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Voice_ValidatesDurationAndPersistsTypedMetadata(durationSecs: 0, audioUrl: \"https://unit.invalid/audio\", status: 400, error: \"INVALID_DURATION\")",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-24ae797ce17c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsExpiredForeignPrematureAndUnsignedTokens(issuer: \"WovenBackend\", audience: \"foreign-audience\", expiry: 5, start: -10, signed: True)",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-341563cd3d86",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.VoicePreferenceReset_RemovesOnlyOwnRecordAndIsRepeatable(exists: False)",
+      "family": "QA-COV-10-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-4bae6507cbf1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_EndAfterOtherContinueClosesWithoutCreatingBlock(reason: \"not_my_type\", signal: \"TrialEndedNotMyType\")",
+      "family": "QA-COV-05-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-1bf7379ba82d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: 0, lng2: 1, miles1: 60, miles2: 70, expected: False)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-a1cb98e1eccb",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 79.998999999999995, bucket: \"GOOD\")",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-48cd04ff766c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authorization_ValidTokenStillRequiresPairMembershipEvenForAdmin(actor: 3, admin: False, status: 403)",
+      "family": "QA-COV-01-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-0500099565bc",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.Velocity_OnlyRecentOwnTilesBeyondThresholdReduceTrust(count: 10, expected: 0.5)",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-bdf7d6beb5a6",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Outbound_RemovesRawIdentityKeepsRequestAndAuditsWithoutQueryData(identityHeader: \"x-userid\")",
+      "family": "QA-COV-10-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "id": "BE-3a4b7b555ef2",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.VoicePreferenceReset_RemovesOnlyOwnRecordAndIsRepeatable(exists: True)",
+      "family": "QA-COV-10-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-8931d27a30a1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.Export_ReturnsOwnProfileMessagesAndRateLimitsOnlyThatUser(actor: 2, email: \"two@unit.invalid\")",
+      "family": "QA-COV-10-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-9e2e329a130c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 1, ghost: 1, verified: False, expected: 10)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-a6ea79547d20",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Voice_ValidatesDurationAndPersistsTypedMetadata(durationSecs: 181, audioUrl: \"https://unit.invalid/audio\", status: 400, error: \"INVALID_DURATION\")",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-ef265d8cfd02",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Correlation_RequestResponseAndDownstreamShareOneIdentity(correlation: \"client-id\", request: \"alternate-id\", expected: \"client-id\")",
+      "family": "QA-COV-14-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "id": "BE-a44e58184053",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: 0, lng2: 1, miles1: 70, miles2: 70, expected: True)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-eac8dfc21747",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BlockClosesImmediatelyAndOnlyStoresValidPrivateRating(actor: 2, rating: 100)",
+      "family": "QA-COV-05-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-6b8cc4fdf613",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_RejectsInvalidStateOrInputWithoutRecording(trial: True, minutes: -5, decision: \"unknown\", error: \"INVALID_DECISION\")",
+      "family": "QA-COV-05-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-efa06fb0cf65",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_FatigueStartsAtSecondExposureAndUsesSevenDayWindow(exposures: 0, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-382d7568320e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 0.5, ghost: 1, verified: False, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-9c7d48b3674e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"malformed\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-3c4f1b1f1a0d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.Fingerprint_HashesDeviceAndOnlyPenalizesDifferentAccount",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-e2e322aa278a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_DepthAndSeasonBonusesAreBounded(extra: 6, season: False, expected: 65)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-8f3250704da8",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsAlternateAlgorithmEvenWithSameKeyAndValidSignature",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-0be5c7cd98ed",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Outcome_RepeatEventsUpdateOwnSameDayRecordAndPreserveHistory(action: \"chat\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-be9912cd505b",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.DateInterest_NotifiesOtherOnceThenMutualNotifiesBoth(firstActor: 1)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-85ce73f2ef32",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsTamperedPayload",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-413b199fa48e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_DeniesForeignOrClosedThreadWithoutSideEffects(actor: 3, closed: False, status: 403)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-a2625d79831a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_EnforcesTrimmedLengthBoundary(length: 1001, status: 400)",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-e335dfec0429",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_ExcludesUnrequestedAndIncompleteCandidates",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-d0034b28f950",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 4)",
+      "family": "QA-COV-03-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-a87563388b4f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: null, lng1: 0, lat2: 0, lng2: 1, miles1: 0, miles2: 0, expected: True)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-4563ba3924a5",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_IdempotencyReplayDoesNotRepeatSignalsOrRating",
+      "family": "QA-COV-05-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-30a90a447783",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: null, lng2: 1, miles1: 0, miles2: 0, expected: True)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-0318471598ff",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_DepthAndSeasonBonusesAreBounded(extra: 1, season: False, expected: 52.5)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-1d3dac405a45",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BothContinueUnlocksImmediatelyAfterWaitingForOther",
+      "family": "QA-COV-05-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-7c826e246546",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.VoiceListen_ValidatesRecipientAndRecordsMutualVoiceOnlyWhenBothSent(actor: 2, type: \"VOICE\", mutual: False, status: 200, error: null)",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-35a6e2651393",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"issuer\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-897ec7bf2f1d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_EmptyCandidatesOrMissingViewerDataReturnsEmpty",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-550e69111564",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.Fingerprint_EmptyInputLeavesCacheAndTrustUntouched(fingerprint: null)",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-da211389e108",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 100, bucket: \"STRONG\")",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-d401095c7589",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Availability_EnforcesTextBoundaryPersistsActorAndNotifiesOnlyPartner(length: 201, status: 400, error: \"SIGNAL_TEXT_TOO_LONG\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-3f559964d0fb",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_ReciprocalAgeIncludesExactLimits(age: 35, min: 25, max: 35, expected: True)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-217d39484189",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Outbound_RemovesRawIdentityKeepsRequestAndAuditsWithoutQueryData(identityHeader: \"User-Id\")",
+      "family": "QA-COV-10-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "id": "BE-1ff515fc112c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsMalformedToken(token: \"a.b.c\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-eec90605b064",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_DeniesForeignOrClosedThreadWithoutSideEffects(actor: 1, closed: True, status: 400)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-6827afdd598b",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_FatigueStartsAtSecondExposureAndUsesSevenDayWindow(exposures: 1, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-e96c65130a26",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Signal_SelfEventsAreIgnoredAndForeignPairKeepsPayloadAndTimestamp",
+      "family": "QA-COV-12-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-272689ca8e2a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.MessageLove_ParticipantCanReactToOtherSenderOnce(actor: 1, status: 400, error: \"CANNOT_LOVE_OWN_MESSAGE\")",
+      "family": "QA-COV-06-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-c1d793a30d33",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authorization_ValidTokenStillRequiresPairMembershipEvenForAdmin(actor: 1, admin: False, status: 200)",
+      "family": "QA-COV-01-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-62d96eab3ff8",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Outbound_RemovesRawIdentityKeepsRequestAndAuditsWithoutQueryData(identityHeader: \"X-User-Id\")",
+      "family": "QA-COV-10-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "id": "BE-32554ea1e175",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 1)",
+      "family": "QA-COV-03-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-f91f19b771b5",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.VoiceListen_ValidatesRecipientAndRecordsMutualVoiceOnlyWhenBothSent(actor: 2, type: \"VOICE\", mutual: True, status: 200, error: null)",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-bf921b0bd89c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Outcome_RepeatEventsUpdateOwnSameDayRecordAndPreserveHistory(action: \"unmatch\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-77829fe2e47f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/voice-message\", method: \"POST\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-85545b47312f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_DepthAndSeasonBonusesAreBounded(extra: 0, season: False, expected: 50)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-8be99bc720ab",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.GracefulClose_PersistsTerminalStateNotifiesPairAndCannotCloseAgain",
+      "family": "QA-COV-05-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-8ef7a46ff70c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsMalformedToken(token: \"not-a-jwt\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-b87819ddffa8",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.Export_MissingAccountDoesNotConsumeQuotaOrProduceAudit",
+      "family": "QA-COV-10-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-c3a876fcdecf",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 80, bucket: \"STRONG\")",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-700fcb586c70",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Start_IsParticipantOnlyAndReusesExistingThread(actor: 2)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-40ab5d129874",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_AnonymousReadCannotObtainOpeningNotes",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-476913170b63",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 0, ghost: 1, verified: False, expected: -10)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-5a740479110b",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Trial_TimerStartsOnlyAfterSecondParticipantOpensAndDoesNotRestart",
+      "family": "QA-COV-05-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-3f23c69f17cf",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.Fingerprint_EmptyInputLeavesCacheAndTrustUntouched(fingerprint: \"\")",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-ae6598903b6e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Voice_ValidatesDurationAndPersistsTypedMetadata(durationSecs: 1, audioUrl: \"https://unit.invalid/audio\", status: 200, error: null)",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-a9f7a27641c5",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"signature\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-af110124394e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: POP, ageDays: 31, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-251e45ddb14c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 59.999000000000002, bucket: \"OK\")",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-09e4a052a75c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.AuthHandler_HandlesOnlyAuthorizationErrorsAndNeverReturnsInternalDetails(kind: \"Unauthorized\", handled: True)",
+      "family": "QA-COV-14-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "id": "BE-8ad26959e1cc",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_RejectsEmptyBodyWithoutPersisting(body: null, error: \"EMPTY_MESSAGE\")",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-5af170255068",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_RejectsEmptyBodyWithoutPersisting(body: \"\", error: \"EMPTY_MESSAGE\")",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-df3dfb042fbe",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_RejectsEmptyBodyWithoutPersisting(body: \"   \", error: \"EMPTY_MESSAGE\")",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-f2a3d741499e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_DepthAndSeasonBonusesAreBounded(extra: 14, season: False, expected: 65)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-fadd2bfb9f36",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.List_ContainsOnlyOwnActiveThreadsAndLatestMessage",
+      "family": "QA-COV-06-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-ecfcf9566af3",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BlockClosesImmediatelyAndOnlyStoresValidPrivateRating(actor: 2, rating: -101)",
+      "family": "QA-COV-05-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-e2839fe10c8e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Start_DeniesForeignOrClosedMatchWithoutCreatingThread(actor: 3, closed: False, status: 403, error: null)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-57f4666abb00",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.DateInterest_NotifiesOtherOnceThenMutualNotifiesBoth(firstActor: 2)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-104900c5e58c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/voice-message\", method: \"POST\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-c89ae4be6513",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_RejectsInvalidStateOrInputWithoutRecording(trial: True, minutes: null, decision: \"CONTINUE\", error: \"TRIAL_NOT_ENDED\")",
+      "family": "QA-COV-05-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-22fa6f8df4ce",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.Fingerprint_EmptyInputLeavesCacheAndTrustUntouched(fingerprint: \" \")",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-87ce2b461fc1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/trial-decision\", method: \"POST\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-93b11d5e326d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/availability\", method: \"POST\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-cf2ddeb24ca6",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Venues_RequiresBothParticipantsInterestBeforeCallingProvider(a: False, b: True)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-3e05a26b3577",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.MessageLove_ParticipantCanReactToOtherSenderOnce(actor: 3, status: 403, error: null)",
+      "family": "QA-COV-06-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-baa1f674cb11",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"unsigned\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-6b3fe5fa550b",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_DepthAndSeasonBonusesAreBounded(extra: 14, season: True, expected: 70)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-0bc3b8a8f1d9",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.Correlation_RequestResponseAndDownstreamShareOneIdentity(correlation: null, request: \"alternate-id\", expected: \"alternate-id\")",
+      "family": "QA-COV-14-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "id": "BE-bed00b6d88d5",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.NoteLove_EnforcesOwnershipLinkAndActiveMatchThenDeduplicates(actor: 3, linked: True, active: True, status: 403, error: null)",
+      "family": "QA-COV-06-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-1c351daa603a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.Summary_CountsOnlyTheCallersData",
+      "family": "QA-COV-10-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-fdfd957f57b0",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.MessageLove_ParticipantCanReactToOtherSenderOnce(actor: 2, status: 200, error: null)",
+      "family": "QA-COV-06-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-350cb5873458",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.VoiceListen_ValidatesRecipientAndRecordsMutualVoiceOnlyWhenBothSent(actor: 3, type: \"VOICE\", mutual: False, status: 403, error: null)",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-183adebdcc63",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_ReciprocalAgeIncludesExactLimits(age: 24, min: 25, max: 35, expected: False)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-4091ce6f0744",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_RespectsExactBucketThresholds(pillar: 39.999000000000002, bucket: \"EXPLORER\")",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-f42f0bb827e2",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.NoteLove_EnforcesOwnershipLinkAndActiveMatchThenDeduplicates(actor: 2, linked: False, active: True, status: 400, error: \"NOTE_NOT_LINKED_TO_MATCH\")",
+      "family": "QA-COV-06-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-81643eac177c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.UserDataIsolationContractTests.Blocks_ListIncludesOnlyOutboundBlocksAndNoForeignOrIncomingRecords",
+      "family": "QA-COV-11-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/UserDataEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-f617e0edd61e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Availability_EnforcesTextBoundaryPersistsActorAndNotifiesOnlyPartner(length: 0, status: 400, error: \"SIGNAL_TEXT_REQUIRED\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-5b1d38bb0779",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_FatigueStartsAtSecondExposureAndUsesSevenDayWindow(exposures: 2, expected: -5)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-f0ad86a9dfa2",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_FatigueStartsAtSecondExposureAndUsesSevenDayWindow(exposures: 3, expected: -5)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-43c1b90a7224",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: 0, lng2: 1, miles1: 70, miles2: 60, expected: False)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-85e538185d7f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_MutualMessagesUnlockReflectionOnceAndNotifyOnlyOtherParticipant",
+      "family": "QA-COV-06-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-8c341bbd7f99",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_ClampsTrustAndRedistributesOnlyAvailableWeights(trust: 1, expected: 70)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-820b01c08e6d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_ClampsTrustAndRedistributesOnlyAvailableWeights(trust: -1, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-b925169d7170",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_ForeignUserCannotMutateOrQueryPair(suffix: \"/date-interest\", method: \"POST\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-b82d747e25da",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.NoteLove_EnforcesOwnershipLinkAndActiveMatchThenDeduplicates(actor: 2, linked: True, active: True, status: 200, error: null)",
+      "family": "QA-COV-06-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-761e9983bf9a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 1, ghost: 0.5, verified: False, expected: 5)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-56bbd0af1d4e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_RateLimitReturnsRetryAndDoesNotWrite(route: \"/voice-message\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-1f139d160ec7",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/availability\", method: \"POST\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-e4bb3228f19a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"\", method: \"GET\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-59cce0f97921",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Read_ShowsBothOpeningNotesToEitherParticipantAndExcludesUnrelatedNotes(actor: 1)",
+      "family": "QA-COV-06-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-a588d9f8c4e6",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 3)",
+      "family": "QA-COV-03-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-b4fbeb971a58",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Start_IsParticipantOnlyAndReusesExistingThread(actor: 1)",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-cf138d5515de",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ReciprocalExposureBoostEndsAfterViewerSeesCandidate(seen: True, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-75fbef8c89fd",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_SelectsDiverseBucketsAndExplorerFromHighQualityPool",
+      "family": "QA-COV-03-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-fe65d1a2399f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.Trust_ThresholdIsInclusiveAndMissingAccountsAreNotTrusted(score: 0.25, expected: True)",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-38a6a1c46397",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_EnforcesTrimmedLengthBoundary(length: 1000, status: 200)",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-b2db44a7b7c2",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.NoteLove_EnforcesOwnershipLinkAndActiveMatchThenDeduplicates(actor: 2, linked: True, active: False, status: 400, error: \"MATCH_NOT_ACTIVE\")",
+      "family": "QA-COV-06-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-082be3ffab75",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_RequiresBothDistanceWindowsOnlyWithCompleteCoordinates(lat1: 0, lng1: 0, lat2: 0, lng2: 0, miles1: 0, miles2: 0, expected: True)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-76b2996fd133",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/close-gracefully\", method: \"POST\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-602bae217e30",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_EndAfterOtherContinueClosesWithoutCreatingBlock(reason: \"no_spark\", signal: \"TrialEndedNoSpark\")",
+      "family": "QA-COV-05-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-f40a3269cfb2",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 1, ghost: 1, verified: True, expected: 10.5)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-932a818945a1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_FatigueStartsAtSecondExposureAndUsesSevenDayWindow(exposures: 4, expected: -12)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-c056c29ebbbe",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"expired\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-28f0053b9b22",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"audience\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-1f9f55509f34",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.TokenCreation_InvalidConfigurationFailsInsteadOfIssuingUsableToken(key: \"short\", expiry: \"60\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-9a43c525338e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Start_MissingMatchReturns404",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-b68aca13c649",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 2)",
+      "family": "QA-COV-03-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-19c92cf52c0f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.Trust_ThresholdIsInclusiveAndMissingAccountsAreNotTrusted(score: 0.248999998, expected: False)",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-ce879f534bc6",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.AuthHandler_HandlesOnlyAuthorizationErrorsAndNeverReturnsInternalDetails(kind: \"Unexpected\", handled: False)",
+      "family": "QA-COV-14-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "id": "BE-760c42cf94a3",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsExpiredForeignPrematureAndUnsignedTokens(issuer: \"WovenBackend\", audience: \"WovenFrontend\", expiry: -1, start: -10, signed: True)",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-fce2471b6f63",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_PositiveChoiceHasOneBoostAndDoesNotCountOldOrWrongDirection(choice: LOGICAL, expected: 12)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-ba0e2db434e9",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Nudge_UsesActorAndThreadAndDismissalCacheIsActorSpecific",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-60841235c1bd",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: BLOCK, ageDays: 1, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-419ef046441f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Send_SignalFailureDoesNotLoseSavedMessage(actor: 1)",
+      "family": "QA-COV-06-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-ef9ba23684b3",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.BotDetection_UsesOwnProfileAndPhotoAndIsRepeatable(profile: False, photo: False, expected: 0.5)",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-c5d31e61326c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_PositiveChoiceHasOneBoostAndDoesNotCountOldOrWrongDirection(choice: NO, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-434b73b4a5e7",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_TrustGhostAndVerificationAdjustCandidateOnly(trust: 1, ghost: 0, verified: False, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-1f4ccc6efd3c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.TokenCreation_InvalidConfigurationFailsInsteadOfIssuingUsableToken(key: null, expiry: \"60\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-06d5a484f25d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_EndAfterOtherContinueClosesWithoutCreatingBlock(reason: \"wrong_timing\", signal: \"TrialEndedWrongTiming\")",
+      "family": "QA-COV-05-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-667bfb1a8593",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_PositiveChoiceHasOneBoostAndDoesNotCountOldOrWrongDirection(choice: MAGICAL, expected: 12)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-75ff8cfa2541",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_NoPositiveAvailableWeightUsesNeutralFallback(available: True)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-7d92e78d0b55",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.RequestDataBoundaryContractTests.DomainHandler_Uses422ForKnownBusinessErrorsAndLeavesOtherErrorsUnhandled",
+      "family": "QA-COV-14-5",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Infrastructure/GlobalExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/AuthExceptionHandler.cs",
+        "backend/WovenBackend/Infrastructure/CorrelationIdMiddleware.cs",
+        "backend/WovenBackend/Infrastructure/OutboundPiiHandler.cs"
+      ]
+    },
+    {
+      "id": "BE-c195ecf6ba7e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: POP, ageDays: 29, expected: -10)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-c6513076c998",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_ClampsTrustAndRedistributesOnlyAvailableWeights(trust: 2, expected: 70)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-7d467b6aad6e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/trial-decision\", method: \"POST\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-7009568fca77",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: UNMATCH, ageDays: 91, expected: 0)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-feb810f243a8",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BlockClosesImmediatelyAndOnlyStoresValidPrivateRating(actor: 1, rating: null)",
+      "family": "QA-COV-05-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-2280391dc82e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.SignedTokenWithoutIdentityCannotResolveApplicationUser",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-45f32e6f0516",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.TokenCreation_InvalidConfigurationFailsInsteadOfIssuingUsableToken(key: \"LocalSyntheticJwtKeyOnly01234567890123456789012345\"···, expiry: \"bad\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-c96c753bd64a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.ThreadActions_MissingThreadAndMissingMatchReturnSpecific404(suffix: \"/messages\", method: \"POST\")",
+      "family": "QA-COV-06-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-fff872f249cd",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.AuthenticatedChatHttpContractTests.Authentication_DeniesUntrustedHttpRequestBeforeExecutingChatMutation(invalid: \"anonymous\")",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-d6a0b451e085",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.VoiceListen_ValidatesRecipientAndRecordsMutualVoiceOnlyWhenBothSent(actor: 2, type: \"TEXT\", mutual: False, status: 404, error: \"MESSAGE_NOT_FOUND\")",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-f830d7b99da1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.Decision_BlockClosesImmediatelyAndOnlyStoresValidPrivateRating(actor: 1, rating: 101)",
+      "family": "QA-COV-05-6",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-52c3916f3b63",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.NoteLove_EnforcesOwnershipLinkAndActiveMatchThenDeduplicates(actor: 1, linked: True, active: True, status: 400, error: \"CANNOT_LOVE_OWN_NOTE\")",
+      "family": "QA-COV-06-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-f1ba36109533",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_PositiveChoiceHasOneBoostAndDoesNotCountOldOrWrongDirection(choice: YES, expected: 12)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-870c5fe5aee9",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.HardFilter_ReciprocalAgeIncludesExactLimits(age: 36, min: 25, max: 35, expected: False)",
+      "family": "QA-COV-03-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-0d72b97a67a7",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Delivery_ClosedPairHistoryUsesReasonSpecificWindows(reason: UNMATCH, ageDays: 89, expected: -18)",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-d27044d56bc7",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_ReturnsAtMostFiveUniqueEligibleCandidatesWithoutMutatingInput(count: 5)",
+      "family": "QA-COV-03-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-ea169c2fb47d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.ChatLifecycleContractTests.VoiceListen_ValidatesRecipientAndRecordsMutualVoiceOnlyWhenBothSent(actor: 1, type: \"VOICE\", mutual: False, status: 400, error: \"CANNOT_LISTEN_OWN_NOTE\")",
+      "family": "QA-COV-06-2",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Endpoints/ChatEndpoints.cs"
+      ]
+    },
+    {
+      "id": "BE-6d3e749e7f93",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Deck_DeliveryBoostCanChangeCoreSelectionWithoutDuplicatingCandidate",
+      "family": "QA-COV-03-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
+    },
+    {
+      "id": "BE-05d424e84d8a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtRejectionContractTests.Validation_RejectsExpiredForeignPrematureAndUnsignedTokens(issuer: \"WovenBackend\", audience: \"WovenFrontend\", expiry: 5, start: 1, signed: True)",
+      "family": "QA-COV-01-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Auth/JwtTokenService.cs",
+        "backend/WovenBackend/Endpoints/EndpointHelper.cs"
+      ]
+    },
+    {
+      "id": "BE-72308949041b",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchHistoryContractTests.Outcome_RepeatEventsUpdateOwnSameDayRecordAndPreserveHistory(action: \"expire\")",
+      "family": "QA-COV-12-1",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/MatchOutcomeService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeliveryBoostService.cs",
+        "backend/WovenBackend/Services/MatchSignalService.cs"
+      ]
+    },
+    {
+      "id": "BE-dcb778fff90c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.TrustContractTests.BotDetection_UsesOwnProfileAndPhotoAndIsRepeatable(profile: True, photo: False, expected: 0.649999976)",
+      "family": "QA-COV-11-4",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Trust/TrustService.cs"
+      ]
+    },
+    {
+      "id": "BE-87bdac633b1c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchingSelectionContractTests.Score_LearnedWeightsOverrideBaseAndFinalMultiplierCannotExceedOneHundred",
+      "family": "QA-COV-12-3",
+      "results": {
+        "backend-priority-master-20a630e": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-09-backend-priority.json",
+      "sources": [
+        "backend/WovenBackend/Services/Matchmaking/HardFilterService.cs",
+        "backend/WovenBackend/Services/Matchmaking/DeckSelectionService.cs",
+        "backend/WovenBackend/Services/Matchmaking/MatchScore.cs"
+      ]
     }
   ]
 }

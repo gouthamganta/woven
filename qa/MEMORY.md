@@ -1,3 +1,22 @@
+## Backend coverage resumed - 2026-10-09
+
+Founder explicitly resumed backend tests while Claude repairs144. Isolated
+qa/backend-coverage-20261009 starts at current master20a630e (146 merged).
+Added209 cases; final386/386pass,0skipped,27s. Build0warnings/0errors;
+changed-test whitespace and diff checks pass. Current binary collector6064/22307
+lines27.18%,1151/5715branches20.14%; both80%gates remain unmet. Existing generated
+migration exclusion only; no old-binary union. Auth real loopback middleware plus
+registered chat/trial/block/ChatNote/voice/date handlers, matching/scoring/history,
+trust, data export/isolation and sanitized request/response contracts. InMemory
+does not prove relational/concurrency/deletion integrity; loopback test JWT config
+does not prove Program/cookie/CSRF/CORS wiring. No account-state or migration
+sign-off.144drafthead687d2515 unchanged, latest111/144handoff still failing;
+no completed repair to retest or merge. Source/test family mappings partial;
+evidence2026-10-09-backend-priority.md/.json and gate. Largest remaining backend
+gaps onboarding/Program/matches/scoring/explanations/Moments/insights/feedback.
+Continue backend80% before frontend remeasure; sandbox/personas/broader campaign
+deferred. No application edits, cloud deployment, paid providers or root resets.
+
 ## PR queue priority checkpoint - 2026-10-09
 
 Founder parked new testcase/coverage work until pending PRs/commits are reviewed. Reviewed 21 original PRs, 8 local Claude fix branches, 5 newer master commits. Checkpoint: 14 merged, 10 superseded/incompatible closed, QA146 awaiting final CI, migration144 unaccepted. Current master42bb309 application plus existing suites: BE177/177, FE540/540; final full npm audit0; production build passed with existing stylesheet warning; 3/3 isolated startup-key rejection checks pass. Current BE unit collector18.42%lines/12.11%branches; do not join older HTTP binary. No frontend coverage rerun, no new persona/performance campaign. Current80%objective unfinished and remains parked per founder sequencing. Metadata/peer dependency fixes and two existing harness assertions adapted; no new test-case campaign. CodeQL50/51 false-positive triage recorded, note457 remains open. SourceFlowAfterthought120 not complete in trial/block UI, static gap handed to Claude; broader108/124/165/166 not closed. Fresh empty PostgreSQL migration144 fails PendingModelChangesWarning;43EFmigrations discovered, manualAddMatchSignalLog absent. Do not suppress warnings/useEnsureCreated as proof. Approved72h split177 and auth/proxy176 landed without blocked schema changes. Deploy workflow234665844 disabled to prevent cloud spending; do not re-enable without founder deployment authorization. Root shared edits/original Docker services preserved; do not regenerate unwanted test-access launcher. Evidence qa/evidence/2026-10-09-pr-queue.md and .json; update final merge status from GitHub.
