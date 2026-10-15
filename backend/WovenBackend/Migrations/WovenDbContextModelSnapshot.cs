@@ -3104,6 +3104,65 @@ namespace WovenBackend.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.MatchAfterthought", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AboutUserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("about_user_id");
+
+                    b.Property<string>("ClosePath")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("close_path");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("FromUserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("from_user_id");
+
+                    b.Property<bool>("IsSafety")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_safety");
+
+                    b.Property<int>("MatchId")
+                        .HasColumnType("integer")
+                        .HasColumnName("match_id");
+
+                    b.Property<Guid?>("MatchId1")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("NoteText")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("note_text");
+
+                    b.Property<short?>("Rating")
+                        .HasColumnType("smallint")
+                        .HasColumnName("rating");
+
+                    b.Property<string>("ReasonTag")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("reason_tag");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatchId1");
+
+                    b.ToTable("match_afterthoughts");
+                });
+
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.MessageLoveReaction", b =>
                 {
                     b.Property<int>("Id")
@@ -4160,6 +4219,15 @@ namespace WovenBackend.Migrations
                         .HasForeignKey("UserBId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.MatchAfterthought", b =>
+                {
+                    b.HasOne("WovenBackend.data.Entities.Moments.Match", "Match")
+                        .WithMany()
+                        .HasForeignKey("MatchId1");
+
+                    b.Navigation("Match");
                 });
 
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.MessageLoveReaction", b =>

@@ -54,6 +54,7 @@ public class WovenDbContext : DbContext
     public DbSet<ChatThread> ChatThreads => Set<ChatThread>();
     public DbSet<ChatMessage> ChatMessages => Set<ChatMessage>();
     public DbSet<UserRating> UserRatings => Set<UserRating>();
+    public DbSet<MatchAfterthought> MatchAfterthoughts => Set<MatchAfterthought>();
 
     // ECHO signal ledger (Phase ECHO-1) + composite connection scores (Phase ECHO-2)
     public DbSet<MatchSignalLog> MatchSignalLogs => Set<MatchSignalLog>();
