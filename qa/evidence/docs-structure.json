@@ -1,0 +1,1413 @@
+{
+  "commit": "560525aac5c579ece1d6682ded3cd962310c4a2b",
+  "scope": "Structural scan only. Reading file bytes and checking link targets does not establish content review, line/anchor validity, source accuracy, or runtime behavior.",
+  "counts": {
+    "features": 78,
+    "systems": 101,
+    "architecture": 8,
+    "api": 14,
+    "development": 11,
+    "business": 6,
+    "security": 7
+  },
+  "total": 225,
+  "missingLinks": [
+    {
+      "document": "docs/features/commons/api.md",
+      "line": 48,
+      "target": "../../../backend/WovenBackend/Endpoints/CommonsTilesEndpoints.cs"
+    },
+    {
+      "document": "docs/features/commons/api.md",
+      "line": 87,
+      "target": "../../../backend/WovenBackend/Services/Commons/OrbitService.cs"
+    },
+    {
+      "document": "docs/features/matches/trial-period.md",
+      "line": 43,
+      "target": "../../../backend/WovenBackend/Endpoints/TrialDecisionEndpoints.cs"
+    },
+    {
+      "document": "docs/systems/auth/README.md",
+      "line": 176,
+      "target": "../../backend/WovenBackend/SECRETS_SETUP.md"
+    },
+    {
+      "document": "docs/systems/caching/redis.md",
+      "line": 576,
+      "target": "../../backend/WovenBackend/SECRETS_SETUP.md"
+    },
+    {
+      "document": "docs/systems/embeddings/clip-embeddings.md",
+      "line": 31,
+      "target": "../../../backend/WovenBackend/Services/Trust/PhotoVerificationService.cs"
+    },
+    {
+      "document": "docs/systems/matchmaking/candidate-pool.md",
+      "line": 4,
+      "target": "./deck-selection.md"
+    },
+    {
+      "document": "docs/systems/matchmaking/candidate-pool.md",
+      "line": 61,
+      "target": "./deck-selection.md"
+    },
+    {
+      "document": "docs/systems/seasons/configuration.md",
+      "line": 406,
+      "target": "../background-workers/README.md"
+    }
+  ],
+  "inventory": [
+    {
+      "path": "docs/features/assistant/auto-advance.md",
+      "lines": 530,
+      "sha256": "13376aa837c255af9d7a486d2a0ab75ee464be3b76f207e5d7b57286abb69751",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/assistant/backend.md",
+      "lines": 980,
+      "sha256": "bb2bafbf11974f53ba42f44ff7b551267bcc2f417e2442c1f0e2dfe8fbb27712",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/assistant/badge-glow.md",
+      "lines": 380,
+      "sha256": "6ee42042a4cc54c93b54f2913254b9481ad2fe1c45b492355d8d6098d2d45166",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/assistant/frontend.md",
+      "lines": 1075,
+      "sha256": "e484c6781ed6d3a971e28abb30021703e5a4a55707cd004b246542ffd29ad98a",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/assistant/pending-tasks.md",
+      "lines": 296,
+      "sha256": "c06d502866d603149896cde01a8f8b358f2d7745b5d6776bcbc36eb3f48d3785",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/assistant/README.md",
+      "lines": 232,
+      "sha256": "905b98aa44f7418680b8bf531ebc091ede3932b110209a8c5dd0834a29d9ba6b",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/assistant/signal-logging.md",
+      "lines": 744,
+      "sha256": "e2151121689f054e49788d0b789a616eada145e613d4d0475ca7abe805507068",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/assistant/skip-buttons.md",
+      "lines": 422,
+      "sha256": "aab507ba1eb5eaf829e558b1655472c738ca2621fef4b1aef41d569c51f75d0e",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/chats/backend.md",
+      "lines": 761,
+      "sha256": "d793b28bfdf78f019b232459ec2d5070c682080232696d4a640d4237c6221c8b",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/chats/balloon-state.md",
+      "lines": 253,
+      "sha256": "14f888a2c6762970c9e4aa9f3d61dfaddbf7457a54005e798710e4765a87dbfc",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/chats/close-paths.md",
+      "lines": 448,
+      "sha256": "082a6c0d7efa231f90a99f615e481c68d4f94be4c27849c31b7adea97a376beb",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/chats/find-love.md",
+      "lines": 480,
+      "sha256": "85ecb9fafda581aef406d257a38930f4eb85395fe7a2a026714ed80ae35e676e",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/chats/frontend.md",
+      "lines": 608,
+      "sha256": "e1bc175bc2f1c6e7206a56b49eeddae1853f3ecb8af1df3a296282bb2b62d790",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/chats/reactions.md",
+      "lines": 362,
+      "sha256": "79126f1a2a08f8bd4a5002a3f697cf2883fc6a88429fe58b9d315c1a309446b5",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/chats/README.md",
+      "lines": 194,
+      "sha256": "06b767c14244e97a63a98ffa642ed88d815ae48921322738918a183432065994",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/chats/trial-decision.md",
+      "lines": 453,
+      "sha256": "fb9532028ea809f856117fa5f74c061c25e8ee448a363f074e2faf9f85fd25f1",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/chats/trial-period.md",
+      "lines": 336,
+      "sha256": "282177f00b7a1df2bce043c78e5ab96956d97e9ed26312baa185be1def531268",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/chats/voice-notes.md",
+      "lines": 481,
+      "sha256": "7e3cd68b6b99744498b16b6f35455760b6bff5be2c3dd03773ebd67a1025cac8",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/commons/api.md",
+      "lines": 96,
+      "sha256": "a3e978aa609efa2bfafe0a8a5a21ebe0b3829015c79a13ab09dba19a809300bd",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/commons/backend.md",
+      "lines": 643,
+      "sha256": "aa06f2f1eb67823f9f5c49af2d64ac71aeeb7c5f887d645807a85d2e6e107cc0",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/commons/feed-algorithm.md",
+      "lines": 336,
+      "sha256": "62adad494fc1e1cce5d1256dac14dd83660a3f77ac704e461256cf3c468cd58a",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/commons/frontend.md",
+      "lines": 612,
+      "sha256": "f5c340e4ba66750add6eda95a110e29843ff9650c32a907aea744112e36d8a9c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/commons/moderation.md",
+      "lines": 454,
+      "sha256": "2aec5159845646664fb4c565519772458191c0fd289cdb5082d3f7ddd6d9876b",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/commons/orbit.md",
+      "lines": 481,
+      "sha256": "9e26ddaeb8bc78a5523bebd373fc0f28d75cf43721192538cc75660fad833d25",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/commons/README.md",
+      "lines": 240,
+      "sha256": "951b52f4db73d995371fd3de813c2fd9775918f00b7e940aa2c46d20a3f0ca70",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/commons/tiles.md",
+      "lines": 377,
+      "sha256": "f980553897b3f90d6e66e094aed35243234954529af583204e56170a69daca23",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/games/backend.md",
+      "lines": 769,
+      "sha256": "e868badb8873260ee60041f35eec075f12f1cf6d8f853751dea5506562bb0289",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/games/frontend.md",
+      "lines": 597,
+      "sha256": "bdcdb9990ff594f1a1dfa3a2b8d42ce9ff9d772f639b852438822481d8016949",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/games/game-agents.md",
+      "lines": 441,
+      "sha256": "753c15c48b0e9789aaa431fbb03b5545e675b496d15c0d876bb02b81242e89b7",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/games/know-me.md",
+      "lines": 230,
+      "sha256": "f0a79fc1873c7199e6396bacd00fb2f5a43aa6b260d1bd8a7a62696ac1c8ea13",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/games/outcomes.md",
+      "lines": 413,
+      "sha256": "a39c29a04eee9ee0b3a3ae51b7cee9aeae3d568fec42486c4bb22fcdfad5a6f0",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/games/README.md",
+      "lines": 166,
+      "sha256": "012fe0dc03b0542b70b587eac322a1946ac25834ab1b681d69afb2b5ea20159c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/games/red-green-flag.md",
+      "lines": 298,
+      "sha256": "0dbac627a29e2837209162aa42d0542bb9056c30b35d635c31e5def24dd0ba7a",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/matches/backend.md",
+      "lines": 903,
+      "sha256": "a0e900736c8b03cb1f00fa32605a690b62fc9dce4284b4af189ffe3ca98bcf70",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/matches/balloon-lifecycle.md",
+      "lines": 50,
+      "sha256": "05a4217f85d1de415a6034cc7042770ec166f34fe62b79d65cf15d25643ad24a",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/matches/bridge-questions.md",
+      "lines": 447,
+      "sha256": "faf2b4c3e6126621f656525cd918c85d73aae701ff47c69504db787ffc11f60a",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/matches/explanations.md",
+      "lines": 560,
+      "sha256": "54a3b6b44392bb5e1fb4aaa0002eda18937042440c930ae29032154e1aa61e48",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/matches/frontend.md",
+      "lines": 703,
+      "sha256": "ab7a3997035ea277bc4939a6f722e00c8adefde724b57b14f88de4e99edea779",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/matches/narration.md",
+      "lines": 442,
+      "sha256": "ff0b60dd795a633f756acb40885a824208434f538465aa886fd16ec976afb1ed",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/matches/pure-vs-edge.md",
+      "lines": 392,
+      "sha256": "b3dfb1fd29e9463e77a3c23e656ad95c38d6e564a86b9d169df0db043eb4b44c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/matches/README.md",
+      "lines": 302,
+      "sha256": "1e24335f2dfd32bd8d12f058a693c3e6913abd422a869f469bf1ef454361bf6d",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/matches/trial-period.md",
+      "lines": 60,
+      "sha256": "e191268bac4d81fc5e973707e0d96c37146554d4c015624c0fdbf8e41c40530c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/moments/api.md",
+      "lines": 627,
+      "sha256": "5a659ee3cb95c13749e417a90778d2e8e168857b070980228c349d3c5aa4e1b1",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/moments/backend.md",
+      "lines": 584,
+      "sha256": "c9067c8b3d59ba9c851b68401978ffb3f2943001d24f55ee838106b007ba8e52",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/moments/chat-note.md",
+      "lines": 370,
+      "sha256": "623e7f3b65a875b8b629baca930a8e52add031dcd1cfde2038324f85d2508f06",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/moments/daily-budget.md",
+      "lines": 47,
+      "sha256": "c19cc4dbc16410b6bdda42f488aee36b2d406018cbba7c94129804de9afe6413",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/moments/deck-tab.md",
+      "lines": 263,
+      "sha256": "6299ece628a1d80499920b7cbac44feae722fd5be3872801c6bbec0b3302b8fc",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/moments/drawn-tab.md",
+      "lines": 274,
+      "sha256": "512d4e0f4aef3ad72985b231568447e8005d09c252ebf756a7dac059c5cd51d4",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/moments/frontend.md",
+      "lines": 623,
+      "sha256": "08fb5d6f8a8c5b0a8c16b3810db427ac6b3a6a3c6cf7dbf9da467c5505f81da1",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/moments/match-creation.md",
+      "lines": 385,
+      "sha256": "e69d08fc612fdb3f883196d73e3cd9566220b120892caec75886b84fbfff8680",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/moments/README.md",
+      "lines": 145,
+      "sha256": "a606c2d5577e8565213cb219690ae83e9f3c1a2f5fcf8c7b52f2545dc0896c09",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/notifications/backend.md",
+      "lines": 1020,
+      "sha256": "076de81d0804557a248551f740a80d0f818228334963b844d8c82315faede601",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/notifications/frontend.md",
+      "lines": 734,
+      "sha256": "aff87166712c11afbe74a5bd9700465d9710c31a9019fe312c7cdd54504b9bdd",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/notifications/README.md",
+      "lines": 329,
+      "sha256": "88cf0b96173c763222ead94cf2fadec506d2413bf55760525a3332cbba2a7464",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/notifications/service-worker.md",
+      "lines": 604,
+      "sha256": "de8ac6e65cd59a4a858037f69d21dddd3f976c2a6a3411a243a9b79a66c1059d",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/notifications/triggers.md",
+      "lines": 584,
+      "sha256": "bb4ba9c2a1ce391c0e24cf173db485bbeeacdc1fac97b7f7b9fc89fd205dd492",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/notifications/web-push.md",
+      "lines": 473,
+      "sha256": "030022edf0f3d119be7ef5c99a7db49478b5f58fa5c3bec377a14635345ccfa0",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/onboarding/api.md",
+      "lines": 1018,
+      "sha256": "bec6fc0406da61f8679d42374e629105a070597db7849ee26207ce1127418fda",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/onboarding/backend.md",
+      "lines": 991,
+      "sha256": "44692d7baaeca1299d4281369836a201220e73c6f91f2e8aeb6404baf8e5c7b5",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/onboarding/bootstrap-vectors.md",
+      "lines": 590,
+      "sha256": "18641348b0c2edc3d4ddcf5b50b81a70f9e9c5c19753a77b557b4a1f978bca21",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/onboarding/flow.md",
+      "lines": 452,
+      "sha256": "171fc1cc050b2a074093f3cc73f7a5223a294a0d1530e8c148daf5d901322113",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/onboarding/foundational-questions.md",
+      "lines": 403,
+      "sha256": "e39890a2f28251139215df6cc1988dfe690eff50d73261f25e4f7db3f66ddeee",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/onboarding/frontend.md",
+      "lines": 562,
+      "sha256": "490e8ce0559e8fd66d36978eaf47f90ee3b32691e40863473fd89f33ce45a6c5",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/onboarding/intent-encryption.md",
+      "lines": 447,
+      "sha256": "512d75f3738683b7df3def5e81e9e5d5343b657622884b23ead1d66d4d7db290",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/onboarding/README.md",
+      "lines": 145,
+      "sha256": "6f6c3afce1337632a5b2bdcdd15f74a9cbe98a0769a326ca8e1b557046a219a7",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/onboarding/review.md",
+      "lines": 60,
+      "sha256": "29d5f7c453f3eb315a04bd4f3cfffe440ec924ad055360b7a7f3c2ea69cb05a2",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/profile/backend.md",
+      "lines": 1163,
+      "sha256": "b5729804b836e015d85193bf60ad3bbd4db87740b8927cbc96cf5b9f8518e59e",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/profile/frontend.md",
+      "lines": 836,
+      "sha256": "a319232a22005a0eda5c9f692bd92f1f671354810f0b0f027e636891e6a6e655",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/profile/my-tiles.md",
+      "lines": 543,
+      "sha256": "ed5e9504d2da5700906ea90505984945fe083935eacf1b3baef9fb4d161caf56",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/profile/profile-page.md",
+      "lines": 406,
+      "sha256": "afa7a0c99b8028924c63af60327cd1b8ba518581442cc1537466f40de970c8dd",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/profile/README.md",
+      "lines": 289,
+      "sha256": "d75dbe62acf8b223dc2882b8d67649ec3e594bfb83538ff3d88ab9df63739e83",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/profile/settings.md",
+      "lines": 466,
+      "sha256": "558af3192ec62ae0cc01a607411c6e3b3de13019b05840a6bb2179fd43841cf6",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/safety/blocking.md",
+      "lines": 56,
+      "sha256": "885d640e7328a260f75ab8897a219aaaaaab3ae997f5c78a5fc25ca7f6098ee2",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/sparks/backend.md",
+      "lines": 506,
+      "sha256": "826835b2cc10fcce6c2f5f4cf57edd146e4eb3b5c95bd46bac28db0d42e82608",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/sparks/frontend.md",
+      "lines": 313,
+      "sha256": "7409a1776f32af3d695b8f9ab536234e4abbe84bee1111201f3d31b0b2cd6308",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/sparks/mechanics.md",
+      "lines": 216,
+      "sha256": "f4cd26bbd0c35b23535bd5ea1ff4a717ccbe94ae9f0aac1bd304b0ece6cba940",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/sparks/README.md",
+      "lines": 138,
+      "sha256": "54d2741ca6240fdf234813bb02442b17a1de1dc50088997e76003262fbe5094c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/features/sparks/refunds.md",
+      "lines": 272,
+      "sha256": "ea683043d331d31c4088756a2292b311281553b151b041768348cbfed3839b53",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/analytics/events.md",
+      "lines": 326,
+      "sha256": "613fadd921cee06e807163f1e783c0b0e624033d35483dd1a0f5b901980cef54",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/analytics/implementation.md",
+      "lines": 720,
+      "sha256": "ab00a81ea4efd8139e223ad3f44e088bc79aab04f1a14361026b54afc4c2fe88",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/analytics/privacy.md",
+      "lines": 480,
+      "sha256": "e8edc78fe8804ebda22b3351809d98994e92af9bb6190b64df39940b7ab7a81a",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/analytics/README.md",
+      "lines": 214,
+      "sha256": "120c60e32e27b3c0435376df0b23ef86984b0deb55649ae9973e626141aff870",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/analytics/retention.md",
+      "lines": 328,
+      "sha256": "50dfe2a690c128faa7dd343b7872b47fa2c1992869eeb6559e11b27601c65ed0",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/analytics/workers.md",
+      "lines": 291,
+      "sha256": "6f7659028b83bb1803962b90d9e6da6a451ea6cc02d54f44ee24b9962e96bde0",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/auth/api.md",
+      "lines": 152,
+      "sha256": "f50658c53acad061d7a48a1cc819699ed88b21a693d5aef84a13863c3b00aaa5",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/auth/cookie-auth.md",
+      "lines": 631,
+      "sha256": "3dfc2e49cd055ec39b4069c822d29ce1058003eba43ba7d2d9574dcca702a149",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/auth/google-oauth.md",
+      "lines": 558,
+      "sha256": "f264087b99aa98fb4fea180599109f45de76ab06796ba37881236540a9286ba6",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/auth/jwt.md",
+      "lines": 410,
+      "sha256": "4e9ad1978cb57c2ade8a6ca46ebd24675b8bf1b770d12825e426eb7dd2360d6f",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/auth/README.md",
+      "lines": 259,
+      "sha256": "e4b9439f0e1eb27c8d2f8e67f5c642c38625c44d57c39fec1c9097b9de7adc42",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/auth/security.md",
+      "lines": 561,
+      "sha256": "c315c2216bac1feabcf538c5e824059e4cf1c13d2fd44a641f7d77c33f0a0fcc",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/auth/session-management.md",
+      "lines": 537,
+      "sha256": "e5810b8eecde50816538d5634f1c1d0c4a2b06610b5994e9ccefe64d2c589129",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/caching/cache-keys.md",
+      "lines": 621,
+      "sha256": "a7b00f63cbb500b76fdcda57cf6abb34382fbe17056b7cd62fa15faaa43a632c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/caching/implementation.md",
+      "lines": 798,
+      "sha256": "a9503dab1adaabd0028afeed6cca9c8ab798c1ead74dacea900eee470b314743",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/caching/invalidation.md",
+      "lines": 727,
+      "sha256": "d15e00458e6fd42198849e899625707bad24c75109062bcfd124a99302fe9710",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/caching/README.md",
+      "lines": 424,
+      "sha256": "74cb9bc810b0973ffc801dbe38490555af5429b08ae5d8333470eb21c0850680",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/caching/redis.md",
+      "lines": 588,
+      "sha256": "17f796e22ee262460ffed60dbf13af124a19d78c27aa385fe8a5f4e254ac4ff6",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/coaching/api.md",
+      "lines": 652,
+      "sha256": "a856e668b77ac29ce63df5a9e1ad20359fd593984955f8e591256e1085e54f91",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/coaching/delivery.md",
+      "lines": 416,
+      "sha256": "7b88e07d031e413e4e3897f3c86e8edfc50e257c4b70ec9545e68e87e0617126",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/coaching/README.md",
+      "lines": 220,
+      "sha256": "6747f41daa838ebcc9941a142aff8af502521c5dbb42e2817be91d632d6e4993",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/coaching/summary-generation.md",
+      "lines": 406,
+      "sha256": "0d773e59dfbcca12e83627554c3e100138039f99f297cf315707a045a6a8391d",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/coaching/workers.md",
+      "lines": 529,
+      "sha256": "eda05458a22bf809903ea0b19b92212dcd648b98de8c5f68a90045a5c04cfd36",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/agents.md",
+      "lines": 426,
+      "sha256": "a4e1bd860c28b3f14621ca0b2a9c23e3591abbab6fa4039cc01cff3388822b76",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/coach.md",
+      "lines": 384,
+      "sha256": "29250c5d872867456ad2d4fae31677fd97869cdce538029fc94db4f08f115db3",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/cold-start.md",
+      "lines": 427,
+      "sha256": "38ad7c172b285160578d8d7492e7329256d3533501b93098170dff0a316c8248",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/configuration.md",
+      "lines": 427,
+      "sha256": "07879bd4dc86e2bedf381c65744179b5160de0f22dfa42182a68d6047ff31c36",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/embeddings.md",
+      "lines": 531,
+      "sha256": "10d08adb854c4427ea4f82e524ce020c93cc8601f57005a8106cf8aea582ef8e",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/learning.md",
+      "lines": 433,
+      "sha256": "9175307c504d94af7ce078600e285dd159ea1789fb28b3108428c559d5fdd621",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/matching-pipeline.md",
+      "lines": 526,
+      "sha256": "e7f563e47abf88ebbbe7f30c4518b1aacb1824e57dd1f721477809db3c12d9a3",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/overview.md",
+      "lines": 312,
+      "sha256": "d5309de79f19de5855bc9915eb0d9f2a96ac048a73f3d90115451ae77d32a260",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/README.md",
+      "lines": 159,
+      "sha256": "b84aa517018a464d09a366c5f49bdf10d5f837db291ff7573bda7b59cd875082",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/scoring.md",
+      "lines": 578,
+      "sha256": "da55c68a4a5a56dfa236aa48c6f769ce51d51fcc34862ed17d2442d7599623fd",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/signals.md",
+      "lines": 344,
+      "sha256": "bb39757e9a75f8cc22c06650bb9411c26299d80a1771acafdc16661fc51333d0",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/echo/workers.md",
+      "lines": 407,
+      "sha256": "89764c29284163a155d8db53b5d76dbfa63bacd7570cca47d333d2d00a63d0a1",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/behavioral-fingerprint.md",
+      "lines": 545,
+      "sha256": "6ac3880a7eb272d3a54dd0b9d738322ce069d76e6057a2c7c2fde8b221c4e6a9",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/clip-embeddings.md",
+      "lines": 52,
+      "sha256": "de01e969e5bfb8495e5c07f248b5ab33c4ec0024207a5d146b4f8b9ef68e86d4",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/configuration.md",
+      "lines": 230,
+      "sha256": "e5a42982ca2d36e53164f29d9a3d1180466e1c72626df9e015f678f719265891",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/emotional-rhythm.md",
+      "lines": 382,
+      "sha256": "1e0859113caee86df9d5dc366eb7875dec6d07888719dadf8261302d51a178c1",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/humor-embedding.md",
+      "lines": 402,
+      "sha256": "3b00f4b6cd44ef3cbbf59f556f71d70b63e3439a6d381d78063f0327f99d4835",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/lifestyle-embedding.md",
+      "lines": 90,
+      "sha256": "59dff7f4f13709944be357696b19f2e6635f5c03bbca2edd56e3954e5a0a718c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/photo-embedding.md",
+      "lines": 134,
+      "sha256": "552d921f912717eea1f8f30c14de2730b5a80fb39f14c3b5c542fd3dbd8f227b",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/README.md",
+      "lines": 466,
+      "sha256": "920640b48a98969dd81348f0055b92258d818ef087f1c465f2e929f24036ed0a",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/style-embedding.md",
+      "lines": 136,
+      "sha256": "21a0f9b097b0f1ec65ce6431b3f6782f0b71a87fa98fe85458af0994b9fc83c5",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/visual-preference.md",
+      "lines": 531,
+      "sha256": "f9ca8affeb380233702ebb8538682ea8d5a2896e537557ae058498ba3c1f52fe",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/voice-embedding.md",
+      "lines": 490,
+      "sha256": "cc8e3c39ebb3dcedbf2aa8078bfcf17ea8a0a39e4a7b63de89fbb3830b7f6548",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/embeddings/workers.md",
+      "lines": 205,
+      "sha256": "b68e2878b95941eccc389b4e4a059a1d46234ae8b6819dee4008760f9d55bdd2",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/encryption/aes-256-gcm.md",
+      "lines": 517,
+      "sha256": "140db2b88546ac671ec14095ec3c2a283c60383501833e7dd36fd91ee927dbe1",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/encryption/encrypted-fields.md",
+      "lines": 631,
+      "sha256": "d672ba08c269eb0e18051dcd7f5bd062aabc27c8800780f564cebb1179876bd7",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/encryption/implementation.md",
+      "lines": 1022,
+      "sha256": "62947b602a9bd6222154b8ad632721c6a2a3240c80eb02de97faff69c033513d",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/encryption/key-rotation.md",
+      "lines": 704,
+      "sha256": "9fc25f5bf7402fe3e4e1d75626587f7bc78b6e396836a3987eb56635cdc5527b",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/encryption/pii-sanitizer.md",
+      "lines": 815,
+      "sha256": "edbec9be79b4c1454ebb7b66dd3f1c14d72f9e9acada62c6ed7db8a58490587d",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/encryption/README.md",
+      "lines": 303,
+      "sha256": "961fb87b9ca8b10d9dcf7b3dc0daefd1435830cd0e89890568f65cd13027319f",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/feedback/api.md",
+      "lines": 540,
+      "sha256": "dc441e42d132f06f38788a870ba2bcd047ee245e1fd9a13128db48d828b71927",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/feedback/date-feedback.md",
+      "lines": 329,
+      "sha256": "bf02e7cc66a1f05b481f67c8e9738834414664881cbf3a6edaaf9a85c6d9d48d",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/feedback/insights.md",
+      "lines": 418,
+      "sha256": "8aed6f819c53e03f4499d9a3c4db9c166a5fd8167e61d3e26dfbc17079e5791c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/feedback/README.md",
+      "lines": 219,
+      "sha256": "5a33e8a039f51fed5cd571e910d439b34b940538b962fc46bb810677f6dd50cf",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/feedback/triggers.md",
+      "lines": 367,
+      "sha256": "4b56d67d532e0f1839632a7993dcdf2d70a4c23af40f2410a7fe8f8b9cd89e8b",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/feedback/workers.md",
+      "lines": 401,
+      "sha256": "9dcf9bc85f7e71b42d9fed88120ac555e23aa7c9f777421b3b0fb0978337f117",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/matchmaking/candidate-pool.md",
+      "lines": 63,
+      "sha256": "d7d2de6a5f21722aa993e1af2c8adb962886d51431c17d23d0a2a269f0017960",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/matchmaking/delivery-boost.md",
+      "lines": 55,
+      "sha256": "cae0f03213a8328149e788c8f6a77c9011d2494a5cec993dd633f1b8d4cae92f",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/matchmaking/match-explanation.md",
+      "lines": 53,
+      "sha256": "bdcf2054ebfd17ea6e3b1739f815a2aa68ac0300294c830c768e9016ca76cab1",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/matchmaking/match-lifecycle.md",
+      "lines": 68,
+      "sha256": "f45d3e0eace2d5b4282dd572580d463a943507f2e33998a565585992d57e7512",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/matchmaking/README.md",
+      "lines": 46,
+      "sha256": "04e530614f158801619484a217326fc9c83f4af6bb6b8a4e63bdb77bbc33584d",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/media/api.md",
+      "lines": 248,
+      "sha256": "d8aa40d206f208716e78ab3c0e0bd69d52b71b03f977c6a99d40015d735ba42a",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/media/azure-blob.md",
+      "lines": 821,
+      "sha256": "b69e5386cfc3e0a8e4eb576461ef0c3f0c52c5511e2b46dffaa9d16ce5193f75",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/media/cdn.md",
+      "lines": 170,
+      "sha256": "aca7a44ce11cb09f33383067c47b4a36779539f66a17f22d51f8964034f1e95b",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/media/photos.md",
+      "lines": 607,
+      "sha256": "fe0d3378286cbf2288d9df6731202a01bea0a3b35db30a80a23b43d2a94d7075",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/media/README.md",
+      "lines": 338,
+      "sha256": "486795fbd925b1c28cf5fff1149c9aa9fad2e452eed2ccba72947bbfe41542e9",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/media/sas-tokens.md",
+      "lines": 621,
+      "sha256": "5f20050f88e574a9adaf89fc7c23e6f39610a98381ffed73fe2ffa457cf412e6",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/media/voice-notes.md",
+      "lines": 880,
+      "sha256": "28fbf600e2106484ee35cfae3bc4803c1019226da2c2e495891be27db29390e4",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/moderation/ai-moderation.md",
+      "lines": 417,
+      "sha256": "4abc76adac14459ddb8c9b17eee43e89afe51930ca2e1525037f562ed2c9f1f9",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/moderation/api.md",
+      "lines": 604,
+      "sha256": "7cd9293bdad60bbc9cc9961627f19c837d032d35e5a3eecb165ca610cf63dc63",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/moderation/block-system.md",
+      "lines": 528,
+      "sha256": "4d8bc575a455c8b363dc154efc2951ab39c0234f2915c8ad04bd54f435ae73a5",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/moderation/prompt-injection.md",
+      "lines": 397,
+      "sha256": "77f2f6f0add0113707e333feaf34802eef0a55eac2b3eec063da354d118c3fd0",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/moderation/README.md",
+      "lines": 221,
+      "sha256": "05a9c4ce21a0bd4e65d4764b625b14fca641b55de16a4cf0ea338e28becb9fc8",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/moderation/review-queue.md",
+      "lines": 495,
+      "sha256": "7676b2df60b764e072036e57729bfa84a280ba20bf6e495c5d94da40c3f73c04",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/moderation/user-reports.md",
+      "lines": 421,
+      "sha256": "f32680b3fb93491e4f58c714fe9d7fb1d5f54639d90cf444a7b496e921736b61",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/queue/background-workers.md",
+      "lines": 47,
+      "sha256": "e851bb036f7e842f41b56a51c349d7b7d9e819f376fee6868b4d44dab5e79cf7",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/queue/implementation.md",
+      "lines": 961,
+      "sha256": "9882395538e2dcb05c4ebf3996382e322ea753ce6e0ab04650d9aff10cbc8cc0",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/queue/README.md",
+      "lines": 167,
+      "sha256": "8cd9ed78e5e54acbea5e35197ff5cf097a2e798127faa0d0b08cf562ea7ac3b8",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/queue/scheduling.md",
+      "lines": 577,
+      "sha256": "4bfc87846f05eaed3b5e252ee01b5f1231a60cb881bdbdd63c41272246023211",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/queue/service-bus.md",
+      "lines": 460,
+      "sha256": "2f135a4e2220ea72706d6704c9ab6458faccf428e496c607cb218cf941960be1",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/queue/workers.md",
+      "lines": 624,
+      "sha256": "d608935596e513f319cf3dc104fcb0613a44f4a69a68b47abc35f4e1900c91dd",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/seasons/api.md",
+      "lines": 540,
+      "sha256": "64d77d3eafa0804e7440918af70f2f1121a37c3eb20265589dfa2d7bcfcffc02",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/seasons/configuration.md",
+      "lines": 411,
+      "sha256": "333ec9fbb7086cb60458eb6d81b62fbdabc6f13cd05cb37736b67eb8be231928",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/seasons/implementation.md",
+      "lines": 319,
+      "sha256": "1bb00763817f283f0a8cb13815eccdc7c99afdd93fd0604017d7587d672a40d4",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/seasons/README.md",
+      "lines": 158,
+      "sha256": "db6c188e1852b45e95200ec008878061a2e4f3bb35b391d356e24d38e8a47199",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/security/audit.md",
+      "lines": 59,
+      "sha256": "6010294e0750269db3906950b5c75f00452b88dcf7ea3d4365a93985c760937c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/security/pii-sanitization.md",
+      "lines": 64,
+      "sha256": "9ce5b89c84a21e2df031028899cbae33bd12fa6079f35ebbc64168580abc1a2d",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/trust/anti-ghosting.md",
+      "lines": 594,
+      "sha256": "9d2c133e863eb37aacc2040a7c6580911cb8d60cbb6af3c4d1086949aae16efc",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/trust/implementation.md",
+      "lines": 295,
+      "sha256": "6b5e0536e20106b958d99da9312a502994b70e837e3af545b1480ef30bbe6afd",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/trust/photo-verification.md",
+      "lines": 561,
+      "sha256": "11686d85b82780f192a56c33b7958c95e67b0e8521de6a22c9cbed81f9598d20",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/trust/README.md",
+      "lines": 376,
+      "sha256": "5612507e0d96b6ea73a83a62de70336b8c7a95a92c45b01bf83e74aa658bd6f5",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/trust/trust-score.md",
+      "lines": 508,
+      "sha256": "b55810f96ae6e83a1b7cf02a56b52c7da28a0e6208fc007ee36042025a573de6",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/trust/verification.md",
+      "lines": 492,
+      "sha256": "bdfdba6f02cdf2fd27f3e67c9d8504ae6dc148085fbbe15e0a078e47106b163a",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/venues/api.md",
+      "lines": 527,
+      "sha256": "fefc899e1a9079833588f1b8d97af152255f3337a7664a4fac81443004005589",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/venues/google-places.md",
+      "lines": 504,
+      "sha256": "653824cdd25f77d7afc2c11d28a6b06e385b2fa616a416dc9308879db3b5b3ef",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/venues/implementation.md",
+      "lines": 621,
+      "sha256": "8f79c57a024fe3e69b8f0cb98f552d9d9419431e189314c8e7244d27e23e4b2e",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/venues/README.md",
+      "lines": 323,
+      "sha256": "139d818461338ac81ac6720f2a51d8445fb0e14e024e5880906800f9dd428c83",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/systems/venues/recommendations.md",
+      "lines": 447,
+      "sha256": "5784831d54ba8bb6bec661524506d16493dbdcc5f63f381f843fe169c3d5b708",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/architecture/backend.md",
+      "lines": 535,
+      "sha256": "985e379d49681d39ec5aed2cc46e764b88db974b4226aa6283edaf1664ea2399",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/architecture/database.md",
+      "lines": 479,
+      "sha256": "223bfacf7e614828f4618443d261100d78e35effe341b235d91a7b69579fe619",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/architecture/deployment.md",
+      "lines": 459,
+      "sha256": "24ca65ae67ee9a936882c75ff13930b94a2dac490e4621d598b95055ea2e8f3b",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/architecture/diagrams.md",
+      "lines": 473,
+      "sha256": "fd64f719b697f130a42f7a82f98f65c76c55884c5d92b73420b1d50a7eb9dcb9",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/architecture/frontend.md",
+      "lines": 567,
+      "sha256": "582f0ce09faf2c38833347e5d1e421a098fe6d80fd23c7c18668e78953119840",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/architecture/infrastructure.md",
+      "lines": 373,
+      "sha256": "3ca24576c65c83427554a907b2fe0124037adfb6ddc0914f03e45109ec083f1e",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/architecture/patterns.md",
+      "lines": 754,
+      "sha256": "7f162179d1e74a1b7cf5cbf2f28717b9b223147c45338b3cf7152b545e47bf08",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/architecture/README.md",
+      "lines": 275,
+      "sha256": "b259ba00023e5f03e77ce0170b4608acbb28c2f5fd10a93622ab265f30a8c650",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/authentication.md",
+      "lines": 295,
+      "sha256": "c6992ed1c78993ec8d8288e831cef6f8d014f41ad45e53f144230a1fff1eb78c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/chats.md",
+      "lines": 328,
+      "sha256": "ee0d42734e8832ea483e5f4c611f72955052c3a0268714e68a31df963b2c527f",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/coaching.md",
+      "lines": 188,
+      "sha256": "e8f336229721bad8b0647abfdc06e0606d04e36e6334a0ca2d9ba11fda07c06c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/commons.md",
+      "lines": 273,
+      "sha256": "e1bc57e7d5d3a2cba03eac10c47eade27d0f5174fc8836ea2d411d42281230a4",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/error-handling.md",
+      "lines": 436,
+      "sha256": "3ec44ec38837e9e8562c3d3aa36a47559cef91294362038d65f4f116a357f1f0",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/games.md",
+      "lines": 298,
+      "sha256": "42ec6d8a33fbd8d863ac1ad2c16a9745afbb1b5d7c2bcba050e366b8bf0334a6",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/matches.md",
+      "lines": 271,
+      "sha256": "9a04518a683b81a6fb137d65bb642689c8586ac4b3e8ea23d0afd190297e4607",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/media.md",
+      "lines": 267,
+      "sha256": "fc495eb8f0e565c7656df10241a0d5889250f0dccd56dcc3cbde7a43cffc7fe6",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/moments.md",
+      "lines": 244,
+      "sha256": "da246dfd514759fc3fbf0a7ab4f7963da49cefcf8dc82067a4075f0502352f26",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/notifications.md",
+      "lines": 236,
+      "sha256": "ea0e129fc7cf8b32617d44ff66e947610b6c844711a14881fe5f3d01607fe139",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/onboarding.md",
+      "lines": 378,
+      "sha256": "d5dc254b697cd8ccbe64f3c0213ab66ebf2380ad064dbe8e1aa6053098463826",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/profile.md",
+      "lines": 189,
+      "sha256": "141655a87b36d5932f39d6c03efcb61608b5a1814ef3f181cf557aa1e164d39a",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/rate-limiting.md",
+      "lines": 315,
+      "sha256": "266f5e84e07f7982a92b71ef21954b0def00989f7f961e79570e9d82de8521d7",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/api/README.md",
+      "lines": 149,
+      "sha256": "58c21c1c9241ae9c94612d038031c64692c4c8a3b91a050b201d326db1aedfb7",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/development/architecture-overview.md",
+      "lines": 14,
+      "sha256": "0678263da8097da885a5e1062f8aa0748f5c46b00efb79646ff459f48666b765",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/development/contributing.md",
+      "lines": 226,
+      "sha256": "5027c30dd3697e3c6012bb059e629b4fe79175324c34886f07d8dced6b4694a2",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/development/database-migrations.md",
+      "lines": 341,
+      "sha256": "80796f7d1a841ab4b639989405d3ed21be3d5a91237c799b1d43c4e7a600224c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/development/debugging.md",
+      "lines": 360,
+      "sha256": "300245c97b9b47bfe7aec8187c55a8826723b91ac315be8a347f09e22249e964",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/development/deployment.md",
+      "lines": 281,
+      "sha256": "1e436853e1ba2d3f76d97c9458b341ea89ed026d1f439405fadb37ab84caeeaf",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/development/git-workflow.md",
+      "lines": 299,
+      "sha256": "be5f7d6b59c85058082f7da5e1844e3ad1bf2406c9afe252910498258b691215",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/development/monitoring.md",
+      "lines": 325,
+      "sha256": "a8f7d67bf52b8df486f28c69166e04bf63a86ad2ca92c55b90b327f2d40fe755",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/development/patterns.md",
+      "lines": 296,
+      "sha256": "ffb8be225c37c539e21773a85f53d20f45bdcb69fa85f1f76236f5d567ce0357",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/development/README.md",
+      "lines": 216,
+      "sha256": "e530882d80d4b2b1a7593ad192dcdb5563868f02b699b9360bd3e2227fcfc7bd",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/development/setup.md",
+      "lines": 361,
+      "sha256": "ec6e3cf3d06c55c5fe7f5ae23dd4bc270a4a77f639844bd2cd7d6a6486a9b134",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/development/testing.md",
+      "lines": 178,
+      "sha256": "cf87fac5543fb3694cec0fd60cfce620343b1ee2a9ff813045209a0b7bcde951",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/business/glossary.md",
+      "lines": 250,
+      "sha256": "ece096aa0207c2924421cb44b90affb58ca754519b3544534511e4f62f6faa07",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/business/product-philosophy.md",
+      "lines": 373,
+      "sha256": "eca4db818dfd6f1e09c3403b9410d92b5fdf1dd2f7cf4a35dfd5c42a615a20c2",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/business/product-rules-consolidated.md",
+      "lines": 13,
+      "sha256": "8c4a010131274b4c6b023fcae8dad446c61f8cbacdefa2998efce05e0f7ec57e",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/business/README.md",
+      "lines": 221,
+      "sha256": "bfdbfb6389f23eee942ee2b17edd2a3a9cf7f43c142a3f39f4bea227a425aee0",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/business/rules.md",
+      "lines": 494,
+      "sha256": "904db57e6a343e04e60ab98071f9ff1020583d56ce35605092586d26eb0fe7ac",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/business/state-machines.md",
+      "lines": 417,
+      "sha256": "38064ab283c366676ea339a3f67c635750729cf9848c9c6250d6b26599c46fac",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/security/authentication.md",
+      "lines": 298,
+      "sha256": "1c8b196104a425b60b84bcd5ba70f3b1c49e487ca2ebe77bf1ff0c3aaeefd0db",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/security/encryption.md",
+      "lines": 279,
+      "sha256": "19ccda4f1f7b8b677e70bce8991c216372cf28f909b3f29b634785679337f64c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/security/incident-response.md",
+      "lines": 388,
+      "sha256": "7972fc92c03f5536b4e8822be7c86378837f4191640f9925a681bc428ed8481c",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/security/pii.md",
+      "lines": 328,
+      "sha256": "7558f2d974e8d74d31c2cc9e8dacd9f30b7fd1b060c6f1aa7772e8c3792a355d",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/security/prompt-injection.md",
+      "lines": 313,
+      "sha256": "1f2f8406998bcc369c467f5f6d9e72f672bf5a723fd35ad82e4416eee9c6b35b",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/security/README.md",
+      "lines": 293,
+      "sha256": "160bde37df5dac058fed3bee3c837b674f16b12ad8a9362218aecb82a6de2450",
+      "review": "not reviewed"
+    },
+    {
+      "path": "docs/security/security-audit.md",
+      "lines": 306,
+      "sha256": "0dbfa061125263f899ba2f74fa4ae90e3c636eb3a6a636127b0e398d5af75512",
+      "review": "not reviewed"
+    }
+  ]
+}

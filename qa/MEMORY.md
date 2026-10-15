@@ -1,3 +1,7 @@
+## Afterthought acceptance audit — 2026-10-15
+
+Candidate93adf2d existing177/177pass. Added24acceptance tests; full201run192pass/9fail/0skipped. Reproduced migration Guid/int mismatch, missing schema uniqueness, duplicate block feedback, blocked-actor safety submission, lost first-END feedback, null-placeholder preventing deferred submission, missing length validation. Restored16QAfiles in isolated qa/afterthought-review-20261015; shared root/Claude frontend edits preserved. Remote195stillb6385ee/conflicting. Claude120Changesrequested with exact handoff; no merge/reset/paid/deploy. Tests/evidence are review material, not feature completion. See evidence/2026-10-15-afterthought-acceptance.md/.json.
+
 ## Standing PR review — 2026-10-15
 
 Reviewed15 open heads;10 have concrete blockers/known failures,2 major dependency upgrades need runtime smokes,3 have no code blocker identified (including own evidence PR193; not peer approval). Findings, exact SHAs and CI links in evidence/2026-10-15-standing-pr-review.md/.json and PR comments. PR193 title corrected. No merge/deploy.
