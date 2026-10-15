@@ -974,6 +974,7 @@ if (app.Environment.IsDevelopment())
     app.MapDevAuthEndpoints();          // Bypass auth for local testing
     app.MapDevMatchmakingSmokeEndpoints();  // Direct matchmaking calls
     app.MapDevSeedEndpoints();          // Database seed/reset
+    app.MapDevBackfillEndpoints();      // One-time data backfill operations
 }
 
 // ----------------------------------------------------
