@@ -26,6 +26,8 @@ using WovenBackend.Services.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using WovenBackend.Services.Matchmaking;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace WovenBackend.Tests;
 
@@ -323,6 +325,9 @@ internal sealed class ChatHarness(WebApplication app, QaMemoryContext db, QaCach
     public RecordedSideEffects Audit { get; private set; } = null!;
     public RecordedSideEffects Venues { get; private set; } = null!;
     public RecordedSideEffects Nudges { get; private set; } = null!;
+    public RecordedSideEffects Ai { get; private set; } = null!;
+    public RecordedSideEffects Profiles { get; private set; } = null!;
+    public FoundationalCycleService Foundational { get; private set; } = null!;
     public Guid ThreadId { get; private set; }
     public const string SigningKey = "LocalSyntheticChatAuthKey012345678901234567890123456789";
     public static ChatHarness Create(bool jwt = false)
@@ -339,6 +344,15 @@ internal sealed class ChatHarness(WebApplication app, QaMemoryContext db, QaCach
         var nudges = RecordedSideEffects.Create<INudgeService>(builder.Services); var venues = RecordedSideEffects.Create<IVenueService>(builder.Services);
         RecordedSideEffects.Create<IMediaService>(builder.Services);
         var audit = RecordedSideEffects.Create<ISecurityAuditService>(builder.Services);
+        var ai = RecordedSideEffects.Create<IOpenAiResilientClient>(builder.Services);
+        ai.Results[nameof(IOpenAiResilientClient.ExecuteWithSystemAsync)] = Task.FromResult<string?>(null);
+        var profiles = RecordedSideEffects.Create<IAiProfileService>(builder.Services);
+        profiles.Results[nameof(IAiProfileService.GetProfileAsync)] = Task.FromResult<AiProfile?>(null);
+        profiles.Results[nameof(IAiProfileService.GetPairContextAsync)] = Task.FromResult<PairContext?>(null);
+        var rewrite = new OpenAiRewriteService((IOpenAiResilientClient)(object)ai, NullLogger<OpenAiRewriteService>.Instance, (IAiProfileService)(object)profiles);
+        var foundational = new FoundationalCycleService(db, rewrite); builder.Services.AddSingleton(foundational);
+        var vectorBuilder = RecordedSideEffects.Create<IUserVectorBuilder>(builder.Services);
+        vectorBuilder.Results[nameof(IUserVectorBuilder.BuildAndSaveV1Async)] = Task.FromResult(1);
         if (jwt)
         {
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -358,8 +372,8 @@ internal sealed class ChatHarness(WebApplication app, QaMemoryContext db, QaCach
         }
         else builder.Services.AddAuthentication("Unit").AddScheme<AuthenticationSchemeOptions, UnitForbiddenHandler>("Unit", _ => { });
         builder.Services.AddAuthorization();
-        var app = builder.Build(); app.MapChatEndpoints(); app.MapUserDataEndpoints();
-        return new ChatHarness(app, db, cache, notify, signals, analytics) { Audit = audit, Venues = venues, Nudges = nudges };
+        var app = builder.Build(); app.MapChatEndpoints(); app.MapUserDataEndpoints(); app.MapOnboardingEndpoints();
+        return new ChatHarness(app, db, cache, notify, signals, analytics) { Audit = audit, Venues = venues, Nudges = nudges, Ai = ai, Profiles = profiles, Foundational = foundational };
     }
     public async Task<Match> Seed(bool trial = false, bool thread = true)
     {
