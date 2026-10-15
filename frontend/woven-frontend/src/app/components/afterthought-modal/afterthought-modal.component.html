@@ -1,0 +1,70 @@
+<div class="afterthoughtOverlay" (click)="onBack()">
+  <div class="afterthoughtModal" (click)="$event.stopPropagation()">
+
+    <button class="backBtn" (click)="onBack()">←</button>
+
+    <div class="modalHead">
+      <div class="modalTitle">{{ title }}</div>
+      <div class="modalDesc">{{ description }}</div>
+    </div>
+
+    <!-- Star rating (only for trial_end and unmatch) -->
+    <div class="ratingRow" *ngIf="showRating">
+      <div class="ratingLabel">How was your experience?</div>
+      <div class="stars">
+        <button
+          *ngFor="let i of [1, 2, 3, 4, 5]"
+          class="star"
+          [class.active]="rating !== null && i <= rating"
+          (click)="selectRating(i)"
+          [attr.aria-label]="i + ' stars'"
+        >
+          {{ rating !== null && i <= rating ? '★' : '☆' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Reason selection -->
+    <div class="reasonRow">
+      <div class="reasonLabel">
+        {{ closePath === 'block' ? 'Why are you blocking?' : 'What happened?' }}
+      </div>
+      <div class="reasonOptions">
+        <button
+          *ngFor="let opt of reasonOptions"
+          class="reasonChip"
+          [class.active]="selectedReasonTag === opt.tag"
+          (click)="selectReason(opt.tag)"
+        >
+          {{ opt.label }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Optional note -->
+    <div class="noteRow">
+      <div class="noteLabel">Anything else? (optional)</div>
+      <textarea
+        class="noteInput"
+        [(ngModel)]="noteText"
+        placeholder="Private note..."
+        maxlength="300"
+        rows="3"
+      ></textarea>
+      <div class="noteCounter">{{ noteText.length }}/300</div>
+    </div>
+
+    <!-- Actions -->
+    <div class="modalActions">
+      <button
+        class="submitBtn"
+        [class.disabled]="!canSubmit"
+        [disabled]="!canSubmit"
+        (click)="onSubmit()"
+      >
+        {{ submitLabel }}
+      </button>
+    </div>
+
+  </div>
+</div>

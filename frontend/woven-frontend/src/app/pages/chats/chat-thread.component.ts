@@ -20,6 +20,11 @@ import { GameMessageCardComponent } from '../../components/game-message-card/gam
 import { InlineGamePlayerComponent } from '../../components/inline-game-player/inline-game-player.component';
 import { TrialDecisionComponent } from '../../components/trial-decision/trial-decision.component';
 import { UnmatchRatingComponent } from '../../components/unmatch-rating/unmatch-rating.component';
+import {
+  AfterthoughtModalComponent,
+  AfterthoughtData,
+  ClosePathType,
+} from '../../components/afterthought-modal/afterthought-modal.component';
 
 @Component({
   selector: 'app-chat-thread',
@@ -31,7 +36,8 @@ import { UnmatchRatingComponent } from '../../components/unmatch-rating/unmatch-
     GameMessageCardComponent,
     InlineGamePlayerComponent,
     TrialDecisionComponent,
-    UnmatchRatingComponent
+    UnmatchRatingComponent,
+    AfterthoughtModalComponent,
   ],
   templateUrl: './chat-thread.component.html',
   styleUrls: ['./chat-thread.component.scss'],
@@ -94,6 +100,12 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
 
   // Unmatch rating state
   showUnmatchRating = false;
+
+  // Afterthought modal state
+  showAfterthought = false;
+  afterthoughtPath: ClosePathType = 'trial_end';
+  pendingDecision: 'END' | 'BLOCK' | null = null;
+  pendingEndReason: string | undefined = undefined;
 
   // Voice recording state
   isRecording = false;
@@ -444,6 +456,18 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
   async onTrialDecision(event: { decision: 'CONTINUE' | 'END' | 'BLOCK'; endReason?: string }) {
     if (!this.data) return;
 
+    // For END and BLOCK, show Afterthought modal
+    if (event.decision === 'END' || event.decision === 'BLOCK') {
+      this.pendingDecision = event.decision;
+      this.pendingEndReason = event.endReason;
+      this.afterthoughtPath = event.decision === 'BLOCK' ? 'block' : 'trial_end';
+      this.showTrialDecision = false;
+      this.showAfterthought = true;
+      this.cdr.markForCheck();
+      return;
+    }
+
+    // CONTINUE goes through immediately (no Afterthought)
     try {
       const result = await firstValueFrom(
         this.chatApi.trialDecision(this.data.threadId, event.decision, event.endReason)
@@ -468,6 +492,69 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
       console.error('Trial decision error:', err);
       this.showToast('Could not submit decision.');
       this.showTrialDecision = false;
+    }
+  }
+
+  onAfterthoughtBack() {
+    this.showAfterthought = false;
+
+    // If we came from trial decision, go back to it
+    if (this.pendingDecision) {
+      this.showTrialDecision = true;
+      this.pendingDecision = null;
+      this.pendingEndReason = undefined;
+    }
+    // Otherwise (unmatch flow), just close
+
+    this.cdr.markForCheck();
+  }
+
+  async onAfterthoughtSubmit(afterthought: AfterthoughtData) {
+    // Route to unmatch or trial decision based on path
+    if (this.afterthoughtPath === 'unmatch') {
+      await this.onUnmatchAfterthought(afterthought);
+    } else {
+      await this.onTrialAfterthought(afterthought);
+    }
+  }
+
+  async onTrialAfterthought(afterthought: AfterthoughtData) {
+    if (!this.data || !this.pendingDecision) return;
+
+    this.showAfterthought = false;
+    this.cdr.markForCheck();
+
+    try {
+      const result = await firstValueFrom(
+        this.chatApi.trialDecision(
+          this.data.threadId,
+          this.pendingDecision,
+          this.pendingEndReason,
+          afterthought.rating,
+          afterthought.reasonTag,
+          afterthought.noteText
+        )
+      );
+
+      this.pendingDecision = null;
+      this.pendingEndReason = undefined;
+
+      if (result.status === 'MATCH_BLOCKED') {
+        this.showToast('Blocked.');
+        setTimeout(() => this.router.navigateByUrl('/chats'), 800);
+      } else if (result.status === 'MATCH_ENDED') {
+        this.showToast('Match ended.');
+        setTimeout(() => this.router.navigateByUrl('/chats'), 800);
+      } else if (result.status === 'MATCH_CONTINUES') {
+        this.showToast('Match continues ◈');
+        await this.refreshSilent();
+      } else {
+        this.showToast('Waiting for them...');
+        await this.refreshSilent();
+      }
+    } catch (err) {
+      console.error('Trial decision with afterthought error:', err);
+      this.showToast('Could not submit decision.');
     }
   }
 
@@ -622,15 +709,17 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
 
   async unmatch() {
     if (!this.data || this.busy) return;
-    
-    // ✅ Show rating modal first
-    this.showUnmatchRating = true;
+
+    // Show Afterthought modal for unmatch
+    this.afterthoughtPath = 'unmatch';
+    this.showAfterthought = true;
     this.closeMore();
+    this.cdr.markForCheck();
   }
 
   async confirmUnmatch(rating: number | undefined) {
     this.showUnmatchRating = false;
-    
+
     if (!this.data || this.busy) return;
     const matchId = (this.data as any)?.matchId;
     if (!matchId) return;
@@ -642,7 +731,7 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
     await new Promise((r) => setTimeout(r, 500));
 
     try {
-      await firstValueFrom(this.matchesApi.unmatch(matchId, rating));
+      await firstValueFrom(this.matchesApi.unmatch(matchId, rating, null, null));
       this.showToast('Unmatched.');
       setTimeout(() => {
         this.router.navigateByUrl('/chats');
@@ -658,6 +747,41 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
 
   cancelUnmatch() {
     this.showUnmatchRating = false;
+  }
+
+  async onUnmatchAfterthought(afterthought: AfterthoughtData) {
+    this.showAfterthought = false;
+
+    if (!this.data || this.busy) return;
+    const matchId = (this.data as any)?.matchId;
+    if (!matchId) return;
+
+    this.isUnmatching = true;
+    this.busy = true;
+    this.cdr.markForCheck();
+
+    await new Promise((r) => setTimeout(r, 500));
+
+    try {
+      await firstValueFrom(
+        this.matchesApi.unmatch(
+          matchId,
+          afterthought.rating,
+          afterthought.reasonTag,
+          afterthought.noteText
+        )
+      );
+      this.showToast('Unmatched.');
+      setTimeout(() => {
+        this.router.navigateByUrl('/chats');
+      }, 800);
+    } catch {
+      this.showToast('Could not unmatch.');
+      this.isUnmatching = false;
+    } finally {
+      this.busy = false;
+      this.cdr.markForCheck();
+    }
   }
 
   async block() {
