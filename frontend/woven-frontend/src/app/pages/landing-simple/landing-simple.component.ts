@@ -45,37 +45,31 @@ export class LandingSimpleComponent implements AfterViewInit, OnDestroy {
     {
       photo: '/landing-photos/Ananya.jpeg',
       name: 'Ananya',
-      age: 26,
       explanation: 'You both speak in questions, not answers. Curiosity over certainty.'
     },
     {
       photo: '/landing-photos/Laleh.jpeg',
       name: 'Laleh',
-      age: 25,
       explanation: 'Your answers didn\'t match — they mirrored. Two people asking the same question from different angles.'
     },
     {
       photo: '/landing-photos/Mimi.jpeg',
       name: 'Mimi',
-      age: 27,
       explanation: 'You both value presence. Not performance.'
     },
     {
       photo: '/landing-photos/Screenshot 2026-07-04 174543.png',
       name: 'Rohan',
-      age: 28,
       explanation: 'You both chose silence over small talk. Depth over breadth.'
     },
     {
       photo: '/landing-photos/zara..charater.jpeg',
       name: 'Zara',
-      age: 26,
       explanation: 'Your pillars don\'t align — they complete. What you seek, they give. What they need, you hold.'
     },
     {
       photo: '/landing-photos/Screenshot 2026-07-04 174554.png',
       name: 'Arjun',
-      age: 29,
       explanation: 'You both lead with honesty, even when it costs you. Integrity over ease.'
     },
     {

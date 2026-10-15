@@ -30,11 +30,11 @@
       <h2 class="hero-headline">Not one swipe to marriage.<br>Not a thousand swipes to nowhere.</h2>
       <p class="hero-subheadline">
         Woven is the space in between. Five people a day, introduced like moments — not dealt like cards.
-        One honest question: Magical, or Resonate? A matchmaker that learns who you actually fall for.
+        One honest question: Magical, or Resonant? A matchmaker that learns who you actually fall for.
         And a promise: no swiping, no ghosting, no conversation that starts with "hi."
       </p>
 
-      <button class="cta-primary" routerLink="/login">Join the first circle — Hyderabad</button>
+      <button class="cta-primary" routerLink="/login">Join the early circle</button>
       <p class="cta-under">Open to women first. Men, we'll call you.</p>
     </div>
 
@@ -49,7 +49,7 @@
       <h2 class="section-header">You've been given two bad options.</h2>
       <div class="problem-text">
         <p>Arranged marriage apps want you married by the second meeting. Dating apps want you swiping until you die. One is too fast to be safe. The other is too shallow to go anywhere.</p>
-        <p>On Tinder, the average user swipes through 140 profiles to get one match. On Bumble, 92% of matches never message. On Hinge, 70% of first dates don't lead to a second. The system isn't broken — it's working exactly as designed. More swipes, more ads, more paying users who never leave.</p>
+        <p>The average dating app user swipes through 100+ profiles to get one conversation. Most matches never message. Most first dates don't lead to a second. The system isn't broken — it's working exactly as designed. More swipes, more ads, more paying users who never leave.</p>
         <p>Somewhere between "meet the family" and "hey wyd" is where real relationships actually start. Nobody built an app for that place.</p>
         <p class="reveal-line">So we did.</p>
       </div>
@@ -74,12 +74,12 @@
             <img [src]="person.photo" [alt]="person.name" />
           </div>
           <div class="polaroid-info">
-            <h3 class="polaroid-name">{{ person.name }}, {{ person.age }}</h3>
+            <h3 class="polaroid-name">{{ person.name }}</h3>
             <div class="polaroid-label">What caught our eye</div>
             <p class="polaroid-explanation">{{ person.explanation }}</p>
             <div class="polaroid-actions">
               <button class="btn-magical"><span class="icon">◈</span> Magical</button>
-              <button class="btn-resonant"><span class="icon">◇</span> Resonate</button>
+              <button class="btn-resonant"><span class="icon">◇</span> Resonant</button>
             </div>
           </div>
         </div>
@@ -97,7 +97,7 @@
       </div>
       <div class="choice-side">
         <div class="choice-symbol resonant-symbol">◇</div>
-        <div class="choice-label">Resonate</div>
+        <div class="choice-label">Resonant</div>
       </div>
     </div>
   </section>
@@ -137,7 +137,7 @@
               <div class="note-text">You said The Midnight Library made you rethink your whole career path. That's wild. Most people just say it was "good" and move on. What are you gonna do about it?</div>
             </div>
             <div class="pinned-note theirs">
-              <div class="note-label">Their opening · ◇ Resonate</div>
+              <div class="note-label">Their opening · ◇ Resonant</div>
               <div class="note-text">Your voice note about being bad at mornings but good at 2am conversations made me laugh. I'm the exact same. Do you actually function before 10am or just pretend?</div>
             </div>
           </div>
@@ -166,8 +166,8 @@
 
       <div class="section-text centered">
         <p>When you match, you get a Balloon — it opens with both your notes pinned at the top. You already said something real to each other. Start from there.</p>
-        <p>The Balloon lives for 36 hours. Both of you send real messages → 5-minute gated window opens. An intense, contained moment. Then one of you pops it — either as the natural end or as the exit ramp ("not feeling it? pop it, no explanation needed").</p>
-        <p>Pop triggers 3 minutes of reflection. Chat locks. You both sit with it. Then you both choose: Continue → Find Love unlocks (date ideas, games, the works). Exit → clean ending. No ghosting possible. Leaving well isn't rude here. It's the rule.</p>
+        <p>The Balloon lives for 72 hours. Both of you send real messages → First Ten opens (a 10-minute window). An intense, contained moment. Then one of you calls Last Call — either as the natural end or as the exit ramp ("not feeling it? call it, no explanation needed").</p>
+        <p>Last Call triggers reflection. Chat locks. You both sit with it. Then you both choose: Continue → Knot unlocks (deeper connection, shared experiences). Exit → clean ending. No ghosting possible. Leaving well isn't rude here. It's the rule.</p>
       </div>
 
       <!-- Balloon States (Static) -->
@@ -177,7 +177,7 @@
           <div class="state-label">Warming</div>
           <div class="state-content">
             <div class="state-icon">◎</div>
-            <div class="state-desc">36h to connect</div>
+            <div class="state-desc">72h to connect</div>
           </div>
         </div>
 
@@ -186,8 +186,8 @@
           <div class="state-label">Gated Window</div>
           <div class="state-content">
             <div class="state-icon pulse">◎</div>
-            <div class="state-desc">5-min window</div>
-            <button class="state-action">Pop</button>
+            <div class="state-desc">First Ten (10 min)</div>
+            <button class="state-action">Last Call</button>
           </div>
         </div>
 
@@ -206,7 +206,7 @@
     </div>
   </section>
 
-  <!-- SECTION 7: FIND LOVE -->
+  <!-- SECTION 7: KNOT -->
   <section class="text-section accent-section features-section">
     <div class="container">
       <h2 class="section-header">Other apps stop at the match. That's where Woven starts.</h2>
@@ -362,8 +362,8 @@
   <!-- SECTION 9: FINAL CTA -->
   <section class="final-cta">
     <div class="container">
-      <h2 class="cta-header">Five people. One honest question. Starting in Hyderabad.</h2>
-      <p class="cta-subtext">The first circle is small on purpose. One city. Women first. Every member chosen.</p>
+      <h2 class="cta-header">Five people. One honest question.</h2>
+      <p class="cta-subtext">The early circle is small on purpose. Women first. Every member chosen.</p>
 
       <form class="reg-form" *ngIf="!submitted" (ngSubmit)="onSubmitRegistration()">
         <div class="form-row">
@@ -389,7 +389,7 @@
           </div>
           <div class="form-field">
             <label>Location</label>
-            <input type="text" [(ngModel)]="registration.location" name="location" required placeholder="Hyderabad, Gachibowli..." />
+            <input type="text" [(ngModel)]="registration.location" name="location" required placeholder="Your city, neighborhood..." />
           </div>
         </div>
 
@@ -399,7 +399,7 @@
         </div>
 
         <button type="submit" class="cta-primary cta-large">Claim your place</button>
-        <p class="cta-under">Free for founding members. Hyderabad only, for now.</p>
+        <p class="cta-under">Free for founding members.</p>
       </form>
 
       <div class="reg-success" *ngIf="submitted">
@@ -433,7 +433,7 @@
             <h2 class="slide-header">Built by one person who was tired of it too.</h2>
             <div class="slide-text">
               <p>Woven was built by a solo engineer who spent too many years on dating apps that led nowhere.</p>
-              <p>No boardroom. No growth team optimizing your loneliness for ad revenue. Twelve days of building, one belief:</p>
+              <p>No boardroom. No growth team optimizing your loneliness for ad revenue. One belief:</p>
               <p class="slide-quote">"A dating app that works is one you eventually delete. Because it worked."</p>
             </div>
           </div>
@@ -507,7 +507,11 @@
         <p class="tagline">Energy. Intention. Chemistry.</p>
       </div>
       <div class="footer-bottom">
-        <p>Built in Hyderabad · hello@wooven.me</p>
+        <p>
+          <a href="/privacy" class="footer-link">Privacy</a> ·
+          <a href="/terms" class="footer-link">Terms</a> ·
+          hello@wooven.me
+        </p>
       </div>
     </div>
   </footer>
