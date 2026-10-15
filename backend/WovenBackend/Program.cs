@@ -21,6 +21,7 @@ using WovenBackend.Endpoints;
 using WovenBackend.Hubs;
 using WovenBackend.Infrastructure;
 using WovenBackend.Services;
+using WovenBackend.Services.Moments;
 using WovenBackend.Services.Queue;
 using WovenBackend.Services.Security;
 
@@ -422,6 +423,7 @@ builder.Services.AddScoped<FoundationalCycleService>();
 builder.Services.AddScoped<WovenBackend.Services.Moments.InteractionBudgetService>();
 builder.Services.AddScoped<WovenBackend.Services.Moments.SparkWalletService>();
 builder.Services.AddScoped<WovenBackend.Services.Moments.MomentsMatchService>();
+builder.Services.AddScoped<IAfterthoughtService, AfterthoughtService>();
 builder.Services.AddHostedService<WovenBackend.Services.Moments.BalloonExpiryWorker>();
 
 builder.Services.AddScoped<OpenAiDynamicIntakeRewriteService>();

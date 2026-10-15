@@ -15,7 +15,7 @@ public class MatchAfterthought
     public int Id { get; set; }
 
     [Column("match_id")]
-    public int MatchId { get; set; }
+    public Guid MatchId { get; set; }
     public Match? Match { get; set; }
 
     /// <summary>

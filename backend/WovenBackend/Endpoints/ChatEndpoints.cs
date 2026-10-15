@@ -18,7 +18,13 @@ public static class ChatEndpoints
 {
     public record StartChatRequest(Guid MatchId);
     public record SendMessageRequest(string Body);
-    public record TrialDecisionRequest(string Decision, string? EndReason, int? Rating);
+    public record TrialDecisionRequest(
+        string Decision,
+        string? EndReason,
+        int? Rating,
+        short? AfterthoughtRating,
+        string? AfterthoughtReasonTag,
+        string? AfterthoughtNote);
     public record VoiceMessageRequest(string AudioUrl, int DurationSecs);
 
     private static readonly TimeSpan ReflectionWindow = TimeSpan.FromMinutes(5);
@@ -606,6 +612,7 @@ public static class ChatEndpoints
             SparkWalletService sparks,
             IMatchSignalService signals,
             IIdempotencyService idempotency,
+            IAfterthoughtService afterthought,
             HttpContext http,
             CancellationToken ct) =>
         {
@@ -699,24 +706,27 @@ public static class ChatEndpoints
                 if (!alreadyBlocked)
                     db.Blocks.Add(new WovenBackend.data.Entities.Moments.Block { BlockerId = me, BlockedId = otherUserId, CreatedAt = now });
 
-                // Save Afterthought rating if provided
-                if (req.Rating != null && req.Rating >= -100 && req.Rating <= 100)
-                {
-                    db.UserRatings.Add(new UserRating
-                    {
-                        RatedUserId = otherUserId,
-                        RaterUserId = me,
-                        MatchId = match.Id,
-                        RatingValue = req.Rating.Value,
-                        CreatedAt = now
-                    });
-                }
-
                 match.BalloonState = BalloonState.CLOSED;
                 match.ClosedReason = ClosedReason.BLOCK;
                 match.ClosedAt = now;
                 match.IsTrial = false;
                 await db.SaveChangesAsync(ct);
+
+                // Record Afterthought (safety reason only, no star rating)
+                try
+                {
+                    await afterthought.RecordAsync(
+                        matchId: match.Id,
+                        fromUserId: me,
+                        aboutUserId: otherUserId,
+                        closePath: "block",
+                        rating: null, // Block path has no star rating
+                        reasonTag: req.AfterthoughtReasonTag,
+                        noteText: req.AfterthoughtNote,
+                        isSafety: true,
+                        ct: ct);
+                }
+                catch { /* non-critical */ }
 
                 var blockResponse = new { status = "MATCH_BLOCKED", closedAt = match.ClosedAt };
                 if (!string.IsNullOrWhiteSpace(idempotencyKey))
@@ -746,24 +756,27 @@ public static class ChatEndpoints
                 {
                     var noMessages = match.BothMessagedAt == null;
 
-                    // Save Afterthought rating if provided (current user only)
-                    if (req.Rating != null && req.Rating >= -100 && req.Rating <= 100)
-                    {
-                        db.UserRatings.Add(new UserRating
-                        {
-                            RatedUserId = otherUserId,
-                            RaterUserId = me,
-                            MatchId = match.Id,
-                            RatingValue = req.Rating.Value,
-                            CreatedAt = now
-                        });
-                    }
-
                     match.BalloonState = BalloonState.CLOSED;
                     match.ClosedReason = ClosedReason.UNMATCH;
                     match.ClosedAt = now;
                     match.IsTrial = false;
                     await db.SaveChangesAsync(ct);
+
+                    // Record Afterthought for current user
+                    try
+                    {
+                        await afterthought.RecordAsync(
+                            matchId: match.Id,
+                            fromUserId: me,
+                            aboutUserId: otherUserId,
+                            closePath: "trial_end",
+                            rating: req.AfterthoughtRating,
+                            reasonTag: req.AfterthoughtReasonTag,
+                            noteText: req.AfterthoughtNote,
+                            isSafety: false,
+                            ct: ct);
+                    }
+                    catch { /* non-critical */ }
 
                     if (noMessages)
                     {
