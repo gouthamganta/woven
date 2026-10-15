@@ -48,7 +48,7 @@ Users have a **100-tile daily view cap** (resets midnight UTC). Each tile opened
 Every feed request scores a pool of up to **600 eligible tiles** (3× over-fetch, pruned to 200 final) using:
 
 **5-component similarity** (renormalized to available signals):
-1. **Pillar scores** (0.28) — 8-dimensional values alignment (Lifestyle, Energy, Communication, Affection, Stability, Values, Curiosity, Emotional Rhythm)
+1. **Pillar scores** (0.28) — 8-dimensional values alignment (Lifestyle, Energy, Values, Communication, Ambition, Stability, Curiosity, Affection)
 2. **Reception embedding** (0.32) — what viewer dwells on vs this tile's content (behavioral taste)
 3. **Expression embedding** (0.18) — what viewer posts vs what owner posts (creative wavelength)
 4. **Preference embedding** (0.12) — viewer's ChatNote preferences vs tile content (stated attraction patterns)

@@ -37,9 +37,9 @@ public class AttachmentProxyService : IAttachmentProxyService
         IBehavioralFingerprintService fingerprints,
         ILogger<AttachmentProxyService> logger)
     {
-        _db           = db;
+        _db = db;
         _fingerprints = fingerprints;
-        _logger       = logger;
+        _logger = logger;
     }
 
     public async Task ComputeAttachmentProxyAsync(int userId, CancellationToken ct = default)

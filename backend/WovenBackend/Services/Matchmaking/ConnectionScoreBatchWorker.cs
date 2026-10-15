@@ -143,7 +143,7 @@ public class ConnectionScoreBatchWorker : BackgroundService
                 g.Key.ViewerId,
                 g.Key.CandidateId,
                 g.Key.EventType,
-                Count    = g.Count(),
+                Count = g.Count(),
                 MaxValue = g.Max(s => s.EventValue)
             })
             .ToListAsync(ct);
@@ -165,27 +165,27 @@ public class ConnectionScoreBatchWorker : BackgroundService
             float Get(string t) => byType.TryGetValue(t, out var r) ? r.MaxValue : 0f;
             int Count(string t) => byType.TryGetValue(t, out var r) ? r.Count : 0;
 
-            var balloonPopped  = Get(MatchSignalEventTypes.BalloonPop) > 0 ? 1f : 0f;
+            var balloonPopped = Get(MatchSignalEventTypes.BalloonPop) > 0 ? 1f : 0f;
             var trialRequested = Get(MatchSignalEventTypes.TrialRequested) > 0 ? 1f : 0f;
-            var trialAccepted  = Get(MatchSignalEventTypes.TrialAccepted) > 0 ? 1f : 0f;
-            var convDepth      = Math.Min(1f, Count(MatchSignalEventTypes.MessageSent) / 20f);
-            var dateAccepted   = Get(MatchSignalEventTypes.DateIdeaAccepted) > 0 ? 1f : 0f;
-            var explicitFb     = Get(MatchSignalEventTypes.ExplicitFeedback); // already [0,1]
-            var loveReactions  = Math.Min(1f,
+            var trialAccepted = Get(MatchSignalEventTypes.TrialAccepted) > 0 ? 1f : 0f;
+            var convDepth = Math.Min(1f, Count(MatchSignalEventTypes.MessageSent) / 20f);
+            var dateAccepted = Get(MatchSignalEventTypes.DateIdeaAccepted) > 0 ? 1f : 0f;
+            var explicitFb = Get(MatchSignalEventTypes.ExplicitFeedback); // already [0,1]
+            var loveReactions = Math.Min(1f,
                 (Count(MatchSignalEventTypes.ChatNoteLove) + Count(MatchSignalEventTypes.MessageLove)) / 3f);
             // Voice signals: mutual exchange = strong vulnerability/trust indicator
-            var voiceExchange  = Get(MatchSignalEventTypes.MutualVoiceExchange) > 0 ? 1f : 0f;
+            var voiceExchange = Get(MatchSignalEventTypes.MutualVoiceExchange) > 0 ? 1f : 0f;
             var voiceCompleted = Math.Min(1f, Count(MatchSignalEventTypes.VoiceNoteListenComplete) / 2f);
 
-            var score = W("BalloonPopped",       0.05f) * balloonPopped
-                      + W("TrialRequested",      0.08f) * trialRequested   // reduced: 0.10→0.08
-                      + W("TrialAccepted",       0.22f) * trialAccepted    // reduced: 0.25→0.22
-                      + W("ConversationDepth",   0.20f) * convDepth
-                      + W("DateAccepted",        0.15f) * dateAccepted
-                      + W("ExplicitFeedback",    0.13f) * explicitFb       // reduced: 0.15→0.13
-                      + W("LoveReactions",       0.08f) * loveReactions    // reduced: 0.10→0.08
-                      + W("VoiceExchange",       0.06f) * voiceExchange    // NEW
-                      + W("VoiceCompleted",      0.03f) * voiceCompleted;  // NEW — total stays 1.0
+            var score = W("BalloonPopped", 0.05f) * balloonPopped
+                      + W("TrialRequested", 0.08f) * trialRequested   // reduced: 0.10→0.08
+                      + W("TrialAccepted", 0.22f) * trialAccepted    // reduced: 0.25→0.22
+                      + W("ConversationDepth", 0.20f) * convDepth
+                      + W("DateAccepted", 0.15f) * dateAccepted
+                      + W("ExplicitFeedback", 0.13f) * explicitFb       // reduced: 0.15→0.13
+                      + W("LoveReactions", 0.08f) * loveReactions    // reduced: 0.10→0.08
+                      + W("VoiceExchange", 0.06f) * voiceExchange    // NEW
+                      + W("VoiceCompleted", 0.03f) * voiceCompleted;  // NEW — total stays 1.0
 
             scores.Add((pair.Key.ViewerId, pair.Key.CandidateId, Math.Clamp(score, 0f, 1f)));
         }
@@ -201,9 +201,9 @@ public class ConnectionScoreBatchWorker : BackgroundService
             var chunk = scores.GetRange(i, Math.Min(chunkSize, scores.Count - i));
 
             // Build a VALUES list: ($1,$2,$3,$4), ($5,$6,$7,$8), ...
-            var sb    = new System.Text.StringBuilder();
+            var sb = new System.Text.StringBuilder();
             var param = new List<object>();
-            int p     = 0;
+            int p = 0;
 
             sb.Append(
                 @"INSERT INTO ""ConnectionScores"" (""ViewerId"", ""CandidateId"", ""Score"", ""ComputedAt"") VALUES ");
@@ -211,7 +211,7 @@ public class ConnectionScoreBatchWorker : BackgroundService
             for (int j = 0; j < chunk.Count; j++)
             {
                 if (j > 0) sb.Append(',');
-                sb.Append($"({{{p}}},{{{p+1}}},{{{p+2}}},{{{p+3}}})");
+                sb.Append($"({{{p}}},{{{p + 1}}},{{{p + 2}}},{{{p + 3}}})");
                 param.Add(chunk[j].ViewerId);
                 param.Add(chunk[j].CandidateId);
                 param.Add((double)chunk[j].Score);

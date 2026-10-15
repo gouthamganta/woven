@@ -1,0 +1,403 @@
+{
+  "date": "2026-10-08",
+  "backend": "5461c85",
+  "client": "176cf74",
+  "proxy": "c6b090c",
+  "draft": "https://github.com/gouthamganta/woven/pull/168",
+  "nginxSyntax": "passed",
+  "baseline": {
+    "label": "baseline",
+    "scope": "Actual local frontend proxy to model-created QA backend. Shared-route document/API contracts and headers, not full browser/provider/HTTPS validation.",
+    "results": [
+      {
+        "id": "API-/me/data-summary",
+        "path": "/me/data-summary",
+        "result": "failed",
+        "status": 200,
+        "html": true,
+        "json": false,
+        "frame": null,
+        "nosniff": null
+      },
+      {
+        "id": "API-/me/accessibility",
+        "path": "/me/accessibility",
+        "result": "failed",
+        "status": 200,
+        "html": true,
+        "json": false,
+        "frame": null,
+        "nosniff": null
+      },
+      {
+        "id": "API-/commons?page=1",
+        "path": "/commons?page=1",
+        "result": "failed",
+        "status": 200,
+        "html": true,
+        "json": false,
+        "frame": null,
+        "nosniff": null
+      },
+      {
+        "id": "API-/tiles/mine",
+        "path": "/tiles/mine",
+        "result": "failed",
+        "status": 200,
+        "html": true,
+        "json": false,
+        "frame": null,
+        "nosniff": null
+      },
+      {
+        "id": "API-/sparks/balance",
+        "path": "/sparks/balance",
+        "result": "failed",
+        "status": 200,
+        "html": true,
+        "json": false,
+        "frame": null,
+        "nosniff": null
+      },
+      {
+        "id": "API-/moments",
+        "path": "/moments",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "API-/chats",
+        "path": "/chats",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "API-/matches",
+        "path": "/matches",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "API-COACHING",
+        "path": "/coaching/current-summary",
+        "result": "failed",
+        "status": 200,
+        "html": true,
+        "json": false,
+        "frame": null,
+        "nosniff": null
+      },
+      {
+        "id": "DOCUMENT-/moments",
+        "path": "/moments",
+        "result": "failed",
+        "status": 401,
+        "html": false,
+        "json": false,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "DOCUMENT-/chats",
+        "path": "/chats",
+        "result": "failed",
+        "status": 401,
+        "html": false,
+        "json": false,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "DOCUMENT-/matches/00000000-0000-0000-0000-000000000001/profile",
+        "path": "/matches/00000000-0000-0000-0000-000000000001/profile",
+        "result": "failed",
+        "status": 401,
+        "html": false,
+        "json": false,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "DOCUMENT-/onboarding/basics",
+        "path": "/onboarding/basics",
+        "result": "failed",
+        "status": 404,
+        "html": false,
+        "json": false,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "ANONYMOUS-API",
+        "path": "/me/data-summary",
+        "result": "failed",
+        "status": 200,
+        "html": true,
+        "json": false,
+        "frame": null,
+        "nosniff": null
+      },
+      {
+        "id": "SIGNALR-ANONYMOUS",
+        "path": "/hubs/woven/negotiate?negotiateVersion=1",
+        "result": "failed",
+        "status": 405,
+        "html": true,
+        "json": false,
+        "frame": null,
+        "nosniff": null
+      },
+      {
+        "id": "SIGNALR-AUTH",
+        "path": "/hubs/woven/negotiate?negotiateVersion=1",
+        "result": "failed",
+        "status": 405,
+        "html": true,
+        "json": false,
+        "frame": null,
+        "nosniff": null
+      }
+    ]
+  },
+  "candidate": {
+    "label": "repaired",
+    "scope": "Actual local frontend proxy to model-created QA backend. Shared-route document/API contracts and headers, not full browser/provider/HTTPS validation.",
+    "results": [
+      {
+        "id": "API-/me/data-summary",
+        "path": "/me/data-summary",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "API-/me/accessibility",
+        "path": "/me/accessibility",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "API-/commons?page=1",
+        "path": "/commons?page=1",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "API-/tiles/mine",
+        "path": "/tiles/mine",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "API-/sparks/balance",
+        "path": "/sparks/balance",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "API-/moments",
+        "path": "/moments",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "API-/chats",
+        "path": "/chats",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "API-/matches",
+        "path": "/matches",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "API-COACHING",
+        "path": "/coaching/current-summary",
+        "result": "passed",
+        "status": 204,
+        "html": false,
+        "json": false,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "DOCUMENT-/moments",
+        "path": "/moments",
+        "result": "passed",
+        "status": 200,
+        "html": true,
+        "json": false,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "DOCUMENT-/chats",
+        "path": "/chats",
+        "result": "passed",
+        "status": 200,
+        "html": true,
+        "json": false,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "DOCUMENT-/matches/00000000-0000-0000-0000-000000000001/profile",
+        "path": "/matches/00000000-0000-0000-0000-000000000001/profile",
+        "result": "passed",
+        "status": 200,
+        "html": true,
+        "json": false,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "DOCUMENT-/onboarding/basics",
+        "path": "/onboarding/basics",
+        "result": "passed",
+        "status": 200,
+        "html": true,
+        "json": false,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "ANONYMOUS-API",
+        "path": "/me/data-summary",
+        "result": "passed",
+        "status": 401,
+        "html": false,
+        "json": false,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "SIGNALR-ANONYMOUS",
+        "path": "/hubs/woven/negotiate?negotiateVersion=1",
+        "result": "passed",
+        "status": 401,
+        "html": false,
+        "json": false,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      },
+      {
+        "id": "SIGNALR-AUTH",
+        "path": "/hubs/woven/negotiate?negotiateVersion=1",
+        "result": "passed",
+        "status": 200,
+        "html": false,
+        "json": true,
+        "frame": "SAMEORIGIN",
+        "nosniff": "nosniff"
+      }
+    ]
+  },
+  "browser": [
+    {
+      "signedIn": false,
+      "path": "/login",
+      "result": "passed",
+      "pageErrors": [],
+      "api": [],
+      "sockets": [],
+      "scope": "Actual local frontend/backend, signed sandbox JWT; external requests blocked. No Google SSO or semantic matching validated."
+    },
+    {
+      "signedIn": true,
+      "path": "/moments",
+      "result": "passed",
+      "pageErrors": [],
+      "api": [
+        {
+          "path": "/hubs/woven/negotiate",
+          "status": 200
+        },
+        {
+          "path": "/intake/dynamic/current",
+          "status": 200
+        },
+        {
+          "path": "/coaching/current-summary",
+          "status": 204
+        },
+        {
+          "path": "/me/pending-tasks",
+          "status": 200
+        },
+        {
+          "path": "/me/feedback-prompt",
+          "status": 200
+        },
+        {
+          "path": "/moments",
+          "status": 200
+        }
+      ],
+      "sockets": [
+        {
+          "path": "/hubs/woven",
+          "handshake": true,
+          "errors": []
+        }
+      ],
+      "scope": "Actual local frontend/backend, signed sandbox JWT; external requests blocked. No Google SSO or semantic matching validated."
+    }
+  ],
+  "hashes": {
+    "baseline": "1587b1b09d6413c7a8ea2fc3c9ec8a24b8b0fa4477b5af5231fe1669dd422884",
+    "candidate": "01887583c222d890d58d0ee8bf8bc8eaababdc741382131fd21b33c9bac1d6a3",
+    "browser": "27c584f850f9aeaf520b67fd9c7baac808a096026002af4674d195f42ef86db0"
+  },
+  "limitations": [
+    "Model-created schema, not migration readiness.",
+    "Locally signed synthetic JWT; no Google provider login verified.",
+    "Websocket handshake observed; recipient isolation, delivery/reconnect remain untested.",
+    "Existing TLS/upload-size policies retained; not production transport approval.",
+    "Loopback QA update only; original containers, master and cloud deployment untouched."
+  ]
+}

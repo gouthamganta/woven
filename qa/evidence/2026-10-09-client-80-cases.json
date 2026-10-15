@@ -1,0 +1,2173 @@
+{
+  "date": "2026-10-09",
+  "source": "176cf74cabffa8159d9108ead4cb6639f7035366 auth/routes overlay; original application bytes restored",
+  "total": 540,
+  "passed": 537,
+  "failed": 3,
+  "newCases": 99,
+  "newCasesPassed": 99,
+  "failedSuiteLoads": 0,
+  "rawResultsSha256": "fd1f74f6a64d953bedacf5319cc6e480d1143926c3a24e8edc669662d63f5fbd",
+  "cases": [
+    {
+      "name": "App should create the app",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered ChatNote controls renders nothing when no card is selected",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered ChatNote controls renders MAGICAL identity and emits the valid note from a real Send click",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered ChatNote controls renders LOGICAL identity and emits the valid note from a real Send click",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered ChatNote controls shows the fallback initial and keeps short notes disabled with a remaining-length hint",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered ChatNote controls opens starter choices, applies a starter, and closes the dropdown",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered ChatNote controls applies the suggested bridge question from its button",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered ChatNote controls warns near the character limit and disables the button during submission",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered ChatNote controls emits Back and clears the note through the accessible Back button",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered inline game controls shows preparation while the round response is pending",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered inline game controls renders the guesser role and submits the selected option through the actual button",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered inline game controls renders the target role and submits the selected option through the actual button",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered inline game controls renders a failure and invokes loadRound from the retry control",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered inline game controls shows the waiting state after the other player is required",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered inline game controls keeps modal clicks inside and emits close from the overlay",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts emits CONTINUE only once and prevents competing trial decisions",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts emits BLOCK only once and prevents competing trial decisions",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts submits an optional end reason after the countdown and stops on destruction",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts sends the selected reason before timeout without later duplicate emissions",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts preserves the private -100 unmatch rating and supports skip/cancel",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts preserves the private 0 unmatch rating and supports skip/cancel",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts preserves the private 100 unmatch rating and supports skip/cancel",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts requires trimmed note length and a nonbusy state before emitting a ChatNote",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts supports note starters, bridge suggestions and cancellation without submitting",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts shows correct PENDING controls for the receiver",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts shows correct PENDING controls for the initiator",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts shows correct ACTIVE controls for the receiver",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts shows correct ACTIVE controls for the initiator",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts shows correct COMPLETED controls for the receiver",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts shows correct COMPLETED controls for the initiator",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts suppresses expired/missing-session actions and emits identifiers for selected game actions",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player loads questions and requires every answer while supporting string and object options",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player uses second-person questions for the target and preserves guesser wording",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player handles WAITING_FOR_TARGET when answering as target",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player handles NEXT_ROUND when answering as target",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player handles GAME_COMPLETE when answering as target",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player handles WAITING_FOR_TARGET when guessing",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player handles NEXT_ROUND when guessing",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player handles GAME_COMPLETE when guessing",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player rejects incomplete submissions and exposes request failure without staying busy",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player polls an answered round and reloads after the round changes",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player handles polling status400 without inventing completed games on transient errors",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player handles polling status404 without inventing completed games on transient errors",
+      "status": "passed"
+    },
+    {
+      "name": "Game and decision control contracts Inline game player handles polling status500 without inventing completed games on transient errors",
+      "status": "passed"
+    },
+    {
+      "name": "Request tracing adds a usable trace identifier without changing request data or caller headers",
+      "status": "passed"
+    },
+    {
+      "name": "Request tracing creates separate traces for separate outgoing attempts",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery clears expired credentials and navigates to login while preserving the server failure",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 0",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 403",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 409",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 429",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 500",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 503",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery passes a successful response through without logging the user out",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery still redirects and preserves the 401 when browser storage denies cleanup",
+      "status": "failed"
+    },
+    {
+      "name": "Account and discovery view contracts Own profile sorts photos and highlights, excludes expired recent content and limits the recent list",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own profile handles the self review response without inventing photos",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own profile handles the flat review response without inventing photos",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own profile handles the empty review response without inventing photos",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own profile surfaces profile failure and leaves the loading state",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own profile formats supplied public chips and opens the requested edit/settings destinations",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Account settings initializes notification state when browser support is false",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Account settings initializes notification state when browser support is true",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Account settings loads blocks once, preserves the current token header and unblocks only the selected user",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Account settings clears busy indicators without removing a block after a rejected request",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Account settings toggles coaching only after successful saves and ignores competing changes",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Account settings registers and unregisters notifications, respects unsupported/pending state and recovers rejection",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Account settings keeps the session after account deletion fails and logs out only after confirmed success",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Account settings performs explicit logout and back navigation",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own tiles separates active/expired/highlighted content and aggregates orbit counts per tile",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own tiles tolerates unavailable orbit counts but exposes tile-loading failure",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own tiles does not post invalid 0-character content",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own tiles does not post invalid 9-character content",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own tiles does not post invalid 151-character content",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own tiles posts trimmed 10-character content and refreshes the list",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own tiles posts trimmed 150-character content and refreshes the list",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own tiles preserves the draft on failed posting and prevents overlapping submissions",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own tiles pins only the chosen tile/slot, closes the picker and permits unpinning",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own tiles recovers rejected pin/unpin operations and does not overlap a working operation",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Own tiles formats expiry boundaries and opens the own-profile destination",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Match profile preview rejects a missing route identifier before requesting a profile",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Match profile preview loads the selected match and clears prior caption state",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Match profile preview surfaces a {\"error\":{\"error\":\"ACCESS_DENIED\"}} failure without staying in loading",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Match profile preview surfaces a {\"error\":{\"message\":\"Synthetic message\"}} failure without staying in loading",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Match profile preview surfaces a {\"message\":\"Synthetic failure\"} failure without staying in loading",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Match profile preview surfaces a {} failure without staying in loading",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Match profile preview supports empty preview data, caption toggling, field labels and access hints",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Match profile preview normalizes supplied preview fields and sorted valid photos without inventing missing values",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Conversation list reorders a known thread on a realtime message and unsubscribes on destruction",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Conversation list handles empty responses and recovers loading errors",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Conversation list formats trial and Find Love states with countdown boundaries",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Conversation list distinguishes own/partner turns, fallback names and recent presence boundaries",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Conversation list pops the selected eligible match, ignores invalid identifiers and recovers failure",
+      "status": "passed"
+    },
+    {
+      "name": "Account and discovery view contracts Conversation list ignores overlapping pop requests while the current operation is unresolved",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered account and tile controls renders profile fallback initials without inventing a photo",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered account and tile controls renders supplied photos, highlights, pronouns, intent and public details",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered account and tile controls renders the actual profile error state after a rejected load",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered account and tile controls renders settings and disables notification registration for an unsupported browser",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered account and tile controls opens and cancels deletion through the actual rendered buttons without sending a deletion request",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered account and tile controls renders block placeholders, busy unblocking and both privacy-safe avatar states",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered account and tile controls renders the empty tile state and enables posting only for a valid draft",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered account and tile controls renders highlighted, active and expired tiles and the pin-slot picker",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered account and tile controls shows tile loading controls while the request is unresolved",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons loads and persists a reusable feed session with pagination state",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons appends subsequent pages and ignores overlapping or completed pagination",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons handles feed status429 without leaving loading indicators active",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons handles feed status500 without leaving loading indicators active",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons refreshes once, clears old session/energy state and tolerates refresh rejection",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons records controlled dwell on close or destruction and tolerates view-write rejection",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons records a one-way orbit only once",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons records a mutual orbit only once",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons clears orbit busy state on {\"error\":{\"error\":\"ALREADY_ORBITED\"}}",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons clears orbit busy state on {\"status\":429}",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons clears orbit busy state on {\"error\":{\"error\":\"CANNOT_ORBIT_OWN_TILE\"}}",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons clears orbit busy state on {}",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons guards an unresolved orbit and validates post lengths before forwarding trimmed content",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Commons keeps failed post content and formats age, resonance and energy boundaries",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Foundational answers loads a due set and aligns five answer identifiers while retaining skip policy",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Foundational answers requires the first onboarding set and exposes loading failures",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Foundational answers enforces a 0-character answer at navigation and submission",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Foundational answers enforces a 29-character answer at navigation and submission",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Foundational answers enforces a 30-character answer at navigation and submission",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Foundational answers enforces a 400-character answer at navigation and submission",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Foundational answers enforces a 401-character answer at navigation and submission",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Foundational answers rejects missing answer sets and duplicate identifiers",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Foundational answers submits trimmed answers, uses backend or fallback routes and recovers save failure",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Foundational answers defers only when permitted and recovers rejection",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Photo selection requires the first three photos, supports optional skip and bounds navigation",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Photo selection clears only the selected photo and uses browser history on the first step",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Photo selection rejects missing/nonimage files before reading and handles controlled file-reader callbacks",
+      "status": "passed"
+    },
+    {
+      "name": "Commons and onboarding code contracts Photo selection submits three ordered url/caption fields and recovers server failure",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home identifies moments navigation and nested routes",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home identifies commons navigation and nested routes",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home identifies chats navigation and nested routes",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home identifies you navigation and nested routes",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home loads an unanswered pulse, subscribes realtime and cleans up the ticker",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home handles absent pulse, failed loading and sheet toggles",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home summarizes an answered playful pulse and blocks changes until reset",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home summarizes an answered serious pulse and blocks changes until reset",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home summarizes an answered calm pulse and blocks changes until reset",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home saves an editable pulse, ignores locked/absent data and recovers rejection",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home shows notification nudge only for unsupported eligibility",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home shows notification nudge only for subscribed eligibility",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home shows notification nudge only for already-asked eligibility",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home shows notification nudge only for eligible eligibility",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home submits not-met feedback with the correct private star value",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home submits met feedback with the correct private star value",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home loads feedback/coaching cards and preserves feedback on a failed save",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Home tolerates background feedback/coaching failures without inventing cards",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant loads date_feedback badge and selects its red glow",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant loads weekly_coaching badge and selects its gold glow",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant loads daily_pulse badge and selects its white glow",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant skips browser setup on SSR and tolerates task-list rejection",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant opens empty chat, focuses after animation and logs the open once",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant sends trimmed history and appends the controlled reply without overlapping requests",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant records a visible controlled error and releases the thinking state on rejection",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant logs onPulseSaved and advances the pending task queue",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant logs onPulseSkipped and advances the pending task queue",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant logs onCoachingDismissed and advances the pending task queue",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant logs onCoachingSkipped and advances the pending task queue",
+      "status": "passed"
+    },
+    {
+      "name": "Home and assistant feature contracts Assistant does not convert drag gestures into assistant open clicks",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts renders the requested Privacy Policy tab and its navigation links",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts renders the requested Terms of Service tab and its navigation links",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts renders the requested Data Policy tab and its navigation links",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts renders the how-it-works content and closes through the actual overlay",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts requires all three pulse picks, preserves initial answers and emits a completed draft",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts maps the d1_battery/high visual grade without changing selection",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts maps the d1_battery/medium visual grade without changing selection",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts maps the d1_battery/low visual grade without changing selection",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts maps the d2_tone/playful visual grade without changing selection",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts maps the d2_tone/serious visual grade without changing selection",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts maps the d2_tone/calm visual grade without changing selection",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts maps the d3_role/driver visual grade without changing selection",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts maps the d3_role/copilot visual grade without changing selection",
+      "status": "passed"
+    },
+    {
+      "name": "Pulse sheet and legal content contracts maps the d3_role/passenger visual grade without changing selection",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts loads an empty chat list without manufacturing conversations",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts starts the selected match and preserves the returned thread identifier",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts preserves both partner ChatNotes and chronological messages in a thread response",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts rejects a 0-character invalid message before network access",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts rejects a 3-character invalid message before network access",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts rejects a 2-character invalid message before network access",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts rejects a 1001-character invalid message before network access",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts sends a trimmed message at the 1-character boundary",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts sends a trimmed message at the 1000-character boundary",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts submits CONTINUE without silently changing the trial decision",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts submits END without silently changing the trial decision",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts submits BLOCK without silently changing the trial decision",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts includes an explicitly supplied end reason",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts preserves server rejection instead of inventing a successful send or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts submits a chosen date idea with its index and text",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts sends an uploaded voice reference and duration",
+      "status": "passed"
+    },
+    {
+      "name": "Chat client contracts records listening on the selected message only",
+      "status": "passed"
+    },
+    {
+      "name": "Voice upload failure boundaries uploads audio/ogg and returns the confirmed URL",
+      "status": "passed"
+    },
+    {
+      "name": "Voice upload failure boundaries uploads audio/mp4 and returns the confirmed URL",
+      "status": "passed"
+    },
+    {
+      "name": "Voice upload failure boundaries uploads audio/webm and returns the confirmed URL",
+      "status": "passed"
+    },
+    {
+      "name": "Voice upload failure boundaries uploads untyped audio and returns the confirmed URL",
+      "status": "passed"
+    },
+    {
+      "name": "Voice upload failure boundaries does not upload or confirm when authorization for the upload is denied",
+      "status": "passed"
+    },
+    {
+      "name": "Voice upload failure boundaries does not confirm after a network failure uploading the blob",
+      "status": "passed"
+    },
+    {
+      "name": "Voice upload failure boundaries rejects an HTTP-denied blob upload rather than reporting a confirmed voice note",
+      "status": "failed"
+    },
+    {
+      "name": "Voice upload failure boundaries preserves confirmation failure rather than returning the provisional URL",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts fails locally when subscribing before service-worker registration",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts returns false for browsers without PushManager without requesting permission",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts returns false when service-worker registration fails",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts does not subscribe when notification permission is denied",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts does not subscribe when notification permission is default",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts decodes the VAPID key and sends endpoint and both encoded subscription keys",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts returns false when the VAPID endpoint fails during initialization",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts propagates subscription-provider failures without saving a nonexistent subscription",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts propagates a rejected backend subscription save",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts reports no subscription before registration and safely ignores unsubscribe",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts ignores unsubscribe when the browser has no subscription",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts removes the backend subscription before removing the browser subscription",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts retains the browser subscription when the backend unsubscribe fails",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts propagates browser unsubscribe failures after a successful backend response",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts reports supported browser features and the current permission value",
+      "status": "passed"
+    },
+    {
+      "name": "Legacy push registration and subscription contracts converts URL-safe base64 key bytes without changing the binary values",
+      "status": "passed"
+    },
+    {
+      "name": "Push subscription client boundaries reports no subscription when unsupported, unregistered or not subscribed",
+      "status": "passed"
+    },
+    {
+      "name": "Push subscription client boundaries does not request browser permission when unsupported and does not subscribe after permission denial",
+      "status": "passed"
+    },
+    {
+      "name": "Push subscription client boundaries registers the worker and persists only the subscription transport fields",
+      "status": "passed"
+    },
+    {
+      "name": "Push subscription client boundaries preserves browser subscription rejection without storing a successful server registration",
+      "status": "passed"
+    },
+    {
+      "name": "Push subscription client boundaries preserves server registration failure instead of reporting success",
+      "status": "passed"
+    },
+    {
+      "name": "Push subscription client boundaries does nothing on unsubscribe when unsupported or the browser registration/subscription is absent",
+      "status": "passed"
+    },
+    {
+      "name": "Push subscription client boundaries unsubscribes locally and tolerates server deletion success",
+      "status": "passed"
+    },
+    {
+      "name": "Push subscription client boundaries unsubscribes locally and tolerates server deletion failure",
+      "status": "passed"
+    },
+    {
+      "name": "Realtime client connection contracts does not open network transport in server rendering",
+      "status": "passed"
+    },
+    {
+      "name": "Realtime client connection contracts starts once, reads credentials on each connection attempt, and permits restart after logout",
+      "status": "passed"
+    },
+    {
+      "name": "Realtime client connection contracts forwards only the DeckReady payload to its corresponding observable",
+      "status": "passed"
+    },
+    {
+      "name": "Realtime client connection contracts forwards only the MomentReceived payload to its corresponding observable",
+      "status": "passed"
+    },
+    {
+      "name": "Realtime client connection contracts forwards only the MomentExpired payload to its corresponding observable",
+      "status": "passed"
+    },
+    {
+      "name": "Realtime client connection contracts forwards only the GameInviteReceived payload to its corresponding observable",
+      "status": "passed"
+    },
+    {
+      "name": "Realtime client connection contracts forwards only the GameStarted payload to its corresponding observable",
+      "status": "passed"
+    },
+    {
+      "name": "Realtime client connection contracts forwards only the GameCompleted payload to its corresponding observable",
+      "status": "passed"
+    },
+    {
+      "name": "Realtime client connection contracts forwards only the NewChatMessage payload to its corresponding observable",
+      "status": "passed"
+    },
+    {
+      "name": "Realtime client connection contracts unwraps the server chat-message envelope",
+      "status": "passed"
+    },
+    {
+      "name": "Realtime client connection contracts contains asynchronous transport start/stop failures",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the deck route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a deck rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the drawn route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a drawn rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the pass route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a pass rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the note choice route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a note choice rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the matches route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a matches rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the profile access route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a profile access rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the matched profile route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a matched profile rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the pop route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a pop rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the unmatch without rating route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a unmatch without rating rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the unmatch with neutral rating route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a unmatch with neutral rating rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the block route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a block rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the flag route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a flag rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the feed first page route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a feed first page rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the feed existing session route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a feed existing session rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the feed refresh route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a feed refresh rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the view unspecified duration route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a view unspecified duration rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the view zero duration route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a view zero duration rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the Commons text tile route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a Commons text tile rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the Commons media tile route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a Commons media tile rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the orbit route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a orbit rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the own tiles route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a own tiles rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the create own text tile route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a create own text tile rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the create own media tile route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a create own media tile rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the highlight route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a highlight rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the unhighlight route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a unhighlight rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the received orbits route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a received orbits rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the game availability route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a game availability rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the game invitation route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a game invitation rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the game accept route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a game accept rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the game reject route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a game reject rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the game round alias route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a game round alias rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the game guesses alias route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a game guesses alias rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the game target answers route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a game target answers rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the game result route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a game result rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the coaching summary route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a coaching summary rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the coaching dismiss route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a coaching dismiss rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the coaching opt out route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a coaching opt out rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the coaching opt in route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a coaching opt in rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the support history route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a support history rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the pulse current route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a pulse current rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the pulse answers route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a pulse answers rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the pending tasks route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a pending tasks rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the interaction route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a interaction rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the feedback prompt route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a feedback prompt rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts preserves the feedback response route, method, payload and response",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts propagates a feedback response rejection without inventing success or retry",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts cancels an unsubscribed feed request",
+      "status": "passed"
+    },
+    {
+      "name": "Client API transport contracts reads current feedback credentials separately for each request",
+      "status": "passed"
+    },
+    {
+      "name": "TestApi should create",
+      "status": "passed"
+    },
+    {
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock avoids canvas and frame access on the server",
+      "status": "passed"
+    },
+    {
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock sizes the canvas to the viewport and bounds the particle density",
+      "status": "passed"
+    },
+    {
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock applies pointer offsets to drawing and resizes the backing canvas",
+      "status": "passed"
+    },
+    {
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock respawns particles below the viewport after they drift off the top",
+      "status": "passed"
+    },
+    {
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock cancels the animation and removes pointer and resize listeners on destruction",
+      "status": "passed"
+    },
+    {
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock coalesces scroll events into one frame and writes bounded scroll progress",
+      "status": "passed"
+    },
+    {
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock clamps progress at one for scroll beyond the document height",
+      "status": "passed"
+    },
+    {
+      "name": "Animation lifecycle and scroll contracts with a controlled frame clock clamps progress at zero for negative overscroll",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication navigation boundaries redirects an anonymous browser to login",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication navigation boundaries treats an empty stored token as anonymous",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication navigation boundaries redirects after the stored token has been removed",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication request boundaries forwards an anonymous request without an authorization header",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication request boundaries adds the current token to a local API request",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication request boundaries preserves the request body and caller headers when authenticating",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication request boundaries reads token removal before the next request",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication request boundaries authenticates an absolute same-origin API URL",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication request boundaries authenticates the explicitly configured development API origin",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication request boundaries does not authenticate a protocol-relative unrelated host",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication request boundaries does not authenticate an allowed-origin lookalike",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication request boundaries preserves unrelated caller-supplied authorization",
+      "status": "passed"
+    },
+    {
+      "name": "Authentication request boundaries continues without adding credentials when storage is unavailable",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /login",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /privacy",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /terms",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /data-policy",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /landing",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /moments",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /commons",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats/00000000-0000-0000-0000-000000000001",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/settings",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/tiles",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /matches/00000000-0000-0000-0000-000000000001/profile",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/welcome",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/basics",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/intent",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/foundational",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/photos",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/details",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/lifestyle",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/review",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/start",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /app",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /missing-qa-page",
+      "status": "passed"
+    },
+    {
+      "name": "Actual route configuration session boundaries rechecks expiry when navigating between protected child pages",
+      "status": "passed"
+    },
+    {
+      "name": "Session security regressions allows a browser with a future-dated synthetic token payload",
+      "status": "passed"
+    },
+    {
+      "name": "Session security regressions rejects a token exactly at its expiry second",
+      "status": "passed"
+    },
+    {
+      "name": "Session security regressions rejects a string-valued numeric expiry",
+      "status": "passed"
+    },
+    {
+      "name": "Session security regressions redirects instead of throwing when storage is unavailable",
+      "status": "passed"
+    },
+    {
+      "name": "Session security regressions redirects a browser with a expired token to login",
+      "status": "passed"
+    },
+    {
+      "name": "Session security regressions redirects a browser with a malformed token to login",
+      "status": "passed"
+    },
+    {
+      "name": "Session security regressions redirects a browser with a whitespace token to login",
+      "status": "passed"
+    },
+    {
+      "name": "Session security regressions redirects a browser with a missing-expiry token to login",
+      "status": "passed"
+    },
+    {
+      "name": "Session security regressions does not forward app credentials to an unrelated external origin",
+      "status": "passed"
+    },
+    {
+      "name": "Balloon list timing and action contracts loads the returned matches and uses singular and plural count text",
+      "status": "passed"
+    },
+    {
+      "name": "Balloon list timing and action contracts accepts an empty payload as an empty match list",
+      "status": "passed"
+    },
+    {
+      "name": "Balloon list timing and action contracts clears a load error after a successful retry",
+      "status": "passed"
+    },
+    {
+      "name": "Balloon list timing and action contracts shows waiting state before the first reply and falls back to Someone without a profile",
+      "status": "passed"
+    },
+    {
+      "name": "Balloon list timing and action contracts counts down to opening and opens at the exact threshold",
+      "status": "passed"
+    },
+    {
+      "name": "Balloon list timing and action contracts updates time once per second and stops the clock at destruction",
+      "status": "passed"
+    },
+    {
+      "name": "Balloon list timing and action contracts starts the selected chat and routes to the returned thread",
+      "status": "passed"
+    },
+    {
+      "name": "Balloon list timing and action contracts does not navigate when chat startup fails",
+      "status": "passed"
+    },
+    {
+      "name": "Balloon list timing and action contracts prevents duplicate pop actions while pending and reloads after success",
+      "status": "passed"
+    },
+    {
+      "name": "Balloon list timing and action contracts releases the action lock and shows an error when popping fails",
+      "status": "passed"
+    },
+    {
+      "name": "Balloon list timing and action contracts stops event bubbling and routes profile inspection to the selected match",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts loads a nested route once and subscribes/unsubscribes to navigation and messages",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts rejects an absent route identifier without requesting a thread",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts accepts only current-thread realtime events and deduplicates message identifiers",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts exposes load failure and supports a silent refresh using the route identifier",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles absent data and formats basic labels, roles and message types",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts keeps date ideas hidden until Find Love and the local ten-minute delay have elapsed",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles malformed persisted date-idea timestamps and countdown urgency boundaries",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts transitions the balloon and unlock animation on scheduled time boundaries",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts opens an undecided trial decision for userB only",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts opens an undecided trial decision for userA only",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles a MATCH_BLOCKED trial outcome without making up a server decision",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles a MATCH_ENDED trial outcome without making up a server decision",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles a MATCH_CONTINUES trial outcome without making up a server decision",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles a WAITING trial outcome without making up a server decision",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts ignores absent trial data and keeps failed decisions visibly unsuccessful",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts does not send without a thread, blank text or while a send is in progress",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts sends trimmed text optimistically then refreshes the server message list",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts removes a rejected optimistic send and re-enables sending",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles TRIAL_STARTED pop results after the animation",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles POPPED pop results after the animation",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts does not pop absent data or a missing match and exposes rejection",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts shows and cancels unmatch confirmation before issuing any request",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts clears unmatch busy state after confirmed success",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts clears unmatch busy state after rejection",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles block success without overlapping requests",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles block rejection without overlapping requests",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts toggles menus, handles outside clicks and supports valid game event shapes",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles game create/accept/reject/result successes locally",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts handles game create/accept/reject/result failures locally",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts ignores game creation without a selected match and guards duplicate date-interest submissions",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts records partner voice listening once and ignores own or unidentified messages",
+      "status": "passed"
+    },
+    {
+      "name": "Chat thread feature contracts recovers microphone denial and ignores redundant stop requests",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls renders the empty feed and disables posting below the minimum length",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls renders loading while the feed response is pending",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls renders the daily limit response without empty-feed messaging",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls renders the load error response without empty-feed messaging",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls renders a text tile and opens its matching drawer content",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls renders a photo tile and opens its matching drawer content",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls renders a video tile and opens its matching drawer content",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls posts a valid note through the compose control and displays confirmation",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls offers load more for a full page and hides it after an empty following page",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls shows pending pagination and prevents a second load-more request",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls disables the orbit control while its response is pending and preserves modal clicks",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls warns near the text limit and prevents a second post while saving",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered Commons feed and drawer controls animates the refresh control until the replacement feed has loaded",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent leaves an incomplete name submission unconfirmed",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent leaves an incomplete age submission unconfirmed",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent leaves an incomplete gender submission unconfirmed",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent leaves an incomplete email submission unconfirmed",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent leaves an incomplete location submission unconfirmed",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent acknowledges a complete local demo form without proving account creation",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingCleanComponent does not initialize browser graphics during server lifecycle",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent leaves an incomplete name submission unconfirmed",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent leaves an incomplete age submission unconfirmed",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent leaves an incomplete gender submission unconfirmed",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent leaves an incomplete email submission unconfirmed",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent leaves an incomplete location submission unconfirmed",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent acknowledges a complete local demo form without proving account creation",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts _LandingFinalRealComponent does not initialize browser graphics during server lifecycle",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts does not initialize the clean landing renderer before the canvas is available",
+      "status": "passed"
+    },
+    {
+      "name": "Landing prototype registration and server safety contracts keeps the real 3D landing server lifecycle free of renderer creation",
+      "status": "passed"
+    },
+    {
+      "name": "Landing media and motion contracts skips browser behavior during server rendering",
+      "status": "passed"
+    },
+    {
+      "name": "Landing media and motion contracts selects the correct intro and autoplay policy at 390px",
+      "status": "passed"
+    },
+    {
+      "name": "Landing media and motion contracts selects the correct intro and autoplay policy at 1366px",
+      "status": "passed"
+    },
+    {
+      "name": "Landing media and motion contracts waits for playable media and handles autoplay denial",
+      "status": "passed"
+    },
+    {
+      "name": "Landing media and motion contracts does not replay already-playing media and tolerates absent video references",
+      "status": "passed"
+    },
+    {
+      "name": "Landing media and motion contracts hides the intro on timeout or completion and initializes only present motion targets",
+      "status": "passed"
+    },
+    {
+      "name": "Landing media and motion contracts configures bounded carousels, snap behavior and centered-card state after skipping",
+      "status": "passed"
+    },
+    {
+      "name": "Landing media and motion contracts does not submit incomplete registration and records complete form state locally",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access rejects missing credential locally without sending an authentication request",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access posts the credential, stores the authenticated identity, and replaces login in history",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access clears pending state and displays a retry message when authentication is rejected",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access reports an unavailable Google SDK without trying to render a button",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access initializes the configured client and routes the SDK callback through credential validation",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access does not render into a missing button host",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access toggles consent and removes the locked-click attention animation after 500ms",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access skips the intro immediately and updates the card spotlight until destruction",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access fades the intro when the video ends and renders the sign-in button after the transition",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access plays ready video muted from the beginning",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access waits for canplay and keeps the fallback available when autoplay is rejected",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access reveals the card if the video reference is absent",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access uses the 13-second fallback when a video never becomes playable",
+      "status": "passed"
+    },
+    {
+      "name": "Login credential and intro contracts without Google network access avoids intro timers on the server and tolerates missing visual references",
+      "status": "passed"
+    },
+    {
+      "name": "LoginComponent should create",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine loads the deck, budget and balance and clears previous response visibility",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine renders an empty response without stale cards or budget",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine leaves loading state and exposes a retryable deck error on failure",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine loads Drawn once and reuses it when switching tabs",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine allows retry after a Drawn loading failure",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine handles an empty Drawn response",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine opens a MAGICAL note after the animation and prevents competing clicks",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine opens a Drawn MAGICAL note without inventing time-on-card",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine opens a LOGICAL note after the animation and prevents competing clicks",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine opens a Drawn LOGICAL note without inventing time-on-card",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine backs out of a note without spending or hiding the candidate",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine ignores a submission with no selected note/card",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine sends PASS after the animation with measured dwell and completes the deck",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine restores the card and incomplete deck when PASS fails",
+      "status": "failed"
+    },
+    {
+      "name": "Moments interaction state machine restores TODAY visibility after a rejected note",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine restores LIKED_YOU visibility after a rejected note",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine starts the thread after PURE_MATCH_CREATED",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine starts the thread after EDGE_MATCH_CREATED",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine records MAGICAL/WAITING_FOR_OTHER_NOTE without starting a chat early",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine records MAGICAL/CHOICE_RECORDED without starting a chat early",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine records LOGICAL/WAITING_FOR_OTHER_NOTE without starting a chat early",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine records LOGICAL/CHOICE_RECORDED without starting a chat early",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine exposes chat-start failure without navigating to an invented thread",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine opens the photo gallery only after a held press and supports closing",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine cancels an interrupted hold and tolerates profiles without photos",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine falls back to the profile photo and formats optional location and expiry boundaries",
+      "status": "passed"
+    },
+    {
+      "name": "Moments interaction state machine cycles cinematic photos and stops its repeating timer on destruction",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery does not submit incomplete basics or an underage profile",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery builds and clears a date when dropdown selection changes",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery toggles selections and invalidates an unsupported city",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery keeps preferred age bounds adult, ordered, and at most 80",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery submits valid basics with omitted optional identity fields",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery submits valid basics with selected optional identity fields",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery keeps basics editable after a rejected save and accepts the backend next route",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery requires intent and a nonblank reflection, and supports deselection",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery saves a trimmed intent reflection, recovers failure and follows the server route",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery omits empty details and keeps height matching-only",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery does not navigate after details failure and allows skipping the bio",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery caps hobbies at ten while allowing removal and replacement",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery preserves matching-only lifestyle visibility when saving selected fields",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery recovers lifestyle save failures and lets a user skip without making a save request",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery supports review response shapes without exposing absent sections",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery formats array, JSON and plain-text optional values safely",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery exposes review loading/confirmation failures and recovers on retry",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding validation and save recovery recovers welcome submission failure and honors server or fallback routes",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding preparation polling contracts does not start browser polling during server rendering",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding preparation polling contracts waits for COMPLETE before showing ready and stops subsequent polls",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding preparation polling contracts retries after a failed poll without claiming the profile is complete",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding preparation polling contracts cycles all four preparation messages while waiting",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding preparation polling contracts records the current 15-second readiness fallback separately from verified completion",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding preparation polling contracts stops intervals when destroyed before the next poll",
+      "status": "passed"
+    },
+    {
+      "name": "Onboarding preparation polling contracts routes the entry action to Moments",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _BasicsOnboardingComponent",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _DetailsOnboardingComponent",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _IntentOnboardingComponent",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _LifestyleOnboardingComponent",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _ReviewOnboardingComponent",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered onboarding controls renders an accessible primary heading and real controls for _WelcomeOnboardingComponent",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered onboarding controls keeps the basics Continue control disabled until adult identity and location are supplied",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered onboarding controls displays a save error and re-enables intent editing after the actual Continue click fails",
+      "status": "passed"
+    },
+    {
+      "name": "Rendered onboarding controls shows the adult name, photo and intent in the actual review template",
+      "status": "passed"
+    }
+  ]
+}

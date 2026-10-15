@@ -1,0 +1,34 @@
+{
+  "scope": "Initial concrete regression mapping; partial AUTH coverage only. All other family obligations remain open.",
+  "backend": {
+    "source": "backend/WovenBackend/Auth/JwtTokenService.cs",
+    "testFile": "backend/WovenBackend.Tests/JwtSecurityContractTests.cs",
+    "family": "QA-COV-01-1",
+    "cases": [
+      "Cryptographically validate ordinary token identity and absence of admin role",
+      "Cryptographically validate explicit admin role and identity",
+      "Reject an ordinary token under a different signing key",
+      "Reject an ordinary token under a different audience",
+      "Default access-token expiry is sixty minutes",
+      "Configured one-minute expiry is honored",
+      "Configured forty-five-minute expiry is honored"
+    ],
+    "limits": "Does not test middleware, cookies, account state, refresh, revoked tokens or administrator endpoint policy. Existing JWT/circuit-breaker tests are additional baseline checks."
+  },
+  "frontend": [
+    {
+      "source": "frontend/woven-frontend/src/app/core/auth/auth.interceptor.ts",
+      "testFile": "frontend/woven-frontend/src/app/core/auth/auth.interceptor.spec.ts",
+      "family": "QA-COV-01-5",
+      "cases": ["Anonymous request has no bearer header", "Current stored token attached to local API request", "Body/method/idempotency header preserved and original request unchanged", "Removed token is not reused on the next request"],
+      "limits": "Origin restriction and HTTP error recovery are not covered by these passing tests."
+    },
+    {
+      "source": "frontend/woven-frontend/src/app/core/auth/auth.guard.ts",
+      "testFile": "frontend/woven-frontend/src/app/core/auth/auth.guard.spec.ts",
+      "family": "QA-COV-01-4",
+      "cases": ["Anonymous browser redirects to login", "Empty token redirects to login", "Removed token redirects to login"],
+      "limits": "Standalone guard only: does not prove guards are wired to routes. Expired/malformed JWT and SSR policy remain unverified."
+    }
+  ]
+}

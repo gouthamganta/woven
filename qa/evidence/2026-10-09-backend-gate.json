@@ -1,0 +1,15 @@
+{
+  "layer": "backend",
+  "target": {
+    "lines": 80,
+    "branches": 80
+  },
+  "lines": 9.89,
+  "branches": 5.3,
+  "passed": false,
+  "reasons": [
+    "lines: 9.89% below 80%.",
+    "branches: 5.30% below 80%."
+  ],
+  "inputSha256": "82fdfa26ee56cec99309cbaf4caa70d775c49f133baa7799d0ef1593fa6256e9"
+}

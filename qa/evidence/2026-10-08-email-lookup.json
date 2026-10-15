@@ -1,0 +1,12 @@
+{
+  "scope": "Read-only real PostgreSQL equality lookup through production encryption converter; no provider login tested",
+  "expectedUserId": 100,
+  "actualUserId": null,
+  "result": "failed",
+  "fixtureEmailVerifiedSynthetic": true,
+  "note": "No plaintext email, key, token or ciphertext printed; no rows changed",
+  "date": "2026-10-08",
+  "candidate": "5461c85",
+  "schemaMode": "model-created QA",
+  "rawSha256": "12382ecd1949f5235b2eb32dae44e529ad0b38fcc1f36e93bad0be4e16dc5bb4"
+}

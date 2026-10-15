@@ -91,11 +91,11 @@ public static class MomentsEndpoints
                 .Select(t => new
                 {
                     t.UserId,
-                    tileId      = t.Id,
+                    tileId = t.Id,
                     contentType = t.ContentType,
                     contentText = t.ContentText,
-                    mediaUrl    = t.MediaUrl,
-                    isActive    = true
+                    mediaUrl = t.MediaUrl,
+                    isActive = true
                 })
                 .ToListAsync(ct);
 
@@ -106,11 +106,11 @@ public static class MomentsEndpoints
                 .Select(h => new
                 {
                     h.UserId,
-                    tileId      = h.TileId,
+                    tileId = h.TileId,
                     contentType = h.Tile.ContentType,
                     contentText = h.Tile.ContentText,
-                    mediaUrl    = h.Tile.MediaUrl,
-                    isActive    = false
+                    mediaUrl = h.Tile.MediaUrl,
+                    isActive = false
                 })
                 .ToListAsync(ct);
 
@@ -140,13 +140,6 @@ public static class MomentsEndpoints
                 })
                 .ToListAsync(ct);
 
-            var ratings = await db.UserRatings
-                .Where(r => candidateIds.Contains(r.RatedUserId))
-                .GroupBy(r => r.RatedUserId)
-                .Select(g => new { userId = g.Key, average = g.Average(r => r.RatingValue), count = g.Count() })
-                .ToListAsync(ct);
-            var ratingMap = ratings.ToDictionary(r => r.userId, r => r);
-
             var explanationIds = filteredItems.Select(i => i.ExplanationId).ToList();
             var explanations = await db.MatchExplanations.AsNoTracking()
                 .Where(e => explanationIds.Contains(e.Id)).ToListAsync(ct);
@@ -171,18 +164,18 @@ public static class MomentsEndpoints
                 cid => cid,
                 cid =>
                 {
-                    var active    = activeByUser.GetValueOrDefault(cid) ?? new();
+                    var active = activeByUser.GetValueOrDefault(cid) ?? new();
                     var highlight = highlightByUser.GetValueOrDefault(cid) ?? new();
-                    var merged    = active.Take(3).ToList();
+                    var merged = active.Take(3).ToList();
                     if (merged.Count < 3)
                         merged.AddRange(highlight.Take(3 - merged.Count));
                     return merged.Select(t => new
                     {
-                        id          = t.tileId,
+                        id = t.tileId,
                         contentType = t.contentType,
                         contentText = t.contentText,
-                        mediaUrl    = t.mediaUrl,
-                        isActive    = t.isActive
+                        mediaUrl = t.mediaUrl,
+                        isActive = t.isActive
                     }).ToList<object>();
                 });
 
@@ -204,10 +197,6 @@ public static class MomentsEndpoints
                         try { bullets = System.Text.Json.JsonSerializer.Deserialize<List<string>>(explanation.BulletsJson) ?? new List<string>(); }
                         catch { }
                     }
-
-                    object? rating = null;
-                    if (ratingMap.TryGetValue(candidate.userId, out var r) && r.count >= 5)
-                        rating = new { average = (int)Math.Round(r.average), count = r.count, show = true };
 
                     return new
                     {
@@ -236,8 +225,7 @@ public static class MomentsEndpoints
                             bullets,
                             tone = explanation.Tone,
                             bridgeQuestion = explanation.BridgeQuestion
-                        },
-                        rating
+                        }
                     };
                 })
                 .ToList();
@@ -342,11 +330,11 @@ public static class MomentsEndpoints
                 .Select(t => new
                 {
                     t.UserId,
-                    tileId      = t.Id,
+                    tileId = t.Id,
                     contentType = t.ContentType,
                     contentText = t.ContentText,
-                    mediaUrl    = t.MediaUrl,
-                    isActive    = true
+                    mediaUrl = t.MediaUrl,
+                    isActive = true
                 })
                 .ToListAsync(ct);
             var lyActiveByUser = lyActiveTiles.GroupBy(t => t.UserId).ToDictionary(g => g.Key, g => g.ToList());
@@ -358,11 +346,11 @@ public static class MomentsEndpoints
                 .Select(h => new
                 {
                     h.UserId,
-                    tileId      = h.TileId,
+                    tileId = h.TileId,
                     contentType = h.Tile.ContentType,
                     contentText = h.Tile.ContentText,
-                    mediaUrl    = h.Tile.MediaUrl,
-                    isActive    = false
+                    mediaUrl = h.Tile.MediaUrl,
+                    isActive = false
                 })
                 .ToListAsync(ct);
             var lyHighlightByUser = lyHighlights.GroupBy(h => h.UserId).ToDictionary(g => g.Key, g => g.ToList());
@@ -371,28 +359,20 @@ public static class MomentsEndpoints
                 uid => uid,
                 uid =>
                 {
-                    var active    = lyActiveByUser.GetValueOrDefault(uid) ?? new();
+                    var active = lyActiveByUser.GetValueOrDefault(uid) ?? new();
                     var highlight = lyHighlightByUser.GetValueOrDefault(uid) ?? new();
-                    var merged    = active.Take(3).ToList();
+                    var merged = active.Take(3).ToList();
                     if (merged.Count < 3)
                         merged.AddRange(highlight.Take(3 - merged.Count));
                     return merged.Select(t => new
                     {
-                        id          = t.tileId,
+                        id = t.tileId,
                         contentType = t.contentType,
                         contentText = t.contentText,
-                        mediaUrl    = t.mediaUrl,
-                        isActive    = t.isActive
+                        mediaUrl = t.mediaUrl,
+                        isActive = t.isActive
                     }).ToList<object>();
                 });
-
-            // Ratings
-            var lyRatings = await db.UserRatings
-                .Where(r => userIds.Contains(r.RatedUserId))
-                .GroupBy(r => r.RatedUserId)
-                .Select(g => new { userId = g.Key, average = g.Average(r => r.RatingValue), count = g.Count() })
-                .ToListAsync(ct);
-            var lyRatingMap = lyRatings.ToDictionary(r => r.userId, r => r);
 
             var userMap = users.ToDictionary(u => u.userId, u => u);
 
@@ -405,10 +385,6 @@ public static class MomentsEndpoints
                     var expiresAt = r.CreatedAt.AddDays(7);
                     var hoursLeft = (int)Math.Max(0, (expiresAt - likedCutoff).TotalHours);
 
-                    object? rating = null;
-                    if (lyRatingMap.TryGetValue(u.userId, out var rat) && rat.count >= 5)
-                        rating = new { average = (int)Math.Round(rat.average), count = rat.count, show = true };
-
                     return new
                     {
                         u.userId,
@@ -416,11 +392,10 @@ public static class MomentsEndpoints
                         u.isVerified,
                         u.location,
                         u.profilePhoto,
-                        photos          = lyPhotosByUser.GetValueOrDefault(u.userId),
+                        photos = lyPhotosByUser.GetValueOrDefault(u.userId),
                         highlightedTiles = lyTilesByUser.GetValueOrDefault(u.userId),
-                        rating,
-                        likedAt         = r.CreatedAt,
-                        expiresInHours  = hoursLeft
+                        likedAt = r.CreatedAt,
+                        expiresInHours = hoursLeft
                     };
                 })
                 .ToList();
@@ -478,10 +453,10 @@ public static class MomentsEndpoints
             {
                 "MAGICAL" => (MomentChoice?)MomentChoice.MAGICAL,
                 "LOGICAL" => (MomentChoice?)MomentChoice.LOGICAL,
-                "PASS"    => (MomentChoice?)MomentChoice.PASS,
+                "PASS" => (MomentChoice?)MomentChoice.PASS,
                 // Legacy support
-                "YES"     => (MomentChoice?)MomentChoice.MAGICAL,
-                "NO"      => (MomentChoice?)MomentChoice.LOGICAL,
+                "YES" => (MomentChoice?)MomentChoice.MAGICAL,
+                "NO" => (MomentChoice?)MomentChoice.LOGICAL,
                 _ => null
             };
 

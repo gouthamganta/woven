@@ -83,7 +83,29 @@
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test"
+          "builder": "@angular/build:unit-test",
+          "configurations": {
+            "qa": {
+              "coverage": true,
+              "coverageThresholds": {
+                "lines": 80,
+                "branches": 80
+              },
+              "coverageInclude": [
+                "src/app/**/*.ts"
+              ],
+              "coverageExclude": [
+                "**/*.spec.ts"
+              ],
+              "coverageReporters": [
+                "text-summary",
+                "json",
+                "json-summary",
+                "lcov"
+              ],
+              "runnerConfig": "vitest.qa.config.ts"
+            }
+          }
         }
       }
     }

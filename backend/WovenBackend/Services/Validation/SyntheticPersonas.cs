@@ -118,15 +118,15 @@ public static class SyntheticPersonas
         int id = 1;
 
         for (int i = 0; i < 6; i++, id++)
-            list.Add(new(id, _namesA[i], PersonaCluster.SecureCommitted,        Add(_baseA, _noiseA[i]), FpJitter(_fpA, id)));
+            list.Add(new(id, _namesA[i], PersonaCluster.SecureCommitted, Add(_baseA, _noiseA[i]), FpJitter(_fpA, id)));
         for (int i = 0; i < 6; i++, id++)
-            list.Add(new(id, _namesB[i], PersonaCluster.AdventurousSocial,       Add(_baseB, _noiseB[i]), FpJitter(_fpB, id)));
+            list.Add(new(id, _namesB[i], PersonaCluster.AdventurousSocial, Add(_baseB, _noiseB[i]), FpJitter(_fpB, id)));
         for (int i = 0; i < 6; i++, id++)
             list.Add(new(id, _namesC[i], PersonaCluster.IntellectualIntrospective, Add(_baseC, _noiseC[i]), FpJitter(_fpC, id)));
         for (int i = 0; i < 6; i++, id++)
-            list.Add(new(id, _namesD[i], PersonaCluster.CaregiverWarmth,          Add(_baseD, _noiseD[i]), FpJitter(_fpD, id)));
+            list.Add(new(id, _namesD[i], PersonaCluster.CaregiverWarmth, Add(_baseD, _noiseD[i]), FpJitter(_fpD, id)));
         for (int i = 0; i < 6; i++, id++)
-            list.Add(new(id, _namesE[i], PersonaCluster.CreativeIndependent,      Add(_baseE, _noiseE[i]), FpJitter(_fpE, id)));
+            list.Add(new(id, _namesE[i], PersonaCluster.CreativeIndependent, Add(_baseE, _noiseE[i]), FpJitter(_fpE, id)));
 
         return list;
     }

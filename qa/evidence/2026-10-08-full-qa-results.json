@@ -1,0 +1,595 @@
+{
+  "recordedAt": "2026-10-08T21:44:13.108Z",
+  "baseline": "3df9759d6799da8823e16d8f6db8a2a9727c403a",
+  "candidate": "5461c85",
+  "candidatePullRequest": "https://github.com/gouthamganta/woven/pull/144",
+  "environment": {
+    "host": "Windows local Docker",
+    "backendEnvironment": "Production",
+    "database": "woven_qa_model",
+    "schemaMode": "EF model-created, NOT migration verified",
+    "initialSyntheticUsers": 100,
+    "remainingAfterDeletionProbe": 99,
+    "externalProviderRequests": "blocked",
+    "batchWorkers": "disabled"
+  },
+  "counts": {
+    "api": {
+      "passed": 34,
+      "failed": 1,
+      "blocked": 0
+    },
+    "lifecycle": {
+      "passed": 18,
+      "failed": 0,
+      "blocked": 0
+    },
+    "security": {
+      "passed": 11,
+      "failed": 1,
+      "blocked": 0
+    }
+  },
+  "api": [
+    {
+      "id": "OPS-READINESS",
+      "path": "/health/ready",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 5422
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/moments",
+      "path": "/moments",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 73
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/chats",
+      "path": "/chats",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 13
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/matches",
+      "path": "/matches",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 29
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/commons",
+      "path": "/commons",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 49
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/tiles/mine",
+      "path": "/tiles/mine",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 22
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/me/data-summary",
+      "path": "/me/data-summary",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 33
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/me/accessibility",
+      "path": "/me/accessibility",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 27
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/sparks/balance",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 28
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/coaching/current-summary",
+      "path": "/coaching/current-summary",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 32
+    },
+    {
+      "id": "AUTH-ANONYMOUS-/admin/moderation/queue",
+      "path": "/admin/moderation/queue",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 27
+    },
+    {
+      "id": "AUTH-MALFORMED",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 173
+    },
+    {
+      "id": "AUTH-WRONG-SIGNATURE",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 38
+    },
+    {
+      "id": "AUTH-EXPIRED",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 37
+    },
+    {
+      "id": "AUTH-WRONG-AUDIENCE",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 16
+    },
+    {
+      "id": "AUTH-ADMIN-ESCALATION",
+      "path": "/admin/moderation/queue",
+      "result": "passed",
+      "status": 403,
+      "durationMs": 21
+    },
+    {
+      "id": "SPARK-INITIAL-GRANT",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 462
+    },
+    {
+      "id": "SPARK-NO-DOUBLE-GRANT",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 26
+    },
+    {
+      "id": "DATA-OWN-SUMMARY",
+      "path": "/me/data-summary",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 369
+    },
+    {
+      "id": "PROFILE-ACCESSIBILITY",
+      "path": "/me/accessibility",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 433
+    },
+    {
+      "id": "MOMENTS-SELF-TARGET",
+      "path": "/moments/respond",
+      "result": "passed",
+      "status": 400,
+      "durationMs": 73
+    },
+    {
+      "id": "MOMENTS-UNKNOWN-TARGET",
+      "path": "/moments/respond",
+      "result": "passed",
+      "status": 400,
+      "durationMs": 53
+    },
+    {
+      "id": "MOMENTS-BAD-CHOICE",
+      "path": "/moments/respond",
+      "result": "passed",
+      "status": 400,
+      "durationMs": 36
+    },
+    {
+      "id": "MEDIA-OTHER-OWNER",
+      "path": "/media/confirm",
+      "result": "passed",
+      "status": 403,
+      "durationMs": 501
+    },
+    {
+      "id": "PUSH-DELETE-ANONYMOUS",
+      "path": "/me/push-subscription",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 39
+    },
+    {
+      "id": "PUSH-DELETE-OWN-NONEXISTENT",
+      "path": "/me/push-subscription",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 117
+    },
+    {
+      "id": "CHATS-UNKNOWN-THREAD",
+      "path": "/chats/489b84c4-26d3-400d-b01c-418c5d82d31b",
+      "result": "passed",
+      "status": 404,
+      "durationMs": 224
+    },
+    {
+      "id": "CORRELATION-GENERATED",
+      "path": "/health/live",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 55
+    },
+    {
+      "id": "CORRELATION-BOUNDED-PROPOSED-SECURITY",
+      "path": "/health/live",
+      "result": "failed",
+      "status": 200,
+      "durationMs": 40
+    },
+    {
+      "id": "USER-A-MATCHES",
+      "path": "/matches",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 1396
+    },
+    {
+      "id": "USER-A-CHATS",
+      "path": "/chats",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 386
+    },
+    {
+      "id": "USER-A-COMMONS",
+      "path": "/commons?page=1",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 894
+    },
+    {
+      "id": "USER-A-DECK",
+      "path": "/moments",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 6240
+    },
+    {
+      "id": "USER-C-PROFILE",
+      "path": "/onboarding/state",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 179
+    },
+    {
+      "id": "USER-B-Sparks",
+      "path": "/sparks/balance",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 31
+    }
+  ],
+  "lifecycle": [
+    {
+      "id": "NOTE-TOO-SHORT",
+      "path": "/moments/choose",
+      "result": "passed",
+      "status": 400
+    },
+    {
+      "id": "CHOOSE-A",
+      "path": "/moments/choose",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "CHOOSE-B",
+      "path": "/moments/choose",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "MATCH-LIST",
+      "path": "/matches",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "MATCH-PERSISTED-72H",
+      "result": "passed"
+    },
+    {
+      "id": "MATCH-FOREIGN-USER",
+      "path": "/matches/cad16d13-ca12-4dc0-988a-0cd7ba76e7a4/profile",
+      "result": "passed",
+      "status": 403
+    },
+    {
+      "id": "CHAT-START",
+      "path": "/chats/start",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "CHAT-FOREIGN-USER",
+      "path": "/chats/9b08c476-60ad-4198-a997-1e42329682e4",
+      "result": "passed",
+      "status": 403
+    },
+    {
+      "id": "CHAT-NOTES-VISIBLE-TO-PAIR",
+      "path": "/chats/9b08c476-60ad-4198-a997-1e42329682e4",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "CHAT-EMPTY-MESSAGE",
+      "path": "/chats/9b08c476-60ad-4198-a997-1e42329682e4/messages",
+      "result": "passed",
+      "status": 400
+    },
+    {
+      "id": "CHAT-TEXT",
+      "path": "/chats/9b08c476-60ad-4198-a997-1e42329682e4/messages",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "CHAT-READ-B",
+      "path": "/chats/9b08c476-60ad-4198-a997-1e42329682e4",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "BALLOON-POP",
+      "path": "/matches/cad16d13-ca12-4dc0-988a-0cd7ba76e7a4/pop",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "TRIAL-OPEN-A",
+      "path": "/chats/9b08c476-60ad-4198-a997-1e42329682e4",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "TRIAL-OPEN-B",
+      "path": "/chats/9b08c476-60ad-4198-a997-1e42329682e4",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "TRIAL-EARLY-DECISION",
+      "path": "/chats/9b08c476-60ad-4198-a997-1e42329682e4/trial-decision",
+      "result": "passed",
+      "status": 400
+    },
+    {
+      "id": "BLOCK-DEDICATED",
+      "path": "/matches/cad16d13-ca12-4dc0-988a-0cd7ba76e7a4/block",
+      "result": "passed",
+      "status": 200
+    },
+    {
+      "id": "BLOCK-PREVENTS-MESSAGE",
+      "path": "/chats/9b08c476-60ad-4198-a997-1e42329682e4/messages",
+      "result": "passed",
+      "status": 400
+    }
+  ],
+  "security": [
+    {
+      "id": "BLOCK-DEDICATED",
+      "path": "/matches/dc14c73b-e109-4d38-a291-f06776135336/block",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 2817
+    },
+    {
+      "id": "BLOCK-REJECTS-SEND",
+      "path": "/chats/14c822f4-1e89-41c3-b3f7-bf93e6e9dbac/messages",
+      "result": "passed",
+      "status": 400,
+      "durationMs": 354
+    },
+    {
+      "id": "BLOCK-LIST",
+      "path": "/me/blocks",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 378
+    },
+    {
+      "id": "PRODUCTION-DEV-LOGIN-ABSENT",
+      "path": "/dev/login/82",
+      "result": "passed",
+      "status": 404,
+      "durationMs": 25
+    },
+    {
+      "id": "CORS-UNTRUSTED-ORIGIN",
+      "path": "/me/data-summary",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 126
+    },
+    {
+      "id": "EXPORT-OWN",
+      "path": "/me/data-export",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 356
+    },
+    {
+      "id": "EXPORT-REPEAT-LIMIT",
+      "path": "/me/data-export",
+      "result": "passed",
+      "status": 429,
+      "durationMs": 20
+    },
+    {
+      "id": "DELETE-ANONYMOUS-DENIED",
+      "path": "/me/account",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 15
+    },
+    {
+      "id": "DELETE-SYNTHETIC-ACCOUNT",
+      "path": "/me/account",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 2425
+    },
+    {
+      "id": "DELETED-TOKEN-REJECTED",
+      "path": "/me/data-summary",
+      "result": "failed",
+      "status": 200,
+      "durationMs": 30
+    },
+    {
+      "id": "SIGNALR-ANONYMOUS-DENIED",
+      "path": "/hubs/woven/negotiate?negotiateVersion=1",
+      "result": "passed",
+      "status": 401,
+      "durationMs": 762
+    },
+    {
+      "id": "SIGNALR-AUTH-NEGOTIATE",
+      "path": "/hubs/woven/negotiate?negotiateVersion=1",
+      "result": "passed",
+      "status": 200,
+      "durationMs": 545
+    }
+  ],
+  "concurrency": {
+    "actor": 52,
+    "scope": "Eight simultaneous distinct positive choices from one synthetic user; reruns reuse state and cannot prove a fresh cap.",
+    "successes": 5,
+    "unexpected": 0,
+    "results": [
+      {
+        "target": 62,
+        "status": 400,
+        "error": "DAILY_TOTAL_CAP_REACHED",
+        "durationMs": 2882
+      },
+      {
+        "target": 63,
+        "status": 400,
+        "error": "DAILY_TOTAL_CAP_REACHED",
+        "durationMs": 5690
+      },
+      {
+        "target": 64,
+        "status": 200,
+        "durationMs": 1311
+      },
+      {
+        "target": 65,
+        "status": 200,
+        "durationMs": 1656
+      },
+      {
+        "target": 66,
+        "status": 200,
+        "durationMs": 1088
+      },
+      {
+        "target": 67,
+        "status": 200,
+        "durationMs": 2651
+      },
+      {
+        "target": 68,
+        "status": 400,
+        "error": "DAILY_TOTAL_CAP_REACHED",
+        "durationMs": 2713
+      },
+      {
+        "target": 69,
+        "status": 200,
+        "durationMs": 2371
+      }
+    ],
+    "persistedVerification": {
+      "totalUsed": 5,
+      "responseCount": 5,
+      "noteCount": 5,
+      "method": "Independent read-only psql query after eight simultaneous requests"
+    }
+  },
+  "browser": [
+    {
+      "scenario": "guest-1366-landing",
+      "status": 200,
+      "horizontalOverflow": false,
+      "loginCardVisible": false,
+      "consentKeyboardControl": false,
+      "visibleControlCount": 11,
+      "scope": "Guest render only; external requests deliberately blocked; no provider authentication validated."
+    },
+    {
+      "scenario": "guest-1366-login",
+      "status": 200,
+      "horizontalOverflow": false,
+      "loginCardVisible": true,
+      "consentKeyboardControl": false,
+      "visibleControlCount": 3,
+      "scope": "Guest render only; external requests deliberately blocked; no provider authentication validated."
+    },
+    {
+      "scenario": "guest-390-landing",
+      "status": 200,
+      "horizontalOverflow": false,
+      "loginCardVisible": false,
+      "consentKeyboardControl": false,
+      "visibleControlCount": 0,
+      "scope": "Guest render only; external requests deliberately blocked; no provider authentication validated."
+    },
+    {
+      "scenario": "guest-390-login",
+      "status": 200,
+      "horizontalOverflow": false,
+      "loginCardVisible": true,
+      "consentKeyboardControl": false,
+      "visibleControlCount": 3,
+      "scope": "Guest render only; external requests deliberately blocked; no provider authentication validated."
+    }
+  ],
+  "frontendDependencyAudit": {
+    "info": 0,
+    "low": 1,
+    "moderate": 1,
+    "high": 10,
+    "critical": 2,
+    "total": 14
+  },
+  "artifactHashes": {
+    "api-results.json": "ecd98d8e7fa2ffd1c112c70ff9f5737fd7cf6028024eb3218edc15d44d92f0ab",
+    "lifecycle-results-30.json": "052ab1cac5517bba1c89af77792afe4d51d73b5d22b0ecd2c704ba9176a0151f",
+    "security-results.json": "051f0a554bbb5f571f9f4a4f8520d3a8667e851af34a5163e226724294c1697b",
+    "concurrency-results.json": "3a273a72e6ac8c7ecb08ed153f71775d7798c02a0d791854d1fba35d153152b5",
+    "browser-guest.json": "a059c12288ff81900ef170ff792ec529b15ca1a8c928b899b345a8401f348e85",
+    "npm-audit.json": "6547e39a7b457e351a503e3f26db74a82e9bd0df16184f6f67bb15cef580d116",
+    "backend/WovenBackend.dll": "39b61fe3976da4cb69dbc8b591dd8ba089cf4cf9b64f5fe8fda4cfc71eb5a639",
+    "test-results/full-qa-final.trx": "2d7765150d61dbb20d02fe991ee7550aaf74b262775bee41bbdee278c6622b1b"
+  },
+  "limitations": [
+    "Counts are targeted observations, not full product coverage.",
+    "JWTs are locally signed synthetic tokens; Google SSO is not tested.",
+    "Model-created schema bypasses broken fresh migrations.",
+    "Private raw evidence remains in ignored local storage; hashes alone do not establish independent certification.",
+    "No production deployment or external delivery validated.",
+    "Concurrent choice probe does not validate failure rollback, ambiguous commit or capacity."
+  ]
+}

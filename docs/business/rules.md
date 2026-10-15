@@ -55,7 +55,7 @@ This document defines Woven's core business rules — constraints, validations, 
 
 **Calculation:**
 ```csharp
-match.BalloonExpiresAt = match.CreatedAt.AddHours(36);
+var expiresAtUtc = MomentsRules.ComputeExpiresAt(createdAtUtc);
 ```
 
 **Enforcement:** `BalloonExpiryWorker` scans every 60s, expires balloons past `BalloonExpiresAt`

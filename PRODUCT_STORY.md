@@ -23,7 +23,7 @@ Next, your intent. What are you looking for? A relationship, something casual, m
 
 Then the details: a short bio, optional fields like diet, pets, hobbies, languages. You control what's public, what's private, and what's used only for matching. A weekly vibe—a short note about your current headspace—adds a layer of presence that refreshes over time.
 
-Finally, the foundational questions. These map to **eight pillars**: dimensions like lifestyle, mindset, energy, and emotional style. They're not quizzes with right answers. They're signals. Small ways to help the app understand how you move through life, what you value, and what kinds of people you tend to connect with.
+Finally, the foundational questions. These map to **eight pillars**: Lifestyle, Energy, Values, Communication, Ambition, Stability, Curiosity, and Affection. They're not quizzes with right answers. They're signals. Small ways to help the app understand how you move through life, what you value, and what kinds of people you tend to connect with.
 
 This foundational layer stays private. It's never shown on your profile. It simply informs how Woven works for you behind the scenes.
 
@@ -115,7 +115,7 @@ These aren't tests. They're signals that keep your profile alive, helping Woven 
 
 Behind your daily Moments, there's a system working quietly.
 
-Your eight pillars feed into **soft compatibility buckets**—broader groupings like lifestyle alignment, exploration style, relationship mindset, growth orientation, and emotional rhythm. Each day, your deck is balanced across these buckets. You won't see five people who all feel the same. Variety is intentional.
+Emotional Rhythm is a separate behavioral scoring component, not one of the eight pillars. Your eight pillars feed into **soft compatibility buckets**—broader groupings like lifestyle alignment, exploration style, relationship mindset, growth orientation, and emotional rhythm. Each day, your deck is balanced across these buckets. You won't see five people who all feel the same. Variety is intentional.
 
 If you've already seen someone, Woven waits at least **a week** before showing them again—unless there's a strong signal suggesting a second look.
 

@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-08",
+  "candidate": "176cf74",
+  "scope": "Reviewed auth guard/interceptor/routes overlaid during tests and restored afterward; remaining app source unchanged. Full suite 62 tests; 11 new HTTP failure/tracing cases. No browser integration claim.",
+  "tests": {
+    "total": 62,
+    "passed": 61,
+    "failed": 1
+  },
+  "newCases": [
+    {
+      "name": "Request tracing adds a usable trace identifier without changing request data or caller headers",
+      "status": "passed"
+    },
+    {
+      "name": "Request tracing creates separate traces for separate outgoing attempts",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery clears expired credentials and navigates to login while preserving the server failure",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 0",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 403",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 409",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 429",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 500",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery preserves the session and original diagnostic on HTTP 503",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery passes a successful response through without logging the user out",
+      "status": "passed"
+    },
+    {
+      "name": "HTTP failure and session recovery still redirects and preserves the 401 when browser storage denies cleanup",
+      "status": "failed"
+    }
+  ],
+  "failureIssue": "https://github.com/gouthamganta/woven/issues/170",
+  "sourceFiles": [
+    "frontend/woven-frontend/src/app/core/http-error.interceptor.ts",
+    "frontend/woven-frontend/src/app/core/correlation-id.interceptor.ts"
+  ],
+  "testReportSha256": "e2b812aacb9b6bddf8d00804eb1c60e556ede26acf2fb3ea57682835e00fdbb4",
+  "registryCases": 141
+}

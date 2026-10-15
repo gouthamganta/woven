@@ -1,5 +1,19 @@
 # QA strategy and evidence contract
 
+## Founder sequencing - 2026-10-09
+
+Current primary phase: build executable feature test suites and reach at least
+80% line and branch coverage for backend and frontend application code. Review
+coding-agent PRs and close scoped QA deliverables when their actual acceptance
+criteria pass. Record unexpected outcomes, but do not start a separate broad
+bug-finding/fixing campaign during coverage construction.
+
+Full sandbox journeys, AI-persona campaigns, performance missions and grouped
+bug/cause analysis follow the code/feature coverage phase. Claude owns application
+fixes and main-element implementation. The gates below describe later product
+readiness; they do not reorder this coverage-first instruction. No new paid calls
+or production deployment is authorized.
+
 ## Readiness gates
 
 1. Reproducible environment: local services, schema revision, synthetic seed,

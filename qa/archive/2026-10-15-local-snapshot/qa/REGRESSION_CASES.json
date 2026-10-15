@@ -1,0 +1,1403 @@
+{
+  "scope": "Named executed regression cases mapped to family obligations; no family declared complete.",
+  "cases": [
+    {
+      "id": "BE-19bf8b374e92",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_ThreeFailures_OpensCircuit",
+      "family": "QA-COV-12-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-c02dc2b92341",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"invalid base64!\", expectedException: typeof(System.FormatException))",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-2420aa5e7137",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: False, name: \"woven_access_token\")",
+      "family": "QA-COV-01-3",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-a55f3dd290c9",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.BinaryRoundTrip_PreservesAllByteValues",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-9bb950266930",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: False, expectedName: \"woven_access_token\", minutes: 60)",
+      "family": "QA-COV-01-3",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-979eace4acb2",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"❤️ తెలుగు\\nline two\\0\")",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-3d35c3b42f43",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"Synthetic private note\")",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-e094939e166d",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2028-02-28T23:59:59Z\")",
+      "family": "QA-COV-05-3",
+      "results": {
+        "baseline-3df9759": "Failed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-df8adf2a030c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 12)",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-65c30bab6ae1",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentAudience",
+      "family": "QA-COV-01-1",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-b61c6eafa478",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-10-08T23:59:59+05:30\")",
+      "family": "QA-COV-05-3",
+      "results": {
+        "baseline-3df9759": "Failed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-bfad860a4abb",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 28)",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-c1020ad1dc97",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"\")",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-6cb04f991c28",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-03-08T01:30:00-05:00\")",
+      "family": "QA-COV-05-3",
+      "results": {
+        "baseline-3df9759": "Failed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-b7aa0f37e2b2",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CircuitBreakerServiceTests.Reset_AfterOpen_ClosesCircuit",
+      "family": "QA-COV-12-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-6450b21145b3",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"45\", expectedMinutes: 45)",
+      "family": "QA-COV-01-1",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-48600f58cf7b",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_IsCryptographicallyValidAndHasNoAdminRole",
+      "family": "QA-COV-01-1",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-7c8a98ed76dc",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 123, second: 7)",
+      "family": "QA-COV-05-2",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-07a5501e54b9",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 27)",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-17861a0b8ee6",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.SamePlaintext_UsesDistinctCiphertexts",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-420402290d92",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"AA==\", expectedException: typeof(System.InvalidOperationException))",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-667fd9ae3099",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_OpenCircuit_ThrowsCircuitBreakerOpenException",
+      "family": "QA-COV-12-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-07b1c09f568e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CircuitBreakerServiceTests.GetState_UnknownCircuit_ReturnsClosed",
+      "family": "QA-COV-12-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-87697fd0a8f3",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"1\", expectedMinutes: 1)",
+      "family": "QA-COV-01-1",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-552cdf5c33a3",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.DifferentMasterKey_CannotDecrypt",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-6df641cb6fae",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: False)",
+      "family": "QA-COV-01-3",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-544901f90303",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CookieContractTests.Logout_ExpiresBothCookiesWithSecureFlags",
+      "family": "QA-COV-01-3",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-789eabac3390",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 12)",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-6596b0528461",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: True)",
+      "family": "QA-COV-01-3",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-776fb506e900",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_SuccessfulCall_ReturnsClosed",
+      "family": "QA-COV-12-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-a27d38c0cc19",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 1, second: 2)",
+      "family": "QA-COV-05-2",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-0753d1e7827e",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtSecurityContractTests.AdminToken_HasExplicitRoleAndSignedIdentity",
+      "family": "QA-COV-01-1",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-2c198317a315",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 2147483647, second: 1)",
+      "family": "QA-COV-05-2",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-0893f6d38f81",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.PurposeScopedKeys_AreStableAndDistinct",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-cc76efef4be3",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ReturnsNonEmptyJwt",
+      "family": "QA-COV-01-1",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-8250688bde62",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 0)",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-8ff016966ec7",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-12-31T23:59:59Z\")",
+      "family": "QA-COV-05-3",
+      "results": {
+        "baseline-3df9759": "Failed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-56a8115d2f4f",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ContainsExpectedClaims",
+      "family": "QA-COV-01-1",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-16e31fe202d9",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: null, expectedMinutes: 60)",
+      "family": "QA-COV-01-1",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-877af8e20457",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 0)",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-4d3d67c91c90",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: null, expectedException: typeof(System.InvalidOperationException))",
+      "family": "QA-COV-10-5",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-b6bc03e080a6",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_DifferentUsers_ProduceDifferentTokens",
+      "family": "QA-COV-01-1",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-ba3a2f0f93a6",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: True, expectedName: \"woven_refresh_token\", minutes: 43200)",
+      "family": "QA-COV-01-3",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-93e12861b1d0",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentSigningKey",
+      "family": "QA-COV-01-1",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-d5417d8eec42",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: True, name: \"woven_refresh_token\")",
+      "family": "QA-COV-01-3",
+      "results": {
+        "baseline-3df9759": "Passed",
+        "candidate-5461c85": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-dafaf4ef63f6",
+      "layer": "frontend",
+      "name": "App should create the app",
+      "family": "QA-COV-15-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-376843b6a01b",
+      "layer": "frontend",
+      "name": "TestApi should create",
+      "family": "QA-COV-15-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-75d1a56fe368",
+      "layer": "frontend",
+      "name": "Authentication navigation boundaries redirects an anonymous browser to login",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-062236eff379",
+      "layer": "frontend",
+      "name": "Authentication navigation boundaries treats an empty stored token as anonymous",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-ea156ba3437c",
+      "layer": "frontend",
+      "name": "Authentication navigation boundaries redirects after the stored token has been removed",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-183f2a4fb62f",
+      "layer": "frontend",
+      "name": "Authentication request boundaries forwards an anonymous request without an authorization header",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-fd183c5d11f2",
+      "layer": "frontend",
+      "name": "Authentication request boundaries adds the current token to a local API request",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-ed3f46affbc3",
+      "layer": "frontend",
+      "name": "Authentication request boundaries preserves the request body and caller headers when authenticating",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-5422a24447e1",
+      "layer": "frontend",
+      "name": "Authentication request boundaries reads token removal before the next request",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-7f09af9449e2",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /login",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-3e86136ddb75",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /privacy",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-e06c9d52ba80",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /moments",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-a57e3cd713c6",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-aab0d102fb15",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/settings",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-faa742d69368",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /matches/00000000-0000-0000-0000-000000000001/profile",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-1caf23e60baf",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/basics",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-d984a0761cf5",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/photos",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-567de195a5af",
+      "layer": "frontend",
+      "name": "Session security regressions allows a browser with a future-dated synthetic token payload",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-fc1142043405",
+      "layer": "frontend",
+      "name": "Session security regressions redirects a browser with a expired token to login",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-afead781d9a7",
+      "layer": "frontend",
+      "name": "Session security regressions redirects a browser with a malformed token to login",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-b2ff7bd05306",
+      "layer": "frontend",
+      "name": "Session security regressions redirects a browser with a whitespace token to login",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-6255f3cb3663",
+      "layer": "frontend",
+      "name": "Session security regressions redirects a browser with a missing-expiry token to login",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-3d6ec9660ab6",
+      "layer": "frontend",
+      "name": "Session security regressions does not forward app credentials to an unrelated external origin",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "FE-9babe27fe0d0",
+      "layer": "frontend",
+      "name": "LoginComponent should create",
+      "family": "QA-COV-15-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-regressions-round2.json"
+    },
+    {
+      "id": "BE-882ba2aa3f0a",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 1)",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "BE-d09261176256",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 10)",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "BE-095918598670",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: LOGICAL)",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "BE-75bea91a5eb7",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: MAGICAL)",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "BE-8760362d1689",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: YES)",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "BE-8150fda5133c",
+      "layer": "backend",
+      "name": "WovenBackend.Tests.SavedCleanupContractTests.EmptyCandidates_ReturnsEmptyBoostMap",
+      "family": "QA-COV-03-7",
+      "results": {
+        "phone-pr141-5de72ae": "Passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-phone-pr-review.json"
+    },
+    {
+      "id": "IT-duplicate-choice-concurrent-same-target",
+      "layer": "integration",
+      "name": "Rejected/failed concurrent duplicate choices do not consume extra daily budget",
+      "family": "QA-COV-03-5",
+      "results": {
+        "candidate-5461c85-model-schema": "failed"
+      },
+      "evidence": "qa/evidence/2026-10-08-duplicate-choice-race.json"
+    },
+    {
+      "id": "FE-ea4cf3597aa7",
+      "layer": "frontend",
+      "name": "Authentication request boundaries authenticates an absolute same-origin API URL",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-a1b29c1b2c5f",
+      "layer": "frontend",
+      "name": "Authentication request boundaries authenticates the explicitly configured development API origin",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-24d1b9a23928",
+      "layer": "frontend",
+      "name": "Authentication request boundaries does not authenticate a protocol-relative unrelated host",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-7307971de08f",
+      "layer": "frontend",
+      "name": "Authentication request boundaries does not authenticate an allowed-origin lookalike",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-0e0362ac990a",
+      "layer": "frontend",
+      "name": "Authentication request boundaries preserves unrelated caller-supplied authorization",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-7b404559a711",
+      "layer": "frontend",
+      "name": "Authentication request boundaries continues without adding credentials when storage is unavailable",
+      "family": "QA-COV-01-5",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-78c91eaf2c5a",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /terms",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-362740c8227c",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /data-policy",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-4116818afa9b",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries allows anonymous navigation to public /landing",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "passed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-30434be096b2",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries rechecks expiry when navigating between protected child pages",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-45b8c265b927",
+      "layer": "frontend",
+      "name": "Session security regressions rejects a token exactly at its expiry second",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-92748e2981af",
+      "layer": "frontend",
+      "name": "Session security regressions rejects a string-valued numeric expiry",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-e2746224ebc2",
+      "layer": "frontend",
+      "name": "Session security regressions redirects instead of throwing when storage is unavailable",
+      "family": "QA-COV-01-4",
+      "results": {
+        "baseline-3df9759": "failed",
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-d90058fdf57f",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /commons",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-0b7b1fac1f5b",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /chats/00000000-0000-0000-0000-000000000001",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-d30e6df3c111",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-37f30b3497c9",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /you/tiles",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-7dcd0779dd0e",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/welcome",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-65d6263ae450",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/intent",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-7b21cb0d24ac",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/foundational",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-73a59ec9e4ff",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/details",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-38ff817e6132",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/lifestyle",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-629806dd6a3a",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/review",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-da5436780179",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/start",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-b524826c7dd2",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-20a8caf2c337",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /app",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "FE-db9afc044644",
+      "layer": "frontend",
+      "name": "Actual route configuration session boundaries redirects anonymous navigation from protected /missing-qa-page",
+      "family": "QA-COV-01-4",
+      "results": {
+        "client-176cf74": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-frontend-auth-retest.json"
+    },
+    {
+      "id": "IT-matched-deletion-atomic",
+      "layer": "integration",
+      "name": "Matched deletion either succeeds coherently or preserves existing state on failure",
+      "family": "QA-COV-10-2",
+      "results": {
+        "local-model-created-schema": "failed"
+      },
+      "evidence": "qa/evidence/2026-10-08-matched-deletion.json"
+    },
+    {
+      "id": "IT-encrypted-email-equality",
+      "layer": "integration",
+      "name": "Existing account is found by intended encrypted-email reuse query",
+      "family": "QA-COV-01-7",
+      "results": {
+        "local-model-created-schema": "failed"
+      },
+      "evidence": "qa/evidence/2026-10-08-email-lookup.json"
+    },
+    {
+      "id": "QA-seed-repeat",
+      "layer": "integration",
+      "name": "Repeated import reuses synthetic identities without duplicates",
+      "family": "QA-COV-16-5",
+      "results": {
+        "local-model-created-schema": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-seed-repeat.json"
+    },
+    {
+      "id": "QA-seed-foreign-domain",
+      "layer": "integration",
+      "name": "Invalid foreign-domain fixture rejected without changing database",
+      "family": "QA-COV-16-5",
+      "results": {
+        "local-model-created-schema": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-seed-guards.json"
+    },
+    {
+      "id": "QA-seed-duplicate-email",
+      "layer": "integration",
+      "name": "Invalid duplicate-email fixture rejected without changing database",
+      "family": "QA-COV-16-5",
+      "results": {
+        "local-model-created-schema": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-seed-guards.json"
+    },
+    {
+      "id": "QA-seed-underage",
+      "layer": "integration",
+      "name": "Invalid underage fixture rejected without changing database",
+      "family": "QA-COV-16-5",
+      "results": {
+        "local-model-created-schema": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-seed-guards.json"
+    },
+    {
+      "id": "QA-seed-not-synthetic",
+      "layer": "integration",
+      "name": "Invalid not-synthetic fixture rejected without changing database",
+      "family": "QA-COV-16-5",
+      "results": {
+        "local-model-created-schema": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-seed-guards.json"
+    },
+    {
+      "id": "PX-830585a5abe7",
+      "layer": "integration",
+      "name": "API-/me/data-summary",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-67885f953b25",
+      "layer": "integration",
+      "name": "API-/me/accessibility",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-6d878e4389ef",
+      "layer": "integration",
+      "name": "API-/commons?page=1",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-1739c464324d",
+      "layer": "integration",
+      "name": "API-/tiles/mine",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-b1dc126e16de",
+      "layer": "integration",
+      "name": "API-/sparks/balance",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-e70e1dfd27b8",
+      "layer": "integration",
+      "name": "API-/moments",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "passed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-b6252fdeb8ca",
+      "layer": "integration",
+      "name": "API-/chats",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "passed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-80a5da8cba85",
+      "layer": "integration",
+      "name": "API-/matches",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "passed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-c62da8ab9756",
+      "layer": "integration",
+      "name": "API-COACHING",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-a12e10ec19cd",
+      "layer": "integration",
+      "name": "DOCUMENT-/moments",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-1608545af97e",
+      "layer": "integration",
+      "name": "DOCUMENT-/chats",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-e467bfe327d6",
+      "layer": "integration",
+      "name": "DOCUMENT-/matches/00000000-0000-0000-0000-000000000001/profile",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-7dedffb49f67",
+      "layer": "integration",
+      "name": "DOCUMENT-/onboarding/basics",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-425489edc746",
+      "layer": "integration",
+      "name": "ANONYMOUS-API",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-80922b21186c",
+      "layer": "integration",
+      "name": "SIGNALR-ANONYMOUS",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "PX-53af2599e748",
+      "layer": "integration",
+      "name": "SIGNALR-AUTH",
+      "family": "QA-COV-14-6",
+      "results": {
+        "original-proxy": "failed",
+        "proxy-c6b090c": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "BR-local-anonymous-core",
+      "layer": "integration",
+      "name": "Actual mobile browser redirects anonymous protected navigation",
+      "family": "QA-COV-15-1",
+      "results": {
+        "local-repaired-proxy": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "BR-local-signed-core",
+      "layer": "integration",
+      "name": "Actual mobile browser loads authenticated core API through real proxy",
+      "family": "QA-COV-15-1",
+      "results": {
+        "local-repaired-proxy": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "IT-proxy-websocket-handshake",
+      "layer": "integration",
+      "name": "Actual browser SignalR handshake through repaired frontend",
+      "family": "QA-COV-13-1",
+      "results": {
+        "local-repaired-proxy": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    },
+    {
+      "id": "IT-nginx-query-log-redaction",
+      "layer": "integration",
+      "name": "Artificial query/referrer credential marker absent from real access log",
+      "family": "QA-COV-14-6",
+      "results": {
+        "local-repaired-proxy": "passed"
+      },
+      "evidence": "qa/evidence/2026-10-08-proxy-and-browser.json"
+    }
+  ]
+}

@@ -16,8 +16,8 @@ public static class AdminAnalyticsEndpoints
         group.MapGet("/overview", async (WovenDbContext db, CancellationToken ct) =>
         {
             var thirtyDaysAgo = DateTimeOffset.UtcNow.AddDays(-30);
-            var sevenDaysAgo  = DateTimeOffset.UtcNow.AddDays(-7);
-            var oneDayAgo     = DateTimeOffset.UtcNow.AddDays(-1);
+            var sevenDaysAgo = DateTimeOffset.UtcNow.AddDays(-7);
+            var oneDayAgo = DateTimeOffset.UtcNow.AddDays(-1);
 
             var totalRegistrations = await db.AnalyticsEvents
                 .CountAsync(e => e.EventType == AnalyticsEvents.UserRegistered, ct);

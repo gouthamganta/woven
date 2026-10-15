@@ -1,0 +1,1670 @@
+{
+  "scope": "Union of matching source/method/IL-branch counters, not addition of percentages. Requires the same Debug application binary for both runs; caller records its SHA-256.",
+  "lines": 22444,
+  "coveredLines": 7031,
+  "branches": 5751,
+  "coveredBranches": 846,
+  "sourceBinarySha256": "a624e3b3dbc4aa97463da48f43b0d8893665120fb233d119a9d83a92891c7717",
+  "sameApplicationBinaryVerified": true,
+  "linePercent": 31.33,
+  "branchPercent": 14.71,
+  "generatedMigrationLines": 71529,
+  "files": [
+    {
+      "file": "data/Entities/MatchOutcome.cs",
+      "lines": 12,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Program.cs",
+      "lines": 840,
+      "coveredLines": 469,
+      "branches": 234,
+      "coveredBranches": 62
+    },
+    {
+      "file": "obj/Debug/net10.0/System.Text.RegularExpressions.Generator/System.Text.RegularExpressions.Generator.RegexGenerator/RegexGenerator.g.cs",
+      "lines": 995,
+      "coveredLines": 613,
+      "branches": 440,
+      "coveredBranches": 197
+    },
+    {
+      "file": "Services/AiProfileService.cs",
+      "lines": 530,
+      "coveredLines": 371,
+      "branches": 202,
+      "coveredBranches": 116
+    },
+    {
+      "file": "Services/CacheKeys.cs",
+      "lines": 18,
+      "coveredLines": 9,
+      "branches": 2,
+      "coveredBranches": 1
+    },
+    {
+      "file": "Services/CacheService.cs",
+      "lines": 98,
+      "coveredLines": 40,
+      "branches": 16,
+      "coveredBranches": 6
+    },
+    {
+      "file": "Services/CircuitBreakerService.cs",
+      "lines": 108,
+      "coveredLines": 74,
+      "branches": 18,
+      "coveredBranches": 13
+    },
+    {
+      "file": "Services/DynamicIntakeCycleService.cs",
+      "lines": 166,
+      "coveredLines": 0,
+      "branches": 76,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/DynamicQuestionBank.cs",
+      "lines": 47,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/FoundationalCycleService.cs",
+      "lines": 112,
+      "coveredLines": 19,
+      "branches": 30,
+      "coveredBranches": 3
+    },
+    {
+      "file": "Services/FoundationalQuestionBank.cs",
+      "lines": 41,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/IdempotencyService.cs",
+      "lines": 46,
+      "coveredLines": 5,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/IIdempotencyService.cs",
+      "lines": 1,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/IInteractionLogService.cs",
+      "lines": 31,
+      "coveredLines": 0,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/IMediaService.cs",
+      "lines": 9,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/MatchSignalService.cs",
+      "lines": 20,
+      "coveredLines": 5,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/MediaService.cs",
+      "lines": 121,
+      "coveredLines": 11,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/NotificationService.cs",
+      "lines": 171,
+      "coveredLines": 32,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/OpenAiClient.cs",
+      "lines": 162,
+      "coveredLines": 0,
+      "branches": 22,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/OpenAiCostTracker.cs",
+      "lines": 121,
+      "coveredLines": 38,
+      "branches": 14,
+      "coveredBranches": 2
+    },
+    {
+      "file": "Services/OpenAiDynamicIntakeRewriteService.cs",
+      "lines": 174,
+      "coveredLines": 0,
+      "branches": 62,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/OpenAiResilientClient.cs",
+      "lines": 136,
+      "coveredLines": 21,
+      "branches": 36,
+      "coveredBranches": 2
+    },
+    {
+      "file": "Services/OpenAiRewriteService.cs",
+      "lines": 141,
+      "coveredLines": 9,
+      "branches": 52,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Verification/IVerificationService.cs",
+      "lines": 13,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Verification/VerificationService.cs",
+      "lines": 95,
+      "coveredLines": 0,
+      "branches": 16,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Venues/IVenueService.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Venues/VenueService.cs",
+      "lines": 95,
+      "coveredLines": 0,
+      "branches": 60,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Validation/PersonaOracle.cs",
+      "lines": 24,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Validation/PersonaValidationService.cs",
+      "lines": 168,
+      "coveredLines": 0,
+      "branches": 34,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Validation/SyntheticPersonas.cs",
+      "lines": 87,
+      "coveredLines": 0,
+      "branches": 10,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Trust/CatfishDetectionService.cs",
+      "lines": 85,
+      "coveredLines": 0,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Trust/TrustBatchWorker.cs",
+      "lines": 60,
+      "coveredLines": 0,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Trust/TrustService.cs",
+      "lines": 78,
+      "coveredLines": 7,
+      "branches": 24,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Tiles/ITileService.cs",
+      "lines": 17,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Tiles/TileEmbeddingService.cs",
+      "lines": 148,
+      "coveredLines": 11,
+      "branches": 34,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Tiles/TileExpiryWorker.cs",
+      "lines": 32,
+      "coveredLines": 22,
+      "branches": 6,
+      "coveredBranches": 2
+    },
+    {
+      "file": "Services/Tiles/TileService.cs",
+      "lines": 155,
+      "coveredLines": 0,
+      "branches": 52,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Security/EncryptionService.cs",
+      "lines": 48,
+      "coveredLines": 48,
+      "branches": 6,
+      "coveredBranches": 6
+    },
+    {
+      "file": "Services/Security/KeyRotationWorker.cs",
+      "lines": 48,
+      "coveredLines": 13,
+      "branches": 8,
+      "coveredBranches": 1
+    },
+    {
+      "file": "Services/Security/PiiSanitizer.cs",
+      "lines": 48,
+      "coveredLines": 48,
+      "branches": 32,
+      "coveredBranches": 29
+    },
+    {
+      "file": "Services/Security/SecurityAuditCleanupWorker.cs",
+      "lines": 37,
+      "coveredLines": 0,
+      "branches": 10,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Security/SecurityAuditService.cs",
+      "lines": 49,
+      "coveredLines": 9,
+      "branches": 16,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Seasons/ISeasonService.cs",
+      "lines": 3,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Seasons/SeasonService.cs",
+      "lines": 86,
+      "coveredLines": 0,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Seasons/SeasonTransitionWorker.cs",
+      "lines": 78,
+      "coveredLines": 0,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Recommendations/CfBatchWorker.cs",
+      "lines": 33,
+      "coveredLines": 0,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Recommendations/CollaborativeFilteringService.cs",
+      "lines": 122,
+      "coveredLines": 0,
+      "branches": 34,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Queue/InMemoryEmbeddingQueue.cs",
+      "lines": 28,
+      "coveredLines": 17,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Queue/ServiceBusEmbeddingQueue.cs",
+      "lines": 54,
+      "coveredLines": 0,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/PushNotifications/WebPushService.cs",
+      "lines": 87,
+      "coveredLines": 15,
+      "branches": 20,
+      "coveredBranches": 3
+    },
+    {
+      "file": "Services/Orbit/FriendBridgeService.cs",
+      "lines": 49,
+      "coveredLines": 0,
+      "branches": 32,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Orbit/IOrbitService.cs",
+      "lines": 1,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Orbit/OrbitService.cs",
+      "lines": 167,
+      "coveredLines": 0,
+      "branches": 42,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Nudges/INudgeService.cs",
+      "lines": 1,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Nudges/NudgeService.cs",
+      "lines": 85,
+      "coveredLines": 0,
+      "branches": 52,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Moments/BalloonExpiryWorker.cs",
+      "lines": 71,
+      "coveredLines": 31,
+      "branches": 12,
+      "coveredBranches": 2
+    },
+    {
+      "file": "Services/Moments/InteractionBudgetService.cs",
+      "lines": 118,
+      "coveredLines": 38,
+      "branches": 44,
+      "coveredBranches": 12
+    },
+    {
+      "file": "Services/Moments/MomentsMatchService.cs",
+      "lines": 123,
+      "coveredLines": 6,
+      "branches": 46,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Moments/MomentsRules.cs",
+      "lines": 5,
+      "coveredLines": 5,
+      "branches": 2,
+      "coveredBranches": 2
+    },
+    {
+      "file": "Services/Moments/SelfDisclosureBatchWorker.cs",
+      "lines": 86,
+      "coveredLines": 0,
+      "branches": 24,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Moments/SparkWalletService.cs",
+      "lines": 103,
+      "coveredLines": 37,
+      "branches": 30,
+      "coveredBranches": 7
+    },
+    {
+      "file": "Services/Moderation/IModerationService.cs",
+      "lines": 14,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Moderation/ModerationService.cs",
+      "lines": 187,
+      "coveredLines": 9,
+      "branches": 40,
+      "coveredBranches": 1
+    },
+    {
+      "file": "Services/Moderation/ModerationWorker.cs",
+      "lines": 30,
+      "coveredLines": 13,
+      "branches": 4,
+      "coveredBranches": 2
+    },
+    {
+      "file": "Services/Media/MediaLifecycleWorker.cs",
+      "lines": 49,
+      "coveredLines": 10,
+      "branches": 8,
+      "coveredBranches": 1
+    },
+    {
+      "file": "Services/Matchmaking/CandidatePoolService.cs",
+      "lines": 74,
+      "coveredLines": 67,
+      "branches": 8,
+      "coveredBranches": 5
+    },
+    {
+      "file": "Services/Matchmaking/CfScoreBatchWorker.cs",
+      "lines": 47,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/ConnectionScoreBatchWorker.cs",
+      "lines": 154,
+      "coveredLines": 0,
+      "branches": 46,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/DailyDeckOrchestrator.cs",
+      "lines": 195,
+      "coveredLines": 163,
+      "branches": 38,
+      "coveredBranches": 23
+    },
+    {
+      "file": "Services/Matchmaking/DeckSelectionService.cs",
+      "lines": 102,
+      "coveredLines": 75,
+      "branches": 32,
+      "coveredBranches": 14
+    },
+    {
+      "file": "Services/Matchmaking/DeliveryBoostService.cs",
+      "lines": 179,
+      "coveredLines": 150,
+      "branches": 64,
+      "coveredBranches": 38
+    },
+    {
+      "file": "Services/Matchmaking/HardFilterService.cs",
+      "lines": 54,
+      "coveredLines": 50,
+      "branches": 24,
+      "coveredBranches": 16
+    },
+    {
+      "file": "Services/Matchmaking/IDailyDeckOrchestrator.cs",
+      "lines": 11,
+      "coveredLines": 11,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/IntentMetadata.cs",
+      "lines": 4,
+      "coveredLines": 4,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/LinUcbBatchWorker.cs",
+      "lines": 94,
+      "coveredLines": 0,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/LinUcbService.cs",
+      "lines": 150,
+      "coveredLines": 94,
+      "branches": 68,
+      "coveredBranches": 34
+    },
+    {
+      "file": "Services/Matchmaking/MatchExplanationService.cs",
+      "lines": 383,
+      "coveredLines": 232,
+      "branches": 97,
+      "coveredBranches": 28
+    },
+    {
+      "file": "Services/Matchmaking/MatchNarratorService.cs",
+      "lines": 110,
+      "coveredLines": 76,
+      "branches": 26,
+      "coveredBranches": 14
+    },
+    {
+      "file": "Services/Matchmaking/MatchOutcomeService.cs",
+      "lines": 137,
+      "coveredLines": 0,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/MatchScore.cs",
+      "lines": 57,
+      "coveredLines": 57,
+      "branches": 20,
+      "coveredBranches": 15
+    },
+    {
+      "file": "Services/Matchmaking/MatchScoringService.cs",
+      "lines": 384,
+      "coveredLines": 255,
+      "branches": 206,
+      "coveredBranches": 93
+    },
+    {
+      "file": "Services/Matchmaking/OpenAiTaggingService.cs",
+      "lines": 118,
+      "coveredLines": 0,
+      "branches": 24,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/PillarScores.cs",
+      "lines": 47,
+      "coveredLines": 19,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/PreferenceDriftBatchWorker.cs",
+      "lines": 70,
+      "coveredLines": 0,
+      "branches": 14,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/PreferenceDriftService.cs",
+      "lines": 103,
+      "coveredLines": 0,
+      "branches": 36,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/UserVectorBuilder.cs",
+      "lines": 202,
+      "coveredLines": 0,
+      "branches": 50,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/UserVectorDto.cs",
+      "lines": 39,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/VectorSearchService.cs",
+      "lines": 82,
+      "coveredLines": 0,
+      "branches": 24,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/WeightLearningBatchWorker.cs",
+      "lines": 62,
+      "coveredLines": 0,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Matchmaking/WeightLearningService.cs",
+      "lines": 135,
+      "coveredLines": 0,
+      "branches": 32,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Insights/IInsightService.cs",
+      "lines": 1,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Insights/InsightBatchWorker.cs",
+      "lines": 53,
+      "coveredLines": 0,
+      "branches": 16,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Insights/InsightService.cs",
+      "lines": 299,
+      "coveredLines": 0,
+      "branches": 116,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Insights/WeeklyDigestWorker.cs",
+      "lines": 106,
+      "coveredLines": 0,
+      "branches": 30,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Games/GameAgentFactory.cs",
+      "lines": 15,
+      "coveredLines": 0,
+      "branches": 4,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Games/GameOutcomeService.cs",
+      "lines": 176,
+      "coveredLines": 0,
+      "branches": 44,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Games/GameService.cs",
+      "lines": 615,
+      "coveredLines": 0,
+      "branches": 172,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Games/IGameAgent.cs",
+      "lines": 38,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Games/KnowMeAgent.cs",
+      "lines": 288,
+      "coveredLines": 0,
+      "branches": 108,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Games/RedGreenFlagAgent.cs",
+      "lines": 249,
+      "coveredLines": 0,
+      "branches": 98,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Feedback/DateFeedbackService.cs",
+      "lines": 268,
+      "coveredLines": 0,
+      "branches": 56,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Feedback/FeedbackInsightService.cs",
+      "lines": 89,
+      "coveredLines": 0,
+      "branches": 28,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Feedback/FeedbackTriggerWorker.cs",
+      "lines": 32,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Feedback/IDateFeedbackService.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Embeddings/AttachmentProxyService.cs",
+      "lines": 50,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Embeddings/BehavioralFingerprintService.cs",
+      "lines": 138,
+      "coveredLines": 5,
+      "branches": 36,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Embeddings/ChatNoteEmbeddingWorker.cs",
+      "lines": 114,
+      "coveredLines": 0,
+      "branches": 18,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Embeddings/EmbeddingBatchWorker.cs",
+      "lines": 72,
+      "coveredLines": 0,
+      "branches": 28,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Embeddings/EmotionalRhythmService.cs",
+      "lines": 77,
+      "coveredLines": 0,
+      "branches": 32,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Embeddings/HumorEmbeddingService.cs",
+      "lines": 61,
+      "coveredLines": 0,
+      "branches": 18,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Embeddings/LifestyleEmbeddingService.cs",
+      "lines": 76,
+      "coveredLines": 0,
+      "branches": 26,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Embeddings/PhotoEmbeddingService.cs",
+      "lines": 106,
+      "coveredLines": 0,
+      "branches": 26,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Embeddings/StyleEmbeddingService.cs",
+      "lines": 81,
+      "coveredLines": 0,
+      "branches": 26,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Embeddings/VisualPreferenceService.cs",
+      "lines": 103,
+      "coveredLines": 11,
+      "branches": 38,
+      "coveredBranches": 2
+    },
+    {
+      "file": "Services/Embeddings/VoiceEmbeddingService.cs",
+      "lines": 100,
+      "coveredLines": 0,
+      "branches": 22,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Commons/CommonsFeedService.cs",
+      "lines": 268,
+      "coveredLines": 77,
+      "branches": 112,
+      "coveredBranches": 7
+    },
+    {
+      "file": "Services/Commons/ICommonsFeedService.cs",
+      "lines": 10,
+      "coveredLines": 1,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Commons/TileViewProcessorWorker.cs",
+      "lines": 137,
+      "coveredLines": 13,
+      "branches": 48,
+      "coveredBranches": 1
+    },
+    {
+      "file": "Services/Coaching/CoachingSummaryWorker.cs",
+      "lines": 186,
+      "coveredLines": 0,
+      "branches": 48,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/AntiGhosting/GhostDetectionService.cs",
+      "lines": 121,
+      "coveredLines": 0,
+      "branches": 38,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/AntiGhosting/GhostDetectionWorker.cs",
+      "lines": 31,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Analytics/AnalyticsRetentionWorker.cs",
+      "lines": 44,
+      "coveredLines": 0,
+      "branches": 4,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Services/Analytics/AnalyticsService.cs",
+      "lines": 111,
+      "coveredLines": 52,
+      "branches": 22,
+      "coveredBranches": 8
+    },
+    {
+      "file": "Services/Analytics/NullAnalyticsService.cs",
+      "lines": 3,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Infrastructure/AuthExceptionHandler.cs",
+      "lines": 12,
+      "coveredLines": 0,
+      "branches": 4,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Infrastructure/CorrelationIdMiddleware.cs",
+      "lines": 17,
+      "coveredLines": 14,
+      "branches": 8,
+      "coveredBranches": 4
+    },
+    {
+      "file": "Infrastructure/GlobalExceptionHandler.cs",
+      "lines": 35,
+      "coveredLines": 1,
+      "branches": 10,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Infrastructure/OutboundPiiHandler.cs",
+      "lines": 26,
+      "coveredLines": 0,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Hubs/WovenHub.cs",
+      "lines": 39,
+      "coveredLines": 1,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/AdminAnalyticsEndpoints.cs",
+      "lines": 196,
+      "coveredLines": 48,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/AdminEndpoints.cs",
+      "lines": 90,
+      "coveredLines": 41,
+      "branches": 16,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/AdminSecurityEndpoints.cs",
+      "lines": 14,
+      "coveredLines": 10,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/AdminValidationEndpoints.cs",
+      "lines": 48,
+      "coveredLines": 12,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/AuthEndpoints.cs",
+      "lines": 136,
+      "coveredLines": 44,
+      "branches": 16,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/ChatEndpoints.cs",
+      "lines": 1173,
+      "coveredLines": 408,
+      "branches": 374,
+      "coveredBranches": 3
+    },
+    {
+      "file": "Endpoints/CoachingEndpoints.cs",
+      "lines": 78,
+      "coveredLines": 37,
+      "branches": 4,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/CommonsEndpoints.cs",
+      "lines": 57,
+      "coveredLines": 42,
+      "branches": 12,
+      "coveredBranches": 3
+    },
+    {
+      "file": "Endpoints/DevAuthEndpoints.cs",
+      "lines": 48,
+      "coveredLines": 0,
+      "branches": 6,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/DevMatchmakingSmokeEndpoints.cs",
+      "lines": 131,
+      "coveredLines": 0,
+      "branches": 22,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/DevSeedEndpoints.cs",
+      "lines": 298,
+      "coveredLines": 0,
+      "branches": 42,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/DynamicIntakeEndpoints.cs",
+      "lines": 162,
+      "coveredLines": 54,
+      "branches": 34,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/EndpointHelper.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/FeedbackEndpoints.cs",
+      "lines": 86,
+      "coveredLines": 30,
+      "branches": 32,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/GameEndpoints.cs",
+      "lines": 229,
+      "coveredLines": 96,
+      "branches": 30,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/InteractionEndpoints.cs",
+      "lines": 86,
+      "coveredLines": 5,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/LegalEndpoints.cs",
+      "lines": 50,
+      "coveredLines": 50,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/MatchesEndpoints.cs",
+      "lines": 494,
+      "coveredLines": 193,
+      "branches": 206,
+      "coveredBranches": 1
+    },
+    {
+      "file": "Endpoints/MediaEndpoints.cs",
+      "lines": 105,
+      "coveredLines": 58,
+      "branches": 32,
+      "coveredBranches": 5
+    },
+    {
+      "file": "Endpoints/MeEndpoints.cs",
+      "lines": 124,
+      "coveredLines": 63,
+      "branches": 42,
+      "coveredBranches": 4
+    },
+    {
+      "file": "Endpoints/MomentsEndpoints.cs",
+      "lines": 857,
+      "coveredLines": 386,
+      "branches": 210,
+      "coveredBranches": 38
+    },
+    {
+      "file": "Endpoints/OnboardingEndpoints.cs",
+      "lines": 1060,
+      "coveredLines": 297,
+      "branches": 350,
+      "coveredBranches": 7
+    },
+    {
+      "file": "Endpoints/OrbitEndpoints.cs",
+      "lines": 121,
+      "coveredLines": 47,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/PushNotificationEndpoints.cs",
+      "lines": 56,
+      "coveredLines": 12,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/SeasonEndpoints.cs",
+      "lines": 57,
+      "coveredLines": 23,
+      "branches": 12,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/SparkEndpoints.cs",
+      "lines": 19,
+      "coveredLines": 16,
+      "branches": 6,
+      "coveredBranches": 1
+    },
+    {
+      "file": "Endpoints/SupportEndpoints.cs",
+      "lines": 74,
+      "coveredLines": 25,
+      "branches": 14,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/TileEndpoints.cs",
+      "lines": 71,
+      "coveredLines": 35,
+      "branches": 14,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Endpoints/UserDataEndpoints.cs",
+      "lines": 254,
+      "coveredLines": 129,
+      "branches": 24,
+      "coveredBranches": 4
+    },
+    {
+      "file": "Endpoints/VerificationEndpoints.cs",
+      "lines": 73,
+      "coveredLines": 27,
+      "branches": 14,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/EchoConversation.cs",
+      "lines": 19,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserInteractionLog.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/Block.cs",
+      "lines": 3,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/ChatAvailabilitySignal.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/ChatMessage.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/ChatNote.cs",
+      "lines": 8,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/ChatNoteLoveReaction.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/ChatThread.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/DailyInteraction.cs",
+      "lines": 7,
+      "coveredLines": 7,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/DateFeedback.cs",
+      "lines": 9,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/DateFeedbackPrompt.cs",
+      "lines": 8,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/Highlight.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/Match.cs",
+      "lines": 24,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/MessageLoveReaction.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/MomentResponse.cs",
+      "lines": 8,
+      "coveredLines": 6,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/PendingMatch.cs",
+      "lines": 4,
+      "coveredLines": 4,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/Tile.cs",
+      "lines": 12,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Moments/UserRating.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/AuthIdentity.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/User.cs",
+      "lines": 16,
+      "coveredLines": 8,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserFoundationalV1.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserIntent.cs",
+      "lines": 8,
+      "coveredLines": 6,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserOptionalField.cs",
+      "lines": 8,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserPhoto.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserPreference.cs",
+      "lines": 13,
+      "coveredLines": 10,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserProfile.cs",
+      "lines": 12,
+      "coveredLines": 11,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserWeeklyVibe.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/WovenDbContext.cs",
+      "lines": 1184,
+      "coveredLines": 1146,
+      "branches": 2,
+      "coveredBranches": 2
+    },
+    {
+      "file": "data/WovenDbContextFactory.cs",
+      "lines": 19,
+      "coveredLines": 0,
+      "branches": 2,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/AbAssignment.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/AbConversion.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/AbExperiment.cs",
+      "lines": 4,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/AnalyticsEvent.cs",
+      "lines": 6,
+      "coveredLines": 5,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/CandidateExposure.cs",
+      "lines": 8,
+      "coveredLines": 7,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/CandidateSignal.cs",
+      "lines": 8,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/CfScore.cs",
+      "lines": 4,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/CoachingSummary.cs",
+      "lines": 10,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/ConnectionScore.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/DailyDeck.cs",
+      "lines": 7,
+      "coveredLines": 7,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/DailyDeckItem.cs",
+      "lines": 9,
+      "coveredLines": 8,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/FriendBridge.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/IdempotencyRecord.cs",
+      "lines": 8,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/LinUcbUserModel.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/MatchExplanation.cs",
+      "lines": 23,
+      "coveredLines": 12,
+      "branches": 8,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/MatchSignalLog.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/ModerationQueue.cs",
+      "lines": 9,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/OrbitGravity.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/PhotoEmbedding.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/ReferencePhotoEmbedding.cs",
+      "lines": 4,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Season.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/SecurityAuditLog.cs",
+      "lines": 9,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/SparkWallet.cs",
+      "lines": 4,
+      "coveredLines": 4,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/TileEngagement.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/TileOrbit.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/TileReport.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/TileView.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserBehavioralFingerprint.cs",
+      "lines": 3,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserDynamicIntakeSet.cs",
+      "lines": 15,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserEnergyMeter.cs",
+      "lines": 3,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserFoundationalQuestionSet.cs",
+      "lines": 15,
+      "coveredLines": 9,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserInsight.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserMatchingWeight.cs",
+      "lines": 6,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserPushSubscription.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserSeasonResponse.cs",
+      "lines": 8,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserVector.cs",
+      "lines": 20,
+      "coveredLines": 16,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserVectorTag.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserVerification.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserVisualDecision.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserVisualPreference.cs",
+      "lines": 7,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/UserVoicePreference.cs",
+      "lines": 5,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Games/GameEntities.cs",
+      "lines": 43,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Entities/Games/GameOutcome.cs",
+      "lines": 22,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Converters/EncryptedBytesConverter.cs",
+      "lines": 4,
+      "coveredLines": 0,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "data/Converters/EncryptedStringConverter.cs",
+      "lines": 4,
+      "coveredLines": 4,
+      "branches": 0,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Auth/CookieAuthHelper.cs",
+      "lines": 42,
+      "coveredLines": 42,
+      "branches": 4,
+      "coveredBranches": 4
+    },
+    {
+      "file": "Auth/GoogleTokenVerifier.cs",
+      "lines": 62,
+      "coveredLines": 0,
+      "branches": 20,
+      "coveredBranches": 0
+    },
+    {
+      "file": "Auth/JwtTokenService.cs",
+      "lines": 48,
+      "coveredLines": 48,
+      "branches": 2,
+      "coveredBranches": 2
+    }
+  ],
+  "sourceReportSha256": [
+    "2dc3c57c9deeccf201ee5a906db4d10963965caa9a573b629a90a8303d5b5fc0",
+    "139eca32c9e1db34f712ca3cf0e28ce627dd615a554bf0ede2c767ad7a252a2d"
+  ]
+}

@@ -1,0 +1,52 @@
+# Combine with compose.yaml and compose.runtime.yaml. Start only the two
+# coverage services with --no-deps; the ordinary local QA runtime is preserved.
+services:
+  coverage-backend:
+    extends:
+      file: compose.runtime.yaml
+      service: backend
+    command:
+      - /qa-coverlet/coverlet
+      - /app/WovenBackend.dll
+      - --target
+      - bash
+      - --targetargs
+      - /qa-tools/coverage-host.sh
+      - --format
+      - cobertura
+      - --format
+      - json
+      - --output
+      - /qa-results/backend-http
+      - --include
+      - "[WovenBackend]*"
+      - --include-test-assembly
+      - --exclude-assemblies-without-sources
+      - None
+      - --exclude-by-file
+      - "**/Migrations/*.cs"
+    environment:
+      DOTNET_ROLL_FORWARD: Major
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=${WOVEN_QA_COVERAGE_DATABASE:?Set verified separate QA clone};Username=woven_qa;Password=local_qa_only_not_a_production_secret
+      Redis__ConnectionString: coverage-redis:6379,abortConnect=false
+    depends_on:
+      coverage-redis:
+        condition: service_started
+    volumes:
+      - ${WOVEN_QA_COVERAGE_BACKEND:?Set separate instrumentable app copy}:/app
+      - ${WOVEN_QA_COVERLET:?Set installed local Coverlet 6.0.4}:/qa-coverlet:ro
+      - ${WOVEN_QA_COVERAGE_RESULTS:?Set private result directory}:/qa-results
+      - ./runtime:/qa-tools:ro
+  coverage-gateway:
+    image: woven-frontend:latest
+    entrypoint: []
+    command: ["nginx", "-g", "daemon off;"]
+    volumes:
+      - ./runtime/coverage-gateway.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "127.0.0.1:5182:8080"
+    networks: [qa, qa-edge]
+  coverage-redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    networks: [qa]

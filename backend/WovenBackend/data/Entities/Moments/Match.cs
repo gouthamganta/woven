@@ -5,7 +5,7 @@ namespace WovenBackend.data.Entities.Moments;
 
 public enum MatchType { PURE = 1, EDGE = 2 }
 public enum BalloonState { ACTIVE = 1, CLOSED = 2 }
-public enum ClosedReason 
+public enum ClosedReason
 {
     POP = 1,
     EXPIRE = 2,

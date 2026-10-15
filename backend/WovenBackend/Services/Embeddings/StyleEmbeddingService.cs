@@ -117,7 +117,7 @@ public class StyleEmbeddingService : IStyleEmbeddingService
         // Features 9-127: pad with zero (reserved for future style dimensions)
         // Features 9-15: character bigram frequency proxies
         var totalChars = (float)Math.Max(1, text.Length);
-        features[9]  = text.Count(c => c == ',') / totalChars * 100f;
+        features[9] = text.Count(c => c == ',') / totalChars * 100f;
         features[10] = text.Count(c => c == '.') / totalChars * 100f;
         features[11] = text.Count(c => c == '-') / totalChars * 100f;
         features[12] = text.Count(c => c == '"') / totalChars * 100f;

@@ -16,8 +16,8 @@ public sealed class ServiceBusEmbeddingQueue : IEmbeddingQueue, IAsyncDisposable
     {
         var msg = new ServiceBusMessage(tileId.ToString())
         {
-            MessageId             = tileId.ToString(),
-            TimeToLive            = TimeSpan.FromDays(2),
+            MessageId = tileId.ToString(),
+            TimeToLive = TimeSpan.FromDays(2),
         };
         await _sender.SendMessageAsync(msg, ct);
     }
@@ -38,15 +38,15 @@ public sealed class ServiceBusEmbeddingWorker : BackgroundService
         ILogger<ServiceBusEmbeddingWorker> logger)
     {
         _embeddings = embeddings;
-        _logger     = logger;
-        _processor  = client.CreateProcessor(ServiceBusEmbeddingQueue.QueueName, new ServiceBusProcessorOptions
+        _logger = logger;
+        _processor = client.CreateProcessor(ServiceBusEmbeddingQueue.QueueName, new ServiceBusProcessorOptions
         {
-            MaxConcurrentCalls   = 4,
+            MaxConcurrentCalls = 4,
             AutoCompleteMessages = false
         });
 
         _processor.ProcessMessageAsync += OnMessageAsync;
-        _processor.ProcessErrorAsync   += OnErrorAsync;
+        _processor.ProcessErrorAsync += OnErrorAsync;
     }
 
     protected override async Task ExecuteAsync(CancellationToken ct)

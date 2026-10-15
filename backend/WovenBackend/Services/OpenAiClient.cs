@@ -45,11 +45,11 @@ public record OpenAiChatResponse(
 
 public class OpenAiClient : IOpenAiClient
 {
-    private const string ChatEndpoint  = "https://api.openai.com/v1/chat/completions";
+    private const string ChatEndpoint = "https://api.openai.com/v1/chat/completions";
     private const string EmbedEndpoint = "https://api.openai.com/v1/embeddings";
-    private const string TtsEndpoint   = "https://api.openai.com/v1/audio/speech";
+    private const string TtsEndpoint = "https://api.openai.com/v1/audio/speech";
 
-    private const int MaxRetries       = 3;
+    private const int MaxRetries = 3;
     private static readonly TimeSpan[] RetryDelays =
     {
         TimeSpan.FromSeconds(1),
@@ -57,21 +57,21 @@ public class OpenAiClient : IOpenAiClient
         TimeSpan.FromSeconds(12)
     };
 
-    private readonly IHttpClientFactory   _httpFactory;
-    private readonly IConfiguration       _config;
-    private readonly ICorrelationService  _correlation;
+    private readonly IHttpClientFactory _httpFactory;
+    private readonly IConfiguration _config;
+    private readonly ICorrelationService _correlation;
     private readonly ILogger<OpenAiClient> _logger;
 
     public OpenAiClient(
-        IHttpClientFactory   httpFactory,
-        IConfiguration       config,
-        ICorrelationService  correlation,
+        IHttpClientFactory httpFactory,
+        IConfiguration config,
+        ICorrelationService correlation,
         ILogger<OpenAiClient> logger)
     {
-        _httpFactory  = httpFactory;
-        _config       = config;
-        _correlation  = correlation;
-        _logger       = logger;
+        _httpFactory = httpFactory;
+        _config = config;
+        _correlation = correlation;
+        _logger = logger;
     }
 
     public async Task<OpenAiChatResponse> ChatAsync(OpenAiRequest req, CancellationToken ct = default)
@@ -81,10 +81,10 @@ public class OpenAiClient : IOpenAiClient
 
         var body = JsonSerializer.Serialize(new
         {
-            model       = req.Model,
-            messages    = req.Messages.Select(m => new { role = m.Role, content = m.Content }),
+            model = req.Model,
+            messages = req.Messages.Select(m => new { role = m.Role, content = m.Content }),
             temperature = req.Temperature,
-            max_tokens  = req.MaxTokens
+            max_tokens = req.MaxTokens
         });
 
         _logger.LogInformation(
@@ -93,12 +93,12 @@ public class OpenAiClient : IOpenAiClient
 
         var json = await ExecuteWithRetryAsync(ChatEndpoint, body, apiKey, correlationId, ct);
 
-        using var doc         = JsonDocument.Parse(json);
-        var choice            = doc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString() ?? "";
-        var usage             = doc.RootElement.GetProperty("usage");
-        var promptTokens      = usage.GetProperty("prompt_tokens").GetInt32();
-        var completionTokens  = usage.GetProperty("completion_tokens").GetInt32();
-        var totalTokens       = usage.GetProperty("total_tokens").GetInt32();
+        using var doc = JsonDocument.Parse(json);
+        var choice = doc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString() ?? "";
+        var usage = doc.RootElement.GetProperty("usage");
+        var promptTokens = usage.GetProperty("prompt_tokens").GetInt32();
+        var completionTokens = usage.GetProperty("completion_tokens").GetInt32();
+        var totalTokens = usage.GetProperty("total_tokens").GetInt32();
 
         _logger.LogInformation(
             "[OpenAI] Chat complete | Model={Model} Purpose={Purpose} Tokens={Total} (prompt={Prompt} completion={Completion}) CorrelationId={Cid}",
@@ -114,8 +114,8 @@ public class OpenAiClient : IOpenAiClient
 
         var body = JsonSerializer.Serialize(new
         {
-            model      = "text-embedding-3-small",
-            input      = text,
+            model = "text-embedding-3-small",
+            input = text,
             dimensions = dimensions
         });
 
@@ -149,9 +149,9 @@ public class OpenAiClient : IOpenAiClient
 
         var body = JsonSerializer.Serialize(new
         {
-            model           = "tts-1",
-            input           = text,
-            voice           = voice,
+            model = "tts-1",
+            input = text,
+            voice = voice,
             response_format = "mp3"
         });
 
@@ -161,7 +161,7 @@ public class OpenAiClient : IOpenAiClient
 
         try
         {
-            using var http    = _httpFactory.CreateClient("external-api");
+            using var http = _httpFactory.CreateClient("external-api");
             using var request = new HttpRequestMessage(HttpMethod.Post, TtsEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             request.Headers.Add("X-Correlation-ID", correlationId);
@@ -188,7 +188,7 @@ public class OpenAiClient : IOpenAiClient
         {
             try
             {
-                using var http    = _httpFactory.CreateClient("external-api");
+                using var http = _httpFactory.CreateClient("external-api");
                 using var request = new HttpRequestMessage(HttpMethod.Post, endpoint);
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
                 request.Headers.Add("X-Correlation-ID", correlationId);

@@ -18,7 +18,7 @@ public class UserPreference
     public string InterestedInJson { get; set; } = "[]";
 
     // ✅ NEW: Relationship structure preference
-    public WovenBackend.Data.Entities.RelationshipStructure RelationshipStructure { get; set; } 
+    public WovenBackend.Data.Entities.RelationshipStructure RelationshipStructure { get; set; }
         = WovenBackend.Data.Entities.RelationshipStructure.OPEN;
 
     // Phase 5A: accessibility preferences

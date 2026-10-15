@@ -27,7 +27,7 @@ public class GlobalExceptionHandler : IExceptionHandler
         CancellationToken ct)
     {
         var correlationId = context.Items[CorrelationIdMiddleware.ItemsKey] as string ?? "unknown";
-        var userId        = context.User.FindFirst("uid")?.Value ?? "anon";
+        var userId = context.User.FindFirst("uid")?.Value ?? "anon";
 
         _logger.LogError(exception,
             "[UNHANDLED] {ExceptionType}: {Message} | " +
@@ -36,14 +36,14 @@ public class GlobalExceptionHandler : IExceptionHandler
             correlationId, userId,
             context.Request.Path, context.Request.Method);
 
-        context.Response.StatusCode  = (int)HttpStatusCode.InternalServerError;
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
         context.Response.ContentType = "application/json";
 
         await context.Response.WriteAsJsonAsync(new
         {
-            error         = "An unexpected error occurred",
+            error = "An unexpected error occurred",
             correlationId = correlationId,
-            timestamp     = DateTimeOffset.UtcNow
+            timestamp = DateTimeOffset.UtcNow
         }, ct);
 
         return true;
@@ -75,13 +75,13 @@ public class DomainExceptionHandler : IExceptionHandler
 
         var correlationId = context.Items[CorrelationIdMiddleware.ItemsKey] as string ?? "unknown";
 
-        context.Response.StatusCode  = 422;
+        context.Response.StatusCode = 422;
         context.Response.ContentType = "application/json";
 
         await context.Response.WriteAsJsonAsync(new
         {
-            error         = domain.Message,
-            code          = domain.Code,
+            error = domain.Message,
+            code = domain.Code,
             correlationId = correlationId
         }, ct);
 

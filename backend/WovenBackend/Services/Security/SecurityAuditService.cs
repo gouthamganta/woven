@@ -42,9 +42,9 @@ public class SecurityAuditService : ISecurityAuditService
                     : null;
 
                 var details = new Dictionary<string, object?>();
-                if (service != null)    details["service"] = service;
-                if (dataType != null)   details["dataType"] = dataType;
-                if (piiStripped)        details["piiStripped"] = true;
+                if (service != null) details["service"] = service;
+                if (dataType != null) details["dataType"] = dataType;
+                if (piiStripped) details["piiStripped"] = true;
 
                 using var scope = _scopeFactory.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();

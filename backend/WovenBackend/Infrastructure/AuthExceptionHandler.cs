@@ -17,12 +17,12 @@ public class AuthExceptionHandler : IExceptionHandler
 
         var correlationId = context.Items[CorrelationIdMiddleware.ItemsKey] as string ?? "unknown";
 
-        context.Response.StatusCode  = 401;
+        context.Response.StatusCode = 401;
         context.Response.ContentType = "application/json";
 
         await context.Response.WriteAsJsonAsync(new
         {
-            error         = "Unauthorized",
+            error = "Unauthorized",
             correlationId = correlationId
         }, ct);
 

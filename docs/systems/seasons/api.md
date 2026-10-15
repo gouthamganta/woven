@@ -113,7 +113,7 @@ Content-Type: application/json
 - `"stability"`
 - `"values"`
 - `"curiosity"`
-- `"emotional_rhythm"`
+- `"ambition"`
 
 **Upsert Semantics:**
 - If user already answered a pillar this season → UPDATE response

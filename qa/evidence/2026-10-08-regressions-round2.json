@@ -1,0 +1,586 @@
+﻿{
+    "branch":  "qa/full-local-audit",
+    "applicationCandidate":  "5461c85",
+    "frontend":  {
+                     "total":  24,
+                     "rawSha256":  "668d427ce85f9f60aa8435e54f4ad58b14a3b803e64ba2fab978e9c9a77226ae",
+                     "cases":  [
+                                   {
+                                       "result":  "passed",
+                                       "name":  "App should create the app"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "TestApi should create"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "Authentication navigation boundaries redirects an anonymous browser to login"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "Authentication navigation boundaries treats an empty stored token as anonymous"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "Authentication navigation boundaries redirects after the stored token has been removed"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "Authentication request boundaries forwards an anonymous request without an authorization header"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "Authentication request boundaries adds the current token to a local API request"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "Authentication request boundaries preserves the request body and caller headers when authenticating"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "Authentication request boundaries reads token removal before the next request"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "Actual route configuration session boundaries allows anonymous navigation to public /login"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "Actual route configuration session boundaries allows anonymous navigation to public /privacy"
+                                   },
+                                   {
+                                       "result":  "failed",
+                                       "name":  "Actual route configuration session boundaries redirects anonymous navigation from protected /moments"
+                                   },
+                                   {
+                                       "result":  "failed",
+                                       "name":  "Actual route configuration session boundaries redirects anonymous navigation from protected /chats"
+                                   },
+                                   {
+                                       "result":  "failed",
+                                       "name":  "Actual route configuration session boundaries redirects anonymous navigation from protected /you/settings"
+                                   },
+                                   {
+                                       "result":  "failed",
+                                       "name":  "Actual route configuration session boundaries redirects anonymous navigation from protected /matches/00000000-0000-0000-0000-000000000001/profile"
+                                   },
+                                   {
+                                       "result":  "failed",
+                                       "name":  "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/basics"
+                                   },
+                                   {
+                                       "result":  "failed",
+                                       "name":  "Actual route configuration session boundaries redirects anonymous navigation from protected /onboarding/photos"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "Session security regressions allows a browser with a future-dated synthetic token payload"
+                                   },
+                                   {
+                                       "result":  "failed",
+                                       "name":  "Session security regressions redirects a browser with a expired token to login"
+                                   },
+                                   {
+                                       "result":  "failed",
+                                       "name":  "Session security regressions redirects a browser with a malformed token to login"
+                                   },
+                                   {
+                                       "result":  "failed",
+                                       "name":  "Session security regressions redirects a browser with a whitespace token to login"
+                                   },
+                                   {
+                                       "result":  "failed",
+                                       "name":  "Session security regressions redirects a browser with a missing-expiry token to login"
+                                   },
+                                   {
+                                       "result":  "failed",
+                                       "name":  "Session security regressions does not forward app credentials to an unrelated external origin"
+                                   },
+                                   {
+                                       "result":  "passed",
+                                       "name":  "LoginComponent should create"
+                                   }
+                               ],
+                     "failed":  11,
+                     "passed":  13
+                 },
+    "baselineBackend":  {
+                            "rawSha256":  "801dc82ad172a7697b36c7ef3299e1c5652d5292c9757ddea3bd961b7fec4a18",
+                            "failed":  4,
+                            "cases":  [
+                                          {
+                                              "duration":  "00:00:00.0229601",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_ThreeFailures_OpensCircuit"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0006880",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"invalid base64!\", expectedException: typeof(System.FormatException))"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0005746",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: False, name: \"woven_access_token\")"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0060777",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.BinaryRoundTrip_PreservesAllByteValues"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0108806",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: False, expectedName: \"woven_access_token\", minutes: 60)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0005917",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"❤️ తెలుగు\\nline two\\0\")"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0103660",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"Synthetic private note\")"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0236815",
+                                              "result":  "Failed",
+                                              "name":  "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2028-02-28T23:59:59Z\")"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0006102",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 12)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0016626",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentAudience"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0006442",
+                                              "result":  "Failed",
+                                              "name":  "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-10-08T23:59:59+05:30\")"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0006974",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 28)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0000787",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"\")"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0001517",
+                                              "result":  "Failed",
+                                              "name":  "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-03-08T01:30:00-05:00\")"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0015330",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.Reset_AfterOpen_ClosesCircuit"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0020669",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"45\", expectedMinutes: 45)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0309342",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_IsCryptographicallyValidAndHasNoAdminRole"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0659184",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 123, second: 7)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0000765",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 27)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0038267",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.SamePlaintext_UsesDistinctCiphertexts"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0404573",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"AA==\", expectedException: typeof(System.InvalidOperationException))"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0379506",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_OpenCircuit_ThrowsCircuitBreakerOpenException"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0003222",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.GetState_UnknownCircuit_ReturnsClosed"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0002309",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"1\", expectedMinutes: 1)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0010621",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.DifferentMasterKey_CannotDecrypt"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0016427",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: False)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0389282",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CookieContractTests.Logout_ExpiresBothCookiesWithSecureFlags"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0041785",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 12)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0674950",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: True)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0390857",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_SuccessfulCall_ReturnsClosed"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0007131",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 1, second: 2)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0015983",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.JwtSecurityContractTests.AdminToken_HasExplicitRoleAndSignedIdentity"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0000590",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 2147483647, second: 1)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0028129",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.PurposeScopedKeys_AreStableAndDistinct"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0005779",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ReturnsNonEmptyJwt"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0006579",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 0)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0001680",
+                                              "result":  "Failed",
+                                              "name":  "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-12-31T23:59:59Z\")"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0319331",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ContainsExpectedClaims"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0008710",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: null, expectedMinutes: 60)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0001404",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 0)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0000708",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: null, expectedException: typeof(System.InvalidOperationException))"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.1287407",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_DifferentUsers_ProduceDifferentTokens"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0010281",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: True, expectedName: \"woven_refresh_token\", minutes: 43200)"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.1722940",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentSigningKey"
+                                          },
+                                          {
+                                              "duration":  "00:00:00.0101782",
+                                              "result":  "Passed",
+                                              "name":  "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: True, name: \"woven_refresh_token\")"
+                                          }
+                                      ],
+                            "total":  45,
+                            "passed":  41
+                        },
+    "date":  "2026-10-08",
+    "candidateBackend":  {
+                             "rawSha256":  "7b530e0baf034d3518ea0710aafc3ae6426d239c934f30cba8ce5ea564efbb9d",
+                             "failed":  0,
+                             "cases":  [
+                                           {
+                                               "duration":  "00:00:00.0004832",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 28)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0000131",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-03-08T01:30:00-05:00\")"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0002959",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.GetState_UnknownCircuit_ReturnsClosed"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0004029",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ReturnsNonEmptyJwt"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0000800",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"\")"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0025375",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.JwtSecurityContractTests.AdminToken_HasExplicitRoleAndSignedIdentity"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0006109",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.DifferentMasterKey_CannotDecrypt"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0009009",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.Reset_AfterOpen_ClosesCircuit"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0004517",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-10-08T23:59:59+05:30\")"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0000851",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 27)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0049136",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentAudience"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0551505",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_IsCryptographicallyValidAndHasNoAdminRole"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0028258",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.PurposeScopedKeys_AreStableAndDistinct"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0050783",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 12)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0179473",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2028-02-28T23:59:59Z\")"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0010697",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: False)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0665625",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 123, second: 7)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0475854",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ContainsExpectedClaims"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0172360",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"Synthetic private note\")"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0013699",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"invalid base64!\", expectedException: typeof(System.FormatException))"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0473861",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_SuccessfulCall_ReturnsClosed"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0007770",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 1, second: 2)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0000501",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 2147483647, second: 1)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0000251",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-12-31T23:59:59Z\")"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0102121",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: True, name: \"woven_refresh_token\")"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0287193",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_ThreeFailures_OpensCircuit"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0721841",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: True)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0023271",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"45\", expectedMinutes: 45)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0048800",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.BinaryRoundTrip_PreservesAllByteValues"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0007646",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"❤️ తెలుగు\\nline two\\0\")"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0013411",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: True, expectedName: \"woven_refresh_token\", minutes: 43200)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.2071765",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentSigningKey"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0085300",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.SamePlaintext_UsesDistinctCiphertexts"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0286182",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CookieContractTests.Logout_ExpiresBothCookiesWithSecureFlags"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0299996",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_OpenCircuit_ThrowsCircuitBreakerOpenException"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0085270",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: False, expectedName: \"woven_access_token\", minutes: 60)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0015019",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: null, expectedMinutes: 60)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0003062",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"1\", expectedMinutes: 1)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0005923",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: False, name: \"woven_access_token\")"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0001015",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 0)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0010501",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 0)"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0000776",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: null, expectedException: typeof(System.InvalidOperationException))"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0495697",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"AA==\", expectedException: typeof(System.InvalidOperationException))"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.1475161",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_DifferentUsers_ProduceDifferentTokens"
+                                           },
+                                           {
+                                               "duration":  "00:00:00.0064095",
+                                               "result":  "Passed",
+                                               "name":  "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 12)"
+                                           }
+                                       ],
+                             "total":  45,
+                             "passed":  45
+                         },
+    "limitations":  [
+                        "Unit and router-configuration tests only; not browser/provider/database integration.",
+                        "Frontend route tests replace page rendering while retaining actual route paths/redirects/guards.",
+                        "Frontend failures are contract cases, not eleven distinct bugs or proof of server authorization bypass.",
+                        "Cookie tests inspect generated headers, not browser transport/CSRF enforcement.",
+                        "Encryption tests do not establish at-rest coverage or applied key rotation.",
+                        "Existing EF assembly warnings remain.",
+                        "No paid calls, migration execution, reset or deployment in this round."
+                    ],
+    "applicationBaseline":  "3df9759",
+    "addedCasesThisRound":  44
+}

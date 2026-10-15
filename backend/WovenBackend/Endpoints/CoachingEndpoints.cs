@@ -29,10 +29,10 @@ public static class CoachingEndpoints
 
             return Results.Ok(new
             {
-                id          = summary.Id,
+                id = summary.Id,
                 summaryText = summary.SummaryText,
                 deliveredAt = summary.DeliveredAt,
-                weekStart   = summary.WeekStartDate.ToString("yyyy-MM-dd")
+                weekStart = summary.WeekStartDate.ToString("yyyy-MM-dd")
             });
         });
 
@@ -62,7 +62,7 @@ public static class CoachingEndpoints
             CancellationToken ct) =>
         {
             var userId = GetUserId(http.User);
-            var now    = DateTimeOffset.UtcNow;
+            var now = DateTimeOffset.UtcNow;
 
             await db.Users
                 .Where(u => u.Id == userId)

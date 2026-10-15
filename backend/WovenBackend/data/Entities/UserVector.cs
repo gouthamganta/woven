@@ -1,6 +1,7 @@
 using Pgvector;
 
 namespace WovenBackend.Data.Entities;
+
 using WovenBackend.Data;
 public class UserVector
 {

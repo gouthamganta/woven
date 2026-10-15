@@ -682,10 +682,10 @@ public static class ChatEndpoints
 
                 var reasonSignal = endReason switch
                 {
-                    "no_spark"     => MatchSignalEventTypes.TrialEndedNoSpark,
+                    "no_spark" => MatchSignalEventTypes.TrialEndedNoSpark,
                     "wrong_timing" => MatchSignalEventTypes.TrialEndedWrongTiming,
-                    "not_my_type"  => MatchSignalEventTypes.TrialEndedNotMyType,
-                    _              => null
+                    "not_my_type" => MatchSignalEventTypes.TrialEndedNotMyType,
+                    _ => null
                 };
                 if (reasonSignal != null)
                     await signals.RecordAsync(me, otherUserId, reasonSignal, 1f, ct: ct);
@@ -836,18 +836,18 @@ public static class ChatEndpoints
 
             var metaJson = JsonSerializer.Serialize(new
             {
-                audioUrl    = req.AudioUrl,
+                audioUrl = req.AudioUrl,
                 durationSecs = req.DurationSecs
             });
 
             var msg = new ChatMessage
             {
-                ThreadId    = threadId,
+                ThreadId = threadId,
                 SenderUserId = me,
-                Body        = "",
+                Body = "",
                 MessageType = "VOICE",
-                MetaJson    = metaJson,
-                CreatedAt   = now
+                MetaJson = metaJson,
+                CreatedAt = now
             };
 
             db.ChatMessages.Add(msg);
@@ -877,7 +877,7 @@ public static class ChatEndpoints
 
             return Results.Ok(new
             {
-                status    = "SENT",
+                status = "SENT",
                 messageId = msg.Id,
                 createdAt = msg.CreatedAt
             });

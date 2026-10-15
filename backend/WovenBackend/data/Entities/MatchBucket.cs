@@ -1,5 +1,5 @@
 namespace WovenBackend.Data.Entities;
- 
+
 public enum MatchBucket
 {
     CORE_FIT = 1,          // High intent + foundational alignment

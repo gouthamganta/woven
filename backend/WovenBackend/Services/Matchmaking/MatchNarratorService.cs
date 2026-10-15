@@ -35,12 +35,12 @@ public interface IMatchNarratorService
 /// </summary>
 public class MatchNarratorService : IMatchNarratorService
 {
-    private const string TtsEndpoint     = "https://api.openai.com/v1/audio/speech";
-    private const string TtsModel        = "tts-1";
-    private const string TtsVoice        = "nova";
-    private const string TtsContainer    = "tts-narration";
-    private const int MinQuoteChars      = 20;
-    private const int MaxQuoteChars      = 120;
+    private const string TtsEndpoint = "https://api.openai.com/v1/audio/speech";
+    private const string TtsModel = "tts-1";
+    private const string TtsVoice = "nova";
+    private const string TtsContainer = "tts-narration";
+    private const int MinQuoteChars = 20;
+    private const int MaxQuoteChars = 120;
 
     private readonly WovenDbContext _db;
     private readonly BlobServiceClient _blob;
@@ -55,11 +55,11 @@ public class MatchNarratorService : IMatchNarratorService
         IConfiguration config,
         ILogger<MatchNarratorService> logger)
     {
-        _db          = db;
-        _blob        = blob;
+        _db = db;
+        _blob = blob;
         _httpFactory = httpFactory;
-        _config      = config;
-        _logger      = logger;
+        _config = config;
+        _logger = logger;
     }
 
     public async Task<MatchNarratorResult> BuildNarratorFieldsAsync(
@@ -116,9 +116,9 @@ public class MatchNarratorService : IMatchNarratorService
         return new MatchNarratorResult
         {
             KenBurnsPhotoUrls = kenBurnsPhotoUrls,
-            CuratedQuote      = curatedQuote,
-            NarrationUrl      = narrationUrl,
-            NarrationExposed  = false  // always false until voice launch; WeightLearning filters this
+            CuratedQuote = curatedQuote,
+            NarrationUrl = narrationUrl,
+            NarrationExposed = false  // always false until voice launch; WeightLearning filters this
         };
     }
 
@@ -141,13 +141,13 @@ public class MatchNarratorService : IMatchNarratorService
             // Generate via OpenAI
             var body = JsonSerializer.Serialize(new
             {
-                model           = TtsModel,
-                input           = text,
-                voice           = TtsVoice,
+                model = TtsModel,
+                input = text,
+                voice = TtsVoice,
                 response_format = "mp3"
             });
 
-            using var http    = _httpFactory.CreateClient();
+            using var http = _httpFactory.CreateClient();
             using var request = new HttpRequestMessage(HttpMethod.Post, TtsEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             request.Content = new StringContent(body, Encoding.UTF8, "application/json");

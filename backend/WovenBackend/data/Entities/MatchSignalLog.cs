@@ -27,45 +27,45 @@ public class MatchSignalLog
 
 public static class MatchSignalEventTypes
 {
-    public const string TileDwell              = "TileDwell";
-    public const string VoiceDwell            = "VoiceDwell";
-    public const string ProfileVisitDepth     = "ProfileVisitDepth";
-    public const string BalloonPop            = "BalloonPop";
-    public const string TrialRequested        = "TrialRequested";
-    public const string TrialAccepted         = "TrialAccepted";
-    public const string TrialRejected         = "TrialRejected";
-    public const string MessageSent           = "MessageSent";
+    public const string TileDwell = "TileDwell";
+    public const string VoiceDwell = "VoiceDwell";
+    public const string ProfileVisitDepth = "ProfileVisitDepth";
+    public const string BalloonPop = "BalloonPop";
+    public const string TrialRequested = "TrialRequested";
+    public const string TrialAccepted = "TrialAccepted";
+    public const string TrialRejected = "TrialRejected";
+    public const string MessageSent = "MessageSent";
     public const string MessageResponseLatencyMs = "MessageResponseLatencyMs";
-    public const string TimeToFirstMessageMs     = "TimeToFirstMessageMs";
-    public const string SelfDisclosureRatio   = "SelfDisclosureRatio";
-    public const string GameCompleted         = "GameCompleted";
-    public const string DateIdeaAccepted      = "DateIdeaAccepted";
-    public const string DateIdeaRejected      = "DateIdeaRejected";
-    public const string ChatNoteLove          = "ChatNoteLove";
-    public const string MessageLove           = "MessageLove";
-    public const string ExplicitFeedback      = "ExplicitFeedback";
+    public const string TimeToFirstMessageMs = "TimeToFirstMessageMs";
+    public const string SelfDisclosureRatio = "SelfDisclosureRatio";
+    public const string GameCompleted = "GameCompleted";
+    public const string DateIdeaAccepted = "DateIdeaAccepted";
+    public const string DateIdeaRejected = "DateIdeaRejected";
+    public const string ChatNoteLove = "ChatNoteLove";
+    public const string MessageLove = "MessageLove";
+    public const string ExplicitFeedback = "ExplicitFeedback";
 
     // Game-derived disclosure and alignment signals
     public const string KnowMeDisclosureDepth = "KnowMeDisclosureDepth"; // completed_rounds / total_rounds
-    public const string RedFlagGameDepth       = "RedFlagGameDepth";       // completed_rounds / total_rounds
-    public const string FlagAgreementRate      = "FlagAgreementRate";      // per-statement flag agreement [0,1]
+    public const string RedFlagGameDepth = "RedFlagGameDepth";       // completed_rounds / total_rounds
+    public const string FlagAgreementRate = "FlagAgreementRate";      // per-statement flag agreement [0,1]
 
     // Trial end reason signals — viewer ended trial, candidate is the other person
     // EventValue = 1.0 for all; preference learning uses the type, not the value
-    public const string TrialEndedNoSpark      = "TrialEndedNoSpark";
-    public const string TrialEndedWrongTiming  = "TrialEndedWrongTiming";
-    public const string TrialEndedNotMyType    = "TrialEndedNotMyType";
+    public const string TrialEndedNoSpark = "TrialEndedNoSpark";
+    public const string TrialEndedWrongTiming = "TrialEndedWrongTiming";
+    public const string TrialEndedNotMyType = "TrialEndedNotMyType";
 
     // How many messages were exchanged during the trial window
     // EventValue = message count (float)
-    public const string TrialMessageCount      = "TrialMessageCount";
+    public const string TrialMessageCount = "TrialMessageCount";
 
     // Safety/trust signal — viewer flagged candidate after interaction
     // EventValue = 1.0; MetadataJson = { reason: "uncomfortable"|"inappropriate" }
     // Feeds trust score only — never ECHO compatibility scoring
-    public const string UserFlagged            = "UserFlagged";
+    public const string UserFlagged = "UserFlagged";
 
     // Voice note engagement signals
-    public const string MutualVoiceExchange    = "MutualVoiceExchange";    // both sent voice notes
+    public const string MutualVoiceExchange = "MutualVoiceExchange";    // both sent voice notes
     public const string VoiceNoteListenComplete = "VoiceNoteListenComplete"; // listener played to end
 }

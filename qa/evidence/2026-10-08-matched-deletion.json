@@ -1,0 +1,52 @@
+{
+  "candidate": "5461c85",
+  "schemaMode": "model-created QA",
+  "actor": 32,
+  "before": {
+    "status": 200,
+    "data": {
+      "userId": 32,
+      "tiles": 0,
+      "momentResponses": 1,
+      "chatMessages": 1,
+      "photos": 0,
+      "thirdPartyProcessors": [
+        "OpenAI (semantic embeddings)",
+        "Replicate (photo embeddings)"
+      ]
+    },
+    "correlation": "00d679f333e14266"
+  },
+  "deletion": {
+    "status": 500,
+    "data": {
+      "error": "An unexpected error occurred",
+      "correlationId": "bb64744cfe3a47d6",
+      "timestamp": "2026-10-08T22:59:27.7287366+00:00"
+    },
+    "correlation": null
+  },
+  "after": {
+    "status": 200,
+    "data": {
+      "userId": 32,
+      "tiles": 0,
+      "momentResponses": 1,
+      "chatMessages": 0,
+      "photos": 0,
+      "thirdPartyProcessors": [
+        "OpenAI (semantic embeddings)",
+        "Replicate (photo embeddings)"
+      ]
+    },
+    "correlation": "72d338eb88034520"
+  },
+  "scope": "Destructive to designated synthetic actor only. Matched/blocked user; do not rerun as fresh evidence.",
+  "persistedVerification": {
+    "userStillPresent": 1,
+    "matchingVectorsRemaining": 0,
+    "method": "Independent read-only psql after failed deletion"
+  },
+  "rawSha256": "ec6e4ec6914036f8e07287d011df2d8597f805661dd5f03deebbe230f58dec41",
+  "result": "failed: account retained after partial owned-data deletion"
+}

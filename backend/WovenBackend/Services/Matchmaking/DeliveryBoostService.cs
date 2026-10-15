@@ -14,7 +14,6 @@ public class DeliveryBoostService : IDeliveryBoostService
     private const int LookbackDays = 7;
 
     private const double ReciprocalBoost = 18; // “they found you first” — one-shot, breaks after viewer sees them
-    private const double PendingBoost = 10;
     private const double PositiveChoiceBoost = 12; // MAGICAL / LOGICAL / legacy YES
 
     private const double FatiguePenalty_2to3 = 5;
@@ -104,22 +103,6 @@ public class DeliveryBoostService : IDeliveryBoostService
         var undiscoveredIds = sawViewerIds.Except(alreadySeenByViewer);
         foreach (var id in undiscoveredIds)
             boost[id] += ReciprocalBoost;
-
-        // ---------------------------
-        // 2) Pending boost:
-        // candidate saved viewer (pending) recently
-        // ---------------------------
-        var pendingFromCandidates = await _db.PendingMatches.AsNoTracking()
-            .Where(p =>
-                candidateIds.Contains(p.UserId) &&
-                p.TargetUserId == viewerId &&
-                p.CreatedAt >= now.AddDays(-LookbackDays))
-            .Select(p => p.UserId)
-            .Distinct()
-            .ToListAsync(ct);
-
-        foreach (var id in pendingFromCandidates)
-            boost[id] += PendingBoost;
 
         // ---------------------------
         // 3) Positive-choice boost:
@@ -229,7 +212,7 @@ public class DeliveryBoostService : IDeliveryBoostService
             .Join(
                 _db.Tiles.Where(t => t.UserId == viewerId),
                 tv => tv.TileId,
-                t  => t.Id,
+                t => t.Id,
                 (tv, _) => tv.UserId)
             .GroupBy(uid => uid)
             .Select(g => new { CandidateId = g.Key, DwellCount = g.Count() })

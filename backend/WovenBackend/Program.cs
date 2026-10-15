@@ -68,7 +68,7 @@ builder.Host.UseSerilog((context, services, config) =>
         .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command",
             isProduction ? LogEventLevel.Warning : LogEventLevel.Information)
         .MinimumLevel.Override("Microsoft.AspNetCore.Hosting", LogEventLevel.Warning)
-        .MinimumLevel.Override("Microsoft.AspNetCore.Mvc",     LogEventLevel.Warning)
+        .MinimumLevel.Override("Microsoft.AspNetCore.Mvc", LogEventLevel.Warning)
         .MinimumLevel.Override("Microsoft.AspNetCore.Routing", LogEventLevel.Warning);
 
     if (isProduction)
@@ -116,11 +116,11 @@ builder.Services.AddRateLimiter(options =>
         var userId = context.User.FindFirst("uid")?.Value ?? context.Connection.RemoteIpAddress?.ToString() ?? "anon";
         return RateLimitPartition.GetSlidingWindowLimiter(userId, _ => new SlidingWindowRateLimiterOptions
         {
-            PermitLimit          = 120,
-            Window               = TimeSpan.FromSeconds(60),
-            SegmentsPerWindow    = 6,
+            PermitLimit = 120,
+            Window = TimeSpan.FromSeconds(60),
+            SegmentsPerWindow = 6,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
-            QueueLimit           = 0
+            QueueLimit = 0
         });
     });
 
@@ -134,12 +134,12 @@ builder.Services.AddRateLimiter(options =>
                      ?? "anon";
         return RateLimitPartition.GetTokenBucketLimiter(userId, _ => new TokenBucketRateLimiterOptions
         {
-            TokenLimit               = 10,
-            QueueProcessingOrder     = QueueProcessingOrder.OldestFirst,
-            QueueLimit               = 0,
-            ReplenishmentPeriod      = TimeSpan.FromSeconds(60),
-            TokensPerPeriod          = 10,
-            AutoReplenishment        = true
+            TokenLimit = 10,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+            QueueLimit = 0,
+            ReplenishmentPeriod = TimeSpan.FromSeconds(60),
+            TokensPerPeriod = 10,
+            AutoReplenishment = true
         });
     });
 
@@ -147,8 +147,8 @@ builder.Services.AddRateLimiter(options =>
     options.AddPolicy("openai-global", _ =>
         RateLimitPartition.GetConcurrencyLimiter("openai", _ => new ConcurrencyLimiterOptions
         {
-            PermitLimit  = 5,
-            QueueLimit   = 20,
+            PermitLimit = 5,
+            QueueLimit = 20,
             QueueProcessingOrder = QueueProcessingOrder.OldestFirst
         }));
 });
@@ -791,8 +791,8 @@ app.UseSerilogRequestLogging(options =>
     options.EnrichDiagnosticContext = (diag, context) =>
     {
         diag.Set("CorrelationId", context.Items[CorrelationIdMiddleware.ItemsKey] ?? "?");
-        diag.Set("UserId",        context.User.FindFirst("uid")?.Value ?? "anon");
-        diag.Set("UserAgent",     context.Request.Headers.UserAgent.ToString());
+        diag.Set("UserId", context.User.FindFirst("uid")?.Value ?? "anon");
+        diag.Set("UserAgent", context.Request.Headers.UserAgent.ToString());
     };
 });
 

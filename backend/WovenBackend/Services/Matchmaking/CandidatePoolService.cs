@@ -84,12 +84,12 @@ public class CandidatePoolService : ICandidatePoolService
 
         var eligible = await _db.UserProfiles.AsNoTracking()
             .Join(_db.UserPreferences,
-                p    => p.UserId,
+                p => p.UserId,
                 pref => pref.UserId,
                 (p, pref) => new { Profile = p, Pref = pref })
             .Join(_db.Users.AsNoTracking(),
-                pp   => pp.Profile.UserId,
-                u    => u.Id,
+                pp => pp.Profile.UserId,
+                u => u.Id,
                 (pp, u) => new { pp.Profile, pp.Pref, User = u })
             .Where(x => x.Profile.UserId != userId)
             .Where(x => !blockedIds.Contains(x.Profile.UserId))

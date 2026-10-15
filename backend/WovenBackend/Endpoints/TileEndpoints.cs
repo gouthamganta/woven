@@ -32,7 +32,7 @@ public static class TileEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var userId  = GetUserId(http.User);
+            var userId = GetUserId(http.User);
             var myTiles = await tiles.GetMineAsync(userId, ct);
             return Results.Ok(new { count = myTiles.Count, tiles = myTiles });
         });

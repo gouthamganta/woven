@@ -13,30 +13,30 @@ public class ChatNoteEmbeddingWorker : BackgroundService
     private static readonly TimeSpan LockExpiry = TimeSpan.FromHours(2);
 
     private const string EmbeddingEndpoint = "https://api.openai.com/v1/embeddings";
-    private const string EmbeddingModel    = "text-embedding-3-small";
-    private const int    EmbeddingDims     = 1536;
-    private const int    LastNNotes        = 20;
-    private const int    MinNotes          = 3;
+    private const string EmbeddingModel = "text-embedding-3-small";
+    private const int EmbeddingDims = 1536;
+    private const int LastNNotes = 20;
+    private const int MinNotes = 3;
     private static readonly TimeSpan RunInterval = TimeSpan.FromHours(4);
 
     private readonly IServiceScopeFactory _scopeFactory;
-    private readonly IHttpClientFactory   _httpFactory;
-    private readonly IConfiguration       _config;
-    private readonly ICacheService        _cache;
+    private readonly IHttpClientFactory _httpFactory;
+    private readonly IConfiguration _config;
+    private readonly ICacheService _cache;
     private readonly ILogger<ChatNoteEmbeddingWorker> _logger;
 
     public ChatNoteEmbeddingWorker(
         IServiceScopeFactory scopeFactory,
-        IHttpClientFactory   httpFactory,
-        IConfiguration       config,
-        ICacheService        cache,
+        IHttpClientFactory httpFactory,
+        IConfiguration config,
+        ICacheService cache,
         ILogger<ChatNoteEmbeddingWorker> logger)
     {
         _scopeFactory = scopeFactory;
-        _httpFactory  = httpFactory;
-        _config       = config;
-        _cache        = cache;
-        _logger       = logger;
+        _httpFactory = httpFactory;
+        _config = config;
+        _cache = cache;
+        _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken ct)
@@ -142,12 +142,12 @@ public class ChatNoteEmbeddingWorker : BackgroundService
         {
             var body = JsonSerializer.Serialize(new
             {
-                model      = EmbeddingModel,
-                input      = text,
+                model = EmbeddingModel,
+                input = text,
                 dimensions = EmbeddingDims
             });
 
-            using var http    = _httpFactory.CreateClient();
+            using var http = _httpFactory.CreateClient();
             using var request = new HttpRequestMessage(HttpMethod.Post, EmbeddingEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             request.Content = new StringContent(body, Encoding.UTF8, "application/json");

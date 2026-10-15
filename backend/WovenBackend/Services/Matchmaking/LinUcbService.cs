@@ -55,7 +55,7 @@ public class LinUcbService : ILinUcbService
             .FirstOrDefaultAsync(m => m.UserId == userId, ct);
 
         var (aInv, b) = LoadOrInitModel(model);
-        var theta     = MatVec(aInv, b);
+        var theta = MatVec(aInv, b);
 
         // Load candidate pillar embeddings and fingerprints in batch
         var pillarVecs = await _db.UserVectors.AsNoTracking()
@@ -85,10 +85,10 @@ public class LinUcbService : ILinUcbService
                 pillarMap.TryGetValue(cid, out var p) ? p : null,
                 fpMap.TryGetValue(cid, out var fp) ? fp : null);
 
-            var exploit   = Dot(theta, x);
-            var xAInvX    = Dot(x, MatVec(aInv, x));
-            var explore   = alpha * Math.Sqrt(Math.Max(0, xAInvX));
-            var ucb       = exploit + explore;
+            var exploit = Dot(theta, x);
+            var xAInvX = Dot(x, MatVec(aInv, x));
+            var explore = alpha * Math.Sqrt(Math.Max(0, xAInvX));
+            var ucb = exploit + explore;
 
             rawUcb[cid] = ucb;
             if (ucb > maxUcb) maxUcb = ucb;
@@ -125,15 +125,15 @@ public class LinUcbService : ILinUcbService
             .FirstOrDefaultAsync(m => m.UserId == userId, ct);
 
         var (aInv, b) = LoadOrInitModel(model);
-        int obsCount  = model?.ObservationCount ?? 0;
+        int obsCount = model?.ObservationCount ?? 0;
 
         foreach (var (x, r) in observations)
         {
             if (x.Length != Dim) continue;
 
             // Sherman-Morrison: A_inv_new = A_inv - (A_inv·x)(x^T·A_inv) / (1 + x^T·A_inv·x)
-            var aInvX  = MatVec(aInv, x);
-            var denom  = 1.0 + Dot(x, aInvX);
+            var aInvX = MatVec(aInv, x);
+            var denom = 1.0 + Dot(x, aInvX);
             for (int row = 0; row < Dim; row++)
                 for (int col = 0; col < Dim; col++)
                     aInv[row * Dim + col] -= (float)(aInvX[row] * aInvX[col] / denom);
@@ -150,20 +150,20 @@ public class LinUcbService : ILinUcbService
         {
             _db.LinUcbUserModels.Add(new LinUcbUserModel
             {
-                UserId           = userId,
-                Dim              = Dim,
-                AInvJson         = JsonSerializer.Serialize(aInv),
-                BJson            = JsonSerializer.Serialize(b),
+                UserId = userId,
+                Dim = Dim,
+                AInvJson = JsonSerializer.Serialize(aInv),
+                BJson = JsonSerializer.Serialize(b),
                 ObservationCount = obsCount,
-                UpdatedAt        = now
+                UpdatedAt = now
             });
         }
         else
         {
-            model.AInvJson         = JsonSerializer.Serialize(aInv);
-            model.BJson            = JsonSerializer.Serialize(b);
+            model.AInvJson = JsonSerializer.Serialize(aInv);
+            model.BJson = JsonSerializer.Serialize(b);
             model.ObservationCount = obsCount;
-            model.UpdatedAt        = now;
+            model.UpdatedAt = now;
         }
 
         await _db.SaveChangesAsync(ct);
@@ -208,7 +208,7 @@ public class LinUcbService : ILinUcbService
         else
         {
             aInv = DeserializeFloats(model.AInvJson) ?? IdentityMatrix(Dim);
-            b    = DeserializeFloats(model.BJson)    ?? new float[Dim];
+            b = DeserializeFloats(model.BJson) ?? new float[Dim];
         }
 
         return (aInv, b);

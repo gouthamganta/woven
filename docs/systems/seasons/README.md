@@ -46,12 +46,14 @@ Every season, users answer the same seasonal prompt through 8 lenses:
 
 1. **Lifestyle** — daily rhythms, habits, structure
 2. **Energy** — social patterns, recharge needs
-3. **Communication** — expression, conflict, conversation
-4. **Affection** — physical touch, intimacy, closeness
-5. **Stability** — commitment, planning, change tolerance
-6. **Values** — ethics, spirituality, worldview
+3. **Values** — ethics, spirituality, worldview
+4. **Communication** — expression, conflict, conversation
+5. **Ambition** — goals, drive, growth
+6. **Stability** — commitment, planning, change tolerance
 7. **Curiosity** — learning, growth, exploration
-8. **Emotional Rhythm** — feelings, attachment, vulnerability
+8. **Affection** — physical touch, intimacy, closeness
+
+Emotional Rhythm is a separate behavioral scoring component, not a pillar.
 
 Each response → `UserSeasonResponse` row → re-embedded → updated match scores.
 

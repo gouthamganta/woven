@@ -683,7 +683,6 @@ These are features designed or partially built but not yet complete.
 | CfScore batch job | `CollaborativeFilteringService` exists; no worker triggers it | `CfScores` table stays empty; `SharedTileAffinity` matchmaking component and collaborative filtering both inactive |
 | SharedTileAffinity matchmaking component | Depends on `CfScores` data | One of 16 scorer components is zero-valued for all users |
 | PreferenceEmbedding from ChatNotes | Worker stub exists, not wired | ChatNote content not feeding back into preference embeddings |
-| Ambition pillar coverage | No foundational question covers the Ambition pillar | Ambition-based matching has no data |
 | `ChatMessages.Body` encryption | Blocked by CHECK constraint (1–1000 chars); AES-256-GCM ciphertext exceeds this | Message bodies stored in plaintext; requires schema migration to widen constraint |
 | "Your Turn" chat list indicator | Designed, not built | Chat list does not distinguish whose turn it is to reply |
 | Active/online indicator | Designed, not built | No presence system |

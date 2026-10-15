@@ -30,7 +30,7 @@ public class MediaLifecycleWorker : BackgroundService
         _logger.LogInformation("[MediaLifecycle] Running lifecycle pass");
 
         using var scope = _scopeFactory.CreateScope();
-        var db    = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+        var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
         var media = scope.ServiceProvider.GetRequiredService<IMediaService>();
 
         try

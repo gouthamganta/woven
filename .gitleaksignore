@@ -1,0 +1,12 @@
+# Verified non-secrets only. Each fingerprint includes its immutable commit,
+# file, rule and line. Future changes remain scanned; no directory is excluded.
+# SHA-256 of the archived API result artifact (not a signing/API key).
+ecaf9b087bcf4b91bd2956eff1411f236d3a08f5:qa/evidence/2026-10-09-backend-http-coverage.json:generic-api-key:247
+# Public Azurite devstoreaccount1 emulator key, documented by its vendor.
+# https://github.com/Azure/Azurite#default-storage-account
+5d738d12c73610d06f2ad80b7550ea4a7d27f416:qa/compose.runtime.yaml:generic-api-key:26
+# SHA-256 of api-results.json, recorded as an artifact integrity digest.
+5d738d12c73610d06f2ad80b7550ea4a7d27f416:qa/evidence/2026-10-08-full-qa-results.json:generic-api-key:578
+# SHA-256 of the two named test source files; independently matched to Git blobs.
+2f9fa8550e5d47d6a2c877b65c0105f66c762229:qa/evidence/2026-10-08-coverage-baseline.json:generic-api-key:35
+2f9fa8550e5d47d6a2c877b65c0105f66c762229:qa/evidence/2026-10-08-coverage-baseline.json:generic-api-key:36
