@@ -1,3 +1,7 @@
+## Standing PR review — 2026-10-15
+
+Reviewed15 open heads;10 have concrete blockers/known failures,2 major dependency upgrades need runtime smokes,3 have no code blocker identified (including own evidence PR193; not peer approval). Findings, exact SHAs and CI links in evidence/2026-10-15-standing-pr-review.md/.json and PR comments. PR193 title corrected. No merge/deploy.
+
 ## QA publication — 2026-10-15
 
 Founder requested QA push first. Local QA snapshots preserved with manifest; backend continuation PR179 has 658 tests: 655 pass, 3 known intent-case failures (#181), 0 skipped. Coverage not remeasured; 80% objective and PR acceptance remain open. See evidence/2026-10-15-qa-publication.md. No merge/deploy.

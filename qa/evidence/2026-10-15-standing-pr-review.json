@@ -1,0 +1,313 @@
+[
+  {
+    "number": 193,
+    "head": "05f8bd74de142743de1c6d63722696d180fb3fd7",
+    "status": "No code blocker; draft",
+    "findings": "Evidence-only change; local differing records are explicitly archived, not active replacements. JSON/publication manifest inspected. Backend/frontend CI and CodeQL passed. The title checker rejected the qa type; corrected the title to chore(qa). Await the new metadata check; this is my own publication, not independent peer approval.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Conventional Commit title",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38797686532/job/116638285006"
+      }
+    ]
+  },
+  {
+    "number": 192,
+    "head": "18c52928c2d431074827fd9051d7ba660598beb9",
+    "status": "Changes required",
+    "findings": "P1: package.json upgrades PrimeNG to 22 while Angular remains 21. CI npm ci fails ERESOLVE: @angular/cdk22 requires @angular/common ^22 or ^23, but the head has21. Keep compatible major versions, including @primeng/themes, and regenerate the lockfile. Tests did not execute.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Assign PR author to PR",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38413219973/job/115350706654"
+      },
+      {
+        "name": "Frontend (build + test)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38413220167/job/115350710377"
+      },
+      {
+        "name": "ESLint (TypeScript)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38413220623/job/115350709312"
+      },
+      {
+        "name": "TypeScript Type Check",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38413220623/job/115350709600"
+      }
+    ]
+  },
+  {
+    "number": 191,
+    "head": "4ea444955ea19617927cd7aa0c09bf449a4abf2e",
+    "status": "No code blocker identified",
+    "findings": "Both IdentityModel packages advance together 8.19.2 to8.23.0. Backend/frontend build-tests and CodeQL passed at this head. Red assignment/auto-approval jobs are repository automation permissions: Forbidden and GitHub Actions is not permitted to approve pull requests. No new provider login/runtime integration executed; this is a static plus existing-CI review.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Assign PR author to PR",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412910135/job/115349625902"
+      },
+      {
+        "name": "Auto-merge Dependabot PRs (patch/minor only)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412906129/job/115349615439"
+      },
+      {
+        "name": "Auto-merge Dependabot PRs (patch/minor only)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412909981/job/115349635249"
+      }
+    ]
+  },
+  {
+    "number": 190,
+    "head": "ea635e53d30092d8ee891f6c27d6304e6faab569",
+    "status": "Runtime validation needed",
+    "findings": "StackExchange.Redis jumps from2.8.16 to3.3.1. Backend/frontend build-tests and CodeQL passed; assignment failure is automation metadata. Static diff changes only the package version plus whitespace. A real local Redis cache/SignalR reconnect smoke is still needed before accepting the major upgrade; green unit CI is not that evidence.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Assign PR author to PR",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412841769/job/115349386564"
+      }
+    ]
+  },
+  {
+    "number": 189,
+    "head": "fd7b5f485151e610b44d99ef5883e0d94846d280",
+    "status": "No code blocker identified; overlap",
+    "findings": "Console sink6.0.0 to6.1.1; backend/frontend CI and CodeQL passed. Assignment/auto-approval failures are automation permissions, not test failures. PR188 contains the same sink update plus an AspNetCore major upgrade: choose a merge order and refresh the other branch; do not treat both as independent delivered fixes. No local logging smoke executed.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Assign PR author to PR",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412799922/job/115349277496"
+      },
+      {
+        "name": "Auto-merge Dependabot PRs (patch/minor only)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412795979/job/115349222384"
+      },
+      {
+        "name": "Auto-merge Dependabot PRs (patch/minor only)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412801355/job/115349244807"
+      }
+    ]
+  },
+  {
+    "number": 188,
+    "head": "385f199dd1b89151ed922d9a1a38c83f426c84e6",
+    "status": "Runtime validation needed",
+    "findings": "Serilog.AspNetCore8.0.3 to10.0.0 and Console6.0.0 to6.1.1. Backend/frontend CI and CodeQL passed; only assignment metadata failed. Package changes fit the app net10 target, and source registration was inspected, but startup/request logging and correlation output need a local smoke for the major upgrade. Overlaps PR189.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Assign PR author to PR",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412769793/job/115349134381"
+      }
+    ]
+  },
+  {
+    "number": 186,
+    "head": "2f17f911ea8984e4157f744cb32cee4669d36e6d",
+    "status": "Changes required",
+    "findings": "P1: Azure.Storage.Blobs12.30.1 breaks MediaService.cs:158. CI CS7036: GetBlobsAsync(BlobTraits, BlobStates, string, CancellationToken) now requires traits at this call. Update the call compatibly, add/retest listing and deletion contracts, and rerun backend CI. CodeQL C# also cannot build. No cloud storage call is authorized or required for this review.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Assign PR author to PR",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412686112/job/115348839616"
+      },
+      {
+        "name": "Auto-merge Dependabot PRs (patch/minor only)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412681294/job/115348829498"
+      },
+      {
+        "name": "Auto-merge Dependabot PRs (patch/minor only)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412709201/job/115348922596"
+      },
+      {
+        "name": "Backend (build + test)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412685895/job/115348844245"
+      },
+      {
+        "name": "Analyze C# (backend)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38412686870/job/115348844538"
+      }
+    ]
+  },
+  {
+    "number": 185,
+    "head": "08f1d19d9e4772ff9001d77381ca25282c3fde14",
+    "status": "Changes required",
+    "findings": "P1: CI npm ci fails before tests: missing @emnapi/core1.11.3 and @emnapi/runtime1.11.3 from package-lock.json. Regenerate a complete lock using the declared toolchain, verify clean npm ci, then SSR/build/tests. This log does not establish an Express behavior regression.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Assign PR author to PR",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411726636/job/115345513180"
+      },
+      {
+        "name": "Auto-merge Dependabot PRs (patch/minor only)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411722275/job/115345500063"
+      },
+      {
+        "name": "Auto-merge Dependabot PRs (patch/minor only)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411725104/job/115345507433"
+      },
+      {
+        "name": "Frontend (build + test)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411726084/job/115345509648"
+      },
+      {
+        "name": "ESLint (TypeScript)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411725776/job/115345516075"
+      },
+      {
+        "name": "TypeScript Type Check",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411725776/job/115345516271"
+      }
+    ]
+  },
+  {
+    "number": 184,
+    "head": "aa114c1ed548deba03ae18f74241c600c1600463",
+    "status": "Changes required",
+    "findings": "P1: CI npm ci fails before tests on missing @emnapi/core1.11.3 and @emnapi/runtime1.11.3 lock entries. Repair lockfile reproducibly, then validate Motion12 to14 migration in actual call sites and browser animation cleanup. No runtime Motion defect is proven by this install failure.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Assign PR author to PR",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411716711/job/115345479086"
+      },
+      {
+        "name": "Frontend (build + test)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411715174/job/115345476031"
+      },
+      {
+        "name": "ESLint (TypeScript)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411716644/job/115345479531"
+      },
+      {
+        "name": "TypeScript Type Check",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411716644/job/115345479076"
+      }
+    ]
+  },
+  {
+    "number": 183,
+    "head": "35e2b249f44c73c79dfca9dbb671f7aef4876000",
+    "status": "Changes required",
+    "findings": "P1: testing group upgrades TypeScript to7.0.2 but leaves Angular21 build tooling, whose peer contract is >=5.9 <6.0. CI fails ERESOLVE before tests. Keep the supported compiler range, align Node types with the runtime, and regenerate lock. PR182 also needs a different compiler range, so merging these together is not a solution.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Assign PR author to PR",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411666433/job/115345307223"
+      },
+      {
+        "name": "Frontend (build + test)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411666026/job/115345306688"
+      },
+      {
+        "name": "ESLint (TypeScript)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411665635/job/115345306166"
+      },
+      {
+        "name": "TypeScript Type Check",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411665635/job/115345305864"
+      }
+    ]
+  },
+  {
+    "number": 182,
+    "head": "48b98093f0c739d4712f7290f9c0983742dd3893",
+    "status": "Changes required",
+    "findings": "P1: Angular22.2.2 build tooling requires TypeScript >=6.0 <6.1; this head retains5.9.3. CI fails npm ci ERESOLVE before build/tests. Upgrade framework, supported compiler, Node/runtime and component peer packages as one reviewed migration; do not bypass peers. PR183 proposes TS7 and therefore does not repair this mismatch.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Assign PR author to PR",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411626804/job/115345166400"
+      },
+      {
+        "name": "Frontend (build + test)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411626435/job/115345166661"
+      },
+      {
+        "name": "ESLint (TypeScript)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411625641/job/115345163123"
+      },
+      {
+        "name": "TypeScript Type Check",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38411625641/job/115345163017"
+      }
+    ]
+  },
+  {
+    "number": 180,
+    "head": "59ce488b33a61be5aa2d7a64f3a5b9001e8ac694",
+    "status": "Changes required",
+    "findings": "P1: inherits PR178 required EmailHash change; CI CS9035 fails four existing User fixtures. Also UserDataEndpoints.cs deletion still assigns match participant FKs to0 although WovenDbContext configures Restrict references to Users; without a defined sentinel/schema strategy, matched-account deletion remains invalid. Its explicit BeginTransactionAsync is not wrapped in the configured retry execution strategy (Program.cs EnableRetryOnFailure). Putting operations in a transaction does not prove successful deletion. Reconcile identities/relations, make transaction retry-compatible, and prove real PostgreSQL success plus rollback integrity. No DB deletion was run in this fast review.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Backend (build + test)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38019191886/job/114116169026"
+      },
+      {
+        "name": "Analyze C# (backend)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38019191935/job/114116169173"
+      }
+    ]
+  },
+  {
+    "number": 179,
+    "head": "8d24c05ec93153b3f89787f2107c75cde6cac451",
+    "status": "Known failing regressions; keep draft",
+    "findings": "At8d24c05 local suite executed in the preceding publication session:658 total,655 pass,3 fail,0 skipped. Current GitHub CI also fails three mixed-case IntentOverlapIsCaseInsensitiveAndBonusIsCapped cases, matching issue181. Added tests use controlled providers, in-memory stores and local loopback; no full PostgreSQL/Program/cookie/provider acceptance is implied. Tests/harness and evidence reviewed, not an independent peer approval of my own work. Keep failures visible and retest Claude181 before acceptance; coverage80% remains incomplete.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Backend (build + test)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38797684408/job/116638273455"
+      }
+    ]
+  },
+  {
+    "number": 178,
+    "head": "0c51d2889bb994ddd11ad11cadc6c5124cf2f79e",
+    "status": "Changes required",
+    "findings": "P1: required User.EmailHash breaks existing test initializers (CI CS9035 in AiProfileContractTests, GameFeatureContractTests and MomentsRatingPrivacyTests). P1: migration initializes existing hashes to empty while auth switches immediately to hash-only identity reuse; the backfill is only a documentation snippet, so legacy accounts without an existing matching AuthIdentity can be duplicated. Deliver a guarded/backfilled migration path before switching lookup. The new index exists only in the migration, not model/snapshot: reconcile model metadata and prove no pending-model drift. Add existing-user identity reuse and race/uniqueness tests; schema upgrade not executed here.",
+    "mergeable": "MERGEABLE",
+    "ciFailures": [
+      {
+        "name": "Backend (build + test)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38017612032/job/114111290923"
+      },
+      {
+        "name": "Analyze C# (backend)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38017611992/job/114111290749"
+      }
+    ]
+  },
+  {
+    "number": 144,
+    "head": "687d2515be921e180d2d1a70ed9b65ee70db96f0",
+    "status": "Blocked; changes required",
+    "findings": "Head687d2515 conflicts with master. CI backend job fails formatting before tests; migration snapshot check also fails. Existing exact-head QA comments document PendingModelChangesWarning, model/snapshot CHECK-column mismatch and undiscovered handwritten AddMatchSignalLog. Current diff still changes the CHECK expression without a snapshot reconciliation. The lifetime/auth/proxy slices already landed separately; rebase and isolate remaining repairs. Require successful fresh PostgreSQL migrations and upgrade evidence, not EnsureCreated or suppressed model warnings. No fresh migration rerun in this fast pass.",
+    "mergeable": "CONFLICTING",
+    "ciFailures": [
+      {
+        "name": "Backend (build + test)",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38005454451/job/114073084805"
+      },
+      {
+        "name": "C# Format Check",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38005454492/job/114073084975"
+      },
+      {
+        "name": "Migration snapshot check",
+        "url": "https://github.com/gouthamganta/woven/actions/runs/38005454427/job/114073085506"
+      }
+    ]
+  }
+]
