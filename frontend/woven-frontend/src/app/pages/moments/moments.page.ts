@@ -334,7 +334,14 @@ export class MomentsPageComponent implements OnInit, OnDestroy {
   }
 
   private checkDeckCompletion() {
-    if (this.visibleTodayCards.length === 0 && this.todayCards.length > 0 && !this.deckCompleted) {
+    const visible = this.visibleTodayCards;
+
+    // Adjust carousel index if out of bounds after card removal
+    if (visible.length > 0 && this.currentCardIndex >= visible.length) {
+      this.currentCardIndex = visible.length - 1;
+    }
+
+    if (visible.length === 0 && this.todayCards.length > 0 && !this.deckCompleted) {
       this.deckCompleted = true;
       this.haptic('heavy');
       this.cdr.markForCheck();
