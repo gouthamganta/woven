@@ -1,0 +1,226 @@
+[
+  {
+    "source": "qa/REGRESSION_CASES.json",
+    "published": "qa/archive/2026-10-15-local-snapshot/qa/REGRESSION_CASES.json",
+    "status": "archived differing local copy"
+  },
+  {
+    "source": "qa/SECURITY_CONTROLS.md",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/TEST_CASE_FAMILIES.json",
+    "published": "qa/archive/2026-10-15-local-snapshot/qa/TEST_CASE_FAMILIES.json",
+    "status": "archived differing local copy"
+  },
+  {
+    "source": "qa/TEST_CASE_MAPPING.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/TEST_COVERAGE_PLAN.md",
+    "published": "qa/archive/2026-10-15-local-snapshot/qa/TEST_COVERAGE_PLAN.md",
+    "status": "archived differing local copy"
+  },
+  {
+    "source": "qa/TEST_SURFACES.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/compose.runtime.yaml",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-client-and-data-round.md",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-coverage-baseline.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-coverage-baseline.md",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-duplicate-choice-race.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-duplicate-choice-race.md",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-email-lookup.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-frontend-auth-retest.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-full-qa-results.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-full-qa.md",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-matched-deletion.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-phone-pr-review.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-phone-pr-review.md",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-proxy-and-browser.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-proxy-and-browser.md",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-proxy-log-check.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-regressions-round2.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-regressions-round2.md",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-seed-guards.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-08-seed-repeat.json",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/evidence/2026-10-09-backend-priority-gate.json",
+    "published": "qa/evidence/2026-10-09-backend-priority-gate.json",
+    "status": "added; also published in PR179 baseline"
+  },
+  {
+    "source": "qa/evidence/2026-10-09-backend-priority.json",
+    "published": "qa/evidence/2026-10-09-backend-priority.json",
+    "status": "added; also published in PR179 baseline"
+  },
+  {
+    "source": "qa/evidence/2026-10-09-backend-priority.md",
+    "published": "qa/evidence/2026-10-09-backend-priority.md",
+    "status": "added; also published in PR179 baseline"
+  },
+  {
+    "source": "qa/probes/Program.cs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/probes/WovenDataProbe.csproj",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/runtime/api-gateway.conf",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/api-smoke.mjs",
+    "published": "qa/archive/2026-10-15-local-snapshot/qa/scripts/api-smoke.mjs",
+    "status": "archived differing local copy"
+  },
+  {
+    "source": "qa/scripts/browser-smoke.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/capture-runtime-evidence.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/concurrency-smoke.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/create-local-access.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/duplicate-choice-race.mjs",
+    "published": "qa/archive/2026-10-15-local-snapshot/qa/scripts/duplicate-choice-race.mjs",
+    "status": "archived differing local copy"
+  },
+  {
+    "source": "qa/scripts/inventory-test-surfaces.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/lifecycle-smoke.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/map-regression-evidence.mjs",
+    "published": "qa/archive/2026-10-15-local-snapshot/qa/scripts/map-regression-evidence.mjs",
+    "status": "archived differing local copy"
+  },
+  {
+    "source": "qa/scripts/matched-deletion-check.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/pr137-browser-check.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/prepare-runtime.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/proxy-contract-check.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/real-browser-core-check.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/run-claude-handoff.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/scripts/security-smoke.mjs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/seed/Program.cs",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/seed/WovenQaSeed.csproj",
+    "status": "already on origin/master"
+  },
+  {
+    "source": "qa/MEMORY.md",
+    "published": "qa/archive/2026-10-15-local-snapshot/qa/MEMORY.md",
+    "status": "archived differing local copy"
+  },
+  {
+    "source": "qa/README.md",
+    "published": "qa/archive/2026-10-15-local-snapshot/qa/README.md",
+    "status": "archived differing local copy"
+  },
+  {
+    "source": "qa/github-board.json",
+    "published": "qa/archive/2026-10-15-local-snapshot/qa/github-board.json",
+    "status": "archived differing local copy"
+  }
+]

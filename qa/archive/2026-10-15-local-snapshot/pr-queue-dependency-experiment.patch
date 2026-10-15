@@ -1,0 +1,64 @@
+diff --git a/backend/WovenBackend/WovenBackend.csproj b/backend/WovenBackend/WovenBackend.csproj
+index 3b7361d..0969db9 100644
+--- a/backend/WovenBackend/WovenBackend.csproj
++++ b/backend/WovenBackend/WovenBackend.csproj
+@@ -11,12 +11,12 @@
+     <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.5.1" />
+     <PackageReference Include="Azure.Identity" Version="1.21.0" />
+     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.21.0" />
+-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.1" />
++    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
+     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.12">
+       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+       <PrivateAssets>all</PrivateAssets>
+     </PackageReference>
+-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.15.0" />
++    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.19.2" />
+     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+     <PackageReference Include="Pgvector.EntityFrameworkCore" Version="0.3.0" />
+     <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+@@ -24,7 +24,7 @@
+     <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
++    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.19.2" />
+     <PackageReference Include="Pgvector" Version="0.3.2" />
+     <PackageReference Include="StackExchange.Redis" Version="2.8.16" />
+     <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="10.0.12" />
+diff --git a/frontend/woven-frontend/package-lock.json b/frontend/woven-frontend/package-lock.json
+index 9395fb9..b70675b 100644
+--- a/frontend/woven-frontend/package-lock.json
++++ b/frontend/woven-frontend/package-lock.json
+@@ -9231,6 +9231,31 @@
+       "integrity": "sha512-ihXL9+vhYyEhXz4TDNpHeAOZN9FVrbog0Il64OIEI28UP/n5AaI6gsccRuOHBfx+206agzyoK527bYIO0Foy6A==",
+       "license": "MIT",
+       "peer": true
++    },
++    "node_modules/@emnapi/core": {
++      "version": "1.11.3",
++      "resolved": "https://registry.npmjs.org/@emnapi/core/-/core-1.11.3.tgz",
++      "integrity": "sha512-zLpS5asjEb7lq8jYLq37N6XKaE41DIexlY1rF/z4/tIl3wo13Sqm28fRyfIsKZD+NZ8mM5RoKkpW/rBcuoSZSg==",
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "peer": true,
++      "dependencies": {
++        "@emnapi/wasi-threads": "1.2.3",
++        "tslib": "^2.4.0"
++      }
++    },
++    "node_modules/@emnapi/runtime": {
++      "version": "1.11.3",
++      "resolved": "https://registry.npmjs.org/@emnapi/runtime/-/runtime-1.11.3.tgz",
++      "integrity": "sha512-Xz4Tpyki7XyrpbUK1jR1AhdAdaXyhhY4lZ3neLodmhpuWfy2PAQN5B46sAiU4liOXGLkHypn/qU+jvfWSCYYLA==",
++      "dev": true,
++      "license": "MIT",
++      "optional": true,
++      "peer": true,
++      "dependencies": {
++        "tslib": "^2.4.0"
++      }
+     }
+   }
+ }
