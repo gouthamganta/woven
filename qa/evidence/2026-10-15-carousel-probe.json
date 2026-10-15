@@ -1,0 +1,14 @@
+{
+  "head": "b6385eea9440430705fcc397edc865c44e5d32bd",
+  "execution": "actual TS methods transpiled in VM; dependencies stubbed; not browser",
+  "initialCards": 3,
+  "initialIndex": 2,
+  "respondedUser": 3,
+  "response": "success",
+  "remainingCards": 2,
+  "resultIndex": 2,
+  "currentCard": null,
+  "deckCompleted": false,
+  "expected": "remaining card visible",
+  "passed": false
+}
