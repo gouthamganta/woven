@@ -257,3 +257,7 @@ guard. MessagePack dependency path confirmed through SignalR Redis.
 7. Record run metadata and update this file. Never label an unexecuted test passed.
 
 2026-10-15 final merge verification: master caef5a6 CI38821910269 SUCCESS, both backend and frontend build/tests pass. Azure Deploy remains disabled;195 remains blocked.
+
+PR195 follow-up: remote still b6385ee, conflicting. Local129c303 carousel probe passes (2cards remain,index1,current user2); backfill/deletion findings remain, and local merge removes16QA files. Local Afterthought0e4cfcb is unrelated. Handoff posted directly on195; no merge/deploy.
+
+Local129c303 backend follow-up completed:177/177pass,0skipped. Remote195 remains unchanged/unaccepted.
