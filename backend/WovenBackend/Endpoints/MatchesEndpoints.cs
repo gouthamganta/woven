@@ -387,21 +387,24 @@ public static class MatchesEndpoints
 
             await db.SaveChangesAsync(ct);
 
-            // Record Afterthought
-            try
+            // P4: Record Afterthought only if user provided feedback (don't create empty rows)
+            if (req != null && (req.AfterthoughtRating.HasValue || !string.IsNullOrWhiteSpace(req.AfterthoughtReasonTag)))
             {
-                await afterthought.RecordAsync(
-                    matchId: match.Id,
-                    fromUserId: me,
-                    aboutUserId: candidateId,
-                    closePath: "unmatch",
-                    rating: req?.AfterthoughtRating,
-                    reasonTag: req?.AfterthoughtReasonTag,
-                    noteText: req?.AfterthoughtNote,
-                    isSafety: false,
-                    ct: ct);
+                try
+                {
+                    await afterthought.RecordAsync(
+                        matchId: match.Id,
+                        fromUserId: me,
+                        aboutUserId: candidateId,
+                        closePath: "unmatch",
+                        rating: req.AfterthoughtRating,
+                        reasonTag: req.AfterthoughtReasonTag,
+                        noteText: req.AfterthoughtNote,
+                        isSafety: false,
+                        ct: ct);
+                }
+                catch { /* non-critical */ }
             }
-            catch { /* non-critical */ }
 
             // ✅ OUTCOME TRACKING: Record unmatch (non-blocking)
             try

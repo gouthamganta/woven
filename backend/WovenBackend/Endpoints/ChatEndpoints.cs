@@ -702,6 +702,13 @@ public static class ChatEndpoints
             // Handle BLOCK immediately — close + block, no waiting for other user
             if (decision == "BLOCK")
             {
+                // P2: Check if user was already blocked by the other party (cannot submit safety feedback if blocked)
+                var wasBlockedByOther = await db.Blocks.AnyAsync(b => b.BlockerId == otherUserId && b.BlockedId == me, ct);
+                if (wasBlockedByOther)
+                {
+                    return Results.Json(new { error = "CANNOT_BLOCK_ALREADY_BLOCKED_BY" }, statusCode: 403);
+                }
+
                 var alreadyBlocked = await db.Blocks.AnyAsync(b => b.BlockerId == me && b.BlockedId == otherUserId, ct);
                 if (!alreadyBlocked)
                     db.Blocks.Add(new WovenBackend.data.Entities.Moments.Block { BlockerId = me, BlockedId = otherUserId, CreatedAt = now });
@@ -712,21 +719,24 @@ public static class ChatEndpoints
                 match.IsTrial = false;
                 await db.SaveChangesAsync(ct);
 
-                // Record Afterthought (safety reason only, no star rating)
-                try
+                // Record Afterthought (safety reason only, no star rating) - only if feedback provided
+                if (!string.IsNullOrWhiteSpace(req.AfterthoughtReasonTag))
                 {
-                    await afterthought.RecordAsync(
-                        matchId: match.Id,
-                        fromUserId: me,
-                        aboutUserId: otherUserId,
-                        closePath: "block",
-                        rating: null, // Block path has no star rating
-                        reasonTag: req.AfterthoughtReasonTag,
-                        noteText: req.AfterthoughtNote,
-                        isSafety: true,
-                        ct: ct);
+                    try
+                    {
+                        await afterthought.RecordAsync(
+                            matchId: match.Id,
+                            fromUserId: me,
+                            aboutUserId: otherUserId,
+                            closePath: "block",
+                            rating: null, // Block path has no star rating
+                            reasonTag: req.AfterthoughtReasonTag,
+                            noteText: req.AfterthoughtNote,
+                            isSafety: true,
+                            ct: ct);
+                    }
+                    catch { /* non-critical */ }
                 }
-                catch { /* non-critical */ }
 
                 var blockResponse = new { status = "MATCH_BLOCKED", closedAt = match.ClosedAt };
                 if (!string.IsNullOrWhiteSpace(idempotencyKey))
@@ -762,21 +772,24 @@ public static class ChatEndpoints
                     match.IsTrial = false;
                     await db.SaveChangesAsync(ct);
 
-                    // Record Afterthought for current user
-                    try
+                    // P3: Record Afterthought for current user (only if they provided feedback)
+                    if (decision == "END" && (req.AfterthoughtRating.HasValue || !string.IsNullOrWhiteSpace(req.AfterthoughtReasonTag)))
                     {
-                        await afterthought.RecordAsync(
-                            matchId: match.Id,
-                            fromUserId: me,
-                            aboutUserId: otherUserId,
-                            closePath: "trial_end",
-                            rating: req.AfterthoughtRating,
-                            reasonTag: req.AfterthoughtReasonTag,
-                            noteText: req.AfterthoughtNote,
-                            isSafety: false,
-                            ct: ct);
+                        try
+                        {
+                            await afterthought.RecordAsync(
+                                matchId: match.Id,
+                                fromUserId: me,
+                                aboutUserId: otherUserId,
+                                closePath: "trial_end",
+                                rating: req.AfterthoughtRating,
+                                reasonTag: req.AfterthoughtReasonTag,
+                                noteText: req.AfterthoughtNote,
+                                isSafety: false,
+                                ct: ct);
+                        }
+                        catch { /* non-critical */ }
                     }
-                    catch { /* non-critical */ }
 
                     if (noMessages)
                     {
@@ -796,6 +809,26 @@ public static class ChatEndpoints
                     }
                     return Results.Ok(endResponse);
                 }
+            }
+
+            // P3: Save Afterthought for first decider (waiting for other user)
+            // Only save if user chose END and provided feedback (not CONTINUE with no feedback)
+            if (decision == "END" && (req.AfterthoughtRating.HasValue || !string.IsNullOrWhiteSpace(req.AfterthoughtReasonTag)))
+            {
+                try
+                {
+                    await afterthought.RecordAsync(
+                        matchId: match.Id,
+                        fromUserId: me,
+                        aboutUserId: otherUserId,
+                        closePath: "trial_end",
+                        rating: req.AfterthoughtRating,
+                        reasonTag: req.AfterthoughtReasonTag,
+                        noteText: req.AfterthoughtNote,
+                        isSafety: false,
+                        ct: ct);
+                }
+                catch { /* non-critical */ }
             }
 
             var waitingResponse = new { status = "DECISION_RECORDED", waitingForOther = true };
