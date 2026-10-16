@@ -3135,12 +3135,9 @@ namespace WovenBackend.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_safety");
 
-                    b.Property<int>("MatchId")
-                        .HasColumnType("integer")
+                    b.Property<Guid>("MatchId")
+                        .HasColumnType("uuid")
                         .HasColumnName("match_id");
-
-                    b.Property<Guid?>("MatchId1")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("NoteText")
                         .HasMaxLength(300)
@@ -3158,7 +3155,10 @@ namespace WovenBackend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MatchId1");
+                    b.HasIndex("MatchId");
+
+                    b.HasIndex("MatchId", "FromUserId")
+                        .IsUnique();
 
                     b.ToTable("match_afterthoughts");
                 });
@@ -4225,7 +4225,9 @@ namespace WovenBackend.Migrations
                 {
                     b.HasOne("WovenBackend.data.Entities.Moments.Match", "Match")
                         .WithMany()
-                        .HasForeignKey("MatchId1");
+                        .HasForeignKey("MatchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Match");
                 });
