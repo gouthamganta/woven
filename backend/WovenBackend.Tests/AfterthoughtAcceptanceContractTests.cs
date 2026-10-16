@@ -162,13 +162,26 @@ public class AfterthoughtAcceptanceContractTests
         Assert.Equal(200, result.Status);
         Assert.Equal((short)4, Assert.Single(await h.Db.MatchAfterthoughts.ToListAsync()).Rating);
     }
+
+    [Fact]
+    public async Task DeferredEndpointAllowsRecoveryOfPendingIntegration()
+    {
+        await using var h = AfterthoughtHarness.Create(realIntegration: true);
+        var match = await h.Seed(reason: ClosedReason.UNMATCH);
+        h.Db.MatchAfterthoughts.Add(new MatchAfterthought { MatchId = match.Id, FromUserId = 1, AboutUserId = 2, ClosePath = "unmatch", Rating = 3, ReasonTag = "timing", ProcessedAt = null });
+        await h.Db.SaveChangesAsync();
+        var result = await h.Call("/matches/{matchId:guid}/afterthought", match.Id, 1, new { rating = 3, reasonTag = "timing", noteText = (string?)null });
+        Assert.Equal(200, result.Status);
+        Assert.NotNull(Assert.Single(await h.Db.MatchAfterthoughts.ToListAsync()).ProcessedAt);
+        Assert.Single(await h.Db.MatchSignalLogs.ToListAsync());
+    }
 }
 
 internal sealed class AfterthoughtHarness(WebApplication app, QaMemoryContext db) : IAsyncDisposable
 {
     public QaMemoryContext Db => db;
     public Guid ThreadId { get; private set; }
-    public static AfterthoughtHarness Create()
+    public static AfterthoughtHarness Create(bool realIntegration = false)
     {
         var builder = WebApplication.CreateBuilder(new WebApplicationOptions { EnvironmentName = "Testing" });
         builder.Logging.ClearProviders();
@@ -176,7 +189,9 @@ internal sealed class AfterthoughtHarness(WebApplication app, QaMemoryContext db
             builder.Services.AddSingleton(type, _ => DispatchProxy.Create(type, typeof(AfterthoughtSideEffectStub)));
         var db = QaMemoryContext.Create();
         builder.Services.AddSingleton<WovenDbContext>(db);
-        builder.Services.AddSingleton<IAfterthoughtService>(AfterthoughtAcceptanceContractTests.Service(db));
+        builder.Services.AddSingleton<IAfterthoughtService>(realIntegration
+            ? new AfterthoughtService(db, EchoIntegrationContractTests.Integration(db), NullLogger<AfterthoughtService>.Instance)
+            : AfterthoughtAcceptanceContractTests.Service(db));
         builder.Services.AddSingleton(new SparkWalletService(db));
         builder.Services.AddSingleton<IIdempotencyService>(new IdempotencyService(db, NullLogger<IdempotencyService>.Instance));
         builder.Services.AddAuthentication("QA").AddScheme<AuthenticationSchemeOptions, AfterthoughtUnitAuth>("QA", _ => { });

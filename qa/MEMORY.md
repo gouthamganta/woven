@@ -1,3 +1,7 @@
+## Reliability retest — 2026-10-15
+
+Atb46e10b original216/216pass. Added3boundary cases:full219run216pass/3fail/0skip. Post-signal/pre-marker failure plus fresh-scope retry duplicates event;overlapping contexts also duplicate;public deferred endpoint rejects pending row400before retryservice. No PG concurrency or migration claim. QA-only client corrections applied directly to195as813c270(normalfastforward),CIpending.197updated with tests/evidence;Claude must take remote813beforepush.120Changesrequested. No appfix/reset/paid/deploy/merge. See evidence/2026-10-15-reliability-retest.md/.json.
+
 ## ECHO integration QA — 2026-10-15
 
 At3e7d3ac prior201cases nowpass;15new real-service integrationcases13pass/2fail. Full216total214pass/2fail/0skip. Normalization/trustcaps/safetyisolation pass. Recovery gap:failed integration leaves saved feedback without learning signal and submissionretry is rejected;replaying processor duplicates ExplicitFeedback events. No durable retry/processed marker found. Nightlybatch/weeklylearner/PGmigration notexecuted. Remoteclient539/541;QAfixf6580e3notyetin195.197updated;evidence2026-10-15-echo-integration.md/.json.120Changesrequested/Claude. No appfix/reset/paid/deploy/merge.

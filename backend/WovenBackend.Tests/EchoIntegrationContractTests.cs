@@ -1,5 +1,7 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging.Abstractions;
 using WovenBackend.Data;
 using WovenBackend.Data.Entities;
@@ -114,14 +116,48 @@ public class EchoIntegrationContractTests
         Assert.Single(await db.MatchSignalLogs.ToListAsync());
     }
 
-    private static AfterthoughtIntegrationService Integration(QaMemoryContext db, IMatchSignalService? signals = null)
+    [Fact]
+    public async Task RetryAfterSignalCommitButBeforeProcessedMarkerDoesNotDuplicateSignal()
+    {
+        var store = new InMemoryDatabaseRoot(); var name = Guid.NewGuid().ToString();
+        var fault = new ProcessedMarkerFault(); int id;
+        await using (var db = new EchoReliabilityContext(SharedOptions(name, store, fault)))
+        {
+            var row = await Seed(db); id = row.Id; fault.Armed = true;
+            await Assert.ThrowsAsync<InvalidOperationException>(() => Integration(db).ProcessAfterthoughtAsync(id));
+            Assert.Single(await db.MatchSignalLogs.ToListAsync());
+        }
+        await using var retryDb = new EchoReliabilityContext(SharedOptions(name, store));
+        Assert.Null((await retryDb.MatchAfterthoughts.AsNoTracking().SingleAsync()).ProcessedAt);
+        await Integration(retryDb).ProcessAfterthoughtAsync(id);
+        Assert.NotNull((await retryDb.MatchAfterthoughts.SingleAsync()).ProcessedAt);
+        Assert.Single(await retryDb.MatchSignalLogs.ToListAsync());
+    }
+
+    [Fact]
+    public async Task OverlappingProcessorsFromSeparateScopesCreateOnlyOneSignal()
+    {
+        var store = new InMemoryDatabaseRoot(); var name = Guid.NewGuid().ToString(); int id;
+        await using (var seed = new EchoReliabilityContext(SharedOptions(name, store))) id = (await Seed(seed)).Id;
+        await using var first = new EchoReliabilityContext(SharedOptions(name, store));
+        await using var second = new EchoReliabilityContext(SharedOptions(name, store));
+        var gate = new ProcessingRendezvous();
+        var firstSignals = new RendezvousSignals(new MatchSignalService(first, NullLogger<MatchSignalService>.Instance), gate);
+        var secondSignals = new RendezvousSignals(new MatchSignalService(second, NullLogger<MatchSignalService>.Instance), gate);
+        await Task.WhenAll(Integration(first, firstSignals).ProcessAfterthoughtAsync(id), Integration(second, secondSignals).ProcessAfterthoughtAsync(id));
+        await using var verify = new EchoReliabilityContext(SharedOptions(name, store));
+        Assert.NotNull((await verify.MatchAfterthoughts.SingleAsync()).ProcessedAt);
+        Assert.Single(await verify.MatchSignalLogs.ToListAsync());
+    }
+
+    internal static AfterthoughtIntegrationService Integration(WovenDbContext db, IMatchSignalService? signals = null)
     {
         var audit = DispatchProxy.Create<ISecurityAuditService, EchoAuditStub>();
         var trust = new TrustService(db, new QaCache(), audit, NullLogger<TrustService>.Instance);
         return new(db, signals ?? new MatchSignalService(db, NullLogger<MatchSignalService>.Instance), trust, NullLogger<AfterthoughtIntegrationService>.Instance);
     }
 
-    private static async Task<MatchAfterthought> Seed(QaMemoryContext db, string path = "unmatch", bool safety = false, short? rating = 3)
+    private static async Task<MatchAfterthought> Seed(WovenDbContext db, string path = "unmatch", bool safety = false, short? rating = 3)
     {
         db.Users.AddRange(new User { Id = 1, Email = "one@unit.invalid", EmailHash = "unit1", TrustScore = .8f },
             new User { Id = 2, Email = "two@unit.invalid", EmailHash = "unit2", TrustScore = .8f });
@@ -136,6 +172,58 @@ public class EchoIntegrationContractTests
         public bool Fail { get; set; } = true;
         public Task RecordAsync(int viewerId, int candidateId, string eventType, float eventValue, string? metadataJson = null, CancellationToken ct = default)
             => Fail ? throw new InvalidOperationException("Injected local failure") : inner.RecordAsync(viewerId, candidateId, eventType, eventValue, metadataJson, ct);
+    }
+
+    private static DbContextOptions<WovenDbContext> SharedOptions(string name, InMemoryDatabaseRoot store, SaveChangesInterceptor? interceptor = null)
+    {
+        var builder = new DbContextOptionsBuilder<WovenDbContext>().UseInMemoryDatabase(name, store);
+        if (interceptor != null) builder.AddInterceptors(interceptor);
+        return builder.Options;
+    }
+
+    private sealed class EchoReliabilityContext(DbContextOptions<WovenDbContext> options) : WovenDbContext(options)
+    {
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder); builder.Ignore<Pgvector.Vector>();
+            foreach (var entity in builder.Model.GetEntityTypes().ToList())
+                foreach (var property in entity.ClrType.GetProperties().Where(p => p.PropertyType == typeof(Pgvector.Vector)))
+                    builder.Entity(entity.ClrType).Ignore(property.Name);
+        }
+    }
+
+    private sealed class ProcessedMarkerFault : SaveChangesInterceptor
+    {
+        public bool Armed { get; set; }
+        public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken ct = default)
+        {
+            if (Armed && eventData.Context!.ChangeTracker.Entries<MatchAfterthought>().Any(e => e.Entity.ProcessedAt.HasValue))
+            {
+                Armed = false;
+                throw new InvalidOperationException("Injected failure saving completion marker after signal commit");
+            }
+            return base.SavingChangesAsync(eventData, result, ct);
+        }
+    }
+
+    private sealed class ProcessingRendezvous
+    {
+        private readonly TaskCompletionSource release = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private int arrived;
+        public Task Arrive(CancellationToken ct)
+        {
+            if (Interlocked.Increment(ref arrived) == 2) release.TrySetResult();
+            return release.Task.WaitAsync(TimeSpan.FromSeconds(5), ct);
+        }
+    }
+
+    private sealed class RendezvousSignals(IMatchSignalService inner, ProcessingRendezvous rendezvous) : IMatchSignalService
+    {
+        public async Task RecordAsync(int viewerId, int candidateId, string eventType, float eventValue, string? metadataJson = null, CancellationToken ct = default)
+        {
+            await rendezvous.Arrive(ct);
+            await inner.RecordAsync(viewerId, candidateId, eventType, eventValue, metadataJson, ct);
+        }
     }
 }
 
