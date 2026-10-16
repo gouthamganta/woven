@@ -1,0 +1,47 @@
+{
+  "application": "0f5dc4b897e5215b991e9ea928064334e696a5e4",
+  "engine": "PostgreSQL16",
+  "schema": "EnsureCreated minimal3-table probe; not application migration validation",
+  "results": [
+    {
+      "name": "configured_retry_strategy_processes_feedback",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The configured execution strategy \u0027NpgsqlRetryingExecutionStrategy\u0027 does not support user-initiated transactions. Use the execution strategy returned by \u0027DbContext.Database.CreateExecutionStrategy()\u0027 to execute all the operations in the transaction as a retriable unit."
+    },
+    {
+      "name": "retry_disabled_control_and_sequential_replay",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "marker_save_failure_rolls_back_signal_and_retry_recovers",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "separate_scopes_skip_locked_without_duplicate",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "dedup_distinguishes_complete_afterthought_id_from_prefix",
+      "outcome": "failed",
+      "error": "InvalidOperationException: Unexpected signal count; expected2, actual1"
+    },
+    {
+      "name": "pending_deferred_endpoint_reaches_real_integration",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "configured_retries_external_strategy_wrapper_diagnostic",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "existing_exact_signal_repairs_completion_marker",
+      "outcome": "passed",
+      "error": null
+    }
+  ]
+}
