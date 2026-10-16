@@ -581,17 +581,35 @@ public static class MatchesEndpoints
                 return Results.BadRequest(new { error = "MATCH_NOT_CLOSED" });
 
             // Check if already successfully processed
-            // Allow retry if previous submission failed during integration (ProcessedAt is null)
+            // ProcessedAt set + signal exists = truly complete, reject
+            // ProcessedAt set + no signal = interrupted claim, allow retry
+            // ProcessedAt null = pending or failed, allow retry
             var existing = await db.MatchAfterthoughts
                 .Where(a => a.MatchId == match.Id && a.FromUserId == me)
-                .Select(a => new { a.ProcessedAt })
+                .Select(a => new { a.Id, a.ProcessedAt })
                 .FirstOrDefaultAsync(ct);
 
             if (existing != null && existing.ProcessedAt.HasValue)
-                return Results.BadRequest(new { error = "AFTERTHOUGHT_ALREADY_SUBMITTED" });
+            {
+                // Check if signal actually exists
+                var signalExists = await db.MatchSignalLogs
+                    .FromSqlRaw(
+                        @"SELECT * FROM ""MatchSignalLogs""
+                          WHERE ""EventType"" = {0}
+                            AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {1}
+                          LIMIT 1",
+                        MatchSignalEventTypes.ExplicitFeedback,
+                        existing.Id)
+                    .AsNoTracking()
+                    .AnyAsync(ct);
 
-            // If pending record exists, this will trigger retry in RecordAsync
-            // No special handling needed here - RecordAsync handles the retry
+                if (signalExists)
+                    return Results.BadRequest(new { error = "AFTERTHOUGHT_ALREADY_SUBMITTED" });
+
+                // ProcessedAt set but no signal = interrupted claim, allow retry
+            }
+
+            // If pending or interrupted, RecordAsync handles retry
 
             var otherUserId = match.UserAId == me ? match.UserBId : match.UserAId;
 

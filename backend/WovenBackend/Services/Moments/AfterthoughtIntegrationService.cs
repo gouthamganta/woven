@@ -51,9 +51,9 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
             @"UPDATE ""match_afterthoughts""
               SET ""processed_at"" = {0}
               WHERE ""id"" = {1} AND ""processed_at"" IS NULL",
+            ct,
             DateTimeOffset.UtcNow,
-            afterthoughtId,
-            ct);
+            afterthoughtId);
 
         if (claimed == 0)
         {
@@ -100,8 +100,8 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
             // Reset ProcessedAt for retry
             await _db.Database.ExecuteSqlRawAsync(
                 @"UPDATE ""match_afterthoughts"" SET ""processed_at"" = NULL WHERE ""id"" = {0}",
-                afterthoughtId,
-                ct);
+                ct,
+                afterthoughtId);
 
             _logger.LogError(ex,
                 "[AfterthoughtIntegration] Processing failed for {Id}, reset ProcessedAt for retry",
