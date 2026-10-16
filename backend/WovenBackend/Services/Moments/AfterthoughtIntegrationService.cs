@@ -45,48 +45,74 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
 
     public async Task ProcessAfterthoughtAsync(int afterthoughtId, CancellationToken ct = default)
     {
-        // Load without AsNoTracking so we can update ProcessedAt
-        var afterthought = await _db.MatchAfterthoughts
-            .Include(a => a.Match)
-            .FirstOrDefaultAsync(a => a.Id == afterthoughtId, ct);
+        // Use explicit transaction to ensure atomicity of signal + ProcessedAt
+        // Prevents duplicate signals if ProcessedAt save fails after signal insertion
+        using var transaction = await _db.Database.BeginTransactionAsync(ct);
 
-        if (afterthought == null)
+        try
         {
-            _logger.LogWarning("[AfterthoughtIntegration] Afterthought {Id} not found", afterthoughtId);
-            return;
-        }
+            // Load with row-level lock (SELECT FOR UPDATE) to prevent concurrent processing
+            // FromSqlRaw with FOR UPDATE ensures only one processor claims the row
+            var afterthought = await _db.MatchAfterthoughts
+                .FromSqlRaw(
+                    @"SELECT * FROM ""match_afterthoughts""
+                      WHERE ""id"" = {0}
+                      FOR UPDATE SKIP LOCKED",
+                    afterthoughtId)
+                .Include(a => a.Match)
+                .FirstOrDefaultAsync(ct);
 
-        // Idempotency: skip if already processed
-        if (afterthought.ProcessedAt.HasValue)
-        {
-            _logger.LogDebug(
-                "[AfterthoughtIntegration] Already processed | Id={Id} ProcessedAt={ProcessedAt}",
+            if (afterthought == null)
+            {
+                // Either doesn't exist or locked by another processor (SKIP LOCKED)
+                _logger.LogDebug(
+                    "[AfterthoughtIntegration] Afterthought {Id} not found or locked by another processor",
+                    afterthoughtId);
+                return;
+            }
+
+            // Idempotency: skip if already processed
+            if (afterthought.ProcessedAt.HasValue)
+            {
+                _logger.LogDebug(
+                    "[AfterthoughtIntegration] Already processed | Id={Id} ProcessedAt={ProcessedAt}",
+                    afterthought.Id,
+                    afterthought.ProcessedAt.Value);
+                return;
+            }
+
+            // Route based on safety flag
+            if (afterthought.IsSafety)
+            {
+                await ProcessSafetyFlagAsync(afterthought, ct);
+            }
+            else
+            {
+                await ProcessMatchingFeedbackAsync(afterthought, ct);
+            }
+
+            // Mark as processed within the same transaction as signal insertion
+            afterthought.ProcessedAt = DateTimeOffset.UtcNow;
+            await _db.SaveChangesAsync(ct);
+
+            // Commit transaction - both signal and ProcessedAt are now durable
+            await transaction.CommitAsync(ct);
+
+            _logger.LogInformation(
+                "[AfterthoughtIntegration] Processed {Type} afterthought | Id={Id} From={From} About={About} Rating={Rating}",
+                afterthought.IsSafety ? "SAFETY" : "FEEDBACK",
                 afterthought.Id,
-                afterthought.ProcessedAt.Value);
-            return;
+                afterthought.FromUserId,
+                afterthought.AboutUserId,
+                afterthought.Rating);
         }
-
-        // Route based on safety flag
-        if (afterthought.IsSafety)
+        catch (Exception ex)
         {
-            await ProcessSafetyFlagAsync(afterthought, ct);
+            _logger.LogError(ex,
+                "[AfterthoughtIntegration] Processing failed for {Id}, rolling back transaction",
+                afterthoughtId);
+            throw;
         }
-        else
-        {
-            await ProcessMatchingFeedbackAsync(afterthought, ct);
-        }
-
-        // Mark as processed
-        afterthought.ProcessedAt = DateTimeOffset.UtcNow;
-        await _db.SaveChangesAsync(ct);
-
-        _logger.LogInformation(
-            "[AfterthoughtIntegration] Processed {Type} afterthought | Id={Id} From={From} About={About} Rating={Rating}",
-            afterthought.IsSafety ? "SAFETY" : "FEEDBACK",
-            afterthought.Id,
-            afterthought.FromUserId,
-            afterthought.AboutUserId,
-            afterthought.Rating);
     }
 
     /// <summary>
@@ -127,6 +153,24 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
             return;
         }
 
+        // Check for existing signal from this Afterthought (idempotency)
+        // This prevents duplicates even if ProcessedAt was not yet set
+        var existingSignal = await _db.MatchSignalLogs
+            .Where(s => s.EventType == MatchSignalEventTypes.ExplicitFeedback
+                     && s.ViewerId == afterthought.FromUserId
+                     && s.CandidateId == afterthought.AboutUserId
+                     && s.MetadataJson != null
+                     && s.MetadataJson.Contains($"\"afterthoughtId\":{afterthought.Id}"))
+            .AnyAsync(ct);
+
+        if (existingSignal)
+        {
+            _logger.LogDebug(
+                "[AfterthoughtIntegration] Signal already exists for Afterthought {Id}, skipping duplicate",
+                afterthought.Id);
+            return;
+        }
+
         // Normalize 1-5 star rating to [0,1] scale
         // 1 star → 0.00 (worst match)
         // 3 stars → 0.50 (neutral)
@@ -135,7 +179,7 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
 
         // Record as ExplicitFeedback signal with source metadata
         // ConnectionScoreBatchWorker will pick this up in its nightly run
-        // Metadata includes source ID for traceability and potential future deduplication
+        // Metadata includes source ID for traceability and idempotent detection
         var metadata = System.Text.Json.JsonSerializer.Serialize(new
         {
             source = "afterthought",
