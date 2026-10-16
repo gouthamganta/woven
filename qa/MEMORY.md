@@ -1,3 +1,7 @@
+## PR195 a9a1462 retest — 2026-10-15
+
+Backend200/201pass;blocked-actorcasefixed;remaining runtime EF unique MatchId+FromUserId model index absent despite Designer/snapshot edits. Remotefrontend539/541. Codex corrected2QAassertions in f6580e3; final isolatedcandidate frontend541/541pass/0pending,coverageoff. QA197published;Claudecherrypicktestsandfixmodel;prior16QAdeletions/data/UI/ECHO acceptance obligations remain. No appfix/reset/paid/deploy/merge. See evidence/2026-10-15-afterthought-retest-next.md/.json.
+
 ## Standing PR recheck — 2026-10-15
 
 Reviewed13openheads;196merged ba343fb after green gates,AzureDeploydisabled.195updated2b53d7f nowmergeable;QAcombined201tests199pass/2fail (blocked deferred safety and EF uniqueness metadata);7previousfailuresfixed. FrontendCI535/540 targets stale modal/payload expectations; direct-block/expiry client flows still missing;16QAdeletions and legacy data blockers remain. TenolderPRheadsunchanged/blocked.197updated with evidence and QArestoration;notmerge-ready.12openafter196merge. No reset/paid/Azuredeploy. See evidence/2026-10-15-standing-pr-recheck.md/.json.

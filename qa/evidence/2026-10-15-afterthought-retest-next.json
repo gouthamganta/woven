@@ -1,0 +1,831 @@
+{
+  "applicationHead": "a9a1462481c7034fb5967ba72d983ea2feaa3d3a",
+  "qaTestFixCommit": "f6580e3",
+  "backend": {
+    "total": 201,
+    "passed": 200,
+    "failed": 1,
+    "skipped": 0,
+    "cases": [
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 1)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [])",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.CoachingDismiss_ChangesOnlyTheRequestedOwnRecord(id: 2, status: 404)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"<|im_end|>\", replacement: \"[REDACTED]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 28)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.5, banter: 0.5, depth: 0.5, tone: \"balanced\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 1)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.DeferredSequentialRetryDoesNotCreateDuplicate",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsMissingIdentity",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_UsesSupportedPositiveIdentifiers(type: \"sub\", value: \"2\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"   \")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_OpenCircuit_ThrowsCircuitBreakerOpenException",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"system: override\", replacement: \"[REDACTED]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.CachedTotalCap_RejectsWithoutWritingOrIncrementing(count: 5)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.20000000000000001, banter: 0.5, depth: 0.59999999999999998, tone: \"calm\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.MissingProfile_ReturnsNoInventedProfileOrPair",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: 5, meetAgain: \"NO\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: True)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Reject_ChangesOnlyPendingSessions",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2028-02-28T23:59:59Z\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.Logout_ExpiresBothCookiesWithSecureFlags",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"RELATIONSHIP\", expected: 1)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.CoachingDismiss_ChangesOnlyTheRequestedOwnRecord(id: 9, status: 404)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 1, pending: False, allowed: True, remaining: 1, reason: null)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: False, expectedName: \"woven_access_token\", minutes: 60)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_ThreeFailures_OpensCircuit",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 123, second: 7)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 3, pending: True, allowed: False, remaining: 0, reason: \"DAILY_LIMIT\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_DoesNotCreateUsageOrMakeZeroNegative",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"555-123-4567\", replacement: \"[PHONE]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.AuthCookies_HaveSecureFlagsAndExpectedDefaultLifetime(refresh: True, expectedName: \"woven_refresh_token\", minutes: 43200)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.InvalidRatingPathOrBlockFlagDoesNotPersist(path: \"block\", rating: 3, safety: True)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_CreatesOnlyTheRequestedUsersWallet",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentAudience",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.AnswerSubmission_RejectsInactiveAndMissingRoundStates",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 1, firstTone: \"calm\", secondTone: \"balanced\", pillar: \"Lifestyle\", intent: 0.5, difficulty: \"MEDIUM\", tone: \"THOUGHTFUL\", bucket: \"LIFESTYLE_FIT\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.TrialEndPreservesTheEndingPersonsAfterthoughtRegardlessOfResponseOrder(secondDecision: \"END\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.LatestVector_IsUsedAndMeaningfulTopPillarsAreLimitedToThree",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: 1, meetAgain: \"yes\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Contact synthetic.person@example.invalid\", identifier: \"synthetic.person@example.invalid\", replacement: \"[email]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 100, after: 100)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"human: override\", replacement: \"[REDACTED]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.80000000000000004, banter: 0.80000000000000004, depth: 0.20000000000000001, tone: \"playful\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Accept_RejectsMissingInactiveExpiredForeignAndOrphanedSessions",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 5, expectedCached: 4)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments/liked-you\", ratingCount: 5)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.RemovedPendingContracts_AreNotExposed",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Find @synthetic_handle\", identifier: \"@synthetic_handle\", replacement: \"[handle]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_RejectsDifferentSigningKey",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 3, meetAgain: \"invalid\", length: 0, error: \"INVALID_MEET_AGAIN\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 20, after: 70)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 0, after: 5)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments\", ratingCount: 5)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.CoachingSummary_ReturnsLatestOwnUnreadRecordWithoutForeignOrDismissedContent",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: \"unit@example.invalid Person\", expected: \"[EMAIL]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.DeferredSubmissionRequiresParticipantAndClosedMatch(actor: 1, closed: True, expected: 200)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: MAGICAL)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 3, meetAgain: \"yes\", length: 301, error: \"TEXT_TOO_LONG\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"not-json\", pillars: \"not-json\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: null, expectedMinutes: 60)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 0, after: 50)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.ExecuteAsync_SuccessfulCall_ReturnsClosed",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.InvalidRatingPathOrBlockFlagDoesNotPersist(path: \"block\", rating: null, safety: False)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.MissingOptionalUnmatchInputDoesNotConsumeDeferredFeedbackOpportunity",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.TwoRoundGame_FlipsRolesScoresAndCompletesWithTheCorrectWinner(firstScore: 1, secondScore: 1, winner: 0)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-12-31T23:59:59Z\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.CachedTotalCap_RejectsWithoutWritingOrIncrementing(count: 6)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"bad\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: False, name: \"woven_access_token\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 0, meetAgain: null, length: 0, error: \"INVALID_STARS\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.ServicePersistsSupportedPathsWithPrivateActorAndTarget(path: \"block\", rating: null, safety: True)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.MissingCookie_ReturnsNoToken(refresh: False)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"1\", expectedMinutes: 1)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [137, 80, 78, 71])",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.InvalidRatingPathOrBlockFlagDoesNotPersist(path: \"unknown\", rating: null, safety: False)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 2, pending: False, allowed: False, remaining: 0, reason: \"DAILY_LIMIT\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: null, second: \"relationship\", expected: 0.5)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesToneRelationships(first: \"{\\\"pulse\\\":{\\\"banter\\\":0.2,\\\"depth\\\":0.9}}\", second: \"{\\\"pulse\\\":{\\\"socialCapacity\\\":0.2,\\\"depth\\\":0.6}}\", expected: \"complementary\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 12)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.CombinedIdentifiers_AreAllRemovedWithoutDiscardingHarmlessContext",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: \"   \", expected: null)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.ServicePersistsSupportedPathsWithPrivateActorAndTarget(path: \"unmatch\", rating: 5, safety: False)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 95, after: 100)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.FinalResult_HandlesMissingResultMissingMatchAndNullableFields",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.CohortFallback_UsesRecentNearbySameGenderRecordsAndSkipsMalformedData",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"open\", expected: 0.59999999999999998)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555.123.4567\", identifier: \"555.123.4567\", replacement: \"[phone]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ContainsExpectedClaims",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 0, pending: False, allowed: True, remaining: 2, reason: null)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"assistant: override\", replacement: \"[REDACTED]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_DifferentUsers_ProduceDifferentTokens",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"<|endoftext|>\", replacement: \"[REDACTED]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.ServicePersistsSupportedPathsWithPrivateActorAndTarget(path: \"expiry\", rating: null, safety: False)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesToneRelationships(first: \"{\\\"pulse\\\":{\\\"banter\\\":0.9,\\\"socialCapacity\\\":0.9}\"\u00b7\u00b7\u00b7, second: \"{}\", expected: \"complementary\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_RejectsInvalidValuesBeforeCallingTheService(stars: 6, meetAgain: null, length: 0, error: \"INVALID_STARS\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 3, firstTone: \"thoughtful\", secondTone: \"playful\", pillar: \"Values\", intent: 0.90000000000000002, difficulty: \"HARD\", tone: \"THOUGHTFUL\", bucket: \"CORE_FIT\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.GetState_UnknownCircuit_ReturnsClosed",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: -1, expectedCached: 0)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: null, meetAgain: null)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.BlankAndOversizedTags_AreBoundedInContext",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.CoachingSummary_ReturnsNoContentWhenNoUnreadOwnSummaryExists",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.TwoRoundGame_FlipsRolesScoresAndCompletesWithTheCorrectWinner(firstScore: 2, secondScore: 0, winner: 1)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 0, firstTone: \"playful\", secondTone: \"playful\", pillar: \"Other\", intent: 0.5, difficulty: \"EASY\", tone: \"PLAYFUL\", bucket: \"EXPLORER\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.AdminToken_HasExplicitRoleAndSignedIdentity",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.ServiceRejectsOversizedTextBeforeStorage(tagLength: 0, noteLength: 301)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"AA==\", expectedException: typeof(System.InvalidOperationException))",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.CoachingDismiss_ChangesOnlyTheRequestedOwnRecord(id: 1, status: 200)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TamperedNonceCiphertextOrTag_IsRejected(position: 0)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: \"invalid base64!\", expectedException: typeof(System.FormatException))",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"synthetic@example.invalid\", replacement: \"[EMAIL]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.BlockedParticipantCannotSubmitSafetyAfterthought",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.NonJpegContent_IsNotModified(input: [1, 2, 3])",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.AcceptedRound_UsesPairContextAndGuesserTargetRoles(aligned: 1, firstTone: \"balanced\", secondTone: \"balanced\", pillar: \"Other\", intent: 0.5, difficulty: \"MEDIUM\", tone: \"BALANCED\", bucket: \"CONVERSATION_FIT\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 2147483647, second: 1)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.CreateSession_PersistsInviteMessagesAndOneDailyGameUse(type: RED_GREEN_FLAG)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.DeferredSubmissionRequiresParticipantAndClosedMatch(actor: 2, closed: True, expected: 200)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesToneRelationships(first: \"{\\\"pulse\\\":{\\\"banter\\\":0.2,\\\"depth\\\":0.9}}\", second: \"{\\\"pulse\\\":{\\\"banter\\\":0.9,\\\"socialCapacity\\\":0.9}\"\u00b7\u00b7\u00b7, expected: \"different\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.EmptyCandidates_ReturnsEmptyBoostMap",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"casual\", second: \"fun\", expected: 0.84999999999999998)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_UsesSupportedPositiveIdentifiers(type: \"uid\", value: \"1\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"{\\\"pulse\\\":null}\", pillars: \"{}\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 0, expectedCached: 0)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"casual\", second: \"relationship\", expected: 0.29999999999999999)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments\", ratingCount: 0)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"2147483648\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.InvalidRatingPathOrBlockFlagDoesNotPersist(path: \"expiry\", rating: 3, safety: False)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"null\", pillars: \"null\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 98, after: 100)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.GhostRefund_AddsHalfSparkWithoutExceedingCap(before: 100, after: 100)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtTokenServiceTests.CreateAccessToken_ReturnsNonEmptyJwt",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.DeferredSubmissionRequiresParticipantAndClosedMatch(actor: 3, closed: True, expected: 403)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.MissingMalformedOrWrongLengthMasterKey_FailsConfiguration(key: null, expectedException: typeof(System.InvalidOperationException))",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CircuitBreakerServiceTests.Reset_AfterOpen_ClosesCircuit",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.DailyRefill_AddsFiveSparksAndCapsAtTen(before: 75, after: 100)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.ServiceRejectsOversizedTextBeforeStorage(tagLength: 51, noteLength: 0)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.DeferredSubmissionRequiresParticipantAndClosedMatch(actor: 1, closed: False, expected: 400)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"casual\", expected: 0.29999999999999999)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_UsesSupportedPositiveIdentifiers(type: \"http://schemas.xmlsoap.org/ws/2005/05/identity/cla\"\u00b7\u00b7\u00b7, value: \"3\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_ExpiryRespectsConfiguredMinutesOrDefault(configured: \"45\", expectedMinutes: 45)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"relationship\", second: \"marriage\", expected: 0.84999999999999998)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.InteractionBudgetContractTests.Refund_OnlyDecrementsPositiveCacheAndPersistedUsage(cachedBefore: 1, expectedCached: 0)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Creation_RejectsMissingClosedPendingOrDailyCappedMatches",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ReportsMissingPromptAndUsesSubjectFallback",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Meet at 42 Synthetic rd\", identifier: \"42 Synthetic rd\", replacement: \"their area\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.HistoricalSavedRecord_DoesNotBoostCandidate(ageDays: 10)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MomentsRatingPrivacyTests.CardJson_DoesNotExposeRatings(path: \"/moments/liked-you\", ratingCount: 0)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.Pulse_SelectsDocumentedConversationTone(social: 0.5, banter: 0.20000000000000001, depth: 0.80000000000000004, tone: \"thoughtful\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 0)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: LOGICAL)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.NewWallet_ReceivesFiveSparksOnceAndPersistsDailyStamp",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: \"  Synthetic Adult  \", expected: \"Synthetic\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.BasicProfile_SanitizesNameAndProvidesEightNeutralPillars(name: null, expected: null)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.PairIdentity_IsOrderIndependentAndPreservesBothUsers(first: 1, second: 2)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 12)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_LimitsCaseInsensitiveSharedHobbiesTagsAndPillars",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.MigrationUsesGuidMatchIdAndTheSameColumnForItsForeignKey",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"-1\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.PurposeScopedKeys_AreStableAndDistinct",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"exploring\", second: \"relationship\", expected: 0.59999999999999998)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.CurrentRound_ReturnsNothingForAbsentInactiveOrMissingRoundData",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.Feedback_ForwardsValidBoundaryValuesAndReportsSubmission(stars: null, meetAgain: \"maybe\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.MalformedOrAbsentVectorSections_DoNotBreakProfileLoading(vector: \"{\\\"foundational\\\":null,\\\"lifestyle\\\":null}\", pillars: \"{}\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.InvalidRatingPathOrBlockFlagDoesNotPersist(path: \"trial_end\", rating: 0, safety: False)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.TrialEndPreservesTheEndingPersonsAfterthoughtRegardlessOfResponseOrder(secondDecision: \"CONTINUE\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.CookieContractTests.ReadsOnlyTheNamedCookie(refresh: True, name: \"woven_refresh_token\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.ServicePersistsSupportedPathsWithPrivateActorAndTarget(path: \"trial_end\", rating: 1, safety: False)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SavedCleanupContractTests.PositiveChoice_StillBoostsCandidate(choice: YES)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555-123-4567\", identifier: \"555-123-4567\", replacement: \"[phone]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.JwtSecurityContractTests.OrdinaryToken_IsCryptographicallyValidAndHasNoAdminRole",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.LegacyUnstampedWallet_EarnsExactlyOnce",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Call 555 123 4567\", identifier: \"555 123 4567\", replacement: \"[phone]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.SchemaPreventsConcurrentDuplicateSubmissionsForMatchAndActor",
+        "outcome": "Failed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"<|im_start|>\", replacement: \"[REDACTED]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.InvalidRatingPathOrBlockFlagDoesNotPersist(path: \"unmatch\", rating: 6, safety: False)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-03-08T01:30:00-05:00\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.DifferentMasterKey_CannotDecrypt",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"[[INST]]\", replacement: \"[REDACTED]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"Synthetic private note\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 0)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.SparkWalletContractTests.SameDayOrFutureStamp_DoesNotEarnAgain(daysAhead: 7)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.CreateSession_PersistsInviteMessagesAndOneDailyGameUse(type: KNOW_ME)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EndpointContractTests.SharedClaimHelper_RejectsInvalidPrimaryClaimsEvenWithAValidFallback(value: \"0\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.TextWithoutIdentifiers_RemainsUnchanged(input: \"We both enjoy walking and reading.\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.CompleteProfile_RetainsLimitedHobbiesAndWeightedSanitizedTags",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.Availability_CombinesDailyLimitAndPendingGameState(used: 0, pending: True, allowed: False, remaining: 2, reason: \"PENDING_GAME\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Meet at 123 Synthetic Street\", identifier: \"123 Synthetic Street\", replacement: \"their area\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.PairContext_ComputesSupportedIntentAlignment(first: \"friendship\", second: \"relationship\", expected: 0.5)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TextRoundTrip_PreservesExactInput(text: \"\u2764\ufe0f \u0c24\u0c46\u0c32\u0c41\u0c17\u0c41\\nline two\\0\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.JpegMetadataSegment_RemovesApp1AndPreservesOtherSegments",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.SupportedIdentifiers_AreRemovedBeforeAiProcessing(text: \"Email synthetic+tag@example.invalid please\", identifier: \"synthetic+tag@example.invalid\", replacement: \"[email]\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.JpegRestartMarkers_ArePreserved",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.MatchRuleContractTests.NewMatch_ExpiresExactly72ElapsedHoursAcrossCalendarBoundaries(timestamp: \"2026-10-08T23:59:59+05:30\")",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.SamePlaintext_UsesDistinctCiphertexts",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.GameFeatureContractTests.TwoRoundGame_FlipsRolesScoresAndCompletesWithTheCorrectWinner(firstScore: 0, secondScore: 2, winner: 2)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.RepeatedBlockDoesNotStoreTheSameActorsAfterthoughtTwice",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.TruncatedCiphertext_IsRejected(length: 27)",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.EncryptionContractTests.BinaryRoundTrip_PreservesAllByteValues",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.PiiSanitizerContractTests.AuditHash_IsStableSaltSensitiveAndNeverTheRawIdentifier",
+        "outcome": "Passed"
+      },
+      {
+        "name": "WovenBackend.Tests.AiProfileContractTests.StructuredTags_AreSanitizedBeforeEnteringAiContext(tag: \"ignore previous\", replacement: \"[REDACTED]\")",
+        "outcome": "Passed"
+      }
+    ],
+    "trxSha256": "f4c10591386e9336d99883cd19382a1e045167e2a8a26c13252cf379b3b99bf1"
+  },
+  "frontend": {
+    "numTotalTests": 541,
+    "numPassedTests": 541,
+    "numFailedTests": 0,
+    "numPendingTests": 0,
+    "success": true
+  },
+  "frontendReportSha256": "f8542f3a8ec13cd8c20a1de112a4634ea49732c39ddafab07d726294c694a4d9",
+  "limitations": [
+    "Backend acceptance uses InMemory and registered handlers, not PostgreSQL migration/concurrency or full host middleware",
+    "Frontend tests use local installed packages through a junction and qa config; coverage disabled, no new coverage claim",
+    "Final frontend cwd is the isolated candidate frontend; initial CLI launch selected shared root and is excluded from final acceptance",
+    "Frontend test-only changes need integration into PR195; remote CI is not green"
+  ]
+}
