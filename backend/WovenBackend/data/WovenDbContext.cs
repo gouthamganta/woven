@@ -401,6 +401,17 @@ public class WovenDbContext : DbContext
             .HasForeignKey(x => x.BlockedId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        // match_afterthoughts: unique constraint on (MatchId, FromUserId)
+        modelBuilder.Entity<MatchAfterthought>()
+            .HasIndex(x => new { x.MatchId, x.FromUserId })
+            .IsUnique();
+
+        modelBuilder.Entity<MatchAfterthought>()
+            .HasOne(x => x.Match)
+            .WithMany()
+            .HasForeignKey(x => x.MatchId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         // moment_responses -> users
         modelBuilder.Entity<MomentResponse>()
             .HasOne<User>()

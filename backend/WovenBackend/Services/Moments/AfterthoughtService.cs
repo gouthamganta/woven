@@ -21,10 +21,17 @@ public interface IAfterthoughtService
 public class AfterthoughtService : IAfterthoughtService
 {
     private readonly WovenDbContext _db;
+    private readonly IAfterthoughtIntegrationService _integration;
+    private readonly ILogger<AfterthoughtService> _logger;
 
-    public AfterthoughtService(WovenDbContext db)
+    public AfterthoughtService(
+        WovenDbContext db,
+        IAfterthoughtIntegrationService integration,
+        ILogger<AfterthoughtService> logger)
     {
         _db = db;
+        _integration = integration;
+        _logger = logger;
     }
 
     public async Task RecordAsync(
@@ -90,5 +97,16 @@ public class AfterthoughtService : IAfterthoughtService
 
         _db.MatchAfterthoughts.Add(afterthought);
         await _db.SaveChangesAsync(ct);
+
+        // Immediately integrate into ECHO (matching feedback) or TrustService (safety flags)
+        try
+        {
+            await _integration.ProcessAfterthoughtAsync(afterthought.Id, ct);
+        }
+        catch (Exception ex)
+        {
+            // Non-critical: Afterthought is saved, integration can be retried
+            _logger.LogError(ex, "[Afterthought] Integration failed for {Id} — feedback saved but not processed", afterthought.Id);
+        }
     }
 }

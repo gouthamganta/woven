@@ -424,6 +424,7 @@ builder.Services.AddScoped<WovenBackend.Services.Moments.InteractionBudgetServic
 builder.Services.AddScoped<WovenBackend.Services.Moments.SparkWalletService>();
 builder.Services.AddScoped<WovenBackend.Services.Moments.MomentsMatchService>();
 builder.Services.AddScoped<IAfterthoughtService, AfterthoughtService>();
+builder.Services.AddScoped<IAfterthoughtIntegrationService, AfterthoughtIntegrationService>();
 builder.Services.AddHostedService<WovenBackend.Services.Moments.BalloonExpiryWorker>();
 
 builder.Services.AddScoped<OpenAiDynamicIntakeRewriteService>();
