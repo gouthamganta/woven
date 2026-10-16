@@ -108,19 +108,37 @@ describe('Chat thread feature contracts', () => {
     });
   }
 
-  for (const status of ['MATCH_BLOCKED', 'MATCH_ENDED', 'MATCH_CONTINUES', 'WAITING']) {
-    it(`handles a ${status} trial outcome without making up a server decision`, async () => {
-      page.data = response; chat['trialDecision'].mockReturnValue(of({ status })); await page.onTrialDecision({ decision: 'CONTINUE' });
-      expect(chat['trialDecision']).toHaveBeenCalledWith('thread', 'CONTINUE', undefined); expect(page.showTrialDecision).toBe(false);
-      await vi.advanceTimersByTimeAsync(800);
-      if (['MATCH_BLOCKED', 'MATCH_ENDED'].includes(status)) expect(router.navigateByUrl).toHaveBeenCalledWith('/chats');
-      else expect(chat['thread']).toHaveBeenCalled();
+  it('handles CONTINUE trial decision without Afterthought modal', async () => {
+    page.data = response; chat['trialDecision'].mockReturnValue(of({ status: 'MATCH_CONTINUES' }));
+    await page.onTrialDecision({ decision: 'CONTINUE' });
+    expect(chat['trialDecision']).toHaveBeenCalledWith('thread', 'CONTINUE', undefined, undefined, undefined, undefined);
+    expect(page.showTrialDecision).toBe(false); expect(page.showAfterthought).toBe(false);
+    await vi.advanceTimersByTimeAsync(800); expect(chat['thread']).toHaveBeenCalled();
+  });
+
+  for (const decision of ['END', 'BLOCK'] as const) {
+    it(`shows Afterthought modal for ${decision} trial decision`, async () => {
+      page.data = response; await page.onTrialDecision({ decision, endReason: 'no_spark' });
+      expect(page.showAfterthought).toBe(true); expect(page.afterthoughtPath).toBe(decision === 'BLOCK' ? 'block' : 'trial_end');
+      expect(page.pendingDecision).toBe(decision); expect(page.pendingEndReason).toBe('no_spark');
+      expect(chat['trialDecision']).not.toHaveBeenCalled(); // Not called until Afterthought submitted
+    });
+  }
+
+  for (const status of ['MATCH_BLOCKED', 'MATCH_ENDED']) {
+    it(`handles ${status} after Afterthought submission`, async () => {
+      page.data = response; page.pendingDecision = status === 'MATCH_BLOCKED' ? 'BLOCK' : 'END';
+      page.pendingEndReason = 'no_spark'; chat['trialDecision'].mockReturnValue(of({ status }));
+      await page.onTrialAfterthought({ rating: status === 'MATCH_ENDED' ? 2 : null, reasonTag: 'no_spark', noteText: '' });
+      expect(chat['trialDecision']).toHaveBeenCalled(); expect(page.showAfterthought).toBe(false);
+      await vi.advanceTimersByTimeAsync(800); expect(router.navigateByUrl).toHaveBeenCalledWith('/chats');
     });
   }
 
   it('ignores absent trial data and keeps failed decisions visibly unsuccessful', async () => {
-    await page.onTrialDecision({ decision: 'END' }); expect(chat['trialDecision']).not.toHaveBeenCalled();
-    page.data = response; chat['trialDecision'].mockReturnValue(throwError(() => new Error('Synthetic failure'))); await page.onTrialDecision({ decision: 'END' }); expect(page.toast).toBe('Could not submit decision.');
+    await page.onTrialDecision({ decision: 'CONTINUE' }); expect(chat['trialDecision']).not.toHaveBeenCalled();
+    page.data = response; chat['trialDecision'].mockReturnValue(throwError(() => new Error('Synthetic failure')));
+    await page.onTrialDecision({ decision: 'CONTINUE' }); expect(page.toast).toBe('Could not submit decision.');
   });
 
   it('does not send without a thread, blank text or while a send is in progress', async () => {
@@ -151,16 +169,17 @@ describe('Chat thread feature contracts', () => {
     page.data = response; matches['pop'].mockReturnValue(throwError(() => new Error('Synthetic failure'))); const action = page.popBalloon(); await vi.advanceTimersByTimeAsync(600); await action; expect(page.toast).toBe('Could not pop.'); expect(page.isPopping).toBe(false);
   });
 
-  it('shows and cancels unmatch confirmation before issuing any request', async () => {
-    await page.unmatch(); expect(page.showUnmatchRating).toBe(false); page.data = response; page.showMore = true; await page.unmatch(); expect(page.showUnmatchRating).toBe(true); expect(page.showMore).toBe(false);
-    page.cancelUnmatch(); expect(page.showUnmatchRating).toBe(false); expect(matches['unmatch']).not.toHaveBeenCalled();
+  it('shows Afterthought modal for unmatch and cancels before issuing any request', async () => {
+    await page.unmatch(); expect(page.showAfterthought).toBe(false); page.data = response; page.showMore = true; await page.unmatch(); expect(page.showAfterthought).toBe(true); expect(page.showMore).toBe(false);
+    expect(page.afterthoughtPath).toBe('unmatch');
+    page.onAfterthoughtBack(); expect(page.showAfterthought).toBe(false); expect(matches['unmatch']).not.toHaveBeenCalled();
   });
 
   for (const failed of [false, true]) {
     it(`clears unmatch busy state after ${failed ? 'rejection' : 'confirmed success'}`, async () => {
       page.data = response; if (failed) matches['unmatch'].mockReturnValue(throwError(() => new Error('Synthetic failure')));
-      const action = page.confirmUnmatch(undefined); await vi.advanceTimersByTimeAsync(500); await action;
-      expect(matches['unmatch']).toHaveBeenCalledWith('match', undefined); await vi.advanceTimersByTimeAsync(800);
+      const action = page.onUnmatchAfterthought({ rating: 3, reasonTag: 'lost_interest', noteText: '' }); await vi.advanceTimersByTimeAsync(500); await action;
+      expect(matches['unmatch']).toHaveBeenCalledWith('match', 3, 'lost_interest', ''); await vi.advanceTimersByTimeAsync(800);
       if (failed) { expect(page.toast).toContain('Could not unmatch'); expect(page.isUnmatching).toBe(false); expect(router.navigateByUrl).not.toHaveBeenCalled(); }
       else expect(router.navigateByUrl).toHaveBeenCalledWith('/chats');
     });
