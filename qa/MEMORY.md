@@ -1,3 +1,7 @@
+## Container freshness audit - 2026-10-16
+
+Running woven frontend/backend images are May16, no source mounts, both unhealthy. QA containers stopped; frontend artifact index absent, backend artifact Oct8. Not current source. See evidence/2026-10-16-container-freshness.md. Read-only audit; contributor uncommitted integration edit preserved.
+
 ## PostgreSQL atomicity retest — 2026-10-16
 
 Application 0f5dc4b: eight real PostgreSQL 16.14 probe scenarios, 6 pass / 2 fail. App-configured Npgsql retries reject the unwrapped explicit transaction (P1); JSON Contains dedup matches longer ID prefixes and suppresses distinct feedback (P2). Rollback, concurrent SKIP LOCKED, sequential replay and deferred endpoint controls pass with retries disabled; external strategy wrapper diagnostic passes with retries enabled. Minimal three-table EnsureCreated only, not migration/full-suite acceptance; no 219/219 claim. Evidence: evidence/2026-10-16-atomic-postgres.md/.json; source qa/probes/afterthought-postgres. Separate loopback disposable QA database; no existing DB reset, paid APIs, app fixes or deployments. PR195 remains unmerged; handoff Claude120 changes requested.
