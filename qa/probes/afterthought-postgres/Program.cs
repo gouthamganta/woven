@@ -68,7 +68,8 @@ await Run("separate_scopes_skip_locked_without_duplicate", async () =>
     var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
     var slow = new HeldSignals(new MatchSignalService(first, NullLogger<MatchSignalService>.Instance), entered, release);
     var firstRun = Integration(first, slow).ProcessAfterthoughtAsync(row.Id);
-    await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+    await Task.WhenAny(firstRun, entered.Task).WaitAsync(TimeSpan.FromSeconds(10));
+    if (firstRun.IsFaulted) await firstRun;
     try { await Integration(second).ProcessAfterthoughtAsync(row.Id).WaitAsync(TimeSpan.FromSeconds(5)); }
     finally { release.TrySetResult(); }
     await firstRun; await Verify(row, 1, processed: true);
@@ -106,6 +107,37 @@ await Run("pending_deferred_endpoint_reaches_real_integration", async () =>
     Check(context.Response.StatusCode == 200, "Expected deferred retry200, actual" + context.Response.StatusCode);
     await Verify(row, 1, processed: true);
 });
+await Run("interrupted_claim_deferred_retry_is_not_rejected", async () =>
+{
+    var row = await Seed(); await using var db = Db();
+    // Simulate persisted state after the atomic claim succeeds and the process
+    // exits before writing any signal. No production code is patched.
+    var persisted = await db.MatchAfterthoughts.SingleAsync(a => a.Id == row.Id);
+    persisted.ProcessedAt = DateTimeOffset.UtcNow; await db.SaveChangesAsync();
+    Check(await db.MatchSignalLogs.CountAsync(s => s.ViewerId == row.FromUserId) == 0, "Unexpected signal in interrupted-claim fixture");
+    var builder = WebApplication.CreateBuilder(new WebApplicationOptions { EnvironmentName = "Testing" }); builder.Logging.ClearProviders();
+    foreach (var type in typeof(WovenDbContext).Assembly.GetTypes().Where(t => t.IsInterface && t.Namespace?.StartsWith("WovenBackend.Services") == true))
+        builder.Services.AddSingleton(type, _ => DispatchProxy.Create(type, typeof(UnexpectedCallStub)));
+    builder.Services.AddSingleton<WovenDbContext>(db);
+    builder.Services.AddSingleton<IAfterthoughtService>(new AfterthoughtService(db, Integration(db), NullLogger<AfterthoughtService>.Instance));
+    builder.Services.AddAuthorization(); await using var app = builder.Build(); app.MapMatchesEndpoints();
+    var endpoint = ((IEndpointRouteBuilder)app).DataSources.SelectMany(s => s.Endpoints).OfType<RouteEndpoint>().Single(e => e.RoutePattern.RawText == "/matches/{matchId:guid}/afterthought");
+    var context = new DefaultHttpContext { RequestServices = app.Services, User = new ClaimsPrincipal(new ClaimsIdentity([new Claim("uid", row.FromUserId.ToString())], "Synthetic")) };
+    context.Request.Method = "POST"; context.Request.RouteValues["matchId"] = row.MatchId.ToString();
+    var bytes = JsonSerializer.SerializeToUtf8Bytes(new { rating = 3, reasonTag = "timing", noteText = (string?)null });
+    context.Request.Body = new MemoryStream(bytes); context.Request.ContentType = "application/json"; context.Request.ContentLength = bytes.Length;
+    context.Features.Set<IHttpRequestBodyDetectionFeature>(new BodyAvailable()); context.Response.Body = new MemoryStream();
+    await endpoint.RequestDelegate!(context);
+    context.Response.Body.Position = 0; var body = await new StreamReader(context.Response.Body).ReadToEndAsync();
+    Check(context.Response.StatusCode != 400, "Interrupted claim rejected with " + context.Response.StatusCode + ": " + body);
+});
+await Run("exact_json_id_sql_control", async () =>
+{
+    await using var sql = new NpgsqlConnection(connection); await sql.OpenAsync();
+    await using var command = new NpgsqlCommand("SELECT ('{\"afterthoughtId\":10}'::jsonb->>'afterthoughtId')::int = 1, ('{\"afterthoughtId\":1}'::jsonb->>'afterthoughtId')::int = 1", sql);
+    await using var reader = await command.ExecuteReaderAsync(); await reader.ReadAsync();
+    Check(!reader.GetBoolean(0) && reader.GetBoolean(1), "Exact JSON ID comparison failed");
+});
 await Run("configured_retries_external_strategy_wrapper_diagnostic", async () =>
 {
     var row = await Seed(); await using var db = Db(retries: true);
@@ -124,7 +156,7 @@ await Run("existing_exact_signal_repairs_completion_marker", async () =>
     }
     await Verify(row, 1, processed: true);
 });
-var report = new { application = "0f5dc4b897e5215b991e9ea928064334e696a5e4", engine = "PostgreSQL16", schema = "EnsureCreated minimal3-table probe; not application migration validation", results };
+var report = new { application = Environment.GetEnvironmentVariable("WOVEN_QA_APPLICATION_SHA") ?? "unspecified", engine = "PostgreSQL16", schema = "EnsureCreated minimal3-table probe; not application migration validation", results };
 var output = Environment.GetEnvironmentVariable("WOVEN_QA_ATOMIC_REPORT");
 if (output != null) { Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(output))!); await File.WriteAllTextAsync(output, JsonSerializer.Serialize(report, new JsonSerializerOptions { WriteIndented = true })); }
 Environment.ExitCode = results.Any(r => JsonSerializer.Serialize(r).Contains("\"outcome\":\"failed\"")) ? 1 : 0;
@@ -157,6 +189,8 @@ async Task Verify(MatchAfterthought row, int expectedSignals, bool processed)
 }
 async Task Run(string name, Func<Task> scenario)
 {
+    var selected = Environment.GetEnvironmentVariable("WOVEN_QA_CASES");
+    if (selected != null && !selected.Split(',').Contains(name)) return;
     try { await scenario(); var result = new { name, outcome = "passed", error = (string?)null }; results.Add(result); Console.WriteLine(JsonSerializer.Serialize(result)); }
     catch (Exception ex) { var result = new { name, outcome = "failed", error = ex.GetType().Name + ": " + ex.Message }; results.Add(result); Console.WriteLine(JsonSerializer.Serialize(result)); }
 }

@@ -1,3 +1,7 @@
+## Atomic claim retest - 2026-10-16
+
+483c942: selected real-PG checks 1 pass / 7 fail. Six share CancellationToken SQL parameter mapping error (ExecuteSqlRawAsync params overload); interrupted-claim persisted-state fixture rejected 400 by real deferred handler. SQL exact-ID control passes. No end-to-end acceptance, no 219/219. Evidence: evidence/2026-10-16-claim-postgres.md/.json. QA source only; no application changes. Claude120 changes requested, PR195 unmerged. Only isolated PG restarted/stopped; removed stale application images remain removed.
+
 ## Stale Docker cleanup - 2026-10-16
 
 Founder requested stop/removal. Stopped woven-frontend and woven-backend; removed those containers plus stopped QA frontend/api-gateway/coverage-gateway containers referencing the same May16 image. Removed woven-frontend:latest and woven-backend:latest images; verified no woven-* app images remain. Database, volumes, Redis, Azurite, SDK base images, source and mounted QA artifacts preserved. No rebuild.
