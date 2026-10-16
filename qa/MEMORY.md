@@ -1,3 +1,7 @@
+## Standing PR recheck — 2026-10-15
+
+Reviewed13openheads;196merged ba343fb after green gates,AzureDeploydisabled.195updated2b53d7f nowmergeable;QAcombined201tests199pass/2fail (blocked deferred safety and EF uniqueness metadata);7previousfailuresfixed. FrontendCI535/540 targets stale modal/payload expectations; direct-block/expiry client flows still missing;16QAdeletions and legacy data blockers remain. TenolderPRheadsunchanged/blocked.197updated with evidence and QArestoration;notmerge-ready.12openafter196merge. No reset/paid/Azuredeploy. See evidence/2026-10-15-standing-pr-recheck.md/.json.
+
 ## Afterthought acceptance audit — 2026-10-15
 
 Candidate93adf2d existing177/177pass. Added24acceptance tests; full201run192pass/9fail/0skipped. Reproduced migration Guid/int mismatch, missing schema uniqueness, duplicate block feedback, blocked-actor safety submission, lost first-END feedback, null-placeholder preventing deferred submission, missing length validation. Restored16QAfiles in isolated qa/afterthought-review-20261015; shared root/Claude frontend edits preserved. Remote195stillb6385ee/conflicting. Claude120Changesrequested with exact handoff; no merge/reset/paid/deploy. Tests/evidence are review material, not feature completion. See evidence/2026-10-15-afterthought-acceptance.md/.json.
