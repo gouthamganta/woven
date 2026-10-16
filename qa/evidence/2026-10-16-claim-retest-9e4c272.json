@@ -1,0 +1,52 @@
+{
+  "application": "9e4c272125426e61c0e3664efa77270499875d38",
+  "engine": "PostgreSQL16",
+  "schema": "EnsureCreated minimal3-table probe; not application migration validation",
+  "results": [
+    {
+      "name": "configured_retry_strategy_processes_feedback",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027CancellationToken\u0027."
+    },
+    {
+      "name": "retry_disabled_control_and_sequential_replay",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027CancellationToken\u0027."
+    },
+    {
+      "name": "separate_scopes_skip_locked_without_duplicate",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027CancellationToken\u0027."
+    },
+    {
+      "name": "dedup_distinguishes_complete_afterthought_id_from_prefix",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027CancellationToken\u0027."
+    },
+    {
+      "name": "pending_deferred_endpoint_reaches_real_integration",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027CancellationToken\u0027."
+    },
+    {
+      "name": "interrupted_claim_deferred_retry_is_not_rejected",
+      "outcome": "failed",
+      "error": "InvalidOperationException: Afterthought already submitted for this match"
+    },
+    {
+      "name": "explicit_parameter_collection_sql_control",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "exact_json_id_sql_control",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "existing_exact_signal_repairs_completion_marker",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027CancellationToken\u0027."
+    }
+  ]
+}

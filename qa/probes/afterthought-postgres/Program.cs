@@ -129,7 +129,16 @@ await Run("interrupted_claim_deferred_retry_is_not_rejected", async () =>
     context.Features.Set<IHttpRequestBodyDetectionFeature>(new BodyAvailable()); context.Response.Body = new MemoryStream();
     await endpoint.RequestDelegate!(context);
     context.Response.Body.Position = 0; var body = await new StreamReader(context.Response.Body).ReadToEndAsync();
-    Check(context.Response.StatusCode != 400, "Interrupted claim rejected with " + context.Response.StatusCode + ": " + body);
+    Check(context.Response.StatusCode == 200, "Interrupted claim recovery returned " + context.Response.StatusCode + ": " + body);
+    await Verify(row, 1, processed: true);
+});
+await Run("explicit_parameter_collection_sql_control", async () =>
+{
+    await using var db = Db(retries: true);
+    var changed = await db.Database.ExecuteSqlRawAsync(
+        "UPDATE \"match_afterthoughts\" SET \"processed_at\" = \"processed_at\" WHERE \"id\" = {0}",
+        new object[] { -1 }, CancellationToken.None);
+    Check(changed == 0, "Unexpected control update affected synthetic rows");
 });
 await Run("exact_json_id_sql_control", async () =>
 {

@@ -1,3 +1,7 @@
+## Claim recovery retest 9e4c272 - 2026-10-16
+
+Real PG selected9: 2pass/7fail. Six still CancellationToken SQL mapping: moving ct first still selects params overload. Explicit object-array then ct control passes. Interrupted claim now passes endpoint check but RecordAsync rejects ProcessedAt; integration null-only claim also unchanged. Exact JSON control passes. Claude120 changes requested,195unmerged. Evidence evidence/2026-10-16-claim-retest-9e4c272.md/.json. No app edits/full-suite/migration acceptance. Isolated PG stopped; stale app images remain removed.
+
 ## Atomic claim retest - 2026-10-16
 
 483c942: selected real-PG checks 1 pass / 7 fail. Six share CancellationToken SQL parameter mapping error (ExecuteSqlRawAsync params overload); interrupted-claim persisted-state fixture rejected 400 by real deferred handler. SQL exact-ID control passes. No end-to-end acceptance, no 219/219. Evidence: evidence/2026-10-16-claim-postgres.md/.json. QA source only; no application changes. Claude120 changes requested, PR195 unmerged. Only isolated PG restarted/stopped; removed stale application images remain removed.
