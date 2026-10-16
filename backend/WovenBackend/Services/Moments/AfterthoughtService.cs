@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WovenBackend.Data;
+using WovenBackend.Data.Entities;
 using WovenBackend.data.Entities.Moments;
 
 namespace WovenBackend.Services.Moments;
@@ -86,26 +87,40 @@ public class AfterthoughtService : IAfterthoughtService
         {
             if (existing.ProcessedAt.HasValue)
             {
-                // Fully processed — reject duplicate
-                throw new InvalidOperationException("Afterthought already submitted for this match");
-            }
-            else
-            {
-                // Exists but integration failed — retry integration instead of creating new record
-                _logger.LogInformation(
-                    "[Afterthought] Retrying integration for existing record | MatchId={MatchId} FromUser={FromUser} AfterthoughtId={Id}",
-                    matchId, fromUserId, existing.Id);
+                // Check if signal actually exists (ProcessedAt set doesn't guarantee completion)
+                var signalExists = await _db.MatchSignalLogs
+                    .FromSqlRaw(
+                        @"SELECT * FROM ""MatchSignalLogs""
+                          WHERE ""EventType"" = {0}
+                            AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {1}
+                          LIMIT 1",
+                        new object[] { MatchSignalEventTypes.ExplicitFeedback, existing.Id },
+                        ct)
+                    .AsNoTracking()
+                    .AnyAsync(ct);
 
-                try
+                if (signalExists)
                 {
-                    await _integration.ProcessAfterthoughtAsync(existing.Id, ct);
-                    return; // Success — existing record is now processed
+                    // Fully processed — reject duplicate
+                    throw new InvalidOperationException("Afterthought already submitted for this match");
                 }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "[Afterthought] Retry integration failed for {Id}", existing.Id);
-                    throw; // Propagate failure
-                }
+                // else: ProcessedAt set but no signal = interrupted, fall through to retry
+            }
+
+            // Exists but not complete (ProcessedAt null OR no signal) — retry integration
+            _logger.LogInformation(
+                "[Afterthought] Retrying integration for existing record | MatchId={MatchId} FromUser={FromUser} AfterthoughtId={Id}",
+                matchId, fromUserId, existing.Id);
+
+            try
+            {
+                await _integration.ProcessAfterthoughtAsync(existing.Id, ct);
+                return; // Success — existing record is now processed
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "[Afterthought] Retry integration failed for {Id}", existing.Id);
+                throw; // Propagate failure
             }
         }
 
