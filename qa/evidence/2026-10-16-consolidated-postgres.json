@@ -1,0 +1,277 @@
+{
+  "application": "d10467e0e5d69157e22dec4c03be642fefb42f9e",
+  "engine": "PostgreSQL16",
+  "schema": "EnsureCreated minimal QA projection; not application migration validation",
+  "results": [
+    {
+      "name": "configured_retry_strategy_processes_feedback",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "retry_disabled_control_and_sequential_replay",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "separate_scopes_skip_locked_without_duplicate",
+      "outcome": "failed",
+      "error": "InvalidOperationException: Unexpected signal count; expected1, actual2"
+    },
+    {
+      "name": "dedup_distinguishes_complete_afterthought_id_from_prefix",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "pending_deferred_endpoint_reaches_real_integration",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "interrupted_claim_deferred_retry_is_not_rejected",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027object[]\u0027."
+    },
+    {
+      "name": "interrupted_claim_direct_processor_recovers_signal",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "completed_submission_service_rejects_expected_duplicate",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027object[]\u0027."
+    },
+    {
+      "name": "safety_claim_normal_routing_control",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "interrupted_safety_claim_recovers_trust_action",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "completed_safety_replay_does_not_repeat_trust_action",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "integration_exception_resets_claim_and_fresh_retry_recovers",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "explicit_parameter_collection_sql_control",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "exact_json_id_sql_control",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "existing_exact_signal_repairs_completion_marker",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "path_trial_end_submission_routes_to_expected_destination",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "path_unmatch_submission_routes_to_expected_destination",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "path_expiry_submission_routes_to_expected_destination",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "path_block_submission_routes_to_expected_destination",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "normalization_1_stars",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "normalization_2_stars",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "normalization_3_stars",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "normalization_4_stars",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "normalization_5_stars",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "invalid_submission_0_persists_nothing",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "invalid_submission_1_persists_nothing",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "invalid_submission_2_persists_nothing",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "invalid_submission_3_persists_nothing",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "invalid_submission_4_persists_nothing",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "invalid_submission_5_persists_nothing",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "invalid_submission_6_persists_nothing",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "invalid_submission_7_persists_nothing",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "real_trust_block_initial_0.8",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "real_trust_block_initial_0.1",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "real_trust_unmatch_initial_0.8",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "real_trust_unmatch_initial_0.1",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "signal_saved_then_exception_fresh_retry_does_not_duplicate",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "cancel_during_signal_then_fresh_processor_recovers",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "cancel_before_claim_leaves_pending_then_retry_recovers",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "load_failure_after_claim_fresh_processor_recovers",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "safety_with_historical_stars_never_enters_matching",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "completed_trial_end_submission_rejects_duplicate",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027object[]\u0027."
+    },
+    {
+      "name": "completed_unmatch_submission_rejects_duplicate",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027object[]\u0027."
+    },
+    {
+      "name": "completed_expiry_submission_rejects_duplicate",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027object[]\u0027."
+    },
+    {
+      "name": "completed_block_submission_rejects_duplicate",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027object[]\u0027."
+    },
+    {
+      "name": "deferred_endpoint_outsider",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "deferred_endpoint_open",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "deferred_endpoint_missing",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "deferred_endpoint_blocked",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "deferred_endpoint_expiry",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "deferred_endpoint_unmatch",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "deferred_endpoint_block",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "opposite_participants_feedback_creates_distinct_directional_signals",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "fresh_local_full_application_migration_chain",
+      "outcome": "failed",
+      "error": "PostgresException: 42703: column \u0022CoachingOptedOut\u0022 of relation \u0022Users\u0022 does not exist"
+    }
+  ]
+}
