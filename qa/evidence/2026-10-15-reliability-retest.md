@@ -25,3 +25,5 @@ The two client test fixes already validated541/541 were cherry-picked onto a sep
 Three new regression cases and restoration/evidence are in draftQA197. Prior frontend flow, identity/deletion,16QAfile restoration and PostgreSQL migration acceptance obligations remain separate from this scoped test result. No new coverage, live batch/learner or production sign-off. No merge, DB reset, paid provider or Azure deployment.
 
 Status:#120Changesrequested/Claude for the three boundary repairs; original two findings explicitly verified fixed.
+
+CI follow-up: PR195 at813c270ecb4dc0d7a5a2be7e8b6c7126bf121fea now has SUCCESS for both Backend(build+test) and Frontend(build+test). Analyze C# was still running at this checkpoint. These gates do not include the three new boundary cases on draft197 and do not supersede their failed acceptance results.

@@ -271,3 +271,5 @@ guard. MessagePack dependency path confirmed through SignalR Redis.
 5. Run lifecycle smoke tests, authorization tests, and UI accessibility checks.
 6. Send reproducible defects to Claude through the board; retest fixes.
 7. Record run metadata and update this file. Never label an unexecuted test passed.
+
+813c270 remoteCI backend/frontendbuild+tests SUCCESS;CodeQLC#stillrunning at checkpoint. Three boundary regressions live on197,not195,stillblockacceptance.
