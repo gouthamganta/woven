@@ -597,6 +597,16 @@ public static class MatchesEndpoints
                 _ => "unmatch" // fallback
             };
 
+            // P2: For block path, only the blocker can submit safety feedback (not the blocked party)
+            if (closePath == "block")
+            {
+                var wasBlockedByOther = await db.Blocks.AnyAsync(b => b.BlockerId == otherUserId && b.BlockedId == me, ct);
+                if (wasBlockedByOther)
+                {
+                    return Results.Json(new { error = "CANNOT_SUBMIT_SAFETY_WHEN_BLOCKED" }, statusCode: 403);
+                }
+            }
+
             try
             {
                 await afterthought.RecordAsync(
