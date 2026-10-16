@@ -1,3 +1,7 @@
+## Authorized merge review — 2026-10-15
+
+Founder authorized merges:193/191/189 merged after exact-head checks; master caef5a6. New195 b6385ee blocked: reproduced carousel null-current-card with2remaining;4CS9035 failures when current master tests applied; route/budget merge conflicts; backfill/deletion limitations remain. Findings handed directly to Claude on195/165/166. Post-mergeCI38821910269 in progress at report. Azure Deploy remains disabled. Evidence evidence/2026-10-15-authorized-merge-review.md and carousel-probe.json. No reset/paid calls.
+
 ## Standing PR review — 2026-10-15
 
 Reviewed15 open heads;10 have concrete blockers/known failures,2 major dependency upgrades need runtime smokes,3 have no code blocker identified (including own evidence PR193; not peer approval). Findings, exact SHAs and CI links in evidence/2026-10-15-standing-pr-review.md/.json and PR comments. PR193 title corrected. No merge/deploy.
@@ -251,3 +255,9 @@ guard. MessagePack dependency path confirmed through SignalR Redis.
 5. Run lifecycle smoke tests, authorization tests, and UI accessibility checks.
 6. Send reproducible defects to Claude through the board; retest fixes.
 7. Record run metadata and update this file. Never label an unexecuted test passed.
+
+2026-10-15 final merge verification: master caef5a6 CI38821910269 SUCCESS, both backend and frontend build/tests pass. Azure Deploy remains disabled;195 remains blocked.
+
+PR195 follow-up: remote still b6385ee, conflicting. Local129c303 carousel probe passes (2cards remain,index1,current user2); backfill/deletion findings remain, and local merge removes16QA files. Local Afterthought0e4cfcb is unrelated. Handoff posted directly on195; no merge/deploy.
+
+Local129c303 backend follow-up completed:177/177pass,0skipped. Remote195 remains unchanged/unaccepted.
