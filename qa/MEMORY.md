@@ -1,3 +1,7 @@
+## ECHO integration QA — 2026-10-15
+
+At3e7d3ac prior201cases nowpass;15new real-service integrationcases13pass/2fail. Full216total214pass/2fail/0skip. Normalization/trustcaps/safetyisolation pass. Recovery gap:failed integration leaves saved feedback without learning signal and submissionretry is rejected;replaying processor duplicates ExplicitFeedback events. No durable retry/processed marker found. Nightlybatch/weeklylearner/PGmigration notexecuted. Remoteclient539/541;QAfixf6580e3notyetin195.197updated;evidence2026-10-15-echo-integration.md/.json.120Changesrequested/Claude. No appfix/reset/paid/deploy/merge.
+
 ## PR195 a9a1462 retest — 2026-10-15
 
 Backend200/201pass;blocked-actorcasefixed;remaining runtime EF unique MatchId+FromUserId model index absent despite Designer/snapshot edits. Remotefrontend539/541. Codex corrected2QAassertions in f6580e3; final isolatedcandidate frontend541/541pass/0pending,coverageoff. QA197published;Claudecherrypicktestsandfixmodel;prior16QAdeletions/data/UI/ECHO acceptance obligations remain. No appfix/reset/paid/deploy/merge. See evidence/2026-10-15-afterthought-retest-next.md/.json.

@@ -28,6 +28,16 @@ namespace WovenBackend.Tests;
 // This does not certify PostgreSQL migrations, middleware, concurrency or browser UI.
 public class AfterthoughtAcceptanceContractTests
 {
+    internal static AfterthoughtService Service(QaMemoryContext db) =>
+        new(db, new ValidationOnlyIntegration(), NullLogger<AfterthoughtService>.Instance);
+
+    // These cases isolate submission validation; EchoIntegrationContractTests
+    // separately exercises the real integration and downstream services.
+    private sealed class ValidationOnlyIntegration : IAfterthoughtIntegrationService
+    {
+        public Task ProcessAfterthoughtAsync(int id, CancellationToken ct = default) => Task.CompletedTask;
+    }
+
     [Theory]
     [InlineData("trial_end", 1, false)]
     [InlineData("unmatch", 5, false)]
@@ -37,7 +47,7 @@ public class AfterthoughtAcceptanceContractTests
     {
         await using var db = QaMemoryContext.Create();
         var id = Guid.NewGuid();
-        await new AfterthoughtService(db).RecordAsync(id, 1, 2, path, (short?)rating, " reason ", " synthetic note ", safety);
+        await Service(db).RecordAsync(id, 1, 2, path, (short?)rating, " reason ", " synthetic note ", safety);
         var row = Assert.Single(await db.MatchAfterthoughts.ToListAsync());
         Assert.Equal(id, row.MatchId); Assert.Equal(1, row.FromUserId); Assert.Equal(2, row.AboutUserId);
         Assert.Equal(path, row.ClosePath); Assert.Equal((short?)rating, row.Rating); Assert.Equal(safety, row.IsSafety);
@@ -54,7 +64,7 @@ public class AfterthoughtAcceptanceContractTests
     public async Task InvalidRatingPathOrBlockFlagDoesNotPersist(string path, int? rating, bool safety)
     {
         await using var db = QaMemoryContext.Create();
-        await Assert.ThrowsAsync<ArgumentException>(() => new AfterthoughtService(db).RecordAsync(Guid.NewGuid(), 1, 2, path, (short?)rating, "reason", null, safety));
+        await Assert.ThrowsAsync<ArgumentException>(() => Service(db).RecordAsync(Guid.NewGuid(), 1, 2, path, (short?)rating, "reason", null, safety));
         Assert.Empty(await db.MatchAfterthoughts.ToListAsync());
     }
 
@@ -81,7 +91,7 @@ public class AfterthoughtAcceptanceContractTests
     public async Task ServiceRejectsOversizedTextBeforeStorage(int tagLength, int noteLength)
     {
         await using var db = QaMemoryContext.Create();
-        await Assert.ThrowsAsync<ArgumentException>(() => new AfterthoughtService(db).RecordAsync(Guid.NewGuid(), 1, 2, "unmatch", 3, new string('x', tagLength), new string('x', noteLength), false));
+        await Assert.ThrowsAsync<ArgumentException>(() => Service(db).RecordAsync(Guid.NewGuid(), 1, 2, "unmatch", 3, new string('x', tagLength), new string('x', noteLength), false));
         Assert.Empty(await db.MatchAfterthoughts.ToListAsync());
     }
 
@@ -166,7 +176,7 @@ internal sealed class AfterthoughtHarness(WebApplication app, QaMemoryContext db
             builder.Services.AddSingleton(type, _ => DispatchProxy.Create(type, typeof(AfterthoughtSideEffectStub)));
         var db = QaMemoryContext.Create();
         builder.Services.AddSingleton<WovenDbContext>(db);
-        builder.Services.AddSingleton<IAfterthoughtService>(new AfterthoughtService(db));
+        builder.Services.AddSingleton<IAfterthoughtService>(AfterthoughtAcceptanceContractTests.Service(db));
         builder.Services.AddSingleton(new SparkWalletService(db));
         builder.Services.AddSingleton<IIdempotencyService>(new IdempotencyService(db, NullLogger<IdempotencyService>.Instance));
         builder.Services.AddAuthentication("QA").AddScheme<AuthenticationSchemeOptions, AfterthoughtUnitAuth>("QA", _ => { });
