@@ -1,3 +1,7 @@
+## Claim recovery retest 4622692 - 2026-10-16
+
+Real PG14cases:10pass/4fail. ExecuteSqlRawAsync fixed: retries/concurrency/exactIDs/pending endpoint/caught failure reset+retry pass. New FromSqlRaw(sql,object[],ct) in RecordAsync throws object[] mapping on duplicate/recovery queries. Processor still null-only claims, silently skips interrupted marked rows: matching0signals, safety0trustcalls. Normal safety routing control1call/0signals (stub only). Evidence evidence/2026-10-16-claim-retest-4622692.md/.json. Claude120 changes requested;195unmerged. No app fixes/migration/fullsuite acceptance; isolated PG stopped; app images still removed.
+
 ## Claim recovery retest 9e4c272 - 2026-10-16
 
 Real PG selected9: 2pass/7fail. Six still CancellationToken SQL mapping: moving ct first still selects params overload. Explicit object-array then ct control passes. Interrupted claim now passes endpoint check but RecordAsync rejects ProcessedAt; integration null-only claim also unchanged. Exact JSON control passes. Claude120 changes requested,195unmerged. Evidence evidence/2026-10-16-claim-retest-9e4c272.md/.json. No app edits/full-suite/migration acceptance. Isolated PG stopped; stale app images remain removed.

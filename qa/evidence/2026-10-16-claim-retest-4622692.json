@@ -1,0 +1,77 @@
+{
+  "application": "46226923767ac4116d854e749aeed5fb37c9388b",
+  "engine": "PostgreSQL16",
+  "schema": "EnsureCreated minimal3-table probe; not application migration validation",
+  "results": [
+    {
+      "name": "configured_retry_strategy_processes_feedback",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "retry_disabled_control_and_sequential_replay",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "separate_scopes_skip_locked_without_duplicate",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "dedup_distinguishes_complete_afterthought_id_from_prefix",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "pending_deferred_endpoint_reaches_real_integration",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "interrupted_claim_deferred_retry_is_not_rejected",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027object[]\u0027."
+    },
+    {
+      "name": "interrupted_claim_direct_processor_recovers_signal",
+      "outcome": "failed",
+      "error": "InvalidOperationException: Unexpected signal count; expected1, actual0"
+    },
+    {
+      "name": "completed_submission_service_rejects_expected_duplicate",
+      "outcome": "failed",
+      "error": "InvalidOperationException: The current provider doesn\u0027t have a store type mapping for properties of type \u0027object[]\u0027."
+    },
+    {
+      "name": "safety_claim_normal_routing_control",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "interrupted_safety_claim_recovers_trust_action",
+      "outcome": "failed",
+      "error": "InvalidOperationException: Interrupted safety claim skipped required trust action; calls=0"
+    },
+    {
+      "name": "integration_exception_resets_claim_and_fresh_retry_recovers",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "explicit_parameter_collection_sql_control",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "exact_json_id_sql_control",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "existing_exact_signal_repairs_completion_marker",
+      "outcome": "passed",
+      "error": null
+    }
+  ]
+}

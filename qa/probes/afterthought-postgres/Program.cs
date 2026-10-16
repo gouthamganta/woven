@@ -132,6 +132,60 @@ await Run("interrupted_claim_deferred_retry_is_not_rejected", async () =>
     Check(context.Response.StatusCode == 200, "Interrupted claim recovery returned " + context.Response.StatusCode + ": " + body);
     await Verify(row, 1, processed: true);
 });
+await Run("interrupted_claim_direct_processor_recovers_signal", async () =>
+{
+    var row = await Seed(); await using (var setup = Db())
+    {
+        var saved = await setup.MatchAfterthoughts.SingleAsync(a => a.Id == row.Id);
+        saved.ProcessedAt = DateTimeOffset.UtcNow; await setup.SaveChangesAsync();
+    }
+    await using (var db = Db(retries: true)) await Integration(db).ProcessAfterthoughtAsync(row.Id);
+    await Verify(row, 1, processed: true);
+});
+await Run("completed_submission_service_rejects_expected_duplicate", async () =>
+{
+    var row = await Seed(); await using (var db = Db()) await Integration(db).ProcessAfterthoughtAsync(row.Id);
+    await using var retry = Db(); var service = new AfterthoughtService(retry, Integration(retry), NullLogger<AfterthoughtService>.Instance);
+    try { await service.RecordAsync(row.MatchId, row.FromUserId, row.AboutUserId, "unmatch", 3, "timing", null, false); }
+    catch (InvalidOperationException ex) when (ex.Message == "Afterthought already submitted for this match") { await Verify(row, 1, true); return; }
+    throw new InvalidOperationException("Expected deliberate duplicate rejection");
+});
+await Run("safety_claim_normal_routing_control", async () =>
+{
+    var row = await Seed(); await using (var setup = Db())
+    {
+        var saved = await setup.MatchAfterthoughts.SingleAsync(a => a.Id == row.Id);
+        saved.IsSafety = true; saved.ClosePath = "block"; saved.Rating = null; await setup.SaveChangesAsync();
+    }
+    var trust = DispatchProxy.Create<ITrustService, CountingTrust>();
+    await using (var db = Db(retries: true)) await Integration(db, trust: trust).ProcessAfterthoughtAsync(row.Id);
+    Check(((CountingTrust)(object)trust).Calls == 1, "Expected safety trust destination once");
+    await Verify(row, 0, true);
+});
+await Run("interrupted_safety_claim_recovers_trust_action", async () =>
+{
+    var row = await Seed(); await using (var setup = Db())
+    {
+        var saved = await setup.MatchAfterthoughts.SingleAsync(a => a.Id == row.Id);
+        saved.IsSafety = true; saved.ClosePath = "block"; saved.Rating = null;
+        saved.ProcessedAt = DateTimeOffset.UtcNow; await setup.SaveChangesAsync();
+    }
+    var trust = DispatchProxy.Create<ITrustService, CountingTrust>();
+    await using (var db = Db(retries: true)) await Integration(db, trust: trust).ProcessAfterthoughtAsync(row.Id);
+    Check(((CountingTrust)(object)trust).Calls == 1, "Interrupted safety claim skipped required trust action; calls=" + ((CountingTrust)(object)trust).Calls);
+    await Verify(row, 0, true);
+});
+await Run("integration_exception_resets_claim_and_fresh_retry_recovers", async () =>
+{
+    var row = await Seed(); await using (var db = Db(retries: true))
+    {
+        try { await Integration(db, new ThrowingSignals()).ProcessAfterthoughtAsync(row.Id); }
+        catch (InvalidOperationException ex) when (ex.Message == "Injected integration failure") { }
+    }
+    await Verify(row, 0, false);
+    await using (var db = Db(retries: true)) await Integration(db).ProcessAfterthoughtAsync(row.Id);
+    await Verify(row, 1, true);
+});
 await Run("explicit_parameter_collection_sql_control", async () =>
 {
     await using var db = Db(retries: true);
@@ -176,8 +230,8 @@ AtomicContext Db(bool retries = false, SaveChangesInterceptor? interceptor = nul
     if (interceptor != null) options.AddInterceptors(interceptor);
     return new(options.Options);
 }
-AfterthoughtIntegrationService Integration(WovenDbContext db, IMatchSignalService? signals = null)
-    => new(db, signals ?? new MatchSignalService(db, NullLogger<MatchSignalService>.Instance), DispatchProxy.Create<ITrustService, UnexpectedCallStub>(), NullLogger<AfterthoughtIntegrationService>.Instance);
+AfterthoughtIntegrationService Integration(WovenDbContext db, IMatchSignalService? signals = null, ITrustService? trust = null)
+    => new(db, signals ?? new MatchSignalService(db, NullLogger<MatchSignalService>.Instance), trust ?? DispatchProxy.Create<ITrustService, UnexpectedCallStub>(), NullLogger<AfterthoughtIntegrationService>.Instance);
 async Task<MatchAfterthought> Seed()
 {
     await using var db = Db(); var current = 0;
@@ -237,3 +291,17 @@ public class UnexpectedCallStub : DispatchProxy
     protected override object? Invoke(MethodInfo? method, object?[]? args) => throw new NotSupportedException("Unexpected local probe dependency call: " + method!.Name);
 }
 sealed class BodyAvailable : IHttpRequestBodyDetectionFeature { public bool CanHaveBody => true; }
+public class CountingTrust : DispatchProxy
+{
+    public int Calls { get; private set; }
+    protected override object? Invoke(MethodInfo? method, object?[]? args)
+    {
+        if (method!.Name != nameof(ITrustService.FlagAsync)) throw new NotSupportedException(method.Name);
+        Calls++; return Task.CompletedTask;
+    }
+}
+sealed class ThrowingSignals : IMatchSignalService
+{
+    public Task RecordAsync(int viewerId, int candidateId, string eventType, float eventValue, string? metadataJson = null, CancellationToken ct = default)
+        => throw new InvalidOperationException("Injected integration failure");
+}
