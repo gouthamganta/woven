@@ -74,4 +74,13 @@ public class EncryptionService : IEncryptionService
             info: Encoding.UTF8.GetBytes(purpose));
         return Convert.ToBase64String(derived);
     }
+
+    public string ComputeEmailHash(string email)
+    {
+        // Normalize: lowercase, trim
+        var normalized = email.Trim().ToLowerInvariant();
+        var bytes = Encoding.UTF8.GetBytes(normalized);
+        var hash = SHA256.HashData(bytes);
+        return Convert.ToBase64String(hash);
+    }
 }

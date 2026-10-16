@@ -148,9 +148,19 @@ export class ChatService {
     );
   }
 
-  trialDecision(threadId: string, decision: 'CONTINUE' | 'END' | 'BLOCK', endReason?: string): Observable<any> {
+  trialDecision(
+    threadId: string,
+    decision: 'CONTINUE' | 'END' | 'BLOCK',
+    endReason?: string,
+    afterthoughtRating?: number | null,
+    afterthoughtReasonTag?: string | null,
+    afterthoughtNote?: string | null
+  ): Observable<any> {
     const body: any = { decision };
     if (endReason) body.endReason = endReason;
+    if (afterthoughtRating !== undefined) body.afterthoughtRating = afterthoughtRating;
+    if (afterthoughtReasonTag) body.afterthoughtReasonTag = afterthoughtReasonTag;
+    if (afterthoughtNote) body.afterthoughtNote = afterthoughtNote;
     return this.http.post(`${environment.apiUrl}/chats/${threadId}/trial-decision`, body);
   }
 

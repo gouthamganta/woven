@@ -14,7 +14,15 @@ namespace WovenBackend.Endpoints;
 
 public static class MatchesEndpoints
 {
-    public record UnmatchRequest(int? Rating);
+    public record UnmatchRequest(
+        int? Rating,
+        short? AfterthoughtRating,
+        string? AfterthoughtReasonTag,
+        string? AfterthoughtNote);
+    public record AfterthoughtRequest(
+        short? Rating,
+        string? ReasonTag,
+        string? NoteText);
     public record FlagRequest(string? Reason);
 
     public static void MapMatchesEndpoints(this WebApplication app)
@@ -353,7 +361,13 @@ public static class MatchesEndpoints
         .WithName("MatchPop");
 
         // POST /matches/{matchId}/unmatch - accepts optional rating
-        group.MapPost("/{matchId:guid}/unmatch", async (Guid matchId, UnmatchRequest? req, WovenDbContext db, HttpContext http, CancellationToken ct) =>
+        group.MapPost("/{matchId:guid}/unmatch", async (
+            Guid matchId,
+            UnmatchRequest? req,
+            WovenDbContext db,
+            IAfterthoughtService afterthought,
+            HttpContext http,
+            CancellationToken ct) =>
         {
             var me = GetUserId(http.User);
 
@@ -367,24 +381,30 @@ public static class MatchesEndpoints
             var now = MomentsRules.NowUtc();
             var candidateId = match.UserAId == me ? match.UserBId : match.UserAId;
 
-            // Save rating if provided and valid
-            if (req?.Rating != null && req.Rating >= -100 && req.Rating <= 100)
-            {
-                db.UserRatings.Add(new UserRating
-                {
-                    RatedUserId = candidateId,
-                    RaterUserId = me,
-                    MatchId = matchId,
-                    RatingValue = req.Rating.Value,
-                    CreatedAt = now
-                });
-            }
-
             match.BalloonState = BalloonState.CLOSED;
             match.ClosedReason = ClosedReason.UNMATCH;
             match.ClosedAt = now;
 
             await db.SaveChangesAsync(ct);
+
+            // P4: Record Afterthought only if user provided feedback (don't create empty rows)
+            if (req != null && (req.AfterthoughtRating.HasValue || !string.IsNullOrWhiteSpace(req.AfterthoughtReasonTag)))
+            {
+                try
+                {
+                    await afterthought.RecordAsync(
+                        matchId: match.Id,
+                        fromUserId: me,
+                        aboutUserId: candidateId,
+                        closePath: "unmatch",
+                        rating: req.AfterthoughtRating,
+                        reasonTag: req.AfterthoughtReasonTag,
+                        noteText: req.AfterthoughtNote,
+                        isSafety: false,
+                        ct: ct);
+                }
+                catch { /* non-critical */ }
+            }
 
             // ✅ OUTCOME TRACKING: Record unmatch (non-blocking)
             try
@@ -415,7 +435,13 @@ public static class MatchesEndpoints
         .WithName("MatchUnmatch");
 
         // POST /matches/{matchId}/block
-        group.MapPost("/{matchId:guid}/block", async (Guid matchId, UnmatchRequest? req, WovenDbContext db, HttpContext http, CancellationToken ct) =>
+        group.MapPost("/{matchId:guid}/block", async (
+            Guid matchId,
+            UnmatchRequest? req,
+            WovenDbContext db,
+            IAfterthoughtService afterthought,
+            HttpContext http,
+            CancellationToken ct) =>
         {
             var me = GetUserId(http.User);
 
@@ -437,19 +463,6 @@ public static class MatchesEndpoints
                 });
             }
 
-            // Save Afterthought rating if provided
-            if (req?.Rating != null && req.Rating >= -100 && req.Rating <= 100)
-            {
-                db.UserRatings.Add(new UserRating
-                {
-                    RatedUserId = otherId,
-                    RaterUserId = me,
-                    MatchId = matchId,
-                    RatingValue = req.Rating.Value,
-                    CreatedAt = now
-                });
-            }
-
             if (match.BalloonState == BalloonState.ACTIVE)
             {
                 match.BalloonState = BalloonState.CLOSED;
@@ -458,6 +471,22 @@ public static class MatchesEndpoints
             }
 
             await db.SaveChangesAsync(ct);
+
+            // Record Afterthought (safety reason only, no star rating)
+            try
+            {
+                await afterthought.RecordAsync(
+                    matchId: match.Id,
+                    fromUserId: me,
+                    aboutUserId: otherId,
+                    closePath: "block",
+                    rating: null, // Block path has no star rating
+                    reasonTag: req?.AfterthoughtReasonTag,
+                    noteText: req?.AfterthoughtNote,
+                    isSafety: true,
+                    ct: ct);
+            }
+            catch { /* non-critical */ }
 
             // ✅ OUTCOME TRACKING: Record block (non-blocking)
             try
@@ -530,6 +559,99 @@ public static class MatchesEndpoints
             return Results.Ok(new { status = "FLAGGED" });
         })
         .WithName("MatchFlag");
+
+        // POST /matches/{matchId}/afterthought — submit Afterthought for a closed match
+        // Used for expiry path or any deferred Afterthought collection
+        group.MapPost("/{matchId:guid}/afterthought", async (
+            Guid matchId,
+            AfterthoughtRequest req,
+            WovenDbContext db,
+            IAfterthoughtService afterthought,
+            HttpContext http,
+            CancellationToken ct) =>
+        {
+            var me = GetUserId(http.User);
+
+            var match = await db.Matches.AsNoTracking().FirstOrDefaultAsync(m => m.Id == matchId, ct);
+            if (match == null) return Results.NotFound(new { error = "MATCH_NOT_FOUND" });
+            if (!IsParticipant(match, me)) return Results.Forbid();
+
+            // Must be closed
+            if (match.BalloonState != BalloonState.CLOSED)
+                return Results.BadRequest(new { error = "MATCH_NOT_CLOSED" });
+
+            // Check if already successfully processed
+            // ProcessedAt set + signal exists = truly complete, reject
+            // ProcessedAt set + no signal = interrupted claim, allow retry
+            // ProcessedAt null = pending or failed, allow retry
+            var existing = await db.MatchAfterthoughts
+                .Where(a => a.MatchId == match.Id && a.FromUserId == me)
+                .Select(a => new { a.Id, a.ProcessedAt })
+                .FirstOrDefaultAsync(ct);
+
+            if (existing != null && existing.ProcessedAt.HasValue)
+            {
+                // Check if signal actually exists
+                var signalExists = await db.MatchSignalLogs
+                    .FromSqlRaw(
+                        @"SELECT * FROM ""MatchSignalLogs""
+                          WHERE ""EventType"" = {0}
+                            AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {1}
+                          LIMIT 1",
+                        new object[] { MatchSignalEventTypes.ExplicitFeedback, existing.Id })
+                    .AsNoTracking()
+                    .AnyAsync(ct);
+
+                if (signalExists)
+                    return Results.BadRequest(new { error = "AFTERTHOUGHT_ALREADY_SUBMITTED" });
+
+                // ProcessedAt set but no signal = interrupted claim, allow retry
+            }
+
+            // If pending or interrupted, RecordAsync handles retry
+
+            var otherUserId = match.UserAId == me ? match.UserBId : match.UserAId;
+
+            // Determine close path from match
+            var closePath = match.ClosedReason switch
+            {
+                ClosedReason.UNMATCH => "unmatch",
+                ClosedReason.EXPIRE => "expiry",
+                ClosedReason.BLOCK => "block",
+                _ => "unmatch" // fallback
+            };
+
+            // P2: For block path, only the blocker can submit safety feedback (not the blocked party)
+            if (closePath == "block")
+            {
+                var wasBlockedByOther = await db.Blocks.AnyAsync(b => b.BlockerId == otherUserId && b.BlockedId == me, ct);
+                if (wasBlockedByOther)
+                {
+                    return Results.Json(new { error = "CANNOT_SUBMIT_SAFETY_WHEN_BLOCKED" }, statusCode: 403);
+                }
+            }
+
+            try
+            {
+                await afterthought.RecordAsync(
+                    matchId: match.Id,
+                    fromUserId: me,
+                    aboutUserId: otherUserId,
+                    closePath: closePath,
+                    rating: req.Rating,
+                    reasonTag: req.ReasonTag,
+                    noteText: req.NoteText,
+                    isSafety: closePath == "block",
+                    ct: ct);
+
+                return Results.Ok(new { status = "AFTERTHOUGHT_RECORDED" });
+            }
+            catch (ArgumentException ex)
+            {
+                return Results.BadRequest(new { error = "INVALID_AFTERTHOUGHT", message = ex.Message });
+            }
+        })
+        .WithName("MatchAfterThought");
     }
 
     private static bool IsParticipant(Match m, int userId) => m.UserAId == userId || m.UserBId == userId;

@@ -34,15 +34,39 @@
       {{ moodLine }}
     </div>
 
-    <div class="feed" *ngIf="!loading && !error && visibleTodayCards.length > 0">
+    <!-- Carousel wrapper -->
+    <div class="carousel" *ngIf="!loading && !error && visibleTodayCards.length > 0 && currentCard"
+      (touchstart)="onSwipeStart($event)"
+      (touchmove)="onSwipeMove($event)"
+      (touchend)="onSwipeEnd($event)"
+      (mousedown)="onSwipeStart($event)"
+      (mousemove)="onSwipeMove($event)"
+      (mouseup)="onSwipeEnd($event)"
+    >
       <div
         class="card"
-        *ngFor="let c of visibleTodayCards"
-        [class.alreadyChoseYou]="c.alreadyChoseYou"
-        [class.choosingMagical]="choosingCard.get(c.userId) === 'magical'"
-        [class.choosingLogical]="choosingCard.get(c.userId) === 'logical'"
-        [class.choosingPass]="choosingCard.get(c.userId) === 'pass'"
+        [class.alreadyChoseYou]="currentCard.alreadyChoseYou"
+        [class.choosingMagical]="choosingCard.get(currentCard.userId) === 'magical'"
+        [class.choosingLogical]="choosingCard.get(currentCard.userId) === 'logical'"
+        [class.choosingPass]="choosingCard.get(currentCard.userId) === 'pass'"
       >
+        <ng-container *ngTemplateOutlet="cardTemplate; context: { $implicit: currentCard }"></ng-container>
+      </div>
+
+      <!-- Dots indicator -->
+      <div class="carouselDots">
+        <button
+          *ngFor="let card of visibleTodayCards; let i = index"
+          class="dot"
+          [class.active]="i === currentCardIndex"
+          (click)="goToCard(i)"
+          [attr.aria-label]="'Go to person ' + (i + 1)"
+        ></button>
+      </div>
+    </div>
+
+    <!-- Card template (reusable) -->
+    <ng-template #cardTemplate let-c>
 
         <!-- Photo -->
         <div class="photo" [class.cinematic]="hasCinematic(c)"
@@ -116,7 +140,7 @@
             </div>
           </div>
 
-          <!-- Actions: ◈ Magical · ◇ Resonant · ⏳ Pass -->
+          <!-- Actions: ◈ Magical · ◇ Resonant -->
           <div class="actions">
             <button class="action magical" (click)="choose(c, 'magical')" title="Magical">
               <span class="actionIcon">◈</span>
@@ -126,15 +150,10 @@
               <span class="actionIcon">◇</span>
               <span class="actionLabel">Resonant</span>
             </button>
-            <button class="action pass" (click)="choose(c, 'pass')" title="Pass">
-              <span class="actionIcon">—</span>
-              <span class="actionLabel">Pass</span>
-            </button>
           </div>
 
         </div>
-      </div>
-    </div>
+    </ng-template>
 
   </ng-container>
 

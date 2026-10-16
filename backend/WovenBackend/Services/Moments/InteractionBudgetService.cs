@@ -39,47 +39,57 @@ public class InteractionBudgetService
         if (cachedTotal >= 0 && cachedTotal >= MomentsRules.DailyTotalCap)
             return new SpendResult(false, "DAILY_TOTAL_CAP_REACHED", (int)cachedTotal);
 
-        // Use a serializable transaction so two concurrent spends can't both succeed.
-        await using var tx = await _db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
-
-        var row = await _db.DailyInteractions
-            .SingleOrDefaultAsync(x => x.UserId == userId && x.DateUtc == today, ct);
-
-        if (row is null)
+        // Wrap the entire transactional unit in execution strategy for retry compatibility
+        var strategy = _db.Database.CreateExecutionStrategy();
+        var result = await strategy.ExecuteAsync(async () =>
         {
-            row = new DailyInteraction
+            // Use a serializable transaction so two concurrent spends can't both succeed.
+            await using var tx = await _db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
+
+            var row = await _db.DailyInteractions
+                .SingleOrDefaultAsync(x => x.UserId == userId && x.DateUtc == today, ct);
+
+            if (row is null)
             {
-                UserId = userId,
-                DateUtc = today,
-                TotalUsed = 0,
-                UpdatedAt = MomentsRules.NowUtc()
-            };
-            _db.DailyInteractions.Add(row);
+                row = new DailyInteraction
+                {
+                    UserId = userId,
+                    DateUtc = today,
+                    TotalUsed = 0,
+                    UpdatedAt = MomentsRules.NowUtc()
+                };
+                _db.DailyInteractions.Add(row);
+                await _db.SaveChangesAsync(ct);
+            }
+
+            var total = row.TotalUsed;
+
+            // Check caps
+            if (total >= MomentsRules.DailyTotalCap)
+            {
+                await tx.RollbackAsync(ct);
+                return new SpendResult(false, "DAILY_TOTAL_CAP_REACHED", total);
+            }
+
+            // Spend
+            row.TotalUsed = (short)(row.TotalUsed + 1);
+
+            row.UpdatedAt = MomentsRules.NowUtc();
+
             await _db.SaveChangesAsync(ct);
-        }
+            await tx.CommitAsync(ct);
 
-        var total = row.TotalUsed;
+            return new SpendResult(true, null, row.TotalUsed);
+        });
 
-        // Check caps
-        if (total >= MomentsRules.DailyTotalCap)
+        // Phase 1B: sync Redis counters after successful DB commit (best-effort, outside retry block)
+        if (result.Allowed)
         {
-            await tx.RollbackAsync(ct);
-            return new SpendResult(false, "DAILY_TOTAL_CAP_REACHED", total);
+            var midnight = WovenBackend.Services.CacheTtl.UntilMidnightUtc();
+            await _cache.IncrementAsync(totalKey, midnight, ct);
         }
 
-        // Spend
-        row.TotalUsed = (short)(row.TotalUsed + 1);
-
-        row.UpdatedAt = MomentsRules.NowUtc();
-
-        await _db.SaveChangesAsync(ct);
-        await tx.CommitAsync(ct);
-
-        // Phase 1B: sync Redis counters after a successful DB commit (best-effort)
-        var midnight = WovenBackend.Services.CacheTtl.UntilMidnightUtc();
-        await _cache.IncrementAsync(totalKey, midnight, ct);
-
-        return new SpendResult(true, null, row.TotalUsed);
+        return result;
     }
 
     public async Task RefundSparkAsync(int userId, CancellationToken ct = default)

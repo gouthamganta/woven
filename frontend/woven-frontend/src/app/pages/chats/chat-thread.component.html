@@ -290,3 +290,12 @@
   (confirmed)="confirmUnmatch($event)"
   (cancelled)="cancelUnmatch()"
 ></app-unmatch-rating>
+
+<!-- Afterthought modal -->
+<woven-afterthought-modal
+  *ngIf="showAfterthought && data"
+  [closePath]="afterthoughtPath"
+  [partnerName]="data.other?.fullName || 'your match'"
+  (back)="onAfterthoughtBack()"
+  (submitted)="onAfterthoughtSubmit($event)"
+></woven-afterthought-modal>

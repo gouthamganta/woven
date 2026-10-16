@@ -12,4 +12,10 @@ public interface IEncryptionService
     /// Valid purposes: "column-encryption-v1", "cache-encryption-v1", "signing-v1"
     /// </summary>
     string DeriveKey(string purpose);
+
+    /// <summary>
+    /// Computes SHA-256 hash of normalized (lowercase, trimmed) email.
+    /// Used for searchable identity lookup without decrypting all users.
+    /// </summary>
+    string ComputeEmailHash(string email);
 }

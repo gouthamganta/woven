@@ -21,6 +21,7 @@ using WovenBackend.Endpoints;
 using WovenBackend.Hubs;
 using WovenBackend.Infrastructure;
 using WovenBackend.Services;
+using WovenBackend.Services.Moments;
 using WovenBackend.Services.Queue;
 using WovenBackend.Services.Security;
 
@@ -422,6 +423,8 @@ builder.Services.AddScoped<FoundationalCycleService>();
 builder.Services.AddScoped<WovenBackend.Services.Moments.InteractionBudgetService>();
 builder.Services.AddScoped<WovenBackend.Services.Moments.SparkWalletService>();
 builder.Services.AddScoped<WovenBackend.Services.Moments.MomentsMatchService>();
+builder.Services.AddScoped<IAfterthoughtService, AfterthoughtService>();
+builder.Services.AddScoped<IAfterthoughtIntegrationService, AfterthoughtIntegrationService>();
 builder.Services.AddHostedService<WovenBackend.Services.Moments.BalloonExpiryWorker>();
 
 builder.Services.AddScoped<OpenAiDynamicIntakeRewriteService>();
@@ -891,13 +894,39 @@ app.MapGet("/health/ready", async (WovenDbContext db) =>
 {
     try
     {
-        await db.Database.CanConnectAsync();
-        return Results.Ok(new { status = "ready", database = "connected" });
+        // Check database connectivity
+        var canConnect = await db.Database.CanConnectAsync();
+        if (!canConnect)
+        {
+            return Results.Json(
+                new { status = "not_ready", database = "unavailable", reason = "Cannot connect to database" },
+                statusCode: 503
+            );
+        }
+
+        // Check for pending migrations (fail-closed readiness)
+        var pendingMigrations = await db.Database.GetPendingMigrationsAsync();
+        if (pendingMigrations.Any())
+        {
+            return Results.Json(
+                new
+                {
+                    status = "not_ready",
+                    database = "connected",
+                    reason = "pending_migrations",
+                    pending_count = pendingMigrations.Count(),
+                    action = "Run migrations before accepting traffic"
+                },
+                statusCode: 503
+            );
+        }
+
+        return Results.Ok(new { status = "ready", database = "connected", migrations = "current" });
     }
     catch (Exception ex)
     {
         return Results.Json(
-            new { status = "not_ready", database = "unavailable", error = ex.Message },
+            new { status = "not_ready", database = "error", error = ex.Message },
             statusCode: 503
         );
     }
@@ -948,6 +977,7 @@ if (app.Environment.IsDevelopment())
     app.MapDevAuthEndpoints();          // Bypass auth for local testing
     app.MapDevMatchmakingSmokeEndpoints();  // Direct matchmaking calls
     app.MapDevSeedEndpoints();          // Database seed/reset
+    app.MapDevBackfillEndpoints();      // One-time data backfill operations
 }
 
 // ----------------------------------------------------

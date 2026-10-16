@@ -44,8 +44,8 @@ public class MomentsRatingPrivacyTests
         await using var scope = app.Services.CreateAsyncScope();
         var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
         db.Users.AddRange(
-            new User { Id = 1, Email = "viewer@example.test", FullName = "Synthetic Viewer" },
-            new User { Id = 2, Email = "candidate@example.test", FullName = "Synthetic Candidate" });
+            new User { Id = 1, Email = "viewer@example.test", EmailHash = "hash1", FullName = "Synthetic Viewer" },
+            new User { Id = 2, Email = "candidate@example.test", EmailHash = "hash2", FullName = "Synthetic Candidate" });
         db.MomentResponses.Add(new MomentResponse
         {
             FromUserId = 2,

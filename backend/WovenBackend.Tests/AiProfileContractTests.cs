@@ -11,7 +11,7 @@ public class AiProfileContractTests
     private static AiProfileService Service(QaMemoryContext db) => new(db, NullLogger<AiProfileService>.Instance);
     private static void AddProfile(QaMemoryContext db, int id, string? intent = "relationship", string? name = "Synthetic Adult", int age = 25, string gender = "nonbinary")
     {
-        var user = new User { Id = id, Email = $"unit{id}@example.invalid", FullName = name };
+        var user = new User { Id = id, Email = $"unit{id}@example.invalid", EmailHash = $"hash{id}", FullName = name };
         db.Users.Add(user);
         db.UserProfiles.Add(new UserProfile { UserId = id, User = user, Age = age, Gender = gender });
         if (intent != null) db.UserIntents.Add(new UserIntent { UserId = id, PrimaryIntent = intent });

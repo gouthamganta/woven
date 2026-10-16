@@ -51,59 +51,69 @@ public class MomentsMatchService
         var now = MomentsRules.NowUtc();
         var expires = MomentsRules.ComputeExpiresAt(now);
 
-        // SERIALIZABLE prevents two concurrent creates from both passing the "exists" check.
-        await using var tx = await _db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
-
-        var exists = await _db.Matches.AnyAsync(m =>
-            m.UserAId == a &&
-            m.UserBId == b &&
-            m.BalloonState == BalloonState.ACTIVE, ct);
-
-        if (exists)
+        // Wrap the entire transactional unit in execution strategy for retry compatibility
+        var strategy = _db.Database.CreateExecutionStrategy();
+        var result = await strategy.ExecuteAsync(async () =>
         {
-            await tx.RollbackAsync(ct);
-            return new CreateMatchResult(false, null, "ACTIVE_MATCH_ALREADY_EXISTS");
+            // SERIALIZABLE prevents two concurrent creates from both passing the "exists" check.
+            await using var tx = await _db.Database.BeginTransactionAsync(System.Data.IsolationLevel.Serializable, ct);
+
+            var exists = await _db.Matches.AnyAsync(m =>
+                m.UserAId == a &&
+                m.UserBId == b &&
+                m.BalloonState == BalloonState.ACTIVE, ct);
+
+            if (exists)
+            {
+                await tx.RollbackAsync(ct);
+                return new CreateMatchResult(false, null, "ACTIVE_MATCH_ALREADY_EXISTS");
+            }
+
+            var match = new Match
+            {
+                UserAId = a,
+                UserBId = b,
+                MatchType = matchType,
+                EdgeOwnerId = edgeOwnerId,
+                BalloonState = BalloonState.ACTIVE,
+                ClosedReason = null,
+                CreatedAt = now,
+                ExpiresAt = expires,
+                ClosedAt = null
+            };
+
+            _db.Matches.Add(match);
+            await _db.SaveChangesAsync(ct);
+
+            await tx.CommitAsync(ct);
+
+            return new CreateMatchResult(true, match, null);
+        });
+
+        // Phase 1C: notify the recipient(s) in real-time (outside retry block)
+        if (result.Created && result.Match != null)
+        {
+            if (matchType == MatchType.EDGE && edgeOwnerId.HasValue)
+            {
+                // One user explicitly sent a Moment — notify the other user
+                var recipientId = edgeOwnerId.Value == a ? b : a;
+                await _notifications.MomentReceivedAsync(recipientId, result.Match.Id, edgeOwnerId.Value, ct);
+            }
+            else if (matchType == MatchType.PURE)
+            {
+                // Algorithm-generated mutual match — notify both users
+                await Task.WhenAll(
+                    _notifications.MomentReceivedAsync(a, result.Match.Id, b, ct),
+                    _notifications.MomentReceivedAsync(b, result.Match.Id, a, ct)
+                );
+            }
+
+            _ = _analytics.TrackAsync(result.Match.UserAId, null, AnalyticsEvents.MatchCreated,
+                new { matchType = matchType.ToString(), score = (object?)null, bucket = (object?)null });
+            _ = _analytics.TrackAsync(result.Match.UserBId, null, AnalyticsEvents.MatchCreated,
+                new { matchType = matchType.ToString(), score = (object?)null, bucket = (object?)null });
         }
 
-        var match = new Match
-        {
-            UserAId = a,
-            UserBId = b,
-            MatchType = matchType,
-            EdgeOwnerId = edgeOwnerId,
-            BalloonState = BalloonState.ACTIVE,
-            ClosedReason = null,
-            CreatedAt = now,
-            ExpiresAt = expires,
-            ClosedAt = null
-        };
-
-        _db.Matches.Add(match);
-        await _db.SaveChangesAsync(ct);
-
-        await tx.CommitAsync(ct);
-
-        // Phase 1C: notify the recipient(s) in real-time
-        if (matchType == MatchType.EDGE && edgeOwnerId.HasValue)
-        {
-            // One user explicitly sent a Moment — notify the other user
-            var recipientId = edgeOwnerId.Value == a ? b : a;
-            await _notifications.MomentReceivedAsync(recipientId, match.Id, edgeOwnerId.Value, ct);
-        }
-        else if (matchType == MatchType.PURE)
-        {
-            // Algorithm-generated mutual match — notify both users
-            await Task.WhenAll(
-                _notifications.MomentReceivedAsync(a, match.Id, b, ct),
-                _notifications.MomentReceivedAsync(b, match.Id, a, ct)
-            );
-        }
-
-        _ = _analytics.TrackAsync(match.UserAId, null, AnalyticsEvents.MatchCreated,
-            new { matchType = matchType.ToString(), score = (object?)null, bucket = (object?)null });
-        _ = _analytics.TrackAsync(match.UserBId, null, AnalyticsEvents.MatchCreated,
-            new { matchType = matchType.ToString(), score = (object?)null, bucket = (object?)null });
-
-        return new CreateMatchResult(true, match, null);
+        return result;
     }
 }

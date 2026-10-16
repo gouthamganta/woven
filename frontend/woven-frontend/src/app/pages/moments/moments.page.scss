@@ -183,6 +183,42 @@
 /* ── Feed ───────────────────────────────────────────── */
 .feed { display: grid; gap: 24px; }
 
+/* ── Carousel (horizontal swipe) ────────────────────── */
+.carousel {
+  position: relative;
+  width: 100%;
+  touch-action: pan-y; /* Allow vertical scroll, horizontal swipe handled */
+}
+
+.carouselDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px 0;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-subtle);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--text-dim);
+  }
+
+  &.active {
+    width: 24px;
+    border-radius: 4px;
+    background: var(--text-primary);
+  }
+}
+
 /* ── Card stagger entrance ───────────────────────────── */
 @keyframes cardIn {
   from { opacity: 0; transform: translateY(14px); }

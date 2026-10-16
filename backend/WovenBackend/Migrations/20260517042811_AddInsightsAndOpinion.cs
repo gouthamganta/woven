@@ -625,20 +625,9 @@ namespace WovenBackend.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.AddCheckConstraint(
-                name: "ck_tiles_content_type",
-                table: "tiles",
-                sql: "\"content_type\" IN ('text','photo','video','voice')");
-
-            migrationBuilder.AddCheckConstraint(
-                name: "ck_tiles_expires_after_created",
-                table: "tiles",
-                sql: "\"expires_at\" > \"created_at\"");
-
-            migrationBuilder.AddCheckConstraint(
-                name: "ck_highlights_slot_range",
-                table: "highlights",
-                sql: "\"slot_number\" >= 1 AND \"slot_number\" <= 9");
+            // Note: ck_tiles_content_type, ck_tiles_expires_after_created, and ck_highlights_slot_range
+            // were already created in the AddTilesAndHighlights migration (20260516000001).
+            // Removed duplicate AddCheckConstraint calls to fix fresh migration failure.
 
             migrationBuilder.CreateIndex(
                 name: "IX_cf_scores_candidate_id",

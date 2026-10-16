@@ -18,7 +18,7 @@ namespace WovenBackend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.1")
+                .HasAnnotation("ProductVersion", "10.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "vector");
@@ -2131,6 +2131,10 @@ namespace WovenBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("EmailHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("FullName")
                         .HasColumnType("text");
 
@@ -3098,6 +3102,67 @@ namespace WovenBackend.Migrations
 
                             t.HasCheckConstraint("ck_matches_type_edge_owner", "\r\n                (\r\n                  \"match_type\" = 'PURE' AND\r\n                  \"edge_owner_id\" IS NULL\r\n                )\r\n                OR\r\n                (\r\n                  \"match_type\" = 'EDGE' AND\r\n                  \"edge_owner_id\" IS NOT NULL\r\n                )\r\n                ");
                         });
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.MatchAfterthought", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AboutUserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("about_user_id");
+
+                    b.Property<string>("ClosePath")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("close_path");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("FromUserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("from_user_id");
+
+                    b.Property<bool>("IsSafety")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_safety");
+
+                    b.Property<Guid>("MatchId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("match_id");
+
+                    b.Property<string>("NoteText")
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)")
+                        .HasColumnName("note_text");
+
+                    b.Property<DateTimeOffset?>("ProcessedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("processed_at");
+
+                    b.Property<short?>("Rating")
+                        .HasColumnType("smallint")
+                        .HasColumnName("rating");
+
+                    b.Property<string>("ReasonTag")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("reason_tag");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatchId", "FromUserId")
+                        .IsUnique();
+
+                    b.ToTable("match_afterthoughts");
                 });
 
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.MessageLoveReaction", b =>
@@ -4156,6 +4221,17 @@ namespace WovenBackend.Migrations
                         .HasForeignKey("UserBId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WovenBackend.data.Entities.Moments.MatchAfterthought", b =>
+                {
+                    b.HasOne("WovenBackend.data.Entities.Moments.Match", "Match")
+                        .WithMany()
+                        .HasForeignKey("MatchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Match");
                 });
 
             modelBuilder.Entity("WovenBackend.data.Entities.Moments.MessageLoveReaction", b =>

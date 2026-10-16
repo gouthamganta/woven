@@ -21,7 +21,7 @@ public class GameFeatureContractTests
     {
         foreach (var id in new[] { 1, 2 })
         {
-            var user = new User { Id = id, Email = $"unit{id}@example.invalid", FullName = $"Unit Player {id}", ProfileStatus = ProfileStatus.COMPLETE };
+            var user = new User { Id = id, Email = $"unit{id}@example.invalid", EmailHash = $"hash{id}", FullName = $"Unit Player {id}", ProfileStatus = ProfileStatus.COMPLETE };
             db.Users.Add(user);
             db.UserProfiles.Add(new UserProfile { UserId = id, User = user, Age = 25, Gender = "nonbinary" });
             db.UserVectors.Add(new UserVector { UserId = id, Version = 1, PillarScoresJson = "{\"Values\":0.9}", VectorJson = "{\"pulse\":{\"banter\":0.7}}" });

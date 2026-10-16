@@ -54,6 +54,7 @@ public class WovenDbContext : DbContext
     public DbSet<ChatThread> ChatThreads => Set<ChatThread>();
     public DbSet<ChatMessage> ChatMessages => Set<ChatMessage>();
     public DbSet<UserRating> UserRatings => Set<UserRating>();
+    public DbSet<MatchAfterthought> MatchAfterthoughts => Set<MatchAfterthought>();
 
     // ECHO signal ledger (Phase ECHO-1) + composite connection scores (Phase ECHO-2)
     public DbSet<MatchSignalLog> MatchSignalLogs => Set<MatchSignalLog>();
@@ -398,6 +399,17 @@ public class WovenDbContext : DbContext
             .HasOne<User>()
             .WithMany()
             .HasForeignKey(x => x.BlockedId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // match_afterthoughts: unique constraint on (MatchId, FromUserId)
+        modelBuilder.Entity<MatchAfterthought>()
+            .HasIndex(x => new { x.MatchId, x.FromUserId })
+            .IsUnique();
+
+        modelBuilder.Entity<MatchAfterthought>()
+            .HasOne(x => x.Match)
+            .WithMany()
+            .HasForeignKey(x => x.MatchId)
             .OnDelete(DeleteBehavior.Cascade);
 
         // moment_responses -> users

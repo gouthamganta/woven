@@ -408,7 +408,7 @@ public class MatchScoringService : IMatchScoringService
 
         var userTags = new HashSet<string>(userIntent.Tags ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
         var candidateTags = new HashSet<string>(candidateIntent.Tags ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
-        var tagBonus = Math.Min(20, userTags.Intersect(candidateTags).Count() * 10);
+        var tagBonus = Math.Min(20, userTags.Intersect(candidateTags, StringComparer.OrdinalIgnoreCase).Count() * 10);
 
         return Math.Clamp(seriousnessScore * 0.5 + commitmentScore * 0.3 + tagBonus, 0, 100);
     }

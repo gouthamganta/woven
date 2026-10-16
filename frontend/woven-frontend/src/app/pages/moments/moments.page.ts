@@ -60,6 +60,12 @@ export class MomentsPageComponent implements OnInit, OnDestroy {
   // Choice flash animation state (userId → 'magical'|'logical'|'pass')
   choosingCard = new Map<number, string>();
 
+  // Carousel state
+  currentCardIndex = 0;
+  private swipeStartX = 0;
+  private swipeStartY = 0;
+  private isDragging = false;
+
   // Cinematic intro state
   cinematicPhoto = new Map<number, number>();   // userId → current photo index
   quoteVisible   = new Set<number>();            // userId → quote overlay visible
@@ -208,6 +214,67 @@ export class MomentsPageComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
+  // ── Carousel navigation ───────────────────────────────────────────────────
+
+  get currentCard(): MomentsCard | null {
+    const cards = this.visibleTodayCards;
+    return cards[this.currentCardIndex] ?? null;
+  }
+
+  onSwipeStart(event: TouchEvent | MouseEvent) {
+    const touch = event instanceof TouchEvent ? event.touches[0] : event;
+    this.swipeStartX = touch.clientX;
+    this.swipeStartY = touch.clientY;
+    this.isDragging = true;
+  }
+
+  onSwipeMove(event: TouchEvent | MouseEvent) {
+    if (!this.isDragging) return;
+    event.preventDefault();
+  }
+
+  onSwipeEnd(event: TouchEvent | MouseEvent) {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+
+    const touch = event instanceof TouchEvent ? event.changedTouches[0] : event;
+    const deltaX = touch.clientX - this.swipeStartX;
+    const deltaY = touch.clientY - this.swipeStartY;
+
+    // Ignore if more vertical than horizontal
+    if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+
+    const threshold = 80;
+    if (deltaX < -threshold) {
+      this.nextCard();
+    } else if (deltaX > threshold) {
+      this.prevCard();
+    }
+  }
+
+  nextCard() {
+    const cards = this.visibleTodayCards;
+    if (this.currentCardIndex < cards.length - 1) {
+      this.currentCardIndex++;
+      this.cdr.markForCheck();
+    }
+  }
+
+  prevCard() {
+    if (this.currentCardIndex > 0) {
+      this.currentCardIndex--;
+      this.cdr.markForCheck();
+    }
+  }
+
+  goToCard(index: number) {
+    const cards = this.visibleTodayCards;
+    if (index >= 0 && index < cards.length) {
+      this.currentCardIndex = index;
+      this.cdr.markForCheck();
+    }
+  }
+
   // ── Today tab ─────────────────────────────────────────────────────────────
 
   get visibleTodayCards(): MomentsCard[] {
@@ -267,7 +334,14 @@ export class MomentsPageComponent implements OnInit, OnDestroy {
   }
 
   private checkDeckCompletion() {
-    if (this.visibleTodayCards.length === 0 && this.todayCards.length > 0 && !this.deckCompleted) {
+    const visible = this.visibleTodayCards;
+
+    // Adjust carousel index if out of bounds after card removal
+    if (visible.length > 0 && this.currentCardIndex >= visible.length) {
+      this.currentCardIndex = visible.length - 1;
+    }
+
+    if (visible.length === 0 && this.todayCards.length > 0 && !this.deckCompleted) {
       this.deckCompleted = true;
       this.haptic('heavy');
       this.cdr.markForCheck();
