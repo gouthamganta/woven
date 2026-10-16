@@ -111,7 +111,7 @@ describe('Chat thread feature contracts', () => {
   it('handles CONTINUE trial decision without Afterthought modal', async () => {
     page.data = response; chat['trialDecision'].mockReturnValue(of({ status: 'MATCH_CONTINUES' }));
     await page.onTrialDecision({ decision: 'CONTINUE' });
-    expect(chat['trialDecision']).toHaveBeenCalledWith('thread', 'CONTINUE', undefined, undefined, undefined, undefined);
+    expect(chat['trialDecision']).toHaveBeenCalledWith('thread', 'CONTINUE', undefined);
     expect(page.showTrialDecision).toBe(false); expect(page.showAfterthought).toBe(false);
     await vi.advanceTimersByTimeAsync(800); expect(chat['thread']).toHaveBeenCalled();
   });
