@@ -67,4 +67,11 @@ public class MatchAfterthought
 
     [Column("created_at")]
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+
+    /// <summary>
+    /// Timestamp when ECHO integration completed (MatchSignalLog + TrustService)
+    /// Null = integration pending or failed; enables retry without duplication
+    /// </summary>
+    [Column("processed_at")]
+    public DateTimeOffset? ProcessedAt { get; set; }
 }

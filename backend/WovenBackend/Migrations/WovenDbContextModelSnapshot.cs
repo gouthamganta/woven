@@ -3144,6 +3144,10 @@ namespace WovenBackend.Migrations
                         .HasColumnType("character varying(300)")
                         .HasColumnName("note_text");
 
+                    b.Property<DateTimeOffset?>("ProcessedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("processed_at");
+
                     b.Property<short?>("Rating")
                         .HasColumnType("smallint")
                         .HasColumnName("rating");
@@ -3154,8 +3158,6 @@ namespace WovenBackend.Migrations
                         .HasColumnName("reason_tag");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MatchId");
 
                     b.HasIndex("MatchId", "FromUserId")
                         .IsUnique();

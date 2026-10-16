@@ -75,12 +75,39 @@ public class AfterthoughtService : IAfterthoughtService
         if (!string.IsNullOrEmpty(trimmedNoteText) && trimmedNoteText.Length > 300)
             throw new ArgumentException("Note text cannot exceed 300 characters", nameof(noteText));
 
-        // P4: Check for existing afterthought (idempotency - unique constraint will also enforce this)
-        var exists = await _db.MatchAfterthoughts
-            .AnyAsync(a => a.MatchId == matchId && a.FromUserId == fromUserId, ct);
+        // P4: Check for existing processed afterthought
+        // Allow retry if previous submission failed during integration (ProcessedAt is null)
+        var existing = await _db.MatchAfterthoughts
+            .Where(a => a.MatchId == matchId && a.FromUserId == fromUserId)
+            .Select(a => new { a.Id, a.ProcessedAt })
+            .FirstOrDefaultAsync(ct);
 
-        if (exists)
-            throw new InvalidOperationException("Afterthought already submitted for this match");
+        if (existing != null)
+        {
+            if (existing.ProcessedAt.HasValue)
+            {
+                // Fully processed — reject duplicate
+                throw new InvalidOperationException("Afterthought already submitted for this match");
+            }
+            else
+            {
+                // Exists but integration failed — retry integration instead of creating new record
+                _logger.LogInformation(
+                    "[Afterthought] Retrying integration for existing record | MatchId={MatchId} FromUser={FromUser} AfterthoughtId={Id}",
+                    matchId, fromUserId, existing.Id);
+
+                try
+                {
+                    await _integration.ProcessAfterthoughtAsync(existing.Id, ct);
+                    return; // Success — existing record is now processed
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "[Afterthought] Retry integration failed for {Id}", existing.Id);
+                    throw; // Propagate failure
+                }
+            }
+        }
 
         var afterthought = new MatchAfterthought
         {
