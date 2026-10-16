@@ -580,11 +580,18 @@ public static class MatchesEndpoints
             if (match.BalloonState != BalloonState.CLOSED)
                 return Results.BadRequest(new { error = "MATCH_NOT_CLOSED" });
 
-            // Check if already submitted
+            // Check if already successfully processed
+            // Allow retry if previous submission failed during integration (ProcessedAt is null)
             var existing = await db.MatchAfterthoughts
-                .AnyAsync(a => a.MatchId == match.Id && a.FromUserId == me, ct);
-            if (existing)
+                .Where(a => a.MatchId == match.Id && a.FromUserId == me)
+                .Select(a => new { a.ProcessedAt })
+                .FirstOrDefaultAsync(ct);
+
+            if (existing != null && existing.ProcessedAt.HasValue)
                 return Results.BadRequest(new { error = "AFTERTHOUGHT_ALREADY_SUBMITTED" });
+
+            // If pending record exists, this will trigger retry in RecordAsync
+            // No special handling needed here - RecordAsync handles the retry
 
             var otherUserId = match.UserAId == me ? match.UserBId : match.UserAId;
 
