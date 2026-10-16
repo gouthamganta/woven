@@ -94,24 +94,24 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
                 return;
             }
 
-            // Interrupted claim - reset ProcessedAt and retry
-            _logger.LogInformation("[AfterthoughtIntegration] Interrupted claim detected | Id={Id}, resetting for recovery", afterthoughtId);
-            await _db.Database.ExecuteSqlRawAsync(
-                @"UPDATE ""match_afterthoughts"" SET ""processed_at"" = NULL WHERE ""id"" = {0}",
-                new object[] { afterthoughtId },
-                ct);
-
-            // Retry claim
+            // Interrupted claim - atomic reset+claim prevents concurrent race
+            _logger.LogInformation("[AfterthoughtIntegration] Interrupted claim | Id={Id}, attempting recovery", afterthoughtId);
             claimed = await _db.Database.ExecuteSqlRawAsync(
                 @"UPDATE ""match_afterthoughts""
                   SET ""processed_at"" = {0}
-                  WHERE ""id"" = {1} AND ""processed_at"" IS NULL",
-                new object[] { DateTimeOffset.UtcNow, afterthoughtId },
+                  WHERE ""id"" = {1}
+                    AND ""processed_at"" IS NOT NULL
+                    AND NOT EXISTS (
+                      SELECT 1 FROM ""MatchSignalLogs""
+                      WHERE ""EventType"" = {2}
+                        AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {1}
+                    )",
+                new object[] { DateTimeOffset.UtcNow, afterthoughtId, MatchSignalEventTypes.ExplicitFeedback },
                 ct);
 
             if (claimed == 0)
             {
-                _logger.LogWarning("[AfterthoughtIntegration] Retry claim failed for {Id}", afterthoughtId);
+                _logger.LogDebug("[AfterthoughtIntegration] Recovery failed - completed or claimed by another processor | Id={Id}", afterthoughtId);
                 return;
             }
         }
@@ -156,9 +156,17 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
     /// </summary>
     private async Task ProcessSafetyFlagAsync(MatchAfterthought afterthought, CancellationToken ct)
     {
-        // Determine trust cap based on close path severity
-        // FlagAsync caps trust at the penalty value (Math.Min), not reduces by it
+        // Check current trust score to avoid redundant flags
+        var currentTrust = await _trust.GetTrustScoreAsync(afterthought.AboutUserId, ct);
         float trustCap = afterthought.ClosePath == "block" ? BlockTrustCap : SafetyFlagTrustCap;
+
+        if (currentTrust <= trustCap)
+        {
+            _logger.LogDebug(
+                "[AfterthoughtIntegration] Trust already at or below cap | AboutUser={About} Current={Current:F2} Cap={Cap:F2}",
+                afterthought.AboutUserId, currentTrust, trustCap);
+            return; // Already flagged or lower
+        }
 
         string reason = afterthought.ClosePath == "block"
             ? $"blocked_by_user:{afterthought.ReasonTag}"
