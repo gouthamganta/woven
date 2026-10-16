@@ -93,8 +93,18 @@ export class MatchesService {
     return this.http.post(`${environment.apiUrl}/matches/${matchId}/pop`, {});
   }
 
-  unmatch(matchId: string, rating?: number): Observable<any> {
-    const body = rating !== undefined ? { rating } : {};
+  unmatch(
+    matchId: string,
+    afterthoughtRating?: number | null,
+    afterthoughtReasonTag?: string | null,
+    afterthoughtNote?: string | null
+  ): Observable<any> {
+    const body: any = {};
+    if (afterthoughtRating !== undefined && afterthoughtRating !== null) {
+      body.afterthoughtRating = afterthoughtRating;
+    }
+    if (afterthoughtReasonTag) body.afterthoughtReasonTag = afterthoughtReasonTag;
+    if (afterthoughtNote) body.afterthoughtNote = afterthoughtNote;
     return this.http.post(`${environment.apiUrl}/matches/${matchId}/unmatch`, body);
   }
 

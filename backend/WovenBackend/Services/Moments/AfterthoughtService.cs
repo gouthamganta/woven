@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using WovenBackend.Data;
 using WovenBackend.data.Entities.Moments;
 
@@ -57,6 +58,23 @@ public class AfterthoughtService : IAfterthoughtService
         if (closePath == "block" && !isSafety)
             throw new ArgumentException("Block path must set isSafety=true", nameof(isSafety));
 
+        // P2: Validate text lengths (EF maxLength is not API validation)
+        var trimmedReasonTag = reasonTag?.Trim();
+        var trimmedNoteText = noteText?.Trim();
+
+        if (!string.IsNullOrEmpty(trimmedReasonTag) && trimmedReasonTag.Length > 50)
+            throw new ArgumentException("Reason tag cannot exceed 50 characters", nameof(reasonTag));
+
+        if (!string.IsNullOrEmpty(trimmedNoteText) && trimmedNoteText.Length > 300)
+            throw new ArgumentException("Note text cannot exceed 300 characters", nameof(noteText));
+
+        // P4: Check for existing afterthought (idempotency - unique constraint will also enforce this)
+        var exists = await _db.MatchAfterthoughts
+            .AnyAsync(a => a.MatchId == matchId && a.FromUserId == fromUserId, ct);
+
+        if (exists)
+            throw new InvalidOperationException("Afterthought already submitted for this match");
+
         var afterthought = new MatchAfterthought
         {
             MatchId = matchId,
@@ -64,8 +82,8 @@ public class AfterthoughtService : IAfterthoughtService
             AboutUserId = aboutUserId,
             ClosePath = closePath,
             Rating = rating,
-            ReasonTag = reasonTag?.Trim(),
-            NoteText = noteText?.Trim(),
+            ReasonTag = string.IsNullOrEmpty(trimmedReasonTag) ? null : trimmedReasonTag,
+            NoteText = string.IsNullOrEmpty(trimmedNoteText) ? null : trimmedNoteText,
             IsSafety = isSafety,
             CreatedAt = DateTimeOffset.UtcNow
         };

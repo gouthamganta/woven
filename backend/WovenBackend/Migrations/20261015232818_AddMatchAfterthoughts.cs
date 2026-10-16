@@ -18,8 +18,7 @@ namespace WovenBackend.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    match_id = table.Column<int>(type: "integer", nullable: false),
-                    MatchId1 = table.Column<Guid>(type: "uuid", nullable: true),
+                    match_id = table.Column<Guid>(type: "uuid", nullable: false),
                     from_user_id = table.Column<int>(type: "integer", nullable: false),
                     about_user_id = table.Column<int>(type: "integer", nullable: false),
                     close_path = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
@@ -33,16 +32,24 @@ namespace WovenBackend.Migrations
                 {
                     table.PrimaryKey("PK_match_afterthoughts", x => x.id);
                     table.ForeignKey(
-                        name: "FK_match_afterthoughts_matches_MatchId1",
-                        column: x => x.MatchId1,
+                        name: "FK_match_afterthoughts_matches_match_id",
+                        column: x => x.match_id,
                         principalTable: "matches",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_match_afterthoughts_MatchId1",
+                name: "IX_match_afterthoughts_match_id",
                 table: "match_afterthoughts",
-                column: "MatchId1");
+                column: "match_id");
+
+            // Unique constraint to prevent duplicate afterthoughts from same user for same match
+            migrationBuilder.CreateIndex(
+                name: "IX_match_afterthoughts_match_id_from_user_id",
+                table: "match_afterthoughts",
+                columns: new[] { "match_id", "from_user_id" },
+                unique: true);
         }
 
         /// <inheritdoc />
