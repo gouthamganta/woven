@@ -1,3 +1,7 @@
+## Stale Docker cleanup - 2026-10-16
+
+Founder requested stop/removal. Stopped woven-frontend and woven-backend; removed those containers plus stopped QA frontend/api-gateway/coverage-gateway containers referencing the same May16 image. Removed woven-frontend:latest and woven-backend:latest images; verified no woven-* app images remain. Database, volumes, Redis, Azurite, SDK base images, source and mounted QA artifacts preserved. No rebuild.
+
 ## Container freshness audit - 2026-10-16
 
 Running woven frontend/backend images are May16, no source mounts, both unhealthy. QA containers stopped; frontend artifact index absent, backend artifact Oct8. Not current source. See evidence/2026-10-16-container-freshness.md. Read-only audit; contributor uncommitted integration edit preserved.
