@@ -45,13 +45,24 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
 
     public async Task ProcessAfterthoughtAsync(int afterthoughtId, CancellationToken ct = default)
     {
-        var afterthought = await _db.MatchAfterthoughts.AsNoTracking()
+        // Load without AsNoTracking so we can update ProcessedAt
+        var afterthought = await _db.MatchAfterthoughts
             .Include(a => a.Match)
             .FirstOrDefaultAsync(a => a.Id == afterthoughtId, ct);
 
         if (afterthought == null)
         {
             _logger.LogWarning("[AfterthoughtIntegration] Afterthought {Id} not found", afterthoughtId);
+            return;
+        }
+
+        // Idempotency: skip if already processed
+        if (afterthought.ProcessedAt.HasValue)
+        {
+            _logger.LogDebug(
+                "[AfterthoughtIntegration] Already processed | Id={Id} ProcessedAt={ProcessedAt}",
+                afterthought.Id,
+                afterthought.ProcessedAt.Value);
             return;
         }
 
@@ -64,6 +75,10 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
         {
             await ProcessMatchingFeedbackAsync(afterthought, ct);
         }
+
+        // Mark as processed
+        afterthought.ProcessedAt = DateTimeOffset.UtcNow;
+        await _db.SaveChangesAsync(ct);
 
         _logger.LogInformation(
             "[AfterthoughtIntegration] Processed {Type} afterthought | Id={Id} From={From} About={About} Rating={Rating}",
@@ -118,13 +133,22 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
         // 5 stars → 1.00 (best match)
         float normalizedScore = (afterthought.Rating.Value - 1) / 4f;
 
-        // Record as ExplicitFeedback signal
+        // Record as ExplicitFeedback signal with source metadata
         // ConnectionScoreBatchWorker will pick this up in its nightly run
+        // Metadata includes source ID for traceability and potential future deduplication
+        var metadata = System.Text.Json.JsonSerializer.Serialize(new
+        {
+            source = "afterthought",
+            afterthoughtId = afterthought.Id,
+            closePath = afterthought.ClosePath
+        });
+
         await _signals.RecordAsync(
             viewerId: afterthought.FromUserId,
             candidateId: afterthought.AboutUserId,
             eventType: MatchSignalEventTypes.ExplicitFeedback,
             eventValue: normalizedScore,
+            metadataJson: metadata,
             ct: ct);
 
         _logger.LogInformation(
