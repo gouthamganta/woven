@@ -175,6 +175,20 @@ await Run("interrupted_safety_claim_recovers_trust_action", async () =>
     Check(((CountingTrust)(object)trust).Calls == 1, "Interrupted safety claim skipped required trust action; calls=" + ((CountingTrust)(object)trust).Calls);
     await Verify(row, 0, true);
 });
+await Run("completed_safety_replay_does_not_repeat_trust_action", async () =>
+{
+    var row = await Seed(); await using (var setup = Db())
+    {
+        var saved = await setup.MatchAfterthoughts.SingleAsync(a => a.Id == row.Id);
+        saved.IsSafety = true; saved.ClosePath = "block"; saved.Rating = null; await setup.SaveChangesAsync();
+    }
+    var trust = DispatchProxy.Create<ITrustService, CountingTrust>();
+    await using (var first = Db(retries: true)) await Integration(first, trust: trust).ProcessAfterthoughtAsync(row.Id);
+    Check(((CountingTrust)(object)trust).Calls == 1, "First safety processing did not route exactly once");
+    await using (var replay = Db(retries: true)) await Integration(replay, trust: trust).ProcessAfterthoughtAsync(row.Id);
+    Check(((CountingTrust)(object)trust).Calls == 1, "Completed safety replay repeated trust action; calls=" + ((CountingTrust)(object)trust).Calls);
+    await Verify(row, 0, true);
+});
 await Run("integration_exception_resets_claim_and_fresh_retry_recovers", async () =>
 {
     var row = await Seed(); await using (var db = Db(retries: true))

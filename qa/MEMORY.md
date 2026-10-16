@@ -1,3 +1,7 @@
+## Claim recovery retest 209a979 - 2026-10-16
+
+Real PG15checks:11pass/4fail. Direct interrupted recovery now passes, but deterministic overlapping contexts regress to2signals(expected1): active claim reset. AfterthoughtService unchanged invalid FromSqlRaw array+ct still throws on deferred recovery and completed duplicates. Safety completed replay repeats trust destination2times(stub), normal+interrupted routing controls pass; real score cap not claimed cumulative. Three findings/evidence evidence/2026-10-16-claim-retest-209a979.md/.json. Claude120 changesrequested,195unmerged. QAonly; isolated PG stopped; stale app images remain removed.
+
 ## Claim recovery retest 4622692 - 2026-10-16
 
 Real PG14cases:10pass/4fail. ExecuteSqlRawAsync fixed: retries/concurrency/exactIDs/pending endpoint/caught failure reset+retry pass. New FromSqlRaw(sql,object[],ct) in RecordAsync throws object[] mapping on duplicate/recovery queries. Processor still null-only claims, silently skips interrupted marked rows: matching0signals, safety0trustcalls. Normal safety routing control1call/0signals (stub only). Evidence evidence/2026-10-16-claim-retest-4622692.md/.json. Claude120 changes requested;195unmerged. No app fixes/migration/fullsuite acceptance; isolated PG stopped; app images still removed.
