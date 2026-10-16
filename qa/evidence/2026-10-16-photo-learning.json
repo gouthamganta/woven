@@ -1,0 +1,71 @@
+{
+  "application": "d10467e0e5d69157e22dec4c03be642fefb42f9e",
+  "transport": "HTTP fixtures only; zero external calls",
+  "outcomes": [
+    {
+      "name": "async_embedding_prediction_is_polled_and_persisted",
+      "outcome": "failed",
+      "error": "InvalidOperationException: Default async prediction was dropped instead of polled; id=, pollGets=0"
+    },
+    {
+      "name": "immediate_attribute_predictions_are_parsed",
+      "outcome": "failed",
+      "error": "InvalidOperationException: Succeeded prediction with output but no urls.get lost attributes: {}"
+    },
+    {
+      "name": "async_attribute_predictions_three_categories_persist",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "classification_wrong_length_is_rejected",
+      "outcome": "failed",
+      "error": "InvalidOperationException: Probability count does not match labels but classifier accepted brown"
+    },
+    {
+      "name": "jpeg_scan_payload_survives_exif_strip",
+      "outcome": "failed",
+      "error": "InvalidOperationException: JPEG scan payload truncated; expected bytes=13, actual=8"
+    },
+    {
+      "name": "upload_ProfilePhoto_APPROVED_queue_gating",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "upload_ProfilePhoto_AUTO_REJECTED_queue_gating",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "upload_TileMedia_APPROVED_queue_gating",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "upload_TileMedia_AUTO_REJECTED_queue_gating",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "upload_VoiceNote_APPROVED_queue_gating",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "upload_VoiceNote_AUTO_REJECTED_queue_gating",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "worker_survives_one_failure_and_processes_next",
+      "outcome": "passed",
+      "error": null
+    },
+    {
+      "name": "missing_key_does_not_send_provider_prediction",
+      "outcome": "passed",
+      "error": null
+    }
+  ]
+}
