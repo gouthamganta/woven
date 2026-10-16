@@ -45,43 +45,39 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
 
     public async Task ProcessAfterthoughtAsync(int afterthoughtId, CancellationToken ct = default)
     {
-        // Use explicit transaction to ensure atomicity of signal + ProcessedAt
-        // Prevents duplicate signals if ProcessedAt save fails after signal insertion
-        using var transaction = await _db.Database.BeginTransactionAsync(ct);
+        // Atomic claim via UPDATE to avoid retry strategy conflict
+        // Sets ProcessedAt first, then processes (rollback on failure)
+        var claimed = await _db.Database.ExecuteSqlRawAsync(
+            @"UPDATE ""match_afterthoughts""
+              SET ""processed_at"" = {0}
+              WHERE ""id"" = {1} AND ""processed_at"" IS NULL",
+            DateTimeOffset.UtcNow,
+            afterthoughtId,
+            ct);
 
+        if (claimed == 0)
+        {
+            _logger.LogDebug(
+                "[AfterthoughtIntegration] Afterthought {Id} already processed or not found",
+                afterthoughtId);
+            return;
+        }
+
+        // Load the claimed row
+        var afterthought = await _db.MatchAfterthoughts
+            .AsNoTracking()
+            .Include(a => a.Match)
+            .FirstOrDefaultAsync(a => a.Id == afterthoughtId, ct);
+
+        if (afterthought == null)
+        {
+            _logger.LogWarning("[AfterthoughtIntegration] Afterthought {Id} not found after claim", afterthoughtId);
+            return;
+        }
+
+        // Process (signal insertion is idempotent via metadata check)
         try
         {
-            // Load with row-level lock (SELECT FOR UPDATE) to prevent concurrent processing
-            // FromSqlRaw with FOR UPDATE ensures only one processor claims the row
-            var afterthought = await _db.MatchAfterthoughts
-                .FromSqlRaw(
-                    @"SELECT * FROM ""match_afterthoughts""
-                      WHERE ""id"" = {0}
-                      FOR UPDATE SKIP LOCKED",
-                    afterthoughtId)
-                .Include(a => a.Match)
-                .FirstOrDefaultAsync(ct);
-
-            if (afterthought == null)
-            {
-                // Either doesn't exist or locked by another processor (SKIP LOCKED)
-                _logger.LogDebug(
-                    "[AfterthoughtIntegration] Afterthought {Id} not found or locked by another processor",
-                    afterthoughtId);
-                return;
-            }
-
-            // Idempotency: skip if already processed
-            if (afterthought.ProcessedAt.HasValue)
-            {
-                _logger.LogDebug(
-                    "[AfterthoughtIntegration] Already processed | Id={Id} ProcessedAt={ProcessedAt}",
-                    afterthought.Id,
-                    afterthought.ProcessedAt.Value);
-                return;
-            }
-
-            // Route based on safety flag
             if (afterthought.IsSafety)
             {
                 await ProcessSafetyFlagAsync(afterthought, ct);
@@ -90,13 +86,6 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
             {
                 await ProcessMatchingFeedbackAsync(afterthought, ct);
             }
-
-            // Mark as processed within the same transaction as signal insertion
-            afterthought.ProcessedAt = DateTimeOffset.UtcNow;
-            await _db.SaveChangesAsync(ct);
-
-            // Commit transaction - both signal and ProcessedAt are now durable
-            await transaction.CommitAsync(ct);
 
             _logger.LogInformation(
                 "[AfterthoughtIntegration] Processed {Type} afterthought | Id={Id} From={From} About={About} Rating={Rating}",
@@ -108,8 +97,14 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
         }
         catch (Exception ex)
         {
+            // Reset ProcessedAt for retry
+            await _db.Database.ExecuteSqlRawAsync(
+                @"UPDATE ""match_afterthoughts"" SET ""processed_at"" = NULL WHERE ""id"" = {0}",
+                afterthoughtId,
+                ct);
+
             _logger.LogError(ex,
-                "[AfterthoughtIntegration] Processing failed for {Id}, rolling back transaction",
+                "[AfterthoughtIntegration] Processing failed for {Id}, reset ProcessedAt for retry",
                 afterthoughtId);
             throw;
         }
@@ -154,16 +149,23 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
         }
 
         // Check for existing signal from this Afterthought (idempotency)
-        // This prevents duplicates even if ProcessedAt was not yet set
+        // Use PostgreSQL jsonb operator for exact match, avoiding ID confusion (1 vs 10)
         var existingSignal = await _db.MatchSignalLogs
-            .Where(s => s.EventType == MatchSignalEventTypes.ExplicitFeedback
-                     && s.ViewerId == afterthought.FromUserId
-                     && s.CandidateId == afterthought.AboutUserId
-                     && s.MetadataJson != null
-                     && s.MetadataJson.Contains($"\"afterthoughtId\":{afterthought.Id}"))
-            .AnyAsync(ct);
+            .FromSqlRaw(
+                @"SELECT * FROM ""MatchSignalLogs""
+                  WHERE ""EventType"" = {0}
+                    AND ""ViewerId"" = {1}
+                    AND ""CandidateId"" = {2}
+                    AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {3}
+                  LIMIT 1",
+                MatchSignalEventTypes.ExplicitFeedback,
+                afterthought.FromUserId,
+                afterthought.AboutUserId,
+                afterthought.Id)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(ct);
 
-        if (existingSignal)
+        if (existingSignal != null)
         {
             _logger.LogDebug(
                 "[AfterthoughtIntegration] Signal already exists for Afterthought {Id}, skipping duplicate",
