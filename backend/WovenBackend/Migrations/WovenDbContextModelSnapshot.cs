@@ -1190,6 +1190,14 @@ namespace WovenBackend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AttributesJson")
+                        .HasColumnType("text")
+                        .HasColumnName("attributes_json");
+
+                    b.Property<string>("ConfidenceScoresJson")
+                        .HasColumnType("text")
+                        .HasColumnName("confidence_scores_json");
+
                     b.Property<DateTimeOffset>("EmbeddedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("embedded_at");

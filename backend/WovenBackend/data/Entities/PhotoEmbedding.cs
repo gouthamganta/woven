@@ -24,5 +24,17 @@ public class PhotoEmbedding
     [Column("embedded_at")]
     public DateTimeOffset EmbeddedAt { get; set; } = DateTimeOffset.UtcNow;
 
+    /// <summary>
+    /// Extracted visual attributes as JSON: {hair_color, height_class, style, skin_tone}
+    /// </summary>
+    [Column("attributes_json")]
+    public string? AttributesJson { get; set; }
+
+    /// <summary>
+    /// Confidence scores for each extracted attribute as JSON
+    /// </summary>
+    [Column("confidence_scores_json")]
+    public string? ConfidenceScoresJson { get; set; }
+
     public User User { get; set; } = default!;
 }

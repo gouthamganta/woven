@@ -69,11 +69,16 @@ public class PhotoEmbeddingService : IPhotoEmbeddingService
                 return null;
             }
 
+            // Extract visual attributes via zero-shot classification
+            var (attributes, confidences) = await ExtractAttributesAsync(base64, ct);
+
             var row = new PhotoEmbedding
             {
                 UserId = userId,
                 PhotoUrl = photoUrl,
                 Embedding = new Vector(embedding),
+                AttributesJson = attributes != null ? JsonSerializer.Serialize(attributes) : null,
+                ConfidenceScoresJson = confidences != null ? JsonSerializer.Serialize(confidences) : null,
                 EmbeddedAt = DateTimeOffset.UtcNow
             };
             _db.PhotoEmbeddings.Add(row);
@@ -161,5 +166,158 @@ public class PhotoEmbeddingService : IPhotoEmbeddingService
         }
         catch { }
         return null;
+    }
+
+    private async Task<(Dictionary<string, string>?, Dictionary<string, float>?)> ExtractAttributesAsync(
+        string base64Image,
+        CancellationToken ct)
+    {
+        try
+        {
+            // Zero-shot classification categories for visual attributes
+            var categories = new Dictionary<string, string[]>
+            {
+                ["hair_color"] = new[] { "blonde hair", "brown hair", "black hair", "red hair", "gray hair", "bald" },
+                ["style"] = new[] { "casual style", "formal style", "athletic style", "artistic style", "professional style" },
+                ["skin_tone"] = new[] { "fair skin tone", "medium skin tone", "tan skin tone", "dark skin tone" }
+            };
+
+            var attributes = new Dictionary<string, string>();
+            var confidences = new Dictionary<string, float>();
+
+            var apiToken = _config["Replicate:ApiToken"]
+                ?? throw new InvalidOperationException("Replicate:ApiToken not configured");
+
+            // Use CLIP for zero-shot classification
+            // Model: openai/clip-vit-large-patch14
+            foreach (var category in categories)
+            {
+                var payload = new
+                {
+                    version = "75b33f253f7714a281ad3e9b28f63e3232d583716ef6718f2e46641077ea040a",
+                    input = new
+                    {
+                        image = $"data:image/jpeg;base64,{base64Image}",
+                        text = string.Join(", ", category.Value)
+                    }
+                };
+
+                using var req = new HttpRequestMessage(HttpMethod.Post, "https://api.replicate.com/v1/predictions");
+                req.Headers.Authorization = new AuthenticationHeaderValue("Token", apiToken);
+                req.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+
+                var resp = await _http.SendAsync(req, ct);
+                if (!resp.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("[PhotoEmbedding] Zero-shot classification failed for {Category}", category.Key);
+                    continue;
+                }
+
+                var respJson = await resp.Content.ReadAsStringAsync(ct);
+
+                // Wait for prediction to complete (Replicate is async)
+                var predictionUrl = GetPredictionUrl(respJson);
+                if (predictionUrl != null)
+                {
+                    var result = await PollPredictionAsync(predictionUrl, apiToken, ct);
+                    if (result != null)
+                    {
+                        var (bestLabel, bestScore) = ParseZeroShotResult(result, category.Value);
+                        if (bestLabel != null)
+                        {
+                            attributes[category.Key] = bestLabel;
+                            confidences[category.Key] = bestScore;
+                        }
+                    }
+                }
+            }
+
+            _logger.LogInformation("[PhotoEmbedding] Extracted attributes: {Count}", attributes.Count);
+            return (attributes, confidences);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "[PhotoEmbedding] Attribute extraction failed");
+            return (null, null);
+        }
+    }
+
+    private static string? GetPredictionUrl(string json)
+    {
+        try
+        {
+            using var doc = JsonDocument.Parse(json);
+            if (doc.RootElement.TryGetProperty("urls", out var urls) &&
+                urls.TryGetProperty("get", out var getUrl))
+            {
+                return getUrl.GetString();
+            }
+        }
+        catch { }
+        return null;
+    }
+
+    private async Task<string?> PollPredictionAsync(string url, string apiToken, CancellationToken ct)
+    {
+        // Poll up to 10 times with 1s delay
+        for (int i = 0; i < 10; i++)
+        {
+            await Task.Delay(1000, ct);
+
+            using var req = new HttpRequestMessage(HttpMethod.Get, url);
+            req.Headers.Authorization = new AuthenticationHeaderValue("Token", apiToken);
+
+            var resp = await _http.SendAsync(req, ct);
+            if (!resp.IsSuccessStatusCode) continue;
+
+            var json = await resp.Content.ReadAsStringAsync(ct);
+            using var doc = JsonDocument.Parse(json);
+
+            if (doc.RootElement.TryGetProperty("status", out var status))
+            {
+                var statusStr = status.GetString();
+                if (statusStr == "succeeded")
+                    return json;
+                if (statusStr == "failed" || statusStr == "canceled")
+                    return null;
+            }
+        }
+        return null;
+    }
+
+    private static (string?, float) ParseZeroShotResult(string json, string[] labels)
+    {
+        try
+        {
+            using var doc = JsonDocument.Parse(json);
+            if (!doc.RootElement.TryGetProperty("output", out var output) ||
+                output.ValueKind != JsonValueKind.Array)
+                return (null, 0f);
+
+            // output is array of probabilities corresponding to labels
+            var probs = new float[output.GetArrayLength()];
+            int idx = 0;
+            foreach (var elem in output.EnumerateArray())
+                probs[idx++] = elem.GetSingle();
+
+            // Find best match
+            int bestIdx = 0;
+            float bestScore = probs[0];
+            for (int i = 1; i < probs.Length && i < labels.Length; i++)
+            {
+                if (probs[i] > bestScore)
+                {
+                    bestScore = probs[i];
+                    bestIdx = i;
+                }
+            }
+
+            // Extract base attribute name (remove " hair", " style", " skin tone" suffix)
+            var label = labels[bestIdx];
+            var cleanLabel = label.Split(' ')[0]; // e.g., "blonde hair" -> "blonde"
+            return (cleanLabel, bestScore);
+        }
+        catch { }
+        return (null, 0f);
     }
 }

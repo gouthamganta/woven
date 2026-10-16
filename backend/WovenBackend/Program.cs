@@ -596,6 +596,13 @@ builder.Services.AddHostedService<WovenBackend.Services.Commons.TileViewProcesso
 // ----------------------------------------------------
 builder.Services.AddHttpClient<WovenBackend.Services.Embeddings.IPhotoEmbeddingService,
     WovenBackend.Services.Embeddings.PhotoEmbeddingService>();
+
+// PhotoEmbeddingWorker: processes photos after upload (runs always, not batch-gated)
+builder.Services.AddSingleton<WovenBackend.Services.Embeddings.PhotoEmbeddingWorker>();
+builder.Services.AddSingleton<WovenBackend.Services.Embeddings.IPhotoEmbeddingQueue>(
+    sp => sp.GetRequiredService<WovenBackend.Services.Embeddings.PhotoEmbeddingWorker>());
+builder.Services.AddHostedService(sp => sp.GetRequiredService<WovenBackend.Services.Embeddings.PhotoEmbeddingWorker>());
+
 builder.Services.AddHttpClient<WovenBackend.Services.Embeddings.IVoiceEmbeddingService,
     WovenBackend.Services.Embeddings.VoiceEmbeddingService>();
 builder.Services.AddScoped<WovenBackend.Services.Embeddings.IStyleEmbeddingService,

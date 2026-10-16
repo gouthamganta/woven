@@ -2,6 +2,7 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 using WovenBackend.Services.Moderation;
 using WovenBackend.Services.Trust;
+using WovenBackend.Services.Embeddings;
 
 namespace WovenBackend.Services;
 
@@ -10,17 +11,20 @@ public class MediaService : IMediaService
     private readonly BlobServiceClient _blobService;
     private readonly IModerationService _moderation;
     private readonly ITrustService _trust;
+    private readonly IPhotoEmbeddingQueue _photoQueue;
     private readonly ILogger<MediaService> _logger;
 
     public MediaService(
         BlobServiceClient blobService,
         IModerationService moderation,
         ITrustService trust,
+        IPhotoEmbeddingQueue photoQueue,
         ILogger<MediaService> logger)
     {
         _blobService = blobService;
         _moderation = moderation;
         _trust = trust;
+        _photoQueue = photoQueue;
         _logger = logger;
     }
 
@@ -96,6 +100,11 @@ public class MediaService : IMediaService
                     await _trust.FlagAsync(userId, "CATFISH_SUSPECTED", 0.5f, ct);
                     _logger.LogWarning("[Media] ProfilePhoto escalated (catfish suspected) for user {UserId}: {BlobPath}", userId, blobPath);
                 }
+
+                // Queue photo for embedding extraction (CLIP + attributes)
+                await _photoQueue.QueuePhotoAsync(userId, url);
+                _logger.LogInformation("[Media] Queued photo for embedding extraction | UserId={UserId} Url={Url}",
+                    userId, url);
             }
 
             // Processing stub — full FFmpeg/resize pipeline comes in Phase 2 when Tiles exist.
