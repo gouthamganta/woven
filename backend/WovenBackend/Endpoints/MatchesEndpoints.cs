@@ -598,8 +598,7 @@ public static class MatchesEndpoints
                           WHERE ""EventType"" = {0}
                             AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {1}
                           LIMIT 1",
-                        MatchSignalEventTypes.ExplicitFeedback,
-                        existing.Id)
+                        new object[] { MatchSignalEventTypes.ExplicitFeedback, existing.Id })
                     .AsNoTracking()
                     .AnyAsync(ct);
 

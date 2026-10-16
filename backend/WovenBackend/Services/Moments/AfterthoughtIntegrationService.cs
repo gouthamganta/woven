@@ -54,15 +54,7 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
             new object[] { DateTimeOffset.UtcNow, afterthoughtId },
             ct);
 
-        if (claimed == 0)
-        {
-            _logger.LogDebug(
-                "[AfterthoughtIntegration] Afterthought {Id} already processed or not found",
-                afterthoughtId);
-            return;
-        }
-
-        // Load the claimed row
+        // Load the row to check state
         var afterthought = await _db.MatchAfterthoughts
             .AsNoTracking()
             .Include(a => a.Match)
@@ -70,8 +62,58 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
 
         if (afterthought == null)
         {
-            _logger.LogWarning("[AfterthoughtIntegration] Afterthought {Id} not found after claim", afterthoughtId);
+            _logger.LogDebug("[AfterthoughtIntegration] Afterthought {Id} not found", afterthoughtId);
             return;
+        }
+
+        if (claimed == 0)
+        {
+            // Claim failed - either already processed or interrupted
+            // Check if it's truly complete (has signal) or interrupted (no signal)
+            if (!afterthought.ProcessedAt.HasValue)
+            {
+                // Strange case: ProcessedAt is NULL but UPDATE returned 0
+                _logger.LogWarning("[AfterthoughtIntegration] Unexpected state for {Id}", afterthoughtId);
+                return;
+            }
+
+            // ProcessedAt is set - check if signal exists
+            var signalExists = await _db.MatchSignalLogs
+                .FromSqlRaw(
+                    @"SELECT * FROM ""MatchSignalLogs""
+                      WHERE ""EventType"" = {0}
+                        AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {1}
+                      LIMIT 1",
+                    new object[] { MatchSignalEventTypes.ExplicitFeedback, afterthought.Id })
+                .AsNoTracking()
+                .AnyAsync(ct);
+
+            if (signalExists)
+            {
+                _logger.LogDebug("[AfterthoughtIntegration] Already complete | Id={Id}", afterthoughtId);
+                return;
+            }
+
+            // Interrupted claim - reset ProcessedAt and retry
+            _logger.LogInformation("[AfterthoughtIntegration] Interrupted claim detected | Id={Id}, resetting for recovery", afterthoughtId);
+            await _db.Database.ExecuteSqlRawAsync(
+                @"UPDATE ""match_afterthoughts"" SET ""processed_at"" = NULL WHERE ""id"" = {0}",
+                new object[] { afterthoughtId },
+                ct);
+
+            // Retry claim
+            claimed = await _db.Database.ExecuteSqlRawAsync(
+                @"UPDATE ""match_afterthoughts""
+                  SET ""processed_at"" = {0}
+                  WHERE ""id"" = {1} AND ""processed_at"" IS NULL",
+                new object[] { DateTimeOffset.UtcNow, afterthoughtId },
+                ct);
+
+            if (claimed == 0)
+            {
+                _logger.LogWarning("[AfterthoughtIntegration] Retry claim failed for {Id}", afterthoughtId);
+                return;
+            }
         }
 
         // Process (signal insertion is idempotent via metadata check)
@@ -157,10 +199,12 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
                     AND ""CandidateId"" = {2}
                     AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {3}
                   LIMIT 1",
-                MatchSignalEventTypes.ExplicitFeedback,
-                afterthought.FromUserId,
-                afterthought.AboutUserId,
-                afterthought.Id)
+                new object[] {
+                    MatchSignalEventTypes.ExplicitFeedback,
+                    afterthought.FromUserId,
+                    afterthought.AboutUserId,
+                    afterthought.Id
+                })
             .AsNoTracking()
             .FirstOrDefaultAsync(ct);
 
