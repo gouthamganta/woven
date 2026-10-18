@@ -102,23 +102,34 @@ public static class ChatEndpoints
                 })
                 .ToListAsync(ct);
 
-            // Get personalized best photo for each other user (with per-task error handling)
-            var personalizedPhotoTasks = otherIds.Select(async otherId =>
+            // ✅ FIX: Throttled photo personalization (process in batches of 10 to avoid thread pool exhaustion)
+            var personalizedPhotoMap = new Dictionary<int, string?>();
+            const int batchSize = 10;
+
+            for (int i = 0; i < otherIds.Count; i += batchSize)
             {
-                try
+                var batch = otherIds.Skip(i).Take(batchSize).ToList();
+                var batchTasks = batch.Select(async otherId =>
                 {
-                    var url = await visualPreference.GetBestPhotoUrlAsync(me, otherId, ct);
-                    return (otherId, url);
-                }
-                catch (Exception ex)
+                    try
+                    {
+                        var url = await visualPreference.GetBestPhotoUrlAsync(me, otherId, ct);
+                        return (otherId, url);
+                    }
+                    catch (Exception ex)
+                    {
+                        // One photo failure shouldn't kill entire chat list
+                        logger.LogWarning(ex, "[ChatEndpoints] Photo personalization failed | ViewerId={ViewerId} TargetId={TargetId}", me, otherId);
+                        return (otherId, url: (string?)null);
+                    }
+                });
+
+                var batchResults = await Task.WhenAll(batchTasks);
+                foreach (var (otherId, url) in batchResults)
                 {
-                    // One photo failure shouldn't kill entire chat list
-                    logger.LogWarning(ex, "[ChatEndpoints] Photo personalization failed | ViewerId={ViewerId} TargetId={TargetId}", me, otherId);
-                    return (otherId, url: (string?)null);
+                    personalizedPhotoMap[otherId] = url;
                 }
-            });
-            var personalizedPhotoResults = await Task.WhenAll(personalizedPhotoTasks);
-            var personalizedPhotoMap = personalizedPhotoResults.ToDictionary(x => x.otherId, x => x.url);
+            }
 
             // Merge personalized photos with user data
             var userMap = others.ToDictionary(x => x.userId, x => new

@@ -263,15 +263,18 @@ public static class MatchesEndpoints
                     .DistinctBy(p => p.url)
                     .ToDictionary(p => p.url, p => p);
 
-                photos = personalizedUrls
+                var personalizedPhotos = personalizedUrls
                     .Select(url => urlToPhoto.TryGetValue(url, out var photo) ? photo : null)
                     .Where(p => p != null)
                     .Select(p => p!)
                     .ToList();
+
+                // ✅ FIX: Fallback to original order if personalization failed or returned empty
+                photos = personalizedPhotos.Count > 0 ? personalizedPhotos : allPhotos;
             }
 
-            // LIMITED access => only show first (best) photo
-            if (accessLevel == "LIMITED")
+            // LIMITED access => only show first (best) photo (ensure at least 1 photo exists)
+            if (accessLevel == "LIMITED" && photos.Count > 0)
             {
                 photos = photos.Take(1).ToList();
             }
@@ -298,7 +301,8 @@ public static class MatchesEndpoints
                     ? null
                     : new { primaryIntent = intent.PrimaryIntent, openness },
 
-                photos = photos.OrderBy(p => p.sortOrder).ToList(),
+                // ✅ FIX: Don't re-sort photos — personalized order IS the intended order
+                photos,
 
                 optionalPublic
             };

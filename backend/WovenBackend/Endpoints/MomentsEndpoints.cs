@@ -182,23 +182,34 @@ public static class MomentsEndpoints
                     }).ToList<object>();
                 });
 
-            // Per-viewer personalized photo ranking — CLIP match + quality, fallback to sortOrder
-            var personalizedPhotoTasks = candidateIds.Select(async cid =>
+            // ✅ FIX: Throttled photo personalization (process in batches of 10 to avoid thread pool exhaustion)
+            var personalizedPhotoMap = new Dictionary<int, string[]>();
+            const int batchSize = 10;
+
+            for (int i = 0; i < candidateIds.Count; i += batchSize)
             {
-                try
+                var batch = candidateIds.Skip(i).Take(batchSize).ToList();
+                var batchTasks = batch.Select(async cid =>
                 {
-                    var urls = await visualPreference.GetPersonalizedPhotosAsync(userId, cid, count: 6, ct);
-                    return (cid, urls);
-                }
-                catch (Exception ex)
+                    try
+                    {
+                        var urls = await visualPreference.GetPersonalizedPhotosAsync(userId, cid, count: 6, ct);
+                        return (cid, urls);
+                    }
+                    catch (Exception ex)
+                    {
+                        // One candidate failure shouldn't kill entire deck
+                        logger.LogWarning(ex, "[MomentsEndpoints] Photo personalization failed | ViewerId={ViewerId} CandidateId={CandidateId}", userId, cid);
+                        return (cid, urls: Array.Empty<string>());
+                    }
+                });
+
+                var batchResults = await Task.WhenAll(batchTasks);
+                foreach (var (cid, urls) in batchResults)
                 {
-                    // One candidate failure shouldn't kill entire deck
-                    logger.LogWarning(ex, "[MomentsEndpoints] Photo personalization failed | ViewerId={ViewerId} CandidateId={CandidateId}", userId, cid);
-                    return (cid, urls: Array.Empty<string>());
+                    personalizedPhotoMap[cid] = urls;
                 }
-            });
-            var personalizedPhotoResults = await Task.WhenAll(personalizedPhotoTasks);
-            var personalizedPhotoMap = personalizedPhotoResults.ToDictionary(x => x.cid, x => x.urls);
+            }
 
             var cards = filteredItems
                 .Where(i => candidateMap.ContainsKey(i.CandidateId))
