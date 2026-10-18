@@ -616,6 +616,8 @@ builder.Services.AddScoped<WovenBackend.Services.Embeddings.IEmotionalRhythmServ
     WovenBackend.Services.Embeddings.EmotionalRhythmService>();
 builder.Services.AddScoped<WovenBackend.Services.Embeddings.IAttachmentProxyService,
     WovenBackend.Services.Embeddings.AttachmentProxyService>();
+builder.Services.AddScoped<WovenBackend.Services.Embeddings.IIntentEmbeddingService,
+    WovenBackend.Services.Embeddings.IntentEmbeddingService>();
 builder.Services.AddScoped<WovenBackend.Services.Embeddings.IVisualPreferenceService,
     WovenBackend.Services.Embeddings.VisualPreferenceService>();
 // ECHO Phase 5: behavioral fingerprint (16-dim from MatchSignalLogs, no OpenAI)

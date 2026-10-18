@@ -197,11 +197,22 @@ public class MatchScoringService : IMatchScoringService
             }
 
             // ── 1. IntentScore ────────────────────────────────────────────────────
-            var intentScore = ComputeIntentScore(userVectorData, cvData);
-            if (intentScore.HasValue)
+            // Prefer IntentEmbedding (1536-dim semantic) over rule-based score
+            if (userVector.IntentEmbedding != null && candidateVec.IntentEmbedding != null)
             {
-                score.IntentScore = intentScore.Value;
+                score.IntentScore = CosineSimilarityToScore(
+                    userVector.IntentEmbedding, candidateVec.IntentEmbedding);
                 available[1] = true;
+            }
+            else
+            {
+                // Fallback to rule-based score if embedding not available
+                var intentScore = ComputeIntentScore(userVectorData, cvData);
+                if (intentScore.HasValue)
+                {
+                    score.IntentScore = intentScore.Value;
+                    available[1] = true;
+                }
             }
 
             // ── 2. ExpressionScore ────────────────────────────────────────────────
