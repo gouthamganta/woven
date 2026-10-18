@@ -120,40 +120,54 @@ public class VisualPreferenceService : IVisualPreferenceService
         var pref = await _db.UserVisualPreferences.AsNoTracking()
             .FirstOrDefaultAsync(p => p.UserId == viewerUserId, ct);
 
-        // Fetch all photo embeddings with attributes
-        var photos = await _db.PhotoEmbeddings.AsNoTracking()
-            .Where(e => e.UserId == candidateUserId && e.Embedding != null)
-            .Select(e => new
+        // Query UserPhotos (all photos) with LEFT JOIN to PhotoEmbeddings
+        // This ensures photos without embeddings are still included
+        var photos = await (
+            from photo in _db.UserPhotos.AsNoTracking()
+            where photo.UserId == candidateUserId
+            join embedding in _db.PhotoEmbeddings.AsNoTracking()
+                on photo.Url equals embedding.PhotoUrl into embeddingGroup
+            from embedding in embeddingGroup.DefaultIfEmpty()
+            select new
             {
-                e.PhotoUrl,
-                e.Embedding,
-                e.AttributesJson,
-                e.ConfidenceScoresJson
-            })
-            .ToListAsync(ct);
+                PhotoUrl = photo.Url,
+                SortOrder = photo.SortOrder,
+                Embedding = embedding != null ? embedding.Embedding : null,
+                AttributesJson = embedding != null ? embedding.AttributesJson : null,
+                ConfidenceScoresJson = embedding != null ? embedding.ConfidenceScoresJson : null
+            }
+        ).ToListAsync(ct);
 
         if (photos.Count == 0)
             return Array.Empty<string>();
 
-        // Fallback to first photo if viewer has no preference data
+        // Fallback: no preference data → respect user's chosen sortOrder
         if (pref?.PreferenceEmbedding == null)
         {
-            return photos.Take(count).Select(p => p.PhotoUrl).ToArray();
+            return photos
+                .OrderBy(p => p.SortOrder)
+                .Take(count)
+                .Select(p => p.PhotoUrl)
+                .ToArray();
         }
 
         // Copy preference embedding to avoid ref local in lambda
         var prefEmbedding = pref.PreferenceEmbedding;
 
-        // Score each photo
+        // Score each photo (photos without embeddings get base quality score only)
         var scored = photos.Select(p => new
         {
             p.PhotoUrl,
-            Score = ComputePhotoScore(prefEmbedding, p.Embedding!, p.AttributesJson, p.ConfidenceScoresJson)
+            p.SortOrder,
+            Score = p.Embedding != null
+                ? ComputePhotoScore(prefEmbedding, p.Embedding, p.AttributesJson, p.ConfidenceScoresJson)
+                : 0.0 // No embedding → lowest score, will sort by sortOrder as tiebreaker
         }).ToList();
 
-        // Return top N by score
+        // Return top N by score (with sortOrder as tiebreaker for equal scores)
         return scored
             .OrderByDescending(x => x.Score)
+            .ThenBy(x => x.SortOrder)
             .Take(count)
             .Select(x => x.PhotoUrl)
             .ToArray();

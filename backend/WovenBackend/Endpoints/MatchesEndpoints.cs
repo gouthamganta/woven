@@ -258,11 +258,15 @@ public static class MatchesEndpoints
             var photos = allPhotos;
             if (personalizedUrls.Length > 0)
             {
-                // Re-order photos to match personalized ranking
-                var urlToPhoto = allPhotos.ToDictionary(p => p.url, p => p);
+                // Re-order photos to match personalized ranking (handle duplicate URLs with DistinctBy)
+                var urlToPhoto = allPhotos
+                    .DistinctBy(p => p.url)
+                    .ToDictionary(p => p.url, p => p);
+
                 photos = personalizedUrls
-                    .Where(url => urlToPhoto.ContainsKey(url))
-                    .Select(url => urlToPhoto[url])
+                    .Select(url => urlToPhoto.TryGetValue(url, out var photo) ? photo : null)
+                    .Where(p => p != null)
+                    .Select(p => p!)
                     .ToList();
             }
 

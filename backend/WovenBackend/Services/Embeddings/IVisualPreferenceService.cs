@@ -11,17 +11,17 @@ public interface IVisualPreferenceService
 
     /// <summary>
     /// Returns the URL of the candidate photo that best matches the viewer's
-    /// visual preference embedding. Falls back to null if there is insufficient
-    /// preference data (caller should then use sortOrder 0).
+    /// visual preference embedding. Falls back to the first photo (sortOrder 0)
+    /// if there is insufficient preference data.
     /// </summary>
     Task<string?> GetBestPhotoUrlAsync(int viewerUserId, int candidateUserId, CancellationToken ct = default);
 
     /// <summary>
-    /// Returns a ranked list of photo URLs personalized for the viewer, considering:
-    /// - Visual preference embedding (CLIP similarity)
-    /// - Photo quality attributes (from AttributesJson)
-    /// - Shared interests (from tile interactions)
+    /// Returns a ranked list of photo URLs personalized for the viewer.
+    /// Scoring: visual similarity (70%) + photo quality (30%).
+    /// Photos without embeddings are included with base quality score.
     /// Falls back to sortOrder when viewer has no preference data.
+    /// Includes ALL user photos (even if embeddings are pending).
     /// </summary>
     Task<string[]> GetPersonalizedPhotosAsync(
         int viewerUserId,
