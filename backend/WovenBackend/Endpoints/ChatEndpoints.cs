@@ -101,9 +101,20 @@ public static class ChatEndpoints
                 })
                 .ToListAsync(ct);
 
-            // Get personalized best photo for each other user
+            // Get personalized best photo for each other user (with per-task error handling)
             var personalizedPhotoTasks = otherIds.Select(async otherId =>
-                (otherId, url: await visualPreference.GetBestPhotoUrlAsync(me, otherId, ct)));
+            {
+                try
+                {
+                    var url = await visualPreference.GetBestPhotoUrlAsync(me, otherId, ct);
+                    return (otherId, url);
+                }
+                catch
+                {
+                    // One photo failure shouldn't kill entire chat list
+                    return (otherId, url: (string?)null);
+                }
+            });
             var personalizedPhotoResults = await Task.WhenAll(personalizedPhotoTasks);
             var personalizedPhotoMap = personalizedPhotoResults.ToDictionary(x => x.otherId, x => x.url);
 

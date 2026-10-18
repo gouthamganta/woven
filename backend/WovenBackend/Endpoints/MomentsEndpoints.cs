@@ -75,7 +75,8 @@ public static class MomentsEndpoints
             if (filteredItems.Count == 0)
                 return Results.Ok(new { dateUtc = today.ToString("yyyy-MM-dd"), budget, sparkBalance, count = 0, cards = Array.Empty<object>() });
 
-            var candidateIds = filteredItems.Select(i => i.CandidateId).ToList();
+            // Distinct() prevents crash if same candidate appears in multiple deck buckets
+            var candidateIds = filteredItems.Select(i => i.CandidateId).Distinct().ToList();
 
             // All photos per candidate (for gallery + per-viewer best photo selection)
             var allPhotosTask = db.UserPhotos.AsNoTracking()
@@ -181,7 +182,18 @@ public static class MomentsEndpoints
 
             // Per-viewer personalized photo ranking — CLIP match + quality, fallback to sortOrder
             var personalizedPhotoTasks = candidateIds.Select(async cid =>
-                (cid, urls: await visualPreference.GetPersonalizedPhotosAsync(userId, cid, count: 6, ct)));
+            {
+                try
+                {
+                    var urls = await visualPreference.GetPersonalizedPhotosAsync(userId, cid, count: 6, ct);
+                    return (cid, urls);
+                }
+                catch
+                {
+                    // One candidate failure shouldn't kill entire deck
+                    return (cid, urls: Array.Empty<string>());
+                }
+            });
             var personalizedPhotoResults = await Task.WhenAll(personalizedPhotoTasks);
             var personalizedPhotoMap = personalizedPhotoResults.ToDictionary(x => x.cid, x => x.urls);
 
