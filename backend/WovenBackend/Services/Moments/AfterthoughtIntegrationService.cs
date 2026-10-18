@@ -84,7 +84,7 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
                       WHERE ""EventType"" = {0}
                         AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {1}
                       LIMIT 1",
-                    new object[] { MatchSignalEventTypes.ExplicitFeedback, afterthought.Id })
+                    MatchSignalEventTypes.ExplicitFeedback, afterthought.Id)
                 .AsNoTracking()
                 .AnyAsync(ct);
 
@@ -94,19 +94,24 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
                 return;
             }
 
-            // Interrupted claim - atomic reset+claim prevents concurrent race
-            _logger.LogInformation("[AfterthoughtIntegration] Interrupted claim | Id={Id}, attempting recovery", afterthoughtId);
+            // Interrupted claim - only recover if abandoned (ProcessedAt > 30s old)
+            // This prevents race where active processor hasn't created signal yet
+            var abandonedThreshold = DateTimeOffset.UtcNow.AddSeconds(-30);
+            _logger.LogInformation("[AfterthoughtIntegration] Interrupted claim | Id={Id}, attempting recovery (threshold={Threshold})",
+                afterthoughtId, abandonedThreshold);
+
             claimed = await _db.Database.ExecuteSqlRawAsync(
                 @"UPDATE ""match_afterthoughts""
                   SET ""processed_at"" = {0}
                   WHERE ""id"" = {1}
                     AND ""processed_at"" IS NOT NULL
+                    AND ""processed_at"" < {2}
                     AND NOT EXISTS (
                       SELECT 1 FROM ""MatchSignalLogs""
-                      WHERE ""EventType"" = {2}
+                      WHERE ""EventType"" = {3}
                         AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {1}
                     )",
-                new object[] { DateTimeOffset.UtcNow, afterthoughtId, MatchSignalEventTypes.ExplicitFeedback },
+                new object[] { DateTimeOffset.UtcNow, afterthoughtId, abandonedThreshold, MatchSignalEventTypes.ExplicitFeedback },
                 ct);
 
             if (claimed == 0)
@@ -207,12 +212,10 @@ public class AfterthoughtIntegrationService : IAfterthoughtIntegrationService
                     AND ""CandidateId"" = {2}
                     AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {3}
                   LIMIT 1",
-                new object[] {
-                    MatchSignalEventTypes.ExplicitFeedback,
-                    afterthought.FromUserId,
-                    afterthought.AboutUserId,
-                    afterthought.Id
-                })
+                MatchSignalEventTypes.ExplicitFeedback,
+                afterthought.FromUserId,
+                afterthought.AboutUserId,
+                afterthought.Id)
             .AsNoTracking()
             .FirstOrDefaultAsync(ct);
 

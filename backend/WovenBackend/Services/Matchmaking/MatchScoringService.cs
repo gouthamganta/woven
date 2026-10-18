@@ -107,6 +107,12 @@ public class MatchScoringService : IMatchScoringService
             .Where(f => scoredIds.Contains(f.UserId))
             .ToListAsync(ct);
 
+        // Batch load user's primary photo embedding (for PhotoSimilarity)
+        var userPhotoTask = _db.PhotoEmbeddings.AsNoTracking()
+            .Where(p => p.UserId == userId)
+            .OrderBy(p => p.EmbeddedAt)
+            .FirstOrDefaultAsync(ct);
+
         // Batch load candidate photo embeddings (primary photo per candidate)
         var candidatePhotosTask = _db.PhotoEmbeddings.AsNoTracking()
             .Where(p => scoredIds.Contains(p.UserId))
@@ -130,7 +136,7 @@ public class MatchScoringService : IMatchScoringService
 
         await Task.WhenAll(cfScoreMapTask, orbitGravityTask, visualPrefTask,
             voicePrefTask, userOptionalTask, learnedWeightsTask, seasonTask,
-            candidateOptionalTask, candidatePhotosTask, candidateTrustTask,
+            candidateOptionalTask, userPhotoTask, candidatePhotosTask, candidateTrustTask,
             candidateVoiceTilesTask);
 
         var cfScoreMap = await cfScoreMapTask;
@@ -141,6 +147,7 @@ public class MatchScoringService : IMatchScoringService
         var learnedWeightMap = await learnedWeightsTask;
         var hasSeasonResponse = await seasonTask;
         var allCandidateFields = await candidateOptionalTask;
+        var userPhoto = await userPhotoTask;
         var candidatePhotos = (await candidatePhotosTask).ToDictionary(p => p.UserId);
         var trustScores = await candidateTrustTask;
         var candidateVoiceTiles = (await candidateVoiceTilesTask)
@@ -213,12 +220,22 @@ public class MatchScoringService : IMatchScoringService
                 available[3] = true;
             }
 
-            // ── 4. VisualPreference ───────────────────────────────────────────────
+            // ── 4. Visual: Preference-based or PhotoSimilarity ────────────────────
             if (visualPref?.PreferenceEmbedding != null && candidatePhotos.TryGetValue(candidateVec.UserId, out var candidatePhoto)
                 && candidatePhoto.Embedding != null)
             {
+                // Use learned visual preference (from behavioral signals)
                 var dotProduct = DotProduct(visualPref.PreferenceEmbedding, candidatePhoto.Embedding);
                 score.VisualScore = Math.Clamp(50 + dotProduct * 50, 0, 100);
+                available[4] = true;
+            }
+            else if (userPhoto?.Embedding != null && candidatePhotos.TryGetValue(candidateVec.UserId, out var candPhoto2)
+                && candPhoto2.Embedding != null)
+            {
+                // Fallback: PhotoSimilarity (direct photo-to-photo comparison)
+                // Measures "do we look similar?" using CLIP embeddings
+                var similarity = CosineSimilarityToScore(userPhoto.Embedding, candPhoto2.Embedding);
+                score.VisualScore = similarity;
                 available[4] = true;
             }
 

@@ -94,8 +94,7 @@ public class AfterthoughtService : IAfterthoughtService
                           WHERE ""EventType"" = {0}
                             AND (""MetadataJson""::jsonb->>'afterthoughtId')::int = {1}
                           LIMIT 1",
-                        new object[] { MatchSignalEventTypes.ExplicitFeedback, existing.Id },
-                        ct)
+                        MatchSignalEventTypes.ExplicitFeedback, existing.Id)
                     .AsNoTracking()
                     .AnyAsync(ct);
 

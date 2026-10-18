@@ -108,8 +108,16 @@ export class MatchesService {
     return this.http.post(`${environment.apiUrl}/matches/${matchId}/unmatch`, body);
   }
 
-  block(matchId: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/matches/${matchId}/block`, {});
+  block(
+    matchId: string,
+    afterthoughtReasonTag?: string | null,
+    afterthoughtNote?: string | null
+  ): Observable<any> {
+    const body: any = {};
+    // Block path: safety flag only (no star rating per Product Rules v2)
+    if (afterthoughtReasonTag) body.afterthoughtReasonTag = afterthoughtReasonTag;
+    if (afterthoughtNote) body.afterthoughtNote = afterthoughtNote;
+    return this.http.post(`${environment.apiUrl}/matches/${matchId}/block`, body);
   }
 
   flag(matchId: string, reason: 'no_issues' | 'uncomfortable' | 'inappropriate'): Observable<any> {
