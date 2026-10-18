@@ -111,6 +111,112 @@ public class VisualPreferenceService : IVisualPreferenceService
         return bestUrl;
     }
 
+    public async Task<string[]> GetPersonalizedPhotosAsync(
+        int viewerUserId,
+        int candidateUserId,
+        int count = 3,
+        CancellationToken ct = default)
+    {
+        var pref = await _db.UserVisualPreferences.AsNoTracking()
+            .FirstOrDefaultAsync(p => p.UserId == viewerUserId, ct);
+
+        // Query UserPhotos (all photos) with LEFT JOIN to PhotoEmbeddings
+        // This ensures photos without embeddings are still included
+        var photos = await (
+            from photo in _db.UserPhotos.AsNoTracking()
+            where photo.UserId == candidateUserId
+            join embedding in _db.PhotoEmbeddings.AsNoTracking()
+                on photo.Url equals embedding.PhotoUrl into embeddingGroup
+            from embedding in embeddingGroup.DefaultIfEmpty()
+            select new
+            {
+                PhotoUrl = photo.Url,
+                SortOrder = photo.SortOrder,
+                Embedding = embedding != null ? embedding.Embedding : null,
+                AttributesJson = embedding != null ? embedding.AttributesJson : null,
+                ConfidenceScoresJson = embedding != null ? embedding.ConfidenceScoresJson : null
+            }
+        ).ToListAsync(ct);
+
+        if (photos.Count == 0)
+            return Array.Empty<string>();
+
+        // Fallback: no preference data → respect user's chosen sortOrder
+        if (pref?.PreferenceEmbedding == null)
+        {
+            return photos
+                .OrderBy(p => p.SortOrder)
+                .Take(count)
+                .Select(p => p.PhotoUrl)
+                .ToArray();
+        }
+
+        // Copy preference embedding to avoid ref local in lambda
+        var prefEmbedding = pref.PreferenceEmbedding;
+
+        // Score each photo (photos without embeddings get base quality score only)
+        var scored = photos.Select(p => new
+        {
+            p.PhotoUrl,
+            p.SortOrder,
+            Score = p.Embedding != null
+                ? ComputePhotoScore(prefEmbedding, p.Embedding, p.AttributesJson, p.ConfidenceScoresJson)
+                : 0.0 // No embedding → lowest score, will sort by sortOrder as tiebreaker
+        }).ToList();
+
+        // Return top N by score (with sortOrder as tiebreaker for equal scores)
+        return scored
+            .OrderByDescending(x => x.Score)
+            .ThenBy(x => x.SortOrder)
+            .Take(count)
+            .Select(x => x.PhotoUrl)
+            .ToArray();
+    }
+
+    private static double ComputePhotoScore(
+        Vector viewerPrefEmbedding,
+        Vector photoEmbedding,
+        string? attributesJson,
+        string? confidenceScoresJson)
+    {
+        // 1. Visual similarity (cosine similarity) — weight 0.70
+        var visualSim = CosineSimilarity(viewerPrefEmbedding.Memory.Span, photoEmbedding.Memory.Span);
+        var visualScore = Math.Max(0, visualSim) * 0.70;
+
+        // 2. Photo quality heuristics — weight 0.30
+        var qualityScore = 0.0;
+        if (!string.IsNullOrWhiteSpace(attributesJson))
+        {
+            try
+            {
+                var attributes = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(attributesJson);
+                var confidenceScores = string.IsNullOrWhiteSpace(confidenceScoresJson)
+                    ? null
+                    : System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, double>>(confidenceScoresJson);
+
+                // Basic quality signals:
+                // - Has clear attributes detected (not empty)
+                // - High confidence scores
+                if (attributes != null && attributes.Count > 0)
+                {
+                    qualityScore += 0.15; // Has attributes
+
+                    if (confidenceScores != null && confidenceScores.Count > 0)
+                    {
+                        var avgConfidence = confidenceScores.Values.Average();
+                        qualityScore += avgConfidence * 0.15; // Avg confidence [0-1]
+                    }
+                }
+            }
+            catch
+            {
+                // Ignore JSON parse errors
+            }
+        }
+
+        return visualScore + qualityScore;
+    }
+
     private static double CosineSimilarity(ReadOnlySpan<float> a, ReadOnlySpan<float> b)
     {
         double dot = 0, normA = 0, normB = 0;

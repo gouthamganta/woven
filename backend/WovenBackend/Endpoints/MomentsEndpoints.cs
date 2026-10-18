@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WovenBackend.Data;
 using WovenBackend.data.Entities.Moments;
 using WovenBackend.Data.Entities;
@@ -41,6 +42,7 @@ public static class MomentsEndpoints
             WovenBackend.Services.Embeddings.IVisualPreferenceService visualPreference,
             IAnalyticsService analytics,
             HttpContext http,
+            ILogger<Program> logger,
             CancellationToken ct) =>
         {
             var userId = GetUserId(http.User);
@@ -75,7 +77,8 @@ public static class MomentsEndpoints
             if (filteredItems.Count == 0)
                 return Results.Ok(new { dateUtc = today.ToString("yyyy-MM-dd"), budget, sparkBalance, count = 0, cards = Array.Empty<object>() });
 
-            var candidateIds = filteredItems.Select(i => i.CandidateId).ToList();
+            // Distinct() prevents crash if same candidate appears in multiple deck buckets
+            var candidateIds = filteredItems.Select(i => i.CandidateId).Distinct().ToList();
 
             // All photos per candidate (for gallery + per-viewer best photo selection)
             var allPhotosTask = db.UserPhotos.AsNoTracking()
@@ -179,11 +182,23 @@ public static class MomentsEndpoints
                     }).ToList<object>();
                 });
 
-            // Per-viewer photo selection — best CLIP match, fallback to sortOrder 0
-            var bestPhotoTasks = candidateIds.Select(async cid =>
-                (cid, url: await visualPreference.GetBestPhotoUrlAsync(userId, cid, ct)));
-            var bestPhotoResults = await Task.WhenAll(bestPhotoTasks);
-            var bestPhotoMap = bestPhotoResults.ToDictionary(x => x.cid, x => x.url);
+            // Per-viewer personalized photo ranking — CLIP match + quality, fallback to sortOrder
+            var personalizedPhotoTasks = candidateIds.Select(async cid =>
+            {
+                try
+                {
+                    var urls = await visualPreference.GetPersonalizedPhotosAsync(userId, cid, count: 6, ct);
+                    return (cid, urls);
+                }
+                catch (Exception ex)
+                {
+                    // One candidate failure shouldn't kill entire deck
+                    logger.LogWarning(ex, "[MomentsEndpoints] Photo personalization failed | ViewerId={ViewerId} CandidateId={CandidateId}", userId, cid);
+                    return (cid, urls: Array.Empty<string>());
+                }
+            });
+            var personalizedPhotoResults = await Task.WhenAll(personalizedPhotoTasks);
+            var personalizedPhotoMap = personalizedPhotoResults.ToDictionary(x => x.cid, x => x.urls);
 
             var cards = filteredItems
                 .Where(i => candidateMap.ContainsKey(i.CandidateId))
@@ -198,6 +213,11 @@ public static class MomentsEndpoints
                         catch { }
                     }
 
+                    // Personalized photos for this viewer (ranked by visual preference + quality)
+                    var personalizedPhotos = personalizedPhotoMap.GetValueOrDefault(candidate.userId);
+                    var hasPersonalization = personalizedPhotos != null && personalizedPhotos.Length > 0;
+                    var fallbackPhotos = allPhotosByUser.GetValueOrDefault(candidate.userId) ?? new List<string>();
+
                     return new
                     {
                         candidate.userId,
@@ -206,12 +226,12 @@ public static class MomentsEndpoints
                         candidate.displayPronouns,
                         candidate.gender,
                         candidate.location,
-                        profilePhoto = bestPhotoMap.GetValueOrDefault(candidate.userId) ?? candidate.profilePhoto,
+                        profilePhoto = hasPersonalization ? personalizedPhotos![0] : candidate.profilePhoto,
                         score = i.Score,
                         bucket = i.Bucket,
                         alreadyChoseYou = theyChoseMeSet.Contains(candidate.userId),
-                        // All photos for gallery (long-press)
-                        photos = allPhotosByUser.GetValueOrDefault(candidate.userId),
+                        // Personalized photo order for this viewer (falls back to sortOrder if no preference data)
+                        photos = hasPersonalization ? personalizedPhotos : fallbackPhotos.ToArray(),
                         // Tiles strip — active first, highlights fill remaining slots
                         highlightedTiles = tilesByUser.GetValueOrDefault(candidate.userId),
                         // Cinematic intro (null until Build N+1 populates them)

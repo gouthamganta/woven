@@ -36,8 +36,10 @@ public static class ChatEndpoints
 
         // GET /chats -> list active chat threads (active balloons only)
         group.MapGet("", async (
+            WovenBackend.Services.Embeddings.IVisualPreferenceService visualPreference,
             WovenDbContext db,
             HttpContext http,
+            ILogger<Program> logger,
             CancellationToken ct) =>
         {
             var me = GetUserId(http.User);
@@ -79,7 +81,7 @@ public static class ChatEndpoints
 
             var otherIds = threads.Select(x => x.otherUserId).Distinct().ToList();
 
-            // ✅ First uploaded photo for chat list consistency
+            // Load other users
             var others = await db.Users.AsNoTracking()
                 .Where(u => otherIds.Contains(u.Id))
                 .Select(u => new
@@ -92,7 +94,7 @@ public static class ChatEndpoints
                         .Where(p => p.UserId == u.Id)
                         .Select(p => p.DisplayPronouns)
                         .FirstOrDefault(),
-                    profilePhoto = db.UserPhotos
+                    defaultPhoto = db.UserPhotos
                         .Where(p => p.UserId == u.Id)
                         .OrderBy(p => p.SortOrder)
                         .Select(p => p.Url)
@@ -100,7 +102,34 @@ public static class ChatEndpoints
                 })
                 .ToListAsync(ct);
 
-            var userMap = others.ToDictionary(x => x.userId, x => x);
+            // Get personalized best photo for each other user (with per-task error handling)
+            var personalizedPhotoTasks = otherIds.Select(async otherId =>
+            {
+                try
+                {
+                    var url = await visualPreference.GetBestPhotoUrlAsync(me, otherId, ct);
+                    return (otherId, url);
+                }
+                catch (Exception ex)
+                {
+                    // One photo failure shouldn't kill entire chat list
+                    logger.LogWarning(ex, "[ChatEndpoints] Photo personalization failed | ViewerId={ViewerId} TargetId={TargetId}", me, otherId);
+                    return (otherId, url: (string?)null);
+                }
+            });
+            var personalizedPhotoResults = await Task.WhenAll(personalizedPhotoTasks);
+            var personalizedPhotoMap = personalizedPhotoResults.ToDictionary(x => x.otherId, x => x.url);
+
+            // Merge personalized photos with user data
+            var userMap = others.ToDictionary(x => x.userId, x => new
+            {
+                x.userId,
+                x.fullName,
+                x.isVerified,
+                x.lastActiveAt,
+                x.displayPronouns,
+                profilePhoto = personalizedPhotoMap.GetValueOrDefault(x.userId) ?? x.defaultPhoto
+            });
 
             var threadIds = threads.Select(x => x.threadId).ToList();
 

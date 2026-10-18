@@ -358,9 +358,10 @@ builder.Services.AddAuthorization(options =>
 // every 4h   — ChatNoteEmbeddingWorker
 // 04:00       — WeightLearningBatchWorker (weekly Sun)
 // 04:15       — PreferenceDriftBatchWorker (nightly, ECHO Phase 6)
-// 05:00       — CfScoreBatchWorker (daily, collaborative filtering)
 // 04:20       — LinUcbBatchWorker (nightly, ECHO Phase 7)
+// 04:30       — VisualPreferenceBatchWorker (nightly, visual attraction learning)
 // 04:30       — InsightBatchWorker (nightly)
+// 05:00       — CfScoreBatchWorker (daily, collaborative filtering)
 // 05:00       — SecurityAuditCleanupWorker (weekly Sun)
 // 06:00       — WeeklyDigestWorker (weekly Sun)
 // 18:00 Wed  — CoachingSummaryWorker (weekly Wed)
@@ -642,6 +643,9 @@ if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Servic
 builder.Services.AddScoped<WovenBackend.Services.Matchmaking.ILinUcbService,
     WovenBackend.Services.Matchmaking.LinUcbService>();
 if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Matchmaking.LinUcbBatchWorker>();
+
+// VISUAL PREFERENCE LEARNING (MVP Week 3)
+if (!batchWorkersDisabled) builder.Services.AddHostedService<WovenBackend.Services.Embeddings.VisualPreferenceBatchWorker>();
 
 // ECHO PHASE 8: SYNTHETIC PERSONA VALIDATION
 builder.Services.AddSingleton<WovenBackend.Services.Validation.IPersonaValidationService,
