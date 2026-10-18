@@ -188,7 +188,12 @@ describe('Chat thread feature contracts', () => {
   for (const failed of [false, true]) {
     it(`handles block ${failed ? 'rejection' : 'success'} without overlapping requests`, async () => {
       page.data = response; if (failed) matches['block'].mockReturnValue(throwError(() => new Error('Synthetic failure')));
-      const action = page.block(); await page.block(); await vi.advanceTimersByTimeAsync(400); await action; expect(matches['block']).toHaveBeenCalledTimes(1);
+      // Block now shows Afterthought modal first (Product Rules v2: safety flag collection)
+      page.block(); expect(page.showAfterthought).toBe(true); expect(page.afterthoughtPath).toBe('block');
+      // Submit Afterthought triggers actual block API call
+      const action = page.onAfterthoughtSubmit({ rating: null, reasonTag: 'uncomfortable', noteText: 'Test' });
+      await page.onAfterthoughtSubmit({ rating: null, reasonTag: '', noteText: '' }); // second call should be ignored
+      await vi.advanceTimersByTimeAsync(400); await action; expect(matches['block']).toHaveBeenCalledTimes(1);
       await vi.advanceTimersByTimeAsync(800);
       if (failed) { expect(page.isBlocking).toBe(false); expect(router.navigateByUrl).not.toHaveBeenCalled(); }
       else expect(router.navigateByUrl).toHaveBeenCalledWith('/chats');
