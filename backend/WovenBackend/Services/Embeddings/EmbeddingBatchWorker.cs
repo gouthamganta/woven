@@ -55,6 +55,7 @@ public class EmbeddingBatchWorker : BackgroundService
                         using var innerScope = _scopeFactory.CreateScope();
                         var sp = innerScope.ServiceProvider;
 
+                        await sp.GetRequiredService<IIntentEmbeddingService>().ComputeIntentEmbeddingAsync(userId, ct);
                         await sp.GetRequiredService<IStyleEmbeddingService>().ComputeStyleEmbeddingAsync(userId, ct);
                         await sp.GetRequiredService<IHumorEmbeddingService>().ComputeHumorEmbeddingAsync(userId, ct);
                         await sp.GetRequiredService<ILifestyleEmbeddingService>().ComputeLifestyleEmbeddingAsync(userId, ct);
