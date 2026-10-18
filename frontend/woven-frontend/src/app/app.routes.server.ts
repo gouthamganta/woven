@@ -12,6 +12,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'onboarding/welcome',      renderMode: RenderMode.Client },
   { path: 'onboarding/basics',       renderMode: RenderMode.Client },
   { path: 'onboarding/intent',       renderMode: RenderMode.Client },
+  { path: 'onboarding/games',        renderMode: RenderMode.Client },
   { path: 'onboarding/foundational', renderMode: RenderMode.Client },
   { path: 'onboarding/photos',       renderMode: RenderMode.Client },
   { path: 'onboarding/details',      renderMode: RenderMode.Client },

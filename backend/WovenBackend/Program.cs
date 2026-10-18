@@ -950,6 +950,7 @@ app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 // ----------------------------------------------------
 app.MapAuthEndpoints();
 app.MapOnboardingEndpoints();
+app.MapOnboardingGamesEndpoints();
 app.MapMomentsEndpoints();
 app.MapChatEndpoints();
 app.MapGameEndpoints();

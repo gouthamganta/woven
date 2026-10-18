@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, signal, computed, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import { SliderGame, SliderGameQuestion, SliderGameAnswer } from '../slider-game/slider-game';
 import { RankingGame, RankingGameQuestion, RankingGameAnswer } from '../ranking-game/ranking-game';
 import { SwipeGame, SwipeGameQuestion, SwipeGameAnswer } from '../swipe-game/swipe-game';
@@ -29,6 +33,8 @@ interface GameAnswer {
 })
 export class GameOrchestrator implements OnInit {
   private cdr = inject(ChangeDetectorRef);
+  private http = inject(HttpClient);
+  private router = inject(Router);
 
   // All 8 games (will be randomized on init)
   private readonly GAME_DEFINITIONS: GameInstance[] = [
@@ -191,9 +197,27 @@ export class GameOrchestrator implements OnInit {
     }
   }
 
-  private completeGames(): void {
+  private async completeGames(): Promise<void> {
     this.isComplete.set(true);
     console.log('All games complete! Answers:', this.answers());
-    // TODO: Navigate to results page or emit answers to parent
+
+    try {
+      // Submit answers to backend
+      const response = await firstValueFrom(
+        this.http.post<any>(`${environment.apiUrl}/onboarding/games/submit`, {
+          answers: this.answers()
+        })
+      );
+
+      console.log('Games submitted successfully:', response);
+
+      // Navigate to next onboarding step
+      if (response.nextRoute) {
+        await this.router.navigate([response.nextRoute]);
+      }
+    } catch (error) {
+      console.error('Failed to submit games:', error);
+      // TODO: Show error message to user
+    }
   }
 }

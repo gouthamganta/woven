@@ -170,7 +170,7 @@ export class IntentOnboardingComponent {
         openness: [...this.opennessSet],
         reflectionSentence: this.reflection.trim(),
       }));
-      this.router.navigateByUrl(res.nextRoute || '/onboarding/foundational');
+      this.router.navigateByUrl(res.nextRoute || '/onboarding/games');
     } catch {
       this.err = 'Could not save. Please try again.';
     } finally {
