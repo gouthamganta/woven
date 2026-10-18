@@ -15,4 +15,17 @@ public interface IVisualPreferenceService
     /// preference data (caller should then use sortOrder 0).
     /// </summary>
     Task<string?> GetBestPhotoUrlAsync(int viewerUserId, int candidateUserId, CancellationToken ct = default);
+
+    /// <summary>
+    /// Returns a ranked list of photo URLs personalized for the viewer, considering:
+    /// - Visual preference embedding (CLIP similarity)
+    /// - Photo quality attributes (from AttributesJson)
+    /// - Shared interests (from tile interactions)
+    /// Falls back to sortOrder when viewer has no preference data.
+    /// </summary>
+    Task<string[]> GetPersonalizedPhotosAsync(
+        int viewerUserId,
+        int candidateUserId,
+        int count = 3,
+        CancellationToken ct = default);
 }

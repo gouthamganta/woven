@@ -170,6 +170,7 @@ public static class MatchesEndpoints
         // GET /matches/{matchId}/profile
         group.MapGet("/{matchId:guid}/profile", async (
             Guid matchId,
+            WovenBackend.Services.Embeddings.IVisualPreferenceService visualPreference,
             WovenDbContext db,
             HttpContext http,
             CancellationToken ct) =>
@@ -243,15 +244,33 @@ public static class MatchesEndpoints
                     .ToList()
                 : new List<object>();
 
-            // photos (LIMITED => 1 photo, FULL => all)
-            var photosQuery = db.UserPhotos.AsNoTracking()
+            // photos (personalized for viewer) — LIMITED => 1 photo, FULL => all
+            var allPhotos = await db.UserPhotos.AsNoTracking()
                 .Where(x => x.UserId == otherUserId)
                 .OrderBy(x => x.SortOrder)
-                .Select(p => new { url = p.Url, caption = p.Caption, sortOrder = p.SortOrder });
+                .Select(p => new { url = p.Url, caption = p.Caption, sortOrder = p.SortOrder })
+                .ToListAsync(ct);
 
-            var photos = accessLevel == "FULL"
-                ? await photosQuery.ToListAsync(ct)
-                : await photosQuery.Take(1).ToListAsync(ct);
+            // Get personalized photo order for this viewer
+            var personalizedUrls = await visualPreference.GetPersonalizedPhotosAsync(
+                me, otherUserId, count: allPhotos.Count, ct);
+
+            var photos = allPhotos;
+            if (personalizedUrls.Length > 0)
+            {
+                // Re-order photos to match personalized ranking
+                var urlToPhoto = allPhotos.ToDictionary(p => p.url, p => p);
+                photos = personalizedUrls
+                    .Where(url => urlToPhoto.ContainsKey(url))
+                    .Select(url => urlToPhoto[url])
+                    .ToList();
+            }
+
+            // LIMITED access => only show first (best) photo
+            if (accessLevel == "LIMITED")
+            {
+                photos = photos.Take(1).ToList();
+            }
 
             // ✅ Clean location formatting
             string? loc = null;

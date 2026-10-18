@@ -111,6 +111,98 @@ public class VisualPreferenceService : IVisualPreferenceService
         return bestUrl;
     }
 
+    public async Task<string[]> GetPersonalizedPhotosAsync(
+        int viewerUserId,
+        int candidateUserId,
+        int count = 3,
+        CancellationToken ct = default)
+    {
+        var pref = await _db.UserVisualPreferences.AsNoTracking()
+            .FirstOrDefaultAsync(p => p.UserId == viewerUserId, ct);
+
+        // Fetch all photo embeddings with attributes
+        var photos = await _db.PhotoEmbeddings.AsNoTracking()
+            .Where(e => e.UserId == candidateUserId && e.Embedding != null)
+            .Select(e => new
+            {
+                e.PhotoUrl,
+                e.Embedding,
+                e.AttributesJson,
+                e.ConfidenceScoresJson
+            })
+            .ToListAsync(ct);
+
+        if (photos.Count == 0)
+            return Array.Empty<string>();
+
+        // Fallback to first photo if viewer has no preference data
+        if (pref?.PreferenceEmbedding == null)
+        {
+            return photos.Take(count).Select(p => p.PhotoUrl).ToArray();
+        }
+
+        // Copy preference embedding to avoid ref local in lambda
+        var prefEmbedding = pref.PreferenceEmbedding;
+
+        // Score each photo
+        var scored = photos.Select(p => new
+        {
+            p.PhotoUrl,
+            Score = ComputePhotoScore(prefEmbedding, p.Embedding!, p.AttributesJson, p.ConfidenceScoresJson)
+        }).ToList();
+
+        // Return top N by score
+        return scored
+            .OrderByDescending(x => x.Score)
+            .Take(count)
+            .Select(x => x.PhotoUrl)
+            .ToArray();
+    }
+
+    private static double ComputePhotoScore(
+        Vector viewerPrefEmbedding,
+        Vector photoEmbedding,
+        string? attributesJson,
+        string? confidenceScoresJson)
+    {
+        // 1. Visual similarity (cosine similarity) — weight 0.70
+        var visualSim = CosineSimilarity(viewerPrefEmbedding.Memory.Span, photoEmbedding.Memory.Span);
+        var visualScore = Math.Max(0, visualSim) * 0.70;
+
+        // 2. Photo quality heuristics — weight 0.30
+        var qualityScore = 0.0;
+        if (!string.IsNullOrWhiteSpace(attributesJson))
+        {
+            try
+            {
+                var attributes = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(attributesJson);
+                var confidenceScores = string.IsNullOrWhiteSpace(confidenceScoresJson)
+                    ? null
+                    : System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, double>>(confidenceScoresJson);
+
+                // Basic quality signals:
+                // - Has clear attributes detected (not empty)
+                // - High confidence scores
+                if (attributes != null && attributes.Count > 0)
+                {
+                    qualityScore += 0.15; // Has attributes
+
+                    if (confidenceScores != null && confidenceScores.Count > 0)
+                    {
+                        var avgConfidence = confidenceScores.Values.Average();
+                        qualityScore += avgConfidence * 0.15; // Avg confidence [0-1]
+                    }
+                }
+            }
+            catch
+            {
+                // Ignore JSON parse errors
+            }
+        }
+
+        return visualScore + qualityScore;
+    }
+
     private static double CosineSimilarity(ReadOnlySpan<float> a, ReadOnlySpan<float> b)
     {
         double dot = 0, normA = 0, normB = 0;
