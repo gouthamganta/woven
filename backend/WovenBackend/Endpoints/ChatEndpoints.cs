@@ -39,6 +39,7 @@ public static class ChatEndpoints
             WovenBackend.Services.Embeddings.IVisualPreferenceService visualPreference,
             WovenDbContext db,
             HttpContext http,
+            ILogger<Program> logger,
             CancellationToken ct) =>
         {
             var me = GetUserId(http.User);
@@ -109,9 +110,10 @@ public static class ChatEndpoints
                     var url = await visualPreference.GetBestPhotoUrlAsync(me, otherId, ct);
                     return (otherId, url);
                 }
-                catch
+                catch (Exception ex)
                 {
                     // One photo failure shouldn't kill entire chat list
+                    logger.LogWarning(ex, "[ChatEndpoints] Photo personalization failed | ViewerId={ViewerId} TargetId={TargetId}", me, otherId);
                     return (otherId, url: (string?)null);
                 }
             });

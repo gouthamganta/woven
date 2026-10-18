@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WovenBackend.Data;
 using WovenBackend.data.Entities.Moments;
 using WovenBackend.Data.Entities;
@@ -41,6 +42,7 @@ public static class MomentsEndpoints
             WovenBackend.Services.Embeddings.IVisualPreferenceService visualPreference,
             IAnalyticsService analytics,
             HttpContext http,
+            ILogger<Program> logger,
             CancellationToken ct) =>
         {
             var userId = GetUserId(http.User);
@@ -188,9 +190,10 @@ public static class MomentsEndpoints
                     var urls = await visualPreference.GetPersonalizedPhotosAsync(userId, cid, count: 6, ct);
                     return (cid, urls);
                 }
-                catch
+                catch (Exception ex)
                 {
                     // One candidate failure shouldn't kill entire deck
+                    logger.LogWarning(ex, "[MomentsEndpoints] Photo personalization failed | ViewerId={ViewerId} CandidateId={CandidateId}", userId, cid);
                     return (cid, urls: Array.Empty<string>());
                 }
             });
