@@ -30,7 +30,7 @@ interface GameAnswer {
 export class GameOrchestrator implements OnInit {
   private cdr = inject(ChangeDetectorRef);
 
-  // All 6 games (will be randomized on init)
+  // All 8 games (will be randomized on init)
   private readonly GAME_DEFINITIONS: GameInstance[] = [
     {
       id: 'energy-spectrum',
@@ -108,6 +108,31 @@ export class GameOrchestrator implements OnInit {
       question: {
         question: 'Rank your life priorities',
         items: ['Career success', 'Relationships', 'Personal growth', 'Health & wellness', 'Financial security']
+      }
+    },
+    {
+      id: 'stability-compass',
+      type: 'slider',
+      pillar: 'Stability',
+      question: {
+        question: 'How do you approach planning your life?',
+        leftLabel: 'Go with the flow',
+        rightLabel: 'Detailed plans'
+      }
+    },
+    {
+      id: 'curiosity-explorer',
+      type: 'swipe',
+      pillar: 'Curiosity',
+      question: {
+        question: 'What kinds of things spark your curiosity?',
+        options: [
+          { text: 'How things work (science, tech)' },
+          { text: 'Different cultures and places' },
+          { text: 'Creative ideas and art' },
+          { text: 'People and their stories' },
+          { text: 'New skills and learning' }
+        ]
       }
     }
   ];
