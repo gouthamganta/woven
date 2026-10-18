@@ -245,38 +245,81 @@ public static class MatchesEndpoints
                 : new List<object>();
 
             // photos (personalized for viewer) — LIMITED => 1 photo, FULL => all
-            var allPhotos = await db.UserPhotos.AsNoTracking()
-                .Where(x => x.UserId == otherUserId)
-                .OrderBy(x => x.SortOrder)
-                .Select(p => new { url = p.Url, caption = p.Caption, sortOrder = p.SortOrder })
-                .ToListAsync(ct);
-
-            // Get personalized photo order for this viewer
-            var personalizedUrls = await visualPreference.GetPersonalizedPhotosAsync(
-                me, otherUserId, count: allPhotos.Count, ct);
-
-            var photos = allPhotos;
-            if (personalizedUrls.Length > 0)
+            // Performance optimization: skip expensive personalization for LIMITED access
+            List<object> photos;
+            if (accessLevel == "LIMITED")
             {
-                // Re-order photos to match personalized ranking (handle duplicate URLs with DistinctBy)
-                var urlToPhoto = allPhotos
-                    .DistinctBy(p => p.url)
-                    .ToDictionary(p => p.url, p => p);
-
-                var personalizedPhotos = personalizedUrls
-                    .Select(url => urlToPhoto.TryGetValue(url, out var photo) ? photo : null)
-                    .Where(p => p != null)
-                    .Select(p => p!)
-                    .ToList();
-
-                // ✅ FIX: Fallback to original order if personalization failed or returned empty
-                photos = personalizedPhotos.Count > 0 ? personalizedPhotos : allPhotos;
+                // LIMITED: only need 1 photo, use efficient GetBestPhotoUrlAsync
+                var bestUrl = await visualPreference.GetBestPhotoUrlAsync(me, otherUserId, ct);
+                if (bestUrl != null)
+                {
+                    var bestPhoto = await db.UserPhotos.AsNoTracking()
+                        .Where(p => p.UserId == otherUserId && p.Url == bestUrl)
+                        .Select(p => new { url = p.Url, caption = p.Caption, sortOrder = p.SortOrder })
+                        .FirstOrDefaultAsync(ct);
+                    photos = bestPhoto != null ? new List<object> { bestPhoto } : new List<object>();
+                }
+                else
+                {
+                    // Fallback: no preference data, show first photo by upload order
+                    var firstPhoto = await db.UserPhotos.AsNoTracking()
+                        .Where(p => p.UserId == otherUserId)
+                        .OrderBy(p => p.SortOrder)
+                        .Select(p => new { url = p.Url, caption = p.Caption, sortOrder = p.SortOrder })
+                        .FirstOrDefaultAsync(ct);
+                    photos = firstPhoto != null ? new List<object> { firstPhoto } : new List<object>();
+                }
             }
-
-            // LIMITED access => only show first (best) photo (ensure at least 1 photo exists)
-            if (accessLevel == "LIMITED" && photos.Count > 0)
+            else
             {
-                photos = photos.Take(1).ToList();
+                // FULL access: load all photos and personalize order
+                var allPhotos = await db.UserPhotos.AsNoTracking()
+                    .Where(x => x.UserId == otherUserId)
+                    .OrderBy(x => x.SortOrder)
+                    .Select(p => new { url = p.Url, caption = p.Caption, sortOrder = p.SortOrder })
+                    .ToListAsync(ct);
+
+                if (allPhotos.Count > 0)
+                {
+                    // Get personalized photo order for this viewer
+                    var personalizedUrls = await visualPreference.GetPersonalizedPhotosAsync(
+                        me, otherUserId, count: allPhotos.Count, ct);
+
+                    if (personalizedUrls.Length > 0)
+                    {
+                        // Re-order photos to match personalized ranking
+                        // Log if there are duplicate URLs (data integrity issue)
+                        if (allPhotos.Count != allPhotos.DistinctBy(p => p.url).Count())
+                        {
+                            var logger = http.RequestServices.GetRequiredService<ILogger<Program>>();
+                            logger.LogWarning(
+                                "[MatchesEndpoints] Duplicate photo URLs detected | UserId={UserId} TotalPhotos={Total} UniquePhotos={Unique}",
+                                otherUserId, allPhotos.Count, allPhotos.DistinctBy(p => p.url).Count());
+                        }
+
+                        var urlToPhoto = allPhotos
+                            .DistinctBy(p => p.url)
+                            .ToDictionary(p => p.url, p => p);
+
+                        var personalizedPhotos = personalizedUrls
+                            .Select(url => urlToPhoto.TryGetValue(url, out var photo) ? photo : null)
+                            .Where(p => p != null)
+                            .Select(p => p!)
+                            .ToList();
+
+                        // Fallback to original order if personalization failed or returned empty
+                        photos = (personalizedPhotos.Count > 0 ? personalizedPhotos : allPhotos)
+                            .Cast<object>().ToList();
+                    }
+                    else
+                    {
+                        photos = allPhotos.Cast<object>().ToList();
+                    }
+                }
+                else
+                {
+                    photos = new List<object>();
+                }
             }
 
             // ✅ Clean location formatting

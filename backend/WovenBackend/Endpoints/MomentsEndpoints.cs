@@ -182,14 +182,10 @@ public static class MomentsEndpoints
                     }).ToList<object>();
                 });
 
-            // ✅ FIX: Throttled photo personalization (process in batches of 10 to avoid thread pool exhaustion)
-            var personalizedPhotoMap = new Dictionary<int, string[]>();
-            const int batchSize = 10;
-
-            for (int i = 0; i < candidateIds.Count; i += batchSize)
-            {
-                var batch = candidateIds.Skip(i).Take(batchSize).ToList();
-                var batchTasks = batch.Select(async cid =>
+            // Throttled photo personalization (process in batches to avoid thread pool exhaustion)
+            var personalizedPhotoMap = await BatchProcessingHelper.ProcessInBatchesAsync(
+                candidateIds,
+                async cid =>
                 {
                     try
                     {
@@ -200,16 +196,11 @@ public static class MomentsEndpoints
                     {
                         // One candidate failure shouldn't kill entire deck
                         logger.LogWarning(ex, "[MomentsEndpoints] Photo personalization failed | ViewerId={ViewerId} CandidateId={CandidateId}", userId, cid);
-                        return (cid, urls: Array.Empty<string>());
+                        return (cid, Array.Empty<string>());
                     }
-                });
-
-                var batchResults = await Task.WhenAll(batchTasks);
-                foreach (var (cid, urls) in batchResults)
-                {
-                    personalizedPhotoMap[cid] = urls;
-                }
-            }
+                },
+                ct: ct
+            );
 
             var cards = filteredItems
                 .Where(i => candidateMap.ContainsKey(i.CandidateId))

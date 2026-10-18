@@ -42,7 +42,7 @@ public static class ChatEndpoints
             ILogger<Program> logger,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
             var now = MomentsRules.NowUtc();
 
             var threads = await (
@@ -102,14 +102,10 @@ public static class ChatEndpoints
                 })
                 .ToListAsync(ct);
 
-            // ✅ FIX: Throttled photo personalization (process in batches of 10 to avoid thread pool exhaustion)
-            var personalizedPhotoMap = new Dictionary<int, string?>();
-            const int batchSize = 10;
-
-            for (int i = 0; i < otherIds.Count; i += batchSize)
-            {
-                var batch = otherIds.Skip(i).Take(batchSize).ToList();
-                var batchTasks = batch.Select(async otherId =>
+            // Throttled photo personalization (process in batches to avoid thread pool exhaustion)
+            var personalizedPhotoMap = await BatchProcessingHelper.ProcessInBatchesAsync(
+                otherIds,
+                async otherId =>
                 {
                     try
                     {
@@ -120,16 +116,11 @@ public static class ChatEndpoints
                     {
                         // One photo failure shouldn't kill entire chat list
                         logger.LogWarning(ex, "[ChatEndpoints] Photo personalization failed | ViewerId={ViewerId} TargetId={TargetId}", me, otherId);
-                        return (otherId, url: (string?)null);
+                        return (otherId, (string?)null);
                     }
-                });
-
-                var batchResults = await Task.WhenAll(batchTasks);
-                foreach (var (otherId, url) in batchResults)
-                {
-                    personalizedPhotoMap[otherId] = url;
-                }
-            }
+                },
+                ct: ct
+            );
 
             // Merge personalized photos with user data
             var userMap = others.ToDictionary(x => x.userId, x => new
@@ -199,7 +190,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
 
             var match = await db.Matches.AsNoTracking().FirstOrDefaultAsync(m => m.Id == req.MatchId, ct);
             if (match == null) return Results.NotFound(new { error = "MATCH_NOT_FOUND" });
@@ -239,7 +230,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
             var now = MomentsRules.NowUtc();
 
             var thread = await db.ChatThreads.AsNoTracking().FirstOrDefaultAsync(t => t.Id == threadId, ct);
@@ -444,7 +435,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
 
             // Rate limit: 10 messages per minute per user
             var rateLimitKey = $"ratelimit:chat:message:{me}";
@@ -603,7 +594,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
             var now = MomentsRules.NowUtc();
 
             var thread = await db.ChatThreads.AsNoTracking().FirstOrDefaultAsync(t => t.Id == threadId, ct);
@@ -656,7 +647,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
             var now = MomentsRules.NowUtc();
 
             // Check idempotency key
@@ -891,7 +882,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
 
             // Rate limit: 10 voice messages per minute per user (same as text)
             var rateLimitKey = $"ratelimit:chat:voice:{me}";
@@ -979,7 +970,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
 
             var thread = await db.ChatThreads.AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == threadId, ct);
@@ -1038,7 +1029,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
 
             var note = await db.ChatNotes.AsNoTracking()
                 .FirstOrDefaultAsync(n => n.Id == noteId, ct);
@@ -1095,7 +1086,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
 
             var thread = await db.ChatThreads.AsNoTracking()
                 .FirstOrDefaultAsync(t => t.Id == threadId, ct);
@@ -1150,7 +1141,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
             var nudge = await nudges.GetConversationNudgeAsync(me, threadId, ct);
             return Results.Ok(new { nudge });
         });
@@ -1162,7 +1153,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
             var key = $"nudge:dismissed:{threadId}:{me}";
             await cache.SetAsync(key, "1", TimeSpan.FromHours(48), ct);
             _ = analytics.TrackAsync(me, null, AnalyticsEvents.NudgeDismissed, new { threadId });
@@ -1180,7 +1171,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
 
             var thread = await db.ChatThreads.AsNoTracking().FirstOrDefaultAsync(t => t.Id == threadId, ct);
             if (thread == null) return Results.NotFound(new { error = "THREAD_NOT_FOUND" });
@@ -1264,7 +1255,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
 
             var thread = await db.ChatThreads.AsNoTracking().FirstOrDefaultAsync(t => t.Id == threadId, ct);
             if (thread == null) return Results.NotFound(new { error = "THREAD_NOT_FOUND" });
@@ -1294,7 +1285,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            var me = GetUserId(http.User);
+            var me = EndpointHelper.GetUserId(http.User);
 
             if (string.IsNullOrWhiteSpace(req.SignalText))
                 return Results.BadRequest(new { error = "SIGNAL_TEXT_REQUIRED" });
@@ -1341,16 +1332,5 @@ public static class ChatEndpoints
     {
         public int IdeaIndex { get; set; } = 0;
         public string? IdeaText { get; set; }
-    }
-
-    private static int GetUserId(ClaimsPrincipal user)
-    {
-        var uid = user.FindFirstValue("uid");
-        if (int.TryParse(uid, out var id)) return id;
-
-        var sub = user.FindFirstValue("sub") ?? user.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (int.TryParse(sub, out id)) return id;
-
-        throw new UnauthorizedAccessException("Missing user id claim");
     }
 }

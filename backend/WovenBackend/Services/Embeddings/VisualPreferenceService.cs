@@ -90,10 +90,14 @@ public class VisualPreferenceService : IVisualPreferenceService
         if (pref?.PreferenceEmbedding == null)
             return null;
 
-        var photos = await _db.PhotoEmbeddings.AsNoTracking()
-            .Where(e => e.UserId == candidateUserId && e.Embedding != null)
-            .Select(e => new { e.PhotoUrl, e.Embedding })
-            .ToListAsync(ct);
+        // Join with UserPhotos to exclude deleted photos
+        var photos = await (
+            from embedding in _db.PhotoEmbeddings.AsNoTracking()
+            join photo in _db.UserPhotos.AsNoTracking()
+                on embedding.PhotoUrl equals photo.Url
+            where photo.UserId == candidateUserId && embedding.Embedding != null
+            select new { embedding.PhotoUrl, embedding.Embedding }
+        ).ToListAsync(ct);
 
         if (photos.Count == 0) return null;
         if (photos.Count == 1) return photos[0].PhotoUrl;
@@ -219,9 +223,15 @@ public class VisualPreferenceService : IVisualPreferenceService
 
     private static double CosineSimilarity(ReadOnlySpan<float> a, ReadOnlySpan<float> b)
     {
+        if (a.Length != b.Length)
+        {
+            throw new ArgumentException(
+                $"Embedding dimension mismatch: a.Length={a.Length}, b.Length={b.Length}. " +
+                "This indicates a schema migration issue or corrupted embeddings.");
+        }
+
         double dot = 0, normA = 0, normB = 0;
-        int len = Math.Min(a.Length, b.Length);
-        for (int i = 0; i < len; i++)
+        for (int i = 0; i < a.Length; i++)
         {
             dot += a[i] * b[i];
             normA += a[i] * a[i];
