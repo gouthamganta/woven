@@ -1,0 +1,40 @@
+<div class="game-card" *ngIf="currentQuestion">
+  <app-game-progress
+    [current]="currentQuestionIndex() + 1"
+    [total]="totalQuestions()"
+  />
+
+  <div class="game-content">
+    <h3>{{ currentQuestion.question }}</h3>
+
+    <div class="ranking-list">
+      <div
+        *ngFor="let item of rankedItems(); let i = index"
+        class="rank-item"
+      >
+        <span class="rank-number">{{ i + 1 }}</span>
+        <span class="rank-label">{{ item }}</span>
+        <div class="rank-controls">
+          <button
+            class="rank-btn"
+            (click)="moveUp(i)"
+            [disabled]="i === 0"
+            type="button"
+          >
+            ↑
+          </button>
+          <button
+            class="rank-btn"
+            (click)="moveDown(i)"
+            [disabled]="i === rankedItems().length - 1"
+            type="button"
+          >
+            ↓
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="primary-btn" (click)="onNext()">Next</button>
+</div>

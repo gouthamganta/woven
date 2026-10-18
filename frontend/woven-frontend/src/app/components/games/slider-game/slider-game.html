@@ -1,0 +1,26 @@
+<div class="game-card" *ngIf="currentQuestion">
+  <app-game-progress
+    [current]="currentQuestionIndex() + 1"
+    [total]="totalQuestions()"
+  />
+
+  <div class="game-content">
+    <h3>{{ currentQuestion.question }}</h3>
+
+    <div class="slider-container">
+      <input
+        type="range"
+        min="0"
+        max="100"
+        [(ngModel)]="value"
+        class="slider"
+      />
+      <div class="slider-labels">
+        <span>{{ currentQuestion.leftLabel }}</span>
+        <span>{{ currentQuestion.rightLabel }}</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="primary-btn" (click)="onNext()">Next</button>
+</div>

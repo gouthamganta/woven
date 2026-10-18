@@ -1,0 +1,42 @@
+<div class="orchestrator-container" *ngIf="!isComplete() && currentGame()">
+  @if (currentGame().type === 'slider') {
+    <app-slider-game
+      [questions]="[$any(currentGame().question)]"
+      [currentQuestionIndex]="0"
+      [totalQuestions]="total()"
+      (answerSubmitted)="onSliderAnswer($event)"
+    />
+  }
+
+  @if (currentGame().type === 'ranking') {
+    <app-ranking-game
+      [questions]="[$any(currentGame().question)]"
+      [currentQuestionIndex]="0"
+      [totalQuestions]="total()"
+      (answerSubmitted)="onRankingAnswer($event)"
+    />
+  }
+
+  @if (currentGame().type === 'swipe') {
+    <app-swipe-game
+      [questions]="[$any(currentGame().question)]"
+      [currentQuestionIndex]="0"
+      [totalQuestions]="total()"
+      (answerSubmitted)="onSwipeAnswer($event)"
+    />
+  }
+
+  @if (currentGame().type === 'selection') {
+    <app-selection-game
+      [questions]="[$any(currentGame().question)]"
+      [currentQuestionIndex]="0"
+      [totalQuestions]="total()"
+      (answerSubmitted)="onSelectionAnswer($event)"
+    />
+  }
+</div>
+
+<div class="completion-message" *ngIf="isComplete()">
+  <h2>🎉 All done!</h2>
+  <p>Processing your results...</p>
+</div>

@@ -212,14 +212,51 @@
 
 ---
 
-### **Weeks 5-6: Mini-Games (UI + Backend)**
-- ✅ Design 6 game UI components (wireframes)
-- ✅ Build reusable mechanics (slider, drag-drop, card-swipe, ranking)
-- ✅ Wire GPT-4 question generation
-- ✅ Build scoring logic (answers → 8 pillars)
-- ✅ Create shareable results screens
+### **Week 5: Mini-Games (Build in Main App First)**
+**Updated Plan:** 2026-10-18
 
-**Deliverable:** 6 mini-games fully playable
+**Architecture Decision:**
+- Build mini-games in **main app** first (Days 1-4)
+- Create **separate waitlist repo** and copy (Days 5-7)
+- Two independent deployments, easy to manage
+
+**Days 1-2: Build Mini-Games (Main App)**
+- [ ] Create 6 game components in `woven/frontend/src/app/shared/components/games/`
+- [ ] Slider, ranking, swipe, selection mechanics
+- [ ] Random game order
+- [ ] Test with fallback questions
+
+**Day 3: Wire to Onboarding (Main App Backend)**
+- [ ] Replace foundational V1 questions with mini-games
+- [ ] Send game results to ECHO (8 pillar scores)
+- [ ] Keep V2/V3 questions for depth
+
+**Day 4: Test Integration (Main App)**
+- [ ] Test full onboarding → mini-games → ECHO flow
+- [ ] Verify pillar scores saved correctly
+
+**Days 5-7: Waitlist App (New Repo)**
+- [ ] Create `woven-waitlist` repo
+- [ ] Copy mini-games from main app (proven working)
+- [ ] Build `/play`, `/results`, `/dashboard` pages
+- [ ] Build Express.js backend (questions, waitlist, dashboard)
+- [ ] Deploy to Railway + Vercel
+
+**Deliverable:** 
+- Mini-games working in main app onboarding
+- Waitlist app live with viral loop
+- See: `docs/mvp/MINIGAMES_DESIGN_SPEC.md`
+
+---
+
+### **Week 6: Waitlist Polish + Growth**
+- [ ] Test viral loop (A → B → C flow)
+- [ ] Add CAPTCHA + security hardening
+- [ ] Soft launch to small group
+- [ ] Monitor question pool growth (target: 100/game)
+- [ ] Fix bugs discovered in testing
+
+**Deliverable:** Waitlist acquiring users organically
 
 ---
 

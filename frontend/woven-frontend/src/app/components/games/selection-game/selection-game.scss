@@ -1,0 +1,94 @@
+.game-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+  .game-content {
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+  }
+
+  .selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+
+    .selection-item {
+      padding: 20px 12px;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        border-color: var(--primary);
+      }
+
+      &.selected {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+
+        .icon {
+          transform: scale(1.1);
+        }
+      }
+
+      .icon {
+        font-size: 32px;
+        margin-bottom: 8px;
+        transition: transform 0.2s;
+      }
+
+      .label {
+        font-size: 13px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .primary-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 24px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.9;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .selection-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

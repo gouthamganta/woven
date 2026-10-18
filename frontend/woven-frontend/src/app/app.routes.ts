@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login';
 import { LegalComponent } from './pages/legal/legal.component';
 import { LandingSimpleComponent } from './pages/landing-simple/landing-simple.component';
+import { MiniGamesTest } from './pages/mini-games-test/mini-games-test';
 import { authGuard } from './core/auth/auth.guard';
 import { HomeComponent } from './pages/home/home';
 
@@ -32,6 +33,9 @@ export const routes: Routes = [
   { path: 'privacy',     component: LegalComponent },
   { path: 'terms',       component: LegalComponent },
   { path: 'data-policy', component: LegalComponent },
+
+  // Test route for mini-games (temporary)
+  { path: 'test/mini-games', component: MiniGamesTest },
 
   // Onboarding steps (authenticated)
   { path: 'onboarding/welcome',      canActivate: [authGuard], component: WelcomeOnboardingComponent },
