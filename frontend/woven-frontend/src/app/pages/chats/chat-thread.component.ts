@@ -510,9 +510,11 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
   }
 
   async onAfterthoughtSubmit(afterthought: AfterthoughtData) {
-    // Route to unmatch or trial decision based on path
+    // Route to unmatch, block, or trial decision based on path
     if (this.afterthoughtPath === 'unmatch') {
       await this.onUnmatchAfterthought(afterthought);
+    } else if (this.afterthoughtPath === 'block') {
+      await this.onBlockAfterthought(afterthought);
     } else {
       await this.onTrialAfterthought(afterthought);
     }
@@ -786,6 +788,18 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
 
   async block() {
     if (!this.data || this.busy) return;
+
+    // Show Afterthought modal for block (safety flag collection)
+    this.afterthoughtPath = 'block';
+    this.showAfterthought = true;
+    this.closeMore();
+    this.cdr.markForCheck();
+  }
+
+  async onBlockAfterthought(afterthought: AfterthoughtData) {
+    this.showAfterthought = false;
+
+    if (!this.data || this.busy) return;
     const matchId = (this.data as any)?.matchId;
     if (!matchId) return;
 
@@ -796,7 +810,9 @@ export class ChatThreadComponent implements OnInit, AfterViewChecked, OnDestroy 
     await new Promise((r) => setTimeout(r, 400));
 
     try {
-      await firstValueFrom(this.matchesApi.block(matchId));
+      await firstValueFrom(
+        this.matchesApi.block(matchId, afterthought.reasonTag, afterthought.noteText)
+      );
       this.showToast('Blocked.');
       setTimeout(() => {
         this.router.navigateByUrl('/chats');

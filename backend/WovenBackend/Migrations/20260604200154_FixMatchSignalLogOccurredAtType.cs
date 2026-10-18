@@ -12,40 +12,38 @@ namespace WovenBackend.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<bool>(
-                name: "CoachingOptedOut",
-                table: "Users",
-                type: "boolean",
-                nullable: false,
-                oldClrType: typeof(bool),
-                oldType: "boolean",
-                oldDefaultValue: false);
+            // The scaffolded step here was an AlterColumn (drop the false default) that assumed
+            // "Users"."CoachingOptedOut" already existed. That column is only added by the manual
+            // 20260604000001_AddCoachingSummaries migration, which has no [Migration]/[DbContext]
+            // metadata, so EF never discovers or applies it. On a fresh database the column is
+            // missing and the AlterColumn fails; on databases where it was added out-of-band it
+            // exists. We deliberately don't register the manual migration, since it would create a
+            // duplicate snake_case coaching_summaries table alongside the one created below.
+            //
+            // ADD COLUMN IF NOT EXISTS is a no-op when the column exists, so existing values and
+            // type are kept. When it's missing, the false default backfills existing rows to
+            // satisfy NOT NULL. Dropping the default afterwards gives the same end state as the
+            // original AlterColumn: boolean NOT NULL, no database default.
+            migrationBuilder.Sql("""
+                ALTER TABLE "Users" ADD COLUMN IF NOT EXISTS "CoachingOptedOut" boolean NOT NULL DEFAULT FALSE;
+                ALTER TABLE "Users" ALTER COLUMN "CoachingOptedOut" DROP DEFAULT;
+                """);
 
-            migrationBuilder.CreateTable(
-                name: "coaching_summaries",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    WeekStartDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    SummaryText = table.Column<string>(type: "text", nullable: false),
-                    InterpretedNarrative = table.Column<string>(type: "text", nullable: false),
-                    DeliveredAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    DismissedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    OptedOutAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_coaching_summaries", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_coaching_summaries_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            // Similarly, the coaching_summaries table may already exist from the manual migration.
+            // CREATE TABLE IF NOT EXISTS handles both fresh installs and existing databases.
+            migrationBuilder.Sql("""
+                CREATE TABLE IF NOT EXISTS coaching_summaries (
+                    "Id" bigserial PRIMARY KEY,
+                    "UserId" integer NOT NULL REFERENCES "Users"("Id") ON DELETE CASCADE,
+                    "WeekStartDate" date NOT NULL,
+                    "SummaryText" text NOT NULL,
+                    "InterpretedNarrative" text NOT NULL,
+                    "DeliveredAt" timestamptz NOT NULL,
+                    "DismissedAt" timestamptz,
+                    "OptedOutAt" timestamptz,
+                    "CreatedAt" timestamptz NOT NULL
+                );
+                """);
 
             migrationBuilder.CreateIndex(
                 name: "IX_MessageLoveReactions_MessageId",
@@ -62,23 +60,20 @@ namespace WovenBackend.Migrations
                 table: "ConnectionScores",
                 column: "CandidateId");
 
-            migrationBuilder.CreateIndex(
-                name: "ix_coaching_summaries_user_id",
-                table: "coaching_summaries",
-                columns: new[] { "UserId", "CreatedAt" });
-
-            migrationBuilder.CreateIndex(
-                name: "uq_coaching_summary_user_week",
-                table: "coaching_summaries",
-                columns: new[] { "UserId", "WeekStartDate" },
-                unique: true);
+            // Create coaching_summaries indexes if they don't already exist
+            migrationBuilder.Sql("""
+                CREATE INDEX IF NOT EXISTS ix_coaching_summaries_user_id
+                    ON coaching_summaries ("UserId", "CreatedAt");
+                CREATE UNIQUE INDEX IF NOT EXISTS uq_coaching_summary_user_week
+                    ON coaching_summaries ("UserId", "WeekStartDate");
+                """);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "coaching_summaries");
+            // Drop coaching_summaries and its indexes if they exist
+            migrationBuilder.Sql("DROP TABLE IF EXISTS coaching_summaries;");
 
             migrationBuilder.DropIndex(
                 name: "IX_MessageLoveReactions_MessageId",
@@ -92,14 +87,10 @@ namespace WovenBackend.Migrations
                 name: "IX_ConnectionScores_CandidateId",
                 table: "ConnectionScores");
 
-            migrationBuilder.AlterColumn<bool>(
-                name: "CoachingOptedOut",
-                table: "Users",
-                type: "boolean",
-                nullable: false,
-                defaultValue: false,
-                oldClrType: typeof(bool),
-                oldType: "boolean");
+            // Restore CoachingOptedOut default or drop if it was added by this migration
+            migrationBuilder.Sql("""
+                ALTER TABLE "Users" ALTER COLUMN "CoachingOptedOut" SET DEFAULT FALSE;
+                """);
         }
     }
 }

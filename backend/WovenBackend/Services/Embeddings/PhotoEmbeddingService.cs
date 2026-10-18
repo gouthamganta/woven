@@ -62,11 +62,27 @@ public class PhotoEmbeddingService : IPhotoEmbeddingService
             resp.EnsureSuccessStatusCode();
 
             var respJson = await resp.Content.ReadAsStringAsync(ct);
+
+            // Poll for embedding result (Replicate async API)
             var embedding = ParseReplicateEmbedding(respJson);
             if (embedding == null)
             {
-                _logger.LogWarning("[PhotoEmbedding] Failed to parse Replicate response for user {UserId}", userId);
-                return null;
+                // Response doesn't have output yet - check for polling URL
+                var predictionUrl = GetPredictionUrl(respJson);
+                if (predictionUrl != null)
+                {
+                    var polledResult = await PollPredictionAsync(predictionUrl, apiToken, ct);
+                    if (polledResult != null)
+                    {
+                        embedding = ParseReplicateEmbedding(polledResult);
+                    }
+                }
+
+                if (embedding == null)
+                {
+                    _logger.LogWarning("[PhotoEmbedding] Failed to get embedding for user {UserId}", userId);
+                    return null;
+                }
             }
 
             // Extract visual attributes via zero-shot classification
@@ -126,24 +142,69 @@ public class PhotoEmbeddingService : IPhotoEmbeddingService
         {
             if (input.ReadByte() != 0xFF) break;
             int marker = input.ReadByte();
-            if (marker == 0xD9) { output.WriteByte(0xFF); output.WriteByte(0xD9); break; }
+
+            // EOI marker - end of image
+            if (marker == 0xD9)
+            {
+                output.WriteByte(0xFF);
+                output.WriteByte(0xD9);
+                break;
+            }
+
+            // SOI marker inside stream (shouldn't happen, skip)
             if (marker == 0xD8) continue;
 
+            // SOS marker (0xDA) - start of scan data
+            // After SOS, all data until EOI is compressed scan data, not markers
+            if (marker == 0xDA)
+            {
+                // Read SOS segment length
+                int hi = input.ReadByte();
+                int lo = input.ReadByte();
+                int segLen = (hi << 8) | lo;
+                var segData = new byte[segLen - 2];
+                _ = input.Read(segData, 0, segData.Length);
+
+                // Write SOS marker and data
+                output.WriteByte(0xFF);
+                output.WriteByte((byte)marker);
+                output.WriteByte((byte)hi);
+                output.WriteByte((byte)lo);
+                output.Write(segData, 0, segData.Length);
+
+                // Copy all remaining data until EOI
+                // Scan data may contain 0xFF bytes, but they're escaped as 0xFF00
+                while (input.Position < input.Length)
+                {
+                    int b = input.ReadByte();
+                    output.WriteByte((byte)b);
+
+                    // Check for EOI marker (0xFFD9)
+                    if (b == 0xFF && input.Position < input.Length)
+                    {
+                        int next = input.ReadByte();
+                        output.WriteByte((byte)next);
+                        if (next == 0xD9) break; // EOI found
+                    }
+                }
+                break;
+            }
+
             // Read segment length (big-endian, includes the 2 length bytes)
-            int hi = input.ReadByte();
-            int lo = input.ReadByte();
-            int segLen = (hi << 8) | lo;
-            var segData = new byte[segLen - 2];
-            _ = input.Read(segData, 0, segData.Length);
+            int segHi = input.ReadByte();
+            int segLo = input.ReadByte();
+            int segLen2 = (segHi << 8) | segLo;
+            var segData2 = new byte[segLen2 - 2];
+            _ = input.Read(segData2, 0, segData2.Length);
 
             // Skip APP1 (EXIF/XMP) — marker 0xE1
             if (marker == 0xE1) continue;
 
             output.WriteByte(0xFF);
             output.WriteByte((byte)marker);
-            output.WriteByte((byte)hi);
-            output.WriteByte((byte)lo);
-            output.Write(segData, 0, segData.Length);
+            output.WriteByte((byte)segHi);
+            output.WriteByte((byte)segLo);
+            output.Write(segData2, 0, segData2.Length);
         }
 
         return output.ToArray();
@@ -179,7 +240,8 @@ public class PhotoEmbeddingService : IPhotoEmbeddingService
             {
                 ["hair_color"] = new[] { "blonde hair", "brown hair", "black hair", "red hair", "gray hair", "bald" },
                 ["style"] = new[] { "casual style", "formal style", "athletic style", "artistic style", "professional style" },
-                ["skin_tone"] = new[] { "fair skin tone", "medium skin tone", "tan skin tone", "dark skin tone" }
+                ["skin_tone"] = new[] { "fair skin tone", "medium skin tone", "tan skin tone", "dark skin tone" },
+                ["height_class"] = new[] { "short person", "average height person", "tall person" }
             };
 
             var attributes = new Dictionary<string, string>();
