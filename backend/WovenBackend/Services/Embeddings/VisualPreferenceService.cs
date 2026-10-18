@@ -108,8 +108,18 @@ public class VisualPreferenceService : IVisualPreferenceService
 
         foreach (var p in photos)
         {
-            var sim = CosineSimilarity(prefSpan, p.Embedding!.Memory.Span);
-            if (sim > bestSim) { bestSim = sim; bestUrl = p.PhotoUrl; }
+            try
+            {
+                var sim = CosineSimilarity(prefSpan, p.Embedding!.Memory.Span);
+                if (sim > bestSim) { bestSim = sim; bestUrl = p.PhotoUrl; }
+            }
+            catch (ArgumentException ex)
+            {
+                // Dimension mismatch (likely after embedding model upgrade) — skip this photo
+                _logger.LogWarning(ex,
+                    "[VisualPreference] Embedding dimension mismatch in GetBestPhotoUrlAsync | ViewerId={ViewerId} CandidateId={CandidateId} PhotoUrl={PhotoUrl}",
+                    viewerUserId, candidateUserId, p.PhotoUrl);
+            }
         }
 
         return bestUrl;
@@ -184,8 +194,18 @@ public class VisualPreferenceService : IVisualPreferenceService
         string? confidenceScoresJson)
     {
         // 1. Visual similarity (cosine similarity) — weight 0.70
-        var visualSim = CosineSimilarity(viewerPrefEmbedding.Memory.Span, photoEmbedding.Memory.Span);
-        var visualScore = Math.Max(0, visualSim) * 0.70;
+        double visualScore;
+        try
+        {
+            var visualSim = CosineSimilarity(viewerPrefEmbedding.Memory.Span, photoEmbedding.Memory.Span);
+            visualScore = Math.Max(0, visualSim) * 0.70;
+        }
+        catch (ArgumentException)
+        {
+            // Dimension mismatch (likely after embedding model upgrade) — default to 0.0 visual score
+            // Quality score (30%) will still be computed below
+            visualScore = 0.0;
+        }
 
         // 2. Photo quality heuristics — weight 0.30
         var qualityScore = 0.0;

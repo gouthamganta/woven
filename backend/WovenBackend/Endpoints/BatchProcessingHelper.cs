@@ -28,18 +28,32 @@ public static class BatchProcessingHelper
         CancellationToken ct = default)
         where TKey : notnull
     {
-        var results = new Dictionary<TKey, TValue>();
+        var results = new Dictionary<TKey, TValue>(capacity: items.Count);
 
         for (int i = 0; i < items.Count; i += batchSize)
         {
             ct.ThrowIfCancellationRequested();
 
-            var batch = items.Skip(i).Take(batchSize).ToList();
-            var batchTasks = batch.Select(processor);
+            // Use index-based slicing (O(n)) instead of Skip().Take() (O(n²))
+            int batchEnd = Math.Min(i + batchSize, items.Count);
+            var batchTasks = new List<Task<(TKey key, TValue value)>>(batchEnd - i);
+
+            for (int j = i; j < batchEnd; j++)
+            {
+                batchTasks.Add(processor(items[j]));
+            }
+
             var batchResults = await Task.WhenAll(batchTasks);
 
             foreach (var (key, value) in batchResults)
             {
+                // Validate no duplicate keys (indicates bug in caller's processor function)
+                if (results.ContainsKey(key))
+                {
+                    throw new InvalidOperationException(
+                        $"Duplicate key '{key}' returned by processor. " +
+                        "This indicates the processor function returned the same key for different inputs.");
+                }
                 results[key] = value;
             }
         }
