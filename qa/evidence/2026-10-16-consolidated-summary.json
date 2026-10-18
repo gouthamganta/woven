@@ -1,0 +1,137 @@
+{
+  "application": "d10467e0e5d69157e22dec4c03be642fefb42f9e",
+  "backend": {
+    "total": 219,
+    "passed": 200,
+    "failed": 19,
+    "skipped": 0,
+    "failures": [
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.DeferredSequentialRetryDoesNotCreateDuplicate",
+        "outcome": "Failed",
+        "classification": "QA adaptation: no-op integration never marks completion"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.NonSafetyStarsPersistNormalizedExplicitFeedbackWithoutChangingTrust(stars: 2, expected: 0.25)",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.AfterthoughtAcceptanceContractTests.DeferredEndpointAllowsRecoveryOfPendingIntegration",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.RetryAfterSignalCommitButBeforeProcessedMarkerDoesNotDuplicateSignal",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.SafetyFeedbackCapsOnlyTargetTrustAndNeverCreatesMatchingSignal(path: \"block\", initial: 0.800000012, expected: 0.150000006)",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.SafetyRowWithHistoricalStarsStillDoesNotEmitMatchingSignal",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.NonSafetyStarsPersistNormalizedExplicitFeedbackWithoutChangingTrust(stars: 5, expected: 1)",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.SafetyFeedbackCapsOnlyTargetTrustAndNeverCreatesMatchingSignal(path: \"unmatch\", initial: 0.100000001, expected: 0.100000001)",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.OverlappingProcessorsFromSeparateScopesCreateOnlyOneSignal",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.NonSafetyStarsPersistNormalizedExplicitFeedbackWithoutChangingTrust(stars: 1, expected: 0)",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.SubmissionRunsRealIntegrationAfterPersistingFeedback",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.ExpiryReasonWithoutStarsDoesNotInventMatchingValueOrTrustPenalty",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.MissingRecordDoesNotEmitSignalsOrChangeTrust",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.NonSafetyStarsPersistNormalizedExplicitFeedbackWithoutChangingTrust(stars: 3, expected: 0.5)",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.ReprocessingAnAfterthoughtDoesNotDuplicateItsLearningSignal",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.RetryingSavedSubmissionAfterTransientIntegrationFailureRecoversItsLearningSignal",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.SafetyFeedbackCapsOnlyTargetTrustAndNeverCreatesMatchingSignal(path: \"block\", initial: 0.100000001, expected: 0.100000001)",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.SafetyFeedbackCapsOnlyTargetTrustAndNeverCreatesMatchingSignal(path: \"unmatch\", initial: 0.800000012, expected: 0.300000012)",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      },
+      {
+        "name": "WovenBackend.Tests.EchoIntegrationContractTests.NonSafetyStarsPersistNormalizedExplicitFeedbackWithoutChangingTrust(stars: 4, expected: 0.75)",
+        "outcome": "Failed",
+        "classification": "QA adaptation: relational code with InMemory"
+      }
+    ],
+    "applicationDllSha256": "BBB6CFD1CC767E90BF5C19106BEB6850FC5242E8AF2B8A456DEAFF09020FA2A2"
+  },
+  "frontend": {
+    "files": 33,
+    "total": 541,
+    "passed": 541,
+    "failed": 0,
+    "sourceIdenticalTo209a979": true,
+    "productionBuild": "not verified: local Node process failed to launch with ResourceUnavailable; no compiler error established"
+  },
+  "postgres": {
+    "total": 54,
+    "passed": 46,
+    "failed": 8,
+    "roots": [
+      "live claim takeover duplicates signals",
+      "AfterthoughtService raw query parameter shape",
+      "inherited full migration chain"
+    ]
+  },
+  "photo": {
+    "total": 13,
+    "passed": 9,
+    "failed": 4,
+    "externalHttpCalls": 0
+  },
+  "limits": [
+    "no provider inference",
+    "no browser E2E",
+    "no production migration",
+    "no nightly batch or weekly learning execution"
+  ]
+}
