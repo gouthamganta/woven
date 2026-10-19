@@ -1,40 +1,31 @@
-<div class="game-card" *ngIf="currentQuestion">
-  <app-game-progress
-    [current]="currentQuestionIndex() + 1"
-    [total]="totalQuestions()"
-  />
+<div class="game-container" *ngIf="currentQuestion">
+  <div class="progress-indicator">{{ currentQuestionIndex() + 1 }} of {{ totalQuestions() }}</div>
+  <div class="question-text">{{ currentQuestion.question }}</div>
 
-  <div class="game-content">
-    <h3>{{ currentQuestion.question }}</h3>
-
-    <div class="ranking-list">
-      <div
-        *ngFor="let item of rankedItems(); let i = index"
-        class="rank-item"
-      >
-        <span class="rank-number">{{ i + 1 }}</span>
-        <span class="rank-label">{{ item }}</span>
-        <div class="rank-controls">
-          <button
-            class="rank-btn"
-            (click)="moveUp(i)"
-            [disabled]="i === 0"
-            type="button"
-          >
-            ↑
-          </button>
-          <button
-            class="rank-btn"
-            (click)="moveDown(i)"
-            [disabled]="i === rankedItems().length - 1"
-            type="button"
-          >
-            ↓
-          </button>
-        </div>
+  <div
+    cdkDropList
+    class="ranking-list"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <div
+      *ngFor="let item of rankedItems(); let i = index"
+      cdkDrag
+      class="rank-item"
+    >
+      <span class="rank-number">{{ i + 1 }}</span>
+      <span class="rank-label">{{ item }}</span>
+      <div class="drag-handle" cdkDragHandle>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <circle cx="7" cy="5" r="1.5"/>
+          <circle cx="13" cy="5" r="1.5"/>
+          <circle cx="7" cy="10" r="1.5"/>
+          <circle cx="13" cy="10" r="1.5"/>
+          <circle cx="7" cy="15" r="1.5"/>
+          <circle cx="13" cy="15" r="1.5"/>
+        </svg>
       </div>
     </div>
   </div>
 
-  <button class="primary-btn" (click)="onNext()">Next</button>
+  <button class="continue-btn" (click)="onNext()">Continue</button>
 </div>

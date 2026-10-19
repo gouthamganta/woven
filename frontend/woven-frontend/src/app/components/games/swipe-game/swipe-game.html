@@ -1,29 +1,34 @@
-<div class="game-card" *ngIf="currentQuestion">
-  <app-game-progress
-    [current]="currentQuestionIndex() + 1"
-    [total]="totalQuestions()"
-  />
+<div class="game-container" *ngIf="currentQuestion">
+  <div class="progress-indicator">{{ currentCardIndex() + 1 }} of {{ currentQuestion.options.length }}</div>
 
-  <div class="game-content">
-    <h3>{{ currentQuestion.question }}</h3>
+  <div class="question-text">{{ currentQuestion.question }}</div>
 
-    <div class="card-stack">
-      <div
-        class="swipe-card"
-        *ngFor="let option of currentQuestion.options; let i = index"
-        [class.active]="i === currentCardIndex()"
-      >
-        <p>{{ option.text }}</p>
-      </div>
+  <div class="card-display" *ngIf="currentOption">
+    <div class="option-card">
+      <div class="option-text">{{ currentOption.text }}</div>
     </div>
+  </div>
 
-    <div class="swipe-actions">
-      <button class="swipe-btn nope" (click)="swipe('left')" type="button">
-        👎 Nope
-      </button>
-      <button class="swipe-btn yes" (click)="swipe('right')" type="button">
-        👍 Yes!
-      </button>
-    </div>
+  <div class="rating-scale">
+    <button class="rating-btn" (click)="rate(1)" type="button">
+      <span class="rating-emoji">😐</span>
+      <span class="rating-label">Strongly<br>Disagree</span>
+    </button>
+    <button class="rating-btn" (click)="rate(2)" type="button">
+      <span class="rating-emoji">🤔</span>
+      <span class="rating-label">Disagree</span>
+    </button>
+    <button class="rating-btn" (click)="rate(3)" type="button">
+      <span class="rating-emoji">😶</span>
+      <span class="rating-label">Neutral</span>
+    </button>
+    <button class="rating-btn" (click)="rate(4)" type="button">
+      <span class="rating-emoji">😊</span>
+      <span class="rating-label">Agree</span>
+    </button>
+    <button class="rating-btn" (click)="rate(5)" type="button">
+      <span class="rating-emoji">🤩</span>
+      <span class="rating-label">Strongly<br>Agree</span>
+    </button>
   </div>
 </div>

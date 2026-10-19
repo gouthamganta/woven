@@ -1,0 +1,37 @@
+<div class="results-container">
+  <div class="header">
+    <h1>Here's what we learned about you</h1>
+    <p class="subtitle">Your unique personality profile</p>
+  </div>
+
+  <div class="pillars-list">
+    @for (pillar of pillars(); track pillar.name) {
+      <div class="pillar-card"
+           [class.revealed]="pillar.revealed"
+           [style.animation-delay.ms]="pillar.index * 50">
+
+        <div class="pillar-header">
+          <span class="pillar-name">{{ pillar.name }}</span>
+          <span class="pillar-score">{{ pillar.score }}%</span>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill"
+                 [style.width.%]="pillar.revealed ? pillar.score : 0"></div>
+          </div>
+        </div>
+
+        <p class="interpretation">{{ pillar.interpretation }}</p>
+      </div>
+    }
+  </div>
+
+  <div class="actions">
+    <button class="continue-btn"
+            [disabled]="!allRevealed()"
+            (click)="continue()">
+      Continue to Photos
+    </button>
+  </div>
+</div>

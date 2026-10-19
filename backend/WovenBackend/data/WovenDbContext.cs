@@ -89,6 +89,11 @@ public class WovenDbContext : DbContext
     public DbSet<GameAnalytic> GameAnalytics => Set<GameAnalytic>();
     public DbSet<GameOutcome> GameOutcomes => Set<GameOutcome>();
 
+    // Onboarding mini-games question bank
+    public DbSet<FoundationalQuestion> FoundationalQuestions => Set<FoundationalQuestion>();
+    public DbSet<UserQuestionHistory> UserQuestionHistory => Set<UserQuestionHistory>();
+    public DbSet<UserGameResponse> UserGameResponses => Set<UserGameResponse>();
+
     // Tiles (Phase 2A)
     public DbSet<Tile> Tiles => Set<Tile>();
     public DbSet<Highlight> Highlights => Set<Highlight>();
@@ -294,6 +299,10 @@ public class WovenDbContext : DbContext
             .WithMany()
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Question bank - composite key for history tracking
+        modelBuilder.Entity<UserQuestionHistory>()
+            .HasKey(x => new { x.UserId, x.QuestionId });
 
         modelBuilder.Entity<DailyInteraction>()
             .HasKey(x => new { x.UserId, x.DateUtc });

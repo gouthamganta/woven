@@ -31,11 +31,6 @@ import { CommonModule } from '@angular/common';
           <p class="sub" *ngIf="subtitle">{{ subtitle }}</p>
 
           <ng-content></ng-content>
-
-          <div class="footer">
-            <div class="hint">You can edit this later.</div>
-            <div class="tiny">W</div>
-          </div>
         </div>
       </div>
     </div>

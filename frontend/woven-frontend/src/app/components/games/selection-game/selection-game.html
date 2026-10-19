@@ -1,32 +1,28 @@
-<div class="game-card" *ngIf="currentQuestion">
-  <app-game-progress
-    [current]="currentQuestionIndex() + 1"
-    [total]="totalQuestions()"
-  />
+<div class="game-container" *ngIf="currentQuestion">
+  <div class="progress-indicator">{{ currentQuestionIndex() + 1 }} of {{ totalQuestions() }}</div>
+  <div class="header">
+    <div class="question-text">{{ currentQuestion.question }}</div>
+    <div class="subtitle">Pick {{ currentQuestion.maxSelect }}</div>
+  </div>
 
-  <div class="game-content">
-    <h3>{{ currentQuestion.question }}</h3>
-    <p class="subtitle">Pick {{ currentQuestion.maxSelect }}</p>
-
-    <div class="selection-grid">
-      <div
-        *ngFor="let option of currentQuestion.options"
-        class="selection-item"
-        [class.selected]="isSelected(option)"
-        (click)="toggle(option)"
-      >
-        <div class="icon">{{ option.icon }}</div>
-        <div class="label">{{ option.label }}</div>
-      </div>
-    </div>
+  <div class="options-grid">
+    <button
+      *ngFor="let option of currentQuestion.options"
+      class="option-pill"
+      [class.selected]="isSelected(option)"
+      (click)="toggle(option)"
+      type="button"
+    >
+      {{ option.label }}
+    </button>
   </div>
 
   <button
-    class="primary-btn"
+    class="continue-btn"
     (click)="onNext()"
     [disabled]="!canProceed()"
     type="button"
   >
-    Next
+    Continue
   </button>
 </div>

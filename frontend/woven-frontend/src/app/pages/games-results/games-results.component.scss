@@ -1,0 +1,117 @@
+.results-container {
+  min-height: 100vh;
+  padding: var(--space-6) var(--space-4);
+  background: var(--bg-primary);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+
+  h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+  }
+}
+
+.pillars-list {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.pillar-card {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: var(--space-4);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pillar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+
+  .pillar-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .pillar-score {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent-primary);
+  }
+}
+
+.progress-bar-container {
+  margin-bottom: var(--space-3);
+}
+
+.progress-bar-bg {
+  height: 8px;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 4px;
+}
+
+.interpretation {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.actions {
+  max-width: 600px;
+  margin: var(--space-8) auto 0;
+  text-align: center;
+}
+
+.continue-btn {
+  width: 100%;
+  padding: var(--space-4);
+  background: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--accent-secondary);
+    transform: scale(1.02);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

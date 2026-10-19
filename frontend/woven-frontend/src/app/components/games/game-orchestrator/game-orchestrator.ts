@@ -36,126 +36,48 @@ export class GameOrchestrator implements OnInit {
   private http = inject(HttpClient);
   private router = inject(Router);
 
-  // All 8 games (will be randomized on init)
-  private readonly GAME_DEFINITIONS: GameInstance[] = [
-    {
-      id: 'energy-spectrum',
-      type: 'slider',
-      pillar: 'Energy',
-      question: {
-        question: 'Where do you recharge your energy?',
-        leftLabel: 'Quiet time alone',
-        rightLabel: 'Social activities'
-      }
-    },
-    {
-      id: 'value-auction',
-      type: 'ranking',
-      pillar: 'Values',
-      question: {
-        question: 'Rank these values by importance to you',
-        items: ['Honesty', 'Adventure', 'Security', 'Growth', 'Connection']
-      }
-    },
-    {
-      id: 'conversation-starter',
-      type: 'swipe',
-      pillar: 'Communication',
-      question: {
-        question: 'Which topics excite you in conversation?',
-        options: [
-          { text: 'Philosophy and big ideas' },
-          { text: 'Career and ambitions' },
-          { text: 'Personal stories and experiences' },
-          { text: 'Current events and news' },
-          { text: 'Hobbies and interests' }
-        ]
-      }
-    },
-    {
-      id: 'affection-language',
-      type: 'selection',
-      pillar: 'Affection',
-      question: {
-        question: 'How do you show affection?',
-        subtitle: 'Pick 2',
-        maxSelect: 2,
-        options: [
-          { icon: '💬', label: 'Words', value: 'words' },
-          { icon: '⏰', label: 'Time', value: 'time' },
-          { icon: '🎁', label: 'Gifts', value: 'gifts' },
-          { icon: '🤝', label: 'Acts', value: 'acts' },
-          { icon: '🤗', label: 'Touch', value: 'touch' }
-        ]
-      }
-    },
-    {
-      id: 'lifestyle-puzzle',
-      type: 'selection',
-      pillar: 'Lifestyle',
-      question: {
-        question: 'What does your ideal weekend look like?',
-        subtitle: 'Pick 3',
-        maxSelect: 3,
-        options: [
-          { icon: '🏃', label: 'Outdoors', value: 'outdoors' },
-          { icon: '🎨', label: 'Creative', value: 'creative' },
-          { icon: '📚', label: 'Learning', value: 'learning' },
-          { icon: '🎉', label: 'Social', value: 'social' },
-          { icon: '🧘', label: 'Rest', value: 'rest' },
-          { icon: '🏠', label: 'Home', value: 'home' }
-        ]
-      }
-    },
-    {
-      id: 'ambition-ladder',
-      type: 'ranking',
-      pillar: 'Ambition',
-      question: {
-        question: 'Rank your life priorities',
-        items: ['Career success', 'Relationships', 'Personal growth', 'Health & wellness', 'Financial security']
-      }
-    },
-    {
-      id: 'stability-compass',
-      type: 'slider',
-      pillar: 'Stability',
-      question: {
-        question: 'How do you approach planning your life?',
-        leftLabel: 'Go with the flow',
-        rightLabel: 'Detailed plans'
-      }
-    },
-    {
-      id: 'curiosity-explorer',
-      type: 'swipe',
-      pillar: 'Curiosity',
-      question: {
-        question: 'What kinds of things spark your curiosity?',
-        options: [
-          { text: 'How things work (science, tech)' },
-          { text: 'Different cultures and places' },
-          { text: 'Creative ideas and art' },
-          { text: 'People and their stories' },
-          { text: 'New skills and learning' }
-        ]
-      }
-    }
-  ];
-
   games = signal<GameInstance[]>([]);
   currentGameIndex = signal<number>(0);
   answers = signal<GameAnswer[]>([]);
   isComplete = signal<boolean>(false);
+  isLoading = signal<boolean>(true);
+  loadError = signal<string | null>(null);
 
   currentGame = computed(() => this.games()[this.currentGameIndex()]);
   progress = computed(() => this.currentGameIndex() + 1);
   total = computed(() => this.games().length);
 
-  ngOnInit(): void {
-    // Randomize game order
-    const shuffled = [...this.GAME_DEFINITIONS].sort(() => Math.random() - 0.5);
-    this.games.set(shuffled);
+  async ngOnInit() {
+    await this.loadQuestions();
+  }
+
+  async loadQuestions() {
+    try {
+      this.isLoading.set(true);
+
+      const response = await firstValueFrom(
+        this.http.get<{ questions: any[], total: number }>(
+          `${environment.apiUrl}/onboarding/games/questions`
+        )
+      );
+
+      // Map backend questions to GameInstance format
+      const mappedGames = response.questions.map(q => ({
+        id: q.questionId,
+        type: q.gameType,
+        pillar: q.pillar,
+        question: q.question
+      }));
+
+      this.games.set(mappedGames);
+      this.isLoading.set(false);
+      this.cdr.markForCheck();
+    } catch (error) {
+      console.error('Failed to load questions:', error);
+      this.loadError.set('Failed to load questions. Please try again.');
+      this.isLoading.set(false);
+      this.cdr.markForCheck();
+    }
   }
 
   onSliderAnswer(answer: SliderGameAnswer): void {
@@ -202,19 +124,22 @@ export class GameOrchestrator implements OnInit {
     console.log('All games complete! Answers:', this.answers());
 
     try {
-      // Submit answers to backend
+      // Submit answers to backend (V2 endpoint with LLM scoring)
       const response = await firstValueFrom(
-        this.http.post<any>(`${environment.apiUrl}/onboarding/games/submit`, {
+        this.http.post<any>(`${environment.apiUrl}/onboarding/games/submit-v2`, {
           answers: this.answers()
         })
       );
 
       console.log('Games submitted successfully:', response);
 
-      // Navigate to next onboarding step
-      if (response.nextRoute) {
-        await this.router.navigate([response.nextRoute]);
+      // Store pillar results for results page
+      if (response.pillars) {
+        sessionStorage.setItem('pillarResults', JSON.stringify(response.pillars));
       }
+
+      // Navigate to results page (not next onboarding step)
+      await this.router.navigate(['/onboarding/games/results']);
     } catch (error) {
       console.error('Failed to submit games:', error);
       // TODO: Show error message to user

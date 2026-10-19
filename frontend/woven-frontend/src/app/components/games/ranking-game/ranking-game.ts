@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameProgress } from '../game-progress/game-progress';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 
 export interface RankingGameQuestion {
   question: string;
@@ -14,7 +14,7 @@ export interface RankingGameAnswer {
 
 @Component({
   selector: 'app-ranking-game',
-  imports: [CommonModule, GameProgress],
+  imports: [CommonModule, DragDropModule],
   templateUrl: './ranking-game.html',
   styleUrl: './ranking-game.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,19 +40,10 @@ export class RankingGame {
     return this.questions()[this.currentQuestionIndex()];
   }
 
-  moveUp(index: number): void {
-    if (index === 0) return;
+  drop(event: CdkDragDrop<string[]>): void {
     const items = [...this.rankedItems()];
-    [items[index], items[index - 1]] = [items[index - 1], items[index]];
+    moveItemInArray(items, event.previousIndex, event.currentIndex);
     this.rankedItems.set(items);
-  }
-
-  moveDown(index: number): void {
-    const items = this.rankedItems();
-    if (index === items.length - 1) return;
-    const newItems = [...items];
-    [newItems[index], newItems[index + 1]] = [newItems[index + 1], newItems[index]];
-    this.rankedItems.set(newItems);
   }
 
   onNext(): void {

@@ -1,23 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { GameOrchestrator } from '../../components/games/game-orchestrator/game-orchestrator';
+import { OnboardingShellComponent } from './onboarding-shell';
 
 @Component({
   selector: 'app-games-onboarding',
-  imports: [GameOrchestrator],
+  imports: [GameOrchestrator, OnboardingShellComponent],
   template: `
-    <div class="games-page">
+    <woven-onboarding-shell>
       <app-game-orchestrator />
-    </div>
+    </woven-onboarding-shell>
   `,
-  styles: [`
-    .games-page {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-  `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamesOnboardingComponent {}

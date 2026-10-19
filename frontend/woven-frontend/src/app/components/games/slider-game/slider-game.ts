@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { GameProgress } from '../game-progress/game-progress';
 
 export interface SliderGameQuestion {
   question: string;
@@ -16,7 +15,7 @@ export interface SliderGameAnswer {
 
 @Component({
   selector: 'app-slider-game',
-  imports: [CommonModule, FormsModule, GameProgress],
+  imports: [CommonModule, FormsModule],
   templateUrl: './slider-game.html',
   styleUrl: './slider-game.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

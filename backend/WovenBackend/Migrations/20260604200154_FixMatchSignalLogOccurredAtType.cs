@@ -31,17 +31,18 @@ namespace WovenBackend.Migrations
 
             // Similarly, the coaching_summaries table may already exist from the manual migration.
             // CREATE TABLE IF NOT EXISTS handles both fresh installs and existing databases.
+            // Use snake_case to match existing table from manual migration
             migrationBuilder.Sql("""
                 CREATE TABLE IF NOT EXISTS coaching_summaries (
-                    "Id" bigserial PRIMARY KEY,
-                    "UserId" integer NOT NULL REFERENCES "Users"("Id") ON DELETE CASCADE,
-                    "WeekStartDate" date NOT NULL,
-                    "SummaryText" text NOT NULL,
-                    "InterpretedNarrative" text NOT NULL,
-                    "DeliveredAt" timestamptz NOT NULL,
-                    "DismissedAt" timestamptz,
-                    "OptedOutAt" timestamptz,
-                    "CreatedAt" timestamptz NOT NULL
+                    id bigserial PRIMARY KEY,
+                    user_id integer NOT NULL REFERENCES "Users"("Id") ON DELETE CASCADE,
+                    week_start_date date NOT NULL,
+                    summary_text text NOT NULL,
+                    interpreted_narrative text NOT NULL,
+                    delivered_at timestamptz,
+                    dismissed_at timestamptz,
+                    opted_out_at timestamptz,
+                    created_at timestamptz NOT NULL
                 );
                 """);
 
@@ -61,11 +62,12 @@ namespace WovenBackend.Migrations
                 column: "CandidateId");
 
             // Create coaching_summaries indexes if they don't already exist
+            // Use unquoted lowercase identifiers to match the actual column names
             migrationBuilder.Sql("""
                 CREATE INDEX IF NOT EXISTS ix_coaching_summaries_user_id
-                    ON coaching_summaries ("UserId", "CreatedAt");
+                    ON coaching_summaries (user_id, created_at);
                 CREATE UNIQUE INDEX IF NOT EXISTS uq_coaching_summary_user_week
-                    ON coaching_summaries ("UserId", "WeekStartDate");
+                    ON coaching_summaries (user_id, week_start_date);
                 """);
         }
 

@@ -1,23 +1,21 @@
 .orchestrator-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background: var(--bg);
+  width: 100%;
 }
 
 .completion-message {
   text-align: center;
-  padding: 48px 24px;
+  padding: var(--space-16);
 
   h2 {
-    font-size: 32px;
-    margin-bottom: 16px;
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    color: var(--text-primary);
+    margin-bottom: var(--space-4);
   }
 
   p {
-    font-size: 16px;
+    font-family: var(--font-ui);
+    font-size: var(--text-lg);
     color: var(--text-secondary);
   }
 }

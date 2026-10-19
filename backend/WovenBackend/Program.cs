@@ -680,6 +680,13 @@ builder.Services.AddScoped<WovenBackend.Services.Games.IGameOutcomeService,
 // builder.Services.AddHttpClient<WovenBackend.Services.Games.Top10Agent>();
 // builder.Services.AddHttpClient<WovenBackend.Services.Games.RapidFireAgent>();
 
+// Onboarding mini-games - question bank & LLM scoring
+builder.Services.AddScoped<WovenBackend.Services.Onboarding.IQuestionSelectionService,
+    WovenBackend.Services.Onboarding.QuestionSelectionService>();
+
+builder.Services.AddScoped<WovenBackend.Services.Onboarding.IGameScoringService,
+    WovenBackend.Services.Onboarding.GameScoringService>();
+
 // ----------------------------------------------------
 // PHASE 5C: ANALYTICS ENGINE
 // ----------------------------------------------------
@@ -779,6 +786,26 @@ else
             "[STARTUP] {Count} pending migration(s) in production: {Migrations}. " +
             "Run via CI/CD or set WOVEN_RUN_MIGRATIONS=true for first deploy.",
             pending.Count, string.Join(", ", pending));
+}
+
+// ----------------------------------------------------
+// SEED QUESTION BANK
+// ----------------------------------------------------
+// Seed validated questions on startup (idempotent — only runs if table is empty)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<WovenDbContext>();
+    var seedLogger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    try
+    {
+        WovenBackend.Data.Seeds.QuestionBankSeeder.SeedQuestionsAsync(db).GetAwaiter().GetResult();
+        seedLogger.LogInformation("[QuestionBank] Seeding completed successfully");
+    }
+    catch (Exception ex)
+    {
+        seedLogger.LogWarning(ex, "[QuestionBank] Seeding skipped (may already exist or failed)");
+    }
 }
 
 // ----------------------------------------------------
@@ -951,6 +978,7 @@ app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
 app.MapAuthEndpoints();
 app.MapOnboardingEndpoints();
 app.MapOnboardingGamesEndpoints();
+app.MapOnboardingGamesEndpointsV2();  // Question bank + LLM scoring
 app.MapMomentsEndpoints();
 app.MapChatEndpoints();
 app.MapGameEndpoints();

@@ -1,26 +1,25 @@
-<div class="game-card" *ngIf="currentQuestion">
-  <app-game-progress
-    [current]="currentQuestionIndex() + 1"
-    [total]="totalQuestions()"
-  />
+<div class="game-container" *ngIf="currentQuestion">
+  <div class="progress-indicator">{{ currentQuestionIndex() + 1 }} of {{ totalQuestions() }}</div>
+  <div class="question-text">{{ currentQuestion.question }}</div>
 
-  <div class="game-content">
-    <h3>{{ currentQuestion.question }}</h3>
+  <div class="slider-wrapper">
+    <div class="slider-labels">
+      <span class="label-left">{{ currentQuestion.leftLabel }}</span>
+      <span class="label-right">{{ currentQuestion.rightLabel }}</span>
+    </div>
 
-    <div class="slider-container">
+    <div class="slider-track">
       <input
         type="range"
         min="0"
         max="100"
         [(ngModel)]="value"
-        class="slider"
+        class="slider-input"
       />
-      <div class="slider-labels">
-        <span>{{ currentQuestion.leftLabel }}</span>
-        <span>{{ currentQuestion.rightLabel }}</span>
-      </div>
+      <div class="slider-fill" [style.width.%]="value()"></div>
+      <div class="slider-thumb" [style.left.%]="value()"></div>
     </div>
   </div>
 
-  <button class="primary-btn" (click)="onNext()">Next</button>
+  <button class="continue-btn" (click)="onNext()">Continue</button>
 </div>

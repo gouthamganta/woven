@@ -1,82 +1,144 @@
-.game-card {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 24px;
+.game-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  gap: var(--space-12);
+}
+
+.progress-indicator {
+  position: absolute;
+  top: var(--space-6);
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.question-text {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: center;
+  max-width: 500px;
+  line-height: 1.3;
+}
+
+.card-display {
+  width: 100%;
   max-width: 400px;
-  margin: 0 auto;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .game-content {
-    h3 {
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 1.4;
-      margin-bottom: 24px;
+.option-card {
+  width: 100%;
+  padding: var(--space-8);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 30px rgba(127, 119, 221, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.option-text {
+  font-family: var(--font-ui);
+  font-size: var(--text-xl);
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.rating-scale {
+  display: flex;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 500px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.rating-btn {
+  flex: 1;
+  min-width: 70px;
+  padding: var(--space-3);
+  background: transparent;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text-secondary);
+
+  &:nth-child(1) {
+    &:hover {
+      border-color: var(--rose-400);
+      box-shadow: 0 0 20px var(--rose-glow);
+      color: var(--rose-400);
+      transform: scale(1.05);
     }
   }
 
-  .card-stack {
-    position: relative;
-    height: 200px;
-    margin: 24px 0;
-
-    .swipe-card {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: 32px;
-      background: var(--card-bg);
-      border: 2px solid var(--border);
-      border-radius: 16px;
-      text-align: center;
-      opacity: 0;
-      transform: translateX(-20px);
-      transition: opacity 0.3s, transform 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      &.active {
-        opacity: 1;
-        transform: translateX(0);
-      }
-
-      p {
-        font-size: 16px;
-        line-height: 1.6;
-        margin: 0;
-      }
+  &:nth-child(2) {
+    &:hover {
+      border-color: rgba(232, 86, 74, 0.7);
+      box-shadow: 0 0 20px rgba(232, 86, 74, 0.2);
+      color: rgba(232, 86, 74, 0.9);
+      transform: scale(1.05);
     }
   }
 
-  .swipe-actions {
-    display: flex;
-    gap: 12px;
-
-    .swipe-btn {
-      flex: 1;
-      padding: 14px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      transition: opacity 0.2s;
-
-      &:hover {
-        opacity: 0.9;
-      }
-
-      &.nope {
-        background: #F5F5F5;
-        color: var(--text-primary);
-      }
-
-      &.yes {
-        background: var(--primary);
-        color: white;
-      }
+  &:nth-child(3) {
+    &:hover {
+      border-color: var(--plum-400);
+      box-shadow: 0 0 20px var(--plum-glow);
+      color: var(--plum-400);
+      transform: scale(1.05);
     }
   }
+
+  &:nth-child(4) {
+    &:hover {
+      border-color: rgba(82, 196, 122, 0.8);
+      box-shadow: 0 0 20px rgba(82, 196, 122, 0.15);
+      color: rgba(82, 196, 122, 0.9);
+      transform: scale(1.05);
+    }
+  }
+
+  &:nth-child(5) {
+    &:hover {
+      border-color: var(--green-300);
+      box-shadow: 0 0 20px var(--green-glow);
+      color: var(--green-300);
+      transform: scale(1.05);
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.rating-emoji {
+  font-size: 20px;
+  display: block;
+}
+
+.rating-label {
+  font-size: 11px;
+  text-align: center;
 }

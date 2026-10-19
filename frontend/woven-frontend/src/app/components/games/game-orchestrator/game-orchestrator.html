@@ -1,40 +1,58 @@
-<div class="orchestrator-container" *ngIf="!isComplete() && currentGame()">
-  @if (currentGame().type === 'slider') {
-    <app-slider-game
-      [questions]="[$any(currentGame().question)]"
-      [currentQuestionIndex]="0"
-      [totalQuestions]="total()"
-      (answerSubmitted)="onSliderAnswer($event)"
-    />
-  }
+<!-- Loading state -->
+@if (isLoading()) {
+  <div class="loading-container">
+    <p>Loading your questions...</p>
+  </div>
+}
 
-  @if (currentGame().type === 'ranking') {
-    <app-ranking-game
-      [questions]="[$any(currentGame().question)]"
-      [currentQuestionIndex]="0"
-      [totalQuestions]="total()"
-      (answerSubmitted)="onRankingAnswer($event)"
-    />
-  }
+<!-- Error state -->
+@if (loadError()) {
+  <div class="error-container">
+    <p>{{ loadError() }}</p>
+    <button (click)="loadQuestions()">Retry</button>
+  </div>
+}
 
-  @if (currentGame().type === 'swipe') {
-    <app-swipe-game
-      [questions]="[$any(currentGame().question)]"
-      [currentQuestionIndex]="0"
-      [totalQuestions]="total()"
-      (answerSubmitted)="onSwipeAnswer($event)"
-    />
-  }
+<!-- Games (only show when loaded and not complete) -->
+@if (!isLoading() && !loadError()) {
+  <div class="orchestrator-container" *ngIf="!isComplete() && currentGame()">
+    @if (currentGame().type === 'slider') {
+      <app-slider-game
+        [questions]="[$any(currentGame().question)]"
+        [currentQuestionIndex]="0"
+        [totalQuestions]="total()"
+        (answerSubmitted)="onSliderAnswer($event)"
+      />
+    }
 
-  @if (currentGame().type === 'selection') {
-    <app-selection-game
-      [questions]="[$any(currentGame().question)]"
-      [currentQuestionIndex]="0"
-      [totalQuestions]="total()"
-      (answerSubmitted)="onSelectionAnswer($event)"
-    />
-  }
-</div>
+    @if (currentGame().type === 'ranking') {
+      <app-ranking-game
+        [questions]="[$any(currentGame().question)]"
+        [currentQuestionIndex]="0"
+        [totalQuestions]="total()"
+        (answerSubmitted)="onRankingAnswer($event)"
+      />
+    }
+
+    @if (currentGame().type === 'swipe') {
+      <app-swipe-game
+        [questions]="[$any(currentGame().question)]"
+        [currentQuestionIndex]="0"
+        [totalQuestions]="total()"
+        (answerSubmitted)="onSwipeAnswer($event)"
+      />
+    }
+
+    @if (currentGame().type === 'selection') {
+      <app-selection-game
+        [questions]="[$any(currentGame().question)]"
+        [currentQuestionIndex]="0"
+        [totalQuestions]="total()"
+        (answerSubmitted)="onSelectionAnswer($event)"
+      />
+    }
+  </div>
+}
 
 <div class="completion-message" *ngIf="isComplete()">
   <h2>🎉 All done!</h2>

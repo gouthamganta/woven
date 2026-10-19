@@ -24,6 +24,7 @@ import { ReviewOnboardingComponent } from './pages/onboarding/review';
 import { StartOnboardingComponent } from './pages/onboarding/start';
 import { FoundationalComponent } from './onboarding/foundational.component';
 import { GamesOnboardingComponent } from './pages/onboarding/games';
+import { GamesResultsComponent } from './pages/games-results/games-results.component';
 import { PhotosPageComponent } from './pages/onboarding/photos/photos.page';
 
 export const routes: Routes = [
@@ -43,6 +44,7 @@ export const routes: Routes = [
   { path: 'onboarding/basics',       canActivate: [authGuard], component: BasicsOnboardingComponent },
   { path: 'onboarding/intent',       canActivate: [authGuard], component: IntentOnboardingComponent },
   { path: 'onboarding/games',        canActivate: [authGuard], component: GamesOnboardingComponent },
+  { path: 'onboarding/games/results', canActivate: [authGuard], component: GamesResultsComponent },
   { path: 'onboarding/foundational', canActivate: [authGuard], component: FoundationalComponent },
   { path: 'onboarding/photos',       canActivate: [authGuard], component: PhotosPageComponent },
   { path: 'onboarding/details',      canActivate: [authGuard], component: DetailsOnboardingComponent },

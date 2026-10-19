@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, input, output, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameProgress } from '../game-progress/game-progress';
 
 export interface SelectionOption {
-  icon: string;
+  icon?: string;
   label: string;
   value: string;
 }
@@ -22,7 +21,7 @@ export interface SelectionGameAnswer {
 
 @Component({
   selector: 'app-selection-game',
-  imports: [CommonModule, GameProgress],
+  imports: [CommonModule],
   templateUrl: './selection-game.html',
   styleUrl: './selection-game.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,10 +58,11 @@ export class SelectionGame {
       // Deselect
       this.selectedValues.set(current.filter(v => v !== option.value));
     } else {
-      // Select (if under limit)
+      // Select only if under limit
       if (current.length < question.maxSelect) {
         this.selectedValues.set([...current, option.value]);
       }
+      // If at limit, don't allow more selections (do nothing)
     }
   }
 

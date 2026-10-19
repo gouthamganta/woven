@@ -11,27 +11,15 @@ namespace WovenBackend.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<DateTimeOffset>(
-                name: "DeliveredAt",
-                table: "coaching_summaries",
-                type: "timestamp with time zone",
-                nullable: true,
-                oldClrType: typeof(DateTimeOffset),
-                oldType: "timestamp with time zone");
+            // Use raw SQL to handle snake_case column name
+            migrationBuilder.Sql("ALTER TABLE coaching_summaries ALTER COLUMN delivered_at DROP NOT NULL;");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<DateTimeOffset>(
-                name: "DeliveredAt",
-                table: "coaching_summaries",
-                type: "timestamp with time zone",
-                nullable: false,
-                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
-                oldClrType: typeof(DateTimeOffset),
-                oldType: "timestamp with time zone",
-                oldNullable: true);
+            // Use raw SQL to handle snake_case column name
+            migrationBuilder.Sql("ALTER TABLE coaching_summaries ALTER COLUMN delivered_at SET NOT NULL;");
         }
     }
 }

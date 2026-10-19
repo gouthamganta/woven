@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output, signal, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameProgress } from '../game-progress/game-progress';
 
 export interface SwipeGameOption {
   text: string;
@@ -13,12 +12,12 @@ export interface SwipeGameQuestion {
 
 export interface SwipeGameAnswer {
   questionIndex: number;
-  selectedOptions: string[]; // Options that got "Yes"
+  responses: { option: string; rating: number }[]; // 1=Strongly Disagree, 5=Strongly Agree
 }
 
 @Component({
   selector: 'app-swipe-game',
-  imports: [CommonModule, GameProgress],
+  imports: [CommonModule],
   templateUrl: './swipe-game.html',
   styleUrl: './swipe-game.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +32,7 @@ export class SwipeGame {
   answerSubmitted = output<SwipeGameAnswer>();
 
   currentCardIndex = signal<number>(0);
-  selectedOptions = signal<string[]>([]);
+  responses = signal<{ option: string; rating: number }[]>([]);
 
   get currentQuestion(): SwipeGameQuestion | undefined {
     return this.questions()[this.currentQuestionIndex()];
@@ -45,14 +44,12 @@ export class SwipeGame {
     return question.options[this.currentCardIndex()];
   }
 
-  swipe(direction: 'left' | 'right'): void {
+  rate(rating: number): void {
     const current = this.currentOption;
     if (!current) return;
 
-    if (direction === 'right') {
-      // "Yes" - add to selected
-      this.selectedOptions.update(opts => [...opts, current.text]);
-    }
+    // Store rating for this option
+    this.responses.update(resps => [...resps, { option: current.text, rating }]);
 
     // Move to next card
     const nextIndex = this.currentCardIndex() + 1;
@@ -70,10 +67,10 @@ export class SwipeGame {
   onComplete(): void {
     this.answerSubmitted.emit({
       questionIndex: this.currentQuestionIndex(),
-      selectedOptions: this.selectedOptions()
+      responses: this.responses()
     });
     // Reset for next question
     this.currentCardIndex.set(0);
-    this.selectedOptions.set([]);
+    this.responses.set([]);
   }
 }
